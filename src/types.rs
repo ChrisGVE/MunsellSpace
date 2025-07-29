@@ -165,7 +165,11 @@ impl MunsellColor {
     /// assert!(gray.is_neutral());
     /// ```
     pub fn new_neutral(value: f64) -> Self {
-        let notation = format!("N {:.1}/", value);
+        let notation = if value == 0.0 {
+            "N 0.0".to_string()
+        } else {
+            format!("N {:.1}/", value)
+        };
         Self {
             notation,
             hue: None,
