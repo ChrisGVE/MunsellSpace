@@ -13,8 +13,7 @@ categories = ["graphics", "science", "algorithms"]
 readme = "README.md"
 include = [
     "src/**/*",
-    "data/**/*",
-    "examples/**/*",
+    "tests/**/*",
     "Cargo.toml",
     "README.md",
     "LICENSE"
@@ -40,29 +39,7 @@ version = "4.0"
 features = ["derive"]
 optional = true
 
-# CLI binary
-[[bin]]
-name = "munsellspace_cli"
-path = "src/bin/cli.rs"
-required-features = ["cli"]
-
-# Examples
-[[example]]
-name = "basic_conversion"
-path = "examples/basic_conversion.rs"
-
-[[example]]
-name = "batch_processing"
-path = "examples/batch_processing.rs"
-
-[[example]]
-name = "validation"
-path = "examples/validation.rs"
-
-# Benchmarks
-[[bench]]
-name = "conversion_benchmark"
-harness = false
+# Note: Binary, examples, and benchmarks will be added in future versions
 
 [lib]
 name = "munsellspace"
