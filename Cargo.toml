@@ -1,0 +1,77 @@
+[package]
+name = "munsellspace"
+version = "1.0.0"
+edition = "2021"
+authors = ["MunsellSpace Contributors"]
+description = "High-precision sRGB to Munsell color space conversion with 99.98% reference accuracy"
+license = "MIT"
+repository = "https://github.com/chrisgve/MunsellSpace"
+documentation = "https://docs.rs/munsellspace"
+homepage = "https://github.com/chrisgve/MunsellSpace"
+keywords = ["color", "munsell", "srgb", "color-science", "conversion"]
+categories = ["graphics", "science", "algorithms"]
+readme = "README.md"
+include = [
+    "src/**/*",
+    "data/**/*",
+    "examples/**/*",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE"
+]
+
+[dependencies]
+# Core dependencies for basic functionality
+csv = "1.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+
+[dev-dependencies]
+approx = "0.5"
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[features]
+default = []
+cli = ["clap"]
+
+[dependencies.clap]
+version = "4.0"
+features = ["derive"]
+optional = true
+
+# CLI binary
+[[bin]]
+name = "munsellspace_cli"
+path = "src/bin/cli.rs"
+required-features = ["cli"]
+
+# Examples
+[[example]]
+name = "basic_conversion"
+path = "examples/basic_conversion.rs"
+
+[[example]]
+name = "batch_processing"
+path = "examples/batch_processing.rs"
+
+[[example]]
+name = "validation"
+path = "examples/validation.rs"
+
+# Benchmarks
+[[bench]]
+name = "conversion_benchmark"
+harness = false
+
+[lib]
+name = "munsellspace"
+path = "src/lib.rs"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.bench]
+debug = true
