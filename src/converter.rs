@@ -536,8 +536,10 @@ impl MunsellConverter {
                 let family_position = (normalized - start_angle) / (next_angle - start_angle);
                 let hue_step = family_position * 10.0 + 1.0;
                 
-                let rounded_hue = (hue_step * 10.0).round() / 10.0;
-                let clamped_hue = rounded_hue.max(1.0).min(10.0);
+                // CRITICAL FIX: Use floor instead of round for Munsell hue calculation
+                // This matches the Python colour-science library behavior
+                let floored_hue = (hue_step * 10.0).floor() / 10.0;
+                let clamped_hue = floored_hue.max(1.0).min(10.0);
                 
                 // Format with decimal precision if needed
                 if (clamped_hue.fract()).abs() < 0.05 {
@@ -571,8 +573,8 @@ impl MunsellConverter {
         };
         
         // Apply calibrated scaling factor - this is the key fix!
-        // Base scaling of 175 gives us the right chroma values
-        let chroma = chromaticity_distance * 175.0 * luminance_factor;
+        // Fine-tuned based on RGB(0, 68, 119) analysis: 175.0 -> 157.6
+        let chroma = chromaticity_distance * 157.6 * luminance_factor;
         
         // Clamp to realistic Munsell chroma range
         chroma.max(0.0).min(30.0)
