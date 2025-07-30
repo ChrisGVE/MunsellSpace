@@ -12,8 +12,9 @@ keywords = ["color", "munsell", "srgb", "color-science", "conversion"]
 categories = ["graphics", "science", "algorithms"]
 readme = "README.md"
 include = [
-    "src/**/*",
-    "tests/**/*",
+    "src/**/*.rs",
+    "tests/**/*.rs",
+    "tests/data/**/*.csv",
     "Cargo.toml",
     "README.md",
     "LICENSE"
