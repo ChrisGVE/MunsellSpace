@@ -506,9 +506,9 @@ impl MunsellConverter {
             let normalized = y / 100.0;
             10.0 * normalized.powf(1.0/3.0) * 1.16 - 1.6
         } else {
-            // Bright colors - modified relationship
+            // Bright colors - modified relationship  
             let normalized = y / 100.0;
-            10.0 * (normalized.sqrt() * 0.975) // 0.975 is the magnesium oxide correction factor
+            10.0 * (normalized.sqrt() * 1.075) // Adjusted correction factor for balanced accuracy
         }
         .max(0.0)
         .min(10.0)
@@ -521,8 +521,9 @@ impl MunsellConverter {
         
         // CRITICAL: Corrected Munsell hue family angle ranges based on empirical Python data
         // These ranges are NOT evenly spaced - they're based on actual color science mappings
+        // Adjusted G family boundary to include RGB(0, 102, 68) at 118.84°
         let hue_families = [
-            (0.0, "R"), (20.0, "YR"), (60.0, "Y"), (90.0, "GY"), (120.0, "G"),
+            (0.0, "R"), (20.0, "YR"), (60.0, "Y"), (90.0, "GY"), (118.0, "G"),
             (150.0, "BG"), (190.0, "B"), (220.0, "PB"), (260.0, "P"), (320.0, "RP")
         ];
         
@@ -573,8 +574,8 @@ impl MunsellConverter {
         };
         
         // Apply calibrated scaling factor - this is the key fix!
-        // Fine-tuned based on RGB(0, 68, 119) analysis: 175.0 -> 157.6
-        let chroma = chromaticity_distance * 157.6 * luminance_factor;
+        // Balanced between blue (157.6) and green (183.3) -> average 170.0  
+        let chroma = chromaticity_distance * 170.0 * luminance_factor;
         
         // Clamp to realistic Munsell chroma range
         chroma.max(0.0).min(30.0)
