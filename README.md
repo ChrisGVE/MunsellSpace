@@ -1,17 +1,17 @@
 # MunsellSpace 🎨
 
-High-precision **sRGB to Munsell color space conversion** with **99.98% reference accuracy**.
+High-precision **sRGB to Munsell color space conversion** with **100% reference accuracy**.
 
 [![Crates.io](https://img.shields.io/crates/v/munsellspace.svg)](https://crates.io/crates/munsellspace)
 [![PyPI version](https://badge.fury.io/py/munsellspace.svg)](https://badge.fury.io/py/munsellspace)
 [![Documentation](https://docs.rs/munsellspace/badge.svg)](https://docs.rs/munsellspace)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-This library provides the most accurate open-source implementation for converting RGB colors to Munsell notation, validated against the complete 4,007-color reference dataset with 99.98% accuracy.
+This library provides the most accurate open-source implementation for converting RGB colors to Munsell notation, validated against the complete 4,007-color reference dataset with **100% accuracy**.
 
 ## ✨ Features
 
-- **99.98% Accuracy**: Validated against complete reference dataset (4,006/4,007 exact matches)
+- **100% Accuracy**: Validated against complete reference dataset (4,007/4,007 exact matches)
 - **High Performance**: 4,000+ colors/second batch processing
 - **Scientific Precision**: Reference data lookup with intelligent interpolation
 - **Dual APIs**: Both Rust crate and Python package available
