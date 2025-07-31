@@ -2,9 +2,10 @@
 
 use std::sync::Arc;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 use crate::error::{MunsellError, Result};
-use crate::types::MunsellColor;
+use crate::types::{MunsellColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
 
 /// Reference data entry for color conversion.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -107,6 +108,8 @@ pub struct MunsellConverter {
     reference_data: Arc<Vec<ReferenceEntry>>,
     /// Phase 2: Enhanced reference points for spatial interpolation
     reference_points: Arc<Vec<MunsellReferencePoint>>,
+    /// Phase 3: ISCC-NBS color naming polygons
+    iscc_nbs_polygons: Arc<Vec<IsccNbsPolygon>>,
 }
 
 impl MunsellConverter {
@@ -127,10 +130,12 @@ impl MunsellConverter {
     pub fn new() -> Result<Self> {
         let reference_data = Self::load_reference_data()?;
         let reference_points = Self::build_reference_points(&reference_data)?;
+        let iscc_nbs_polygons = Self::load_iscc_nbs_data()?;
         
         Ok(Self {
             reference_data: Arc::new(reference_data),
             reference_points: Arc::new(reference_points),
+            iscc_nbs_polygons: Arc::new(iscc_nbs_polygons),
         })
     }
     
@@ -1044,6 +1049,200 @@ pub struct AccuracyStats {
     pub accuracy_percentage: f64,
     /// Percentage of exact + close matches
     pub close_match_percentage: f64,
+}
+
+impl MunsellConverter {
+    // === PHASE 3: ISCC-NBS COLOR NAMING METHODS ===
+    
+    /// Load ISCC-NBS polygon data from embedded CSV.
+    fn load_iscc_nbs_data() -> Result<Vec<IsccNbsPolygon>> {
+        const ISCC_NBS_DATA: &str = include_str!("../ISCC-NBS-Definitions.csv");
+        
+        let mut reader = csv::Reader::from_reader(ISCC_NBS_DATA.as_bytes());
+        let mut polygons_map: HashMap<u16, Vec<MunsellPoint>> = HashMap::new();
+        let mut polygon_metadata: HashMap<u16, (String, String, Option<String>, String)> = HashMap::new();
+        
+        for result in reader.records() {
+            let record = result.map_err(|e| MunsellError::ReferenceDataError {
+                message: format!("CSV parsing error: {}", e),
+            })?;
+            
+            let color_number: u16 = record.get(0)
+                .ok_or_else(|| MunsellError::ReferenceDataError {
+                    message: "Missing color_number".to_string(),
+                })?
+                .parse()
+                .map_err(|e| MunsellError::ReferenceDataError {
+                    message: format!("Invalid color_number: {}", e),
+                })?;
+            
+            let descriptor = record.get(2).unwrap_or("").to_string();
+            let color_name = record.get(3).unwrap_or("").to_string();
+            let modifier = if record.get(4).unwrap_or("").is_empty() {
+                None
+            } else {
+                Some(record.get(4).unwrap().to_string())
+            };
+            let revised_color = record.get(5).unwrap_or("").to_string();
+            
+            let hue1 = record.get(6).unwrap_or("").to_string();
+            let hue2 = record.get(7).unwrap_or("").to_string();
+            let chroma_str = record.get(8).unwrap_or("0");
+            let value: f64 = record.get(9).unwrap_or("0").parse().unwrap_or(0.0);
+            
+            let (chroma, is_open_chroma) = MunsellPoint::parse_chroma(chroma_str);
+            
+            let point = MunsellPoint::new(hue1, hue2, chroma, value, is_open_chroma);
+            
+            // Store metadata on first encounter
+            polygon_metadata.entry(color_number)
+                .or_insert((descriptor, color_name, modifier, revised_color));
+            
+            // Add point to polygon
+            polygons_map.entry(color_number).or_insert_with(Vec::new).push(point);
+        }
+        
+        // Convert to IsccNbsPolygon structs
+        let mut polygons = Vec::new();
+        for (color_number, points) in polygons_map {
+            if let Some((descriptor, color_name, modifier, revised_color)) = polygon_metadata.get(&color_number) {
+                let polygon = IsccNbsPolygon::new(
+                    color_number,
+                    descriptor.clone(),
+                    color_name.clone(),
+                    modifier.clone(),
+                    revised_color.clone(),
+                    points,
+                );
+                polygons.push(polygon);
+            }
+        }
+        
+        // Sort by color number for consistency
+        polygons.sort_by_key(|p| p.color_number);
+        
+        Ok(polygons)
+    }
+    
+    /// Convert sRGB color directly to ISCC-NBS color name.
+    ///
+    /// This is a convenience method that combines Munsell conversion with color naming.
+    ///
+    /// # Arguments
+    /// * `rgb` - RGB color as [R, G, B] array with components in range 0-255
+    ///
+    /// # Returns
+    /// Result containing the ISCC-NBS color name or an error
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::MunsellConverter;
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let converter = MunsellConverter::new()?;
+    /// let color_name = converter.srgb_to_color_name([255, 0, 0])?;
+    /// println!("Pure red is: {}", color_name.descriptor);
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn srgb_to_color_name(&self, rgb: [u8; 3]) -> Result<IsccNbsName> {
+        let munsell = self.srgb_to_munsell(rgb)?;
+        self.munsell_to_iscc_nbs_name(&munsell)
+    }
+    
+    /// Convert Munsell color to ISCC-NBS color name.
+    ///
+    /// Uses point-in-polygon algorithms to determine which ISCC-NBS color category
+    /// the given Munsell color falls into.
+    ///
+    /// # Arguments
+    /// * `munsell` - The Munsell color to classify
+    ///
+    /// # Returns
+    /// Result containing the ISCC-NBS color name or an error if no match found
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{MunsellConverter, MunsellColor};
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let converter = MunsellConverter::new()?;
+    /// let munsell = MunsellColor::from_notation("5R 4.0/14.0")?;
+    /// let color_name = converter.munsell_to_iscc_nbs_name(&munsell)?;
+    /// println!("5R 4.0/14.0 is: {}", color_name.descriptor);
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn munsell_to_iscc_nbs_name(&self, munsell: &MunsellColor) -> Result<IsccNbsName> {
+        // Search through all polygons to find which one contains this color
+        for polygon in self.iscc_nbs_polygons.iter() {
+            if polygon.contains_point(munsell) {
+                return Ok(IsccNbsName::new(
+                    polygon.color_number,
+                    polygon.descriptor.clone(),
+                    polygon.color_name.clone(),
+                    polygon.modifier.clone(),
+                    polygon.revised_color.clone(),
+                ));
+            }
+        }
+        
+        // If no polygon contains the point, return a reasonable default or error
+        Err(MunsellError::ConversionError {
+            message: format!("No ISCC-NBS color name found for Munsell color: {}", munsell.notation),
+        })
+    }
+    
+    /// Get all ISCC-NBS color categories.
+    ///
+    /// Returns a reference to all loaded ISCC-NBS color polygons for advanced usage.
+    ///
+    /// # Returns
+    /// Slice of all ISCC-NBS color polygons
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::MunsellConverter;
+    ///
+    /// let converter = MunsellConverter::new().expect("Failed to create converter");
+    /// let polygons = converter.get_iscc_nbs_polygons();
+    /// println!("Loaded {} ISCC-NBS color categories", polygons.len());
+    /// ```
+    pub fn get_iscc_nbs_polygons(&self) -> &[IsccNbsPolygon] {
+        &self.iscc_nbs_polygons
+    }
+    
+    /// Find ISCC-NBS color by name or partial match.
+    ///
+    /// Searches through color descriptors and names to find matching colors.
+    ///
+    /// # Arguments
+    /// * `query` - Search query (case-insensitive partial match)
+    ///
+    /// # Returns
+    /// Vector of matching ISCC-NBS color polygons
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::MunsellConverter;
+    ///
+    /// let converter = MunsellConverter::new().expect("Failed to create converter");
+    /// let reds = converter.find_colors_by_name("red");
+    /// for polygon in reds {
+    ///     println!("Found: {}", polygon.descriptor);
+    /// }
+    /// ```
+    pub fn find_colors_by_name(&self, query: &str) -> Vec<&IsccNbsPolygon> {
+        let query_lower = query.to_lowercase();
+        self.iscc_nbs_polygons
+            .iter()
+            .filter(|polygon| {
+                polygon.descriptor.to_lowercase().contains(&query_lower) ||
+                polygon.color_name.to_lowercase().contains(&query_lower) ||
+                polygon.revised_color.to_lowercase().contains(&query_lower)
+            })
+            .collect()
+    }
 }
 
 impl Default for MunsellConverter {

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Optimized test of Python colour-science library on ALL 4007 colors.
-Uses batch processing and reduced verbosity for faster execution.
+Test Python colour-science library with Illuminant C on ALL 4007 colors.
+Complete dataset testing - no shortcuts.
 """
 
 import csv
@@ -27,8 +27,8 @@ def load_reference_data(filepath: str) -> List[Tuple[Tuple[int, int, int], str]]
                 data.append(((r, g, b), munsell))
     return data
 
-def batch_convert_srgb_to_munsell(rgb_list: List[Tuple[int, int, int]], batch_size: int = 100) -> List[str]:
-    """Convert RGB colors to Munsell in batches for efficiency."""
+def batch_convert_srgb_to_munsell_illuminant_c(rgb_list: List[Tuple[int, int, int]], batch_size: int = 100) -> List[str]:
+    """Convert RGB colors to Munsell using Illuminant C in batches for efficiency."""
     results = []
     
     for i in range(0, len(rgb_list), batch_size):
@@ -40,14 +40,23 @@ def batch_convert_srgb_to_munsell(rgb_list: List[Tuple[int, int, int]], batch_si
                 # Convert RGB (0-255) to normalized sRGB (0-1)
                 srgb = np.array([rgb[0]/255.0, rgb[1]/255.0, rgb[2]/255.0])
                 
-                # Convert sRGB to XYZ using D65 illuminant
-                xyz = colour.sRGB_to_XYZ(srgb)
+                # Convert sRGB to XYZ using D65 illuminant (sRGB standard)
+                xyz_d65 = colour.sRGB_to_XYZ(srgb)
                 
-                # Convert XYZ to xyY
-                xyy = colour.XYZ_to_xyY(xyz)
+                # CRITICAL: Convert XYZ from D65 to Illuminant C using chromatic adaptation
+                # This is the key difference from D65 test
+                xyz_c = colour.chromatic_adaptation(
+                    xyz_d65, 
+                    colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+                    colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['C'],
+                    method='Von Kries'  # Use Von Kries chromatic adaptation method
+                )
                 
-                # Convert xyY to Munsell
-                munsell_colour = colour.notation.munsell.xyY_to_munsell_colour(xyy)
+                # Convert XYZ (Illuminant C) to xyY
+                xyy = colour.XYZ_to_xyY(xyz_c)
+                
+                # Convert xyY to Munsell using Illuminant C
+                munsell_colour = colour.notation.munsell.xyY_to_munsell_colour(xyy, illuminant='C')
                 batch_results.append(munsell_colour)
                 
             except Exception as e:
@@ -138,9 +147,9 @@ def is_close_match(result: str, expected: str) -> bool:
 
 def main():
     """Main test function."""
-    print("COMPLETE 4007-COLOR DATASET VALIDATION")
-    print("Testing Python colour-science library accuracy")
-    print("=" * 50)
+    print("COMPLETE 4007-COLOR DATASET VALIDATION - ILLUMINANT C")
+    print("Testing Python colour-science library with Illuminant C")
+    print("=" * 60)
     
     # Load ALL reference colors
     reference_data = load_reference_data('tests/data/srgb-to-munsell.csv')
@@ -153,11 +162,11 @@ def main():
     # Extract RGB values for batch processing
     rgb_list = [rgb for rgb, _ in reference_data]
     
-    print("Converting all colors with D65 illuminant...")
+    print("Converting all colors with Illuminant C (via chromatic adaptation)...")
     start_time = time.time()
     
-    # Batch convert all colors
-    results = batch_convert_srgb_to_munsell(rgb_list)
+    # Batch convert all colors using Illuminant C
+    results = batch_convert_srgb_to_munsell_illuminant_c(rgb_list)
     
     end_time = time.time()
     
@@ -169,7 +178,7 @@ def main():
     
     # Print comprehensive results
     print(f"\n{'='*60}")
-    print("COMPLETE DATASET RESULTS - ALL 4007 COLORS")
+    print("COMPLETE DATASET RESULTS - ALL 4007 COLORS - ILLUMINANT C")
     print(f"{'='*60}")
     print(f"Total colors tested: {analysis['total']}")
     print(f"Exact matches: {analysis['exact_matches']}")
@@ -198,10 +207,10 @@ def main():
         print(f"  RGB({r:3d},{g:3d},{b:3d}) -> {result} (expected: {expected})")
     
     # Save results summary
-    filename = f"colour_science_complete_results_{analysis['accuracy']:.1f}pct.txt"
+    filename = f"colour_science_illuminant_c_results_{analysis['accuracy']:.1f}pct.txt"
     with open(filename, 'w') as f:
-        f.write("COMPLETE 4007-COLOR DATASET RESULTS\n")
-        f.write("="*50 + "\n")
+        f.write("COMPLETE 4007-COLOR DATASET RESULTS - ILLUMINANT C\n")
+        f.write("="*60 + "\n")
         f.write(f"Total colors: {analysis['total']}\n")
         f.write(f"Exact matches: {analysis['exact_matches']}\n")
         f.write(f"Close matches: {analysis['close_matches']}\n")
@@ -212,26 +221,24 @@ def main():
     
     print(f"\nResults summary saved to: {filename}")
     
-    # Final assessment
+    # Final assessment compared to D65
     print(f"\n{'='*60}")
-    print("CRITICAL ASSESSMENT")
+    print("ILLUMINANT C vs D65 COMPARISON")
     print(f"{'='*60}")
     
-    if analysis['accuracy'] >= 99.0:
-        print("🎯 OUTSTANDING: >99% exact accuracy - READY FOR PRODUCTION")
-    elif analysis['accuracy'] >= 90.0:
-        print("🏆 EXCELLENT: >90% exact accuracy - Excellent foundation")
-    elif analysis['accuracy'] >= 80.0:
-        print("✅ VERY GOOD: >80% exact accuracy - Strong reference implementation")
-    elif analysis['accuracy'] >= 70.0:
-        print("✅ GOOD: >70% exact accuracy - Good foundation for Rust implementation")
-    elif analysis['accuracy'] >= 50.0:
-        print("⚠️ MODERATE: >50% exact accuracy - Needs investigation")
-    else:
-        print("❌ POOR: <50% exact accuracy - Major issues")
+    print(f"Illuminant C accuracy: {analysis['accuracy']:.1f}%")
+    print(f"D65 accuracy (from previous test): 82.7%")
     
-    print(f"\nThis validates whether colour-science is suitable as reference implementation")
-    print(f"Target for Rust implementation: {analysis['accuracy']:.1f}% exact accuracy")
+    if analysis['accuracy'] >= 80.0:
+        print("🎯 EXCELLENT: Illuminant C performs very well")
+    elif analysis['accuracy'] >= 60.0:
+        print("✅ GOOD: Illuminant C performs reasonably well")
+    elif analysis['accuracy'] >= 40.0:
+        print("⚠️ MODERATE: Illuminant C has limitations")
+    else:
+        print("❌ POOR: Illuminant C performs poorly")
+    
+    print(f"\nThis completes the comprehensive Illuminant C testing on ALL 4007 colors")
     
     return analysis
 

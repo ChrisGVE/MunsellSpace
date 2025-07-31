@@ -1,0 +1,93 @@
+ISCC-NBS Polygon Validation Report (Updated for Polygon Groups)
+=================================================================
+Total color categories: 267
+Total polygon groups: 334
+Expected color categories: 267
+
+1. DATA CONSISTENCY VALIDATION
+-----------------------------------
+✓ All basic data consistency checks passed
+
+2. RIGHT ANGLE VALIDATION (Value/Chroma Space)
+------------------------------------------------
+✅ ALL POLYGONS HAVE PROPER RIGHT ANGLES
+
+3. COORDINATE VALIDATION
+-------------------------
+✓ All coordinate ranges are valid
+
+4. POLYGON GROUP ANALYSIS
+----------------------------
+✓ All polygon groups appear properly structured
+
+5. GAPS AND INTERSECTIONS ANALYSIS
+-------------------------------------
+  COVERAGE ANALYSIS: Found 30 ISCC-NBS hue slices (30 non-empty)
+  INTERSECTION ANALYSIS: Found 6 intersections
+  GAP ANALYSIS: Found 4 potential gaps
+
+Issues found:
+  - INTERSECTION #1:
+  -     Color 181 polygon 1 (light blue)
+  -     Color 177 polygon 1 (brilliant blue)
+  -     Hue slice 9B-5PB - overlap region: V:5.5-7.5, C:7.0-9.0
+  - INTERSECTION #2:
+  -     Color 177 polygon 1 (brilliant blue)
+  -     Color 180 polygon 1 (very light blue)
+  -     Hue slice 9B-5PB - overlap region: V:7.5-10.0, C:7.0-9.0
+  - INTERSECTION #3:
+  -     Color 177 polygon 1 (brilliant blue)
+  -     Color 181 polygon 2 (light blue)
+  -     Hue slice 5PB-6PB - overlap region: V:5.5-7.5, C:7.0-9.0
+  - INTERSECTION #4:
+  -     Color 177 polygon 1 (brilliant blue)
+  -     Color 180 polygon 2 (very light blue)
+  -     Hue slice 5PB-6PB - overlap region: V:7.5-10.0, C:7.0-9.0
+  - INTERSECTION #5:
+  -     Color 177 polygon 1 (brilliant blue)
+  -     Color 181 polygon 2 (light blue)
+  -     Hue slice 6PB-7PB - overlap region: V:5.5-7.5, C:7.0-9.0
+  - INTERSECTION #6:
+  -     Color 177 polygon 1 (brilliant blue)
+  -     Color 180 polygon 2 (very light blue)
+  -     Hue slice 6PB-7PB - overlap region: V:7.5-10.0, C:7.0-9.0
+  - GAP #1:
+  -     Color 74 polygon 1 (strong yellowish brown)
+  -     Color 93 polygon 1 (yellowish gray)
+  -     Hue slice 7YR-8YR - primarily in VALUE at 6.0 (gap size: 1.0), chroma range: 6.0-1.2
+  - GAP #2:
+  -     Color 74 polygon 1 (strong yellowish brown)
+  -     Color 92 polygon 1 (yellowish white)
+  -     Hue slice 7YR-8YR - primarily in VALUE at 7.0 (gap size: 3.0), chroma range: 6.0-1.2
+  - GAP #3:
+  -     Color 207 polygon 1 (strong violet)
+  -     Color 227 polygon 1 (pale purple)
+  -     Hue slice 9PB-3P - primarily in VALUE at 5.0 (gap size: 1.0), chroma range: 9.0-3.0
+  - GAP #4:
+  -     Color 207 polygon 1 (strong violet)
+  -     Color 226 polygon 1 (very pale purple)
+  -     Hue slice 9PB-3P - primarily in VALUE at 6.0 (gap size: 3.0), chroma range: 9.0-3.0
+  - ORGANIZATION: 743 polygon-to-slice assignments from 334 total polygons
+
+6. COLOR SPACE COVERAGE ANALYSIS
+------------------------------------
+  VALUE RANGE: 0.0 to 10.0
+  CHROMA RANGE: 0.0 to 50.0
+  DISTINCT HUE RANGES: 78
+
+7. VALIDATION SUMMARY
+-----------------------
+⚠️  FOUND 41 ISSUES TO REVIEW
+  - 41 data consistency issues
+
+8. DATASET STATISTICS
+----------------------
+Total data points: 1416
+Total polygon groups: 334
+Average points per polygon group: 4.2
+Points per polygon group distribution:
+  4 points: 299 groups
+  6 points: 30 groups
+  8 points: 5 groups
+Colors with multiple polygon groups: 53
+  Examples: [3, 9, 10, 11, 16, 18, 19, 24, 27, 28]

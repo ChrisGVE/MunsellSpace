@@ -1,0 +1,9 @@
+COMPLETE 4007-COLOR DATASET RESULTS
+==================================================
+Total colors: 4007
+Exact matches: 3314
+Close matches: 593
+Errors: 96
+Exact accuracy: 82.705%
+Combined accuracy: 97.504%
+Processing time: 1126.1 seconds

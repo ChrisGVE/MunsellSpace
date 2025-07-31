@@ -1,0 +1,9 @@
+COMPLETE 4007-COLOR DATASET RESULTS - ILLUMINANT C
+============================================================
+Total colors: 4007
+Exact matches: 0
+Close matches: 0
+Errors: 4007
+Exact accuracy: 0.000%
+Combined accuracy: 0.000%
+Processing time: 2.2 seconds
