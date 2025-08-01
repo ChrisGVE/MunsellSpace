@@ -1,52 +1,52 @@
 color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised-color,hue1,hue2,chroma,value
-1,1.1,vivid pink,pink,vivid,pink,1R,4R,11,6.5
-1,1.2,vivid pink,pink,vivid,pink,1R,4R,11,10
-1,1.3,vivid pink,pink,vivid,pink,1R,4R,50,10
-1,1.4,vivid pink,pink,vivid,pink,1R,4R,50,6.5
-2,1.1,strong pink,pink,strong,pink,1R,4R,7,6.5
-2,1.2,strong pink,pink,strong,pink,1R,4R,7,10
-2,1.3,strong pink,pink,strong,pink,1R,4R,11,10
-2,1.4,strong pink,pink,strong,pink,1R,4R,11,6.5
-3,1.1,deep pink,pink,deep,pink,1R,4R,7,5.5
-3,1.2,deep pink,pink,deep,pink,1R,4R,7,6.5
-3,1.3,deep pink,pink,deep,pink,1R,4R,15,6.5
-3,1.4,deep pink,pink,deep,pink,1R,4R,15,5.5
+1,1.1,vivid pink,pink,vivid,pink,9RP,4R,11,6.5
+1,1.2,vivid pink,pink,vivid,pink,9RP,4R,11,10
+1,1.3,vivid pink,pink,vivid,pink,9RP,4R,50,10
+1,1.4,vivid pink,pink,vivid,pink,9RP,4R,50,6.5
+2,1.1,strong pink,pink,strong,pink,9RP,4R,7,6.5
+2,1.2,strong pink,pink,strong,pink,9RP,4R,7,10
+2,1.3,strong pink,pink,strong,pink,9RP,4R,11,10
+2,1.4,strong pink,pink,strong,pink,9RP,4R,11,6.5
+3,1.1,deep pink,pink,deep,pink,9RP,4R,7,5.5
+3,1.2,deep pink,pink,deep,pink,9RP,4R,7,6.5
+3,1.3,deep pink,pink,deep,pink,9RP,4R,15,6.5
+3,1.4,deep pink,pink,deep,pink,9RP,4R,15,5.5
 3,2.1,deep pink,pink,deep,pink,4R,6R,7,5.5
 3,2.2,deep pink,pink,deep,pink,4R,6R,7,6.5
 3,2.3,deep pink,pink,deep,pink,4R,6R,11,6.5
 3,2.4,deep pink,pink,deep,pink,4R,6R,11,5.5
-4,1.1,light pink,pink,light,pink,1R,6R,3,8
-4,1.2,light pink,pink,light,pink,1R,6R,3,10
-4,1.3,light pink,pink,light,pink,1R,6R,7,10
-4,1.4,light pink,pink,light,pink,1R,6R,7,8
-5,1.1,moderate pink,pink,moderate,pink,1R,6R,3,6.5
-5,1.2,moderate pink,pink,moderate,pink,1R,6R,3,8
-5,1.3,moderate pink,pink,moderate,pink,1R,6R,7,8
-5,1.4,moderate pink,pink,moderate,pink,1R,6R,7,6.5
-6,1.1,dark pink,pink,dark,pink,1R,6R,5,5.5
-6,1.2,dark pink,pink,dark,pink,1R,6R,5,6.5
-6,1.3,dark pink,pink,dark,pink,1R,6R,7,6.5
-6,1.4,dark pink,pink,dark,pink,1R,6R,7,5.5
-7,1.1,pale pink,pink,pale,pink,1R,6R,1.5,8
-7,1.2,pale pink,pink,pale,pink,1R,6R,1.5,10
-7,1.3,pale pink,pink,pale,pink,1R,6R,3,10
-7,1.4,pale pink,pink,pale,pink,1R,6R,3,8
-8,1.1,grayish pink,pink,grayish,pink,1R,6R,1.5,6.5
-8,1.2,grayish pink,pink,grayish,pink,1R,6R,1.5,8
-8,1.3,grayish pink,pink,grayish,pink,1R,6R,3,8
-8,1.4,grayish pink,pink,grayish,pink,1R,6R,3,6.5
-9,1.1,pinkish white,pink,-ish white,pink,1R,5YR,0.5,8.5
-9,1.2,pinkish white,pink,-ish white,pink,1R,5YR,0.5,10
-9,1.3,pinkish white,pink,-ish white,pink,1R,5YR,1.5,10
-9,1.4,pinkish white,pink,-ish white,pink,1R,5YR,1.5,8.5
+4,1.1,light pink,pink,light,pink,9RP,6R,3,8
+4,1.2,light pink,pink,light,pink,9RP,6R,3,10
+4,1.3,light pink,pink,light,pink,9RP,6R,7,10
+4,1.4,light pink,pink,light,pink,9RP,6R,7,8
+5,1.1,moderate pink,pink,moderate,pink,9RP,6R,3,6.5
+5,1.2,moderate pink,pink,moderate,pink,9RP,6R,3,8
+5,1.3,moderate pink,pink,moderate,pink,9RP,6R,7,8
+5,1.4,moderate pink,pink,moderate,pink,9RP,6R,7,6.5
+6,1.1,dark pink,pink,dark,pink,9RP,6R,5,5.5
+6,1.2,dark pink,pink,dark,pink,9RP,6R,5,6.5
+6,1.3,dark pink,pink,dark,pink,9RP,6R,7,6.5
+6,1.4,dark pink,pink,dark,pink,9RP,6R,7,5.5
+7,1.1,pale pink,pink,pale,pink,9PR,6R,1.5,8
+7,1.2,pale pink,pink,pale,pink,9PR,6R,1.5,10
+7,1.3,pale pink,pink,pale,pink,9PR,6R,3,10
+7,1.4,pale pink,pink,pale,pink,9PR,6R,3,8
+8,1.1,grayish pink,pink,grayish,pink,9PR,6R,1.5,6.5
+8,1.2,grayish pink,pink,grayish,pink,9PR,6R,1.5,8
+8,1.3,grayish pink,pink,grayish,pink,9PR,6R,3,8
+8,1.4,grayish pink,pink,grayish,pink,9PR,6R,3,6.5
+9,1.1,pinkish white,pink,-ish white,pink,9RP,5YR,0.5,8.5
+9,1.2,pinkish white,pink,-ish white,pink,9RP,5YR,0.5,10
+9,1.3,pinkish white,pink,-ish white,pink,9RP,5YR,1.5,10
+9,1.4,pinkish white,pink,-ish white,pink,9RP,5YR,1.5,8.5
 9,2.1,pinkish white,pink,-ish white,pink,5YR,7YR,0.5,8.5
 9,2.2,pinkish white,pink,-ish white,pink,5YR,7YR,0.5,10
 9,2.3,pinkish white,pink,-ish white,pink,5YR,7YR,1.2,10
 9,2.4,pinkish white,pink,-ish white,pink,5YR,7YR,1.2,8.5
-10,1.1,pinkish gray,pink,-ish gray,pink,1R,5YR,0.5,6.5
-10,1.2,pinkish gray,pink,-ish gray,pink,1R,5YR,0.5,8.5
-10,1.3,pinkish gray,pink,-ish gray,pink,1R,5YR,1.5,8.5
-10,1.4,pinkish gray,pink,-ish gray,pink,1R,5YR,1.5,6.5
+10,1.1,pinkish gray,pink,-ish gray,pink,9RP,5YR,0.5,6.5
+10,1.2,pinkish gray,pink,-ish gray,pink,9RP,5YR,0.5,8.5
+10,1.3,pinkish gray,pink,-ish gray,pink,9RP,5YR,1.5,8.5
+10,1.4,pinkish gray,pink,-ish gray,pink,9RP,5YR,1.5,6.5
 10,2.1,pinkish gray,pink,-ish gray,pink,5YR,7YR,0.5,6.5
 10,2.2,pinkish gray,pink,-ish gray,pink,5YR,7YR,0.5,8.5
 10,2.3,pinkish gray,pink,-ish gray,pink,5YR,7YR,1.2,8.5
@@ -705,10 +705,10 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 130,1.2,brilliant yellowish green,yellowish green,brilliant,yellowish green,8GY,3G,7,10
 130,1.3,brilliant yellowish green,yellowish green,brilliant,yellowish green,8GY,3G,11,10
 130,1.4,brilliant yellowish green,yellowish green,brilliant,yellowish green,8GY,3G,11,6.5
-131,1.1,strong yellowish green,green,strong yellowish,green,8GY,3G,7,4.5
-131,1.2,strong yellowish green,green,strong yellowish,green,8GY,3G,7,6.5
-131,1.3,strong yellowish green,green,strong yellowish,green,8GY,3G,11,6.5
-131,1.4,strong yellowish green,green,strong yellowish,green,8GY,3G,11,4.5
+131,1.1,strong yellowish green,yellowish green,strong,yellowish green,8GY,3G,7,4.5
+131,1.2,strong yellowish green,yellowish green,strong,yellowish green,8GY,3G,7,6.5
+131,1.3,strong yellowish green,yellowish green,strong,yellowish green,8GY,3G,11,6.5
+131,1.4,strong yellowish green,yellowish green,strong,yellowish green,8GY,3G,11,4.5
 132,1.1,deep yellowish green,yellowish green,deep,yellowish green,8GY,3G,7,2.5
 132,1.2,deep yellowish green,yellowish green,deep,yellowish green,8GY,3G,7,4.5
 132,1.3,deep yellowish green,yellowish green,deep,yellowish green,8GY,3G,50,4.5
@@ -1189,10 +1189,10 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 227,2.2,pale purple,purple,pale,purple,3P,9P,1.5,7.5
 227,2.3,pale purple,purple,pale,purple,3P,9P,3,7.5
 227,2.4,pale purple,purple,pale,purple,3P,9P,3,5.5
-227,3.1,pale purple,purple,pale,purple,9P,9RP,1.5,5.5
-227,3.2,pale purple,purple,pale,purple,9P,9RP,1.5,6.5
-227,3.3,pale purple,purple,pale,purple,9P,9RP,3,6.5
-227,3.4,pale purple,purple,pale,purple,9P,9RP,3,5.5
+227,3.1,pale purple,purple,pale,purple,9P,1R,1.5,5.5
+227,3.2,pale purple,purple,pale,purple,9P,1R,1.5,6.5
+227,3.3,pale purple,purple,pale,purple,9P,1R,3,6.5
+227,3.4,pale purple,purple,pale,purple,9P,1R,3,5.5
 228,1.1,grayish purple,purple,grayish,purple,9PB,3P,1.5,3.5
 228,1.2,grayish purple,purple,grayish,purple,9PB,3P,1.5,5.5
 228,1.3,grayish purple,purple,grayish,purple,9PB,3P,3,5.5
@@ -1201,22 +1201,22 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 228,2.2,grayish purple,purple,grayish,purple,3P,9P,1.5,5.5
 228,2.3,grayish purple,purple,grayish,purple,3P,9P,5,5.5
 228,2.4,grayish purple,purple,grayish,purple,3P,9P,5,3.5
-228,3.1,grayish purple,purple,grayish,purple,9P,9RP,1.5,3.5
-228,3.2,grayish purple,purple,grayish,purple,9P,9RP,1.5,5.5
-228,3.3,grayish purple,purple,grayish,purple,9P,9RP,3,5.5
-228,3.4,grayish purple,purple,grayish,purple,9P,9RP,3,3.5
-229,1.1,dark grayish purple,purple,dark grayish,purple,9PB,9RP,0.5,2
-229,1.2,dark grayish purple,purple,dark grayish,purple,9PB,9RP,0.5,2.5
-229,1.3,dark grayish purple,purple,dark grayish,purple,9PB,9RP,1.5,2.5
-229,1.4,dark grayish purple,purple,dark grayish,purple,9PB,9RP,1.5,3.5
-229,1.5,dark grayish purple,purple,dark grayish,purple,9PB,9RP,3,3.5
-229,1.6,dark grayish purple,purple,dark grayish,purple,9PB,9RP,3,2.5
-229,1.7,dark grayish purple,purple,dark grayish,purple,9PB,9RP,2,2.5
-229,1.8,dark grayish purple,purple,dark grayish,purple,9PB,9RP,2,2
-230,1.1,blackish purple,purple,blackish,purple,9PB,9RP,1,0
-230,1.2,blackish purple,purple,blackish,purple,9PB,9RP,1,2
-230,1.3,blackish purple,purple,blackish,purple,9PB,9RP,2,2
-230,1.4,blackish purple,purple,blackish,purple,9PB,9RP,2,0
+228,3.1,grayish purple,purple,grayish,purple,9P,1R,1.5,3.5
+228,3.2,grayish purple,purple,grayish,purple,9P,1R,1.5,5.5
+228,3.3,grayish purple,purple,grayish,purple,9P,1R,3,5.5
+228,3.4,grayish purple,purple,grayish,purple,9P,1R,3,3.5
+229,1.1,dark grayish purple,purple,dark grayish,purple,9PB,1R,0.5,2
+229,1.2,dark grayish purple,purple,dark grayish,purple,9PB,1R,0.5,2.5
+229,1.3,dark grayish purple,purple,dark grayish,purple,9PB,1R,1.5,2.5
+229,1.4,dark grayish purple,purple,dark grayish,purple,9PB,1R,1.5,3.5
+229,1.5,dark grayish purple,purple,dark grayish,purple,9PB,1R,3,3.5
+229,1.6,dark grayish purple,purple,dark grayish,purple,9PB,1R,3,2.5
+229,1.7,dark grayish purple,purple,dark grayish,purple,9PB,1R,2,2.5
+229,1.8,dark grayish purple,purple,dark grayish,purple,9PB,1R,2,2
+230,1.1,blackish purple,purple,blackish,purple,9PB,1R,1,0
+230,1.2,blackish purple,purple,blackish,purple,9PB,1R,1,2
+230,1.3,blackish purple,purple,blackish,purple,9PB,1R,2,2
+230,1.4,blackish purple,purple,blackish,purple,9PB,1R,2,0
 231,1.1,purplish white,purple,-ish white,purple,9PB,9RP,0.5,8.5
 231,1.2,purplish white,purple,-ish white,purple,9PB,9RP,0.5,10
 231,1.3,purplish white,purple,-ish white,purple,9PB,9RP,1.5,10
@@ -1225,18 +1225,18 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 232,1.2,light purplish gray,purple,light -ish gray,purple,9PB,9RP,0.5,8.5
 232,1.3,light purplish gray,purple,light -ish gray,purple,9PB,9RP,1.5,8.5
 232,1.4,light purplish gray,purple,light -ish gray,purple,9PB,9RP,1.5,6.5
-233,1.1,purplish gray,purple,-ish gray,purple,9PB,9RP,0.5,4.5
-233,1.2,purplish gray,purple,-ish gray,purple,9PB,9RP,0.5,6.5
-233,1.3,purplish gray,purple,-ish gray,purple,9PB,9RP,1.5,6.5
-233,1.4,purplish gray,purple,-ish gray,purple,9PB,9RP,1.5,4.5
-234,1.1,dark purplish gray,purple,dark -ish gray,purple,9PB,9RP,0.5,2.5
-234,1.2,dark purplish gray,purple,dark -ish gray,purple,9PB,9RP,0.5,4.5
-234,1.3,dark purplish gray,purple,dark -ish gray,purple,9PB,9RP,1.5,4.5
-234,1.4,dark purplish gray,purple,dark -ish gray,purple,9PB,9RP,1.5,2.5
-235,1.1,purplish black,purplish black,-ish black,purplish black,9PB,9RP,0.5,0
-235,1.2,purplish black,purplish black,-ish black,purplish black,9PB,9RP,0.5,2
-235,1.3,purplish black,purplish black,-ish black,purplish black,9PB,9RP,1,2
-235,1.4,purplish black,purplish black,-ish black,purplish black,9PB,9RP,1,0
+233,1.1,purplish gray,purple,-ish gray,purple,9PB,1R,0.5,4.5
+233,1.2,purplish gray,purple,-ish gray,purple,9PB,1R,0.5,6.5
+233,1.3,purplish gray,purple,-ish gray,purple,9PB,1R,1.5,6.5
+233,1.4,purplish gray,purple,-ish gray,purple,9PB,1R,1.5,4.5
+234,1.1,dark purplish gray,purple,dark -ish gray,purple,9PB,1R,0.5,2.5
+234,1.2,dark purplish gray,purple,dark -ish gray,purple,9PB,1R,0.5,4.5
+234,1.3,dark purplish gray,purple,dark -ish gray,purple,9PB,1R,1.5,4.5
+234,1.4,dark purplish gray,purple,dark -ish gray,purple,9PB,1R,1.5,2.5
+235,1.1,purplish black,purple,-ish black,purple,9PB,1R,0.5,0
+235,1.2,purplish black,purple,-ish black,purple,9PB,1R,0.5,2
+235,1.3,purplish black,purple,-ish black,purple,9PB,1R,1,2
+235,1.4,purplish black,purple,-ish black,purple,9PB,1R,1,0
 236,1.1,vivid reddish purple,reddish purple,vivid,reddish purple,9P,3RP,13,0
 236,1.2,vivid reddish purple,reddish purple,vivid,reddish purple,9P,3RP,13,5.5
 236,1.3,vivid reddish purple,reddish purple,vivid,reddish purple,9P,3RP,15,5.5
@@ -1313,48 +1313,48 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 253,1.2,grayish purplish pink,purplish pink,grayish,purplish pink,9P,9RP,1.5,7.5
 253,1.3,grayish purplish pink,purplish pink,grayish,purplish pink,9P,9RP,5,7.5
 253,1.4,grayish purplish pink,purplish pink,grayish,purplish pink,9P,9RP,5,6.5
-254,1.1,vivid purplish red,purplish pink,vivid,purplish pink,3RP,9RP,11,0
-254,1.2,vivid purplish red,purplish pink,vivid,purplish pink,3RP,9RP,11,2
-254,1.3,vivid purplish red,purplish pink,vivid,purplish pink,3RP,9RP,13,2
-254,1.4,vivid purplish red,purplish pink,vivid,purplish pink,3RP,9RP,13,5.5
-254,1.5,vivid purplish red,purplish pink,vivid,purplish pink,3RP,9RP,15,5.5
-254,1.6,vivid purplish red,purplish pink,vivid,purplish pink,3RP,9RP,15,6.5
-254,1.7,vivid purplish red,purplish pink,vivid,purplish pink,3RP,9RP,50,6.5
-254,1.8,vivid purplish red,purplish pink,vivid,purplish pink,3RP,9RP,50,0
-255,1.1,strong purplish red,purplish pink,strong,purplish pink,3RP,9RP,11,3.5
-255,1.2,strong purplish red,purplish pink,strong,purplish pink,3RP,9RP,11,5.5
-255,1.3,strong purplish red,purplish pink,strong,purplish pink,3RP,9RP,13,5.5
-255,1.4,strong purplish red,purplish pink,strong,purplish pink,3RP,9RP,13,3.5
-256,1.1,deep purplish red,purplish red,deep,purplish red,3RP,9RP,9,2
-256,1.2,deep purplish red,purplish red,deep,purplish red,3RP,9RP,9,3.5
-256,1.3,deep purplish red,purplish red,deep,purplish red,3RP,9RP,13,3.5
-256,1.4,deep purplish red,purplish red,deep,purplish red,3RP,9RP,13,2
-257,1.1,very deep purplish red,purplish red,very deep,purplish red,3RP,9RP,7,0
-257,1.2,very deep purplish red,purplish red,very deep,purplish red,3RP,9RP,7,2
-257,1.3,very deep purplish red,purplish red,very deep,purplish red,3RP,9RP,11,2
-257,1.4,very deep purplish red,purplish red,very deep,purplish red,3RP,9RP,11,0
-258,1.1,moderate purplish red,purplish red,moderate,purplish red,3RP,9RP,7,3.5
-258,1.2,moderate purplish red,purplish red,moderate,purplish red,3RP,9RP,7,5.5
-258,1.3,moderate purplish red,purplish red,moderate,purplish red,3RP,9RP,11,5.5
-258,1.4,moderate purplish red,purplish red,moderate,purplish red,3RP,9RP,11,3.5
-259,1.1,dark purplish red,purplish red,dark,purplish red,3RP,9RP,2,2
-259,1.2,dark purplish red,purplish red,dark,purplish red,3RP,9RP,2,2.5
-259,1.3,dark purplish red,purplish red,dark,purplish red,3RP,9RP,3,2.5
-259,1.4,dark purplish red,purplish red,dark,purplish red,3RP,9RP,3,3.5
-259,1.5,dark purplish red,purplish red,dark,purplish red,3RP,9RP,9,3.5
-259,1.6,dark purplish red,purplish red,dark,purplish red,3RP,9RP,9,2
-260,1.1,very dark purplish red,purplish red,very dark,purplish red,3RP,9RP,2,0
-260,1.2,very dark purplish red,purplish red,very dark,purplish red,3RP,9RP,2,2
-260,1.3,very dark purplish red,purplish red,very dark,purplish red,3RP,9RP,7,2
-260,1.4,very dark purplish red,purplish red,very dark,purplish red,3RP,9RP,7,0
+254,1.1,vivid purplish red,purplish pink,vivid,purplish pink,3RP,1R,11,0
+254,1.2,vivid purplish red,purplish pink,vivid,purplish pink,3RP,1R,11,2
+254,1.3,vivid purplish red,purplish pink,vivid,purplish pink,3RP,1R,13,2
+254,1.4,vivid purplish red,purplish pink,vivid,purplish pink,3RP,1R,13,5.5
+254,1.5,vivid purplish red,purplish pink,vivid,purplish pink,3RP,1R,15,5.5
+254,1.6,vivid purplish red,purplish pink,vivid,purplish pink,3RP,1R,15,6.5
+254,1.7,vivid purplish red,purplish pink,vivid,purplish pink,3RP,1R,50,6.5
+254,1.8,vivid purplish red,purplish pink,vivid,purplish pink,3RP,1R,50,0
+255,1.1,strong purplish red,purplish pink,strong,purplish pink,3RP,1R,11,3.5
+255,1.2,strong purplish red,purplish pink,strong,purplish pink,3RP,1R,11,5.5
+255,1.3,strong purplish red,purplish pink,strong,purplish pink,3RP,1R,13,5.5
+255,1.4,strong purplish red,purplish pink,strong,purplish pink,3RP,1R,13,3.5
+256,1.1,deep purplish red,purplish red,deep,purplish red,3RP,1R,9,2
+256,1.2,deep purplish red,purplish red,deep,purplish red,3RP,1R,9,3.5
+256,1.3,deep purplish red,purplish red,deep,purplish red,3RP,1R,13,3.5
+256,1.4,deep purplish red,purplish red,deep,purplish red,3RP,1R,13,2
+257,1.1,very deep purplish red,purplish red,very deep,purplish red,3RP,1R,7,0
+257,1.2,very deep purplish red,purplish red,very deep,purplish red,3RP,1R,7,2
+257,1.3,very deep purplish red,purplish red,very deep,purplish red,3RP,1R,11,2
+257,1.4,very deep purplish red,purplish red,very deep,purplish red,3RP,1R,11,0
+258,1.1,moderate purplish red,purplish red,moderate,purplish red,3RP,1R,7,3.5
+258,1.2,moderate purplish red,purplish red,moderate,purplish red,3RP,1R,7,5.5
+258,1.3,moderate purplish red,purplish red,moderate,purplish red,3RP,1R,11,5.5
+258,1.4,moderate purplish red,purplish red,moderate,purplish red,3RP,1R,11,3.5
+259,1.1,dark purplish red,purplish red,dark,purplish red,3RP,1R,2,2
+259,1.2,dark purplish red,purplish red,dark,purplish red,3RP,1R,2,2.5
+259,1.3,dark purplish red,purplish red,dark,purplish red,3RP,1R,3,2.5
+259,1.4,dark purplish red,purplish red,dark,purplish red,3RP,1R,3,3.5
+259,1.5,dark purplish red,purplish red,dark,purplish red,3RP,1R,9,3.5
+259,1.6,dark purplish red,purplish red,dark,purplish red,3RP,1R,9,2
+260,1.1,very dark purplish red,purplish red,very dark,purplish red,3RP,1R,2,0
+260,1.2,very dark purplish red,purplish red,very dark,purplish red,3RP,1R,2,2
+260,1.3,very dark purplish red,purplish red,very dark,purplish red,3RP,1R,7,2
+260,1.4,very dark purplish red,purplish red,very dark,purplish red,3RP,1R,7,0
 261,1.1,light grayish purplish red,purplish red,pale,purplish red,3RP,9RP,3,5.5
 261,1.2,light grayish purplish red,purplish red,pale,purplish red,3RP,9RP,3,6.5
 261,1.3,light grayish purplish red,purplish red,pale,purplish red,3RP,9RP,5,6.5
 261,1.4,light grayish purplish red,purplish red,pale,purplish red,3RP,9RP,5,5.5
-262,1.1,grayish purplish red,purplish red,grayish,purplish red,3RP,9RP,3,3.5
-262,1.2,grayish purplish red,purplish red,grayish,purplish red,3RP,9RP,3,5.5
-262,1.3,grayish purplish red,purplish red,grayish,purplish red,3RP,9RP,7,5.5
-262,1.4,grayish purplish red,purplish red,grayish,purplish red,3RP,9RP,7,3.5
+262,1.1,grayish purplish red,purplish red,grayish,purplish red,3RP,1R,3,3.5
+262,1.2,grayish purplish red,purplish red,grayish,purplish red,3RP,1R,3,5.5
+262,1.3,grayish purplish red,purplish red,grayish,purplish red,3RP,1R,7,5.5
+262,1.4,grayish purplish red,purplish red,grayish,purplish red,3RP,1R,7,3.5
 263,1.1,white,white,,white,1R,7YR,0,8.5
 263,1.2,white,white,,white,1R,7YR,0,10
 263,1.3,white,white,,white,1R,7YR,0.5,10
@@ -1375,10 +1375,10 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 264,2.2,light gray,gray,light,gray,7YR,9Y,0,8.5
 264,2.3,light gray,gray,light,gray,7YR,9Y,0.7,8.5
 264,2.4,light gray,gray,light,gray,7YR,9Y,0.7,6.5
-264,3.1,light gray,gray,light,gray,9Y,9RP,0,6.5
-264,3.2,light gray,gray,light,gray,9Y,9RP,0,8.5
-264,3.3,light gray,gray,light,gray,9Y,9RP,0.5,8.5
-264,3.4,light gray,gray,light,gray,9Y,9RP,0.5,6.5
+264,3.1,light gray,gray,light,gray,9Y,1R,0,6.5
+264,3.2,light gray,gray,light,gray,9Y,1R,0,8.5
+264,3.3,light gray,gray,light,gray,9Y,1R,0.5,8.5
+264,3.4,light gray,gray,light,gray,9Y,1R,0.5,6.5
 265,1.1,medium gray,gray,medium,gray,1R,7YR,0,4.5
 265,1.2,medium gray,gray,medium,gray,1R,7YR,0,6.5
 265,1.3,medium gray,gray,medium,gray,1R,7YR,0.5,6.5
@@ -1387,10 +1387,10 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 265,2.2,medium gray,gray,medium,gray,7YR,9Y,0,6.5
 265,2.3,medium gray,gray,medium,gray,7YR,9Y,0.7,6.5
 265,2.4,medium gray,gray,medium,gray,7YR,9Y,0.7,4.5
-265,3.1,medium gray,gray,medium,gray,9Y,9RP,0,4.5
-265,3.2,medium gray,gray,medium,gray,9Y,9RP,0,6.5
-265,3.3,medium gray,gray,medium,gray,9Y,9RP,0.5,6.5
-265,3.4,medium gray,gray,medium,gray,9Y,9RP,0.5,4.5
+265,3.1,medium gray,gray,medium,gray,9Y,1R,0,4.5
+265,3.2,medium gray,gray,medium,gray,9Y,1R,0,6.5
+265,3.3,medium gray,gray,medium,gray,9Y,1R,0.5,6.5
+265,3.4,medium gray,gray,medium,gray,9Y,1R,0.5,4.5
 266,1.1,dark gray,grey,dark,grey,1R,7YR,0,2.5
 266,1.2,dark gray,grey,dark,grey,1R,7YR,0,4.5
 266,1.3,dark gray,grey,dark,grey,1R,7YR,0.5,4.5
@@ -1399,10 +1399,10 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 266,2.2,dark gray,grey,dark,grey,7YR,9Y,0,4.5
 266,2.3,dark gray,grey,dark,grey,7YR,9Y,0.5,4.5
 266,2.4,dark gray,grey,dark,grey,7YR,9Y,0.5,2.5
-266,3.1,dark gray,grey,dark,grey,9Y,9RP,0,2.5
-266,3.2,dark gray,grey,dark,grey,9Y,9RP,0,4.5
-266,3.3,dark gray,grey,dark,grey,9Y,9RP,0.5,4.5
-266,3.4,dark gray,grey,dark,grey,9Y,9RP,0.5,2.5
+266,3.1,dark gray,grey,dark,grey,9Y,1R,0,2.5
+266,3.2,dark gray,grey,dark,grey,9Y,1R,0,4.5
+266,3.3,dark gray,grey,dark,grey,9Y,1R,0.5,4.5
+266,3.4,dark gray,grey,dark,grey,9Y,1R,0.5,2.5
 267,1.1,black,black,,black,1R,7YR,0,0
 267,1.2,black,black,,black,1R,7YR,0,2.5
 267,1.3,black,black,,black,1R,7YR,0.5,2.5
@@ -1411,7 +1411,7 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 267,2.2,black,black,,black,7YR,9Y,0,2.5
 267,2.3,black,black,,black,7YR,9Y,0.5,2.5
 267,2.4,black,black,,black,7YR,9Y,0.5,0
-267,3.1,black,black,,black,9Y,9RP,0,0
-267,3.2,black,black,,black,9Y,9RP,0,2.5
-267,3.3,black,black,,black,9Y,9RP,0.5,2.5
-267,3.4,black,black,,black,9Y,9RP,0.5,0
+267,3.1,black,black,,black,9Y,1R,0,0
+267,3.2,black,black,,black,9Y,1R,0,2.5
+267,3.3,black,black,,black,9Y,1R,0.5,2.5
+267,3.4,black,black,,black,9Y,1R,0.5,0

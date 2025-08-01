@@ -519,24 +519,104 @@ impl IsccNbsClassifier {
         plane_map
     }
     
-    /// Split a hue range into adjacent plane identifiers
+    /// Split a hue range into adjacent plane identifiers using mechanical wedge system
     fn split_into_adjacent_planes(hue1: &str, hue2: &str) -> Vec<String> {
-        // Parse both hues
-        if let (Ok((num1, family1)), Ok((num2, family2))) = (
-            Self::parse_hue_static(hue1),
-            Self::parse_hue_static(hue2)
-        ) {
-            // If same family, create planes within the family
-            if family1 == family2 {
-                Self::create_planes_within_family(num1, num2, &family1)
-            } else {
-                // Cross-family range, create planes across families
-                Self::create_cross_family_planes(num1, &family1, num2, &family2)
-            }
+        // Parse the hue range endpoints
+        let (num1, family1) = Self::parse_hue_static(hue1).unwrap_or((1.0, "R".to_string()));
+        let (num2, family2) = Self::parse_hue_static(hue2).unwrap_or((1.0, "R".to_string()));
+        
+        // If same family, create individual wedges within family
+        if family1 == family2 {
+            Self::create_comprehensive_family_coverage(num1, num2, &family1)
         } else {
-            // Fallback: create a single plane from the range
-            vec![format!("{}-{}", hue1, hue2)]
+            // Cross-family range - create comprehensive coverage
+            Self::create_comprehensive_cross_family_coverage(num1, &family1, num2, &family2)
         }
+    }
+    
+    /// Create comprehensive coverage for same-family ranges (e.g., 1R to 4R)
+    fn create_comprehensive_family_coverage(num1: f64, num2: f64, family: &str) -> Vec<String> {
+        let mut wedges = Vec::new();
+        
+        // Ensure proper ordering (num1 should be <= num2)
+        let (start, end) = if num1 <= num2 { (num1, num2) } else { (num2, num1) };
+        
+        // Create individual hue planes for every integer in the range
+        let start_int = start.floor() as i32;
+        let end_int = end.ceil() as i32;
+        
+        for i in start_int..=end_int {
+            // Ensure valid hue numbers (1-10) with wraparound
+            let hue_num = if i < 1 { i + 10 } else if i > 10 { i - 10 } else { i };
+            let next_num = if hue_num == 10 { 1 } else { hue_num + 1 };
+            
+            // Create wedge key: "4R-5R"
+            wedges.push(format!("{}{}-{}{}", hue_num, family, next_num, family));
+            
+            // Also add individual hue keys for backward compatibility
+            wedges.push(format!("{}{}", hue_num, family));
+            
+            // Add fractional support for boundary cases
+            if (i as f64 - start).abs() < 0.1 || (i as f64 - end).abs() < 0.1 {
+                wedges.push(format!("{}.5{}", hue_num, family));
+            }
+        }
+        
+        // Add original range key for direct lookup
+        wedges.push(format!("{}{}-{}{}", start as i32, family, end as i32, family));
+        
+        wedges
+    }
+    
+    /// Create comprehensive coverage for cross-family ranges (e.g., 9RP to 2R)
+    fn create_comprehensive_cross_family_coverage(num1: f64, family1: &str, num2: f64, family2: &str) -> Vec<String> {
+        let mut wedges = Vec::new();
+        
+        // Define circular hue family order: [R,YR,Y,GY,G,BG,B,PB,P,RP]
+        let hue_families = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
+        
+        // Find family indices
+        let family1_idx = hue_families.iter().position(|&f| f == family1).unwrap_or(0);
+        let family2_idx = hue_families.iter().position(|&f| f == family2).unwrap_or(0);
+        
+        // Handle wraparound case (e.g., 9RP to 2R crosses from RP back to R)
+        if family1_idx > family2_idx || (family1_idx == family2_idx && num1 > num2) {
+            // First part: family1 from num1 to 10
+            wedges.extend(Self::create_comprehensive_family_coverage(num1, 10.0, family1));
+            
+            // Middle families (if any)
+            let mut current_idx = (family1_idx + 1) % hue_families.len();
+            while current_idx != family2_idx {
+                let family = hue_families[current_idx];
+                wedges.extend(Self::create_comprehensive_family_coverage(1.0, 10.0, family));
+                current_idx = (current_idx + 1) % hue_families.len();
+            }
+            
+            // Last part: family2 from 1 to num2
+            wedges.extend(Self::create_comprehensive_family_coverage(1.0, num2, family2));
+        } else {
+            // Normal range within the circular sequence
+            let mut current_idx = family1_idx;
+            while current_idx <= family2_idx {
+                let family = hue_families[current_idx];
+                if current_idx == family1_idx && current_idx == family2_idx {
+                    // Same family
+                    wedges.extend(Self::create_comprehensive_family_coverage(num1, num2, family));
+                } else if current_idx == family1_idx {
+                    // First family
+                    wedges.extend(Self::create_comprehensive_family_coverage(num1, 10.0, family));
+                } else if current_idx == family2_idx {
+                    // Last family
+                    wedges.extend(Self::create_comprehensive_family_coverage(1.0, num2, family));
+                } else {
+                    // Middle family
+                    wedges.extend(Self::create_comprehensive_family_coverage(1.0, 10.0, family));
+                }
+                current_idx += 1;
+            }
+        }
+        
+        wedges
     }
     
     /// Parse a plane range string back into (hue1, hue2) tuple
@@ -584,76 +664,114 @@ impl IsccNbsClassifier {
         Ok((number, family_str.to_string()))
     }
     
-    /// Find the adjacent plane that contains the given hue
+    /// Find the adjacent plane that contains the given hue using mechanical wedge system
     fn find_adjacent_plane_for_hue(&self, hue_number: f64, hue_family: &str) -> Result<String, MunsellError> {
-        // Look through available hue planes to find the one containing this hue
+        // MECHANICAL WEDGE SYSTEM: Deterministic mapping using boundary rules
+        // Rule: lower_bound < hue ≤ upper_bound (consistent with disambiguation)
+        
+        // Step 1: Determine which wedge contains this hue using boundary rules
+        let containing_wedge = self.determine_containing_wedge(hue_number, hue_family);
+        
+        // Step 2: Generate systematic wedge keys in priority order
+        let wedge_keys = self.generate_wedge_keys(&containing_wedge);
+        
+        // Step 3: Look for exact matches in order of preference
+        for key in &wedge_keys {
+            if self.hue_planes.contains_key(key) {
+                return Ok(key.clone());
+            }
+        }
+        
+        // Step 4: Fallback search with comprehensive key patterns
+        let fallback_keys = self.generate_fallback_keys(hue_number, hue_family);
+        for key in &fallback_keys {
+            if self.hue_planes.contains_key(key) {
+                return Ok(key.clone());
+            }
+        }
+        
+        // Step 5: Final fallback - any plane containing the family
         for plane_key in self.hue_planes.keys() {
-            if self.hue_in_plane(hue_number, hue_family, plane_key) {
+            if plane_key.contains(hue_family) {
                 return Ok(plane_key.clone());
             }
         }
         
-        // If no exact plane match, create a best-fit plane
-        let rounded_hue = (hue_number.round() as i32).max(1).min(10);
-        Ok(format!("{}{}", rounded_hue, hue_family))
+        Err(MunsellError::ConversionError {
+            message: format!("No wedge found for hue {}{} in mechanical system", hue_number, hue_family)
+        })
     }
     
-    /// Check if a hue falls within a specific plane
-    fn hue_in_plane(&self, hue_number: f64, hue_family: &str, plane_key: &str) -> bool {
-        // Parse the plane key (e.g., "1R-2R" or "5YR")
-        if plane_key.contains('-') {
-            // Range format like "1R-2R"
-            let parts: Vec<&str> = plane_key.split('-').collect();
-            if parts.len() == 2 {
-                if let (Ok((start_num, start_family)), Ok((end_num, end_family))) = (
-                    Self::parse_hue_static(parts[0]),
-                    Self::parse_hue_static(parts[1])
-                ) {
-                    return hue_family == start_family && 
-                           hue_family == end_family &&
-                           hue_number >= start_num && 
-                           hue_number <= end_num;
-                }
-            }
+    /// Determine the containing wedge using boundary rules: lower_bound < hue ≤ upper_bound
+    fn determine_containing_wedge(&self, hue_number: f64, hue_family: &str) -> (i32, i32, String) {
+        let is_exact_boundary = (hue_number - hue_number.round()).abs() < 0.1;
+        let hue_int = hue_number.round() as i32;
+        
+        if is_exact_boundary {
+            // Exact boundary hues belong to previous wedge
+            // e.g., 4.0R belongs to wedge 3R→4R
+            let upper = hue_int;
+            let lower = if upper == 1 { 10 } else { upper - 1 };
+            (lower, upper, hue_family.to_string())
         } else {
-            // Single hue format like "5YR"
-            if let Ok((plane_num, plane_family)) = Self::parse_hue_static(plane_key) {
-                return hue_family == plane_family && 
-                       (hue_number - plane_num).abs() < 1.0;
-            }
+            // Fractional hues belong to forward wedge  
+            // e.g., 4.5R belongs to wedge 4R→5R
+            let lower = hue_number.floor() as i32;
+            let upper = if lower == 10 { 1 } else { lower + 1 };
+            (lower, upper, hue_family.to_string())
         }
-        
-        false
     }
     
-    /// Create planes within the same hue family
-    fn create_planes_within_family(num1: f64, num2: f64, family: &str) -> Vec<String> {
-        let start = num1.min(num2).floor() as i32;
-        let end = num1.max(num2).ceil() as i32;
-        
-        let mut planes = Vec::new();
-        for i in start..end {
-            let next = i + 1;
-            planes.push(format!("{}{}-{}{}", i, family, next, family));
-        }
-        
-        // If no planes generated, create a single plane
-        if planes.is_empty() {
-            planes.push(format!("{}{}", ((num1 + num2) / 2.0).round() as i32, family));
-        }
-        
-        planes
-    }
-    
-    /// Create planes across different hue families
-    fn create_cross_family_planes(num1: f64, family1: &str, num2: f64, family2: &str) -> Vec<String> {
-        // For cross-family ranges, create individual planes
-        // This is a simplified approach - could be enhanced with full hue circle logic
+    /// Generate systematic wedge keys in priority order
+    fn generate_wedge_keys(&self, wedge: &(i32, i32, String)) -> Vec<String> {
+        let (lower, upper, family) = wedge;
         vec![
-            format!("{}{}", num1.round() as i32, family1),
-            format!("{}{}", num2.round() as i32, family2),
+            // Primary wedge key format
+            format!("{}{}-{}{}", lower, family, upper, family),
+            // Individual hue keys
+            format!("{}{}", lower, family),
+            format!("{}{}", upper, family),
+            // Fractional variants
+            format!("{}.5{}", lower, family),
+            format!("{}.5{}", upper, family),
         ]
     }
+    
+    /// Generate comprehensive fallback keys for robustness
+    fn generate_fallback_keys(&self, hue_number: f64, hue_family: &str) -> Vec<String> {
+        let mut keys = Vec::new();
+        
+        // Floor/ceil variants
+        let floor_num = hue_number.floor() as i32;
+        let ceil_num = hue_number.ceil() as i32;
+        
+        keys.extend(vec![
+            format!("{}{}", floor_num, hue_family),
+            format!("{}{}", ceil_num, hue_family),
+            format!("{}{}", hue_number.round() as i32, hue_family),
+        ]);
+        
+        // Range keys with adjacent numbers
+        for base in &[floor_num, ceil_num] {
+            let next = if *base == 10 { 1 } else { base + 1 };
+            let prev = if *base == 1 { 10 } else { base - 1 };
+            
+            keys.extend(vec![
+                format!("{}{}-{}{}", base, hue_family, next, hue_family),
+                format!("{}{}-{}{}", prev, hue_family, base, hue_family),
+            ]);
+        }
+        
+        keys
+    }
+    
+    /// Check if a hue falls within a specific plane (simplified)
+    fn hue_in_plane(&self, hue_number: f64, hue_family: &str, plane_key: &str) -> bool {
+        // Simple check: if plane key contains the family, it's a match
+        plane_key.contains(hue_family)
+    }
+    
+    
 }
 
 /// Validation functions using geo crate  
