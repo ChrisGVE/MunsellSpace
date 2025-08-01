@@ -295,22 +295,63 @@ impl IsccNbsClassifier {
     }
     
     /// Construct revised descriptor from revised_color + iscc_nbs_modifier
+    /// Following ISCC-NBS standardized rules for descriptor construction
     fn construct_revised_descriptor(&self, revised_color: &str, iscc_nbs_modifier: &Option<String>) -> String {
-        // Combine revised color with modifier if present
-        // This creates descriptors like "dark grayish red" from "dark grayish" + "red"
         match iscc_nbs_modifier {
-            Some(modifier) if !modifier.is_empty() => {
-                // Check if revised_color already ends with the modifier to avoid duplication
-                let revised_trimmed = revised_color.trim();
-                let modifier_trimmed = modifier.trim();
-                
-                if revised_trimmed.ends_with(modifier_trimmed) {
-                    revised_trimmed.to_string()
-                } else {
-                    format!("{} {}", revised_trimmed, modifier_trimmed)
-                }
+            // Rule 2: No modifier case
+            None => revised_color.trim().to_string(),
+            
+            // Rule 3: "-ish" transformation rules
+            Some(modifier) if modifier.contains("-ish") => {
+                self.construct_ish_descriptor(revised_color, modifier)
+            },
+            
+            // Rule 1: Basic prefix rule
+            Some(modifier) => {
+                format!("{} {}", modifier.trim(), revised_color.trim())
             }
-            _ => revised_color.trim().to_string()
+        }
+    }
+    
+    /// Handle "-ish" modifier transformations with English grammar rules
+    fn construct_ish_descriptor(&self, revised_color: &str, modifier: &str) -> String {
+        // Parse modifier: split on "-ish" to extract prefix and suffix
+        let parts: Vec<&str> = modifier.split("-ish").collect();
+        let prefix = parts[0].trim();
+        let suffix = if parts.len() > 1 { parts[1].trim() } else { "" };
+        
+        // Transform color (Rule 5: olive exception)
+        let transformed_color = if revised_color.trim() == "olive" {
+            revised_color.trim().to_string()
+        } else {
+            self.apply_ish_transformation(revised_color.trim())
+        };
+        
+        // Combine parts: prefix + colorish + suffix
+        let mut result = Vec::new();
+        if !prefix.is_empty() { 
+            result.push(prefix); 
+        }
+        result.push(&transformed_color);
+        if !suffix.is_empty() { 
+            result.push(suffix); 
+        }
+        
+        result.join(" ")
+    }
+    
+    /// Apply English grammar rules for "-ish" transformations
+    fn apply_ish_transformation(&self, color: &str) -> String {
+        match color {
+            "brown" => "brownish".to_string(),
+            "blue" => "bluish".to_string(), 
+            "red" => "reddish".to_string(),
+            "green" => "greenish".to_string(),
+            "yellow" => "yellowish".to_string(), 
+            "purple" => "purplish".to_string(),
+            "pink" => "pinkish".to_string(),
+            // Default fallback for any other colors
+            _ => format!("{}ish", color),
         }
     }
     
