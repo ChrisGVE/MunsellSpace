@@ -49,6 +49,15 @@ pub enum MunsellError {
         /// Description of the I/O error
         message: String,
     },
+    
+    /// Newton-Raphson iteration failed to converge.
+    ConvergenceFailed,
+    
+    /// Color interpolation error in mathematical conversion.
+    InterpolationError {
+        /// Description of the interpolation failure
+        message: String,
+    },
 }
 
 impl fmt::Display for MunsellError {
@@ -71,6 +80,12 @@ impl fmt::Display for MunsellError {
             }
             MunsellError::IoError { message } => {
                 write!(f, "I/O error: {}", message)
+            }
+            MunsellError::ConvergenceFailed => {
+                write!(f, "Newton-Raphson iteration failed to converge")
+            }
+            MunsellError::InterpolationError { message } => {
+                write!(f, "Interpolation error: {}", message)
             }
         }
     }

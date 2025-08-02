@@ -43,11 +43,14 @@ pub mod converter;
 pub mod types;
 pub mod error;
 pub mod iscc;
+pub mod constants;
+pub mod mathematical;
 
 pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
 pub use error::{MunsellError, Result};
 pub use iscc::{IsccNbsClassifier, IsccNbsResult};
+pub use mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
 
 /// Library version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
