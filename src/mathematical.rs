@@ -9,7 +9,7 @@ use crate::constants::*;
 use crate::error::{MunsellError, Result};
 
 // Critical constants from Python colour-science
-const THRESHOLD_INTEGER: f64 = 1e-3;
+const THRESHOLD_INTEGER: f64 = 1e-3;  // Python's achromatic threshold
 const TOLERANCE_ABSOLUTE_DEFAULT: f64 = 1e-8;
 const MAX_OUTER_ITERATIONS: usize = 64;
 const MAX_INNER_ITERATIONS: usize = 16;
@@ -706,14 +706,32 @@ impl MathematicalMunsellConverter {
         use interpolation_methods::*;
         
         const CONVERGENCE_THRESHOLD: f64 = THRESHOLD_INTEGER / 1e4; // 1e-7
-        const ILLUMINANT_D65: [f64; 2] = [0.31270, 0.32900]; // CIE Standard Illuminant D65
         
-        // Step 1: Check for achromatic (neutral) colors
-        let distance = ((xyy.x - ILLUMINANT_D65[0]).powi(2) + (xyy.y - ILLUMINANT_D65[1]).powi(2)).sqrt();
-        // Debug removed for performance
+        // Step 1: Calculate Munsell Value using ASTM D1535 polynomial
+        let value = self.luminance_to_munsell_value(xyy.Y)?;
         
-        if self.is_achromatic_d65(xyy.x, xyy.y) {
-            let value = self.luminance_to_munsell_value(xyy.Y)?;
+        // Step 2: Get achromatic center for this value (uses Illuminant C)
+        // This is critical - Python checks achromatic relative to the value-specific center, not D65!
+        let achromatic_spec = MunsellSpecification {
+            hue: 0.0,
+            family: "N".to_string(),
+            value,
+            chroma: 0.0,
+        };
+        let achromatic_xyy = self.munsell_specification_to_xyy(&achromatic_spec)?;
+        let x_center = achromatic_xyy.x;
+        let y_center = achromatic_xyy.y;
+        
+        // Calculate rho_input relative to achromatic center (NOT D65!)
+        let (rho_input, phi_input_rad, _) = cartesian_to_cylindrical(
+            xyy.x - x_center,
+            xyy.y - y_center,
+            xyy.Y
+        );
+        let phi_input = phi_input_rad.to_degrees();
+        
+        // Step 3: Check for achromatic using rho_input (like Python)
+        if rho_input < THRESHOLD_INTEGER {  // 1e-3
             return Ok(MunsellSpecification {
                 hue: 0.0,
                 family: "N".to_string(),
@@ -722,22 +740,14 @@ impl MathematicalMunsellConverter {
             });
         }
 
-        // Step 2: Calculate Munsell Value using ASTM D1535 polynomial
-        let value = self.luminance_to_munsell_value(xyy.Y)?;
-
-        // Step 3: Generate initial guess using Lab/LCHab conversion
+        // Step 4: Generate initial guess using Lab/LCHab conversion
         let initial_spec = self.generate_initial_guess(xyy)?;
         let mut hue_current = initial_spec.0;
         let mut code_current = initial_spec.1;
         let mut chroma_current = initial_spec.2 * (5.0 / 5.5); // Scale chroma factor
         
-        // Calculate input phi angle from target xyY (relative to Illuminant C)
-        let (rho_input, phi_input, _) = cartesian_to_cylindrical(
-            xyy.x - ILLUMINANT_C[0],
-            xyy.y - ILLUMINANT_C[1],
-            xyy.Y
-        );
-        let phi_input_degrees = phi_input.to_degrees();
+        // Note: rho_input and phi_input already calculated above relative to achromatic center
+        // Don't recalculate them here!
         
         // Step 4: DUAL-LOOP ITERATIVE ALGORITHM
         for outer_iteration in 0..MAX_OUTER_ITERATIONS {
@@ -764,7 +774,7 @@ impl MathematicalMunsellConverter {
             
             // Inner loop: Hue angle search following Python algorithm
             // Calculate phi difference with wrapping (Python lines 1138-1140)
-            let mut phi_current_difference = (360.0 - phi_input_degrees + phi_current_degrees) % 360.0;
+            let mut phi_current_difference = (360.0 - phi_input + phi_current_degrees) % 360.0;
             if phi_current_difference > 180.0 {
                 phi_current_difference -= 360.0;
             }
@@ -787,7 +797,7 @@ impl MathematicalMunsellConverter {
             
             // Python's condition: continue while all phi_differences have same sign AND not extrapolating
             // eprintln!("  Inner hue loop start: phi_input={:.3}°, phi_current={:.3}°, diff={:.3}°", 
-            //          phi_input_degrees, phi_current_degrees, phi_current_difference);
+            //          phi_input, phi_current_degrees, phi_current_difference);
             while (phi_differences_data.iter().all(|&d| d >= 0.0) || 
                    phi_differences_data.iter().all(|&d| d <= 0.0)) && 
                   !extrapolate {
@@ -801,7 +811,7 @@ impl MathematicalMunsellConverter {
                 // Python line 1167: step by (phi_input - phi_current) each iteration
                 // Even when phi_input == phi_current, Python still uses the formula
                 // This means when phi_diff=0, all iterations test the SAME angle
-                let step = iterations_inner as f64 * (phi_input_degrees - phi_current_degrees);
+                let step = iterations_inner as f64 * (phi_input - phi_current_degrees);
                 let hue_angle_inner = (hue_angle_current + step) % 360.0;
                 let mut hue_angle_difference_inner = step % 360.0;
                 if hue_angle_difference_inner > 180.0 {
@@ -821,7 +831,7 @@ impl MathematicalMunsellConverter {
                 );
                 let phi_inner_degrees = phi_inner.to_degrees();
                 
-                let mut phi_inner_difference = (360.0 - phi_input_degrees + phi_inner_degrees) % 360.0;
+                let mut phi_inner_difference = (360.0 - phi_input + phi_inner_degrees) % 360.0;
                 if phi_inner_difference > 180.0 {
                     phi_inner_difference -= 360.0;
                 }
