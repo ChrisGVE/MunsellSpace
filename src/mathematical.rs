@@ -1032,7 +1032,18 @@ impl MathematicalMunsellConverter {
             //          xyy.x, xyy.y, x_final, y_final, difference);
             
             if difference < CONVERGENCE_THRESHOLD {
-                // Converged! Apply normalization to match Python
+                // Converged! Check if chroma is 0 (achromatic)
+                if chroma_current.abs() < 1e-10 {
+                    // When chroma is 0, return achromatic (neutral) color
+                    return Ok(MunsellSpecification {
+                        hue: f64::NAN,
+                        family: "N".to_string(),
+                        value,
+                        chroma: f64::NAN,
+                    });
+                }
+                
+                // Apply normalization to match Python
                 let (normalized_hue, normalized_code) = Self::normalize_munsell_specification(hue_current, code_current);
                 let family = code_to_family(normalized_code);
                 // eprintln!("CONVERGED! hue={:.1}, code={}, family={}, value={:.1}, chroma={:.1}", 
@@ -1047,6 +1058,17 @@ impl MathematicalMunsellConverter {
         }
         
         // If we reach here, the algorithm didn't converge
+        // Check if chroma is 0 (achromatic)
+        if chroma_current.abs() < 1e-10 {
+            // When chroma is 0, return achromatic (neutral) color
+            return Ok(MunsellSpecification {
+                hue: f64::NAN,
+                family: "N".to_string(),
+                value,
+                chroma: f64::NAN,
+            });
+        }
+        
         // Return the last computed values anyway with normalization
         let (normalized_hue, normalized_code) = Self::normalize_munsell_specification(hue_current, code_current);
         let family = code_to_family(normalized_code);
