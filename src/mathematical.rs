@@ -832,11 +832,18 @@ impl MathematicalMunsellConverter {
                 //          iterations_inner, phi_inner_difference, hue_angle_difference_inner);
                 
                 // Check if we should enable extrapolation
-                // Python: extrapolation is enabled after 2 points (not 4)
+                // Python: when phi_differences change sign OR we have enough points
                 if phi_differences_data.len() >= 2 {
-                    // Enable extrapolation after collecting 2 points
-                    // This matches Python's Extrapolator behavior
-                    extrapolate = true;
+                    // Check if signs changed
+                    let all_positive = phi_differences_data.iter().all(|&d| d >= 0.0);
+                    let all_negative = phi_differences_data.iter().all(|&d| d <= 0.0);
+                    if !all_positive && !all_negative {
+                        // Signs changed - we can extrapolate
+                        extrapolate = true;
+                    } else if phi_differences_data.len() >= 4 {
+                        // Collected enough points, extrapolate anyway
+                        extrapolate = true;
+                    }
                 }
             }
             
