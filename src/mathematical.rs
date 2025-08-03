@@ -1395,7 +1395,7 @@ impl MathematicalMunsellConverter {
         
         // Debug: Print what we're looking for
         if chroma > 24.0 {
-            println!("Looking for exact match: hue_str={}, value={}, chroma={}", hue_str, value, chroma);
+            // println!("Looking for exact match: hue_str={}, value={}, chroma={}", hue_str, value, chroma);
         }
         
         // Try to find exact match first with full hue string
@@ -1404,14 +1404,14 @@ impl MathematicalMunsellConverter {
                (entry_value - value).abs() < 0.01 && 
                (entry_chroma - chroma).abs() < 0.01 {
                 if chroma > 24.0 {
-                    println!("EXACT MATCH FOUND: {} {} {} -> ({}, {})", entry_family, entry_value, entry_chroma, x, y);
+                    // println!("EXACT MATCH FOUND: {} {} {} -> ({}, {})", entry_family, entry_value, entry_chroma, x, y);
                 }
                 return Ok((x, y));
             }
         }
         
         if chroma > 24.0 {
-            println!("NO EXACT MATCH for {} {} {}, using interpolation", hue_str, value, chroma);
+            // println!("NO EXACT MATCH for {} {} {}, using interpolation", hue_str, value, chroma);
         }
         
         // If no exact match, perform interpolation using nearby points
