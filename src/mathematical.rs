@@ -112,21 +112,29 @@ mod hue_conversions {
         
         // Determine code based on single_hue ranges (exact Python logic)
         // REVERTED: Using original working mapping until I understand the Python discrepancy
-        let code = if single_hue <= 0.5 { 7 }       // RP  
-                   else if single_hue <= 1.5 { 6 }  // R   
-                   else if single_hue <= 2.5 { 5 }  // YR
-                   else if single_hue <= 3.5 { 4 }  // Y
-                   else if single_hue <= 4.5 { 3 }  // GY
-                   else if single_hue <= 5.5 { 2 }  // G
-                   else if single_hue <= 6.5 { 1 }  // BG
-                   else if single_hue <= 7.5 { 10 } // B
-                   else if single_hue <= 8.5 { 9 }  // PB
-                   else if single_hue <= 9.5 { 8 }  // P
-                   else { 7 };                       // RP (wraparound)
+        let mut code = if single_hue <= 0.5 { 7 }       // RP  
+                      else if single_hue <= 1.5 { 6 }  // R   
+                      else if single_hue <= 2.5 { 5 }  // YR
+                      else if single_hue <= 3.5 { 4 }  // Y
+                      else if single_hue <= 4.5 { 3 }  // GY
+                      else if single_hue <= 5.5 { 2 }  // G
+                      else if single_hue <= 6.5 { 1 }  // BG
+                      else if single_hue <= 7.5 { 10 } // B
+                      else if single_hue <= 8.5 { 9 }  // PB
+                      else if single_hue <= 9.5 { 8 }  // P
+                      else { 7 };                       // RP (wraparound)
         
         // Calculate hue from single_hue (exact Python logic)
         let hue = (10.0 * (single_hue % 1.0) + 5.0) % 10.0;
-        let final_hue = if hue == 0.0 { 10.0 } else { hue };
+        
+        // Normalize hue==0: convert to 10 and increment code (Python rule)
+        let final_hue = if hue == 0.0 { 
+            // When hue is 0, convert to 10 and move to next family
+            code = if code == 10 { 1 } else { code + 1 };
+            10.0 
+        } else { 
+            hue 
+        };
         
         (final_hue, code)
     }
