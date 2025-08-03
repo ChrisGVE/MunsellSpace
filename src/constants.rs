@@ -27,8 +27,8 @@ pub const ASTM_D1535_COEFFICIENTS: [f64; 5] = [
 /// Threshold for determining achromatic (neutral) colors
 /// Colors with chromaticity distance from illuminant C below this threshold
 /// are classified as neutral (N) colors
-/// This value (1e-3) matches Python colour-science implementation
-pub const ACHROMATIC_THRESHOLD: f64 = 1e-3;
+/// REVERTED: Using 1e-6 for now as 1e-3 caused accuracy regression
+pub const ACHROMATIC_THRESHOLD: f64 = 1e-6;
 
 /// Newton-Raphson iteration tolerance for Value calculation
 /// Convergence criterion for iterative polynomial solving
