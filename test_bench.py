@@ -115,7 +115,7 @@ def rust_munsell_conversion(rgb):
     try:
         # Call our Rust binary
         result = subprocess.run(
-            ["cargo", "run", "--bin", "convert_rgb", "--", str(rgb[0]), str(rgb[1]), str(rgb[2])],
+            ["cargo", "run", "--bin", "mathematical_convert_rgb", "--", str(rgb[0]), str(rgb[1]), str(rgb[2])],
             capture_output=True, text=True, cwd="."
         )
         

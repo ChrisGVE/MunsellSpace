@@ -69,9 +69,9 @@ pub const MUNSELL_HUE_FAMILIES: [&str; 10] = [
 ];
 
 /// Complete Munsell Renotation dataset
-/// Format: ((hue_string, value, chroma), (x, y, Y_scaled))
-/// Source: Python colour-science library
-/// Y values pre-scaled by 0.975 factor as per ASTM D1535-08e1
+/// Format: ((hue_string, value, chroma), (x, y, Y))
+/// Source: Python colour-science library MUNSELL_COLOURS_ALL
+/// IMPORTANT: Y values are scaled by 1/0.975 factor in the original dataset
 pub const MUNSELL_RENOTATION_DATA: &[((&str, f64, f64), (f64, f64, f64))] = 
     include!("munsell_renotation_data_entries.rs");
 

@@ -63,10 +63,10 @@ def python_munsell_conversion(rgb):
         return {'success': False, 'munsell': None, 'error': str(e)[:100]}
 
 def rust_munsell_conversion(rgb):
-    """Convert RGB to Munsell using our Rust implementation."""
+    """Convert RGB to Munsell using our Rust mathematical implementation."""
     try:
         result = subprocess.run(
-            ["cargo", "run", "--release", "--bin", "convert_rgb", "--", str(rgb[0]), str(rgb[1]), str(rgb[2])],
+            ["cargo", "run", "--release", "--bin", "mathematical_convert_rgb", "--", str(rgb[0]), str(rgb[1]), str(rgb[2])],
             capture_output=True, text=True, cwd=".", timeout=30
         )
         
