@@ -42,13 +42,16 @@
 pub mod converter;
 pub mod types;
 pub mod error;
+pub mod illuminants;
 pub mod iscc;
 pub mod constants;
 pub mod mathematical;
+pub mod mathematical_v2;
 
 pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
 pub use error::{MunsellError, Result};
+pub use illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
 pub use iscc::{IsccNbsClassifier, IsccNbsResult};
 pub use mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
 
