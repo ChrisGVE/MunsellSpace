@@ -1009,10 +1009,10 @@ impl MathematicalMunsellConverter {
                 let sorted_rho: Vec<f64> = paired.iter().map(|&(r, _)| r).collect();
                 let sorted_chroma: Vec<f64> = paired.iter().map(|&(_, c)| c).collect();
                 
-                let interpolated = self.linear_interpolate(&sorted_rho, &sorted_chroma, rho_input)?;
-                // Prevent negative chromas - they're physically impossible
-                // This can happen when extrapolating near the achromatic axis
-                interpolated.max(0.0)
+                // Use linear_interpolate_only to prevent extrapolation (matches Python's LinearInterpolator)
+                let interpolated = self.linear_interpolate_only(&sorted_rho, &sorted_chroma, rho_input)?;
+                // No need to clamp to 0 since we're not extrapolating anymore
+                interpolated
             } else {
                 chroma_current // Keep current if we couldn't refine
             };
@@ -1193,6 +1193,46 @@ impl MathematicalMunsellConverter {
     }
 
     /// Linear interpolation helper function
+    /// Linear interpolation only (no extrapolation) - used for chroma
+    fn linear_interpolate_only(&self, x_values: &[f64], y_values: &[f64], x_target: f64) -> Result<f64> {
+        if x_values.len() != y_values.len() || x_values.len() < 2 {
+            return Err(MunsellError::InterpolationError { 
+                message: "Invalid data for interpolation".to_string() 
+            });
+        }
+        
+        // Find the two closest x values that bracket x_target
+        for i in 0..x_values.len()-1 {
+            let x1 = x_values[i];
+            let x2 = x_values[i+1];
+            let y1 = y_values[i];
+            let y2 = y_values[i+1];
+            
+            // Check if x_target is between x1 and x2
+            if (x1 <= x_target && x_target <= x2) || (x2 <= x_target && x_target <= x1) {
+                // Linear interpolation
+                if (x2 - x1).abs() < 1e-10 {
+                    return Ok(y1);
+                }
+                let t = (x_target - x1) / (x2 - x1);
+                return Ok(y1 + t * (y2 - y1));
+            }
+        }
+        
+        // If x_target is outside bounds, clamp to nearest boundary value
+        // This prevents extrapolation and matches Python's LinearInterpolator behavior
+        if x_target < x_values[0] {
+            return Ok(y_values[0]);
+        }
+        if x_target > x_values[x_values.len() - 1] {
+            return Ok(y_values[y_values.len() - 1]);
+        }
+        
+        // Shouldn't reach here, but return first value as fallback
+        Ok(y_values[0])
+    }
+    
+    /// Linear interpolation with extrapolation - used for hue angle
     fn linear_interpolate(&self, x_values: &[f64], y_values: &[f64], x_target: f64) -> Result<f64> {
         if x_values.len() != y_values.len() || x_values.len() < 2 {
             return Err(MunsellError::InterpolationError { 
