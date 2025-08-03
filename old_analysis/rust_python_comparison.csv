@@ -1,0 +1,5 @@
+hex_color,r,g,b,rust_munsell,rust_hue_num,rust_hue_family,rust_value,rust_chroma,python_munsell,python_hue_family,python_value,python_chroma,hue_difference,value_difference,chroma_difference,pipeline_analysis
+#ffb5ba,255,181,186,5.9R 8.1/5.5,5.9,R,8.1,5.5,0YR 9.0/2.6,YR,9.0,2.6,-4.10,-0.90,2.90,Critical_Example
+#ea9399,234,147,153,4.5R 7.0/7.7,4.5,R,7.0,7.7,7.2R 8.4/3.4,R,8.4,3.4,-2.70,-1.40,4.30,Critical_Example
+#be0032,190,0,50,5.2R 3.9/14.7,5.2,R,3.9,14.7,7.6RP 4.8/17.3,RP,4.8,17.3,7.60,-0.90,-2.60,Critical_Example
+#f38400,243,132,0,4.6YR 6.6/14.0,4.6,YR,6.6,14.0,2.9Y 8.0/12.4,Y,8.0,12.4,-8.30,-1.40,1.60,Critical_Example

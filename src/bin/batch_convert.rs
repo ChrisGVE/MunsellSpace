@@ -31,7 +31,9 @@ fn main() {
         match converter.srgb_to_munsell([r, g, b]) {
             Ok(spec) => {
                 // Format the Munsell notation
-                if spec.chroma == 0.0 {
+                // Only output "N" for truly achromatic colors (family == "N")
+                // Python outputs hue/family even for chroma=0 if it has a valid family
+                if spec.family == "N" {
                     println!("N {:.1}", spec.value);
                 } else {
                     println!("{:.1}{} {:.1}/{:.1}", spec.hue, spec.family, spec.value, spec.chroma);
