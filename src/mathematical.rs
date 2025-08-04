@@ -117,6 +117,7 @@ mod hue_conversions {
         
         // Determine code based on single_hue ranges
         // CRITICAL FIX: Use Python's EXACT code mapping from hue_angle_to_hue
+        // CRITICAL FIX 2: P/RP boundary is at exactly 8.5, use < not <=
         let code = if single_hue <= 0.5 { 7 }       // R  (code 7)
                    else if single_hue <= 1.5 { 6 }  // YR (code 6)
                    else if single_hue <= 2.5 { 5 }  // Y  (code 5)
@@ -125,7 +126,7 @@ mod hue_conversions {
                    else if single_hue <= 5.5 { 2 }  // BG (code 2)
                    else if single_hue <= 6.5 { 1 }  // B  (code 1)
                    else if single_hue <= 7.5 { 10 } // PB (code 10)
-                   else if single_hue <= 8.5 { 9 }  // P  (code 9)
+                   else if single_hue < 8.5 { 9 }   // P  (code 9) - NOTE: < not <=
                    else if single_hue <= 9.5 { 8 }  // RP (code 8)
                    else { 7 };                       // R (wraparound back to code 7)
         

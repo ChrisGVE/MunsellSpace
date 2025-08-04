@@ -66,12 +66,15 @@ def rust_munsell_conversion(rgb):
     """Convert RGB to Munsell using our Rust mathematical implementation."""
     try:
         result = subprocess.run(
-            ["cargo", "run", "--release", "--bin", "mathematical_convert_rgb", "--", str(rgb[0]), str(rgb[1]), str(rgb[2])],
-            capture_output=True, text=True, cwd=".", timeout=30
+            ["./target/release/mathematical_convert_rgb", str(rgb[0]), str(rgb[1]), str(rgb[2])],
+            capture_output=True, text=True, cwd=".", timeout=5
         )
         
         if result.returncode == 0:
-            return {'success': True, 'munsell': result.stdout.strip(), 'error': None}
+            # Only get the last line of stdout (the actual result)
+            lines = result.stdout.strip().split('\n')
+            munsell_result = lines[-1] if lines else ""
+            return {'success': True, 'munsell': munsell_result, 'error': None}
         else:
             return {'success': False, 'munsell': None, 'error': result.stderr.strip()[:100]}
     except Exception as e:
