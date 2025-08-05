@@ -1646,14 +1646,21 @@ impl MathematicalMunsellConverter {
             }
         }
         
-        // If no data found, use conservative defaults based on value
+        // If no data found, use more realistic defaults based on value
+        // These are based on analysis of Python's behavior and typical Munsell ranges
         if max_chroma < 0.1 {
             max_chroma = match value as i32 {
-                0..=2 => 10.0,
-                3..=5 => 15.0,
-                6..=8 => 20.0,
-                9..=10 => 10.0,
-                _ => 8.0,
+                0..=1 => 12.0,
+                2 => 20.0,
+                3 => 30.0,
+                4 => 38.0,
+                5 => 40.0,
+                6 => 38.0,
+                7 => 36.0,
+                8 => 30.0,
+                9 => 20.0,
+                10 => 12.0,
+                _ => 10.0,
             };
         }
         
