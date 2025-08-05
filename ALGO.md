@@ -394,3 +394,219 @@ The implementation should achieve:
 - v1.0: Initial specification
 - v2.0: Added normalization rules and convergence details
 - v3.0: Complete rewrite from systematic line-by-line analysis of Python implementation
+
+---
+
+## 11. Function Mapping: Rust vs Python colour-science
+
+This section maps all functions between our Rust implementation and Python's colour-science library to identify which functions are true 1:1 ports and where we diverge.
+
+### Legend
+- ✅ = 1:1 port completed
+- ⚠️ = Partial port (some differences)
+- ❌ = Not ported / Different approach
+- 🔧 = Uses palette crate function
+- 📝 = Custom shim required
+
+### 11.1 Python colour-science Functions (notation.munsell module)
+
+#### Main Conversion Functions
+1. `notation.munsell.xyY_to_munsell_colour(xyY: ArrayLike) -> str`
+   - Rust: `xyy_to_munsell()` ⚠️
+   - Differences: Returns MunsellSpecification struct, not string
+   
+2. `notation.munsell._xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat`
+   - Rust: `xyy_to_munsell_specification()` ⚠️
+   - Main iterative algorithm - attempting 1:1 port but with issues
+
+3. `notation.munsell.munsell_colour_to_xyY(munsell_colour: ArrayLike) -> NDArrayFloat`
+   - Rust: Not implemented ❌
+
+#### Value Calculation Functions
+4. `notation.munsell.munsell_value_ASTMD1535(Y: ArrayLike) -> NDArrayFloat`
+   - Rust: `luminance_to_munsell_value()` ✅
+   - Uses Newton-Raphson iteration with same polynomial
+
+5. `notation.munsell.luminance_ASTMD1535(value: ArrayLike) -> NDArrayFloat`
+   - Rust: `munsell_value_to_luminance()` / `astm_polynomial()` ✅
+
+#### Hue/Angle Conversion Functions
+6. `notation.munsell.hue_to_ASTM_hue(hue: ArrayLike, code: ArrayLike) -> NDArrayFloat`
+   - Rust: `hue_conversions::hue_to_astm_hue()` ✅
+   - Fixed to use 17.0 constant and Python-style modulo
+
+7. `notation.munsell.ASTM_hue_to_hue(hue: ArrayLike) -> NDArrayFloat`
+   - Rust: Part of `hue_conversions::hue_angle_to_hue()` ✅
+
+8. `notation.munsell.hue_angle_to_hue(hue_angle: ArrayLike) -> tuple[NDArrayFloat, NDArrayFloat]`
+   - Rust: `hue_conversions::hue_angle_to_hue()` ✅
+   - Returns (hue, code) tuple
+
+9. `notation.munsell.hue_to_hue_angle(hue: ArrayLike, code: ArrayLike) -> NDArrayFloat`
+   - Rust: `hue_conversions::hue_to_hue_angle()` ✅
+   - Note: Python is deprecated, uses hue_to_ASTM_hue internally
+
+#### Renotation Data Functions
+10. `notation.munsell._munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat`
+    - Rust: `munsell_specification_to_xy()` ⚠️
+    - Differences: Returns (x,y) not full xyY, doesn't handle value interpolation same way
+
+11. `notation.munsell.xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat`
+    - Rust: `xy_from_renotation_ovoid()` ⚠️
+    - Complex interpolation logic, attempting port but may have differences
+
+12. `notation.munsell.maximum_chroma_from_renotation(specification: ArrayLike) -> NDArrayFloat`
+    - Rust: `maximum_chroma_from_renotation()` ⚠️
+    - Different lookup approach
+
+13. `notation.munsell.bounding_hues_from_renotation(hue: ArrayLike, code: ArrayLike) -> tuple`
+    - Rust: `hue_conversions::bounding_hues_from_renotation()` ✅
+
+#### Interpolation Functions
+14. `notation.munsell.interpolation_method_from_renotation_ovoid(specification: ArrayLike) -> Literal["Linear", "Radial"]`
+    - Rust: `get_interpolation_method()` ❌
+    - We use simplified logic, not full 1,250-entry table
+
+#### Initial Guess Functions
+15. `notation.munsell.LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArrayFloat`
+    - Rust: `lchab_to_munsell_specification()` ⚠️
+
+#### Helper Functions
+16. `notation.munsell.normalise_munsell_specification(specification: ArrayLike) -> NDArrayFloat`
+    - Rust: `normalize_munsell_specification()` ✅
+
+17. `notation.munsell.is_grey_munsell_colour(specification: ArrayLike) -> bool`
+    - Rust: Part of achromatic detection logic ✅
+
+#### Coordinate Transform Functions (from colour.algebra)
+18. `colour.algebra.cartesian_to_cylindrical(a: ArrayLike) -> NDArrayFloat`
+    - Rust: `coordinate_transforms::cartesian_to_cylindrical()` ✅
+
+19. `colour.algebra.polar_to_cartesian(rho: ArrayLike, phi: ArrayLike) -> NDArrayFloat`
+    - Rust: `coordinate_transforms::polar_to_cartesian()` ✅
+
+#### Color Space Conversions (from colour.models)
+20. `colour.sRGB_to_XYZ(RGB: ArrayLike) -> NDArrayFloat`
+    - Rust: Uses palette crate 🔧
+    - `Srgb::from_components()` -> `LinSrgb::from_color_unclamped()` -> `Xyz::from_color()`
+
+21. `colour.XYZ_to_xyY(XYZ: ArrayLike) -> NDArrayFloat`
+    - Rust: `xyz_to_xyy()` ✅ (custom implementation)
+
+22. `colour.xyY_to_XYZ(xyY: ArrayLike) -> NDArrayFloat`
+    - Rust: `xyy_to_xyz()` ✅ (custom implementation)
+
+23. `colour.XYZ_to_Lab(XYZ: ArrayLike, illuminant: ArrayLike) -> NDArrayFloat`
+    - Rust: `xyz_to_lab_with_xy_reference()` ⚠️
+    - Custom implementation, may have differences
+
+24. `colour.Lab_to_LCHab(Lab: ArrayLike) -> NDArrayFloat`
+    - Rust: `lab_to_lchab()` ✅
+
+#### Interpolation Classes (from colour.algebra)
+25. `colour.algebra.LinearInterpolator(x: ArrayLike, y: ArrayLike)`
+    - Rust: `linear_interpolate_clamped()` ⚠️
+    - Custom implementation, clamps to boundaries
+
+26. `colour.algebra.Extrapolator(interpolator: Interpolator)`
+    - Rust: `linear_interpolate()` ⚠️
+    - Custom implementation with extrapolation support
+
+### 11.2 Rust Implementation Functions
+
+#### Main Module (mathematical.rs)
+1. `srgb_to_munsell()` 🔧
+   - Uses palette for sRGB -> XYZ conversion
+   - Then custom xyy_to_munsell_specification
+   
+2. `srgb_to_xyy()` 🔧
+   - Uses palette: `Srgb` -> `LinSrgb` -> `Xyz` (D65)
+   - Custom XYZ -> xyY conversion
+
+3. `xyy_to_munsell_specification()` ⚠️
+   - Main algorithm, attempting 1:1 port of Python's `_xyY_to_munsell_specification`
+   - Has convergence issues
+
+4. `generate_initial_guess()` ⚠️
+   - Implements Lab/LCH initial guess
+   - Uses custom Lab conversion
+
+5. `linear_interpolate()` ⚠️
+   - Implements extrapolation (Python uses Extrapolator class)
+   - Custom implementation
+
+6. `linear_interpolate_clamped()` ❌
+   - Custom function for chroma interpolation
+   - Not in Python
+
+#### Lab/LCH Functions (custom implementations)
+7. `xyz_to_lab_with_xy_reference()` ⚠️
+   - Custom implementation to match Python's XYZ_to_Lab with xy reference
+   - May have precision differences
+
+8. `lab_to_lchab()` ✅
+   - Simple conversion matching Python
+
+9. `lchab_to_munsell_specification()` ⚠️
+   - Partial port of Python's LCHab_to_munsell_specification
+
+#### Renotation Data Access
+10. `lookup_xy_from_renotation()` ❌
+    - Direct lookup in our data structure
+    - Python uses complex numpy operations
+
+11. `interpolate_from_renotation_data()` ❌
+    - Custom bilinear interpolation
+    - Python uses different approach
+
+12. `xy_from_renotation_ovoid()` ⚠️
+    - Attempting to port Python's complex logic
+    - May have differences in edge cases
+
+13. `xy_from_renotation_ovoid_for_even_chroma()` ⚠️
+    - Helper for above
+
+14. `get_interpolation_method()` ❌
+    - Simplified logic instead of full table lookup
+
+### 11.3 Key Differences Identified
+
+1. **Lab Conversion**: Python uses `colour.XYZ_to_Lab()` with xy chromaticity reference, we implemented custom version
+2. **Interpolation Classes**: Python uses scipy's LinearInterpolator/Extrapolator, we use custom functions
+3. **Renotation Data Access**: Python uses numpy array operations, we use direct lookups
+4. **Interpolation Method Table**: Python has full 1,250-entry table, we use simplified logic
+5. **Value Interpolation**: Python's `_munsell_specification_to_xyY` handles non-integer values differently
+6. **Domain Range Scale**: Python uses context manager, we don't implement this
+7. **Array Operations**: Python handles array inputs, we only handle scalars
+
+### 11.4 Functions Needing True 1:1 Port
+
+Priority functions that likely affect accuracy:
+1. ❌ `interpolation_method_from_renotation_ovoid()` - Need full table
+2. ⚠️ `xy_from_renotation_ovoid()` - Complex interpolation logic
+3. ⚠️ `_munsell_specification_to_xyY()` - Value interpolation handling
+4. ⚠️ Lab/XYZ conversions - Using palette + custom instead of exact port
+5. ⚠️ Interpolation/Extrapolation - Custom instead of using same algorithm
+
+### 11.5 Shims and Adaptations
+
+1. **Palette crate usage for sRGB->XYZ**:
+   ```rust
+   // We use:
+   let rgb = Srgb::from_components((r, g, b));
+   let linear = LinSrgb::from_color_unclamped(rgb);
+   let xyz = Xyz::from_color(linear);
+   
+   // Python uses:
+   XYZ = colour.sRGB_to_XYZ([r/255, g/255, b/255])
+   ```
+   Note: Palette uses D65, we don't adapt to C (removed adaptation code)
+
+2. **Custom Lab conversion**:
+   - Had to implement `xyz_to_lab_with_xy_reference()` because palette doesn't support xy reference
+   - Python: `colour.XYZ_to_Lab(XYZ, xy_ref)`
+   - Rust: Custom implementation
+
+3. **Interpolation**:
+   - Python: `Extrapolator(LinearInterpolator(x, y))(target)`
+   - Rust: Custom `linear_interpolate()` with extrapolation logic

@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::time::Instant;
-use munsellspace::{MathematicalMunsellConverter, RgbColor};
+use munsellspace::MathematicalMunsellConverter;
 
 fn parse_munsell(notation: &str) -> Option<(f64, String, f64, f64)> {
     if notation.starts_with("N ") {
@@ -88,8 +88,7 @@ fn main() {
                 let expected = parts[3].trim();
                 
                 // Convert RGB to Munsell
-                let rgb = RgbColor { r, g, b };
-                match converter.rgb_to_munsell(&rgb) {
+                match converter.srgb_to_munsell([r, g, b]) {
                     Ok(munsell) => {
                         let rust_output = converter.format_munsell_notation(&munsell);
                         
