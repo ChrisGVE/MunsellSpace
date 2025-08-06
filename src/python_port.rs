@@ -187,43 +187,22 @@ pub fn normalise_munsell_specification(spec: &[f64; 4]) -> [f64; 4] {
     let chroma = spec[2];
     let mut code = if spec[3].is_nan() { 1 } else { spec[3] as u8 };
     
-    // DEBUG: Check if this is the green spec
-    if hue > 7.0 && hue < 8.0 && value > 8.0 && value < 9.0 {
-        eprintln!("    normalise_munsell_specification input: [{:.3}, {:.3}, {:.3}, {}]", 
-                 spec[0], spec[1], spec[2], spec[3] as u8);
-    }
-    
-    // Handle hue wraparound
-    while hue < 0.0 {
-        hue += 10.0;
-        if code == 1 {
-            code = 10;
-        } else {
-            code -= 1;
-        }
-    }
-    
-    while hue >= 10.0 {
-        hue -= 10.0;
-        if code == 10 {
-            code = 1;
-        } else {
-            code += 1;
-        }
-    }
-    
-    // Handle 0YR -> 10R conversion
-    if hue == 0.0 && code == 6 { // YR
+    // Python only handles hue == 0 case
+    // 0YR is equivalent to 10R, 0Y becomes 10YR, etc.
+    if hue == 0.0 {
         hue = 10.0;
-        code = 7; // R
+        code = (code % 10) + 1;
+        if code == 0 {
+            code = 10;  // Should never happen but matches Python exactly
+        }
     }
     
-    // DEBUG: Check output
-    if spec[0] > 7.0 && spec[0] < 8.0 && spec[1] > 8.0 && spec[1] < 9.0 {
-        eprintln!("    normalise_munsell_specification output: [{:.3}, {:.3}, {:.3}, {}]", 
-                 hue, value, chroma, code);
+    // Check for achromatic
+    if chroma == 0.0 {
+        return [f64::NAN, value, f64::NAN, f64::NAN];
     }
     
+    // Python allows hue values >= 10 and < 0, doesn't normalize them!
     [hue, value, chroma, code as f64]
 }
 
@@ -1463,8 +1442,12 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         };
         
         let (hue_new, code_new) = hue_angle_to_hue(hue_angle_new);
-        eprintln!("    Hue refinement: angle_current={:.1}° -> angle_new={:.1}° => hue={:.3} code={}", 
-                 hue_angle_current, hue_angle_new, hue_new, code_new);
+        
+        // DEBUG: Check for hue == 0.0
+        if hue_new == 0.0 {
+            eprintln!("WARNING: hue_angle_to_hue({:.1}°) returned hue=0.0!", hue_angle_new);
+        }
+        
         specification_current = [hue_new, value, chroma_current, code_new as f64];
         
         
