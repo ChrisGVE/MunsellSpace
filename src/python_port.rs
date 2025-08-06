@@ -1271,12 +1271,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let lchab = lab_to_lchab(lab);
     let initial_spec = lchab_to_munsell_specification(lchab);
     
-    // DEBUG: Print initial spec
-    eprintln!("DEBUG: xyY {:?} -> Lab {:?} -> LCHab [{:.3}, {:.3}, {:.3}]", 
-             xyy, lab, lchab[0], lchab[1], lchab[2]);
-    eprintln!("  Initial spec from LCHab: [{:.3}, {:.3}, {:.3}, {}]",
-             initial_spec[0], initial_spec[1], initial_spec[2], initial_spec[3] as u8);
-    
     // Ensure initial chroma is valid
     let initial_chroma = (5.0 / 5.5) * initial_spec[2];
     let initial_chroma = if initial_chroma.is_nan() || initial_chroma < 0.1 {
@@ -1336,9 +1330,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         // Get current xy
         // Use interpolated version for iterative algorithm
-        eprintln!("  Outer iter {}: spec [{:.3}, {:.1}, {:.1}, {}]",
-                 iterations, specification_current[0], specification_current[1], 
-                 specification_current[2], specification_current[3] as u8);
         let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
@@ -1396,19 +1387,10 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             
             let spec_inner = [hue_inner, value, chroma_current, code_inner as f64];
             
-            // DEBUG: Print the spec being tested during inner loop
-            if iterations == 3 {
-                eprintln!("      Inner hue test {}: angle={:.1}° => spec [{:.3}, {:.1}, {:.1}, {}]", 
-                          iterations_inner, hue_angle_inner, hue_inner, value, chroma_current, code_inner);
-            }
-            
             // Use interpolated version for iterative algorithm
             let xy_inner = match xy_from_renotation_ovoid_interpolated(&spec_inner) {
                 Ok(xy) => xy,
-                Err(e) => {
-                    if iterations == 3 {
-                        eprintln!("      Failed to get xy for spec: {:?}", e);
-                    }
+                Err(_) => {
                     // If we can't get xy, we need to set extrapolate=true to exit
                     extrapolate = true;
                     continue;
@@ -1418,9 +1400,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             
             // Need at least 2 points for reliable extrapolation (matches Python)
             if phi_differences_data.len() >= 2 {
-                if iterations == 3 {
-                    eprintln!("      Setting extrapolate=true, have {} points", phi_differences_data.len());
-                }
                 extrapolate = true;
             }
             
