@@ -1248,7 +1248,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let phi_input = phi_input.to_degrees();
     
     // Check if this is grey
-    let grey_threshold = 1e-6;
+    let grey_threshold = 1e-3;  // THRESHOLD_INTEGER (matches Python)
     if rho_input < grey_threshold {
         return Ok(normalise_munsell_specification(&[f64::NAN, value, 0.0, f64::NAN]));
     }
@@ -1299,7 +1299,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
              specification_current[2], specification_current[3] as u8);
     
     // Main convergence loop
-    let convergence_threshold = 1e-6 / 1e4;
+    let convergence_threshold = 1e-3 / 1e4;  // THRESHOLD_INTEGER / 1e4 = 1e-7 (matches Python)
     let iterations_maximum = 64;
     let mut iterations = 0;
     
@@ -1410,8 +1410,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             };
             let (x_inner, y_inner) = (xy_inner[0], xy_inner[1]);
             
-            // Need at least 3 points for reliable extrapolation
-            if phi_differences_data.len() >= 3 {
+            // Need at least 2 points for reliable extrapolation (matches Python)
+            if phi_differences_data.len() >= 2 {
                 if iterations == 3 {
                     eprintln!("      Setting extrapolate=true, have {} points", phi_differences_data.len());
                 }
