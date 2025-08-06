@@ -105,15 +105,23 @@ pub fn bounding_hues_from_renotation(hue: f64, code: u8) -> ((f64, u8), (f64, u8
     // Standard hues are 0, 2.5, 5, 7.5, 10
     let standard_hues = [0.0, 2.5, 5.0, 7.5, 10.0];
     
+    // Check if hue is exactly on a standard hue
+    for &std_hue in &standard_hues {
+        if (hue - std_hue).abs() < 1e-10 {
+            // For exact standard hue, return the same hue for both bounds
+            return ((std_hue, code), (std_hue, code));
+        }
+    }
+    
     // Find clockwise (lower) and counter-clockwise (upper) bounds
     let mut hue_cw = 0.0;
     let mut hue_ccw = 10.0;
     
     for &std_hue in &standard_hues {
-        if std_hue <= hue && std_hue > hue_cw {
+        if std_hue < hue && std_hue > hue_cw {
             hue_cw = std_hue;
         }
-        if std_hue >= hue && std_hue < hue_ccw {
+        if std_hue > hue && std_hue < hue_ccw {
             hue_ccw = std_hue;
         }
     }
@@ -122,18 +130,18 @@ pub fn bounding_hues_from_renotation(hue: f64, code: u8) -> ((f64, u8), (f64, u8
     let mut code_cw = code;
     let mut code_ccw = code;
     
-    if hue_cw == 0.0 && hue > 0.0 {
+    // Special case: if hue is between 0 and 2.5, cw should wrap to 10
+    if hue > 0.0 && hue < 2.5 && hue_cw == 0.0 {
+        // Keep hue_cw = 0.0, it's correct
+    } else if hue_cw == 0.0 && hue > 0.0 {
         // Need to wrap to previous family
         hue_cw = 10.0;
         code_cw = if code == 0 { 9 } else { code - 1 };
     }
     
-    if hue_ccw == 10.0 && hue < 10.0 {
-        // This is fine, no wrap needed
-    } else if hue == 10.0 {
-        // Special case for hue == 10.0
-        hue_ccw = 0.0;
-        code_ccw = if code == 9 { 0 } else { code + 1 };
+    // Special case: if hue is between 7.5 and 10, ccw should be 10
+    if hue > 7.5 && hue < 10.0 && hue_ccw == 10.0 {
+        // Keep hue_ccw = 10.0, it's correct
     }
     
     ((hue_cw, code_cw), (hue_ccw, code_ccw))
@@ -485,7 +493,6 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
     // Debug output to trace bad calls
     if spec[2].is_nan() {
         eprintln!("WARNING: xyy_from_renotation called with NaN chroma: {:?}", spec);
-        eprintln!("Stack trace would show where this is coming from...");
     }
     
     // Check if this is a grey specification - if so, return immediately
@@ -563,10 +570,10 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
         (value.floor(), value.floor() + 1.0)
     };
     
-    eprintln!("      Value bounds: value_minus={}, value_plus={}", value_minus, value_plus);
+    // eprintln!("      Value bounds: value_minus={}, value_plus={}", value_minus, value_plus);
     let ((hue_cw, code_cw), (hue_ccw, code_ccw)) = bounding_hues_from_renotation(hue, code);
-    eprintln!("      Bounding hues for hue={}, code={}: CW=({}, {}), CCW=({}, {})", 
-              hue, code, hue_cw, code_cw, hue_ccw, code_ccw);
+    // eprintln!("      Bounding hues for hue={}, code={}: CW=({}, {}), CCW=({}, {})", 
+    //           hue, code, hue_cw, code_cw, hue_ccw, code_ccw);
     
     // Find maximum chromas for the bounding hues and values
     let mut ma_limit_mcw = 0.0;
@@ -574,26 +581,70 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
     let mut ma_limit_pcw = 0.0;
     let mut ma_limit_pccw = 0.0;
     
+    // eprintln!("      Looking for limits with: hue_cw={}, code_cw={}, hue_ccw={}, code_ccw={}, value_minus={}, value_plus={}",
+    //           hue_cw, code_cw, hue_ccw, code_ccw, value_minus, value_plus);
+    
+    // For matching, we need to handle 0/10 wraparound
+    // Standard hues in dataset are 2.5, 5.0, 7.5, 10.0
+    // 0.0 is represented as 10.0 in the previous family
     for &((h, v, c), max_chroma) in MAXIMUM_CHROMAS {
-        if (h - hue_cw).abs() < 1e-6 && (v - value_minus).abs() < 1e-6 && c == code_cw {
+        // Check CW bounds
+        let hue_cw_actual = if hue_cw == 0.0 {
+            10.0  // 0R is stored as 10RP in dataset
+        } else {
+            hue_cw
+        };
+        let code_cw_actual = if hue_cw == 0.0 && code_cw == code {
+            if code == 0 { 9 } else { code - 1 }  // Previous family
+        } else {
+            code_cw
+        };
+        
+        if (h - hue_cw_actual).abs() < 1e-6 && c == code_cw_actual && (v - value_minus).abs() < 1e-6 {
             ma_limit_mcw = max_chroma;
+            // eprintln!("        Found mcw: {} at ({}, {}, {})", max_chroma, h, v, c);
         }
-        if (h - hue_ccw).abs() < 1e-6 && (v - value_minus).abs() < 1e-6 && c == code_ccw {
+        
+        // Check CCW bounds
+        let hue_ccw_actual = if hue_ccw == 0.0 {
+            10.0  // 0.0 is stored as 10.0 in the previous family
+        } else {
+            hue_ccw
+        };
+        let code_ccw_actual = if hue_ccw == 0.0 {
+            if code_ccw == 0 { 9 } else { code_ccw - 1 }  // Previous family
+        } else {
+            code_ccw
+        };
+        
+        if (h - hue_ccw_actual).abs() < 1e-6 && c == code_ccw_actual && (v - value_minus).abs() < 1e-6 {
             ma_limit_mccw = max_chroma;
+            // eprintln!("        Found mccw: {} at ({}, {}, {})", max_chroma, h, v, c);
         }
+        
         if value_plus <= 9.0 {
-            if (h - hue_cw).abs() < 1e-6 && (v - value_plus).abs() < 1e-6 && c == code_cw {
+            // Plus value checks
+            if (h - hue_cw_actual).abs() < 1e-6 && c == code_cw_actual && (v - value_plus).abs() < 1e-6 {
                 ma_limit_pcw = max_chroma;
+                // eprintln!("        Found pcw: {} at ({}, {}, {})", max_chroma, h, v, c);
             }
-            if (h - hue_ccw).abs() < 1e-6 && (v - value_plus).abs() < 1e-6 && c == code_ccw {
+            if (h - hue_ccw_actual).abs() < 1e-6 && c == code_ccw_actual && (v - value_plus).abs() < 1e-6 {
                 ma_limit_pccw = max_chroma;
+                // eprintln!("        Found pccw: {} at ({}, {}, {})", max_chroma, h, v, c);
             }
         }
     }
     
+    // eprintln!("      Max chroma limits found: mcw={}, mccw={}, pcw={}, pccw={}", 
+    //           ma_limit_mcw, ma_limit_mccw, ma_limit_pcw, ma_limit_pccw);
+    
     if value_plus <= 9.0 {
         // Return minimum of all four limits
-        ma_limit_mcw.min(ma_limit_mccw).min(ma_limit_pcw).min(ma_limit_pccw)
+        let result = ma_limit_mcw.min(ma_limit_mccw).min(ma_limit_pcw).min(ma_limit_pccw);
+        // if result == 0.0 {
+        //     eprintln!("      WARNING: Returning 0 chroma! No data found for this hue/value combination");
+        // }
+        result
     } else {
         // Interpolate between value 9 and 10
         let l = luminance_astmd1535(value);
@@ -836,9 +887,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let initial_spec = lchab_to_munsell_specification(lchab);
     
     // Debug the initial guess
-    eprintln!("Initial Lab: {:?}", lab);
-    eprintln!("Initial LCHab: {:?}", lchab);
-    eprintln!("Initial spec: {:?}", initial_spec);
+    // eprintln!("Initial Lab: {:?}", lab);
+    // eprintln!("Initial LCHab: {:?}", lchab);
+    // eprintln!("Initial spec: {:?}", initial_spec);
     
     // Ensure initial chroma is valid
     let initial_chroma = (5.0 / 5.5) * initial_spec[2];
@@ -878,8 +929,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         // Check maximum chroma
         let chroma_maximum = maximum_chroma_from_renotation(hue_current, value, code_current);
-        eprintln!("    Max chroma for hue={}, value={}, code={}: {}", 
-                  hue_current, value, code_current, chroma_maximum);
+        // eprintln!("    Max chroma for hue={}, value={}, code={}: {}", 
+        //           hue_current, value, code_current, chroma_maximum);
         let mut chroma_current = if chroma_current > chroma_maximum {
             chroma_maximum
         } else {
@@ -889,13 +940,13 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         // If chroma is 0, we have a grey color - handle specially
         if chroma_current == 0.0 {
-            eprintln!("  Chroma is 0, returning grey specification");
+            // eprintln!("  Chroma is 0, returning grey specification");
             return Ok([f64::NAN, value, 0.0, f64::NAN]);
         }
         
         // Get current xy
         // Use interpolated version for iterative algorithm
-        eprintln!("  Main loop iteration {}: Testing spec {:?}", iterations, specification_current);
+        // eprintln!("  Main loop iteration {}: Testing spec {:?}", iterations, specification_current);
         let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
@@ -988,6 +1039,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
         if difference < convergence_threshold {
+            eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
             return Ok(specification_current);
         }
         
@@ -1059,6 +1111,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
         if difference < convergence_threshold {
+            eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
             return Ok(specification_current);
         }
     }
