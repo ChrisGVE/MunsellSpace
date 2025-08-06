@@ -4,6 +4,8 @@
 //! Munsell color space conversion, including the complete Munsell Renotation dataset
 //! from the Python colour-science library.
 
+pub mod maximum_chromas_data;
+
 /// CIE Illuminant C chromaticity coordinates (x, y)
 /// Used as the reference white point for Munsell color calculations
 pub const ILLUMINANT_C: [f64; 2] = [0.31006, 0.31616];

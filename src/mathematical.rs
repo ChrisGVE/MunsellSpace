@@ -92,21 +92,18 @@ mod hue_conversions {
         (6, "R"), (7, "RP"), (8, "P"), (9, "PB"), (10, "B")
     ];
 
-    /// Convert [hue, code] to ASTM hue angle
+    /// Convert [hue, code] to ASTM hue number
     /// Exact implementation from Python colour-science
+    /// ASTM_hue = 10 * ((7 - code) % 10) + hue
     pub fn hue_to_astm_hue(hue: f64, code: u8) -> f64 {
-        // Calculate single_hue following exact Python formula
-        // CRITICAL: Use 17.0 as in Python, and handle modulo correctly!
-        let raw = ((17.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5);
-        // Python-style modulo: always returns positive result
-        let single_hue = if raw < 0.0 {
-            (raw % 10.0 + 10.0) % 10.0
-        } else {
-            raw % 10.0
-        };
+        let astm_hue = 10.0 * (((7 - code as i32) % 10) as f64) + hue;
         
-        // Linear interpolation with exact breakpoints from Python
-        linear_interpolate_hue_angle(single_hue)
+        // Return 100 if ASTM_hue == 0, else ASTM_hue
+        if astm_hue == 0.0 {
+            100.0
+        } else {
+            astm_hue
+        }
     }
 
     /// Convert hue angle to [hue, code] pair

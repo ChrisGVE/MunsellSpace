@@ -47,6 +47,8 @@ pub mod iscc;
 pub mod constants;
 pub mod mathematical;
 pub mod mathematical_v2;
+pub mod python_port;
+pub mod python_port_helpers;
 
 pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};

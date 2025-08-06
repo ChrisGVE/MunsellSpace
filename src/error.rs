@@ -58,6 +58,9 @@ pub enum MunsellError {
         /// Description of the interpolation failure
         message: String,
     },
+    
+    /// Invalid Munsell color specification.
+    InvalidMunsellColor(String),
 }
 
 impl fmt::Display for MunsellError {
@@ -86,6 +89,9 @@ impl fmt::Display for MunsellError {
             }
             MunsellError::InterpolationError { message } => {
                 write!(f, "Interpolation error: {}", message)
+            }
+            MunsellError::InvalidMunsellColor(message) => {
+                write!(f, "Invalid Munsell color: {}", message)
             }
         }
     }
