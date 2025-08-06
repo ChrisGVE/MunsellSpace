@@ -147,10 +147,15 @@ pub fn is_grey_munsell_colour(spec: &[f64; 4]) -> bool {
 
 /// Normalize Munsell specification (handle wraparound)
 pub fn normalise_munsell_specification(spec: &[f64; 4]) -> [f64; 4] {
+    // If it's a grey specification (NaN hue/chroma), return as is
+    if spec[0].is_nan() && spec[2].is_nan() {
+        return *spec;
+    }
+    
     let mut hue = spec[0];
     let value = spec[1];
     let chroma = spec[2];
-    let mut code = spec[3] as u8;
+    let mut code = if spec[3].is_nan() { 0 } else { spec[3] as u8 };
     
     // Handle hue wraparound
     while hue < 0.0 {
@@ -483,6 +488,14 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
         eprintln!("Stack trace would show where this is coming from...");
     }
     
+    // Check if this is a grey specification - if so, return immediately
+    if is_grey_munsell_colour(spec) {
+        // For grey colors, return illuminant C with adjusted Y
+        let value = spec[1];
+        let y_lum = luminance_astmd1535(value) / 100.0; // Scale to 0-1
+        return Ok([crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1], y_lum]);
+    }
+    
     let spec = normalise_munsell_specification(spec);
     
     let hue = spec[0];
@@ -550,7 +563,10 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
         (value.floor(), value.floor() + 1.0)
     };
     
+    eprintln!("      Value bounds: value_minus={}, value_plus={}", value_minus, value_plus);
     let ((hue_cw, code_cw), (hue_ccw, code_ccw)) = bounding_hues_from_renotation(hue, code);
+    eprintln!("      Bounding hues for hue={}, code={}: CW=({}, {}), CCW=({}, {})", 
+              hue, code, hue_cw, code_cw, hue_ccw, code_ccw);
     
     // Find maximum chromas for the bounding hues and values
     let mut ma_limit_mcw = 0.0;
@@ -856,7 +872,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         let hue_current = specification_current[0];
         let chroma_current = specification_current[2];
-        let code_current = specification_current[3] as u8;
+        let code_current = if specification_current[3].is_nan() { 0 } else { specification_current[3] as u8 };
         
         let hue_angle_current = hue_to_hue_angle(hue_current, code_current);
         
@@ -870,6 +886,12 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             chroma_current
         };
         specification_current[2] = chroma_current;
+        
+        // If chroma is 0, we have a grey color - handle specially
+        if chroma_current == 0.0 {
+            eprintln!("  Chroma is 0, returning grey specification");
+            return Ok([f64::NAN, value, 0.0, f64::NAN]);
+        }
         
         // Get current xy
         // Use interpolated version for iterative algorithm
