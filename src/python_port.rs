@@ -84,17 +84,30 @@ pub fn hue_angle_to_hue(hue_angle: f64) -> (f64, u8) {
     let valid_codes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     
     for &code in &valid_codes {
-        for hue_int in 0..10 {
-            let hue = hue_int as f64;
-            let raw = (17.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5;
-            let test_single = if raw < 0.0 {
-                (raw % 10.0) + 10.0
-            } else {
-                raw % 10.0
-            };
-            
-            if (test_single - single_hue).abs() < 0.01 {
-                return (hue, code);
+        // For a given code and single_hue, we can calculate hue directly
+        // single_hue = ((17 - code) % 10 + hue/10 - 0.5) % 10
+        // Rearranging: hue/10 = single_hue - (17 - code) % 10 + 0.5 + k*10 (for some integer k)
+        
+        let base = ((17.0 - code as f64) % 10.0) - 0.5;
+        let hue_over_10_raw = single_hue - base;
+        
+        // We need to find the right k such that 0 <= hue < 10
+        for k in -2..=2 {
+            let hue_over_10 = hue_over_10_raw + k as f64 * 10.0;
+            if hue_over_10 >= 0.0 && hue_over_10 < 1.0 {
+                let hue = hue_over_10 * 10.0;
+                
+                // Verify our calculation
+                let raw = (17.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5;
+                let test_single = if raw < 0.0 {
+                    (raw % 10.0) + 10.0
+                } else {
+                    raw % 10.0
+                };
+                
+                if (test_single - single_hue).abs() < 1e-10 {
+                    return (hue, code);
+                }
             }
         }
     }
@@ -914,12 +927,10 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     
     let lab = xyz_to_lab(xyz, xyz_to_xy(xyz_r_norm));
     let lchab = lab_to_lchab(lab);
+    eprintln!("Lab values: L={:.3}, a={:.3}, b={:.3}", lab[0], lab[1], lab[2]);
+    eprintln!("LCHab values: L={:.3}, C={:.3}, h={:.3}", lchab[0], lchab[1], lchab[2]);
     let initial_spec = lchab_to_munsell_specification(lchab);
     
-    // Debug the initial guess
-    eprintln!("Initial Lab: {:?}", lab);
-    eprintln!("Initial LCHab: {:?}", lchab);
-    eprintln!("Initial spec: {:?}", initial_spec);
     
     // Ensure initial chroma is valid
     let initial_chroma = (5.0 / 5.5) * initial_spec[2];
@@ -943,16 +954,23 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         initial_spec[3],
     ];
     
+    // eprintln!("Initial from Lab: hue={:.3}, value={:.3}, chroma={:.3} (scaled from {:.3}), code={}", 
+    //           initial_hue, value, initial_chroma, initial_spec[2], initial_spec[3] as u8);
+    // eprintln!("  Original Lab spec: hue={:.3}, value={:.3}, chroma={:.3}, code={}", 
+    //           initial_spec[0], initial_spec[1], initial_spec[2], initial_spec[3]);
+    
     // Main convergence loop
     let convergence_threshold = 1e-6 / 1e4;
     let iterations_maximum = 64;
     let mut iterations = 0;
     
-    eprintln!("Starting convergence for xyY [{:.6}, {:.6}, {:.6}]", xyy[0], xyy[1], xyy[2]);
-    eprintln!("Initial spec: [{:.3}, {:.3}, {:.3}, {}]", specification_current[0], specification_current[1], specification_current[2], specification_current[3] as u8);
     
     while iterations <= iterations_maximum {
         iterations += 1;
+        
+        if iterations == 1 || iterations % 20 == 0 {
+            eprintln!("  Iteration {}/{}", iterations, iterations_maximum);
+        }
         
         let hue_current = specification_current[0];
         let chroma_current = specification_current[2];
@@ -989,6 +1007,10 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         );
         let phi_current = phi_current.to_degrees();
         
+        // eprintln!("  Initial position: x={:.6}, y={:.6}", x_current, y_current);
+        // eprintln!("  rho_input={:.6}, rho_current={:.6}, difference={:.6}", 
+        //           rho_input, rho_current, (rho_input - rho_current).abs());
+        
         // Calculate phi difference
         let mut phi_current_difference = (360.0 - phi_input + phi_current) % 360.0;
         if phi_current_difference > 180.0 {
@@ -1000,6 +1022,11 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let mut hue_angles_differences_data = vec![0.0];
         let mut hue_angles = vec![hue_angle_current];
         
+        if iterations <= 3 {
+            eprintln!("  Starting inner loop: hue_angle_current={:.3}, phi_input={:.3}, phi_current={:.3}", 
+                      hue_angle_current, phi_input, phi_current);
+        }
+        
         let iterations_maximum_inner = 16;
         let mut iterations_inner = 0;
         let mut extrapolate = false;
@@ -1008,6 +1035,13 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
               phi_differences_data.iter().all(|&d| d <= 0.0) {
             if extrapolate {
                 break;
+            }
+            
+            if iterations <= 3 && iterations_inner <= 3 {
+                eprintln!("    Inner loop {}: phi_diffs={:?}, all_positive={}, all_negative={}", 
+                          iterations_inner, phi_differences_data,
+                          phi_differences_data.iter().all(|&d| d >= 0.0),
+                          phi_differences_data.iter().all(|&d| d <= 0.0));
             }
             
             iterations_inner += 1;
@@ -1026,8 +1060,15 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             let (hue_inner, code_inner) = hue_angle_to_hue(hue_angle_inner);
             
             let spec_inner = [hue_inner, value, chroma_current, code_inner as f64];
-            let xyy_inner = munsell_specification_to_xyy(&spec_inner)?;
-            let (x_inner, y_inner) = (xyy_inner[0], xyy_inner[1]);
+            
+            if iterations <= 3 && iterations_inner <= 3 {
+                eprintln!("      Testing spec: hue={:.3}, value={:.3}, chroma={:.3}, code={}", 
+                          hue_inner, value, chroma_current, code_inner);
+            }
+            
+            // Use interpolated version for iterative algorithm
+            let xy_inner = xy_from_renotation_ovoid_interpolated(&spec_inner)?;
+            let (x_inner, y_inner) = (xy_inner[0], xy_inner[1]);
             
             if phi_differences_data.len() >= 2 {
                 extrapolate = true;
@@ -1043,6 +1084,12 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 if phi_inner_difference > 180.0 {
                     phi_inner_difference -= 360.0;
                 }
+                
+                // eprintln!("    Inner step {}: hue_angle={:.3}, hue={:.3}, code={}", 
+                //           iterations_inner, hue_angle_inner, hue_inner, code_inner);
+                // eprintln!("      Position: x={:.6}, y={:.6}", x_inner, y_inner);
+                // eprintln!("      Polar: rho={:.6}, phi={:.3}, phi_diff={:.3}", 
+                //           rho_inner, phi_inner, phi_inner_difference);
                 
                 phi_differences_data.push(phi_inner_difference);
                 hue_angles.push(hue_angle_inner);
@@ -1065,14 +1112,23 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let (hue_new, code_new) = hue_angle_to_hue(hue_angle_new);
         specification_current = [hue_new, value, chroma_current, code_new as f64];
         
+        if iterations <= 3 {
+            eprintln!("  Hue angle refinement: angle_new={:.3} -> hue={:.3}, code={}", 
+                      hue_angle_new, hue_new, code_new);
+            eprintln!("  After hue refinement: hue={:.3}, value={:.3}, chroma={:.3}, code={}", 
+                      hue_new, value, chroma_current, code_new);
+        }
+        
         // Check convergence on xy distance
         // Use interpolated version for iterative algorithm
         let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
+        eprintln!("  Iteration {} convergence check: target=({:.6},{:.6}), current=({:.6},{:.6}), diff={:.9}", 
+                  iterations, x, y, x_current, y_current, difference);
         if difference < convergence_threshold {
-            // eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
+            eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
             return Ok(specification_current);
         }
         
@@ -1091,19 +1147,22 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             x_current - x_center, y_current - y_center, big_y
         );
         
-        let mut rho_bounds_data = vec![rho_current];
-        let mut chroma_bounds_data = vec![chroma_current];
-        
-        let iterations_maximum_inner = 16;
-        let mut iterations_inner = 0;
-        
-        let rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
-        let rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
-        
-        // If all values are the same, or rho_input is already within bounds, skip this loop
-        if (rho_max - rho_min).abs() < 1e-10 || (rho_min <= rho_input && rho_input <= rho_max) {
-            // Already converged or no variation in bounds
+        // If we're already at the target rho, no need to refine chroma
+        if (rho_current - rho_input).abs() < 1e-10 {
+            specification_current = [hue_new, value, chroma_current, code_new as f64];
         } else {
+            // Chroma refinement loop
+            let mut rho_bounds_data = vec![rho_current];
+            let mut chroma_bounds_data = vec![chroma_current];
+            
+            let iterations_maximum_inner = 16;
+            let mut iterations_inner = 0;
+            
+            let mut rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
+            let mut rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
+            
+            // Python's condition: while not (np.min(rho_bounds_data) < rho_input < np.max(rho_bounds_data))
+            // This means: continue looping while rho_input is NOT strictly between min and max
             while !(rho_min < rho_input && rho_input < rho_max) {
                 iterations_inner += 1;
                 if iterations_inner > iterations_maximum_inner {
@@ -1132,20 +1191,30 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 
                 rho_bounds_data.push(rho_inner);
                 chroma_bounds_data.push(chroma_inner);
+                
+                // Update rho_min and rho_max for next iteration
+                rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
+                rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
             } // End of while loop for chroma refinement
-        } // End of else block
         
-        // Sort and interpolate chroma
-        let mut indices: Vec<usize> = (0..rho_bounds_data.len()).collect();
-        indices.sort_by(|&i, &j| rho_bounds_data[i].partial_cmp(&rho_bounds_data[j]).unwrap());
+            // Sort and interpolate chroma
+            let mut indices: Vec<usize> = (0..rho_bounds_data.len()).collect();
+            indices.sort_by(|&i, &j| rho_bounds_data[i].partial_cmp(&rho_bounds_data[j]).unwrap());
+            
+            let rho_bounds_sorted: Vec<f64> = indices.iter().map(|&i| rho_bounds_data[i]).collect();
+            let chroma_bounds_sorted: Vec<f64> = indices.iter().map(|&i| chroma_bounds_data[i]).collect();
+            
+            let interpolator = LinearInterpolator::new(rho_bounds_sorted, chroma_bounds_sorted);
+            let chroma_new = interpolator.interpolate(rho_input);
+            
+            specification_current = [hue_new, value, chroma_new, code_new as f64];
+        } // End of chroma refinement else block
         
-        let rho_bounds_sorted: Vec<f64> = indices.iter().map(|&i| rho_bounds_data[i]).collect();
-        let chroma_bounds_sorted: Vec<f64> = indices.iter().map(|&i| chroma_bounds_data[i]).collect();
-        
-        let interpolator = LinearInterpolator::new(rho_bounds_sorted, chroma_bounds_sorted);
-        let chroma_new = interpolator.interpolate(rho_input);
-        
-        specification_current = [hue_new, value, chroma_new, code_new as f64];
+        if iterations <= 3 {
+            eprintln!("  After chroma refinement: hue={:.3}, value={:.3}, chroma={:.3}, code={}", 
+                      specification_current[0], specification_current[1], 
+                      specification_current[2], specification_current[3] as u8);
+        }
         
         // Final convergence check
         // Use interpolated version for iterative algorithm
@@ -1153,8 +1222,10 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
+        eprintln!("  Iteration {} convergence check: target=({:.6},{:.6}), current=({:.6},{:.6}), diff={:.9}", 
+                  iterations, x, y, x_current, y_current, difference);
         if difference < convergence_threshold {
-            // eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
+            eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
             return Ok(specification_current);
         }
     }

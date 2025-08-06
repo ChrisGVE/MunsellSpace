@@ -66,17 +66,44 @@ pub fn lab_to_lchab(lab: [f64; 3]) -> [f64; 3] {
 
 /// Convert LCHab to Munsell specification
 /// Initial approximation for starting the iterative algorithm
+/// Exact 1:1 port from Python colour-science
 pub fn lchab_to_munsell_specification(lch: [f64; 3]) -> [f64; 4] {
-    // Convert hue angle to Munsell hue
-    let hue_angle = lch[2];
-    let (hue, code) = crate::python_port::hue_angle_to_hue(hue_angle);
+    let (l, c, hab) = (lch[0], lch[1], lch[2]);
     
-    // Very rough initial approximation
-    // Value from lightness (roughly)
-    let value = lch[0] / 10.0;  // L* is 0-100, Munsell value is 0-10
+    // Determine code based on hue angle
+    let code = if hab == 0.0 {
+        8
+    } else if hab <= 36.0 {
+        7
+    } else if hab <= 72.0 {
+        6
+    } else if hab <= 108.0 {
+        5
+    } else if hab <= 144.0 {
+        4
+    } else if hab <= 180.0 {
+        3
+    } else if hab <= 216.0 {
+        2
+    } else if hab <= 252.0 {
+        1
+    } else if hab <= 288.0 {
+        10
+    } else if hab <= 324.0 {
+        9
+    } else {
+        8
+    };
     
-    // Chroma from C* (very rough)
-    let chroma = lch[1] / 5.5;  // This scaling factor is from Python
+    // Linear interpolation for hue within each 36-degree segment
+    let hue_segment = hab % 36.0;
+    let mut hue = (hue_segment / 36.0) * 10.0;
+    if hue == 0.0 {
+        hue = 10.0;
+    }
+    
+    let value = l / 10.0;
+    let chroma = c / 5.0;  // Python uses /5, not /5.5
     
     [hue, value, chroma, code as f64]
 }
