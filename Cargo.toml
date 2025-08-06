@@ -63,6 +63,14 @@ path = "src/bin/convert_rgb.rs"
 name = "mathematical_convert_rgb"
 path = "src/bin/mathematical_convert_rgb.rs"
 
+[[bin]]
+name = "test_python_port_accuracy"
+path = "src/bin/test_python_port_accuracy.rs"
+
+[[bin]]
+name = "test_simple_colors"
+path = "src/bin/test_simple_colors.rs"
+
 [profile.release]
 lto = true
 codegen-units = 1

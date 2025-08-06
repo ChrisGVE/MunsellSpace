@@ -80,7 +80,10 @@ pub fn hue_angle_to_hue(hue_angle: f64) -> (f64, u8) {
     // single_hue = raw % 10
     
     // Try each code to find which one produces the correct single_hue
-    for code in 0..10 {
+    // Python's codes: 1=B, 2=BG, 3=G, 4=GY, 5=Y, 6=YR, 7=R, 8=RP, 9=P, 10=PB
+    let valid_codes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    
+    for &code in &valid_codes {
         for hue_int in 0..10 {
             let hue = hue_int as f64;
             let raw = (17.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5;
@@ -96,8 +99,8 @@ pub fn hue_angle_to_hue(hue_angle: f64) -> (f64, u8) {
         }
     }
     
-    // Fallback
-    (0.0, 0)
+    // Fallback - use a valid code
+    (5.0, 7) // 5R is a reasonable default
 }
 
 /// Find bounding hues from renotation data
@@ -511,17 +514,18 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
     let code = spec[3] as u8;
     
     // Convert code to hue family string
+    // Python's MUNSELL_HUE_LETTER_CODES mapping
     let family = match code {
-        0 => "R",
-        1 => "YR",
-        2 => "Y",
-        3 => "GY",
-        4 => "G",
-        5 => "BG",
-        6 => "B",
-        7 => "PB",
-        8 => "P",
-        9 => "RP",
+        1 => "B",
+        2 => "BG",
+        3 => "G",
+        4 => "GY",
+        5 => "Y",
+        6 => "YR",
+        7 => "R",
+        8 => "RP",
+        9 => "P",
+        10 => "PB",
         _ => return Err(crate::error::MunsellError::InvalidMunsellColor(
             format!("Invalid code: {}", code)
         )),
@@ -670,6 +674,7 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
     let value = spec[1];
     let chroma = spec[2];
     
+    
     // Handle very low chromas by interpolating with grey
     if chroma < 2.0 {
         // Get grey point
@@ -679,7 +684,8 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         // Make sure we have integer value to avoid recursion
         let value_int = value.round();
         let spec_chroma2 = [spec[0], value_int, 2.0, spec[3]];
-        let xy_chroma2 = xy_from_renotation_ovoid(&spec_chroma2)?;
+        // Recursively call ourselves to handle value interpolation if needed
+        let xy_chroma2 = xy_from_renotation_ovoid_interpolated(&spec_chroma2)?;
         
         // Interpolate between grey and chroma 2
         let t = chroma / 2.0;
@@ -695,13 +701,15 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         let value_floor = value.floor();
         let value_ceil = value.ceil();
         
-        // Get xy for floor value
+        // Get xy for floor value - but we still need to handle chroma!
         let spec_floor = [spec[0], value_floor, spec[2], spec[3]];
-        let xy_floor = xy_from_renotation_ovoid(&spec_floor)?;
+        // Recursively call ourselves to handle non-even chroma if needed
+        let xy_floor = xy_from_renotation_ovoid_interpolated(&spec_floor)?;
         
         // Get xy for ceil value
         let spec_ceil = [spec[0], value_ceil, spec[2], spec[3]];
-        let xy_ceil = xy_from_renotation_ovoid(&spec_ceil)?;
+        // Recursively call ourselves to handle non-even chroma if needed
+        let xy_ceil = xy_from_renotation_ovoid_interpolated(&spec_ceil)?;
         
         // Interpolate based on value fraction
         let t = value - value_floor;
@@ -711,7 +719,29 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         return Ok([x, y]);
     }
     
-    // For integer values, use the original function
+    // Handle non-even chromas by interpolating between even values
+    if (2.0 * (chroma / 2.0 - (chroma / 2.0).round())).abs() > 1e-10 {
+        // Chroma is not even, interpolate between floor and ceil even values
+        let chroma_lower = 2.0 * (chroma / 2.0).floor();
+        let chroma_upper = chroma_lower + 2.0;
+        
+        // Get xy for lower chroma
+        let spec_lower = [spec[0], value, chroma_lower, spec[3]];
+        let xy_lower = xy_from_renotation_ovoid(&spec_lower)?;
+        
+        // Get xy for upper chroma
+        let spec_upper = [spec[0], value, chroma_upper, spec[3]];
+        let xy_upper = xy_from_renotation_ovoid(&spec_upper)?;
+        
+        // Interpolate
+        let t = (chroma - chroma_lower) / 2.0;
+        let x = xy_lower[0] * (1.0 - t) + xy_upper[0] * t;
+        let y = xy_lower[1] * (1.0 - t) + xy_upper[1] * t;
+        
+        return Ok([x, y]);
+    }
+    
+    // For integer values with even chroma, use the original function
     xy_from_renotation_ovoid(&spec)
 }
 
@@ -887,9 +917,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let initial_spec = lchab_to_munsell_specification(lchab);
     
     // Debug the initial guess
-    // eprintln!("Initial Lab: {:?}", lab);
-    // eprintln!("Initial LCHab: {:?}", lchab);
-    // eprintln!("Initial spec: {:?}", initial_spec);
+    eprintln!("Initial Lab: {:?}", lab);
+    eprintln!("Initial LCHab: {:?}", lchab);
+    eprintln!("Initial spec: {:?}", initial_spec);
     
     // Ensure initial chroma is valid
     let initial_chroma = (5.0 / 5.5) * initial_spec[2];
@@ -917,6 +947,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let convergence_threshold = 1e-6 / 1e4;
     let iterations_maximum = 64;
     let mut iterations = 0;
+    
+    eprintln!("Starting convergence for xyY [{:.6}, {:.6}, {:.6}]", xyy[0], xyy[1], xyy[2]);
+    eprintln!("Initial spec: [{:.3}, {:.3}, {:.3}, {}]", specification_current[0], specification_current[1], specification_current[2], specification_current[3] as u8);
     
     while iterations <= iterations_maximum {
         iterations += 1;
@@ -1039,7 +1072,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
         if difference < convergence_threshold {
-            eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
+            // eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
             return Ok(specification_current);
         }
         
@@ -1064,33 +1097,43 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let iterations_maximum_inner = 16;
         let mut iterations_inner = 0;
         
-        while !(rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap() < &rho_input &&
-                &rho_input < rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap()) {
-            iterations_inner += 1;
-            if iterations_inner > iterations_maximum_inner {
-                return Err(crate::error::MunsellError::ConversionError {
-                    message: "Maximum inner iterations reached without convergence in chroma loop".to_string()
-                });
-            }
-            
-            let chroma_inner = ((rho_input / rho_current).powf(iterations_inner as f64)) * chroma_current;
-            let chroma_inner = if chroma_inner > chroma_maximum {
-                chroma_maximum
-            } else {
-                chroma_inner
-            };
-            
-            let spec_inner = [hue_new, value, chroma_inner, code_new as f64];
-            let xy_inner = xy_from_renotation_ovoid_interpolated(&spec_inner)?;
-            let (x_inner, y_inner) = (xy_inner[0], xy_inner[1]);
-            
-            let (rho_inner, _, _) = cartesian_to_cylindrical(
-                x_inner - x_center, y_inner - y_center, big_y
-            );
-            
-            rho_bounds_data.push(rho_inner);
-            chroma_bounds_data.push(chroma_inner);
-        }
+        let rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
+        let rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
+        
+        // If all values are the same, or rho_input is already within bounds, skip this loop
+        if (rho_max - rho_min).abs() < 1e-10 || (rho_min <= rho_input && rho_input <= rho_max) {
+            // Already converged or no variation in bounds
+        } else {
+            while !(rho_min < rho_input && rho_input < rho_max) {
+                iterations_inner += 1;
+                if iterations_inner > iterations_maximum_inner {
+                    eprintln!("  Inner chroma loop failed after {} iterations", iterations_inner);
+                    eprintln!("    rho_bounds_data: {:?}", rho_bounds_data);
+                    eprintln!("    rho_input: {}, looking for bounds", rho_input);
+                    return Err(crate::error::MunsellError::ConversionError {
+                        message: "Maximum inner iterations reached without convergence in chroma loop".to_string()
+                    });
+                }
+                
+                let chroma_inner = ((rho_input / rho_current).powf(iterations_inner as f64)) * chroma_current;
+                let chroma_inner = if chroma_inner > chroma_maximum {
+                    chroma_maximum
+                } else {
+                    chroma_inner
+                };
+                
+                let spec_inner = [hue_new, value, chroma_inner, code_new as f64];
+                let xy_inner = xy_from_renotation_ovoid_interpolated(&spec_inner)?;
+                let (x_inner, y_inner) = (xy_inner[0], xy_inner[1]);
+                
+                let (rho_inner, _, _) = cartesian_to_cylindrical(
+                    x_inner - x_center, y_inner - y_center, big_y
+                );
+                
+                rho_bounds_data.push(rho_inner);
+                chroma_bounds_data.push(chroma_inner);
+            } // End of while loop for chroma refinement
+        } // End of else block
         
         // Sort and interpolate chroma
         let mut indices: Vec<usize> = (0..rho_bounds_data.len()).collect();
@@ -1111,7 +1154,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
         if difference < convergence_threshold {
-            eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
+            // eprintln!("  Converged after {} iterations with spec: {:?}", iterations, specification_current);
             return Ok(specification_current);
         }
     }
@@ -1143,14 +1186,9 @@ pub fn munsell_specification_to_xy(spec: &[f64; 4]) -> Result<[f64; 2]> {
         ));
     }
     
-    // Value must be integer
-    if (value - value.round()).abs() > 1e-10 {
-        return Err(crate::error::MunsellError::InvalidMunsellColor(
-            format!("Value {} must be an integer", value)
-        ));
-    }
-    
-    let value = value.round();
+    // Note: We don't require value to be an integer here because the algorithm
+    // may produce non-integer values during iteration. The interpolated wrapper
+    // will handle non-integer values appropriately.
     
     // Determine chroma bounds
     let (chroma_minus, chroma_plus) = if chroma % 2.0 == 0.0 {
@@ -1164,12 +1202,12 @@ pub fn munsell_specification_to_xy(spec: &[f64; 4]) -> Result<[f64; 2]> {
         // Smallest chroma ovoid collapses to illuminant
         (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1])
     } else {
-        let xy = xy_from_renotation_ovoid(&[hue, value, chroma_minus, code as f64])?;
+        let xy = xy_from_renotation_ovoid_interpolated(&[hue, value, chroma_minus, code as f64])?;
         (xy[0], xy[1])
     };
     
     // Get xy for upper chroma
-    let xy_plus = xy_from_renotation_ovoid(&[hue, value, chroma_plus, code as f64])?;
+    let xy_plus = xy_from_renotation_ovoid_interpolated(&[hue, value, chroma_plus, code as f64])?;
     let (x_plus, y_plus) = (xy_plus[0], xy_plus[1]);
     
     // Interpolate if needed

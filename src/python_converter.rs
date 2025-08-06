@@ -147,18 +147,18 @@ impl PythonMunsellConverter {
             return Ok(MunsellColor::new_neutral(value));
         }
         
-        // Convert code to family
+        // Convert code to family using Python's mapping
         let family = match code {
-            0 => "R",
-            1 => "YR", 
-            2 => "Y",
-            3 => "GY",
-            4 => "G",
-            5 => "BG",
-            6 => "B",
-            7 => "PB",
-            8 => "P",
-            9 => "RP",
+            1 => "B",
+            2 => "BG",
+            3 => "G",
+            4 => "GY",
+            5 => "Y",
+            6 => "YR",
+            7 => "R",
+            8 => "RP",
+            9 => "P",
+            10 => "PB",
             _ => return Err(MunsellError::ConversionError {
                 message: format!("Invalid hue code: {}", code)
             }),
@@ -277,8 +277,20 @@ mod tests {
     fn test_python_converter_basic() {
         let converter = PythonMunsellConverter::new();
         
+        // Test black conversion
+        println!("Testing black [0, 0, 0] (should be N 0.0)...");
+        match converter.srgb_to_munsell([0, 0, 0]) {
+            Ok(munsell) => {
+                println!("Black: {}", munsell.notation);
+                println!("  Expected: N 0.0");
+            }
+            Err(e) => {
+                println!("Error converting black: {:?}", e);
+            }
+        }
+        
         // Test red conversion
-        println!("Testing red [255, 0, 0]...");
+        println!("\nTesting red [255, 0, 0]...");
         match converter.srgb_to_munsell([255, 0, 0]) {
             Ok(munsell) => {
                 println!("Red: {}", munsell.notation);
@@ -342,19 +354,38 @@ mod tests {
         }
         
         // Test with a reference color from the dataset
-        println!("\nTesting with reference color [73, 80, 87] (should be 5PB 3.5/2.0)...");
-        match converter.srgb_to_munsell([73, 80, 87]) {
+        println!("\nTesting with reference color [0, 68, 119] (should be 2.9PB 2.8/7.0)...");
+        match converter.srgb_to_munsell([0, 68, 119]) {
             Ok(munsell) => {
                 println!("Result: {}", munsell.notation);
                 println!("  Hue: {:?}, Value: {:.1}, Chroma: {:?}", 
                          munsell.hue, munsell.value, munsell.chroma);
+                println!("  Expected: 2.9PB 2.8/7.0");
+            }
+            Err(e) => {
+                println!("Error: {:?}", e);
+                
+                // Test the algorithm directly
+                let rgb_linear = converter.srgb_to_linear([0, 68, 119]);
+                let xyz = converter.linear_rgb_to_xyz_d65(rgb_linear);
+                let xyy = converter.xyz_to_xyy(xyz);
+                println!("  xyY: [{:.6}, {:.6}, {:.6}]", xyy[0], xyy[1], xyy[2]);
+            }
+        }
+        
+        // Test round trip with exact reference value
+        println!("\nTesting round trip with 2.9PB 2.8/7.0...");
+        match converter.munsell_to_srgb("2.9PB 2.8/7.0") {
+            Ok(rgb) => {
+                println!("2.9PB 2.8/7.0 -> RGB: [{}, {}, {}]", rgb.r, rgb.g, rgb.b);
+                println!("  Expected: [0, 68, 119]");
             }
             Err(e) => {
                 println!("Error: {:?}", e);
             }
         }
         
-        // Test round trip
+        // Test round trip with standard value
         println!("\nTesting round trip with 5R 5/10...");
         match converter.munsell_to_srgb("5R 5/10") {
             Ok(rgb) => {
