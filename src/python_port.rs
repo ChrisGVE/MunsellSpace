@@ -477,6 +477,12 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
     // Import the renotation data from constants module
     use crate::constants::MUNSELL_RENOTATION_DATA;
     
+    // Debug output to trace bad calls
+    if spec[2].is_nan() {
+        eprintln!("WARNING: xyy_from_renotation called with NaN chroma: {:?}", spec);
+        eprintln!("Stack trace would show where this is coming from...");
+    }
+    
     let spec = normalise_munsell_specification(spec);
     
     let hue = spec[0];
@@ -585,6 +591,63 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
     }
 }
 
+/// Convert Munsell specification to xy chromaticity coordinates with interpolation
+/// This is a wrapper that handles non-integer values and other edge cases
+pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]> {
+    let spec = normalise_munsell_specification(spec);
+    
+    if is_grey_munsell_colour(&spec) {
+        return Ok(crate::constants::ILLUMINANT_C);
+    }
+    
+    let value = spec[1];
+    let chroma = spec[2];
+    
+    // Handle very low chromas by interpolating with grey
+    if chroma < 2.0 {
+        // Get grey point
+        let xy_grey = crate::constants::ILLUMINANT_C;
+        
+        // Get point at chroma 2
+        // Make sure we have integer value to avoid recursion
+        let value_int = value.round();
+        let spec_chroma2 = [spec[0], value_int, 2.0, spec[3]];
+        let xy_chroma2 = xy_from_renotation_ovoid(&spec_chroma2)?;
+        
+        // Interpolate between grey and chroma 2
+        let t = chroma / 2.0;
+        let x = xy_grey[0] * (1.0 - t) + xy_chroma2[0] * t;
+        let y = xy_grey[1] * (1.0 - t) + xy_chroma2[1] * t;
+        
+        return Ok([x, y]);
+    }
+    
+    // Handle value interpolation for non-integer values
+    if (value - value.round()).abs() > 1e-10 {
+        // Interpolate between floor and ceil values
+        let value_floor = value.floor();
+        let value_ceil = value.ceil();
+        
+        // Get xy for floor value
+        let spec_floor = [spec[0], value_floor, spec[2], spec[3]];
+        let xy_floor = xy_from_renotation_ovoid(&spec_floor)?;
+        
+        // Get xy for ceil value
+        let spec_ceil = [spec[0], value_ceil, spec[2], spec[3]];
+        let xy_ceil = xy_from_renotation_ovoid(&spec_ceil)?;
+        
+        // Interpolate based on value fraction
+        let t = value - value_floor;
+        let x = xy_floor[0] * (1.0 - t) + xy_ceil[0] * t;
+        let y = xy_floor[1] * (1.0 - t) + xy_ceil[1] * t;
+        
+        return Ok([x, y]);
+    }
+    
+    // For integer values, use the original function
+    xy_from_renotation_ovoid(&spec)
+}
+
 /// Convert Munsell specification to xy chromaticity coordinates
 /// Exact 1:1 port from Python colour-science xy_from_renotation_ovoid
 pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
@@ -606,14 +669,10 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
         ));
     }
     
-    // Value must be integer
-    if (value - value.round()).abs() > 1e-10 {
-        return Err(crate::error::MunsellError::InvalidMunsellColor(
-            format!("Value {} must be an integer", value)
-        ));
-    }
-    
-    let value = value.round();
+    // For xy_from_renotation_ovoid, we need to handle non-integer values
+    // by interpolating between integer values
+    let value_int = value.round();
+    let needs_value_interpolation = (value - value_int).abs() > 1e-10;
     
     // Chroma must be in [2, 50] range
     if chroma < 2.0 || chroma > 50.0 {
@@ -732,9 +791,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         value
     };
     
-    // Get xyY for the center (grey) at this value
-    let xyy_center = munsell_specification_to_xyy(&[f64::NAN, value, f64::NAN, f64::NAN])?;
-    let (x_center, y_center) = (xyy_center[0], xyy_center[1]);
+    // Get xy for the center (grey) at this value
+    // Grey specifications should always work
+    let (x_center, y_center) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
     
     // Convert to polar coordinates relative to center
     let (rho_input, phi_input, _) = cartesian_to_cylindrical(
@@ -760,10 +819,30 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let lchab = lab_to_lchab(lab);
     let initial_spec = lchab_to_munsell_specification(lchab);
     
+    // Debug the initial guess
+    eprintln!("Initial Lab: {:?}", lab);
+    eprintln!("Initial LCHab: {:?}", lchab);
+    eprintln!("Initial spec: {:?}", initial_spec);
+    
+    // Ensure initial chroma is valid
+    let initial_chroma = (5.0 / 5.5) * initial_spec[2];
+    let initial_chroma = if initial_chroma.is_nan() || initial_chroma < 0.1 {
+        1.0 // Default to low chroma for edge cases
+    } else {
+        initial_chroma
+    };
+    
+    // Ensure initial hue is valid
+    let initial_hue = if initial_spec[0].is_nan() {
+        5.0 // Default to middle of range
+    } else {
+        initial_spec[0]
+    };
+    
     let mut specification_current = [
-        initial_spec[0],
+        initial_hue,
         value,
-        (5.0 / 5.5) * initial_spec[2],
+        initial_chroma,
         initial_spec[3],
     ];
     
@@ -783,6 +862,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         // Check maximum chroma
         let chroma_maximum = maximum_chroma_from_renotation(hue_current, value, code_current);
+        eprintln!("    Max chroma for hue={}, value={}, code={}: {}", 
+                  hue_current, value, code_current, chroma_maximum);
         let mut chroma_current = if chroma_current > chroma_maximum {
             chroma_maximum
         } else {
@@ -791,8 +872,10 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         specification_current[2] = chroma_current;
         
         // Get current xy
-        let xyy_current = munsell_specification_to_xyy(&specification_current)?;
-        let (x_current, y_current) = (xyy_current[0], xyy_current[1]);
+        // Use interpolated version for iterative algorithm
+        eprintln!("  Main loop iteration {}: Testing spec {:?}", iterations, specification_current);
+        let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
+        let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         // Convert to polar
         let (rho_current, phi_current, _) = cartesian_to_cylindrical(
@@ -877,8 +960,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         specification_current = [hue_new, value, chroma_current, code_new as f64];
         
         // Check convergence on xy distance
-        let xyy_current = munsell_specification_to_xyy(&specification_current)?;
-        let (x_current, y_current) = (xyy_current[0], xyy_current[1]);
+        // Use interpolated version for iterative algorithm
+        let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
+        let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
         if difference < convergence_threshold {
@@ -892,8 +976,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         }
         chroma_current = specification_current[2];
         
-        let xyy_current = munsell_specification_to_xyy(&specification_current)?;
-        let (x_current, y_current) = (xyy_current[0], xyy_current[1]);
+        // Use interpolated version for iterative algorithm
+        let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
+        let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         let (rho_current, _, _) = cartesian_to_cylindrical(
             x_current - x_center, y_current - y_center, big_y
@@ -922,8 +1007,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             };
             
             let spec_inner = [hue_new, value, chroma_inner, code_new as f64];
-            let xyy_inner = munsell_specification_to_xyy(&spec_inner)?;
-            let (x_inner, y_inner) = (xyy_inner[0], xyy_inner[1]);
+            let xy_inner = xy_from_renotation_ovoid_interpolated(&spec_inner)?;
+            let (x_inner, y_inner) = (xy_inner[0], xy_inner[1]);
             
             let (rho_inner, _, _) = cartesian_to_cylindrical(
                 x_inner - x_center, y_inner - y_center, big_y
@@ -946,8 +1031,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         specification_current = [hue_new, value, chroma_new, code_new as f64];
         
         // Final convergence check
-        let xyy_current = munsell_specification_to_xyy(&specification_current)?;
-        let (x_current, y_current) = (xyy_current[0], xyy_current[1]);
+        // Use interpolated version for iterative algorithm
+        let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
+        let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
         if difference < convergence_threshold {

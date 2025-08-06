@@ -49,6 +49,7 @@ pub mod mathematical;
 pub mod mathematical_v2;
 pub mod python_port;
 pub mod python_port_helpers;
+pub mod python_converter;
 
 pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};

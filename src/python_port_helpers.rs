@@ -9,11 +9,46 @@ pub fn euclidean_distance(p1: [f64; 2], p2: [f64; 2]) -> f64 {
 }
 
 /// Convert XYZ to Lab color space
-/// Using D65 illuminant
+/// Using given white point xy chromaticity
 pub fn xyz_to_lab(xyz: [f64; 3], white_point: [f64; 2]) -> [f64; 3] {
-    // This is a placeholder - need full implementation
-    // For now, return dummy values
-    [0.0, 0.0, 0.0]
+    // Convert white point xy to XYZ (assuming Y=1)
+    let wp_sum = white_point[0] + white_point[1] + (1.0 - white_point[0] - white_point[1]);
+    let xn = white_point[0] / white_point[1];
+    let yn = 1.0;
+    let zn = (1.0 - white_point[0] - white_point[1]) / white_point[1];
+    
+    // Normalize XYZ by white point
+    let x_norm = xyz[0] / xn;
+    let y_norm = xyz[1] / yn;
+    let z_norm = xyz[2] / zn;
+    
+    // Apply Lab transformation
+    let epsilon = 216.0 / 24389.0;
+    let kappa = 24389.0 / 27.0;
+    
+    let fx = if x_norm > epsilon {
+        x_norm.powf(1.0 / 3.0)
+    } else {
+        (kappa * x_norm + 16.0) / 116.0
+    };
+    
+    let fy = if y_norm > epsilon {
+        y_norm.powf(1.0 / 3.0)
+    } else {
+        (kappa * y_norm + 16.0) / 116.0
+    };
+    
+    let fz = if z_norm > epsilon {
+        z_norm.powf(1.0 / 3.0)
+    } else {
+        (kappa * z_norm + 16.0) / 116.0
+    };
+    
+    let l = 116.0 * fy - 16.0;
+    let a = 500.0 * (fx - fy);
+    let b = 200.0 * (fy - fz);
+    
+    [l, a, b]
 }
 
 /// Convert Lab to LCHab (cylindrical Lab)
@@ -30,12 +65,20 @@ pub fn lab_to_lchab(lab: [f64; 3]) -> [f64; 3] {
 }
 
 /// Convert LCHab to Munsell specification
-/// This is a rough approximation - need exact Python implementation
+/// Initial approximation for starting the iterative algorithm
 pub fn lchab_to_munsell_specification(lch: [f64; 3]) -> [f64; 4] {
-    // Placeholder implementation
+    // Convert hue angle to Munsell hue
     let hue_angle = lch[2];
     let (hue, code) = crate::python_port::hue_angle_to_hue(hue_angle);
-    [hue, 5.0, lch[1] / 10.0, code as f64]
+    
+    // Very rough initial approximation
+    // Value from lightness (roughly)
+    let value = lch[0] / 10.0;  // L* is 0-100, Munsell value is 0-10
+    
+    // Chroma from C* (very rough)
+    let chroma = lch[1] / 5.5;  // This scaling factor is from Python
+    
+    [hue, value, chroma, code as f64]
 }
 
 /// Convert xyY to XYZ
@@ -62,11 +105,45 @@ pub fn xyz_to_xy(xyz: [f64; 3]) -> [f64; 2] {
 }
 
 /// Check if xyY is within MacAdam limits
-/// Placeholder - need actual implementation
+/// For Munsell, this checks if the color is physically realizable
 pub fn is_within_macadam_limits(xyy: [f64; 3], illuminant: &str) -> bool {
-    // For now, always return true
-    // TODO: Implement actual MacAdam limits check
-    true
+    let (x, y, _) = (xyy[0], xyy[1], xyy[2]);
+    
+    // Basic sanity checks
+    if x < 0.0 || x > 1.0 || y < 0.0 || y > 1.0 {
+        return false;
+    }
+    
+    // Check if point is inside the spectral locus
+    // This is a simplified check - full implementation would use
+    // the actual MacAdam limits boundary
+    
+    // For now, use a simple triangle check that encompasses
+    // most real colors
+    let vertices = [
+        (0.17, 0.00),  // Blue corner
+        (0.00, 0.83),  // Green corner  
+        (0.73, 0.27),  // Red corner
+    ];
+    
+    // Check if point is inside the triangle
+    // Using barycentric coordinates
+    let v0 = (vertices[2].0 - vertices[0].0, vertices[2].1 - vertices[0].1);
+    let v1 = (vertices[1].0 - vertices[0].0, vertices[1].1 - vertices[0].1);
+    let v2 = (x - vertices[0].0, y - vertices[0].1);
+    
+    let dot00 = v0.0 * v0.0 + v0.1 * v0.1;
+    let dot01 = v0.0 * v1.0 + v0.1 * v1.1;
+    let dot02 = v0.0 * v2.0 + v0.1 * v2.1;
+    let dot11 = v1.0 * v1.0 + v1.1 * v1.1;
+    let dot12 = v1.0 * v2.0 + v1.1 * v2.1;
+    
+    let inv_denom = 1.0 / (dot00 * dot11 - dot01 * dot01);
+    let u = (dot11 * dot02 - dot01 * dot12) * inv_denom;
+    let v = (dot00 * dot12 - dot01 * dot02) * inv_denom;
+    
+    // Check if point is in triangle
+    (u >= 0.0) && (v >= 0.0) && (u + v <= 1.0)
 }
 
 /// Linear interpolation with extrapolation
