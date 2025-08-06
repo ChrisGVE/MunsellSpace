@@ -1354,6 +1354,10 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let mut hue_angles_differences_data = vec![0.0];
         let mut hue_angles = vec![hue_angle_current];
         
+        if iterations == 3 {
+            eprintln!("    Initial phi_current_difference: {:.2}", phi_current_difference);
+        }
+        
         
         let iterations_maximum_inner = 16;
         let mut iterations_inner = 0;
@@ -1362,6 +1366,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         while phi_differences_data.iter().all(|&d| d >= 0.0) || 
               phi_differences_data.iter().all(|&d| d <= 0.0) {
             if extrapolate {
+                if iterations == 3 {
+                    eprintln!("    Breaking due to extrapolate=true");
+                }
                 break;
             }
             
@@ -1384,16 +1391,30 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             let spec_inner = [hue_inner, value, chroma_current, code_inner as f64];
             
             // DEBUG: Print the spec being tested during inner loop
-            if iterations <= 1 && iterations_inner <= 2 {
-                eprintln!("      Inner hue test {}: spec [{:.3}, {:.1}, {:.1}, {}]", 
-                          iterations_inner, hue_inner, value, chroma_current, code_inner);
+            if iterations == 3 {
+                eprintln!("      Inner hue test {}: angle={:.1}° => spec [{:.3}, {:.1}, {:.1}, {}]", 
+                          iterations_inner, hue_angle_inner, hue_inner, value, chroma_current, code_inner);
             }
             
             // Use interpolated version for iterative algorithm
-            let xy_inner = xy_from_renotation_ovoid_interpolated(&spec_inner)?;
+            let xy_inner = match xy_from_renotation_ovoid_interpolated(&spec_inner) {
+                Ok(xy) => xy,
+                Err(e) => {
+                    if iterations == 3 {
+                        eprintln!("      Failed to get xy for spec: {:?}", e);
+                    }
+                    // If we can't get xy, we need to set extrapolate=true to exit
+                    extrapolate = true;
+                    continue;
+                }
+            };
             let (x_inner, y_inner) = (xy_inner[0], xy_inner[1]);
             
-            if phi_differences_data.len() >= 2 {
+            // Need at least 3 points for reliable extrapolation
+            if phi_differences_data.len() >= 3 {
+                if iterations == 3 {
+                    eprintln!("      Setting extrapolate=true, have {} points", phi_differences_data.len());
+                }
                 extrapolate = true;
             }
             
@@ -1439,7 +1460,20 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             
             let interpolator = LinearInterpolator::new(phi_differences_sorted, hue_angles_differences_sorted);
             let extrapolator = Extrapolator::new(interpolator);
-            let hue_angle_difference_new = extrapolator.extrapolate(0.0) % 360.0;
+            let mut hue_angle_difference_new = extrapolator.extrapolate(0.0) % 360.0;
+            
+            // Limit the hue angle change to avoid jumping families
+            // Each family spans about 36 degrees, so limit to 1/3 of that
+            let max_angle_change = 12.0;
+            if hue_angle_difference_new.abs() > max_angle_change {
+                if iterations == 3 {
+                    eprintln!("    Limiting hue angle change from {:.1}° to {:.1}°", 
+                             hue_angle_difference_new, 
+                             max_angle_change * hue_angle_difference_new.signum());
+                }
+                hue_angle_difference_new = max_angle_change * hue_angle_difference_new.signum();
+            }
+            
             (hue_angle_current + hue_angle_difference_new) % 360.0
         };
         
