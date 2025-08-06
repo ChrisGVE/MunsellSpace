@@ -181,6 +181,12 @@ pub fn normalise_munsell_specification(spec: &[f64; 4]) -> [f64; 4] {
     let chroma = spec[2];
     let mut code = if spec[3].is_nan() { 1 } else { spec[3] as u8 };
     
+    // DEBUG: Check if this is the green spec
+    if hue > 7.0 && hue < 8.0 && value > 8.0 && value < 9.0 {
+        eprintln!("    normalise_munsell_specification input: [{:.3}, {:.3}, {:.3}, {}]", 
+                 spec[0], spec[1], spec[2], spec[3] as u8);
+    }
+    
     // Handle hue wraparound
     while hue < 0.0 {
         hue += 10.0;
@@ -204,6 +210,12 @@ pub fn normalise_munsell_specification(spec: &[f64; 4]) -> [f64; 4] {
     if hue == 0.0 && code == 6 { // YR
         hue = 10.0;
         code = 7; // R
+    }
+    
+    // DEBUG: Check output
+    if spec[0] > 7.0 && spec[0] < 8.0 && spec[1] > 8.0 && spec[1] < 9.0 {
+        eprintln!("    normalise_munsell_specification output: [{:.3}, {:.3}, {:.3}, {}]", 
+                 hue, value, chroma, code);
     }
     
     [hue, value, chroma, code as f64]
@@ -506,6 +518,12 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
     // Import the renotation data from constants module
     use crate::constants::MUNSELL_RENOTATION_DATA;
     
+    // DEBUG: Check what spec is passed in
+    if (spec[0] >= 7.0 && spec[0] < 8.0 && spec[1] == 8.0) || (spec[0] == 7.5 && spec[1] == 8.0) {
+        eprintln!("      xyy_from_renotation received: [{:.3}, {:.3}, {:.3}, {}]",
+                 spec[0], spec[1], spec[2], spec[3] as u8);
+    }
+    
     // Debug output to trace bad calls
     if spec[2].is_nan() {
     }
@@ -519,6 +537,12 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
     }
     
     let spec = normalise_munsell_specification(spec);
+    
+    // DEBUG: Check spec after normalization
+    if spec[0] == 0.0 || (spec[0] == 7.5 && spec[1] == 8.0) {
+        eprintln!("      xyy_from_renotation spec after normalize: [{:.3}, {:.3}, {:.3}, {}]",
+                 spec[0], spec[1], spec[2], spec[3] as u8);
+    }
     
     let hue = spec[0];
     let value = spec[1];
@@ -663,7 +687,19 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
 /// Convert Munsell specification to xy chromaticity coordinates with interpolation
 /// This is a wrapper that handles non-integer values and other edge cases
 pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]> {
+    // DEBUG: Track recursion
+    if spec[0] > 7.0 && spec[0] < 8.0 && spec[1] >= 8.0 && spec[1] <= 9.0 {
+        eprintln!("      xy_from_renotation_ovoid_interpolated ENTRY: [{:.3}, {:.3}, {:.3}, {}]",
+                 spec[0], spec[1], spec[2], spec[3] as u8);
+    }
+    
     let spec = normalise_munsell_specification(spec);
+    
+    // DEBUG: Track after normalization
+    if spec[0] == 0.0 && spec[1] >= 8.0 && spec[1] <= 9.0 {
+        eprintln!("      xy_from_renotation_ovoid_interpolated AFTER NORM: [{:.3}, {:.3}, {:.3}, {}]",
+                 spec[0], spec[1], spec[2], spec[3] as u8);
+    }
     
     if is_grey_munsell_colour(&spec) {
         return Ok(crate::constants::ILLUMINANT_C);
@@ -699,6 +735,14 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         let value_floor = value.floor();
         let value_ceil = value.ceil();
         
+        // DEBUG: Check what spec_floor is being created
+        if spec[0] > 7.0 && spec[0] < 8.0 && value > 8.0 && value < 9.0 {
+            eprintln!("    Value interpolation: value={:.3}, floor={:.0}, ceil={:.0}", 
+                     value, value_floor, value_ceil);
+            eprintln!("      spec_floor: [{:.3}, {:.0}, {:.3}, {}]", 
+                     spec[0], value_floor, spec[2], spec[3] as u8);
+        }
+        
         // Get xy for floor value - but we still need to handle chroma!
         let spec_floor = [spec[0], value_floor, spec[2], spec[3]];
         // Recursively call ourselves to handle non-even chroma if needed
@@ -706,6 +750,13 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         
         // Get xy for ceil value
         let spec_ceil = [spec[0], value_ceil, spec[2], spec[3]];
+        
+        // DEBUG: Check what spec_ceil is being created
+        if spec[0] > 7.0 && spec[0] < 8.0 && value > 8.0 && value < 9.0 {
+            eprintln!("      spec_ceil: [{:.3}, {:.0}, {:.3}, {}]", 
+                     spec[0], value_ceil, spec[2], spec[3] as u8);
+        }
+        
         // Recursively call ourselves to handle non-even chroma if needed
         let xy_ceil = xy_from_renotation_ovoid_interpolated(&spec_ceil)?;
         
@@ -798,8 +849,68 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         return Ok([x, y]);
     }
     
-    // For integer values with even chroma, use the original function
-    xy_from_renotation_ovoid(&spec)
+    // Check if this is truly a base case (standard hue, integer value, even chroma)
+    let is_standard_hue = (spec[0] % 2.5).abs() < 1e-10;
+    let is_integer_value = (value - value.round()).abs() < 1e-10;
+    let is_even_chroma = (chroma % 2.0).abs() < 1e-10;
+    
+    // DEBUG: Track base case check
+    if spec[0] > 7.0 && spec[0] < 8.0 && value == 8.0 {
+        eprintln!("      Base case check: std_hue={}, int_val={}, even_chr={}", 
+                 is_standard_hue, is_integer_value, is_even_chroma);
+    }
+    
+    if is_standard_hue && is_integer_value && is_even_chroma {
+        // This is a standard specification, try direct lookup
+        // DEBUG: Check spec before xyy_from_renotation
+        if spec[0] > 7.0 && spec[0] < 8.0 && spec[1] > 8.0 && spec[1] < 9.0 {
+            eprintln!("    Calling xyy_from_renotation with spec: [{:.3}, {:.3}, {:.3}, {}]",
+                     spec[0], spec[1], spec[2], spec[3] as u8);
+        }
+        match xyy_from_renotation(&spec) {
+            Ok(xyy) => Ok([xyy[0], xyy[1]]),
+            Err(_) => {
+                // Data doesn't exist even for standard spec, need to extrapolate
+                let max_chroma = maximum_chroma_from_renotation(spec[0], value, spec[3] as u8);
+                if chroma > max_chroma {
+                    // Extrapolate from highest available chromas
+                    let mut highest_chroma = (max_chroma / 2.0).floor() * 2.0;
+                    if highest_chroma > max_chroma {
+                        highest_chroma -= 2.0;
+                    }
+                    let second_highest_chroma = highest_chroma - 2.0;
+                    
+                    if second_highest_chroma < 2.0 {
+                        return Err(crate::error::MunsellError::InvalidMunsellColor(
+                            format!("Cannot extrapolate chroma {} with max available {}", chroma, max_chroma)
+                        ));
+                    }
+                    
+                    // Get xy for the two highest chromas
+                    let spec_high = [spec[0], value, highest_chroma, spec[3]];
+                    let xyy_high = xyy_from_renotation(&spec_high)?;
+                    
+                    let spec_second = [spec[0], value, second_highest_chroma, spec[3]];
+                    let xyy_second = xyy_from_renotation(&spec_second)?;
+                    
+                    // Linear extrapolation
+                    let steps = (chroma - highest_chroma) / 2.0;
+                    let x = xyy_high[0] + steps * (xyy_high[0] - xyy_second[0]);
+                    let y = xyy_high[1] + steps * (xyy_high[1] - xyy_second[1]);
+                    
+                    Ok([x, y])
+                } else {
+                    // This shouldn't happen - the data should exist
+                    Err(crate::error::MunsellError::InvalidMunsellColor(
+                        format!("Specification {:?} not found despite being within range", spec)
+                    ))
+                }
+            }
+        }
+    } else {
+        // Non-standard specification, use interpolation
+        xy_from_renotation_ovoid(&spec)
+    }
 }
 
 /// Convert Munsell specification to xy chromaticity coordinates
@@ -835,8 +946,17 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
         ));
     }
     
+    // DEBUG: Check chroma before even check
+    if hue > 7.0 && hue < 8.0 && value == 8.0 {
+        eprintln!("        xy_from_renotation_ovoid: chroma={:.3} before even check", chroma);
+    }
+    
     // Chroma must be even
     if (2.0 * (chroma / 2.0 - (chroma / 2.0).round())).abs() > 1e-10 {
+        // DEBUG: This should trigger for 22.595
+        if hue > 7.0 && hue < 8.0 && value == 8.0 {
+            eprintln!("        xy_from_renotation_ovoid: ERROR - chroma {} is not even!", chroma);
+        }
         return Err(crate::error::MunsellError::InvalidMunsellColor(
             format!("Chroma {} must be even", chroma)
         ));
@@ -844,33 +964,206 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     
     let chroma = 2.0 * (chroma / 2.0).round();
     
-    // Check if this is a standard hue (no interpolation needed)
+    // For standard hues, we still need to check if the specification exists
+    // High chromas may not be available even for standard hues
     if (hue % 2.5).abs() < 1e-10 {
         let standard_hue = 2.5 * (hue / 2.5).round();
-        let xyy = xyy_from_renotation(&[standard_hue, value, chroma, spec[3]])?;
-        return Ok([xyy[0], xyy[1]]);
+        // DEBUG: Check if this is getting triggered
+        if hue > 7.0 && hue < 8.0 && value == 8.0 {
+            eprintln!("        xy_from_renotation_ovoid: standard hue check triggered, hue={:.3} -> {:.1}", hue, standard_hue);
+        }
+        // Try to get the exact specification first
+        match xyy_from_renotation(&[standard_hue, value, chroma, spec[3]]) {
+            Ok(xyy) => return Ok([xyy[0], xyy[1]]),
+            Err(_) => {
+                // Specification doesn't exist, need to handle extrapolation
+                // Fall through to the interpolation code below
+            }
+        }
     }
     
     // Find bounding hues
     let ((hue_minus, code_minus), (hue_plus, code_plus)) = bounding_hues_from_renotation(hue, code);
     
+    // DEBUG: Check bounding hues
+    if hue > 7.0 && hue < 8.0 && value == 8.0 {
+        eprintln!("        xy_from_renotation_ovoid: bounding hues for {:.3}: ({:.1}, {}) and ({:.1}, {})", 
+                 hue, hue_minus, code_minus, hue_plus, code_plus);
+    }
+    
     let (x_grey, y_grey) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
     
-    // Get xy for lower hue
+    // Get xy for lower hue - handle high chromas by extrapolation
     let spec_minus = [hue_minus, value, chroma, code_minus as f64];
-    let xyy_minus = xyy_from_renotation(&spec_minus)?;
-    let (x_minus, y_minus, _y_minus) = (xyy_minus[0], xyy_minus[1], xyy_minus[2]);
+    
+    // DEBUG: Check spec_minus
+    if hue > 7.0 && hue < 8.0 && value == 8.0 {
+        eprintln!("        xy_from_renotation_ovoid: spec_minus = [{:.1}, {:.1}, {:.1}, {}]", 
+                 spec_minus[0], spec_minus[1], spec_minus[2], spec_minus[3] as u8);
+    }
+    
+    let max_chroma_minus = maximum_chroma_from_renotation(hue_minus, value, code_minus);
+    
+    let (x_minus, y_minus, y_val_minus) = if chroma <= max_chroma_minus {
+        // Try to get the data, but it might not exist
+        match xyy_from_renotation(&spec_minus) {
+            Ok(xyy) => (xyy[0], xyy[1], xyy[2]),
+            Err(_) => {
+                // Data doesn't exist even though chroma is within max
+                // Find the highest chroma that exists
+                let mut test_chroma = chroma;
+                let mut found_xyy = None;
+                
+                // Try progressively lower chromas
+                while test_chroma >= 2.0 {
+                    let test_spec = [hue_minus, value, test_chroma, code_minus as f64];
+                    if let Ok(xyy) = xyy_from_renotation(&test_spec) {
+                        found_xyy = Some(xyy);
+                        break;
+                    }
+                    test_chroma -= 2.0;
+                }
+                
+                match found_xyy {
+                    Some(xyy) if test_chroma == chroma => {
+                        // Found the exact chroma
+                        (xyy[0], xyy[1], xyy[2])
+                    }
+                    Some(xyy_high) if test_chroma >= 4.0 => {
+                        // Found a lower chroma, try to extrapolate
+                        let test_spec_second = [hue_minus, value, test_chroma - 2.0, code_minus as f64];
+                        if let Ok(xyy_second) = xyy_from_renotation(&test_spec_second) {
+                            // Can extrapolate
+                            let steps = (chroma - test_chroma) / 2.0;
+                            let x = xyy_high[0] + steps * (xyy_high[0] - xyy_second[0]);
+                            let y = xyy_high[1] + steps * (xyy_high[1] - xyy_second[1]);
+                            (x, y, xyy_high[2])
+                        } else {
+                            // Can't extrapolate, use what we have
+                            (xyy_high[0], xyy_high[1], xyy_high[2])
+                        }
+                    }
+                    Some(xyy) => {
+                        // Found a low chroma, use it as is
+                        (xyy[0], xyy[1], xyy[2])
+                    }
+                    None => {
+                        // No data at all, use illuminant C as fallback
+                        let (x_c, y_c) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
+                        (x_c, y_c, luminance_astmd1535(value) / 100.0)
+                    }
+                }
+            }
+        }
+    } else {
+        // Need to extrapolate
+        let highest_even = (max_chroma_minus / 2.0).floor() * 2.0;
+        if highest_even < 4.0 {
+            return Err(crate::error::MunsellError::InvalidMunsellColor(
+                format!("Cannot extrapolate from chroma {}", highest_even)
+            ));
+        }
+        let spec_high = [hue_minus, value, highest_even, code_minus as f64];
+        let spec_second = [hue_minus, value, highest_even - 2.0, code_minus as f64];
+        let xyy_high = xyy_from_renotation(&spec_high)?;
+        let xyy_second = xyy_from_renotation(&spec_second)?;
+        
+        let steps = (chroma - highest_even) / 2.0;
+        let x = xyy_high[0] + steps * (xyy_high[0] - xyy_second[0]);
+        let y = xyy_high[1] + steps * (xyy_high[1] - xyy_second[1]);
+        (x, y, xyy_high[2])
+    };
+    
     let (rho_minus, phi_minus, _) = cartesian_to_cylindrical(
-        x_minus - x_grey, y_minus - y_grey, xyy_minus[2]
+        x_minus - x_grey, y_minus - y_grey, y_val_minus
     );
     let phi_minus = phi_minus.to_degrees();
     
-    // Get xy for upper hue
+    // Get xy for upper hue - same approach
     let spec_plus = [hue_plus, value, chroma, code_plus as f64];
-    let xyy_plus = xyy_from_renotation(&spec_plus)?;
-    let (x_plus, y_plus, _y_plus) = (xyy_plus[0], xyy_plus[1], xyy_plus[2]);
+    
+    // DEBUG: Check spec_plus
+    if hue > 7.0 && hue < 8.0 && value == 8.0 {
+        eprintln!("        xy_from_renotation_ovoid: spec_plus = [{:.1}, {:.1}, {:.1}, {}]", 
+                 spec_plus[0], spec_plus[1], spec_plus[2], spec_plus[3] as u8);
+    }
+    
+    let max_chroma_plus = maximum_chroma_from_renotation(hue_plus, value, code_plus);
+    
+    let (x_plus, y_plus, y_val_plus) = if chroma <= max_chroma_plus {
+        // Try to get the data, but it might not exist (e.g., 0Y at high chromas)
+        match xyy_from_renotation(&spec_plus) {
+            Ok(xyy) => (xyy[0], xyy[1], xyy[2]),
+            Err(_) => {
+                // Data doesn't exist even though chroma is within max
+                // This happens when hue wraps (e.g., 10GY -> 0Y) and data is sparse
+                // Find the highest chroma that exists
+                let mut test_chroma = chroma;
+                let mut found_xyy = None;
+                
+                // Try progressively lower chromas
+                while test_chroma >= 2.0 {
+                    let test_spec = [hue_plus, value, test_chroma, code_plus as f64];
+                    if let Ok(xyy) = xyy_from_renotation(&test_spec) {
+                        found_xyy = Some(xyy);
+                        break;
+                    }
+                    test_chroma -= 2.0;
+                }
+                
+                match found_xyy {
+                    Some(xyy) if test_chroma == chroma => {
+                        // Found the exact chroma
+                        (xyy[0], xyy[1], xyy[2])
+                    }
+                    Some(xyy_high) if test_chroma >= 4.0 => {
+                        // Found a lower chroma, try to extrapolate
+                        let test_spec_second = [hue_plus, value, test_chroma - 2.0, code_plus as f64];
+                        if let Ok(xyy_second) = xyy_from_renotation(&test_spec_second) {
+                            // Can extrapolate
+                            let steps = (chroma - test_chroma) / 2.0;
+                            let x = xyy_high[0] + steps * (xyy_high[0] - xyy_second[0]);
+                            let y = xyy_high[1] + steps * (xyy_high[1] - xyy_second[1]);
+                            (x, y, xyy_high[2])
+                        } else {
+                            // Can't extrapolate, use what we have
+                            (xyy_high[0], xyy_high[1], xyy_high[2])
+                        }
+                    }
+                    Some(xyy) => {
+                        // Found a low chroma, use it as is
+                        (xyy[0], xyy[1], xyy[2])
+                    }
+                    None => {
+                        // No data at all, this is problematic
+                        // Use illuminant C as fallback
+                        let (x_c, y_c) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
+                        (x_c, y_c, luminance_astmd1535(value) / 100.0)
+                    }
+                }
+            }
+        }
+    } else {
+        // Need to extrapolate
+        let highest_even = (max_chroma_plus / 2.0).floor() * 2.0;
+        if highest_even < 4.0 {
+            return Err(crate::error::MunsellError::InvalidMunsellColor(
+                format!("Cannot extrapolate from chroma {}", highest_even)
+            ));
+        }
+        let spec_high = [hue_plus, value, highest_even, code_plus as f64];
+        let spec_second = [hue_plus, value, highest_even - 2.0, code_plus as f64];
+        let xyy_high = xyy_from_renotation(&spec_high)?;
+        let xyy_second = xyy_from_renotation(&spec_second)?;
+        
+        let steps = (chroma - highest_even) / 2.0;
+        let x = xyy_high[0] + steps * (xyy_high[0] - xyy_second[0]);
+        let y = xyy_high[1] + steps * (xyy_high[1] - xyy_second[1]);
+        (x, y, xyy_high[2])
+    };
+    
     let (rho_plus, mut phi_plus, _) = cartesian_to_cylindrical(
-        x_plus - x_grey, y_plus - y_grey, xyy_plus[2]
+        x_plus - x_grey, y_plus - y_grey, y_val_plus
     );
     phi_plus = phi_plus.to_degrees();
     
@@ -972,6 +1265,11 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let lchab = lab_to_lchab(lab);
     let initial_spec = lchab_to_munsell_specification(lchab);
     
+    // DEBUG: Print initial spec
+    eprintln!("DEBUG: xyY {:?} -> Lab {:?} -> LCHab [{:.3}, {:.3}, {:.3}]", 
+             xyy, lab, lchab[0], lchab[1], lchab[2]);
+    eprintln!("  Initial spec from LCHab: [{:.3}, {:.3}, {:.3}, {}]",
+             initial_spec[0], initial_spec[1], initial_spec[2], initial_spec[3] as u8);
     
     // Ensure initial chroma is valid
     let initial_chroma = (5.0 / 5.5) * initial_spec[2];
@@ -995,6 +1293,10 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         initial_spec[3],
     ];
     
+    // DEBUG: Print spec after initialization
+    eprintln!("  Spec after init: [{:.3}, {:.3}, {:.3}, {}]",
+             specification_current[0], specification_current[1], 
+             specification_current[2], specification_current[3] as u8);
     
     // Main convergence loop
     let convergence_threshold = 1e-6 / 1e4;
@@ -1028,6 +1330,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         // Get current xy
         // Use interpolated version for iterative algorithm
+        eprintln!("  Outer iter {}: spec [{:.3}, {:.1}, {:.1}, {}]",
+                 iterations, specification_current[0], specification_current[1], 
+                 specification_current[2], specification_current[3] as u8);
         let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
@@ -1078,6 +1383,11 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             
             let spec_inner = [hue_inner, value, chroma_current, code_inner as f64];
             
+            // DEBUG: Print the spec being tested during inner loop
+            if iterations <= 1 && iterations_inner <= 2 {
+                eprintln!("      Inner hue test {}: spec [{:.3}, {:.1}, {:.1}, {}]", 
+                          iterations_inner, hue_inner, value, chroma_current, code_inner);
+            }
             
             // Use interpolated version for iterative algorithm
             let xy_inner = xy_from_renotation_ovoid_interpolated(&spec_inner)?;
@@ -1102,22 +1412,40 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 phi_differences_data.push(phi_inner_difference);
                 hue_angles.push(hue_angle_inner);
                 hue_angles_differences_data.push(hue_angle_difference_inner);
+                
+                if iterations == 3 && iterations_inner <= 3 {
+                    eprintln!("      Hue test: angle_inner={:.1}° diff={:.1}° phi_diff={:.2}",
+                             hue_angle_inner, hue_angle_difference_inner, phi_inner_difference);
+                }
             }
         }
         
         // Sort and interpolate
-        let mut indices: Vec<usize> = (0..phi_differences_data.len()).collect();
-        indices.sort_by(|&i, &j| phi_differences_data[i].partial_cmp(&phi_differences_data[j]).unwrap());
-        
-        let phi_differences_sorted: Vec<f64> = indices.iter().map(|&i| phi_differences_data[i]).collect();
-        let hue_angles_differences_sorted: Vec<f64> = indices.iter().map(|&i| hue_angles_differences_data[i]).collect();
-        
-        let interpolator = LinearInterpolator::new(phi_differences_sorted, hue_angles_differences_sorted);
-        let extrapolator = Extrapolator::new(interpolator);
-        let hue_angle_difference_new = extrapolator.extrapolate(0.0) % 360.0;
-        let hue_angle_new = (hue_angle_current + hue_angle_difference_new) % 360.0;
+        eprintln!("    Hue interpolation data: {} points", phi_differences_data.len());
+        let hue_angle_new = if phi_differences_data.is_empty() {
+            eprintln!("    WARNING: No valid hue test points, keeping current hue");
+            hue_angle_current
+        } else {
+            let mut indices: Vec<usize> = (0..phi_differences_data.len()).collect();
+            indices.sort_by(|&i, &j| phi_differences_data[i].partial_cmp(&phi_differences_data[j]).unwrap());
+            
+            let phi_differences_sorted: Vec<f64> = indices.iter().map(|&i| phi_differences_data[i]).collect();
+            let hue_angles_differences_sorted: Vec<f64> = indices.iter().map(|&i| hue_angles_differences_data[i]).collect();
+            
+            if iterations == 3 {
+                eprintln!("    Extrapolating from phi_diffs={:?} with hue_diffs={:?}",
+                         phi_differences_sorted, hue_angles_differences_sorted);
+            }
+            
+            let interpolator = LinearInterpolator::new(phi_differences_sorted, hue_angles_differences_sorted);
+            let extrapolator = Extrapolator::new(interpolator);
+            let hue_angle_difference_new = extrapolator.extrapolate(0.0) % 360.0;
+            (hue_angle_current + hue_angle_difference_new) % 360.0
+        };
         
         let (hue_new, code_new) = hue_angle_to_hue(hue_angle_new);
+        eprintln!("    Hue refinement: angle_current={:.1}° -> angle_new={:.1}° => hue={:.3} code={}", 
+                 hue_angle_current, hue_angle_new, hue_new, code_new);
         specification_current = [hue_new, value, chroma_current, code_new as f64];
         
         
@@ -1178,6 +1506,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 };
                 
                 let spec_inner = [hue_new, value, chroma_inner, code_new as f64];
+                eprintln!("    Inner loop iter {}: spec [{:.3}, {:.1}, {:.1}, {}], rho_current={:.4}, rho_input={:.4}, chroma_inner={:.2}", 
+                         iterations_inner, spec_inner[0], spec_inner[1], spec_inner[2], spec_inner[3] as u8, 
+                         rho_current, rho_input, chroma_inner);
                 let xy_inner = xy_from_renotation_ovoid_interpolated(&spec_inner)?;
                 let (x_inner, y_inner) = (xy_inner[0], xy_inner[1]);
                 
@@ -1185,6 +1516,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                     x_inner - x_center, y_inner - y_center, big_y
                 );
                 
+                eprintln!("      rho_inner={:.4}, adding to bounds", rho_inner);
                 rho_bounds_data.push(rho_inner);
                 chroma_bounds_data.push(chroma_inner);
                 
@@ -1193,17 +1525,26 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
             } // End of while loop for chroma refinement
         
-            // Sort and interpolate chroma
-            let mut indices: Vec<usize> = (0..rho_bounds_data.len()).collect();
-            indices.sort_by(|&i, &j| rho_bounds_data[i].partial_cmp(&rho_bounds_data[j]).unwrap());
-            
-            let rho_bounds_sorted: Vec<f64> = indices.iter().map(|&i| rho_bounds_data[i]).collect();
-            let chroma_bounds_sorted: Vec<f64> = indices.iter().map(|&i| chroma_bounds_data[i]).collect();
-            
-            let interpolator = LinearInterpolator::new(rho_bounds_sorted, chroma_bounds_sorted);
-            let chroma_new = interpolator.interpolate(rho_input);
-            
-            specification_current = [hue_new, value, chroma_new, code_new as f64];
+            // Check if we actually found valid bounds
+            if rho_min >= rho_input || rho_max <= rho_input {
+                // We couldn't bracket rho_input, likely hit max chroma
+                // Use the last chroma that was tested
+                eprintln!("    WARNING: Could not bracket rho_input={:.4}, using last chroma", rho_input);
+                let last_idx = chroma_bounds_data.len() - 1;
+                specification_current = [hue_new, value, chroma_bounds_data[last_idx], code_new as f64];
+            } else {
+                // Sort and interpolate chroma
+                let mut indices: Vec<usize> = (0..rho_bounds_data.len()).collect();
+                indices.sort_by(|&i, &j| rho_bounds_data[i].partial_cmp(&rho_bounds_data[j]).unwrap());
+                
+                let rho_bounds_sorted: Vec<f64> = indices.iter().map(|&i| rho_bounds_data[i]).collect();
+                let chroma_bounds_sorted: Vec<f64> = indices.iter().map(|&i| chroma_bounds_data[i]).collect();
+                
+                let interpolator = LinearInterpolator::new(rho_bounds_sorted, chroma_bounds_sorted);
+                let chroma_new = interpolator.interpolate(rho_input);
+                
+                specification_current = [hue_new, value, chroma_new, code_new as f64];
+            }
         } // End of chroma refinement else block
         
         // if iterations <= 3 {
