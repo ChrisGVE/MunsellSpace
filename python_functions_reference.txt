@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/chris/Dropbox/dev/projects/libraries/MunsellSpace/verify_all_functions.py", line 12, in <module>
+    from colour.algebra.interpolation import LinearInterpolator, Extrapolator
+ImportError: cannot import name 'Extrapolator' from 'colour.algebra.interpolation' (/usr/local/lib/python3.13/site-packages/colour/algebra/interpolation.py)

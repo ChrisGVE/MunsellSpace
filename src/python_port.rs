@@ -118,46 +118,52 @@ pub fn hue_angle_to_hue(hue_angle: f64) -> (f64, u8) {
 
 /// Find bounding hues from renotation data
 pub fn bounding_hues_from_renotation(hue: f64, code: u8) -> ((f64, u8), (f64, u8)) {
-    // Standard hues are 0, 2.5, 5, 7.5, 10
-    let standard_hues = [0.0, 2.5, 5.0, 7.5, 10.0];
+    // Exact 1:1 port from Python colour-science
+    let mut hue_cw: f64;
+    let mut code_cw: u8;
+    let hue_ccw: f64;
+    let code_ccw: u8;
     
-    // Check if hue is exactly on a standard hue
-    for &std_hue in &standard_hues {
-        if (hue - std_hue).abs() < 1e-10 {
-            // For exact standard hue, return the same hue for both bounds
-            return ((std_hue, code), (std_hue, code));
+    // Check if hue is multiple of 2.5
+    if (hue % 2.5).abs() < 1e-10 {
+        if hue.abs() < 1e-10 {
+            // hue == 0
+            hue_cw = 10.0;
+            // Python: code_cw = (code + 1) % 10
+            let mut temp_code = ((code as i32 + 1) % 10) as u8;
+            // Python: if code_cw == 0: code_cw = 10
+            if temp_code == 0 {
+                temp_code = 10;
+            }
+            code_cw = temp_code;
+        } else {
+            hue_cw = hue;
+            code_cw = code;
         }
-    }
-    
-    // Find clockwise (lower) and counter-clockwise (upper) bounds
-    let mut hue_cw = 0.0;
-    let mut hue_ccw = 10.0;
-    
-    for &std_hue in &standard_hues {
-        if std_hue < hue && std_hue > hue_cw {
-            hue_cw = std_hue;
+        hue_ccw = hue_cw;
+        code_ccw = code_cw;
+    } else {
+        // Non-standard hue
+        hue_cw = 2.5 * (hue / 2.5).floor();
+        let mut temp_hue_ccw = (hue_cw + 2.5) % 10.0;
+        if temp_hue_ccw.abs() < 1e-10 {
+            temp_hue_ccw = 10.0;
         }
-        if std_hue > hue && std_hue < hue_ccw {
-            hue_ccw = std_hue;
+        hue_ccw = temp_hue_ccw;
+        
+        if hue_cw.abs() < 1e-10 {
+            hue_cw = 10.0;
+            // Python: code_cw = (code + 1) % 10
+            let mut temp_code = ((code as i32 + 1) % 10) as u8;
+            // Python: if code_cw == 0: code_cw = 10
+            if temp_code == 0 {
+                temp_code = 10;
+            }
+            code_cw = temp_code;
+        } else {
+            code_cw = code;
         }
-    }
-    
-    // Handle wraparound
-    let mut code_cw = code;
-    let mut code_ccw = code;
-    
-    // Special case: if hue is between 0 and 2.5, cw should wrap to 10
-    if hue > 0.0 && hue < 2.5 && hue_cw == 0.0 {
-        // Keep hue_cw = 0.0, it's correct
-    } else if hue_cw == 0.0 && hue > 0.0 {
-        // Need to wrap to previous family
-        hue_cw = 10.0;
-        code_cw = if code == 1 { 10 } else { code - 1 };
-    }
-    
-    // Special case: if hue is between 7.5 and 10, ccw should be 10
-    if hue > 7.5 && hue < 10.0 && hue_ccw == 10.0 {
-        // Keep hue_ccw = 10.0, it's correct
+        code_ccw = code;
     }
     
     ((hue_cw, code_cw), (hue_ccw, code_ccw))

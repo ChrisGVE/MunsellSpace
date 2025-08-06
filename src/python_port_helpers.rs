@@ -70,40 +70,26 @@ pub fn lab_to_lchab(lab: [f64; 3]) -> [f64; 3] {
 pub fn lchab_to_munsell_specification(lch: [f64; 3]) -> [f64; 4] {
     let (l, c, hab) = (lch[0], lch[1], lch[2]);
     
-    // Determine code based on hue angle
-    let code = if hab == 0.0 {
-        8
-    } else if hab <= 36.0 {
-        7
-    } else if hab <= 72.0 {
-        6
-    } else if hab <= 108.0 {
-        5
-    } else if hab <= 144.0 {
-        4
-    } else if hab <= 180.0 {
-        3
-    } else if hab <= 216.0 {
-        2
-    } else if hab <= 252.0 {
-        1
-    } else if hab <= 288.0 {
-        10
-    } else if hab <= 324.0 {
-        9
-    } else {
-        8
-    };
+    // Exact 1:1 port from Python colour-science LCHab_to_munsell_specification
+    // Python uses simple direct mapping without angle adjustment
+    let code = if hab == 0.0 { 8 }
+        else if hab <= 36.0 { 7 }
+        else if hab <= 72.0 { 6 }
+        else if hab <= 108.0 { 5 }
+        else if hab <= 144.0 { 4 }
+        else if hab <= 180.0 { 3 }
+        else if hab <= 216.0 { 2 }
+        else if hab <= 252.0 { 1 }
+        else if hab <= 288.0 { 10 }
+        else if hab <= 324.0 { 9 }
+        else { 8 };
     
-    // Linear interpolation for hue within each 36-degree segment
-    let hue_segment = hab % 36.0;
-    let mut hue = (hue_segment / 36.0) * 10.0;
-    if hue == 0.0 {
-        hue = 10.0;
-    }
+    // Simple linear interpolation within each 36-degree segment
+    let hue_raw = (hab % 36.0) * 10.0 / 36.0;
+    let hue = if hue_raw == 0.0 { 10.0 } else { hue_raw };
     
     let value = l / 10.0;
-    let chroma = c / 5.0;  // Python uses /5, not /5.5
+    let chroma = c / 5.0;
     
     [hue, value, chroma, code as f64]
 }
