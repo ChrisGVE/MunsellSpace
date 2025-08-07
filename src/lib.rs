@@ -50,6 +50,11 @@ pub mod mathematical_v2;
 pub mod python_port;
 pub mod python_port_helpers;
 pub mod python_converter;
+pub mod python_port_strings;
+pub mod python_port_lab;
+pub mod python_port_utils;
+pub mod python_port_interpolation;
+pub mod python_port_cache;
 
 #[cfg(test)]
 mod test_hue_angle;

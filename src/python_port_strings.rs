@@ -65,10 +65,10 @@ pub fn parse_munsell_colour(munsell_colour: &str) -> Result<[f64; 4]> {
     if let Some(captures) = MUNSELL_GRAY_PATTERN.captures(munsell_colour) {
         // Python: return tstack([np.nan, match.group("value"), np.nan, np.nan])
         let value = captures.name("value")
-            .ok_or_else(|| MunsellError::InvalidNotation(munsell_colour.to_string()))?
+            .ok_or_else(|| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?
             .as_str()
             .parse::<f64>()
-            .map_err(|_| MunsellError::InvalidNotation(munsell_colour.to_string()))?;
+            .map_err(|_| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?;
         
         return Ok([f64::NAN, value, f64::NAN, f64::NAN]);
     }
@@ -83,39 +83,39 @@ pub fn parse_munsell_colour(munsell_colour: &str) -> Result<[f64; 4]> {
         // ])
         
         let hue = captures.name("hue")
-            .ok_or_else(|| MunsellError::InvalidNotation(munsell_colour.to_string()))?
+            .ok_or_else(|| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?
             .as_str()
             .parse::<f64>()
-            .map_err(|_| MunsellError::InvalidNotation(munsell_colour.to_string()))?;
+            .map_err(|_| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?;
             
         let value = captures.name("value")
-            .ok_or_else(|| MunsellError::InvalidNotation(munsell_colour.to_string()))?
+            .ok_or_else(|| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?
             .as_str()
             .parse::<f64>()
-            .map_err(|_| MunsellError::InvalidNotation(munsell_colour.to_string()))?;
+            .map_err(|_| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?;
             
         let chroma = captures.name("chroma")
-            .ok_or_else(|| MunsellError::InvalidNotation(munsell_colour.to_string()))?
+            .ok_or_else(|| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?
             .as_str()
             .parse::<f64>()
-            .map_err(|_| MunsellError::InvalidNotation(munsell_colour.to_string()))?;
+            .map_err(|_| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?;
             
         let letter = captures.name("letter")
-            .ok_or_else(|| MunsellError::InvalidNotation(munsell_colour.to_string()))?
+            .ok_or_else(|| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?
             .as_str()
             .to_uppercase();
             
         let code = *MUNSELL_HUE_LETTER_CODES.get(letter.as_str())
-            .ok_or_else(|| MunsellError::InvalidNotation(munsell_colour.to_string()))?;
+            .ok_or_else(|| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?;
         
         return Ok([hue, value, chroma, code as f64]);
     }
     
     // Python: raise ValueError(f'"{munsell_colour}" is not a valid "Munsell Renotation System" colour specification!')
-    Err(MunsellError::InvalidNotation(format!(
-        "'{}' is not a valid Munsell Renotation System colour specification!",
-        munsell_colour
-    )))
+    Err(MunsellError::InvalidNotation {
+        notation: munsell_colour.to_string(),
+        reason: "Does not match Munsell notation pattern".to_string()
+    })
 }
 
 /// Convert Munsell colour string to normalised Munsell specification
@@ -152,10 +152,10 @@ pub fn munsell_specification_to_munsell_colour(
         
         // Python: attest(0 <= hue <= 10, ...)
         if !(0.0 <= hue && hue <= 10.0) {
-            return Err(MunsellError::InvalidNotation(format!(
-                "Specification hue must be normalised to domain [0, 10], got {}",
-                hue
-            )));
+            return Err(MunsellError::InvalidNotation {
+                notation: format!("{:?}", spec),
+                reason: format!("Specification hue must be normalised to domain [0, 10], got {}", hue)
+            });
         }
         
         // Python: value = round(value, value_decimals)
@@ -163,10 +163,10 @@ pub fn munsell_specification_to_munsell_colour(
         
         // Python: attest(0 <= value <= 10, ...)
         if !(0.0 <= value && value <= 10.0) {
-            return Err(MunsellError::InvalidNotation(format!(
-                "Specification value must be normalised to domain [0, 10], got {}",
-                value
-            )));
+            return Err(MunsellError::InvalidNotation {
+                notation: format!("{:?}", spec),
+                reason: format!("Specification value must be normalised to domain [0, 10], got {}", value)
+            });
         }
         
         // Python: chroma = round(chroma, chroma_decimals)
@@ -174,18 +174,18 @@ pub fn munsell_specification_to_munsell_colour(
         
         // Python: attest(2 <= chroma <= 50, ...)
         if !(2.0 <= chroma && chroma <= 50.0) {
-            return Err(MunsellError::InvalidNotation(format!(
-                "Specification chroma must be normalised to domain [2, 50], got {}",
-                chroma
-            )));
+            return Err(MunsellError::InvalidNotation {
+                notation: format!("{:?}", spec),
+                reason: format!("Specification chroma must be normalised to domain [2, 50], got {}", chroma)
+            });
         }
         
         // Get hue letter from code
         let hue_letter = CODE_TO_HUE_LETTER.get(&code)
-            .ok_or_else(|| MunsellError::InvalidNotation(format!(
-                "Invalid hue code: {}",
-                code
-            )))?;
+            .ok_or_else(|| MunsellError::InvalidNotation {
+                notation: format!("{:?}", spec),
+                reason: format!("Invalid hue code: {}", code)
+            })?;
         
         // Python format: '{0:.{1}f}{2} {3:.{4}f}/{5:.{6}f}'
         // where: hue, hue_decimals, letter, value, value_decimals, chroma, chroma_decimals
