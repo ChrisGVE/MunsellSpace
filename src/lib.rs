@@ -51,6 +51,11 @@ pub mod python_port;
 pub mod python_port_helpers;
 pub mod python_converter;
 
+#[cfg(test)]
+mod test_hue_angle;
+#[cfg(test)]
+mod test_angle_debug;
+
 pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
 pub use error::{MunsellError, Result};

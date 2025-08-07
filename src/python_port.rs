@@ -62,58 +62,54 @@ pub fn hue_to_hue_angle(hue: f64, code: u8) -> f64 {
 
 /// Convert hue angle to [hue, code] pair
 pub fn hue_angle_to_hue(hue_angle: f64) -> (f64, u8) {
-    // Reverse interpolation from angle to single_hue
-    let angles = [0.0, 45.0, 70.0, 135.0, 160.0, 225.0, 255.0, 315.0, 360.0];
-    let breakpoints = [0.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 9.0, 10.0];
+    // Exact 1:1 port from Python's colour-science implementation
     
+    // LinearInterpolator([0, 45, 70, 135, 160, 225, 255, 315, 360], [0, 2, 3, 4, 5, 6, 8, 9, 10])
+    let angles = [0.0, 45.0, 70.0, 135.0, 160.0, 225.0, 255.0, 315.0, 360.0];
+    let values = [0.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 9.0, 10.0];
+    
+    // Linear interpolation to get single_hue
     let mut single_hue = 0.0;
     for i in 0..angles.len()-1 {
         if hue_angle >= angles[i] && hue_angle <= angles[i+1] {
             let t = (hue_angle - angles[i]) / (angles[i+1] - angles[i]);
-            single_hue = breakpoints[i] + t * (breakpoints[i+1] - breakpoints[i]);
+            single_hue = values[i] + t * (values[i+1] - values[i]);
             break;
         }
     }
     
-    // Now reverse the single_hue calculation to get hue and code
-    // This is the inverse of: raw = (17 - code) % 10 + hue/10 - 0.5
-    // single_hue = raw % 10
+    // Determine code based on single_hue value
+    let code = if single_hue <= 0.5 {
+        7  // R
+    } else if single_hue <= 1.5 {
+        6  // YR
+    } else if single_hue <= 2.5 {
+        5  // Y
+    } else if single_hue <= 3.5 {
+        4  // GY
+    } else if single_hue <= 4.5 {
+        3  // G
+    } else if single_hue <= 5.5 {
+        2  // BG
+    } else if single_hue <= 6.5 {
+        1  // B
+    } else if single_hue <= 7.5 {
+        10 // PB
+    } else if single_hue <= 8.5 {
+        9  // P
+    } else if single_hue <= 9.5 {
+        8  // RP
+    } else {
+        7  // R (for values > 9.5)
+    };
     
-    // Try each code to find which one produces the correct single_hue
-    // Python's codes: 1=B, 2=BG, 3=G, 4=GY, 5=Y, 6=YR, 7=R, 8=RP, 9=P, 10=PB
-    let valid_codes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    
-    for &code in &valid_codes {
-        // For a given code and single_hue, we can calculate hue directly
-        // single_hue = ((17 - code) % 10 + hue/10 - 0.5) % 10
-        // Rearranging: hue/10 = single_hue - (17 - code) % 10 + 0.5 + k*10 (for some integer k)
-        
-        let base = ((17.0 - code as f64) % 10.0) - 0.5;
-        let hue_over_10_raw = single_hue - base;
-        
-        // We need to find the right k such that 0 <= hue < 10
-        for k in -2..=2 {
-            let hue_over_10 = hue_over_10_raw + k as f64 * 10.0;
-            if hue_over_10 >= 0.0 && hue_over_10 < 1.0 {
-                let hue = hue_over_10 * 10.0;
-                
-                // Verify our calculation
-                let raw = (17.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5;
-                let test_single = if raw < 0.0 {
-                    (raw % 10.0) + 10.0
-                } else {
-                    raw % 10.0
-                };
-                
-                if (test_single - single_hue).abs() < 1e-10 {
-                    return (hue, code);
-                }
-            }
-        }
+    // Calculate hue: hue = (10 * (single_hue % 1) + 5) % 10
+    let mut hue = (10.0 * (single_hue % 1.0) + 5.0) % 10.0;
+    if hue == 0.0 {
+        hue = 10.0;
     }
     
-    // Fallback - use a valid code
-    (5.0, 7) // 5R is a reasonable default
+    (hue, code)
 }
 
 /// Find bounding hues from renotation data
