@@ -23,12 +23,18 @@ pub fn hue_to_astm_hue(hue: f64, code: u8) -> f64 {
 
 /// Convert ASTM hue to [hue, code] pair
 /// Reverse of hue_to_astm_hue
+/// Since ASTM = (17 - code) * 10 + hue, we can derive:
+/// code = (17 - ASTM // 10) % 10
 pub fn astm_hue_to_hue(astm_hue: f64) -> (f64, u8) {
     // Handle astm_hue == 100 case
     let astm_hue = if astm_hue == 100.0 { 0.0 } else { astm_hue };
     
-    // Find the code (hue family)
-    let code = ((70.0 - astm_hue.floor() / 10.0 * 10.0) / 10.0 % 10.0) as u8;
+    // Find the code (hue family) using the correct formula
+    let mut code = ((17.0 - (astm_hue / 10.0).floor()) % 10.0) as u8;
+    if code == 0 {
+        code = 10;  // Handle wraparound
+    }
+    
     let hue = astm_hue % 10.0;
     
     (hue, code)
@@ -591,48 +597,27 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
     let mut ma_limit_pccw = 0.0;
     
     
-    // For matching, we need to handle 0/10 wraparound
-    // Standard hues in dataset are 2.5, 5.0, 7.5, 10.0
-    // 0.0 is represented as 10.0 in the previous family
+    // Python uses direct lookup - the bounding_hues_from_renotation already returns
+    // the correct hue and code values for looking up in the dataset
+    // The dataset stores hue=0 as hue=10 in the previous family, but this is
+    // already handled by bounding_hues_from_renotation
     for &((h, v, c), max_chroma) in MAXIMUM_CHROMAS {
-        // Check CW bounds
-        let hue_cw_actual = if hue_cw == 0.0 {
-            10.0  // 0R is stored as 10RP in dataset
-        } else {
-            hue_cw
-        };
-        let code_cw_actual = if hue_cw == 0.0 && code_cw == code {
-            if code == 1 { 10 } else { code - 1 }  // Previous family
-        } else {
-            code_cw
-        };
-        
-        if (h - hue_cw_actual).abs() < 1e-6 && c == code_cw_actual && (v - value_minus).abs() < 1e-6 {
+        // Direct lookup for CW bounds - no conversion needed
+        if (h - hue_cw).abs() < 1e-6 && c == code_cw && (v - value_minus).abs() < 1e-6 {
             ma_limit_mcw = max_chroma;
         }
         
-        // Check CCW bounds
-        let hue_ccw_actual = if hue_ccw == 0.0 {
-            10.0  // 0.0 is stored as 10.0 in the previous family
-        } else {
-            hue_ccw
-        };
-        let code_ccw_actual = if hue_ccw == 0.0 {
-            if code_ccw == 0 { 9 } else { code_ccw - 1 }  // Previous family
-        } else {
-            code_ccw
-        };
-        
-        if (h - hue_ccw_actual).abs() < 1e-6 && c == code_ccw_actual && (v - value_minus).abs() < 1e-6 {
+        // Direct lookup for CCW bounds - no conversion needed
+        if (h - hue_ccw).abs() < 1e-6 && c == code_ccw && (v - value_minus).abs() < 1e-6 {
             ma_limit_mccw = max_chroma;
         }
         
         if value_plus <= 9.0 {
-            // Plus value checks
-            if (h - hue_cw_actual).abs() < 1e-6 && c == code_cw_actual && (v - value_plus).abs() < 1e-6 {
+            // Direct lookup for plus value bounds - no conversion needed
+            if (h - hue_cw).abs() < 1e-6 && c == code_cw && (v - value_plus).abs() < 1e-6 {
                 ma_limit_pcw = max_chroma;
             }
-            if (h - hue_ccw_actual).abs() < 1e-6 && c == code_ccw_actual && (v - value_plus).abs() < 1e-6 {
+            if (h - hue_ccw).abs() < 1e-6 && c == code_ccw && (v - value_plus).abs() < 1e-6 {
                 ma_limit_pccw = max_chroma;
             }
         }
@@ -1428,12 +1413,14 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             (hue_angle_current + hue_angle_difference_new) % 360.0
         };
         
-        let (hue_new, code_new) = hue_angle_to_hue(hue_angle_new);
-        
-        // DEBUG: Check for hue == 0.0
-        if hue_new == 0.0 {
-            eprintln!("WARNING: hue_angle_to_hue({:.1}°) returned hue=0.0!", hue_angle_new);
+        // Normalize hue angle to 0-360 range as Python does
+        // Python's LinearInterpolator requires angles in [0, 360]
+        let mut hue_angle_normalized = hue_angle_new % 360.0;
+        if hue_angle_normalized < 0.0 {
+            hue_angle_normalized += 360.0;
         }
+        
+        let (hue_new, code_new) = hue_angle_to_hue(hue_angle_normalized);
         
         specification_current = [hue_new, value, chroma_current, code_new as f64];
         
