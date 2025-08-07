@@ -1473,18 +1473,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         specification_current = [hue_new, value, chroma_current, code_new as f64];
         
-        
-        // Check convergence on xy distance
-        // Use interpolated version for iterative algorithm
-        let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
-        let (x_current, y_current) = (xy_current[0], xy_current[1]);
-        
-        let difference = euclidean_distance([x, y], [x_current, y_current]);
-        if difference < convergence_threshold {
-            return Ok(specification_current);
-        }
-        
         // Chroma refinement loop
+        // NOTE: We do NOT check convergence here - that happens after chroma refinement
         let chroma_maximum = maximum_chroma_from_renotation(hue_new, value, code_new);
         if specification_current[2] > chroma_maximum {
             specification_current[2] = chroma_maximum;
