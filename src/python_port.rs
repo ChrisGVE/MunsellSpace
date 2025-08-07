@@ -559,10 +559,11 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
     };
     
     // Find matching entry in renotation data
+    // Python uses TOLERANCE_ABSOLUTE_DEFAULT = 1e-8 for exact matching
     for entry in MUNSELL_RENOTATION_DATA {
         if entry.0.0 == hue_str && 
-           (entry.0.1 - value).abs() < 1e-6 && 
-           (entry.0.2 - chroma).abs() < 1e-6 {
+           (entry.0.1 - value).abs() < 1e-8 && 
+           (entry.0.2 - chroma).abs() < 1e-8 {
             return Ok([entry.1.0, entry.1.1, entry.1.2]);
         }
     }
