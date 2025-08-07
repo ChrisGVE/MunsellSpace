@@ -855,7 +855,13 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
             Ok(xyy) => Ok([xyy[0], xyy[1]]),
             Err(_) => {
                 // Data doesn't exist even for standard spec, need to extrapolate
-                let max_chroma = maximum_chroma_from_renotation(spec[0], value, spec[3] as u8);
+                // NOTE: Use the original value from spec, not value_for_lookup, for max chroma
+                let max_chroma = maximum_chroma_from_renotation(spec[0], spec[1], spec[3] as u8);
+                
+                // DEBUG: Check max chroma lookup
+                eprintln!("    DEBUG: Max chroma lookup for hue={:.3}, value={:.3}, code={}: max_chroma={:.3}",
+                         spec[0], spec[1], spec[3] as u8, max_chroma);
+                
                 if chroma > max_chroma {
                     // Extrapolate from highest available chromas
                     let mut highest_chroma = (max_chroma / 2.0).floor() * 2.0;
@@ -899,8 +905,12 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         
         if (value - value_floor).abs() > 1e-10 && value_floor != value_ceil {
             // Non-integer value - interpolate between floor and ceil
-            let spec_floor = [spec[0], value_floor, spec[2], spec[3]];
-            let spec_ceil = [spec[0], value_ceil, spec[2], spec[3]];
+            // Clamp ceil to 9 if needed
+            let value_ceil_clamped = value_ceil.min(9.0);
+            let value_floor_clamped = value_floor.max(1.0);
+            
+            let spec_floor = [spec[0], value_floor_clamped, spec[2], spec[3]];
+            let spec_ceil = [spec[0], value_ceil_clamped, spec[2], spec[3]];
             
             // Get xy for both integer values
             let xy_floor = xy_from_renotation_ovoid(&spec_floor)?;
@@ -934,16 +944,20 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     let code = spec[3] as u8;
     
     // Value must be in [1, 9] range for interpolation
-    if value < 1.0 || value > 9.0 {
+    // Allow slightly above 9 (up to 9.5) as these can occur from conversions
+    if value < 1.0 || value > 9.5 {
         return Err(crate::error::MunsellError::InvalidMunsellColor(
-            format!("Value {} must be in range [1, 9]", value)
+            format!("Value {} must be in range [1, 9.5]", value)
         ));
     }
     
+    // If value is above 9, clamp it to 9 for lookups
+    let value_for_lookup = value.min(9.0);
+    
     // For xy_from_renotation_ovoid, we need to handle non-integer values
     // by interpolating between integer values
-    let value_int = value.round();
-    let needs_value_interpolation = (value - value_int).abs() > 1e-10;
+    let value_int = value_for_lookup.round();
+    let needs_value_interpolation = (value_for_lookup - value_int).abs() > 1e-10;
     
     // Chroma must be at least 2.0
     if chroma < 2.0 {
@@ -953,14 +967,14 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     }
     
     // DEBUG: Check chroma before even check
-    if hue > 7.0 && hue < 8.0 && value == 8.0 {
+    if hue > 7.0 && hue < 8.0 && value_for_lookup == 8.0 {
         eprintln!("        xy_from_renotation_ovoid: chroma={:.3} before even check", chroma);
     }
     
     // Chroma must be even
     if (2.0 * (chroma / 2.0 - (chroma / 2.0).round())).abs() > 1e-10 {
         // DEBUG: This should trigger for 22.595
-        if hue > 7.0 && hue < 8.0 && value == 8.0 {
+        if hue > 7.0 && hue < 8.0 && value_for_lookup == 8.0 {
             eprintln!("        xy_from_renotation_ovoid: ERROR - chroma {} is not even!", chroma);
         }
         return Err(crate::error::MunsellError::InvalidMunsellColor(
@@ -975,11 +989,11 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     if (hue % 2.5).abs() < 1e-10 {
         let standard_hue = 2.5 * (hue / 2.5).round();
         // DEBUG: Check if this is getting triggered
-        if hue > 7.0 && hue < 8.0 && value == 8.0 {
+        if hue > 7.0 && hue < 8.0 && value_for_lookup == 8.0 {
             eprintln!("        xy_from_renotation_ovoid: standard hue check triggered, hue={:.3} -> {:.1}", hue, standard_hue);
         }
         // Try to get the exact specification first
-        match xyy_from_renotation(&[standard_hue, value, chroma, spec[3]]) {
+        match xyy_from_renotation(&[standard_hue, value_for_lookup, chroma, spec[3]]) {
             Ok(xyy) => return Ok([xyy[0], xyy[1]]),
             Err(_) => {
                 // Specification doesn't exist, need to handle extrapolation
@@ -992,7 +1006,7 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     let ((hue_minus, code_minus), (hue_plus, code_plus)) = bounding_hues_from_renotation(hue, code);
     
     // DEBUG: Check bounding hues
-    if hue > 7.0 && hue < 8.0 && value == 8.0 {
+    if hue > 7.0 && hue < 8.0 && value_for_lookup == 8.0 {
         eprintln!("        xy_from_renotation_ovoid: bounding hues for {:.3}: ({:.1}, {}) and ({:.1}, {})", 
                  hue, hue_minus, code_minus, hue_plus, code_plus);
     }
@@ -1000,15 +1014,15 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     let (x_grey, y_grey) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
     
     // Get xy for lower hue - handle high chromas by extrapolation
-    let spec_minus = [hue_minus, value, chroma, code_minus as f64];
+    let spec_minus = [hue_minus, value_for_lookup, chroma, code_minus as f64];
     
     // DEBUG: Check spec_minus
-    if hue > 7.0 && hue < 8.0 && value == 8.0 {
+    if hue > 7.0 && hue < 8.0 && value_for_lookup == 8.0 {
         eprintln!("        xy_from_renotation_ovoid: spec_minus = [{:.1}, {:.1}, {:.1}, {}]", 
                  spec_minus[0], spec_minus[1], spec_minus[2], spec_minus[3] as u8);
     }
     
-    let max_chroma_minus = maximum_chroma_from_renotation(hue_minus, value, code_minus);
+    let max_chroma_minus = maximum_chroma_from_renotation(hue_minus, value_for_lookup, code_minus);
     
     let (x_minus, y_minus, y_val_minus) = if chroma <= max_chroma_minus {
         // Try to get the data, but it might not exist
@@ -1056,7 +1070,7 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
                     None => {
                         // No data at all, use illuminant C as fallback
                         let (x_c, y_c) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
-                        (x_c, y_c, luminance_astmd1535(value) / 100.0)
+                        (x_c, y_c, luminance_astmd1535(value_for_lookup) / 100.0)
                     }
                 }
             }
@@ -1069,8 +1083,8 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
                 format!("Cannot extrapolate from chroma {}", highest_even)
             ));
         }
-        let spec_high = [hue_minus, value, highest_even, code_minus as f64];
-        let spec_second = [hue_minus, value, highest_even - 2.0, code_minus as f64];
+        let spec_high = [hue_minus, value_for_lookup, highest_even, code_minus as f64];
+        let spec_second = [hue_minus, value_for_lookup, highest_even - 2.0, code_minus as f64];
         let xyy_high = xyy_from_renotation(&spec_high)?;
         let xyy_second = xyy_from_renotation(&spec_second)?;
         
@@ -1086,15 +1100,15 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     let phi_minus = phi_minus.to_degrees();
     
     // Get xy for upper hue - same approach
-    let spec_plus = [hue_plus, value, chroma, code_plus as f64];
+    let spec_plus = [hue_plus, value_for_lookup, chroma, code_plus as f64];
     
     // DEBUG: Check spec_plus
-    if hue > 7.0 && hue < 8.0 && value == 8.0 {
+    if hue > 7.0 && hue < 8.0 && value_for_lookup == 8.0 {
         eprintln!("        xy_from_renotation_ovoid: spec_plus = [{:.1}, {:.1}, {:.1}, {}]", 
                  spec_plus[0], spec_plus[1], spec_plus[2], spec_plus[3] as u8);
     }
     
-    let max_chroma_plus = maximum_chroma_from_renotation(hue_plus, value, code_plus);
+    let max_chroma_plus = maximum_chroma_from_renotation(hue_plus, value_for_lookup, code_plus);
     
     let (x_plus, y_plus, y_val_plus) = if chroma <= max_chroma_plus {
         // Try to get the data, but it might not exist (e.g., 0Y at high chromas)
@@ -1109,7 +1123,7 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
                 
                 // Try progressively lower chromas
                 while test_chroma >= 2.0 {
-                    let test_spec = [hue_plus, value, test_chroma, code_plus as f64];
+                    let test_spec = [hue_plus, value_for_lookup, test_chroma, code_plus as f64];
                     if let Ok(xyy) = xyy_from_renotation(&test_spec) {
                         found_xyy = Some(xyy);
                         break;
@@ -1144,7 +1158,7 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
                         // No data at all, this is problematic
                         // Use illuminant C as fallback
                         let (x_c, y_c) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
-                        (x_c, y_c, luminance_astmd1535(value) / 100.0)
+                        (x_c, y_c, luminance_astmd1535(value_for_lookup) / 100.0)
                     }
                 }
             }
@@ -1157,8 +1171,8 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
                 format!("Cannot extrapolate from chroma {}", highest_even)
             ));
         }
-        let spec_high = [hue_plus, value, highest_even, code_plus as f64];
-        let spec_second = [hue_plus, value, highest_even - 2.0, code_plus as f64];
+        let spec_high = [hue_plus, value_for_lookup, highest_even, code_plus as f64];
+        let spec_second = [hue_plus, value_for_lookup, highest_even - 2.0, code_plus as f64];
         let xyy_high = xyy_from_renotation(&spec_high)?;
         let xyy_second = xyy_from_renotation(&spec_second)?;
         
@@ -1272,9 +1286,15 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let initial_spec = lchab_to_munsell_specification(lchab);
     
     // Ensure initial chroma is valid
-    let initial_chroma = (5.0 / 5.5) * initial_spec[2];
+    // NOTE: DO NOT scale by (5.0/5.5) - this causes incorrect convergence!
+    // The initial_spec[2] from LCHab is already correctly scaled.
+    // However, we need to ensure it's a reasonable starting value
+    let initial_chroma = initial_spec[2];
     let initial_chroma = if initial_chroma.is_nan() || initial_chroma < 0.1 {
         1.0 // Default to low chroma for edge cases
+    } else if initial_chroma > 2.0 && value > 9.0 {
+        // For high values, start with a lower chroma to avoid issues
+        2.0
     } else {
         initial_chroma
     };
@@ -1503,11 +1523,16 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             let mut rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
             let mut rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
             
-            // Check if this is our debug color RGB(34, 17, 119) = #221177
+            // Check if this is our debug color RGB(34, 17, 119) = #221177 or RGB(221, 238, 238)
             let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
+            let is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
             
-            if is_debug_color {
-                eprintln!("=== CHROMA CONVERGENCE DEBUG for #221177 ===");
+            if is_debug_color || is_grey_debug {
+                if is_grey_debug {
+                    eprintln!("=== CHROMA CONVERGENCE DEBUG for RGB(221, 238, 238) ===");
+                } else {
+                    eprintln!("=== CHROMA CONVERGENCE DEBUG for #221177 ===");
+                }
                 eprintln!("Target: x={:.6}, y={:.6}, rho_input={:.6}", x, y, rho_input);
                 eprintln!("Initial: hue={:.3}, chroma={:.3}, code={}, chroma_max={:.3}", 
                          hue_new, chroma_current, code_new, chroma_maximum);
@@ -1535,7 +1560,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 
                 let spec_inner = [hue_new, value, chroma_inner, code_new as f64];
                 
-                if is_debug_color {
+                if is_debug_color || is_grey_debug {
                     eprintln!("  Iteration {}: Testing chroma {:.3} (unclamped: {:.3}, ratio={:.6})", 
                              iterations_inner, chroma_inner, chroma_inner_unclamped, 
                              (rho_input / rho_current).powf(iterations_inner as f64));
@@ -1548,7 +1573,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                     x_inner - x_center, y_inner - y_center, big_y
                 );
                 
-                if is_debug_color {
+                if is_debug_color || is_grey_debug {
                     eprintln!("    -> xy=({:.6}, {:.6}), rho={:.6}, distance_to_target={:.6}", 
                              x_inner, y_inner, rho_inner, (rho_inner - rho_input).abs());
                 }
@@ -1560,7 +1585,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
                 rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
                 
-                if is_debug_color {
+                if is_debug_color || is_grey_debug {
                     eprintln!("    Bounds: rho=[{:.6}, {:.6}], chroma=[{:.3}, {:.3}]", 
                              rho_min, rho_max, 
                              *chroma_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap(),
@@ -1574,7 +1599,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             if rho_min >= rho_input || rho_max <= rho_input {
                 // We couldn't bracket rho_input, likely hit max chroma
                 // Use the last chroma that was tested
-                if is_debug_color {
+                if is_debug_color || is_grey_debug {
                     eprintln!("  WARNING: Could not bracket rho_input={:.6}, using last chroma", rho_input);
                 }
                 let last_idx = chroma_bounds_data.len() - 1;
@@ -1587,7 +1612,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 let rho_bounds_sorted: Vec<f64> = indices.iter().map(|&i| rho_bounds_data[i]).collect();
                 let chroma_bounds_sorted: Vec<f64> = indices.iter().map(|&i| chroma_bounds_data[i]).collect();
                 
-                if is_debug_color {
+                if is_debug_color || is_grey_debug {
                     eprintln!("  Final interpolation:");
                     eprintln!("    Sorted rho bounds: {:?}", rho_bounds_sorted);
                     eprintln!("    Sorted chroma bounds: {:?}", chroma_bounds_sorted);
@@ -1597,7 +1622,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 let interpolator = LinearInterpolator::new(rho_bounds_sorted, chroma_bounds_sorted);
                 let chroma_new = interpolator.interpolate(rho_input);
                 
-                if is_debug_color {
+                if is_debug_color || is_grey_debug {
                     eprintln!("    Final chroma result: {:.6}", chroma_new);
                 }
                 
@@ -1615,10 +1640,11 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
         
-        // Check if this is our debug color RGB(34, 17, 119) = #221177
+        // Check if this is our debug color RGB(34, 17, 119) = #221177 or RGB(221, 238, 238)
         let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
+        let is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
         
-        if is_debug_color {
+        if is_debug_color || is_grey_debug {
             eprintln!("=== CONVERGENCE CHECK (iteration {}) ===", iterations);
             eprintln!("  Final spec: hue={:.3}, value={:.3}, chroma={:.6}, code={}", 
                      specification_current[0], specification_current[1], 
