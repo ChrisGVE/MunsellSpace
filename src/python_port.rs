@@ -125,13 +125,8 @@ pub fn bounding_hues_from_renotation(hue: f64, code: u8) -> ((f64, u8), (f64, u8
         if hue.abs() < 1e-10 {
             // hue == 0
             hue_cw = 10.0;
-            // Python: code_cw = (code + 1) % 10
-            let mut temp_code = ((code as i32 + 1) % 10) as u8;
-            // Python: if code_cw == 0: code_cw = 10
-            if temp_code == 0 {
-                temp_code = 10;
-            }
-            code_cw = temp_code;
+            // Move to next hue family
+            code_cw = if code == 10 { 1 } else { code + 1 };
         } else {
             hue_cw = hue;
             code_cw = code;
@@ -149,13 +144,8 @@ pub fn bounding_hues_from_renotation(hue: f64, code: u8) -> ((f64, u8), (f64, u8
         
         if hue_cw.abs() < 1e-10 {
             hue_cw = 10.0;
-            // Python: code_cw = (code + 1) % 10
-            let mut temp_code = ((code as i32 + 1) % 10) as u8;
-            // Python: if code_cw == 0: code_cw = 10
-            if temp_code == 0 {
-                temp_code = 10;
-            }
-            code_cw = temp_code;
+            // Move to next hue family  
+            code_cw = if code == 10 { 1 } else { code + 1 };
         } else {
             code_cw = code;
         }
