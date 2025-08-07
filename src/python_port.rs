@@ -184,12 +184,13 @@ pub fn normalise_munsell_specification(spec: &[f64; 4]) -> [f64; 4] {
     let mut code = if spec[3].is_nan() { 1 } else { spec[3] as u8 };
     
     // Python only handles hue == 0 case
-    // 0YR is equivalent to 10R, 0Y becomes 10YR, etc.
+    // 0R becomes 10RP, 0YR becomes 10Y, etc.
     if hue == 0.0 {
         hue = 10.0;
-        code = (code % 10) + 1;
-        if code == 0 {
-            code = 10;  // Should never happen but matches Python exactly
+        // Move to next hue family
+        code = code + 1;
+        if code > 10 {
+            code = 1;  // Wrap from PB (10) to B (1)
         }
     }
     
@@ -1591,7 +1592,8 @@ pub fn munsell_specification_to_xy(spec: &[f64; 4]) -> Result<[f64; 2]> {
     // will handle non-integer values appropriately.
     
     // Determine chroma bounds
-    let (chroma_minus, chroma_plus) = if chroma % 2.0 == 0.0 {
+    // Check if chroma is an even integer (within epsilon tolerance)
+    let (chroma_minus, chroma_plus) = if (chroma / 2.0 - (chroma / 2.0).round()).abs() < 1e-10 {
         (chroma, chroma)
     } else {
         (2.0 * (chroma / 2.0).floor(), 2.0 * (chroma / 2.0).floor() + 2.0)
