@@ -673,11 +673,37 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         let xy_grey = crate::constants::ILLUMINANT_C;
         
         // Get point at chroma 2
-        // Make sure we have integer value to avoid recursion
-        let value_int = value.round();
-        let spec_chroma2 = [spec[0], value_int, 2.0, spec[3]];
-        // Recursively call ourselves to handle value interpolation if needed
-        let xy_chroma2 = xy_from_renotation_ovoid_interpolated(&spec_chroma2)?;
+        // For non-integer values, we need to interpolate between integer values
+        let xy_chroma2 = if (value - value.round()).abs() < 1e-10 {
+            // Integer value - direct lookup
+            let spec_chroma2 = [spec[0], value, 2.0, spec[3]];
+            xy_from_renotation_ovoid_interpolated(&spec_chroma2)?
+        } else {
+            // Non-integer value - interpolate between floor and ceil
+            let value_floor = value.floor();
+            let value_ceil = value.ceil();
+            
+            // Handle edge cases
+            let (val_low, val_high) = if value_floor < 1.0 {
+                (1.0, 2.0)
+            } else if value_ceil > 9.0 {
+                (8.0, 9.0)
+            } else {
+                (value_floor, value_ceil)
+            };
+            
+            // Get xy at chroma 2 for both integer values
+            let spec_low = [spec[0], val_low, 2.0, spec[3]];
+            let xy_low = xy_from_renotation_ovoid_interpolated(&spec_low)?;
+            
+            let spec_high = [spec[0], val_high, 2.0, spec[3]];
+            let xy_high = xy_from_renotation_ovoid_interpolated(&spec_high)?;
+            
+            // Linear interpolation
+            let t = (value - val_low) / (val_high - val_low);
+            [xy_low[0] + t * (xy_high[0] - xy_low[0]),
+             xy_low[1] + t * (xy_high[1] - xy_low[1])]
+        };
         
         // Interpolate between grey and chroma 2
         let t = chroma / 2.0;
@@ -867,7 +893,29 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         }
     } else {
         // Non-standard specification, use interpolation
-        xy_from_renotation_ovoid(&spec)
+        // Special handling for non-integer values - interpolate between integer values
+        let value_floor = value.floor();
+        let value_ceil = value.ceil();
+        
+        if (value - value_floor).abs() > 1e-10 && value_floor != value_ceil {
+            // Non-integer value - interpolate between floor and ceil
+            let spec_floor = [spec[0], value_floor, spec[2], spec[3]];
+            let spec_ceil = [spec[0], value_ceil, spec[2], spec[3]];
+            
+            // Get xy for both integer values
+            let xy_floor = xy_from_renotation_ovoid(&spec_floor)?;
+            let xy_ceil = xy_from_renotation_ovoid(&spec_ceil)?;
+            
+            // Linear interpolation
+            let t = value - value_floor;
+            let x = xy_floor[0] + t * (xy_ceil[0] - xy_floor[0]);
+            let y = xy_floor[1] + t * (xy_ceil[1] - xy_floor[1]);
+            
+            Ok([x, y])
+        } else {
+            // Integer value or effectively integer
+            xy_from_renotation_ovoid(&spec)
+        }
     }
 }
 
