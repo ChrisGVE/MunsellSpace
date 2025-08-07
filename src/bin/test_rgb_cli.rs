@@ -19,7 +19,7 @@ fn main() {
     // Convert to sRGB (0-1 range)
     let srgb = [r as f64 / 255.0, g as f64 / 255.0, b as f64 / 255.0];
     
-    // sRGB to XYZ
+    // sRGB to XYZ using D65 illuminant
     let xyz = srgb_to_xyz_d65(srgb);
     
     // XYZ to xyY
@@ -28,8 +28,25 @@ fn main() {
     // xyY to Munsell specification
     match xyy_to_munsell_specification(xyy) {
         Ok(spec) => {
-            let notation = munsell_specification_to_munsell_colour(&spec).unwrap_or_else(|_| "Error".to_string());
-            println!("Munsell: {}", notation);
+            // Convert specification to Munsell notation string
+            // Use default decimals: 1 for hue, 1 for value, 1 for chroma
+            match munsell_specification_to_munsell_colour(&spec, 1, 1, 1) {
+                Ok(notation) => println!("Munsell: {}", notation),
+                Err(_) => {
+                    // Fallback formatting if the string function fails
+                    if spec[0].is_nan() {
+                        println!("Munsell: N{:.1}", spec[1]);
+                    } else {
+                        let code = spec[3] as u8;
+                        let family = match code {
+                            1 => "B", 2 => "BG", 3 => "G", 4 => "GY", 5 => "Y",
+                            6 => "YR", 7 => "R", 8 => "RP", 9 => "P", 10 => "PB",
+                            _ => "?"
+                        };
+                        println!("Munsell: {:.1}{} {:.1}/{:.1}", spec[0], family, spec[1], spec[2]);
+                    }
+                }
+            }
         }
         Err(e) => {
             eprintln!("Error: {:?}", e);
