@@ -1,104 +1,136 @@
-# Conversion Backtesting Report - MunsellSpace
+# Munsell Conversion Backtesting Report
+
+**Generated**: 2025-08-07T14:21:54.486538
+**Dataset**: tests/data/srgb-to-munsell.csv
+**Total Colors Tested**: 48
 
 ## Executive Summary
 
-Comprehensive backtesting comparing Python colour-science vs Rust MunsellSpace implementation on sampled colors from the 4,007 reference dataset.
+- **Overall Accuracy**: 66.67% (32/48 within 0.1 tolerance)
+- **Family Mismatches**: 0.00% (0 colors)
+- **Hue Accuracy**: 97.92% within tolerance
+- **Value Accuracy**: 100.00% within tolerance
+- **Chroma Accuracy**: 68.75% within tolerance
 
-### Key Metrics
-- **Overall Accuracy**: 83.1% (152/183 colors within 0.1 tolerance on all components)
-- **Family Mismatches**: 1.6% (3/183 colors)
-- **Component Accuracy**:
-  - **Hue**: 97.3% within 0.1 tolerance
-  - **Value**: 100% within 0.1 tolerance ✓
-  - **Chroma**: 84.7% within 0.1 tolerance
+## Family Mismatches
 
-## Detailed Statistics
+**Total**: 0 (0.00%)
 
-### 1. Family Mismatches
-- **Total**: 3 out of 183 tested (1.6%)
-- **Analysis**: Very low family mismatch rate indicates hue angle calculation is highly accurate
-- **Common transitions** (from first 100 colors):
-  - B→BG: 1 case
+## Hue Differences
 
-### 2. Hue Differences
+### Summary Statistics
 
-| Percentile | Difference | Analysis |
-|------------|------------|----------|
-| Median (50th) | 0.023165 | Excellent - typical error ~0.02 |
-| 90th | 0.050793 | Very good - 90% have error < 0.05 |
-| 95th | 0.067509 | Good - 95% have error < 0.07 |
-| 99th | 9.963813 | Some outliers exist |
-| Maximum | 9.988436 | Rare edge cases |
+- **Median**: 0.000000
+- **Mean**: 0.008333
+- **Std Dev**: 0.027639
+- **Min**: 0.000000
+- **Max**: 0.100000
+- **Above 0.1**: 1 (2.08%)
 
-- **Colors exceeding 0.1 tolerance**: 5 (2.7%)
-- **Assessment**: Excellent hue accuracy for 97.3% of colors
+### Percentile Distribution
 
-### 3. Value Differences
+| Percentile | Value | Analysis |
+|------------|-------|----------|
+|  50.0% | 0.000000 | ✓ Median - typical error |
+|  90.0% | 0.000000 | ✓ 90% of colors below this |
+|  95.0% | 0.100000 | ✓ 95% of colors below this |
+|  96.0% | 0.100000 | ✓ 96% of colors below this |
+|  97.0% | 0.100000 | ✓ 97% of colors below this |
+|  98.0% | 0.100000 | ✓ 98% of colors below this |
+|  99.0% | 0.100000 | ⚠️ 99% of colors below this |
+|  99.5% | 0.100000 | ⚠️ 99.5% of colors below this |
+| 100.0% | 0.100000 | ⚠️ Maximum error |
 
-| Percentile | Difference | Analysis |
-|------------|------------|----------|
-| Median (50th) | 0.024510 | Excellent - typical error ~0.02 |
-| 90th | 0.045542 | Excellent - all well under 0.1 |
-| 95th | 0.047171 | Excellent |
-| 99th | 0.048661 | Excellent |
-| Maximum | 0.049859 | Perfect - max still under 0.05 |
+## Value Differences
 
-- **Colors exceeding 0.1 tolerance**: 0 (0%)
-- **Assessment**: ✓ PERFECT value accuracy - 100% within tolerance
+### Summary Statistics
 
-### 4. Chroma Differences
+- **Median**: 0.000000
+- **Mean**: 0.000000
+- **Std Dev**: 0.000000
+- **Min**: 0.000000
+- **Max**: 0.000000
+- **Above 0.1**: 0 (0.00%)
 
-| Percentile | Difference | Analysis |
-|------------|------------|----------|
-| Median (50th) | 0.039704 | Good - typical error ~0.04 |
-| 90th | 0.124087 | Slightly over threshold |
-| 95th | 0.171867 | Some colors exceed tolerance |
-| 99th | 0.274724 | Edge cases with larger errors |
-| Maximum | 0.319560 | Outliers exist |
+### Percentile Distribution
 
-- **Colors exceeding 0.1 tolerance**: 28 (15.3%)
-- **Assessment**: Good accuracy but chroma is the weakest component
+| Percentile | Value | Analysis |
+|------------|-------|----------|
+|  50.0% | 0.000000 | ✓ Median - typical error |
+|  90.0% | 0.000000 | ✓ 90% of colors below this |
+|  95.0% | 0.000000 | ✓ 95% of colors below this |
+|  96.0% | 0.000000 | ✓ 96% of colors below this |
+|  97.0% | 0.000000 | ✓ 97% of colors below this |
+|  98.0% | 0.000000 | ✓ 98% of colors below this |
+|  99.0% | 0.000000 | ✓ 99% of colors below this |
+|  99.5% | 0.000000 | ✓ 99.5% of colors below this |
+| 100.0% | 0.000000 | ✓ Maximum error |
 
-## Problematic Color Analysis
+## Chroma Differences
 
-Based on testing first 100 colors, problematic colors (>0.1 difference) are primarily:
-- Deep blues (PB family) with high chroma values
-- Colors at the edge of the color gamut
-- Very saturated colors near pure blue
+### Summary Statistics
 
-Example problematic colors:
-1. `#0044aa` (RGB 0,68,170): Chroma diff 0.114
-2. `#002244` (RGB 0,34,68): Chroma diff 0.131
-3. `#0044bb` (RGB 0,68,187): Chroma diff 0.180
+- **Median**: 0.100000
+- **Mean**: 0.079167
+- **Std Dev**: 0.067572
+- **Min**: 0.000000
+- **Max**: 0.200000
+- **Above 0.1**: 15 (31.25%)
 
-## Comparison with Target
+### Percentile Distribution
 
-| Metric | Current | Target | Status |
-|--------|---------|--------|--------|
-| Overall Accuracy | 83.1% | 99.98% | Need 16.88% improvement |
-| Hue within 0.1 | 97.3% | 100% | Close |
-| Value within 0.1 | 100% | 100% | ✓ Achieved |
-| Chroma within 0.1 | 84.7% | 100% | Primary issue |
+| Percentile | Value | Analysis |
+|------------|-------|----------|
+|  50.0% | 0.100000 | ✓ Median - typical error |
+|  90.0% | 0.200000 | ⚠️ 90% of colors below this |
+|  95.0% | 0.200000 | ⚠️ 95% of colors below this |
+|  96.0% | 0.200000 | ⚠️ 96% of colors below this |
+|  97.0% | 0.200000 | ⚠️ 97% of colors below this |
+|  98.0% | 0.200000 | ⚠️ 98% of colors below this |
+|  99.0% | 0.200000 | ⚠️ 99% of colors below this |
+|  99.5% | 0.200000 | ⚠️ 99.5% of colors below this |
+| 100.0% | 0.200000 | ⚠️ Maximum error |
 
-## Conclusions
+## Most Problematic Colors
 
-1. **Value calculation is perfect** - 100% accuracy achieved
-2. **Hue calculation is excellent** - 97.3% accuracy with only 2.7% outliers
-3. **Chroma calculation needs improvement** - 15.3% exceed tolerance
-4. **Family assignments are highly accurate** - Only 1.6% mismatches
+**Total problematic colors**: 16 (showing top 16)
 
-## Recommendations for Improvement
+| Hex | RGB | Python | Rust | ΔH | ΔV | ΔC | Family |
+|-----|-----|--------|------|----|----|----|---------|
+| #0044bb | (0, 68, 187) | 6.5PB 3.3/15.2 | 6.5PB 3.3/15.4 | 0.000 | 0.000 | 0.200 | ✓ |
+| #002266 | (0, 34, 102) | 6.1PB 1.6/9.1 | 6.1PB 1.6/9.3 | 0.000 | 0.000 | 0.200 | ✓ |
+| #002255 | (0, 34, 85) | 5.5PB 1.4/7.0 | 5.6PB 1.4/7.2 | 0.100 | 0.000 | 0.200 | ✓ |
+| #0044cc | (0, 68, 204) | 6.7PB 3.4/17.2 | 6.7PB 3.4/17.4 | 0.000 | 0.000 | 0.200 | ✓ |
+| #0044dd | (0, 68, 221) | 6.8PB 3.6/19.2 | 6.8PB 3.6/19.4 | 0.000 | 0.000 | 0.200 | ✓ |
+| #002277 | (0, 34, 119) | 6.4PB 1.8/11.3 | 6.4PB 1.8/11.5 | 0.000 | 0.000 | 0.200 | ✓ |
+| #003311 | (0, 51, 17) | 9.6GY 1.7/5.4 | 9.7GY 1.7/5.6 | 0.100 | 0.000 | 0.200 | ✓ |
+| #0044ee | (0, 68, 238) | 6.9PB 3.8/21.2 | 6.9PB 3.8/21.3 | 0.000 | 0.000 | 0.100 | ✓ |
+| #0066ff | (0, 102, 255) | 6.6PB 4.7/19.0 | 6.6PB 4.7/19.1 | 0.000 | 0.000 | 0.100 | ✓ |
+| #007711 | (0, 119, 17) | 9.6GY 4.2/10.7 | 9.6GY 4.2/10.8 | 0.000 | 0.000 | 0.100 | ✓ |
+| #005533 | (0, 85, 51) | 2.3G 3.1/6.8 | 2.3G 3.1/6.9 | 0.000 | 0.000 | 0.100 | ✓ |
+| #005577 | (0, 85, 119) | 7.4B 3.3/5.6 | 7.4B 3.3/5.7 | 0.000 | 0.000 | 0.100 | ✓ |
+| #002222 | (0, 34, 34) | 3.0BG 1.1/3.0 | 3.1BG 1.1/3.0 | 0.100 | 0.000 | 0.000 | ✓ |
+| #002233 | (0, 34, 51) | 6.6B 1.1/3.1 | 6.6B 1.1/3.2 | 0.000 | 0.000 | 0.100 | ✓ |
+| #003333 | (0, 51, 51) | 3.4BG 1.8/3.8 | 3.4BG 1.8/3.9 | 0.000 | 0.000 | 0.100 | ✓ |
+| #003344 | (0, 51, 68) | 4.0B 1.9/3.8 | 4.0B 1.9/3.9 | 0.000 | 0.000 | 0.100 | ✓ |
 
-1. **Focus on chroma calibration** - This is the primary source of inaccuracy
-2. **Investigate deep blue colors** - Most problematic colors are in the PB (Purple-Blue) family
-3. **Review chroma scaling factors** - The systematic bias suggests calibration constants need adjustment
-4. **Edge case handling** - The few hue outliers (showing ~10.0 difference) suggest wraparound or boundary issues
+## Analysis and Conclusions
 
-## Progress Since Initial State
+### Primary Issues
 
-From CLAUDE.md documentation:
-- **Initial**: 0.025% exact matches
-- **After fixes**: ~60% exact matches achieved
-- **Current sampling**: 83.1% within tolerance
+- **Chroma**: 31.2% exceed tolerance
 
-This represents significant improvement from the initial state and confirms the mathematical algorithm structure is correct, with calibration being the remaining challenge.
+### Strengths
+
+- **Value calculation**: Near perfect accuracy
+- **Hue calculation**: Excellent accuracy
+- **Family assignment**: Very accurate
+
+### Target vs Actual
+
+| Metric | Target | Actual | Status |
+|--------|--------|--------|--------|
+| Overall Accuracy | 99.98% | 66.67% | Need improvement
+| Hue within 0.1 | 100% | 97.92% | Need improvement
+| Value within 0.1 | 100% | 100.00% | ✓
+| Chroma within 0.1 | 100% | 68.75% | Need improvement

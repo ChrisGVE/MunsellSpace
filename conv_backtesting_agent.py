@@ -152,8 +152,8 @@ class ConversionBacktestingAgent:
         value_diffs = [r['differences']['value_diff'] for r in self.results]
         chroma_diffs = [r['differences']['chroma_diff'] for r in self.results]
         
-        # Calculate percentiles
-        percentiles = [50, 90, 95, 99, 100]
+        # Calculate percentiles - include 96, 97, 98 for detailed analysis
+        percentiles = [50, 90, 95, 96, 97, 98, 99, 100]
         
         stats = {
             'total_tested': len(self.results),

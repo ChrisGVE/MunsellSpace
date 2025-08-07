@@ -1465,6 +1465,18 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             let mut rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
             let mut rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
             
+            // Check if this is our debug color RGB(34, 17, 119) = #221177
+            let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
+            
+            if is_debug_color {
+                eprintln!("=== CHROMA CONVERGENCE DEBUG for #221177 ===");
+                eprintln!("Target: x={:.6}, y={:.6}, rho_input={:.6}", x, y, rho_input);
+                eprintln!("Initial: hue={:.3}, chroma={:.3}, code={}, chroma_max={:.3}", 
+                         hue_new, chroma_current, code_new, chroma_maximum);
+                eprintln!("Starting rho_current={:.6}, bounds=[{:.6}], chroma_bounds=[{:.3}]", 
+                         rho_current, rho_min, chroma_current);
+            }
+            
             // Python's condition: while not (np.min(rho_bounds_data) < rho_input < np.max(rho_bounds_data))
             // This means: continue looping while rho_input is NOT strictly between min and max
             while !(rho_min < rho_input && rho_input < rho_max) {
@@ -1476,6 +1488,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 }
                 
                 let chroma_inner = ((rho_input / rho_current).powf(iterations_inner as f64)) * chroma_current;
+                let chroma_inner_unclamped = chroma_inner;
                 let chroma_inner = if chroma_inner > chroma_maximum {
                     chroma_maximum
                 } else {
@@ -1483,9 +1496,13 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 };
                 
                 let spec_inner = [hue_new, value, chroma_inner, code_new as f64];
-                eprintln!("    Inner loop iter {}: spec [{:.3}, {:.1}, {:.1}, {}], rho_current={:.4}, rho_input={:.4}, chroma_inner={:.2}", 
-                         iterations_inner, spec_inner[0], spec_inner[1], spec_inner[2], spec_inner[3] as u8, 
-                         rho_current, rho_input, chroma_inner);
+                
+                if is_debug_color {
+                    eprintln!("  Iteration {}: Testing chroma {:.3} (unclamped: {:.3}, ratio={:.6})", 
+                             iterations_inner, chroma_inner, chroma_inner_unclamped, 
+                             (rho_input / rho_current).powf(iterations_inner as f64));
+                }
+                
                 let xy_inner = xy_from_renotation_ovoid_interpolated(&spec_inner)?;
                 let (x_inner, y_inner) = (xy_inner[0], xy_inner[1]);
                 
@@ -1493,20 +1510,35 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                     x_inner - x_center, y_inner - y_center, big_y
                 );
                 
-                eprintln!("      rho_inner={:.4}, adding to bounds", rho_inner);
+                if is_debug_color {
+                    eprintln!("    -> xy=({:.6}, {:.6}), rho={:.6}, distance_to_target={:.6}", 
+                             x_inner, y_inner, rho_inner, (rho_inner - rho_input).abs());
+                }
+                
                 rho_bounds_data.push(rho_inner);
                 chroma_bounds_data.push(chroma_inner);
                 
                 // Update rho_min and rho_max for next iteration
                 rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
                 rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
+                
+                if is_debug_color {
+                    eprintln!("    Bounds: rho=[{:.6}, {:.6}], chroma=[{:.3}, {:.3}]", 
+                             rho_min, rho_max, 
+                             *chroma_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap(),
+                             *chroma_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap());
+                    eprintln!("    Target rho {:.6} between bounds? {}", rho_input, 
+                             rho_min < rho_input && rho_input < rho_max);
+                }
             } // End of while loop for chroma refinement
         
             // Check if we actually found valid bounds
             if rho_min >= rho_input || rho_max <= rho_input {
                 // We couldn't bracket rho_input, likely hit max chroma
                 // Use the last chroma that was tested
-                eprintln!("    WARNING: Could not bracket rho_input={:.4}, using last chroma", rho_input);
+                if is_debug_color {
+                    eprintln!("  WARNING: Could not bracket rho_input={:.6}, using last chroma", rho_input);
+                }
                 let last_idx = chroma_bounds_data.len() - 1;
                 specification_current = [hue_new, value, chroma_bounds_data[last_idx], code_new as f64];
             } else {
@@ -1517,8 +1549,19 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 let rho_bounds_sorted: Vec<f64> = indices.iter().map(|&i| rho_bounds_data[i]).collect();
                 let chroma_bounds_sorted: Vec<f64> = indices.iter().map(|&i| chroma_bounds_data[i]).collect();
                 
+                if is_debug_color {
+                    eprintln!("  Final interpolation:");
+                    eprintln!("    Sorted rho bounds: {:?}", rho_bounds_sorted);
+                    eprintln!("    Sorted chroma bounds: {:?}", chroma_bounds_sorted);
+                    eprintln!("    Interpolating at rho_input={:.6}", rho_input);
+                }
+                
                 let interpolator = LinearInterpolator::new(rho_bounds_sorted, chroma_bounds_sorted);
                 let chroma_new = interpolator.interpolate(rho_input);
+                
+                if is_debug_color {
+                    eprintln!("    Final chroma result: {:.6}", chroma_new);
+                }
                 
                 specification_current = [hue_new, value, chroma_new, code_new as f64];
             }
@@ -1533,6 +1576,21 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
+        
+        // Check if this is our debug color RGB(34, 17, 119) = #221177
+        let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
+        
+        if is_debug_color {
+            eprintln!("=== CONVERGENCE CHECK (iteration {}) ===", iterations);
+            eprintln!("  Final spec: hue={:.3}, value={:.3}, chroma={:.6}, code={}", 
+                     specification_current[0], specification_current[1], 
+                     specification_current[2], specification_current[3] as u8);
+            eprintln!("  Target xy: ({:.6}, {:.6})", x, y);
+            eprintln!("  Current xy: ({:.6}, {:.6})", x_current, y_current);
+            eprintln!("  Difference: {:.9} vs threshold: {:.9}", difference, convergence_threshold);
+            eprintln!("  Converged: {}", difference < convergence_threshold);
+        }
+        
         if difference < convergence_threshold {
             return Ok(specification_current);
         }

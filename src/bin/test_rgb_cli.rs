@@ -25,9 +25,16 @@ fn main() {
     // XYZ to xyY
     let xyy = xyz_to_xyy(xyz);
     
+    // Print intermediate values for debugging
+    println!("xyY: [{:.10}, {:.10}, {:.10}]", xyy[0], xyy[1], xyy[2]);
+    
     // xyY to Munsell specification
     match xyy_to_munsell_specification(xyy) {
         Ok(spec) => {
+            // Print specification for debugging
+            println!("Specification: [{:.10}, {:.10}, {:.10}, {:.1}]", 
+                    spec[0], spec[1], spec[2], spec[3]);
+            
             // Convert specification to Munsell notation string
             // Use default decimals: 1 for hue, 1 for value, 1 for chroma
             match munsell_specification_to_munsell_colour(&spec, 1, 1, 1) {
