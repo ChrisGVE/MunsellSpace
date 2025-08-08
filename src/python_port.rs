@@ -1305,6 +1305,15 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         iterations += 1;
         eprintln!("TRACE|ITER_{}:START|spec={:.6},{:.6},{:.6},{:.0}", iterations, specification_current[0], specification_current[1], specification_current[2], specification_current[3]);
         
+        // Trace interpolation method
+        let interp_method = interpolation_method_from_renotation_ovoid(
+            specification_current[0],
+            specification_current[1], 
+            specification_current[2],
+            specification_current[3] as u8
+        );
+        eprintln!("TRACE|ITER_{}:INTERP_METHOD|{}", iterations, interp_method.unwrap_or("None"));
+        
         if iterations % 10 == 0 {
             eprintln!("DEBUG: Iteration {} - spec=[{:.4}, {:.4}, {:.4}, {:.4}]", 
                 iterations, specification_current[0], specification_current[1], specification_current[2], specification_current[3]);
@@ -1334,6 +1343,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         // Use interpolated version for iterative algorithm
         let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
+        eprintln!("TRACE|ITER_{}:XY_FROM_RENOT|xy=[{:.6},{:.6}]", iterations, x_current, y_current);
         
         // Convert to polar
         let (rho_current, phi_current, _) = cartesian_to_cylindrical(
