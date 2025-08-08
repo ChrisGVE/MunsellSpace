@@ -1,0 +1,581 @@
+warning: unused import: `interpolation_methods::*`
+   --> src/mathematical.rs:863:13
+    |
+863 |         use interpolation_methods::*;
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `crate::constants::ILLUMINANT_C`
+    --> src/mathematical.rs:1904:13
+     |
+1904 |         use crate::constants::ILLUMINANT_C;
+     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `IntoColorUnclamped`, `Lab`, and `Lch`
+ --> src/mathematical_v2.rs:7:26
+  |
+7 | use palette::{Srgb, Xyz, Lab, Lch, convert::{IntoColor, IntoColorUnclamped}, white_point::D65};
+  |                          ^^^  ^^^                       ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::python_port_helpers::*`
+ --> src/python_converter.rs:6:5
+  |
+6 | use crate::python_port_helpers::*;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `CieXyY` and `MunsellSpecification`
+ --> src/python_converter.rs:8:27
+  |
+8 | use crate::mathematical::{MunsellSpecification, CieXyY};
+  |                           ^^^^^^^^^^^^^^^^^^^^  ^^^^^^
+
+warning: unused import: `crate::error::Result`
+ --> src/python_port_lab.rs:4:5
+  |
+4 | use crate::error::Result;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::error::Result`
+ --> src/python_port_utils.rs:4:5
+  |
+4 | use crate::error::Result;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused doc comment
+   --> src/python_port_cache.rs:174:1
+    |
+174 | / /// Thread-local cache instance
+175 | | /// This matches Python's module-level caching behavior
+    | |_------------------------------------------------------^
+    |   |
+    |   rustdoc does not generate documentation for macro invocations
+    |
+    = help: to document an item produced by a macro, the macro must produce the documentation as part of its expansion
+    = note: `#[warn(unused_doc_comments)]` on by default
+
+warning: unused import: `Hasher`
+ --> src/python_port_cache.rs:5:23
+  |
+5 | use std::hash::{Hash, Hasher};
+  |                       ^^^^^^
+
+warning: unused imports: `is_within_macadam_limits`, `lab_to_lchab`, `xyy_to_xyz`, `xyz_to_lab`, and `xyz_to_xy`
+ --> src/traced_port.rs:6:34
+  |
+6 | use crate::python_port_helpers::{xyy_to_xyz, xyz_to_xy, xyz_to_lab, lab_to_lchab, is_within_macadam_limits};
+  |                                  ^^^^^^^^^^  ^^^^^^^^^  ^^^^^^^^^^  ^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused variable: `hue_number`
+   --> src/iscc.rs:769:28
+    |
+769 |     fn hue_in_plane(&self, hue_number: f64, hue_family: &str, plane_key: &str) -> bool {
+    |                            ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_hue_number`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: variable does not need to be mutable
+   --> src/mathematical.rs:182:13
+    |
+182 |         let mut code_cw: u8;
+    |             ----^^^^^^^
+    |             |
+    |             help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` on by default
+
+warning: variable does not need to be mutable
+   --> src/mathematical.rs:184:13
+    |
+184 |         let mut code_ccw: u8;
+    |             ----^^^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `X_n`
+   --> src/mathematical.rs:744:13
+    |
+744 |         let X_n = x_n * Y_n / y_n;
+    |             ^^^ help: if this is intentional, prefix it with an underscore: `_X_n`
+
+warning: unused variable: `Z_n`
+   --> src/mathematical.rs:745:13
+    |
+745 |         let Z_n = (1.0 - x_n - y_n) * Y_n / y_n;
+    |             ^^^ help: if this is intentional, prefix it with an underscore: `_Z_n`
+
+warning: unused variable: `rho_current`
+   --> src/mathematical.rs:967:18
+    |
+967 |             let (rho_current, phi_current, _) = cartesian_to_cylindrical(
+    |                  ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rho_current`
+
+warning: variable does not need to be mutable
+    --> src/mathematical.rs:1030:21
+     |
+1030 |                 let mut hue_angle_difference_inner = if step_mod > 180.0 {
+     |                     ----^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |                     |
+     |                     help: remove this `mut`
+
+warning: unused variable: `hue`
+    --> src/mathematical.rs:1624:46
+     |
+1624 |     fn maximum_chroma_from_renotation(&self, hue: f64, value: f64, code: u8) -> Result<f64> {
+     |                                              ^^^ help: if this is intentional, prefix it with an underscore: `_hue`
+
+warning: unused variable: `hue`
+    --> src/mathematical.rs:2196:47
+     |
+2196 |     fn get_y_luminance_from_renotation(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<f64> {
+     |                                               ^^^ help: if this is intentional, prefix it with an underscore: `_hue`
+
+warning: unused variable: `family`
+    --> src/mathematical.rs:2219:13
+     |
+2219 |         let family = hue_conversions::code_to_family(code);
+     |             ^^^^^^ help: if this is intentional, prefix it with an underscore: `_family`
+
+warning: unused variable: `hue`
+    --> src/mathematical.rs:2215:40
+     |
+2215 |     fn get_interpolation_method(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<&'static str> {
+     |                                        ^^^ help: if this is intentional, prefix it with an underscore: `_hue`
+
+warning: unused variable: `hue`
+    --> src/mathematical.rs:2260:44
+     |
+2260 |     fn interpolate_hue_chroma_to_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
+     |                                            ^^^ help: if this is intentional, prefix it with an underscore: `_hue`
+
+warning: unused variable: `chroma`
+    --> src/mathematical.rs:2260:66
+     |
+2260 |     fn interpolate_hue_chroma_to_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
+     |                                                                  ^^^^^^ help: if this is intentional, prefix it with an underscore: `_chroma`
+
+warning: unused variable: `code`
+    --> src/mathematical.rs:2260:79
+     |
+2260 |     fn interpolate_hue_chroma_to_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
+     |                                                                               ^^^^ help: if this is intentional, prefix it with an underscore: `_code`
+
+warning: unused variable: `target_x`
+    --> src/mathematical.rs:2584:73
+     |
+2584 | ...ec: &MunsellSpecification, target_x: f64, target_y: f64, error_x: f64, error_y: f64) -> Result<MunsellSpecification> {
+     |                               ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_target_x`
+
+warning: unused variable: `target_y`
+    --> src/mathematical.rs:2584:88
+     |
+2584 | ...cification, target_x: f64, target_y: f64, error_x: f64, error_y: f64) -> Result<MunsellSpecification> {
+     |                               ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_target_y`
+
+warning: variable does not need to be mutable
+   --> src/python_port.rs:125:9
+    |
+125 |     let mut code_cw: u8;
+    |         ----^^^^^^^
+    |         |
+    |         help: remove this `mut`
+
+warning: unused variable: `needs_value_interpolation`
+   --> src/python_port.rs:960:9
+    |
+960 |     let needs_value_interpolation = (value_for_lookup - value_int).abs() > 1e-10;
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_needs_value_interpolation`
+
+warning: unused variable: `rho_current`
+    --> src/python_port.rs:1339:14
+     |
+1339 |         let (rho_current, phi_current, _) = cartesian_to_cylindrical(
+     |              ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rho_current`
+
+warning: unused variable: `rho_inner`
+    --> src/python_port.rs:1403:22
+     |
+1403 |                 let (rho_inner, phi_inner, _) = cartesian_to_cylindrical(
+     |                      ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rho_inner`
+
+warning: unused variable: `is_debug_color`
+    --> src/python_port.rs:1488:17
+     |
+1488 |             let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
+     |                 ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_is_debug_color`
+
+warning: unused variable: `is_grey_debug`
+    --> src/python_port.rs:1489:17
+     |
+1489 |             let is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
+     |                 ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_is_grey_debug`
+
+warning: unused variable: `chroma_inner_unclamped`
+    --> src/python_port.rs:1502:21
+     |
+1502 |                 let chroma_inner_unclamped = chroma_inner;
+     |                     ^^^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_chroma_inner_unclamped`
+
+warning: unused variable: `is_debug_color`
+    --> src/python_port.rs:1559:13
+     |
+1559 |         let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
+     |             ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_is_debug_color`
+
+warning: unused variable: `is_grey_debug`
+    --> src/python_port.rs:1560:13
+     |
+1560 |         let is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
+     |             ^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_is_grey_debug`
+
+warning: unused variable: `wp_sum`
+  --> src/python_port_helpers.rs:15:9
+   |
+15 |     let wp_sum = white_point[0] + white_point[1] + (1.0 - white_point[0] - white_point[1]);
+   |         ^^^^^^ help: if this is intentional, prefix it with an underscore: `_wp_sum`
+
+warning: unused variable: `illuminant`
+   --> src/python_port_helpers.rs:122:48
+    |
+122 | pub fn is_within_macadam_limits(xyy: [f64; 3], illuminant: &str) -> bool {
+    |                                                ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_illuminant`
+
+warning: unused variable: `y3`
+   --> src/python_port_utils.rs:251:9
+    |
+251 |     let y3 = y2 * y;
+    |         ^^ help: if this is intentional, prefix it with an underscore: `_y3`
+
+warning: unused variable: `rho_inner`
+   --> src/traced_port.rs:518:22
+    |
+518 |                 let (rho_inner, phi_inner, _) = cartesian_to_cylindrical(
+    |                      ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_rho_inner`
+
+warning: type `IsccNbsColor` is more private than the item `validate_polygons`
+   --> src/iscc.rs:783:5
+    |
+783 |     pub fn validate_polygons(colors: &[IsccNbsColor]) -> Vec<ValidationError> {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ function `validate_polygons` is reachable at visibility `pub`
+    |
+note: but type `IsccNbsColor` is only usable at visibility `pub(self)`
+   --> src/iscc.rs:64:1
+    |
+64  | struct IsccNbsColor {
+    | ^^^^^^^^^^^^^^^^^^^
+    = note: `#[warn(private_interfaces)]` on by default
+
+warning: field `rgb` is never read
+  --> src/converter.rs:20:5
+   |
+19 | struct MunsellReferencePoint {
+   |        --------------------- field in this struct
+20 |     rgb: [u8; 3],
+   |     ^^^
+   |
+   = note: `MunsellReferencePoint` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` on by default
+
+warning: methods `chromatic_adaptation_d65_to_c` and `xyy_to_munsell` are never used
+   --> src/converter.rs:426:8
+    |
+115 | impl MunsellConverter {
+    | --------------------- methods in this implementation
+...
+426 |     fn chromatic_adaptation_d65_to_c(&self, xyz_d65: [f64; 3]) -> [f64; 3] {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+494 |     fn xyy_to_munsell(&self, xyy: [f64; 3]) -> Result<MunsellColor> {
+    |        ^^^^^^^^^^^^^^
+
+warning: field `polygon_group` is never read
+  --> src/iscc.rs:68:5
+   |
+64 | struct IsccNbsColor {
+   |        ------------ field in this struct
+...
+68 |     polygon_group: u8,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `IsccNbsColor` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: methods `format_color_name` and `hue_in_plane` are never used
+   --> src/iscc.rs:359:8
+    |
+97  | impl IsccNbsClassifier {
+    | ---------------------- methods in this implementation
+...
+359 |     fn format_color_name(&self, color: &IsccNbsColor) -> String {
+    |        ^^^^^^^^^^^^^^^^^
+...
+769 |     fn hue_in_plane(&self, hue_number: f64, hue_family: &str, plane_key: &str) -> bool {
+    |        ^^^^^^^^^^^^
+
+warning: constant `TOLERANCE_ABSOLUTE_DEFAULT` is never used
+  --> src/mathematical.rs:13:7
+   |
+13 | const TOLERANCE_ABSOLUTE_DEFAULT: f64 = 1e-8;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+    --> src/mathematical.rs:737:8
+     |
+646  | impl MathematicalMunsellConverter {
+     | --------------------------------- methods in this implementation
+...
+737  |     fn xyz_to_lab(&self, xyz: [f64; 3]) -> CieLab {
+     |        ^^^^^^^^^^
+...
+2248 |     fn linear_interpolate_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
+     |        ^^^^^^^^^^^^^^^^^^^^^
+...
+2254 |     fn radial_interpolate_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
+     |        ^^^^^^^^^^^^^^^^^^^^^
+...
+2260 |     fn interpolate_hue_chroma_to_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+2329 |     fn is_achromatic_d65(&self, x: f64, y: f64) -> bool {
+     |        ^^^^^^^^^^^^^^^^^
+...
+2344 |     fn is_achromatic(&self, x: f64, y: f64) -> bool {
+     |        ^^^^^^^^^^^^^
+...
+2361 |     fn interpolate_hue_chroma(&self, x: f64, y: f64, luma: f64) -> Result<(f64, String, f64)> {
+     |        ^^^^^^^^^^^^^^^^^^^^^^
+...
+2399 |     fn find_nearest_neighbor(&self, x: f64, y: f64, luma: f64) -> Result<(f64, String, f64)> {
+     |        ^^^^^^^^^^^^^^^^^^^^^
+...
+2432 |     fn munsell_specification_to_xyy_interpolated(&self, spec: &MunsellSpecification) -> Result<CieXyY> {
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+2460 |     fn find_interpolation_neighbors(&self, target_hue: &str, target_value: f64, target_chroma: f64) -> Vec<&'static ((&'static str, f64, ...
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+2502 |     fn hue_families_match(&self, hue1: &str, hue2: &str) -> bool {
+     |        ^^^^^^^^^^^^^^^^^^
+...
+2509 |     fn calculate_hue_distance(&self, hue1: &str, hue2: &str) -> f64 {
+     |        ^^^^^^^^^^^^^^^^^^^^^^
+...
+2527 |     fn hue_to_angle(&self, hue: f64, family: &str) -> f64 {
+     |        ^^^^^^^^^^^^
+...
+2537 |     fn radial_basis_interpolation(&self, neighbors: &[&'static ((&'static str, f64, f64), (f64, f64, f64))], target_value: f64, target_ch...
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+2584 |     fn refine_munsell_specification(&self, spec: &MunsellSpecification, target_x: f64, target_y: f64, error_x: f64, error_y: f64) -> Resu...
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+2602 |     fn parse_hue_string(&self, hue_str: &str) -> Result<(f64, String)> {
+     |        ^^^^^^^^^^^^^^^^
+
+warning: function `cylindrical_to_cartesian` is never used
+  --> src/mathematical.rs:80:12
+   |
+80 |     pub fn cylindrical_to_cartesian(rho: f64, phi: f64, z: f64) -> (f64, f64, f64) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `HUE_FAMILY_CODES` is never used
+  --> src/mathematical.rs:90:11
+   |
+90 |     const HUE_FAMILY_CODES: [(u8, &str); 10] = [
+   |           ^^^^^^^^^^^^^^^^
+
+warning: function `family_to_code` is never used
+   --> src/mathematical.rs:264:12
+    |
+264 |     pub fn family_to_code(family: &str) -> u8 {
+    |            ^^^^^^^^^^^^^^
+
+warning: variants `None`, `Linear`, and `Radial` are never constructed
+   --> src/mathematical.rs:314:9
+    |
+313 |     pub enum InterpolationMethod {
+    |              ------------------- variants in this enum
+314 |         None,     // No interpolation needed
+    |         ^^^^
+315 |         Linear,   // Linear interpolation
+    |         ^^^^^^
+316 |         Radial,   // Radial interpolation
+    |         ^^^^^^
+    |
+    = note: `InterpolationMethod` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: function `interpolation_method_from_renotation_ovoid` is never used
+   --> src/mathematical.rs:321:12
+    |
+321 |     pub fn interpolation_method_from_renotation_ovoid(hue: f64, value: f64, chroma: f64, code: u8) -> InterpolationMethod {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: structure field `Y` should have a snake case name
+  --> src/mathematical.rs:34:9
+   |
+34 |     pub Y: f64,            // Luminance Y
+   |         ^ help: convert the identifier to snake case (notice the capitalization): `y`
+   |
+   = note: `#[warn(non_snake_case)]` on by default
+
+warning: structure field `L` should have a snake case name
+  --> src/mathematical.rs:40:9
+   |
+40 |     pub L: f64,            // Lightness
+   |         ^ help: convert the identifier to snake case: `l`
+
+warning: structure field `L` should have a snake case name
+  --> src/mathematical.rs:48:9
+   |
+48 |     pub L: f64,            // Lightness
+   |         ^ help: convert the identifier to snake case: `l`
+
+warning: structure field `C` should have a snake case name
+  --> src/mathematical.rs:49:9
+   |
+49 |     pub C: f64,            // Chroma
+   |         ^ help: convert the identifier to snake case (notice the capitalization): `c`
+
+warning: variable `X` should have a snake case name
+   --> src/mathematical.rs:730:17
+    |
+730 |             let X = xyy.x * xyy.Y / xyy.y;
+    |                 ^ help: convert the identifier to snake case (notice the capitalization): `x`
+
+warning: variable `Z` should have a snake case name
+   --> src/mathematical.rs:731:17
+    |
+731 |             let Z = (1.0 - xyy.x - xyy.y) * xyy.Y / xyy.y;
+    |                 ^ help: convert the identifier to snake case (notice the capitalization): `z`
+
+warning: variable `Y_n` should have a snake case name
+   --> src/mathematical.rs:741:13
+    |
+741 |         let Y_n = 1.0;
+    |             ^^^ help: convert the identifier to snake case (notice the capitalization): `y_n`
+
+warning: variable `X_n` should have a snake case name
+   --> src/mathematical.rs:744:13
+    |
+744 |         let X_n = x_n * Y_n / y_n;
+    |             ^^^ help: convert the identifier to snake case (notice the capitalization): `x_n`
+
+warning: variable `Z_n` should have a snake case name
+   --> src/mathematical.rs:745:13
+    |
+745 |         let Z_n = (1.0 - x_n - y_n) * Y_n / y_n;
+    |             ^^^ help: convert the identifier to snake case (notice the capitalization): `z_n`
+
+warning: variable `Y_n` should have a snake case name
+   --> src/mathematical.rs:755:13
+    |
+755 |         let Y_n = 1.0;
+    |             ^^^ help: convert the identifier to snake case (notice the capitalization): `y_n`
+
+warning: variable `X_n` should have a snake case name
+   --> src/mathematical.rs:757:13
+    |
+757 |         let X_n = x_n * Y_n / y_n;
+    |             ^^^ help: convert the identifier to snake case (notice the capitalization): `x_n`
+
+warning: variable `Z_n` should have a snake case name
+   --> src/mathematical.rs:758:13
+    |
+758 |         let Z_n = (1.0 - x_n - y_n) * Y_n / y_n;
+    |             ^^^ help: convert the identifier to snake case (notice the capitalization): `z_n`
+
+warning: variable `C` should have a snake case name
+   --> src/mathematical.rs:792:13
+    |
+792 |         let C = (lab.a * lab.a + lab.b * lab.b).sqrt();
+    |             ^ help: convert the identifier to snake case (notice the capitalization): `c`
+
+warning: variable `Y` should have a snake case name
+    --> src/mathematical.rs:1430:13
+     |
+1430 |         let Y = xyy.Y;
+     |             ^ help: convert the identifier to snake case (notice the capitalization): `y`
+
+warning: variable `X_r` should have a snake case name
+    --> src/mathematical.rs:1433:13
+     |
+1433 |         let X_r = x_i * Y / y_i;
+     |             ^^^ help: convert the identifier to snake case (notice the capitalization): `x_r`
+
+warning: variable `Y_r` should have a snake case name
+    --> src/mathematical.rs:1434:13
+     |
+1434 |         let Y_r = Y;
+     |             ^^^ help: convert the identifier to snake case (notice the capitalization): `y_r`
+
+warning: variable `Z_r` should have a snake case name
+    --> src/mathematical.rs:1435:13
+     |
+1435 |         let Z_r = (1.0 - x_i - y_i) * Y / y_i;
+     |             ^^^ help: convert the identifier to snake case (notice the capitalization): `z_r`
+
+warning: variable `_Y` should have a snake case name
+    --> src/mathematical.rs:1779:69
+     |
+1779 |         for &((ref entry_family, entry_value, entry_chroma), (x, y, _Y)) in self.renotation_data {
+     |                                                                     ^^ help: convert the identifier to snake case (notice the capitalization): `_y`
+
+warning: variable `_Y` should have a snake case name
+    --> src/mathematical.rs:1806:69
+     |
+1806 |         for &((ref entry_family, entry_value, entry_chroma), (x, y, _Y)) in self.renotation_data {
+     |                                                                     ^^ help: convert the identifier to snake case (notice the capitalization): `_y`
+
+warning: using `.clone()` on a double reference, which returns `&str` instead of cloning the inner type
+    --> src/mathematical.rs:1809:52
+     |
+1809 |                 matching_entries.push((entry_family.clone(), entry_value, entry_chroma, x, y));
+     |                                                    ^^^^^^^^
+     |
+     = note: `#[warn(suspicious_double_ref_op)]` on by default
+
+warning: variable `weighted_Y` should have a snake case name
+    --> src/mathematical.rs:2546:17
+     |
+2546 |         let mut weighted_Y = 0.0;
+     |                 ^^^^^^^^^^ help: convert the identifier to snake case (notice the capitalization): `weighted_y`
+
+warning: structure field `Y` should have a snake case name
+  --> src/mathematical_v2.rs:47:9
+   |
+47 |     pub Y: f64,            // Luminance Y
+   |         ^ help: convert the identifier to snake case (notice the capitalization): `y`
+
+warning: variable `Y` should have a snake case name
+   --> src/python_port_lab.rs:264:9
+    |
+264 |     let Y = xyy[2];
+    |         ^ help: convert the identifier to snake case (notice the capitalization): `y`
+
+warning: variable `X` should have a snake case name
+   --> src/python_port_lab.rs:270:13
+    |
+270 |         let X = x * Y / y;
+    |             ^ help: convert the identifier to snake case (notice the capitalization): `x`
+
+warning: variable `Z` should have a snake case name
+   --> src/python_port_lab.rs:271:13
+    |
+271 |         let Z = (1.0 - x - y) * Y / y;
+    |             ^ help: convert the identifier to snake case (notice the capitalization): `z`
+
+warning: `munsellspace` (lib) generated 76 warnings (run `cargo fix --lib -p munsellspace` to apply 13 suggestions)
+    Finished `release` profile [optimized] target(s) in 0.06s
+     Running `target/release/test_rgb221_direct`
+TRACE|xyy_to_munsell:ENTRY|xyy=0.301656,0.328990,0.826933
+DEBUG: xyy_to_munsell_specification ENTRY with xyy=[0.3017, 0.3290, 0.8269]
+TRACE|xyy_to_munsell:XYZ|xyz=0.758226,0.826933,0.928391
+TRACE|xyy_to_munsell:LAB|lab=92.880004,-10.404759,3.206791
+TRACE|xyy_to_munsell:LCHAB|L=92.880004,C=10.887723,H=162.870479
+TRACE|xyy_to_munsell:INITIAL_SPEC|hue=5.241800,value=9.288000,chroma=2.177545,code=3
+TRACE|ITER_1:START|spec=5.241800,9.277364,2.000000,3
+TRACE|ITER:CONVERGENCE|xy_target=0.301655541,0.328990105,xy_current=0.301525391,0.328903900,diff=0.000156110296
+TRACE|ITER_2:START|spec=7.294281,9.277364,1.559950,3
+TRACE|ITER:CONVERGENCE|xy_target=0.301655541,0.328990105,xy_current=0.301655921,0.328990354,diff=0.000000454130
+TRACE|ITER_3:START|spec=7.181109,9.277364,1.555758,3
+TRACE|ITER:CONVERGENCE|xy_target=0.301655541,0.328990105,xy_current=0.301655541,0.328990105,diff=0.000000000004
+TRACE|ITER:CONVERGED|diff=0.000000000004,threshold=0.000000100000,converged=true

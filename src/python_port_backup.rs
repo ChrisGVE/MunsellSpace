@@ -1215,7 +1215,6 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
 /// Convert CIE xyY to Munsell specification
 /// Exact 1:1 port from Python colour-science _xyY_to_munsell_specification
 pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
-    eprintln!("TRACE|xyy_to_munsell:ENTRY|xyy={:.6},{:.6},{:.6}", xyy[0], xyy[1], xyy[2]);
     eprintln!("DEBUG: xyy_to_munsell_specification ENTRY with xyy=[{:.4}, {:.4}, {:.4}]", xyy[0], xyy[1], xyy[2]);
     
     use crate::python_port_helpers::*;
@@ -1249,7 +1248,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     
     // Initial guess using Lab color space
     let xyz = xyy_to_xyz(xyy);
-    eprintln!("TRACE|xyy_to_munsell:XYZ|xyz={:.6},{:.6},{:.6}", xyz[0], xyz[1], xyz[2]);
     let (x_i, y_i) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
     let xyz_r = xyy_to_xyz([x_i, y_i, big_y]);
     
@@ -1257,11 +1255,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let xyz_r_norm = [xyz_r[0] / xyz_r[1], 1.0, xyz_r[2] / xyz_r[1]];
     
     let lab = xyz_to_lab(xyz, xyz_to_xy(xyz_r_norm));
-    eprintln!("TRACE|xyy_to_munsell:LAB|lab={:.6},{:.6},{:.6}", lab[0], lab[1], lab[2]);
     let lchab = lab_to_lchab(lab);
-    eprintln!("TRACE|xyy_to_munsell:LCHAB|L={:.6},C={:.6},H={:.6}", lchab[0], lchab[1], lchab[2]);
     let initial_spec = lchab_to_munsell_specification(lchab);
-    eprintln!("TRACE|xyy_to_munsell:INITIAL_SPEC|hue={:.6},value={:.6},chroma={:.6},code={:.0}", initial_spec[0], initial_spec[1], initial_spec[2], initial_spec[3]);
     
     // Ensure initial chroma is valid
     // NOTE: DO NOT scale by (5.0/5.5) - this causes incorrect convergence!
@@ -1303,7 +1298,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     
     while iterations <= iterations_maximum {
         iterations += 1;
-        eprintln!("TRACE|ITER_{}:START|spec={:.6},{:.6},{:.6},{:.0}", iterations, specification_current[0], specification_current[1], specification_current[2], specification_current[3]);
         
         if iterations % 10 == 0 {
             eprintln!("DEBUG: Iteration {} - spec=[{:.4}, {:.4}, {:.4}, {:.4}]", 
@@ -1471,7 +1465,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         );
         // If we're already at the target rho, no need to refine chroma
         if (rho_current - rho_input).abs() < 1e-10 {
-        eprintln!("TRACE|ITER:CHROMA_CHECK|rho_current={:.9},rho_input={:.9},skip={}", rho_current, rho_input, (rho_current - rho_input).abs() < 1e-10);
             specification_current = [hue_new, value, chroma_current, code_new as f64];
         } else {
             // Chroma refinement loop
@@ -1553,14 +1546,12 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
-        eprintln!("TRACE|ITER:CONVERGENCE|xy_target={:.9},{:.9},xy_current={:.9},{:.9},diff={:.12}", x, y, x_current, y_current, difference);
         
         // Check if this is our debug color RGB(34, 17, 119) = #221177 or RGB(221, 238, 238)
         let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
         let is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
         
         if difference < convergence_threshold {
-        eprintln!("TRACE|ITER:CONVERGED|diff={:.12},threshold={:.12},converged={}", difference, convergence_threshold, difference < convergence_threshold);
             return Ok(specification_current);
         }
     }
