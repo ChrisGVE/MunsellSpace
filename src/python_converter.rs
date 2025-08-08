@@ -18,8 +18,10 @@ impl PythonMunsellConverter {
     
     /// Convert sRGB to Munsell notation using Python-compatible algorithm
     pub fn srgb_to_munsell(&self, rgb: [u8; 3]) -> Result<MunsellColor> {
+        eprintln!("DEBUG: srgb_to_munsell called with RGB({}, {}, {})", rgb[0], rgb[1], rgb[2]);
         // Convert sRGB to linear RGB
         let rgb_linear = self.srgb_to_linear(rgb);
+        eprintln!("DEBUG: Converted to linear RGB");
         
         // Convert to XYZ using D65
         let xyz = self.linear_rgb_to_xyz_d65(rgb_linear);

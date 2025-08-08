@@ -3,7 +3,7 @@ use munsellspace::python_converter::PythonMunsellConverter;
 
 fn main() {
     let converter = PythonMunsellConverter::new();
-    let rgb = [0u8, 51u8, 0u8];
+    let rgb = [0u8, 0u8, 0u8];
     match converter.srgb_to_munsell(rgb) {
         Ok(munsell) => println!("{}", munsell),
         Err(e) => eprintln!("ERROR: {}", e),
