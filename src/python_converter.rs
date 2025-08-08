@@ -107,23 +107,17 @@ impl PythonMunsellConverter {
         // Ratio = 0.919160/0.826933 = 1.1115
         
         // After extensive testing, the colour library uses this scaling:
-        const XYZ_SCALING: f64 = 1.111528762434975;  // Exact ratio from test
+        // const XYZ_SCALING: f64 = 1.111528762434975;  // Exact ratio from test
         
-        [
-            xyz_unscaled[0] * XYZ_SCALING,
-            xyz_unscaled[1] * XYZ_SCALING,
-            xyz_unscaled[2] * XYZ_SCALING,
-        ]
+        // Actually, the Python colour library does NOT scale XYZ values
+        // It returns the raw XYZ values from the sRGB matrix
+        xyz_unscaled
     }
     
     fn xyz_to_linear_rgb_d65(&self, xyz: [f64; 3]) -> [f64; 3] {
-        // First unscale the XYZ values (inverse of scaling in linear_rgb_to_xyz_d65)
-        const XYZ_SCALING: f64 = 1.111528762434975;
-        let xyz_unscaled = [
-            xyz[0] / XYZ_SCALING,
-            xyz[1] / XYZ_SCALING,
-            xyz[2] / XYZ_SCALING,
-        ];
+        // No scaling needed since we're not scaling in linear_rgb_to_xyz_d65 anymore
+        // const XYZ_SCALING: f64 = 1.111528762434975;
+        let xyz_unscaled = xyz;
         
         // XYZ to sRGB matrix (D65 illuminant)
         let matrix = [

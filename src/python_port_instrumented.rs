@@ -1,9 +1,8 @@
-const ENABLE_TRACE: bool = true;
-
 //! Exact 1:1 port of Python colour-science munsell functions
 //! This module contains exact implementations matching Python's behaviour
 
 use crate::error::Result;
+use tracing::{instrument, trace, debug};
 // use std::f64::consts::PI;  // Currently unused
 
 /// Convert [hue, code] to ASTM hue number
@@ -44,6 +43,7 @@ pub fn astm_hue_to_hue(astm_hue: f64) -> (f64, u8) {
 
 /// Convert hue and code to hue angle in degrees
 /// This is the CORRECT implementation that uses interpolation
+#[instrument(level = "trace", skip(INTERPOLATION_METHODS_TABLE), ret)]
 pub fn hue_to_hue_angle(hue: f64, code: u8) -> f64 {
     // First calculate single_hue using the complex formula
     let raw = (17.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5;
@@ -69,6 +69,7 @@ pub fn hue_to_hue_angle(hue: f64, code: u8) -> f64 {
 }
 
 /// Convert hue angle to [hue, code] pair
+#[instrument(level = "trace", skip(INTERPOLATION_METHODS_TABLE), ret)]
 pub fn hue_angle_to_hue(hue_angle: f64) -> (f64, u8) {
     // Exact 1:1 port from Python's colour-science implementation
     
@@ -215,6 +216,7 @@ pub fn luminance_astmd1535(value: f64) -> f64 {
 }
 
 /// Convert from Munsell value to CIE Y luminance using Newton-Raphson
+#[instrument(level = "trace", skip(INTERPOLATION_METHODS_TABLE), ret)]
 pub fn munsell_value_astmd1535(y: f64) -> f64 {
     // Newton-Raphson to solve the inverse of luminance_astmd1535
     let mut value = 10.0 * y.powf(0.5); // Initial guess
@@ -250,6 +252,7 @@ fn lerp(x1: f64, x2: f64, y1: f64, y2: f64, x: f64) -> f64 {
 }
 
 /// Convert cartesian to cylindrical coordinates
+#[instrument(level = "trace", skip(INTERPOLATION_METHODS_TABLE), ret)]
 pub fn cartesian_to_cylindrical(x: f64, y: f64, z: f64) -> (f64, f64, f64) {
     let rho = (x * x + y * y).sqrt();
     let phi = y.atan2(x);
@@ -561,6 +564,7 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
 
 /// Get maximum chroma from renotation data
 /// Exact 1:1 port from Python colour-science
+#[instrument(level = "trace", skip(INTERPOLATION_METHODS_TABLE), ret)]
 pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
     use crate::constants::maximum_chromas_data::MAXIMUM_CHROMAS;
     
@@ -631,6 +635,7 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
 
 /// Convert Munsell specification to xy chromaticity coordinates with interpolation
 /// This is a wrapper that handles non-integer values and other edge cases
+#[instrument(level = "trace", skip(INTERPOLATION_METHODS_TABLE), ret)]
 pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]> {
     let spec = normalise_munsell_specification(spec);
     
@@ -933,6 +938,7 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
 
 /// Convert Munsell specification to xy chromaticity coordinates
 /// Exact 1:1 port from Python colour-science xy_from_renotation_ovoid
+#[instrument(level = "trace", skip(INTERPOLATION_METHODS_TABLE), ret)]
 pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     let spec = normalise_munsell_specification(spec);
     
@@ -1216,8 +1222,9 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
 
 /// Convert CIE xyY to Munsell specification
 /// Exact 1:1 port from Python colour-science _xyY_to_munsell_specification
+#[instrument(level = "debug", skip(INTERPOLATION_METHODS_TABLE), ret)]
 pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
-    eprintln!("RUST_TRACE|xyy_to_munsell_specification:ENTRY|xyy=[{:.6},{:.6},{:.6}]", xyy[0], xyy[1], xyy[2]);
+    eprintln!("TRACE|xyy_to_munsell:ENTRY|xyy={:.6},{:.6},{:.6}", xyy[0], xyy[1], xyy[2]);
     eprintln!("DEBUG: xyy_to_munsell_specification ENTRY with xyy=[{:.4}, {:.4}, {:.4}]", xyy[0], xyy[1], xyy[2]);
     
     use crate::python_port_helpers::*;
@@ -1251,7 +1258,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     
     // Initial guess using Lab color space
     let xyz = xyy_to_xyz(xyy);
-    eprintln!("RUST_TRACE|xyy_to_munsell:XYZ|xyz=[{:.6},{:.6},{:.6}]", xyz[0], xyz[1], xyz[2]);
+    eprintln!("TRACE|xyy_to_munsell:XYZ|xyz={:.6},{:.6},{:.6}", xyz[0], xyz[1], xyz[2]);
     let (x_i, y_i) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
     let xyz_r = xyy_to_xyz([x_i, y_i, big_y]);
     
@@ -1259,12 +1266,11 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let xyz_r_norm = [xyz_r[0] / xyz_r[1], 1.0, xyz_r[2] / xyz_r[1]];
     
     let lab = xyz_to_lab(xyz, xyz_to_xy(xyz_r_norm));
+    eprintln!("TRACE|xyy_to_munsell:LAB|lab={:.6},{:.6},{:.6}", lab[0], lab[1], lab[2]);
     let lchab = lab_to_lchab(lab);
-    eprintln!("RUST_TRACE|xyy_to_munsell:LCHAB|lchab=[{:.6},{:.6},{:.6}]", lchab[0], lchab[1], lchab[2]);
+    eprintln!("TRACE|xyy_to_munsell:LCHAB|L={:.6},C={:.6},H={:.6}", lchab[0], lchab[1], lchab[2]);
     let initial_spec = lchab_to_munsell_specification(lchab);
-    let initial_spec = lchab_to_munsell_specification(lchab);
-    eprintln!("RUST_TRACE|xyy_to_munsell:INITIAL_SPEC|spec=[{:.6},{:.6},{:.6},{:.0}]", initial_spec[0], initial_spec[1], initial_spec[2], initial_spec[3]);
-    eprintln!("RUST_TRACE|xyy_to_munsell:INITIAL_SPEC_PRE|lchab=[{:.6},{:.6},{:.6}]", lchab[0], lchab[1], lchab[2]);
+    eprintln!("TRACE|xyy_to_munsell:INITIAL_SPEC|hue={:.6},value={:.6},chroma={:.6},code={:.0}", initial_spec[0], initial_spec[1], initial_spec[2], initial_spec[3]);
     
     // Ensure initial chroma is valid
     // NOTE: DO NOT scale by (5.0/5.5) - this causes incorrect convergence!
@@ -1306,6 +1312,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     
     while iterations <= iterations_maximum {
         iterations += 1;
+        eprintln!("TRACE|ITER_{}:START|spec={:.6},{:.6},{:.6},{:.0}", iterations, specification_current[0], specification_current[1], specification_current[2], specification_current[3]);
         
         if iterations % 10 == 0 {
             eprintln!("DEBUG: Iteration {} - spec=[{:.4}, {:.4}, {:.4}, {:.4}]", 
@@ -1473,7 +1480,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         );
         // If we're already at the target rho, no need to refine chroma
         if (rho_current - rho_input).abs() < 1e-10 {
-    eprintln!("RUST_TRACE|CHROMA:CHECK|rho_current={:.9}, rho_input={:.9}, diff={:.9}, skip_refinement={}", rho_current, rho_input, (rho_current - rho_input).abs(), (rho_current - rho_input).abs() < 1e-10);
+        eprintln!("TRACE|ITER:CHROMA_CHECK|rho_current={:.9},rho_input={:.9},skip={}", rho_current, rho_input, (rho_current - rho_input).abs() < 1e-10);
             specification_current = [hue_new, value, chroma_current, code_new as f64];
         } else {
             // Chroma refinement loop
@@ -1493,7 +1500,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             // Python's condition: while not (np.min(rho_bounds_data) < rho_input < np.max(rho_bounds_data))
             // This means: continue looping while rho_input is NOT strictly between min and max
             while !(rho_min < rho_input && rho_input < rho_max) {
-    eprintln!("RUST_TRACE|CHROMA:LOOP_ITER_{}|rho_min={:.9}, rho_input={:.9}, rho_max={:.9}, continue={}", iterations_inner, rho_min, rho_input, rho_max, !(rho_min < rho_input && rho_input < rho_max));
                 iterations_inner += 1;
                 if iterations_inner > iterations_maximum_inner {
                     return Err(crate::error::MunsellError::ConversionError {
@@ -1556,14 +1562,14 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         let difference = euclidean_distance([x, y], [x_current, y_current]);
-    eprintln!("RUST_TRACE|CONVERGENCE:CHECK|target=[{:.9},{:.9}], current=[{:.9},{:.9}], diff={:.12}", x, y, x_current, y_current, difference);
+        eprintln!("TRACE|ITER:CONVERGENCE|xy_target={:.9},{:.9},xy_current={:.9},{:.9},diff={:.12}", x, y, x_current, y_current, difference);
         
         // Check if this is our debug color RGB(34, 17, 119) = #221177 or RGB(221, 238, 238)
         let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
         let is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
         
         if difference < convergence_threshold {
-    eprintln!("RUST_TRACE|CONVERGENCE:RESULT|converged={}, threshold={:.12}", difference < convergence_threshold, convergence_threshold);
+        eprintln!("TRACE|ITER:CONVERGED|diff={:.12},threshold={:.12},converged={}", difference, convergence_threshold, difference < convergence_threshold);
             return Ok(specification_current);
         }
     }
@@ -1632,6 +1638,7 @@ pub fn munsell_specification_to_xy(spec: &[f64; 4]) -> Result<[f64; 2]> {
 
 /// Convert Munsell specification to CIE xyY colourspace
 /// Exact 1:1 port from Python colour-science
+#[instrument(level = "debug", skip(INTERPOLATION_METHODS_TABLE), ret)]
 pub fn munsell_specification_to_xyy(spec: &[f64; 4]) -> Result<[f64; 3]> {
     let spec = normalise_munsell_specification(spec);
     

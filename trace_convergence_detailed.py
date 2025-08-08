@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
+"""Detailed convergence tracing for Python munsell module"""
 
+import sys
+import os
 import numpy as np
-from colour.notation.munsell import (
-    xyY_to_munsell_specification,
-    _munsell_specification_to_xyY,
-    xy_from_renotation_ovoid,
-    maximum_chroma_from_renotation
-)
+
+# Add parent directory to path to import munsell
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import munsell
+from colour import sRGB_to_XYZ
 from colour.algebra import cartesian_to_cylindrical, euclidean_distance
 from colour.models import xyY_to_XYZ
-import sys
 
 def trace_python_convergence(xyy, max_iterations=10):
     """Trace Python's convergence algorithm step by step"""
