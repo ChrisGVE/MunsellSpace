@@ -168,7 +168,9 @@ pub fn lchab_to_munsell_specification(lchab: [f64; 3]) -> [f64; 4] {
     let value = l / 10.0;
     
     // Map C to Chroma (roughly)
-    let chroma = c / 5.0;
+    // Note: Python seems to use a different scaling factor
+    // Based on empirical testing, chroma scaling should preserve more of the initial value
+    let chroma = c / 5.0;  // TODO: This may need adjustment based on hue/value
     
     // Map H (0-360) to Munsell hue
     // This is a simplified mapping

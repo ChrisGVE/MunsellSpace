@@ -578,7 +578,8 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
 pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
     use crate::constants::maximum_chromas_data::MAXIMUM_CHROMAS;
     
-    // Ideal white, no chroma
+    // Ideal white, no chroma - but only for values very close to 10
+    // For values between 9 and 10, we need to interpolate
     if value >= 9.99 {
         return 0.0;
     }
@@ -684,25 +685,39 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
             let value_ceil = value.ceil();
             
             // Handle edge cases
-            let (val_low, val_high) = if value_floor < 1.0 {
-                (1.0, 2.0)
-            } else if value_ceil > 9.0 {
-                (8.0, 9.0)
+            // For values > 9, we need special handling since renotation data stops at 9
+            if value > 9.0 {
+                // For values > 9, we can't interpolate with value=10 data
+                // Instead, we extrapolate from value=8 and value=9
+                let spec_8 = [spec[0], 8.0, 2.0, spec[3]];
+                let xy_8 = xy_from_renotation_ovoid_interpolated(&spec_8)?;
+                
+                let spec_9 = [spec[0], 9.0, 2.0, spec[3]];
+                let xy_9 = xy_from_renotation_ovoid_interpolated(&spec_9)?;
+                
+                // Extrapolate to the target value
+                let t = value - 8.0;  // t will be > 1.0 for extrapolation
+                [xy_8[0] + t * (xy_9[0] - xy_8[0]),
+                 xy_8[1] + t * (xy_9[1] - xy_8[1])]
             } else {
-                (value_floor, value_ceil)
-            };
-            
-            // Get xy at chroma 2 for both integer values
-            let spec_low = [spec[0], val_low, 2.0, spec[3]];
-            let xy_low = xy_from_renotation_ovoid_interpolated(&spec_low)?;
-            
-            let spec_high = [spec[0], val_high, 2.0, spec[3]];
-            let xy_high = xy_from_renotation_ovoid_interpolated(&spec_high)?;
-            
-            // Linear interpolation
-            let t = (value - val_low) / (val_high - val_low);
-            [xy_low[0] + t * (xy_high[0] - xy_low[0]),
-             xy_low[1] + t * (xy_high[1] - xy_low[1])]
+                let (val_low, val_high) = if value_floor < 1.0 {
+                    (1.0, 2.0)
+                } else {
+                    (value_floor, value_ceil)
+                };
+                
+                // Get xy at chroma 2 for both integer values
+                let spec_low = [spec[0], val_low, 2.0, spec[3]];
+                let xy_low = xy_from_renotation_ovoid_interpolated(&spec_low)?;
+                
+                let spec_high = [spec[0], val_high, 2.0, spec[3]];
+                let xy_high = xy_from_renotation_ovoid_interpolated(&spec_high)?;
+                
+                // Linear interpolation
+                let t = (value - val_low) / (val_high - val_low);
+                [xy_low[0] + t * (xy_high[0] - xy_low[0]),
+                 xy_low[1] + t * (xy_high[1] - xy_low[1])]
+            }
         };
         
         // Interpolate between grey and chroma 2
@@ -719,29 +734,35 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         let value_floor = value.floor();
         let value_ceil = value.ceil();
         
-        // DEBUG: Check what spec_floor is being created
-        if spec[0] > 7.0 && spec[0] < 8.0 && value > 8.0 && value < 9.0 {
-            eprintln!("    Value interpolation: value={:.3}, floor={:.0}, ceil={:.0}", 
-                     value, value_floor, value_ceil);
-            eprintln!("      spec_floor: [{:.3}, {:.0}, {:.3}, {}]", 
-                     spec[0], value_floor, spec[2], spec[3] as u8);
+        // Special handling for value > 9
+        if value_ceil > 9.0 {
+            // For values between 9 and 10, we need to extrapolate
+            // because value=10 has max_chroma=0
+            if chroma > 0.0 {
+                // Extrapolate from value=8 and value=9
+                let spec_8 = [spec[0], 8.0, spec[2], spec[3]];
+                let xy_8 = xy_from_renotation_ovoid_interpolated(&spec_8)?;
+                
+                let spec_9 = [spec[0], 9.0, spec[2], spec[3]];
+                let xy_9 = xy_from_renotation_ovoid_interpolated(&spec_9)?;
+                
+                // Extrapolate to the target value
+                let t = value - 8.0;  // t will be > 1.0 for extrapolation
+                let x = xy_8[0] + t * (xy_9[0] - xy_8[0]);
+                let y = xy_8[1] + t * (xy_9[1] - xy_8[1]);
+                
+                return Ok([x, y]);
+            } else {
+                // For grey (chroma=0), return illuminant
+                return Ok(crate::constants::ILLUMINANT_C);
+            }
         }
         
-        // Get xy for floor value - but we still need to handle chroma!
+        // Normal case: interpolate between floor and ceil
         let spec_floor = [spec[0], value_floor, spec[2], spec[3]];
-        // Recursively call ourselves to handle non-even chroma if needed
         let xy_floor = xy_from_renotation_ovoid_interpolated(&spec_floor)?;
         
-        // Get xy for ceil value
         let spec_ceil = [spec[0], value_ceil, spec[2], spec[3]];
-        
-        // DEBUG: Check what spec_ceil is being created
-        if spec[0] > 7.0 && spec[0] < 8.0 && value > 8.0 && value < 9.0 {
-            eprintln!("      spec_ceil: [{:.3}, {:.0}, {:.3}, {}]", 
-                     spec[0], value_ceil, spec[2], spec[3] as u8);
-        }
-        
-        // Recursively call ourselves to handle non-even chroma if needed
         let xy_ceil = xy_from_renotation_ovoid_interpolated(&spec_ceil)?;
         
         // Interpolate based on value fraction
@@ -750,6 +771,27 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         let y = xy_floor[1] * (1.0 - t) + xy_ceil[1] * t;
         
         return Ok([x, y]);
+    }
+    
+    // Special case for value=10 (ideal white)
+    if value >= 10.0 {
+        if chroma > 0.0 {
+            // Extrapolate from value=8 and value=9 for non-zero chromas at value=10
+            let spec_8 = [spec[0], 8.0, spec[2], spec[3]];
+            let xy_8 = xy_from_renotation_ovoid_interpolated(&spec_8)?;
+            
+            let spec_9 = [spec[0], 9.0, spec[2], spec[3]];
+            let xy_9 = xy_from_renotation_ovoid_interpolated(&spec_9)?;
+            
+            // Extrapolate to value=10
+            let t = 2.0;  // From 8 to 10 is 2 units
+            let x = xy_8[0] + t * (xy_9[0] - xy_8[0]);
+            let y = xy_8[1] + t * (xy_9[1] - xy_8[1]);
+            
+            return Ok([x, y]);
+        } else {
+            return Ok(crate::constants::ILLUMINANT_C);
+        }
     }
     
     // Check maximum available chroma for this hue/value
@@ -1314,9 +1356,9 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     ];
     
     // DEBUG: Print spec after initialization
-    eprintln!("  Spec after init: [{:.3}, {:.3}, {:.3}, {}]",
-             specification_current[0], specification_current[1], 
-             specification_current[2], specification_current[3] as u8);
+    // eprintln!("  Spec after init: [{:.3}, {:.3}, {:.3}, {}]",
+    //          specification_current[0], specification_current[1], 
+    //          specification_current[2], specification_current[3] as u8);
     
     // Main convergence loop
     let convergence_threshold = 1e-3 / 1e4;  // THRESHOLD_INTEGER / 1e4 = 1e-7 (matches Python)
