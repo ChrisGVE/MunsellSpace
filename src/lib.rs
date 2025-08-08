@@ -55,6 +55,7 @@ pub mod python_port_lab;
 pub mod python_port_utils;
 pub mod python_port_interpolation;
 pub mod python_port_cache;
+pub mod traced_port;
 
 #[cfg(test)]
 mod test_hue_angle;

@@ -74,6 +74,10 @@ path = "src/bin/test_python_port_accuracy.rs"
 name = "test_simple_colors"
 path = "src/bin/test_simple_colors.rs"
 
+[[bin]]
+name = "trace_color"
+path = "src/bin/trace_color.rs"
+
 [profile.release]
 lto = true
 codegen-units = 1
