@@ -673,19 +673,18 @@ fn ray_casting_point_in_polygon(test_x: f64, test_y: f64, vertices: &[(f64, f64)
 
 /// Validates that a hue string has the correct format (number + valid hue family).
 fn is_valid_hue_format(hue: &str) -> bool {
-    // Valid hue families
-    let valid_families = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
+    // Valid hue families - order by length (longest first) to avoid matching "B" when we want "PB"
+    let mut valid_families = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
+    valid_families.sort_by_key(|s| std::cmp::Reverse(s.len()));
     
-    // Check if hue ends with a valid family
-    let has_valid_family = valid_families.iter().any(|&family| hue.ends_with(family));
-    if !has_valid_family {
-        return false;
-    }
-    
-    // Find which family it ends with
+    // Find which family it ends with (checking longest first)
     let family = valid_families.iter()
-        .find(|&&family| hue.ends_with(family))
-        .unwrap();
+        .find(|&&family| hue.ends_with(family));
+    
+    let family = match family {
+        Some(f) => f,
+        None => return false,
+    };
     
     // Extract the numeric part
     let numeric_part = hue.strip_suffix(family).unwrap_or("");
@@ -695,9 +694,9 @@ fn is_valid_hue_format(hue: &str) -> bool {
         return false;
     }
     
-    // Parse numeric part - should be a valid float in range 0.0-10.0  
+    // Parse numeric part - should be a valid float in range 0.0-10.0 (inclusive)
     match numeric_part.parse::<f64>() {
-        Ok(num) => num > 0.0 && num <= 10.0,
+        Ok(num) => num >= 0.0 && num <= 10.0,
         Err(_) => false,
     }
 }
