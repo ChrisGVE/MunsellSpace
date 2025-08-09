@@ -114,8 +114,31 @@ impl ISCC_NBS_Classifier {
     /// let classifier = ISCC_NBS_Classifier::new().expect("Failed to create classifier");
     /// ```
     pub fn new() -> Result<Self, MunsellError> {
+        Self::new_with_hue_range_method(crate::mechanical_wedges::HueRangeMethod::IncludeStartExcludeEnd)
+    }
+    
+    /// Create a new ISCC-NBS classifier with specified hue range interpretation method.
+    ///
+    /// Creates a classifier with configurable hue range boundary interpretation
+    /// for testing different polygon distribution strategies.
+    ///
+    /// # Arguments
+    /// * `hue_range_method` - Method for interpreting hue range boundaries
+    ///
+    /// # Returns
+    /// Result containing the classifier or an error if data loading fails
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{ISCC_NBS_Classifier, mechanical_wedges::HueRangeMethod};
+    /// 
+    /// let classifier = ISCC_NBS_Classifier::new_with_hue_range_method(
+    ///     HueRangeMethod::ExcludeStartIncludeEnd
+    /// ).expect("Failed to create classifier");
+    /// ```
+    pub fn new_with_hue_range_method(hue_range_method: crate::mechanical_wedges::HueRangeMethod) -> Result<Self, MunsellError> {
         let colors = Self::load_embedded_data()?;
-        let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new();
+        let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new_with_method(hue_range_method);
         
         // Distribute all polygons into the mechanical wedge system
         for polygon in colors {
@@ -148,8 +171,34 @@ impl ISCC_NBS_Classifier {
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
     pub fn from_csv(csv_path: &str) -> Result<Self, MunsellError> {
+        Self::from_csv_with_hue_range_method(csv_path, crate::mechanical_wedges::HueRangeMethod::IncludeStartExcludeEnd)
+    }
+    
+    /// Create a new ISCC-NBS classifier from external CSV file with specified hue range method.
+    ///
+    /// Loads color definitions from an external CSV file with configurable hue range
+    /// boundary interpretation for testing different polygon distribution strategies.
+    ///
+    /// # Arguments
+    /// * `csv_path` - Path to the CSV file containing ISCC-NBS definitions
+    /// * `hue_range_method` - Method for interpreting hue range boundaries
+    ///
+    /// # Returns
+    /// Result containing the classifier or an error if file loading fails
+    ///
+    /// # Examples
+    /// ```rust,no_run
+    /// use munsellspace::{ISCC_NBS_Classifier, mechanical_wedges::HueRangeMethod};
+    /// 
+    /// let classifier = ISCC_NBS_Classifier::from_csv_with_hue_range_method(
+    ///     "custom_colors.csv",
+    ///     HueRangeMethod::ExcludeStartIncludeEnd
+    /// )?;
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn from_csv_with_hue_range_method(csv_path: &str, hue_range_method: crate::mechanical_wedges::HueRangeMethod) -> Result<Self, MunsellError> {
         let colors = Self::load_iscc_data(csv_path)?;
-        let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new();
+        let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new_with_method(hue_range_method);
         
         // Distribute all polygons into the mechanical wedge system
         for polygon in colors {

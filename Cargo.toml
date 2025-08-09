@@ -86,6 +86,10 @@ path = "src/bin/trace_color.rs"
 name = "classification_accuracy_test"
 path = "classification_accuracy_test.rs"
 
+[[bin]]
+name = "hue_range_method_comparison"
+path = "hue_range_method_comparison.rs"
+
 [profile.release]
 lto = true
 codegen-units = 1

@@ -68,7 +68,7 @@ pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoin
 pub use error::{MunsellError, Result};
 pub use illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
 pub use iscc::{ISCC_NBS_Classifier, ISCC_NBS_Result};
-pub use mechanical_wedges::MechanicalWedgeSystem;
+pub use mechanical_wedges::{MechanicalWedgeSystem, HueRangeMethod};
 pub use mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
 
 /// Library version

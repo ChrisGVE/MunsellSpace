@@ -3,6 +3,17 @@ use crate::{MunsellError, Result};
 use crate::iscc::ISCC_NBS_Color;
 use geo::CoordsIter;
 
+/// Hue range interpretation method for ISCC-NBS polygon assignments
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HueRangeMethod {
+    /// Method 1: Includes starting boundary, excludes ending boundary
+    /// Example: "8R-2YR" -> [8R, 9R, 10R, 1YR]
+    IncludeStartExcludeEnd,
+    /// Method 2: Excludes starting boundary, includes ending boundary  
+    /// Example: "8R-2YR" -> [9R, 10R, 1YR, 2YR]
+    ExcludeStartIncludeEnd,
+}
+
 /// Mechanical hue wedge distribution system for ISCC-NBS classification
 /// Implements the deterministic approach outlined in ALGO.md
 pub struct MechanicalWedgeSystem {
@@ -12,11 +23,19 @@ pub struct MechanicalWedgeSystem {
     hue_sequence: Vec<String>,
     /// Quick lookup from hue to sequence position
     hue_to_position: HashMap<String, usize>,
+    /// Hue range interpretation method for polygon distribution
+    hue_range_method: HueRangeMethod,
 }
 
 impl MechanicalWedgeSystem {
     /// Create new mechanical wedge system with all 100 wedge containers
+    /// Uses Method 1 (IncludeStartExcludeEnd) by default for backward compatibility
     pub fn new() -> Self {
+        Self::new_with_method(HueRangeMethod::IncludeStartExcludeEnd)
+    }
+    
+    /// Create new mechanical wedge system with specified hue range method
+    pub fn new_with_method(hue_range_method: HueRangeMethod) -> Self {
         let hue_sequence = Self::create_reference_hue_sequence();
         let hue_to_position = Self::create_position_lookup(&hue_sequence);
         let wedge_containers = Self::create_all_wedge_containers(&hue_sequence);
@@ -25,7 +44,13 @@ impl MechanicalWedgeSystem {
             wedge_containers,
             hue_sequence,
             hue_to_position,
+            hue_range_method,
         }
+    }
+    
+    /// Get the current hue range interpretation method
+    pub fn hue_range_method(&self) -> HueRangeMethod {
+        self.hue_range_method
     }
     
     /// Create the complete ordered sequence of Munsell hue references
@@ -88,7 +113,7 @@ impl MechanicalWedgeSystem {
         Ok((polygon.hue_range.0.clone(), polygon.hue_range.1.clone()))
     }
     
-    /// Find all wedge keys that span from start_hue to end_hue
+    /// Find all wedge keys that span from start_hue to end_hue using configured method
     fn find_wedges_in_range(&self, start_hue: &str, end_hue: &str) -> Result<Vec<String>> {
         let start_pos = self.hue_to_position.get(start_hue)
             .ok_or_else(|| MunsellError::ConversionError { 
@@ -101,22 +126,47 @@ impl MechanicalWedgeSystem {
             })?;
         
         let mut wedge_keys = Vec::new();
-        let mut current_pos = *start_pos;
         
-        // Handle wraparound case (e.g., 9RP to 2R)
-        loop {
-            let next_pos = (current_pos + 1) % self.hue_sequence.len();
-            let start_hue_at_pos = &self.hue_sequence[current_pos];
-            let end_hue_at_pos = &self.hue_sequence[next_pos];
-            
-            wedge_keys.push(format!("{}→{}", start_hue_at_pos, end_hue_at_pos));
-            
-            // Stop when we reach the end position
-            if current_pos == *end_pos {
-                break;
+        match self.hue_range_method {
+            HueRangeMethod::IncludeStartExcludeEnd => {
+                // Method 1: [8R, 9R, 10R, 1YR] - includes starting boundary
+                let mut current_pos = *start_pos;
+                
+                loop {
+                    let next_pos = (current_pos + 1) % self.hue_sequence.len();
+                    let start_hue_at_pos = &self.hue_sequence[current_pos];
+                    let end_hue_at_pos = &self.hue_sequence[next_pos];
+                    
+                    wedge_keys.push(format!("{}→{}", start_hue_at_pos, end_hue_at_pos));
+                    
+                    // Stop when we reach the end position (end_pos is excluded)
+                    if current_pos == *end_pos {
+                        break;
+                    }
+                    
+                    current_pos = next_pos;
+                }
             }
             
-            current_pos = next_pos;
+            HueRangeMethod::ExcludeStartIncludeEnd => {
+                // Method 2: [9R, 10R, 1YR, 2YR] - excludes starting boundary, includes ending
+                let mut current_pos = (*start_pos + 1) % self.hue_sequence.len();
+                
+                loop {
+                    let next_pos = (current_pos + 1) % self.hue_sequence.len();
+                    let start_hue_at_pos = &self.hue_sequence[current_pos];
+                    let end_hue_at_pos = &self.hue_sequence[next_pos];
+                    
+                    wedge_keys.push(format!("{}→{}", start_hue_at_pos, end_hue_at_pos));
+                    
+                    // Stop when we've included the end position
+                    if current_pos == *end_pos {
+                        break;
+                    }
+                    
+                    current_pos = next_pos;
+                }
+            }
         }
         
         Ok(wedge_keys)
