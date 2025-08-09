@@ -3,9 +3,8 @@
 //! These tests ensure that the converter maintains performance characteristics
 //! and doesn't regress in accuracy over time.
 
-use munsellspace::{MunsellConverter, MunsellColor};
+use munsellspace::MunsellConverter;
 use std::time::{Duration, Instant};
-use std::collections::HashMap;
 
 /// Test single color conversion performance
 #[test]
@@ -266,19 +265,19 @@ fn test_accuracy_regression() {
     let mut exact_matches = 0;
     let mut close_matches = 0;
     
-    for (rgb, expected, description) in regression_test_cases {
-        match converter.srgb_to_munsell(rgb) {
+    for (rgb, expected, description) in &regression_test_cases {
+        match converter.srgb_to_munsell(*rgb) {
             Ok(result) => {
-                if result.notation == expected {
+                if result.notation == *expected {
                     exact_matches += 1;
                     println!("✓ Exact: {} -> {}", description, result.notation);
-                } else if is_close_munsell_match(&result.notation, expected) {
+                } else if is_close_munsell_match(&result.notation, *expected) {
                     close_matches += 1;
                     println!("≈ Close: {} -> {} (expected {})", 
-                        description, result.notation, expected);
+                        description, result.notation, *expected);
                 } else {
                     panic!("Accuracy regression detected for {}: got '{}', expected '{}'", 
-                        description, result.notation, expected);
+                        description, result.notation, *expected);
                 }
             }
             Err(e) => {

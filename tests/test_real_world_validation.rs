@@ -3,11 +3,10 @@
 //! These tests validate the converter against real-world scenarios and
 //! established accuracy standards including ISCC-NBS requirements.
 
-use munsellspace::{MunsellConverter, MunsellColor};
+use munsellspace::MunsellConverter;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
-use std::collections::HashMap;
 
 /// Test against the 12-color reference set from TEST_COLORS_REFERENCE.md
 #[test]
@@ -206,10 +205,10 @@ fn test_iscc_nbs_sample_colors(converter: &MunsellConverter) {
     ];
     
     let mut compliant = 0;
-    let mut critical_errors = 0;
+    let mut _critical_errors = 0;
     
-    for (rgb, expected, description) in sample_colors {
-        match converter.srgb_to_munsell(rgb) {
+    for (rgb, expected, description) in &sample_colors {
+        match converter.srgb_to_munsell(*rgb) {
             Ok(result) => {
                 let is_compliant = check_iscc_nbs_compliance(&result.notation, expected);
                 
@@ -219,7 +218,7 @@ fn test_iscc_nbs_sample_colors(converter: &MunsellConverter) {
                 } else {
                     let is_critical = is_critical_iscc_error(&result.notation, expected);
                     if is_critical {
-                        critical_errors += 1;
+                        _critical_errors += 1;
                         println!("✗ Critical: {} -> {} (expected {})", 
                             description, result.notation, expected);
                     } else {
@@ -229,7 +228,7 @@ fn test_iscc_nbs_sample_colors(converter: &MunsellConverter) {
                 }
             }
             Err(e) => {
-                critical_errors += 1;
+                _critical_errors += 1;
                 println!("✗ Error: {} failed: {}", description, e);
             }
         }
@@ -283,7 +282,7 @@ fn test_color_naming_consistency() {
     ];
     
     let mut correct_families = 0;
-    let mut total_colors = color_names.len();
+    let total_colors = color_names.len();
     
     for (rgb, color_name, expected_families) in color_names {
         match converter.srgb_to_munsell(rgb) {
@@ -475,7 +474,7 @@ fn is_critical_iscc_error(actual: &str, expected: &str) -> bool {
 }
 
 /// Extract RGB values and Munsell notation from CSV parts
-fn extract_rgb_and_munsell(parts: &[&str]) -> Option<([u8; 3], String)> {
+fn extract_rgb_and_munsell(_parts: &[&str]) -> Option<([u8; 3], String)> {
     // This is a placeholder - actual implementation depends on CSV format
     // For now, return None to skip parsing in tests
     None
