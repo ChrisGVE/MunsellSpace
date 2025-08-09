@@ -86,6 +86,10 @@ path = "src/bin/trace_color.rs"
 name = "classification_accuracy_test"
 path = "classification_accuracy_test.rs"
 
+[[bin]]
+name = "debug_specific_case"
+path = "debug_specific_case.rs"
+
 [profile.release]
 lto = true
 codegen-units = 1

@@ -57,23 +57,28 @@ impl ISCC_NBS_Result {
     pub fn iscc_nbs_color_id(&self) -> u16 {
         self.iscc_nbs_color_id
     }
+    
+    /// Get the complete ISCC-NBS name (descriptor + color, e.g., "vivid red")
+    pub fn full_iscc_nbs_name(&self) -> String {
+        format!("{} {}", self.iscc_nbs_descriptor, self.iscc_nbs_color)
+    }
 }
 
 /// Internal representation of an ISCC-NBS color category with its polygonal region
 #[derive(Debug, Clone)]
 pub struct ISCC_NBS_Color {
     /// Color number from ISCC-NBS standard
-    color_number: u16,
+    pub color_number: u16,
     /// Polygon group number (for colors with multiple regions)
-    polygon_group: u8,
+    pub polygon_group: u8,
     /// ISCC-NBS descriptor (e.g., "vivid")
-    descriptor: String,
+    pub descriptor: String,
     /// ISCC-NBS color name (e.g., "red")
-    color_name: String,
+    pub color_name: String,
     /// Optional modifier (e.g., "-ish")
-    modifier: Option<String>,
+    pub modifier: Option<String>,
     /// Revised color name
-    revised_color: String,
+    pub revised_color: String,
     /// Hue range (e.g., "1R", "7R") - will be split into adjacent planes
     pub hue_range: (String, String),
     /// Polygon defining the color region in Munsell value-chroma space
@@ -83,7 +88,7 @@ pub struct ISCC_NBS_Color {
 /// ISCC-NBS color naming engine with proper boundary disambiguation and caching
 pub struct ISCC_NBS_Classifier {
     /// Mechanical wedge system for deterministic hue-based classification
-    wedge_system: crate::mechanical_wedges::MechanicalWedgeSystem,
+    pub wedge_system: crate::mechanical_wedges::MechanicalWedgeSystem,
     /// Small LRU cache for successive lookups without repeated searches
     cache: std::cell::RefCell<HashMap<(String, String, String), Option<ISCC_NBS_Result>>>, // (hue, value_str, chroma_str) -> result
     /// Maximum cache size
@@ -222,6 +227,94 @@ impl ISCC_NBS_Classifier {
         }
         
         cache.insert(key, result);
+    }
+    
+    /// Debug method to inspect wedge system state
+    pub fn debug_wedge_lookup(&self, hue: &str, value: f64, chroma: f64) -> String {
+        let wedge_stats = self.wedge_system.get_wedge_statistics();
+        let mut debug_info = format!("=== WEDGE SYSTEM DEBUG ===\n");
+        debug_info.push_str(&format!("Input: hue={}, value={}, chroma={}\n", hue, value, chroma));
+        debug_info.push_str(&format!("Total wedges: {}\n", wedge_stats.total_wedges));
+        debug_info.push_str(&format!("Total polygons: {}\n", wedge_stats.total_polygons));
+        
+        // Try to get the specific wedge for this hue
+        if let Some(expected_wedge) = self.debug_find_expected_wedge(hue) {
+            debug_info.push_str(&format!("Expected wedge for {}: {}\n", hue, expected_wedge));
+            
+            // Check if this wedge exists and has polygons
+            if let Some(polygon_count) = wedge_stats.wedge_counts.get(&expected_wedge) {
+                debug_info.push_str(&format!("Wedge {} exists with {} polygons\n", expected_wedge, polygon_count));
+                
+                // Look for color 43 specifically
+                if let Some(color_43_info) = self.debug_find_color_43(&expected_wedge) {
+                    debug_info.push_str(&format!("Color 43 found: {}\n", color_43_info));
+                } else {
+                    debug_info.push_str("Color 43 NOT found in this wedge\n");
+                }
+            } else {
+                debug_info.push_str(&format!("❌ Wedge {} DOES NOT EXIST\n", expected_wedge));
+            }
+        } else {
+            debug_info.push_str(&format!("❌ Could not determine expected wedge for hue {}\n", hue));
+        }
+        
+        debug_info
+    }
+    
+    /// Helper to determine expected wedge key
+    fn debug_find_expected_wedge(&self, hue: &str) -> Option<String> {
+        // Parse the hue to determine expected wedge
+        if let Ok((hue_number, family)) = Self::parse_hue_static(hue) {
+            let wedge_num = if hue_number > 9.0 && hue_number <= 10.0 {
+                10
+            } else {
+                ((hue_number.ceil() as u8).max(1)).min(10)
+            };
+            
+            let wedge_hue = format!("{}{}", wedge_num, family);
+            
+            // For 10R, next should be 1YR
+            if wedge_hue == "10R" {
+                Some("10R→1YR".to_string())
+            } else {
+                // This is simplified - need full logic for all wedge transitions
+                Some(format!("{}→?", wedge_hue))
+            }
+        } else {
+            None
+        }
+    }
+    
+    /// Helper to find color 43 in a specific wedge
+    fn debug_find_color_43(&self, wedge_key: &str) -> Option<String> {
+        // Check if color 43 exists in the specified wedge
+        if let Some(contents) = self.wedge_system.debug_wedge_contents(wedge_key) {
+            for content in &contents {
+                if content.starts_with("Color 43:") {
+                    return Some(content.clone());
+                }
+            }
+            Some(format!("Color 43 NOT found in wedge {} (has {} colors)", wedge_key, contents.len()))
+        } else {
+            Some(format!("Wedge {} does not exist", wedge_key))
+        }
+    }
+    
+    /// Public debug methods for system inspection
+    pub fn debug_find_all_color_43(&self) -> Vec<String> {
+        self.wedge_system.debug_find_color(43)
+    }
+    
+    pub fn debug_wedge_contents(&self, wedge_key: &str) -> Option<Vec<String>> {
+        self.wedge_system.debug_wedge_contents(wedge_key)
+    }
+    
+    pub fn debug_test_point(&self, wedge_key: &str, color_number: u16, value: f64, chroma: f64) -> Option<bool> {
+        self.wedge_system.debug_point_test(wedge_key, color_number, value, chroma)
+    }
+    
+    pub fn debug_test_point_detailed(&self, wedge_key: &str, color_number: u16, value: f64, chroma: f64) -> Option<String> {
+        self.wedge_system.debug_point_test_detailed(wedge_key, color_number, value, chroma)
     }
     
     /// Classify a MunsellColor object using the ISCC-NBS system.
@@ -507,38 +600,7 @@ impl ISCC_NBS_Classifier {
     
     /// Handle "-ish" modifier transformations with English grammar rules
     fn construct_ish_descriptor(&self, revised_color: &str, modifier: &str) -> String {
-        let modifier = modifier.trim();
-        
-        // Handle special cases like "-ish gray", "-ish black" 
-        if modifier.starts_with("-ish ") {
-            let suffix_word = &modifier[5..]; // Skip "-ish "
-            let transformed_color = self.apply_ish_transformation(revised_color.trim());
-            return format!("{} {}", transformed_color, suffix_word);
-        }
-        
-        // Parse modifier: split on "-ish" to extract prefix and suffix
-        let parts: Vec<&str> = modifier.split("-ish").collect();
-        let prefix = parts[0].trim();
-        let suffix = if parts.len() > 1 { parts[1].trim() } else { "" };
-        
-        // Transform color (Rule 5: olive exception)
-        let transformed_color = if revised_color.trim() == "olive" {
-            revised_color.trim().to_string()
-        } else {
-            self.apply_ish_transformation(revised_color.trim())
-        };
-        
-        // Combine parts: prefix + colorish + suffix
-        let mut result = Vec::new();
-        if !prefix.is_empty() { 
-            result.push(prefix); 
-        }
-        result.push(&transformed_color);
-        if !suffix.is_empty() { 
-            result.push(suffix); 
-        }
-        
-        result.join(" ")
+        self.construct_proper_name("", revised_color, modifier).trim().to_string()
     }
     
     /// Apply English grammar rules for "-ish" transformations
@@ -556,10 +618,38 @@ impl ISCC_NBS_Classifier {
         }
     }
     
+    /// Construct proper ISCC-NBS name using correct -ish logic
+    fn construct_proper_name(&self, descriptor: &str, color_name: &str, modifier: &str) -> String {
+        let modifier = modifier.trim();
+        
+        // Test if "-ish" is in the modifier
+        if modifier.contains("-ish") {
+            // Use the mapping table: replace the color with its -ish version
+            let ish_color = self.apply_ish_transformation(color_name);
+            
+            // Replace "-ish" in the modifier with the mapped color
+            let final_modifier = modifier.replace("-ish", "");
+            
+            if final_modifier.trim().is_empty() {
+                // Just the -ish transformation: "descriptor + color-ish"
+                format!("{} {}", descriptor, ish_color)
+            } else {
+                // Modifier + -ish transformation: "descriptor + modifier + color-ish"
+                format!("{} {} {}", descriptor, final_modifier.trim(), ish_color)
+            }
+        } else if !modifier.is_empty() {
+            // Regular modifier: "descriptor + modifier + color"
+            format!("{} {} {}", descriptor, modifier, color_name)
+        } else {
+            // No modifier: "descriptor + color"
+            format!("{} {}", descriptor, color_name)
+        }
+    }
+    
     /// Format the complete ISCC-NBS color name
     fn format_color_name(&self, color: &ISCC_NBS_Color) -> String {
         match &color.modifier {
-            Some(modifier) => format!("{} {}{}", color.descriptor, color.color_name, modifier),
+            Some(modifier) => self.construct_proper_name(&color.descriptor, &color.color_name, modifier),
             None => format!("{} {}", color.descriptor, color.color_name),
         }
     }

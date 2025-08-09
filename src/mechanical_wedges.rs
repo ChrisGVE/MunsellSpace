@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use crate::{MunsellError, Result};
 use crate::iscc::ISCC_NBS_Color;
+use geo::CoordsIter;
 
 /// Mechanical hue wedge distribution system for ISCC-NBS classification
 /// Implements the deterministic approach outlined in ALGO.md
@@ -222,12 +223,14 @@ impl MechanicalWedgeSystem {
         Ok((number, family_str.to_string()))
     }
     
-    /// Check if a point (value, chroma) is inside a polygon
+    /// Check if a point (value, chroma) is inside a polygon, including boundaries
     fn point_in_polygon(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> bool {
-        // Use the geo crate's Contains trait for robust point-in-polygon testing
-        use geo::Contains;
+        // Use both Contains and Intersects for boundary-inclusive testing
+        use geo::{Contains, Intersects};
         let point = geo::Point::new(chroma, value); // Note: chroma=x, value=y
-        polygon.polygon.contains(&point)
+        
+        // Check if point is inside (contains) OR on the boundary (intersects)
+        polygon.polygon.contains(&point) || polygon.polygon.intersects(&point)
     }
     
     /// Get statistics about wedge container distribution
@@ -241,6 +244,77 @@ impl MechanicalWedgeSystem {
         
         stats.total_wedges = self.wedge_containers.len();
         stats
+    }
+    
+    /// Debug method to check if a specific wedge exists and list its contents
+    pub fn debug_wedge_contents(&self, wedge_key: &str) -> Option<Vec<String>> {
+        if let Some(container) = self.wedge_containers.get(wedge_key) {
+            let contents = container.iter()
+                .map(|color| format!("Color {}: {} {} (polygon: {} points)", 
+                    color.color_number,
+                    color.descriptor,
+                    color.color_name,
+                    color.polygon.exterior().coords_count()
+                ))
+                .collect();
+            Some(contents)
+        } else {
+            None
+        }
+    }
+    
+    /// Debug method to find all wedge keys that contain a specific color number
+    pub fn debug_find_color(&self, color_number: u16) -> Vec<String> {
+        let mut found_wedges = Vec::new();
+        
+        for (wedge_key, container) in &self.wedge_containers {
+            if container.iter().any(|color| color.color_number == color_number) {
+                found_wedges.push(wedge_key.clone());
+            }
+        }
+        
+        found_wedges
+    }
+    
+    /// Debug method to test point-in-polygon for a specific color
+    pub fn debug_point_test(&self, wedge_key: &str, color_number: u16, value: f64, chroma: f64) -> Option<bool> {
+        if let Some(container) = self.wedge_containers.get(wedge_key) {
+            if let Some(color) = container.iter().find(|c| c.color_number == color_number) {
+                let result = self.point_in_polygon(value, chroma, color);
+                return Some(result);
+            }
+        }
+        None
+    }
+    
+    /// Detailed debug method to show polygon bounds and test point
+    pub fn debug_point_test_detailed(&self, wedge_key: &str, color_number: u16, value: f64, chroma: f64) -> Option<String> {
+        if let Some(container) = self.wedge_containers.get(wedge_key) {
+            if let Some(color) = container.iter().find(|c| c.color_number == color_number) {
+                // Extract polygon coordinates
+                let coord_count = color.polygon.exterior().coords_count();
+                let coord_points: Vec<_> = color.polygon.exterior().coords().collect();
+                
+                let test_point = geo::Point::new(chroma, value);
+                let result = self.point_in_polygon(value, chroma, color);
+                
+                let debug_info = format!(
+                    "Color {} in wedge {}\n\
+                     Hue range: {} to {}\n\
+                     Test point: (value={}, chroma={}) -> Point::new(x={}, y={}) [chroma=x, value=y]\n\
+                     Polygon {} coordinates: {:?}\n\
+                     Point-in-polygon result: {}",
+                    color_number, wedge_key,
+                    color.hue_range.0, color.hue_range.1,
+                    value, chroma, chroma, value,
+                    coord_count, coord_points,
+                    result
+                );
+                
+                return Some(debug_info);
+            }
+        }
+        None
     }
     
     /// Validate all wedge containers for coverage, gaps, and intersections
