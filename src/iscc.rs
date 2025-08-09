@@ -603,14 +603,16 @@ impl ISCC_NBS_Classifier {
                 .parse()
                 .map_err(|e| Self::data_error(format!("Invalid polygon_group: {}", e)))?;
             
-            let descriptor = record.get(2)
-                .ok_or_else(|| Self::data_error("Missing descriptor".to_string()))?
+            // Use iscc-nbs-modifier (column 4) as the descriptor to avoid duplication
+            let descriptor = record.get(4)
+                .ok_or_else(|| Self::data_error("Missing modifier".to_string()))?
                 .to_string();
                 
             let color_name = record.get(3)
                 .ok_or_else(|| Self::data_error("Missing color_name".to_string()))?
                 .to_string();
                 
+            // Column 2 (iscc-nbs-descriptor) contains full name, we don't need it since we construct from parts
             let modifier = record.get(4).filter(|s| !s.is_empty()).map(|s| s.to_string());
             
             let revised_color = record.get(5)

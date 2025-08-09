@@ -238,4 +238,237 @@ mod tests {
         // assert!(exact_accuracy > 50.0, "Exact match accuracy too low: {:.1}%", exact_accuracy);
         // assert!(color_accuracy > 80.0, "Color match accuracy too low: {:.1}%", color_accuracy);
     }
+
+    #[test]
+    fn test_munsell_color_science_sample_accuracy() {
+        let classifier = ISCC_NBS_Classifier::new()
+            .expect("Should be able to create ISCC_NBS_Classifier");
+
+        // Load the Munsell Color Science sample dataset
+        let csv_path = "tests/data/MUNSELL_COLOR_SCIENCE_SAMPLE.csv";
+        let csv_content = std::fs::read_to_string(csv_path)
+            .expect("Should be able to read Munsell Color Science sample dataset");
+        
+        let mut total_tests = 0;
+        let mut exact_matches = 0;
+        let mut color_matches = 0;
+        let mut modifier_matches = 0;
+        let mut failures = Vec::new();
+        
+        println!("Testing ISCC-NBS accuracy against Munsell Color Science sample dataset...");
+        
+        // Skip header and process each line
+        for (line_num, line) in csv_content.lines().skip(1).enumerate() {
+            if line.trim().is_empty() {
+                continue;
+            }
+            
+            let parts: Vec<&str> = line.split(',').collect();
+            if parts.len() < 5 {
+                continue;
+            }
+            
+            let number = parts[0].trim();
+            let expected_name = parts[1].trim();
+            let r: u8 = parts[2].trim().parse().unwrap_or(0);
+            let g: u8 = parts[3].trim().parse().unwrap_or(0);
+            let b: u8 = parts[4].trim().parse().unwrap_or(0);
+            
+            total_tests += 1;
+            
+            // Test RGB classification
+            match classifier.classify_srgb([r, g, b]) {
+                Ok(Some(result)) => {
+                    // Parse expected name into modifier and color
+                    let expected_parts: Vec<&str> = expected_name.split_whitespace().collect();
+                    let (expected_modifier, expected_color) = if expected_parts.len() >= 2 {
+                        let color_start = expected_parts.len() - 1;
+                        let modifier = expected_parts[..color_start].join(" ");
+                        let color = expected_parts[color_start];
+                        (modifier, color.to_string())
+                    } else {
+                        ("".to_string(), expected_name.to_string())
+                    };
+                    
+                    let actual_full = format!("{} {}", result.iscc_nbs_descriptor(), result.iscc_nbs_color());
+                    
+                    // Check for exact match
+                    if actual_full.to_lowercase() == expected_name.to_lowercase() {
+                        exact_matches += 1;
+                        color_matches += 1;
+                        modifier_matches += 1;
+                    } else {
+                        // Check partial matches
+                        if result.iscc_nbs_color().to_lowercase() == expected_color.to_lowercase() {
+                            color_matches += 1;
+                        }
+                        if result.iscc_nbs_descriptor().to_lowercase() == expected_modifier.to_lowercase() {
+                            modifier_matches += 1;
+                        }
+                        
+                        // Store failure for analysis
+                        failures.push(format!(
+                            "#{}: RGB({},{},{}) -> Expected: '{}' | Got: '{}' | Color: {} vs {} | Modifier: {} vs {}",
+                            number, r, g, b, expected_name, actual_full,
+                            expected_color, result.iscc_nbs_color(),
+                            expected_modifier, result.iscc_nbs_descriptor()
+                        ));
+                    }
+                },
+                Ok(None) => {
+                    failures.push(format!("#{}: RGB({},{},{}) -> No classification found", number, r, g, b));
+                },
+                Err(e) => {
+                    failures.push(format!("#{}: RGB({},{},{}) -> Error: {}", number, r, g, b, e));
+                }
+            }
+        }
+        
+        // Calculate accuracy percentages
+        let exact_accuracy = (exact_matches as f64 / total_tests as f64) * 100.0;
+        let color_accuracy = (color_matches as f64 / total_tests as f64) * 100.0;
+        let modifier_accuracy = (modifier_matches as f64 / total_tests as f64) * 100.0;
+        
+        println!("\n🎯 Munsell Color Science Sample Accuracy Results:");
+        println!("Total colors tested: {}", total_tests);
+        println!("Exact matches: {}/{} ({:.1}%)", exact_matches, total_tests, exact_accuracy);
+        println!("Color matches: {}/{} ({:.1}%)", color_matches, total_tests, color_accuracy);
+        println!("Modifier matches: {}/{} ({:.1}%)", modifier_matches, total_tests, modifier_accuracy);
+        
+        // Show all failures for analysis (since this is a small sample)
+        if !failures.is_empty() {
+            println!("\n❌ Failures:");
+            for failure in &failures {
+                println!("  {}", failure);
+            }
+        }
+        
+        println!("\n✅ Munsell Color Science sample accuracy test completed.");
+    }
+
+    #[test]
+    fn test_munsell_color_science_complete_accuracy() {
+        let classifier = ISCC_NBS_Classifier::new()
+            .expect("Should be able to create ISCC_NBS_Classifier");
+
+        // Load the complete Munsell Color Science dataset (260 valid colors out of 267 total)
+        let csv_path = "tests/data/MUNSELL_COLOR_SCIENCE_COMPLETE.csv";
+        let csv_content = std::fs::read_to_string(csv_path)
+            .expect("Should be able to read complete Munsell Color Science dataset");
+        
+        let mut total_tests = 0;
+        let mut exact_matches = 0;
+        let mut color_matches = 0;
+        let mut modifier_matches = 0;
+        let mut failures = Vec::new();
+        
+        println!("Testing ISCC-NBS accuracy against complete Munsell Color Science dataset...");
+        
+        // Skip header and process each line
+        for (line_num, line) in csv_content.lines().skip(1).enumerate() {
+            if line.trim().is_empty() {
+                continue;
+            }
+            
+            let parts: Vec<&str> = line.split(',').collect();
+            if parts.len() < 5 {
+                continue;
+            }
+            
+            let number = parts[0].trim();
+            let expected_name = parts[1].trim().trim_matches('"'); // Remove quotes
+            let r: u8 = parts[2].trim().parse().unwrap_or(0);
+            let g: u8 = parts[3].trim().parse().unwrap_or(0);
+            let b: u8 = parts[4].trim().parse().unwrap_or(0);
+            
+            total_tests += 1;
+            
+            // Test RGB classification
+            match classifier.classify_srgb([r, g, b]) {
+                Ok(Some(result)) => {
+                    // Parse expected name into modifier and color
+                    let expected_parts: Vec<&str> = expected_name.split_whitespace().collect();
+                    let (expected_modifier, expected_color) = if expected_parts.len() >= 2 {
+                        let color_start = expected_parts.len() - 1;
+                        let modifier = expected_parts[..color_start].join(" ");
+                        let color = expected_parts[color_start];
+                        (modifier, color.to_string())
+                    } else {
+                        ("".to_string(), expected_name.to_string())
+                    };
+                    
+                    let actual_full = format!("{} {}", result.iscc_nbs_descriptor(), result.iscc_nbs_color());
+                    
+                    // Check for exact match
+                    if actual_full.to_lowercase() == expected_name.to_lowercase() {
+                        exact_matches += 1;
+                        color_matches += 1;
+                        modifier_matches += 1;
+                    } else {
+                        // Check partial matches
+                        if result.iscc_nbs_color().to_lowercase() == expected_color.to_lowercase() {
+                            color_matches += 1;
+                        }
+                        if result.iscc_nbs_descriptor().to_lowercase() == expected_modifier.to_lowercase() {
+                            modifier_matches += 1;
+                        }
+                        
+                        // Store failure for analysis (only first 50 to avoid overwhelming output)
+                        if failures.len() < 50 {
+                            failures.push(format!(
+                                "#{}: RGB({},{},{}) -> Expected: '{}' | Got: '{}' | Color: {} vs {} | Modifier: {} vs {}",
+                                number, r, g, b, expected_name, actual_full,
+                                expected_color, result.iscc_nbs_color(),
+                                expected_modifier, result.iscc_nbs_descriptor()
+                            ));
+                        }
+                    }
+                },
+                Ok(None) => {
+                    if failures.len() < 50 {
+                        failures.push(format!("#{}: RGB({},{},{}) -> No classification found", number, r, g, b));
+                    }
+                },
+                Err(e) => {
+                    if failures.len() < 50 {
+                        failures.push(format!("#{}: RGB({},{},{}) -> Error: {}", number, r, g, b, e));
+                    }
+                }
+            }
+            
+            // Show progress every 50 tests
+            if total_tests % 50 == 0 {
+                println!("Progress: {}/{} tests completed", total_tests, 260);
+            }
+        }
+        
+        // Calculate accuracy percentages
+        let exact_accuracy = (exact_matches as f64 / total_tests as f64) * 100.0;
+        let color_accuracy = (color_matches as f64 / total_tests as f64) * 100.0;
+        let modifier_accuracy = (modifier_matches as f64 / total_tests as f64) * 100.0;
+        
+        println!("\n🎯 Complete Munsell Color Science Dataset Accuracy Results:");
+        println!("Total colors tested: {}", total_tests);
+        println!("Exact matches: {}/{} ({:.1}%)", exact_matches, total_tests, exact_accuracy);
+        println!("Color matches: {}/{} ({:.1}%)", color_matches, total_tests, color_accuracy);
+        println!("Modifier matches: {}/{} ({:.1}%)", modifier_matches, total_tests, modifier_accuracy);
+        
+        // Show sample failures for analysis
+        if !failures.is_empty() {
+            println!("\n❌ Sample Failures (first {}):", failures.len().min(50));
+            for failure in failures.iter().take(50) {
+                println!("  {}", failure);
+            }
+            if failures.len() > 50 {
+                println!("  ... and {} more failures", total_tests - exact_matches - 50);
+            }
+        }
+        
+        println!("\n✅ Complete Munsell Color Science accuracy test completed.");
+        
+        // Report comparison with previous results
+        println!("\n📊 Accuracy Comparison:");
+        println!("Sample dataset (20 colors): 60.0% exact matches, 70.0% color matches");
+        println!("Complete dataset ({} colors): {:.1}% exact matches, {:.1}% color matches", total_tests, exact_accuracy, color_accuracy);
+    }
 }
