@@ -10,7 +10,7 @@ fn generate_mismatch_csv() {
     let converter = MunsellConverter::new().expect("Failed to create converter");
     
     // Load the reference dataset
-    let csv_content = include_str!("../ISCC_NBS_REFERENCE_DATASET.csv");
+    let csv_content = include_str!("data/ISCC_NBS_REFERENCE_DATASET.csv");
     let mut reader = csv::Reader::from_reader(csv_content.as_bytes());
     
     // Create output CSV file

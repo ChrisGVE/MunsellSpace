@@ -1104,7 +1104,7 @@ impl MunsellConverter {
     
     /// Load ISCC-NBS polygon data from embedded CSV.
     fn load_iscc_nbs_data() -> Result<Vec<IsccNbsPolygon>> {
-        const ISCC_NBS_DATA: &str = include_str!("../ISCC-NBS-Definitions.csv");
+        const ISCC_NBS_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
         
         let mut reader = csv::Reader::from_reader(ISCC_NBS_DATA.as_bytes());
         let mut polygons_map: HashMap<u16, Vec<MunsellPoint>> = HashMap::new();

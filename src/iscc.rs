@@ -92,7 +92,7 @@ pub struct IsccNbsClassifier {
 }
 
 /// Embedded ISCC-NBS data - no external files needed
-const ISCC_NBS_DATA: &str = include_str!("../ISCC-NBS-Definitions.csv");
+const ISCC_NBS_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
 
 impl IsccNbsClassifier {
     /// Create a new ISCC-NBS classifier using embedded data.
