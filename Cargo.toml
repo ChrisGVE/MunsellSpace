@@ -89,3 +89,7 @@ panic = "abort"
 
 [profile.bench]
 debug = true
+
+[[bench]]
+name = "conversion_benchmarks"
+harness = false
