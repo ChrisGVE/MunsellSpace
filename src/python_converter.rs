@@ -3,9 +3,7 @@
 
 use crate::error::{MunsellError, Result};
 use crate::python_port::*;
-use crate::python_port_helpers::*;
 use crate::types::{MunsellColor, RgbColor};
-use crate::mathematical::{MunsellSpecification, CieXyY};
 
 /// Python-compatible Munsell converter using exact colour-science algorithms
 pub struct PythonMunsellConverter;

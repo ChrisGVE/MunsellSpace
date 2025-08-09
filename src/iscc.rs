@@ -766,7 +766,7 @@ impl IsccNbsClassifier {
     }
     
     /// Check if a hue falls within a specific plane (simplified)
-    fn hue_in_plane(&self, hue_number: f64, hue_family: &str, plane_key: &str) -> bool {
+    fn hue_in_plane(&self, _hue_number: f64, hue_family: &str, plane_key: &str) -> bool {
         // Simple check: if plane key contains the family, it's a match
         plane_key.contains(hue_family)
     }

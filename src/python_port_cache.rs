@@ -2,7 +2,7 @@
 //! Python uses LRU caching and memoization, we'll implement equivalent behavior
 
 use std::collections::HashMap;
-use std::hash::{Hash, Hasher};
+use std::hash::Hash;
 use ordered_float::OrderedFloat;
 
 /// Cache key for floating point values
@@ -171,8 +171,6 @@ impl MunsellCache {
     }
 }
 
-/// Thread-local cache instance
-/// This matches Python's module-level caching behavior
 thread_local! {
     static CACHE: std::cell::RefCell<MunsellCache> = std::cell::RefCell::new(MunsellCache::new(128));
 }

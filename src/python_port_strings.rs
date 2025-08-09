@@ -267,10 +267,10 @@ mod tests {
     
     #[test]
     fn test_munsell_specification_to_munsell_colour() {
-        // Test grey
+        // Test grey - should include space after N per Python colour-science format
         let grey_spec = [f64::NAN, 5.2, f64::NAN, f64::NAN];
         let grey_str = munsell_specification_to_munsell_colour(&grey_spec, 1, 1, 1).unwrap();
-        assert_eq!(grey_str, "N5.2");
+        assert_eq!(grey_str, "N 5.2");
         
         // Test color
         let red_spec = [10.0, 2.0, 4.0, 7.0];

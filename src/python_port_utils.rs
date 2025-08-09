@@ -1,7 +1,6 @@
 //! Utility and validation functions - exact 1:1 port from Python colour-science
 //! Line-by-line port with exact behavior matching
 
-use crate::error::Result;
 use crate::constants::MUNSELL_RENOTATION_DATA;
 
 /// Check if a Munsell specification exists in the renotation data
@@ -248,7 +247,7 @@ pub fn munsell_value_saunderson1944(y: f64) -> f64 {
     // Python: Polynomial approximation
     // Coefficients from paper
     let y2 = y * y;
-    let y3 = y2 * y;
+    let _y3 = y2 * y;
     
     // V = 2.468 * Y^(1/3) - 1.636 * Y^(2/3) + 0.168
     2.468 * y.powf(1.0/3.0) - 1.636 * y.powf(2.0/3.0) + 0.168

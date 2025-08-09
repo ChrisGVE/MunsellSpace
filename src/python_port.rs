@@ -4,20 +4,6 @@
 use crate::error::Result;
 // use std::f64::consts::PI;  // Currently unused
 
-/// Convert Munsell value to luminance using ASTM D1535-08e1 method
-/// EXACT 1:1 PORT from Python colour-science luminance.py lines 198-208
-fn luminance_ASTMD1535(value: f64) -> f64 {
-    // Python formula:
-    // Y = (1.1914 * V - 0.22533 * (V**2) + 0.23352 * (V**3) 
-    //      - 0.020484 * (V**4) + 0.00081939 * (V**5))
-    let v = value;
-    let v2 = v * v;
-    let v3 = v2 * v;
-    let v4 = v3 * v;
-    let v5 = v4 * v;
-    
-    1.1914 * v - 0.22533 * v2 + 0.23352 * v3 - 0.020484 * v4 + 0.00081939 * v5
-}
 
 /// Convert [hue, code] to ASTM hue number
 /// Exact implementation from Python colour-science
@@ -137,7 +123,7 @@ pub fn hue_angle_to_hue(hue_angle: f64) -> (f64, u8) {
 pub fn bounding_hues_from_renotation(hue: f64, code: u8) -> ((f64, u8), (f64, u8)) {
     // Exact 1:1 port from Python colour-science
     let mut hue_cw: f64;
-    let mut code_cw: u8;
+    let code_cw: u8;
     let hue_ccw: f64;
     let code_ccw: u8;
     
@@ -646,9 +632,9 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> Result<
         //     LinearInterpolator([L9, L10], [ma_limit_mccw, 0])(L)
         // )
         
-        let l = luminance_ASTMD1535(value);
-        let l9 = luminance_ASTMD1535(9.0);
-        let l10 = luminance_ASTMD1535(10.0);
+        let l = luminance_astmd1535(value);
+        let l9 = luminance_astmd1535(9.0);
+        let l10 = luminance_astmd1535(10.0);
         
         eprintln!("DEBUG maximum_chroma_from_renotation:");
         eprintln!("  value={:.4}, hue={:.4}", value, hue);
@@ -996,7 +982,7 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     // For xy_from_renotation_ovoid, we need to handle non-integer values
     // by interpolating between integer values
     let value_int = value_for_lookup.round();
-    let needs_value_interpolation = (value_for_lookup - value_int).abs() > 1e-10;
+    let _needs_value_interpolation = (value_for_lookup - value_int).abs() > 1e-10;
     
     // Chroma must be at least 2.0
     if chroma < 2.0 {
@@ -1352,7 +1338,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         }
         
         // Trace interpolation method
-        let interp_method = interpolation_method_from_renotation_ovoid(
+        let _interp_method = interpolation_method_from_renotation_ovoid(
             specification_current[0],
             specification_current[1], 
             specification_current[2],
@@ -1392,7 +1378,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         // eprintln!("TRACE|ITER_{}:XY_FROM_RENOT|xy=[{:.6},{:.6}]", iterations, x_current, y_current);
         
         // Convert to polar
-        let (rho_current, phi_current, _) = cartesian_to_cylindrical(
+        let (_rho_current, phi_current, _) = cartesian_to_cylindrical(
             x_current - x_center, y_current - y_center, big_y
         );
         let phi_current = phi_current.to_degrees();
@@ -1456,7 +1442,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             }
             
             if !extrapolate {
-                let (rho_inner, phi_inner, _) = cartesian_to_cylindrical(
+                let (_rho_inner, phi_inner, _) = cartesian_to_cylindrical(
                     x_inner - x_center, y_inner - y_center, big_y
                 );
                 let phi_inner = phi_inner.to_degrees();
@@ -1551,8 +1537,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             let mut rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
             
             // Check if this is our debug color RGB(34, 17, 119) = #221177 or RGB(221, 238, 238)
-            let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
-            let is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
+            let _is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
+            let _is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
             
             // Python's condition: while not (np.min(rho_bounds_data) < rho_input < np.max(rho_bounds_data))
             // This means: continue looping while rho_input is NOT strictly between min and max
@@ -1636,8 +1622,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         // eprintln!("TRACE|ITER:CONVERGENCE|xy_target={:.9},{:.9},xy_current={:.9},{:.9},diff={:.12}", x, y, x_current, y_current, difference);
         
         // Check if this is our debug color RGB(34, 17, 119) = #221177 or RGB(221, 238, 238)
-        let is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
-        let is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
+        let _is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
+        let _is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
         
         if difference < convergence_threshold {
         // eprintln!("TRACE|ITER:CONVERGED|diff={:.12},threshold={:.12},converged={}", difference, convergence_threshold, difference < convergence_threshold);

@@ -1,7 +1,7 @@
 //! Test program with automatic tracing enabled
 
 use munsellspace::python_converter::PythonMunsellConverter;
-use tracing::{info, debug, trace, Level};
+use tracing::{info, Level};
 use tracing_subscriber::FmtSubscriber;
 
 fn main() {

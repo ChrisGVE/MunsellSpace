@@ -3,7 +3,6 @@
 
 use crate::error::Result;
 use crate::python_port::{cartesian_to_cylindrical, normalise_munsell_specification};
-use crate::python_port_helpers::{xyy_to_xyz, xyz_to_xy, xyz_to_lab, lab_to_lchab, is_within_macadam_limits};
 use std::sync::Mutex;
 use lazy_static::lazy_static;
 
@@ -515,7 +514,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             }
             
             if !extrapolate {
-                let (rho_inner, phi_inner, _) = cartesian_to_cylindrical(
+                let (_rho_inner, phi_inner, _) = cartesian_to_cylindrical(
                     x_inner - x_center, y_inner - y_center, big_y
                 );
                 let phi_inner = phi_inner.to_degrees();

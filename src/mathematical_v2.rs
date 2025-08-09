@@ -4,7 +4,7 @@
 //! following ASTM D1535 standards with support for multiple illuminants and 
 //! chromatic adaptation methods.
 
-use palette::{Srgb, Xyz, Lab, Lch, convert::{IntoColor, IntoColorUnclamped}, white_point::D65};
+use palette::{Srgb, Xyz, convert::IntoColor, white_point::D65};
 use crate::constants::*;
 use crate::error::{MunsellError, Result};
 use crate::illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};

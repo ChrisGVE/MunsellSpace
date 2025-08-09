@@ -1,7 +1,6 @@
 //! Lab color space functions - exact 1:1 port from Python colour-science
 //! Line-by-line port with exact behavior matching
 
-use crate::error::Result;
 
 // Constants for Lab color space (D65 illuminant, 2° observer)
 const XN_D65: f64 = 0.95047;  // X tristimulus value for D65

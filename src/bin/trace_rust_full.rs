@@ -436,7 +436,7 @@ fn traced_xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
 }
 
 // Helper function for chromatic adaptation
-fn chromatic_adaptation_vonkries(xyz: [f64; 3], from_illuminant: &str, to_illuminant: &str) -> [f64; 3] {
+fn chromatic_adaptation_vonkries(xyz: [f64; 3], _from_illuminant: &str, _to_illuminant: &str) -> [f64; 3] {
     // Simplified version - in reality this would do full CAT02 transformation
     // For now just return the input (assuming illuminants are close)
     xyz

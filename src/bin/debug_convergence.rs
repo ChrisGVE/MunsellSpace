@@ -1,6 +1,5 @@
 //! Debug convergence issues
 
-use munsellspace::python_converter::PythonMunsellConverter;
 use munsellspace::python_port::xyy_to_munsell_specification;
 
 fn main() {

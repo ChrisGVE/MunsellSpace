@@ -10,7 +10,6 @@ use crate::error::{MunsellError, Result};
 
 // Critical constants from Python colour-science
 const THRESHOLD_INTEGER: f64 = 1e-3;  // Python's achromatic threshold
-const TOLERANCE_ABSOLUTE_DEFAULT: f64 = 1e-8;
 const MAX_OUTER_ITERATIONS: usize = 64;
 const MAX_INNER_ITERATIONS: usize = 16;
 
@@ -86,11 +85,6 @@ mod coordinate_transforms {
 /// Hue angle conversion functions following Python colour-science exact implementation
 mod hue_conversions {
 
-    /// Hue family codes as used in Python colour-science
-    const HUE_FAMILY_CODES: [(u8, &str); 10] = [
-        (1, "BG"), (2, "G"), (3, "GY"), (4, "Y"), (5, "YR"),
-        (6, "R"), (7, "RP"), (8, "P"), (9, "PB"), (10, "B")
-    ];
 
     /// Convert [hue, code] to ASTM hue number
     /// Exact implementation from Python colour-science
@@ -179,9 +173,9 @@ mod hue_conversions {
     /// Exact implementation from Python colour-science
     pub fn bounding_hues_from_renotation(hue: f64, code: u8) -> ((f64, u8), (f64, u8)) {
         let mut hue_cw: f64;
-        let mut code_cw: u8;
+        let code_cw: u8;
         let mut hue_ccw: f64;
-        let mut code_ccw: u8;
+        let code_ccw: u8;
 
         // Check if hue is exact multiple of 2.5
         if (hue % 2.5 - 0.0).abs() < 1e-10 {
@@ -741,8 +735,8 @@ impl MathematicalMunsellConverter {
         let Y_n = 1.0;
         
         // Convert chromaticity to XYZ
-        let X_n = x_n * Y_n / y_n;
-        let Z_n = (1.0 - x_n - y_n) * Y_n / y_n;
+        let _X_n = x_n * Y_n / y_n;
+        let _Z_n = (1.0 - x_n - y_n) * Y_n / y_n;
         
         self.xyz_to_lab_with_xy_reference(xyz, [x_n, y_n])
     }
@@ -860,7 +854,6 @@ impl MathematicalMunsellConverter {
         
         use coordinate_transforms::*;
         use hue_conversions::*;
-        use interpolation_methods::*;
         
         const CONVERGENCE_THRESHOLD: f64 = THRESHOLD_INTEGER / 1e4; // 1e-7
         
@@ -964,7 +957,7 @@ impl MathematicalMunsellConverter {
             // eprintln!("Current xy: x={:.6}, y={:.6}", x_current, y_current);
             
             // Convert to cylindrical coordinates relative to achromatic center (NOT Illuminant C directly!)
-            let (rho_current, phi_current, _) = cartesian_to_cylindrical(
+            let (_rho_current, phi_current, _) = cartesian_to_cylindrical(
                 x_current - x_center, 
                 y_current - y_center, 
                 xyy.Y
@@ -1027,7 +1020,7 @@ impl MathematicalMunsellConverter {
                 };
                 
                 // Then normalize to [-180, 180] for circular arithmetic
-                let mut hue_angle_difference_inner = if step_mod > 180.0 {
+                let hue_angle_difference_inner = if step_mod > 180.0 {
                     step_mod - 360.0
                 } else {
                     step_mod
@@ -1621,7 +1614,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Calculate maximum chroma from renotation data
-    fn maximum_chroma_from_renotation(&self, hue: f64, value: f64, code: u8) -> Result<f64> {
+    fn maximum_chroma_from_renotation(&self, _hue: f64, value: f64, code: u8) -> Result<f64> {
         // CRITICAL: Must use actual renotation data to find maximum chroma
         // This is essential for proper convergence!
         
@@ -1901,7 +1894,6 @@ impl MathematicalMunsellConverter {
     /// Complete Python xy_from_renotation_ovoid algorithm implementation
     /// This is the exact algorithm from colour-science munsell.py lines 2265-2419
     fn xy_from_renotation_ovoid(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
-        use crate::constants::ILLUMINANT_C;
         
         // CRITICAL: Value must be integer for renotation lookup
         // Chroma interpolation is handled below - DO NOT round chroma here!
@@ -2193,7 +2185,7 @@ impl MathematicalMunsellConverter {
     }
     
     /// Get Y luminance value from renotation data
-    fn get_y_luminance_from_renotation(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<f64> {
+    fn get_y_luminance_from_renotation(&self, _hue: f64, value: f64, chroma: f64, code: u8) -> Result<f64> {
         let family = hue_conversions::code_to_family(code);
         
         for &((ref entry_family, entry_value, entry_chroma), (_, _, y_luminance)) in self.renotation_data {
@@ -2212,11 +2204,9 @@ impl MathematicalMunsellConverter {
     }
     
     /// Get interpolation method using Python's interpolation_method_from_renotation_ovoid
-    fn get_interpolation_method(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<&'static str> {
+    fn get_interpolation_method(&self, _hue: f64, value: f64, chroma: f64, _code: u8) -> Result<&'static str> {
         // This is a complex lookup from interpolation_methods::INTERPOLATION_METHODS
         // For now, implement the key logic patterns from Python
-        
-        let family = hue_conversions::code_to_family(code);
         
         // Most common patterns from the interpolation method table
         if value <= 1.0 || chroma <= 2.0 {
@@ -2257,7 +2247,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Fallback interpolation method
-    fn interpolate_hue_chroma_to_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
+    fn interpolate_hue_chroma_to_xy(&self, _hue: f64, value: f64, _chroma: f64, _code: u8) -> Result<(f64, f64)> {
         // Use the old interpolation method as fallback
         let (_, _, _) = self.interpolate_hue_chroma(0.31006, 0.31616, value)?; // Use illuminant C as dummy
         
@@ -2383,7 +2373,7 @@ impl MathematicalMunsellConverter {
             let error_magnitude = (error_x * error_x + error_y * error_y).sqrt();
             
             // Check convergence
-            if error_magnitude < TOLERANCE_ABSOLUTE_DEFAULT {
+            if error_magnitude < 1e-8 {
                 return Ok((current_spec.hue, current_spec.family, current_spec.chroma));
             }
             
@@ -2581,7 +2571,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Refine Munsell specification using gradient estimation
-    fn refine_munsell_specification(&self, spec: &MunsellSpecification, target_x: f64, target_y: f64, error_x: f64, error_y: f64) -> Result<MunsellSpecification> {
+    fn refine_munsell_specification(&self, spec: &MunsellSpecification, _target_x: f64, _target_y: f64, error_x: f64, error_y: f64) -> Result<MunsellSpecification> {
         // Gradient-based refinement (simplified)
         let step_size = 0.1;
         

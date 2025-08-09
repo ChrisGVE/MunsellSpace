@@ -12,7 +12,7 @@ pub fn euclidean_distance(p1: [f64; 2], p2: [f64; 2]) -> f64 {
 /// Using given white point xy chromaticity
 pub fn xyz_to_lab(xyz: [f64; 3], white_point: [f64; 2]) -> [f64; 3] {
     // Convert white point xy to XYZ (assuming Y=1)
-    let wp_sum = white_point[0] + white_point[1] + (1.0 - white_point[0] - white_point[1]);
+    let _wp_sum = white_point[0] + white_point[1] + (1.0 - white_point[0] - white_point[1]);
     let xn = white_point[0] / white_point[1];
     let yn = 1.0;
     let zn = (1.0 - white_point[0] - white_point[1]) / white_point[1];
@@ -119,7 +119,7 @@ pub fn xyz_to_xy(xyz: [f64; 3]) -> [f64; 2] {
 
 /// Check if xyY is within MacAdam limits
 /// For Munsell, this checks if the color is physically realizable
-pub fn is_within_macadam_limits(xyy: [f64; 3], illuminant: &str) -> bool {
+pub fn is_within_macadam_limits(xyy: [f64; 3], _illuminant: &str) -> bool {
     let (x, y, _) = (xyy[0], xyy[1], xyy[2]);
     
     // Basic sanity checks
