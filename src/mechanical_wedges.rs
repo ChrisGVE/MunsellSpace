@@ -134,25 +134,59 @@ impl MechanicalWedgeSystem {
             .find(|polygon| self.point_in_polygon(value, chroma, polygon))
     }
     
-    /// Find which wedge contains the given hue using boundary rules
+    /// Find which wedge contains the given hue using correct range interpretation
+    /// 1R represents [0-1], 2R represents (1-2], ..., 10R represents (9-10]
     fn find_containing_wedge(&self, hue: &str) -> Option<String> {
         let (hue_number, hue_family) = self.parse_hue(hue).ok()?;
         
-        // Apply boundary rules: hue belongs to wedge where lower_bound < hue ≤ upper_bound
-        let wedge_start_pos = if hue_number.fract() == 0.0 {
-            // Exact boundary (e.g., 1R, 4R, 10R) belongs to previous wedge (10RP→1R, 3R→4R, 9R→10R)
-            let exact_hue = format!("{}{}", hue_number as i32, hue_family);
-            let position = self.hue_to_position.get(&exact_hue)?;
-            (*position + self.hue_sequence.len() - 1) % self.hue_sequence.len()
+        // Handle the range interpretation directly without modulo first
+        // to properly handle the 10.0 case
+        let wedge_number = if hue_number == 0.0 || (hue_number > 0.0 && hue_number <= 1.0) {
+            // [0, 1] belongs to 1R
+            1
+        } else if hue_number > 1.0 && hue_number <= 2.0 {
+            // (1, 2] belongs to 2R
+            2
+        } else if hue_number > 2.0 && hue_number <= 3.0 {
+            // (2, 3] belongs to 3R
+            3
+        } else if hue_number > 3.0 && hue_number <= 4.0 {
+            // (3, 4] belongs to 4R
+            4
+        } else if hue_number > 4.0 && hue_number <= 5.0 {
+            // (4, 5] belongs to 5R
+            5
+        } else if hue_number > 5.0 && hue_number <= 6.0 {
+            // (5, 6] belongs to 6R
+            6
+        } else if hue_number > 6.0 && hue_number <= 7.0 {
+            // (6, 7] belongs to 7R
+            7
+        } else if hue_number > 7.0 && hue_number <= 8.0 {
+            // (7, 8] belongs to 8R
+            8
+        } else if hue_number > 8.0 && hue_number <= 9.0 {
+            // (8, 9] belongs to 9R
+            9
+        } else if hue_number > 9.0 && hue_number <= 10.0 {
+            // (9, 10] belongs to 10R
+            10
         } else {
-            // Fractional hue (e.g., 4.5R) belongs to wedge starting from floor (4R→5R)
-            let floor_hue = format!("{}{}", hue_number.floor() as i32, hue_family);
-            let position = self.hue_to_position.get(&floor_hue)?;
-            *position
+            // Handle wraparound for values > 10.0
+            let normalized = hue_number % 10.0;
+            if normalized == 0.0 || normalized <= 1.0 {
+                1
+            } else {
+                (normalized.ceil() as u8).min(10)
+            }
         };
         
-        let wedge_end_pos = (wedge_start_pos + 1) % self.hue_sequence.len();
-        let start_hue = &self.hue_sequence[wedge_start_pos];
+        // Find the corresponding wedge key
+        let wedge_hue = format!("{}{}", wedge_number, hue_family);
+        let wedge_pos = self.hue_to_position.get(&wedge_hue)?;
+        let wedge_end_pos = (*wedge_pos + 1) % self.hue_sequence.len();
+        
+        let start_hue = &self.hue_sequence[*wedge_pos];
         let end_hue = &self.hue_sequence[wedge_end_pos];
         
         Some(format!("{}→{}", start_hue, end_hue))
@@ -370,18 +404,33 @@ mod tests {
     }
     
     #[test]
-    fn test_containing_wedge_boundary_rules() {
+    fn test_containing_wedge_range_based_rules() {
         let system = MechanicalWedgeSystem::new();
         
-        // Exact boundary hues belong to previous wedge
-        assert_eq!(system.find_containing_wedge("4R"), Some("3R→4R".to_string()));
-        assert_eq!(system.find_containing_wedge("10R"), Some("9R→10R".to_string()));
+        // Range-based interpretation: 1R = [0-1], 2R = (1-2], etc.
         
-        // Fractional hues belong to forward wedge
-        assert_eq!(system.find_containing_wedge("4.5R"), Some("4R→5R".to_string()));
-        assert_eq!(system.find_containing_wedge("7.2YR"), Some("7YR→8YR".to_string()));
+        // Values in [0, 1] belong to 1R wedge
+        assert_eq!(system.find_containing_wedge("0.0R"), Some("1R→2R".to_string()));
+        assert_eq!(system.find_containing_wedge("0.5R"), Some("1R→2R".to_string()));
+        assert_eq!(system.find_containing_wedge("1.0R"), Some("1R→2R".to_string()));
         
-        // Test wraparound case
-        assert_eq!(system.find_containing_wedge("1R"), Some("10RP→1R".to_string()));
+        // Values in (1, 2] belong to 2R wedge
+        assert_eq!(system.find_containing_wedge("1.1R"), Some("2R→3R".to_string()));
+        assert_eq!(system.find_containing_wedge("1.5R"), Some("2R→3R".to_string()));
+        assert_eq!(system.find_containing_wedge("2.0R"), Some("2R→3R".to_string()));
+        
+        // Values in (4, 5] belong to 5R wedge
+        assert_eq!(system.find_containing_wedge("4.5R"), Some("5R→6R".to_string()));
+        
+        // Values in (9, 10] belong to 10R wedge
+        assert_eq!(system.find_containing_wedge("9.5R"), Some("10R→1YR".to_string()));
+        assert_eq!(system.find_containing_wedge("10.0R"), Some("10R→1YR".to_string()));
+        
+        // Test different families
+        assert_eq!(system.find_containing_wedge("7.2YR"), Some("8YR→9YR".to_string()));
+        
+        // Test wraparound: values >= 10 should wrap to [0, 1] range
+        assert_eq!(system.find_containing_wedge("10.5R"), Some("1R→2R".to_string()));
+        assert_eq!(system.find_containing_wedge("11.0R"), Some("1R→2R".to_string()));
     }
 }
