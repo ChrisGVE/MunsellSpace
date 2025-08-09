@@ -1641,7 +1641,51 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         if difference < convergence_threshold {
         // eprintln!("TRACE|ITER:CONVERGED|diff={:.12},threshold={:.12},converged={}", difference, convergence_threshold, difference < convergence_threshold);
-            return Ok(specification_current);
+            
+            // Handle hue boundary cases to prevent misclassification
+            // When hue is very close to 0.0 or 10.0, small floating-point differences
+            // can cause the wrong family assignment. We check both possible interpretations
+            // and choose the one that gives better convergence.
+            let mut final_spec = specification_current;
+            let hue = final_spec[0];
+            let code = final_spec[3] as u8;
+            
+            // Check if we're very close to a family boundary and try both interpretations
+            // When hue is near 0.0 or 10.0, there are two valid representations:
+            // - hue ≈ 0.0 in family N
+            // - hue ≈ 10.0 in family N-1  
+            // OR
+            // - hue ≈ 10.0 in family N
+            // - hue ≈ 0.0 in family N+1
+            // We need to check BOTH and pick the one that gives the best match
+            
+            if hue < 0.15 || hue > 9.85 {
+                // We're near a boundary - try the adjacent family interpretation
+                let (alt_hue, alt_code) = if hue < 0.15 {
+                    // Near 0.0 - try previous family with hue near 10.0
+                    (hue + 10.0, if code == 1 { 10 } else { code - 1 })
+                } else {
+                    // Near 10.0 - try next family with hue near 0.0
+                    (hue - 10.0, if code == 10 { 1 } else { code + 1 })
+                };
+                
+                let alt_spec = [alt_hue, value, final_spec[2], alt_code as f64];
+                
+                // Compare which gives better convergence
+                if let Ok(xy_alt) = xy_from_renotation_ovoid_interpolated(&alt_spec) {
+                    let diff_alt = euclidean_distance(&[x, y], &[xy_alt[0], xy_alt[1]]);
+                    
+                    // Use the alternative if it's clearly better OR if they're very similar
+                    // (when very similar, prefer the interpretation that matches Python's convention)
+                    // Python tends to prefer higher codes when at boundaries
+                    if diff_alt < difference * 0.99 || 
+                       (diff_alt < difference * 1.01 && alt_code > code) {
+                        final_spec = alt_spec;
+                    }
+                }
+            }
+            
+            return Ok(final_spec);
         }
     }
     

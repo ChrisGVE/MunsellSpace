@@ -13,7 +13,7 @@ fn main() {
     for (hue, value, code, desc) in test_cases {
         let max_chroma = maximum_chroma_from_renotation(hue, value, code);
         println!("{}: hue={:.3}, value={:.3}, code={}", desc, hue, value, code);
-        println!("  Maximum chroma: {:.3}", max_chroma);
+        println!("  Maximum chroma: {:?}", max_chroma);
         println!();
     }
 }

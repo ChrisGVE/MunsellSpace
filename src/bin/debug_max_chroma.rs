@@ -12,6 +12,6 @@ fn main() {
     
     for value in values {
         let max_chroma = maximum_chroma_from_renotation(hue, value, code);
-        println!("  Value {:.3}: max_chroma = {:.3}", value, max_chroma);
+        println!("  Value {:.3}: max_chroma = {:?}", value, max_chroma);
     }
 }

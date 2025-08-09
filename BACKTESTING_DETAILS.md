@@ -1,6 +1,6 @@
 # Munsell Conversion Backtesting - Detailed Diagnostics
 
-**Generated**: 2025-08-09T12:11:14.852722
+**Generated**: 2025-08-09T12:42:55.998935
 **Total Colors Tested**: 3984
 **Overall Accuracy**: 76.78% (3059/3984 within 0.1 tolerance)
 

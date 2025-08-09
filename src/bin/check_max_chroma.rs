@@ -10,25 +10,25 @@ fn main() {
     let code = 4; // GY
     
     let max_chroma = maximum_chroma_from_renotation(hue, value, code);
-    println!("Maximum chroma for hue={:.3} value={} code={}: {:.1}", 
+    println!("Maximum chroma for hue={:.3} value={} code={}: {:?}", 
              hue, value, code, max_chroma);
     
     // Try 7.5GY instead
     let hue = 7.5;
     let max_chroma = maximum_chroma_from_renotation(hue, value, code);
-    println!("Maximum chroma for hue={:.3} value={} code={}: {:.1}", 
+    println!("Maximum chroma for hue={:.3} value={} code={}: {:?}", 
              hue, value, code, max_chroma);
     
     // Try value 9
     let value = 9.0;
     let hue = 7.877;
     let max_chroma = maximum_chroma_from_renotation(hue, value, code);
-    println!("Maximum chroma for hue={:.3} value={} code={}: {:.1}", 
+    println!("Maximum chroma for hue={:.3} value={} code={}: {:?}", 
              hue, value, code, max_chroma);
              
     // Try 7.5GY value 9
     let hue = 7.5;
     let max_chroma = maximum_chroma_from_renotation(hue, value, code);
-    println!("Maximum chroma for hue={:.3} value={} code={}: {:.1}", 
+    println!("Maximum chroma for hue={:.3} value={} code={}: {:?}", 
              hue, value, code, max_chroma);
 }
