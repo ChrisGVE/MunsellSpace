@@ -2,7 +2,18 @@
 
 use munsellspace::python_port::*;
 use munsellspace::python_port_strings::*;
+use munsellspace::python_port_lab::{srgb_to_xyz};
 use std::env;
+
+// Simple XYZ to xyY conversion
+fn xyz_to_xyy(xyz: [f64; 3]) -> [f64; 3] {
+    let sum = xyz[0] + xyz[1] + xyz[2];
+    if sum == 0.0 {
+        [0.0, 0.0, 0.0]
+    } else {
+        [xyz[0] / sum, xyz[1] / sum, xyz[1]]
+    }
+}
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -19,10 +30,10 @@ fn main() {
     // Convert to sRGB (0-1 range)
     let srgb = [r as f64 / 255.0, g as f64 / 255.0, b as f64 / 255.0];
     
-    // sRGB to XYZ using D65 illuminant
-    let xyz = srgb_to_xyz_d65(srgb);
+    // sRGB to XYZ using library function
+    let xyz = srgb_to_xyz(srgb);
     
-    // XYZ to xyY
+    // XYZ to xyY using library function
     let xyy = xyz_to_xyy(xyz);
     
     // Print intermediate values for debugging
@@ -62,30 +73,3 @@ fn main() {
     }
 }
 
-// Helper functions
-fn srgb_to_xyz_d65(srgb: [f64; 3]) -> [f64; 3] {
-    // Gamma correction
-    let linear: Vec<f64> = srgb.iter().map(|&c| {
-        if c <= 0.04045 {
-            c / 12.92
-        } else {
-            ((c + 0.055) / 1.055).powf(2.4)
-        }
-    }).collect();
-    
-    // sRGB to XYZ matrix (D65)
-    [
-        0.4124564 * linear[0] + 0.3575761 * linear[1] + 0.1804375 * linear[2],
-        0.2126729 * linear[0] + 0.7151522 * linear[1] + 0.0721750 * linear[2],
-        0.0193339 * linear[0] + 0.1191920 * linear[1] + 0.9503041 * linear[2],
-    ]
-}
-
-fn xyz_to_xyy(xyz: [f64; 3]) -> [f64; 3] {
-    let sum = xyz[0] + xyz[1] + xyz[2];
-    if sum < 1e-10 {
-        [0.3127, 0.3290, 0.0]  // D65 white point for black
-    } else {
-        [xyz[0] / sum, xyz[1] / sum, xyz[1]]
-    }
-}
