@@ -766,7 +766,31 @@ impl MunsellConverter {
         Ok(reference_points)
     }
     
-    /// Phase 2: Lab color space entry point
+    /// Convert CIE Lab color to Munsell notation.
+    ///
+    /// Converts from CIELAB color space (L*a*b*) to Munsell notation using
+    /// D65 white point and high-precision mathematical algorithms.
+    ///
+    /// # Arguments
+    /// * `lab` - Lab color as [L*, a*, b*] array where:
+    ///   - L* is lightness (0-100)
+    ///   - a* is green-red axis (-128 to +127)  
+    ///   - b* is blue-yellow axis (-128 to +127)
+    ///
+    /// # Returns
+    /// Result containing the converted MunsellColor or an error
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::MunsellConverter;
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let converter = MunsellConverter::new()?;
+    /// let munsell = converter.lab_to_munsell([53.23, 80.11, 67.22])?; // Bright red
+    /// println!("Lab [53.23, 80.11, 67.22] -> {}", munsell.notation);
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn lab_to_munsell(&self, lab: [f64; 3]) -> Result<MunsellColor> {
         // Convert Lab → XYZ → xyY → Munsell
         let xyz = self.lab_to_xyz_d65(lab);
@@ -774,7 +798,31 @@ impl MunsellConverter {
         self.xyy_to_munsell_iterative(xyy)
     }
     
-    /// Phase 2: Direct xyY entry point  
+    /// Convert CIE xyY chromaticity coordinates to Munsell notation.
+    ///
+    /// Converts from CIE xyY color space (chromaticity + luminance) to Munsell notation
+    /// using high-precision mathematical algorithms.
+    ///
+    /// # Arguments
+    /// * `xyy` - xyY color as [x, y, Y] array where:
+    ///   - x is CIE x chromaticity coordinate (0.0-1.0)
+    ///   - y is CIE y chromaticity coordinate (0.0-1.0)  
+    ///   - Y is CIE Y luminance (0.0-100.0)
+    ///
+    /// # Returns
+    /// Result containing the converted MunsellColor or an error
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::MunsellConverter;
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let converter = MunsellConverter::new()?;
+    /// let munsell = converter.xyy_to_munsell_public([0.64, 0.33, 21.26])?; // Red-like color
+    /// println!("xyY [0.64, 0.33, 21.26] -> {}", munsell.notation);
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn xyy_to_munsell_public(&self, xyy: [f64; 3]) -> Result<MunsellColor> {
         self.xyy_to_munsell_iterative(xyy)
     }

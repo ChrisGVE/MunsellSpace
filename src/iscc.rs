@@ -95,7 +95,20 @@ pub struct IsccNbsClassifier {
 const ISCC_NBS_DATA: &str = include_str!("../ISCC-NBS-Definitions.csv");
 
 impl IsccNbsClassifier {
-    /// Create a new ISCC-NBS classifier using embedded data
+    /// Create a new ISCC-NBS classifier using embedded data.
+    ///
+    /// Creates a classifier loaded with the standard ISCC-NBS color definitions
+    /// for converting Munsell colors to common color names.
+    ///
+    /// # Returns
+    /// Result containing the classifier or an error if data loading fails
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::IsccNbsClassifier;
+    /// 
+    /// let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
+    /// ```
     pub fn new() -> Result<Self, MunsellError> {
         let colors = Self::load_embedded_data()?;
         let hue_planes = Self::organize_by_adjacent_planes(colors);
@@ -107,7 +120,24 @@ impl IsccNbsClassifier {
         })
     }
     
-    /// Create a new ISCC-NBS classifier from external CSV file (for testing/development)
+    /// Create a new ISCC-NBS classifier from external CSV file.
+    ///
+    /// Loads color definitions from an external CSV file for testing or development.
+    /// The CSV should follow the same format as the embedded ISCC-NBS data.
+    ///
+    /// # Arguments
+    /// * `csv_path` - Path to the CSV file containing ISCC-NBS definitions
+    ///
+    /// # Returns
+    /// Result containing the classifier or an error if file loading fails
+    ///
+    /// # Examples
+    /// ```rust,no_run
+    /// use munsellspace::IsccNbsClassifier;
+    /// 
+    /// let classifier = IsccNbsClassifier::from_csv("custom_colors.csv")?;
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
     pub fn from_csv(csv_path: &str) -> Result<Self, MunsellError> {
         let colors = Self::load_iscc_data(csv_path)?;
         let hue_planes = Self::organize_by_adjacent_planes(colors);
@@ -119,7 +149,33 @@ impl IsccNbsClassifier {
         })
     }
     
-    /// Classify a Munsell color using ISCC-NBS system with comprehensive result
+    /// Classify a Munsell color using the ISCC-NBS system.
+    ///
+    /// Determines which ISCC-NBS color category (e.g., "vivid red") a Munsell color falls into
+    /// by checking polygon containment in the standardized color regions.
+    ///
+    /// # Arguments
+    /// * `hue` - Munsell hue string (e.g., "5R", "2.5YR")
+    /// * `value` - Munsell value (lightness) from 0.0 to 10.0
+    /// * `chroma` - Munsell chroma (saturation) from 0.0 upwards
+    ///
+    /// # Returns
+    /// Result containing Some(IsccNbsResult) if classified, None if outside all regions
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::IsccNbsClassifier;
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = IsccNbsClassifier::new()?;
+    /// 
+    /// let result = classifier.classify_munsell("5R", 4.0, 14.0)?;
+    /// if let Some(classification) = result {
+    ///     println!("Color: {} {}", classification.iscc_nbs_descriptor, classification.iscc_nbs_color);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn classify_munsell(&self, hue: &str, value: f64, chroma: f64) -> Result<Option<IsccNbsResult>, MunsellError> {
         // Create cache key
         let cache_key = (hue.to_string(), format!("{:.1}", value), format!("{:.1}", chroma));
@@ -173,7 +229,32 @@ impl IsccNbsClassifier {
         cache.insert(key, result);
     }
     
-    /// Classify a MunsellColor object directly
+    /// Classify a MunsellColor object using the ISCC-NBS system.
+    ///
+    /// Convenience method for classifying a MunsellColor struct directly.
+    /// Handles both chromatic and neutral colors appropriately.
+    ///
+    /// # Arguments
+    /// * `munsell` - MunsellColor object to classify
+    ///
+    /// # Returns
+    /// Result containing Some(IsccNbsResult) if classified, None if neutral or unclassifiable
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{IsccNbsClassifier, MunsellColor};
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = IsccNbsClassifier::new()?;
+    /// let munsell = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.0);
+    /// 
+    /// let result = classifier.classify_munsell_color(&munsell)?;
+    /// if let Some(classification) = result {
+    ///     println!("Classification: {}", classification.revised_descriptor);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn classify_munsell_color(&self, munsell: &crate::types::MunsellColor) -> Result<Option<IsccNbsResult>, MunsellError> {
         // Handle neutral colors (no hue/chroma)
         if let (Some(hue), Some(chroma)) = (&munsell.hue, munsell.chroma) {
@@ -185,7 +266,31 @@ impl IsccNbsClassifier {
         }
     }
     
-    /// Classify an sRGB color directly (convenience method)
+    /// Classify an sRGB color using the ISCC-NBS system.
+    ///
+    /// Convenience method that first converts sRGB to Munsell, then classifies
+    /// using the ISCC-NBS color naming system.
+    ///
+    /// # Arguments
+    /// * `rgb` - RGB color as [R, G, B] array with components 0-255
+    ///
+    /// # Returns
+    /// Result containing Some(IsccNbsResult) if classified, None if unclassifiable
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::IsccNbsClassifier;
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = IsccNbsClassifier::new()?;
+    /// 
+    /// let result = classifier.classify_srgb([255, 0, 0])?; // Pure red
+    /// if let Some(classification) = result {
+    ///     println!("Red RGB is: {} {}", classification.iscc_nbs_descriptor, classification.iscc_nbs_color);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn classify_srgb(&self, rgb: [u8; 3]) -> Result<Option<IsccNbsResult>, MunsellError> {
         use crate::MunsellConverter;
         
@@ -779,7 +884,27 @@ pub mod validation {
     use super::{IsccNbsColor, ValidationError};
     use geo::Intersects;
     
-    /// Validate ISCC-NBS polygon data for integrity
+    /// Validate ISCC-NBS polygon data for integrity.
+    ///
+    /// Performs geometric validation on ISCC-NBS color polygons to ensure
+    /// proper angles, boundaries, and absence of invalid intersections.
+    ///
+    /// # Arguments
+    /// * `colors` - Slice of ISCC-NBS color definitions to validate
+    ///
+    /// # Returns
+    /// Vector of validation errors found, empty if all polygons are valid
+    ///
+    /// # Examples
+    /// ```rust,ignore
+    /// use munsellspace::iscc::validation::validate_polygons;
+    /// 
+    /// // Note: This requires internal IsccNbsColor which is not public
+    /// let errors = validate_polygons(&color_data);
+    /// if errors.is_empty() {
+    ///     println!("All polygons are valid!");
+    /// }
+    /// ```
     pub fn validate_polygons(colors: &[IsccNbsColor]) -> Vec<ValidationError> {
         let mut errors = Vec::new();
         

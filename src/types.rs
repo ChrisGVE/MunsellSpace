@@ -487,7 +487,29 @@ pub struct MunsellPoint {
 }
 
 impl MunsellPoint {
-    /// Create a new Munsell point.
+    /// Create a new Munsell point for polygon boundary definition.
+    ///
+    /// # Arguments
+    /// * `hue1` - Starting hue boundary (e.g., "1R")
+    /// * `hue2` - Ending hue boundary (e.g., "4R")
+    /// * `chroma` - Chroma coordinate value
+    /// * `value` - Value coordinate (0-10)
+    /// * `is_open_chroma` - Whether this represents an open-ended chroma region
+    ///
+    /// # Examples
+    /// ```
+    /// use munsellspace::MunsellPoint;
+    /// 
+    /// let point = MunsellPoint::new(
+    ///     "5R".to_string(), 
+    ///     "10R".to_string(), 
+    ///     14.0, 
+    ///     6.0, 
+    ///     false
+    /// );
+    /// assert_eq!(point.chroma, 14.0);
+    /// assert_eq!(point.value, 6.0);
+    /// ```
     pub fn new(hue1: String, hue2: String, chroma: f64, value: f64, is_open_chroma: bool) -> Self {
         Self {
             hue1,
@@ -498,7 +520,26 @@ impl MunsellPoint {
         }
     }
     
-    /// Parse chroma value handling ">15" notation.
+    /// Parse chroma value from string, handling ">15" open-ended notation.
+    ///
+    /// # Arguments
+    /// * `chroma_str` - Chroma value as string (e.g., "12.0" or ">15")
+    ///
+    /// # Returns
+    /// Tuple of (chroma_value, is_open_ended)
+    ///
+    /// # Examples
+    /// ```
+    /// use munsellspace::MunsellPoint;
+    /// 
+    /// let (chroma, open) = MunsellPoint::parse_chroma("12.5");
+    /// assert_eq!(chroma, 12.5);
+    /// assert!(!open);
+    /// 
+    /// let (chroma, open) = MunsellPoint::parse_chroma(">15");
+    /// assert_eq!(chroma, 15.0);
+    /// assert!(open);
+    /// ```
     pub fn parse_chroma(chroma_str: &str) -> (f64, bool) {
         if chroma_str.starts_with('>') {
             let value = chroma_str[1..].parse::<f64>().unwrap_or(15.0);
@@ -528,7 +569,35 @@ pub struct IsccNbsPolygon {
 }
 
 impl IsccNbsPolygon {
-    /// Create a new ISCC-NBS polygon.
+    /// Create a new ISCC-NBS color polygon.
+    ///
+    /// # Arguments
+    /// * `color_number` - ISCC-NBS color number (1-267)
+    /// * `descriptor` - Full ISCC-NBS descriptor (e.g., "vivid pink")
+    /// * `color_name` - Base color name (e.g., "pink")
+    /// * `modifier` - Optional modifier string
+    /// * `revised_color` - Revised color name from dataset
+    /// * `points` - Vector of boundary points defining the polygon
+    ///
+    /// # Examples
+    /// ```
+    /// use munsellspace::{IsccNbsPolygon, MunsellPoint};
+    /// 
+    /// let points = vec![
+    ///     MunsellPoint::new("5R".to_string(), "10R".to_string(), 14.0, 4.0, false),
+    ///     MunsellPoint::new("10R".to_string(), "5YR".to_string(), 16.0, 5.0, false),
+    /// ];
+    /// 
+    /// let polygon = IsccNbsPolygon::new(
+    ///     1,
+    ///     "vivid red".to_string(),
+    ///     "red".to_string(),
+    ///     Some("vivid".to_string()),
+    ///     "red".to_string(),
+    ///     points
+    /// );
+    /// assert_eq!(polygon.color_number, 1);
+    /// ```
     pub fn new(
         color_number: u16,
         descriptor: String,

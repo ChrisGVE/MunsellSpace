@@ -638,7 +638,20 @@ pub struct MathematicalMunsellConverter {
 }
 
 impl MathematicalMunsellConverter {
-    /// Create a new mathematical converter instance
+    /// Create a new mathematical Munsell converter.
+    ///
+    /// Creates a converter that uses ASTM D1535 mathematical algorithms
+    /// for high-precision Munsell color space conversion.
+    ///
+    /// # Returns
+    /// Result containing the converter instance or an error
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::MathematicalMunsellConverter;
+    /// 
+    /// let converter = MathematicalMunsellConverter::new().expect("Failed to create converter");
+    /// ```
     pub fn new() -> Result<Self> {
         Ok(Self {
             renotation_data: MUNSELL_RENOTATION_DATA,
@@ -672,7 +685,28 @@ impl MathematicalMunsellConverter {
         self.xyy_to_munsell_specification(xyy)
     }
 
-    /// Convert sRGB to CIE xyY color space (D65 illuminant - no adaptation needed)
+    /// Convert sRGB to CIE xyY color space.
+    ///
+    /// Converts sRGB colors to CIE xyY chromaticity coordinates using D65 illuminant.
+    /// No chromatic adaptation is needed since both sRGB and Munsell data use D65.
+    ///
+    /// # Arguments
+    /// * `rgb` - sRGB color as [R, G, B] array with components 0-255
+    ///
+    /// # Returns
+    /// Result containing CieXyY coordinates or an error
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::MathematicalMunsellConverter;
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let converter = MathematicalMunsellConverter::new()?;
+    /// let xyy = converter.srgb_to_xyy([255, 0, 0])?;
+    /// println!("Red xyY: x={:.4}, y={:.4}, Y={:.4}", xyy.x, xyy.y, xyy.Y);
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn srgb_to_xyy(&self, rgb: [u8; 3]) -> Result<CieXyY> {
         // println!("TRACE: 1. Input RGB: {:?}", rgb);
         
@@ -847,7 +881,29 @@ impl MathematicalMunsellConverter {
     }
 
 
-    /// Convert CIE xyY to Munsell specification using ASTM D1535 algorithm
+    /// Convert CIE xyY to Munsell specification using ASTM D1535 algorithm.
+    ///
+    /// Implements the complete dual-loop iterative algorithm from ASTM D1535
+    /// for mathematical Munsell color space conversion with high precision.
+    ///
+    /// # Arguments
+    /// * `xyy` - CIE xyY chromaticity coordinates
+    ///
+    /// # Returns
+    /// Result containing MunsellSpecification with hue, value, chroma, and family
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{MathematicalMunsellConverter, CieXyY};
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let converter = MathematicalMunsellConverter::new()?;
+    /// let xyy = CieXyY { x: 0.64, y: 0.33, Y: 21.26 };
+    /// let munsell = converter.xyy_to_munsell_specification(xyy)?;
+    /// println!("Munsell: {}.{} {:.1}/{:.1}", munsell.hue, munsell.family, munsell.value, munsell.chroma);
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn xyy_to_munsell_specification(&self, xyy: CieXyY) -> Result<MunsellSpecification> {
         let debug = std::env::var("DEBUG_MUNSELL").is_ok();
         if debug {
