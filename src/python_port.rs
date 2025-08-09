@@ -1826,7 +1826,7 @@ mod tests {
     #[test]
     fn test_python_functions_exact_match() {
         // Load test data generated from Python
-        let test_data = fs::read_to_string("python_test_data.json")
+        let test_data = fs::read_to_string("tests/data/python_test_data.json")
             .expect("Failed to read test data");
         let data: serde_json::Value = serde_json::from_str(&test_data)
             .expect("Failed to parse test data");
