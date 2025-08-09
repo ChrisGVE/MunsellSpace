@@ -297,13 +297,116 @@ impl ISCC_NBS_Classifier {
         self.classify_munsell_color(&munsell)
     }
     
-    /// Classify a Lab color directly (convenience method)
-    pub fn classify_lab(&self, _lab: [f64; 3]) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
-        // Convert Lab to sRGB first (if converter supports this), then to Munsell
-        // For now, return error as Lab conversion may not be implemented
-        Err(MunsellError::ConversionError { 
-            message: "Lab to ISCC-NBS conversion not yet implemented".to_string() 
-        })
+    /// Classify a Lab color using the ISCC-NBS system.
+    ///
+    /// Convenience method that first converts Lab to Munsell, then classifies
+    /// using the ISCC-NBS color naming system.
+    ///
+    /// # Arguments
+    /// * `lab` - Lab color as [L*, a*, b*] array where L* is 0-100, a* and b* are typically -128 to +128
+    ///
+    /// # Returns
+    /// Result containing Some(ISCC_NBS_Result) if classified, None if unclassifiable
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::ISCC_NBS_Classifier;
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = ISCC_NBS_Classifier::new()?;
+    /// 
+    /// let result = classifier.classify_lab([53.23, 80.11, 67.22])?; // Bright red
+    /// if let Some(classification) = result {
+    ///     println!("Lab color is: {} {}", classification.iscc_nbs_descriptor, classification.iscc_nbs_color);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn classify_lab(&self, lab: [f64; 3]) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+        use crate::MunsellConverter;
+        
+        // Convert Lab to Munsell first
+        let converter = MunsellConverter::new()?;
+        let munsell = converter.lab_to_munsell(lab)?;
+        
+        // Then classify the Munsell color
+        self.classify_munsell_color(&munsell)
+    }
+    
+    /// Classify a hex color using the ISCC-NBS system.
+    ///
+    /// Convenience method that first converts hex to sRGB, then to Munsell, then classifies
+    /// using the ISCC-NBS color naming system.
+    ///
+    /// # Arguments
+    /// * `hex` - Hex color string (e.g., "#FF0000", "FF0000", "#f00", "f00")
+    ///
+    /// # Returns
+    /// Result containing Some(ISCC_NBS_Result) if classified, None if unclassifiable
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::ISCC_NBS_Classifier;
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = ISCC_NBS_Classifier::new()?;
+    /// 
+    /// let result = classifier.classify_hex("#FF0000")?; // Red
+    /// if let Some(classification) = result {
+    ///     println!("Hex #FF0000 is: {} {}", classification.iscc_nbs_descriptor, classification.iscc_nbs_color);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn classify_hex(&self, hex: &str) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+        // Parse hex string to RGB
+        let rgb = self.parse_hex_to_rgb(hex)?;
+        
+        // Then classify using existing sRGB method
+        self.classify_srgb(rgb)
+    }
+    
+    /// Parse hex color string to RGB array
+    fn parse_hex_to_rgb(&self, hex: &str) -> Result<[u8; 3], MunsellError> {
+        let hex = hex.trim_start_matches('#');
+        
+        let rgb = if hex.len() == 3 {
+            // Short form: "f00" -> "ff0000"
+            let r = u8::from_str_radix(&hex[0..1].repeat(2), 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            let g = u8::from_str_radix(&hex[1..2].repeat(2), 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            let b = u8::from_str_radix(&hex[2..3].repeat(2), 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            [r, g, b]
+        } else if hex.len() == 6 {
+            // Long form: "ff0000"
+            let r = u8::from_str_radix(&hex[0..2], 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            let g = u8::from_str_radix(&hex[2..4], 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            let b = u8::from_str_radix(&hex[4..6], 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            [r, g, b]
+        } else {
+            return Err(MunsellError::ConversionError { 
+                message: format!("Invalid hex color length: {}. Expected 3 or 6 characters after #", hex.len()) 
+            });
+        };
+        
+        Ok(rgb)
     }
     
     /// Check if point is in polygon using ISCC-NBS boundary disambiguation rules

@@ -77,4 +77,53 @@ mod tests {
 
         println!("Successful classifications: {}/{}", successful_classifications, total_tests);
     }
+
+    #[test]
+    fn test_direct_entry_points() {
+        let classifier = ISCC_NBS_Classifier::new()
+            .expect("Should be able to create ISCC_NBS_Classifier");
+
+        // Test hex classification
+        println!("Testing hex classification...");
+        match classifier.classify_hex("#FF0000") {
+            Ok(Some(result)) => {
+                println!("✅ Hex #FF0000: {} {}", result.iscc_nbs_descriptor(), result.iscc_nbs_color());
+            },
+            Ok(None) => {
+                println!("⚠️  No classification for #FF0000");
+            },
+            Err(e) => {
+                panic!("Hex classification failed: {}", e);
+            }
+        }
+
+        // Test short hex format
+        match classifier.classify_hex("f00") {
+            Ok(Some(result)) => {
+                println!("✅ Hex f00: {} {}", result.iscc_nbs_descriptor(), result.iscc_nbs_color());
+            },
+            Ok(None) => {
+                println!("⚠️  No classification for f00");
+            },
+            Err(e) => {
+                panic!("Short hex classification failed: {}", e);
+            }
+        }
+
+        // Test Lab classification  
+        println!("Testing Lab classification...");
+        match classifier.classify_lab([53.23, 80.11, 67.22]) {
+            Ok(Some(result)) => {
+                println!("✅ Lab bright red: {} {}", result.iscc_nbs_descriptor(), result.iscc_nbs_color());
+            },
+            Ok(None) => {
+                println!("⚠️  No classification for Lab bright red");
+            },
+            Err(e) => {
+                panic!("Lab classification failed: {}", e);
+            }
+        }
+
+        println!("✅ All direct entry point tests completed successfully");
+    }
 }
