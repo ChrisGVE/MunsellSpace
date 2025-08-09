@@ -2,17 +2,176 @@
 
 ## Overview
 
-This document provides the complete, authoritative specification for converting between sRGB and Munsell color notations using mathematical methods. The algorithm is based on the Python colour-science library implementation and follows ASTM D1535 standards.
+This document provides the complete, authoritative specification for converting between sRGB and Munsell color notations using mathematical methods, plus the ISCC-NBS color classification system. The mathematical algorithm is based on the Python colour-science library implementation and follows ASTM D1535 standards.
 
-**Version**: 3.0  
-**Date**: 2025-01-03  
-**Status**: Complete specification from systematic line-by-line analysis
+**Version**: 4.0  
+**Date**: 2025-01-09  
+**Status**: Complete specification including ISCC-NBS mechanical wedge system and descriptor construction
 
-## 1. Core Conversion Pipeline
+## 1. Complete Color Pipeline
 
+### 1.1 Mathematical Conversion Pipeline
 ```
 sRGB [0-255] → Linear RGB [0-1] → XYZ (D65) → xyY → Munsell Specification → Munsell Notation
 ```
+
+### 1.2 ISCC-NBS Classification Pipeline  
+```
+Hex/sRGB/Lab → Munsell Color → ISCC-NBS Color Classification → Descriptors
+```
+
+---
+
+# PART I: ISCC-NBS COLOR CLASSIFICATION SYSTEM
+
+## Algorithm 1: Mechanical Wedge System for Polygon Distribution
+
+### Overview
+The ISCC-NBS system uses polygonal regions in Munsell Value-Chroma space to define color categories. To optimize classification performance, polygons are distributed across mechanical wedges based on Munsell hue ranges.
+
+### 1.1 Polygon Structure from CSV
+- **Coordinate System**: Chroma/Value coordinates with 90°/270° angles only
+- **Polygon Closure**: Last point connects to first point to close polygon
+- **Multi-Hue Spanning**: Polygons span multiple Munsell hue wedges with potentially different shapes
+- **Point Numbering Format**: `#.#` where integer = polygon number, decimal = point number
+  - Example: `1.1, 1.2, 1.3, 1.4` (4 points of polygon 1), `2.1, 2.2, 2.3` (3 points of polygon 2)
+
+### 1.2 Wedge System Architecture
+- **Wedge Definition**: One map per hue wedge `[n, n+1)R` where n ∈ {0,1,2,...,9}
+- **Complete Coverage**: Wedges include `[0,1)R`, `[1,2)R`, `[2,3)R`, ..., `[9,10)R`
+- **Wraparound**: `[9,10)R` connects to `[0,1)R` (10R = 0R cyclically)
+- **Polygon Distribution**: If polygon spans "1R to 4R", create copies in wedges 1R, 2R, 3R
+
+### 1.3 Multi-Polygon Color Support
+- **Single Polygon**: Most colors have 1 polygon only
+- **Multi-Polygon**: Some colors have 2+ polygons for complex shapes
+- **Validation Rule**: All points of same polygon MUST have identical hue range
+- **Data Error**: If polygon points have different hue ranges → invalid data
+
+### 1.4 Achromatic Color Mapping (Outside Polygon System)
+Special handling for neutral colors using value-based intervals:
+- **N[0.0, 2.5]** → Color 267 (Black)
+- **N(2.5, 4.5]** → Color 266  
+- **N(4.5, 6.5]** → Color 265
+- **N(6.5, 8.5]** → Color 264
+- **N(8.5, 10.0]** → Color 263 (White)
+
+### 1.5 Classification Process
+**Input**: Munsell Color `1.2R 6.7/12.5`
+
+1. **Hue Wedge Selection**: `1.2R` → `1R wedge [1,2)R`
+2. **Point-in-Polygon Testing**: Check point `(6.7, 12.5)` against all polygons in wedge
+3. **Result**: Return color number (1-267) with associated descriptor strings
+
+### 1.6 Boundary Disambiguation Rules
+**Critical for avoiding ambiguity**: Each boundary point belongs to exactly one color.
+
+- **Segment Types**: Only horizontal/vertical segments (90°/270° angles)
+- **Inclusion Rules**:
+  - If `lowest_value == 0`: point ∈ `[0, upper_bound]` (closed interval)
+  - Else: point ∈ `(lower_bound, upper_bound]` (half-open interval)
+- **Implementation**: Use geometry crate for robust point-in-polygon testing
+- **Complex Polygons**: Handle polygons with >4 corners correctly
+
+---
+
+## Algorithm 2: ISCC-NBS Descriptor Construction System
+
+### Overview
+Each ISCC-NBS color (1-267) has associated strings that generate both official and revised color descriptors through systematic transformation rules.
+
+### 2.1 Input Strings (All Lowercase)
+1. **iscc-nbs-descriptor**: Fully formed official descriptor for test comparison
+2. **iscc-nbs-color**: Root color name (human-perceived color family)
+3. **iscc-nbs-modifier**: Transformation rule string for descriptor construction  
+4. **revised-color**: Alternative descriptive color name for revised system
+
+### 2.2 Modifier Transformation Rules
+
+#### Empty Modifiers (White/Black)
+- **Colors**: White (263), Black (267)
+- **Rule**: No transformation needed (no "light white" or "medium white")
+- **Result**: Use color name as-is
+
+#### Simple Prefix Modifiers
+- **Format**: Direct prefix addition with space
+- **Example**: `"light" + "blue"` → `"light blue"`
+
+#### "-ish" Placeholder Modifiers  
+- **Format**: Contains `-ish` as positional placeholder for color transformation
+- **Processing**: Replace `-ish` with appropriately transformed color name
+
+**Examples**:
+- `"purple" + "-ish black"` → `"purplish black"`
+- `"purple" + "dark -ish gray"` → `"dark purplish gray"`
+
+### 2.3 English Grammar "-ish" Transformation Rules
+
+#### Standard Transformations
+```
+blue    → bluish
+red     → reddish  
+green   → greenish
+pink    → pinkish
+brown   → brownish
+yellow  → yellowish
+purple  → purplish
+```
+
+#### Exception Rule
+```
+olive   → olive    (unchanged)
+```
+
+**Example**: `"olive" + "light -ish gray"` → `"light olive gray"`
+
+### 2.4 Complete Transformation Constants
+Store as implementation constants:
+```rust
+const COLOR_TO_ISH: &[(&str, &str)] = &[
+    ("pink", "pinkish"),
+    ("red", "reddish"), 
+    ("brown", "brownish"),
+    ("yellow", "yellowish"),
+    ("olive", "olive"),        // Exception: unchanged
+    ("green", "greenish"),
+    ("blue", "bluish"),
+    ("purple", "purplish"),
+];
+```
+
+### 2.5 Dual Naming Systems
+
+#### Official ISCC-NBS System
+- **Construction**: `iscc-nbs-color` + `iscc-nbs-modifier` transformations
+- **Usage**: Standards compliance and test comparison
+
+#### Revised Descriptor System  
+- **Construction**: `revised-color` + `iscc-nbs-modifier` transformations (same rules)
+- **Usage**: More descriptive/intuitive color names
+
+### 2.6 Additional Extracted Information
+
+#### Color Shade
+- **Definition**: Last word of color name or revised-color name
+- **Single Word**: If only one word exists, that word is the shade
+- **Examples**: 
+  - `"light blue gray"` → shade = `"gray"`
+  - `"red"` → shade = `"red"`
+
+#### Caching Strategy
+- **Purpose**: Prevent recalculation for repeated Munsell color queries
+- **Current**: Cache by Munsell color coordinates  
+- **Future Extension**: Cache by hex/sRGB/Lab/HSV/HSL input formats
+
+### 2.7 API Access Patterns
+- **Complete Set**: Return all descriptor information in single call
+- **Individual Components**: Access specific parts (shade, revised descriptor, etc.)
+- **Performance**: Use small cache for successive lookups
+
+---
+
+# PART II: MATHEMATICAL MUNSELL CONVERSION SYSTEM
 
 ## 2. Constants and Parameters
 
