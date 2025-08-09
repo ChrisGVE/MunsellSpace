@@ -1799,7 +1799,7 @@ impl MathematicalMunsellConverter {
         for &((ref entry_family, entry_value, entry_chroma), (x, y, _Y)) in self.renotation_data {
             // Check if this entry has the same family
             if entry_family.ends_with(&family) {
-                matching_entries.push((entry_family.clone(), entry_value, entry_chroma, x, y));
+                matching_entries.push(((*entry_family).to_string(), entry_value, entry_chroma, x, y));
             }
         }
         
