@@ -57,10 +57,7 @@ pub mod python_port_interpolation;
 pub mod python_port_cache;
 pub mod traced_port;
 
-#[cfg(test)]
-mod test_hue_angle;
-#[cfg(test)]
-mod test_angle_debug;
+// Test modules were moved to their respective implementation files
 // #[cfg(test)]
 // mod proptest_suite;
 

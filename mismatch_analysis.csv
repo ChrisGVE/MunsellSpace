@@ -29,16 +29,16 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #f4c2c2,244,194,194,8.4R 8.4/3.8,light yellowish pink,light yellowish pink,EXACT_MATCH,Perfect classification match
 #d9a6a9,217,166,169,7.2R 7.3/4.1,moderate yellowish pink,moderate yellowish pink,EXACT_MATCH,Perfect classification match
 #c48379,196,131,121,9.6R 6.0/5.5,dark yellowish pink,grayish reddish orange,MISMATCH,Word differences: pos0: dark vs grayish, pos1: yellowish vs reddish, pos2: pink vs orange
-#ecd5c5,236,213,197,2.1Y 8.7/2.2,pale yellowish pink,pale pink,MISMATCH,Word count difference: 3 vs 2 words
-#c7ada3,199,173,163,9.7YR 7.3/2.2,grayish yellowish pink,light grayish yellowish brown,MISMATCH,Word count difference: 3 vs 4 words
-#c2ac99,194,172,153,2.2Y 7.2/2.3,brownish pink,grayish yellow,MISMATCH,Word differences: pos0: brownish vs grayish, pos1: pink vs yellow
+#ecd5c5,236,213,197,2.1Y 8.7/2.2,pale yellowish pink,pale yellow,MISMATCH,Word count difference: 3 vs 2 words
+#c7ada3,199,173,163,9.7YR 7.3/2.2,grayish yellowish pink,grayish pink,MISMATCH,Word count difference: 3 vs 2 words
+#c2ac99,194,172,153,2.2Y 7.2/2.3,brownish pink,grayish pink,MISMATCH,Word differences: pos0: brownish vs grayish
 #e25822,226,88,34,10R 5.4/13.6,vivid reddish orange,vivid reddish orange,EXACT_MATCH,Perfect classification match
 #d9603b,217,96,59,9.8R 5.4/12.1,strong reddish orange,strong reddish orange,EXACT_MATCH,Perfect classification match
 #aa381e,170,56,30,9.9R 4.0/10.7,deep reddish orange,dark reddish orange,MISMATCH,Word differences: pos0: deep vs dark
 #cb6d51,203,109,81,1.1YR 5.5/8.5,moderate reddish orange,moderate reddish orange,EXACT_MATCH,Perfect classification match
 #9e4732,158,71,50,10R 4.0/8.0,dark reddish orange,dark reddish orange,EXACT_MATCH,Perfect classification match
 #b4745e,180,116,94,10R 5.4/6.2,grayish reddish orange,grayish reddish orange,EXACT_MATCH,Perfect classification match
-#882d17,136,45,23,10R 3.3/9.9,strong reddish brown,strong reddish brown,EXACT_MATCH,Perfect classification match
+#882d17,136,45,23,10R 3.3/9.9,strong reddish brown,deep red,MISMATCH,Word count difference: 3 vs 2 words
 #56070c,86,7,12,10RP 1.5/8.0,deep reddish brown,very deep purplish red,MISMATCH,Word count difference: 3 vs 4 words
 #a87c6d,168,124,109,6.1YR 5.4/3.5,light reddish brown,light brown,MISMATCH,Word count difference: 3 vs 2 words
 #79443b,121,68,59,1.5YR 3.7/5.0,moderate reddish brown,moderate reddish brown,EXACT_MATCH,Perfect classification match
@@ -68,7 +68,7 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #ffc14f,255,193,79,1.4Y 8.3/10.1,brilliant orange yellow,brilliant yellow,MISMATCH,Word count difference: 3 vs 2 words
 #eaa221,234,162,33,10YR 7.2/11.2,strong orange yellow,strong orange yellow,EXACT_MATCH,Perfect classification match
 #c98500,201,133,0,9.8YR 6.0/10.9,deep orange yellow,deep orange yellow,EXACT_MATCH,Perfect classification match
-#fbc97f,251,201,127,1.8Y 8.5/6.9,light orange yellow,light orange yellow,EXACT_MATCH,Perfect classification match
+#fbc97f,251,201,127,1.8Y 8.5/6.9,light orange yellow,light yellow,MISMATCH,Word count difference: 3 vs 2 words
 #e3a857,227,168,87,10YR 7.3/8.4,moderate orange yellow,moderate orange yellow,EXACT_MATCH,Perfect classification match
 #be8a3d,190,138,61,10YR 6.0/7.8,dark orange yellow,dark orange yellow,EXACT_MATCH,Perfect classification match
 #fad6a5,250,214,165,2.5Y 8.8/4.6,pale orange yellow,pale yellow,MISMATCH,Word count difference: 3 vs 2 words
@@ -108,10 +108,10 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #665d1e,102,93,30,7.9Y 3.8/5.7,moderate olive,moderate olive,EXACT_MATCH,Perfect classification match
 #403d21,64,61,33,6.2YR 2.4/4.2,dark olive,dark brown,MISMATCH,Word differences: pos1: olive vs brown
 #8c8767,140,135,103,1.6GY 5.4/3.1,light grayish olive,light olive,MISMATCH,Word count difference: 3 vs 2 words
-#5b5842,91,88,66,2.3GY 3.8/2.4,grayish olive,grayish olive green,MISMATCH,Word count difference: 2 vs 3 words
+#5b5842,91,88,66,2.3GY 3.8/2.4,grayish olive,grayish olive,EXACT_MATCH,Perfect classification match
 #363527,54,53,39,6.7YR 2.0/2.2,dark grayish olive,dark grayish brown,MISMATCH,Word differences: pos2: olive vs brown
 #8a8776,138,135,118,3.1GY 5.5/1.9,light olive gray,grayish yellow green,MISMATCH,Word differences: pos0: light vs grayish, pos1: olive vs yellow, pos2: gray vs green
-#57554c,87,85,76,2.7GY 3.8/1.9,olive gray,grayish olive green,MISMATCH,Word count difference: 2 vs 3 words
+#57554c,87,85,76,2.7GY 3.8/1.9,olive gray,grayish olive,MISMATCH,Word differences: pos0: olive vs grayish, pos1: gray vs olive
 #25241d,37,36,29,6.1YR 1.3/1.0,olive black,NO_CLASSIFICATION,NO_CLASSIFICATION,Point not found in any ISCC-NBS polygon
 #8db600,141,182,0,5.5GY 6.9/11.2,vivid yellow green,vivid yellow green,EXACT_MATCH,Perfect classification match
 #bdda57,189,218,87,5.4GY 8.4/10.0,brilliant yellow green,brilliant yellow green,EXACT_MATCH,Perfect classification match
@@ -145,13 +145,13 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #6aab8e,106,171,142,4G 6.4/6.4,light green,moderate yellowish green,MISMATCH,Word count difference: 2 vs 3 words
 #3b7861,59,120,97,6.4GY 4.5/3.8,moderate green,NO_CLASSIFICATION,NO_CLASSIFICATION,Point not found in any ISCC-NBS polygon
 #1b4d3e,27,77,62,5.5G 2.9/4.8,dark green,dark green,EXACT_MATCH,Perfect classification match
-#1c352d,28,53,45,9GY 1.8/1.7,very dark green,dark grayish olive green,MISMATCH,Word count difference: 3 vs 4 words
-#c7e6d7,199,230,215,3.5G 8.9/3.3,very pale green,very light green,MISMATCH,Word differences: pos1: pale vs light
+#1c352d,28,53,45,9GY 1.8/1.7,very dark green,blackish green,MISMATCH,Word count difference: 3 vs 2 words
+#c7e6d7,199,230,215,3.5G 8.9/3.3,very pale green,very light yellowish green,MISMATCH,Word count difference: 3 vs 4 words
 #8da399,141,163,153,4.9G 6.4/2.5,pale green,NO_CLASSIFICATION,NO_CLASSIFICATION,Point not found in any ISCC-NBS polygon
 #5e716a,94,113,106,7.9G 4.5/1.5,grayish green,grayish green,EXACT_MATCH,Perfect classification match
 #3a4b47,58,75,71,1.5BG 3.1/1.9,dark grayish green,dark grayish green,EXACT_MATCH,Perfect classification match
 #1a2421,26,36,33,10GY 1.2/0.6,blackish green,greenish black,MISMATCH,Word differences: pos0: blackish vs greenish, pos1: green vs black
-#dfede8,223,237,232,3.1G 9.5/2.1,greenish white,pale pink,MISMATCH,Word differences: pos0: greenish vs pale, pos1: white vs pink
+#dfede8,223,237,232,3.1G 9.5/2.1,greenish white,very pale green,MISMATCH,Word count difference: 2 vs 3 words
 #b2beb5,178,190,181,10GY 7.5/2.1,light greenish gray,grayish pink,MISMATCH,Word count difference: 3 vs 2 words
 #7d8984,125,137,132,3G 5.4/1.1,greenish gray,greenish gray,EXACT_MATCH,Perfect classification match
 #4e5755,78,87,85,1.5G 3.8/0.9,dark greenish gray,dark greenish gray,EXACT_MATCH,Perfect classification match
@@ -160,11 +160,11 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #00a693,0,166,147,1.1BG 6.0/8.1,brilliant bluish green,brilliant bluish green,EXACT_MATCH,Perfect classification match
 #007a74,0,122,116,4.6BG 4.5/6.1,strong bluish green,moderate bluish green,MISMATCH,Word differences: pos0: strong vs moderate
 #00443f,0,68,63,3.6BG 2.4/4.2,deep bluish green,dark bluish green,MISMATCH,Word differences: pos0: deep vs dark
-#96ded1,150,222,209,9.4G 8.5/5.5,very light bluish green,very light green,MISMATCH,Word count difference: 4 vs 3 words
+#96ded1,150,222,209,9.4G 8.5/5.5,very light bluish green,very light bluish green,EXACT_MATCH,Perfect classification match
 #66ada4,102,173,164,10G 6.5/5.8,light bluish green,light bluish green,EXACT_MATCH,Perfect classification match
 #317873,49,120,115,4.2BG 4.5/4.6,moderate bluish green,moderate bluish green,EXACT_MATCH,Perfect classification match
 #004b49,0,75,73,3.8BG 2.8/4.6,dark bluish green,dark bluish green,EXACT_MATCH,Perfect classification match
-#002a29,0,42,41,9.9G 1.3/2.3,very dark bluish green,very dark bluish green,EXACT_MATCH,Perfect classification match
+#002a29,0,42,41,9.9G 1.3/2.3,very dark bluish green,very dark green,MISMATCH,Word count difference: 4 vs 3 words
 #0085a1,0,133,161,4.7B 5.0/6.9,vivid greenish blue,moderate greenish blue,MISMATCH,Word differences: pos0: vivid vs moderate
 #239eba,35,158,186,3.7B 5.9/7.8,brilliant greenish blue,brilliant greenish blue,EXACT_MATCH,Perfect classification match
 #007791,0,119,145,9BG 4.5/6.5,strong greenish blue,moderate bluish green,MISMATCH,Word differences: pos0: strong vs moderate, pos1: greenish vs bluish, pos2: blue vs green
@@ -175,11 +175,11 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #004958,0,73,88,1.3B 2.8/4.6,dark greenish blue,dark greenish blue,EXACT_MATCH,Perfect classification match
 #002e3b,0,46,59,4.6B 1.5/3.6,very dark greenish blue,very dark greenish blue,EXACT_MATCH,Perfect classification match
 #00a1c2,0,161,194,3.6B 6.0/7.9,vivid blue,brilliant greenish blue,MISMATCH,Word count difference: 2 vs 3 words
-#4997d0,73,151,208,9.2B 5.9/8.4,brilliant blue,brilliant greenish blue,MISMATCH,Word count difference: 2 vs 3 words
+#4997d0,73,151,208,9.2B 5.9/8.4,brilliant blue,light blue,MISMATCH,Word differences: pos0: brilliant vs light
 #0067a5,0,103,165,3.2PB 4.1/9.6,strong blue,strong blue,EXACT_MATCH,Perfect classification match
 #00416a,0,65,106,3.6B 2.6/6.5,deep blue,dark greenish blue,MISMATCH,Word count difference: 2 vs 3 words
 #a1caf1,161,202,241,8.6B 8.0/5.2,very light blue,very light greenish blue,MISMATCH,Word count difference: 3 vs 4 words
-#70a3cc,112,163,204,9.2B 6.4/6.0,light blue,light greenish blue,MISMATCH,Word count difference: 2 vs 3 words
+#70a3cc,112,163,204,9.2B 6.4/6.0,light blue,light blue,EXACT_MATCH,Perfect classification match
 #436b95,67,107,149,10B 4.3/6.2,moderate blue,moderate blue,EXACT_MATCH,Perfect classification match
 #00304e,0,48,78,1.6PB 1.7/5.2,dark blue,dark blue,EXACT_MATCH,Perfect classification match
 #bcd4e6,188,212,230,3.8B 8.5/2.6,very pale blue,very pale blue,EXACT_MATCH,Perfect classification match
@@ -187,25 +187,25 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #536878,83,104,120,7.4B 4.2/2.4,grayish blue,grayish blue,EXACT_MATCH,Perfect classification match
 #36454f,54,69,79,10BG 2.8/2.1,dark grayish blue,dark grayish green,MISMATCH,Word differences: pos2: blue vs green
 #202830,32,40,48,2.5B 1.4/1.6,blackish blue,blackish blue,EXACT_MATCH,Perfect classification match
-#e9e9ed,233,233,237,10GY 9.5/1.6,bluish white,pale pink,MISMATCH,Word differences: pos0: bluish vs pale, pos1: white vs pink
+#e9e9ed,233,233,237,10GY 9.5/1.6,bluish white,very pale green,MISMATCH,Word count difference: 2 vs 3 words
 #b4bcc0,180,188,192,7.7G 7.5/1.4,light bluish gray,NO_CLASSIFICATION,NO_CLASSIFICATION,Point not found in any ISCC-NBS polygon
 #81878b,129,135,139,5.1G 5.4/1.3,bluish gray,grayish green,MISMATCH,Word differences: pos0: bluish vs grayish, pos1: gray vs green
 #51585e,81,88,94,1.1BG 3.8/1.8,dark bluish gray,grayish green,MISMATCH,Word count difference: 3 vs 2 words
 #202428,32,36,40,2.1B 1.2/0.7,bluish black,bluish black,EXACT_MATCH,Perfect classification match
 #30267a,48,38,122,8.2PB 1.9/10.3,vivid purplish blue,deep purplish blue,MISMATCH,Word differences: pos0: vivid vs deep
-#6c79b8,108,121,184,7.6PB 5.1/8.3,brilliant purplish blue,moderate blue,MISMATCH,Word count difference: 3 vs 2 words
+#6c79b8,108,121,184,7.6PB 5.1/8.3,brilliant purplish blue,light purplish blue,MISMATCH,Word differences: pos0: brilliant vs light
 #545aa7,84,90,167,7.1PB 4.0/9.7,strong purplish blue,strong blue,MISMATCH,Word count difference: 3 vs 2 words
 #272458,39,36,88,7.5B 1.5/5.8,deep purplish blue,very dark greenish blue,MISMATCH,Word count difference: 3 vs 4 words
 #b3bce2,179,188,226,3.9PB 7.6/4.0,very light purplish blue,very pale blue,MISMATCH,Word count difference: 4 vs 3 words
 #8791bf,135,145,191,6.8PB 6.0/5.7,light purplish blue,light purplish blue,EXACT_MATCH,Perfect classification match
-#4e5180,78,81,128,7.9PB 3.8/5.9,moderate purplish blue,moderate purplish blue,EXACT_MATCH,Perfect classification match
+#4e5180,78,81,128,7.9PB 3.8/5.9,moderate purplish blue,moderate blue,MISMATCH,Word count difference: 3 vs 2 words
 #252440,37,36,64,7.5B 1.4/3.7,dark purplish blue,very dark greenish blue,MISMATCH,Word count difference: 3 vs 4 words
 #c0c8e1,192,200,225,9.8B 8.1/3.0,very pale purplish blue,very pale blue,MISMATCH,Word count difference: 4 vs 3 words
 #8c92ac,140,146,172,3.1PB 6.0/3.1,pale purplish blue,pale blue,MISMATCH,Word count difference: 3 vs 2 words
 #4c516d,76,81,109,6.5PB 3.7/3.8,grayish purplish blue,grayish purplish blue,EXACT_MATCH,Perfect classification match
 #9065ca,144,101,202,2.6P 5.0/13.2,vivid violet,vivid violet,EXACT_MATCH,Perfect classification match
 #7e73b8,126,115,184,9.5PB 5.1/8.1,brilliant violet,light purplish blue,MISMATCH,Word count difference: 2 vs 3 words
-#604e97,96,78,151,10PB 3.7/8.9,strong violet,moderate purplish blue,MISMATCH,Word count difference: 2 vs 3 words
+#604e97,96,78,151,10PB 3.7/8.9,strong violet,moderate violet,MISMATCH,Word differences: pos0: strong vs moderate
 #32174d,50,23,77,10B 1.3/5.1,deep violet,dark blue,MISMATCH,Word differences: pos0: deep vs dark, pos1: violet vs blue
 #dcd0ff,220,208,255,1.7P 8.6/5.0,very light violet,NO_CLASSIFICATION,NO_CLASSIFICATION,Point not found in any ISCC-NBS polygon
 #8c82b6,140,130,182,10PB 5.5/5.8,light violet,light purplish blue,MISMATCH,Word count difference: 2 vs 3 words
@@ -227,7 +227,7 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #d6cadd,214,202,221,2.8P 8.4/1.7,very pale purple,very pale purple,EXACT_MATCH,Perfect classification match
 #aa98a9,170,152,169,10P 6.4/1.7,pale purple,pale purple,EXACT_MATCH,Perfect classification match
 #796878,121,104,120,9.6P 4.5/1.8,grayish purple,grayish purple,EXACT_MATCH,Perfect classification match
-#50404d,80,64,77,9.4PB 2.9/1.2,dark grayish purple,dark purplish gray,MISMATCH,Word differences: pos1: grayish vs purplish, pos2: purple vs gray
+#50404d,80,64,77,9.4PB 2.9/1.2,dark grayish purple,dark bluish gray,MISMATCH,Word differences: pos1: grayish vs bluish, pos2: purple vs gray
 #291e29,41,30,41,6.7PB 1.2/1.3,blackish purple,blackish blue,MISMATCH,Word differences: pos1: purple vs blue
 #e8e3e5,232,227,229,6.4GY 9.2/1.1,purplish white,greenish white,MISMATCH,Word differences: pos0: purplish vs greenish
 #bfb9bd,191,185,189,6.5GY 7.5/1.0,light purplish gray,light greenish gray,MISMATCH,Word differences: pos1: purplish vs greenish
@@ -250,7 +250,7 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #efbbcc,239,187,204,8.7RP 8.1/4.4,light purplish pink,pale purplish pink,MISMATCH,Word differences: pos0: light vs pale
 #d597ae,213,151,174,7.4RP 6.9/5.7,moderate purplish pink,moderate purplish pink,EXACT_MATCH,Perfect classification match
 #c17e91,193,126,145,9.6RP 5.9/5.9,dark purplish pink,dark purplish pink,EXACT_MATCH,Perfect classification match
-#e8ccd7,232,204,215,9.1RP 8.6/2.6,pale purplish pink,pale pink,MISMATCH,Word count difference: 3 vs 2 words
+#e8ccd7,232,204,215,9.1RP 8.6/2.6,pale purplish pink,pale purplish pink,EXACT_MATCH,Perfect classification match
 #c3a6b1,195,166,177,8.7RP 7.1/3.0,grayish purplish pink,grayish purplish pink,EXACT_MATCH,Perfect classification match
 #ce4676,206,70,118,8.5RP 4.9/12.3,vivid purplish red,strong purplish red,MISMATCH,Word differences: pos0: vivid vs strong
 #b3446c,179,68,108,8.6RP 4.5/10.2,strong purplish red,moderate purplish red,MISMATCH,Word differences: pos0: strong vs moderate
@@ -262,7 +262,7 @@ hex_color,r_component,g_component,b_component,munsell_notation,expected_iscc_nbs
 #af868e,175,134,142,2.6R 5.9/3.8,light grayish purplish red,light grayish red,MISMATCH,Word count difference: 4 vs 3 words
 #915f6d,145,95,109,8.4RP 4.5/4.7,grayish purplish red,grayish purplish red,EXACT_MATCH,Perfect classification match
 #f2f3f4,242,243,244,7.5GY 9.6/1.5,white,pale yellow green,MISMATCH,Word count difference: 1 vs 3 words
-#b9b8b5,185,184,181,4.7GY 7.4/0.9,light gray,light greenish gray,MISMATCH,Word count difference: 2 vs 3 words
+#b9b8b5,185,184,181,4.7GY 7.4/0.9,light gray,yellowish gray,MISMATCH,Word differences: pos0: light vs yellowish
 #848482,132,132,130,7.2GY 5.4/0.7,medium gray,greenish gray,MISMATCH,Word differences: pos0: medium vs greenish
 #555555,85,85,85,7.2GY 3.6/0.5,dark gray,NO_CLASSIFICATION,NO_CLASSIFICATION,Point not found in any ISCC-NBS polygon
 #222222,34,34,34,6.3GY 1.3/0.4,black,black,EXACT_MATCH,Perfect classification match
