@@ -1651,21 +1651,16 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             let code = final_spec[3] as u8;
             
             // Check if we're very close to a family boundary and try both interpretations
-            // When hue is near 0.0 or 10.0, there are two valid representations:
-            // - hue ≈ 0.0 in family N
-            // - hue ≈ 10.0 in family N-1  
-            // OR
-            // - hue ≈ 10.0 in family N
-            // - hue ≈ 0.0 in family N+1
-            // We need to check BOTH and pick the one that gives the best match
+            // Pattern observed: Python prefers hue ≈ 0 in the NEXT family (higher code)
+            // while Rust tends to prefer hue ≈ 10 in the PREVIOUS family (lower code)
             
-            if hue < 0.15 || hue > 9.85 {
+            if hue < 0.2 || hue > 9.8 {
                 // We're near a boundary - try the adjacent family interpretation
-                let (alt_hue, alt_code) = if hue < 0.15 {
-                    // Near 0.0 - try previous family with hue near 10.0
+                let (alt_hue, alt_code) = if hue < 0.2 {
+                    // Near 0.0 in current family - try near 10.0 in previous family
                     (hue + 10.0, if code == 1 { 10 } else { code - 1 })
                 } else {
-                    // Near 10.0 - try next family with hue near 0.0
+                    // Near 10.0 in current family - try near 0.0 in next family
                     (hue - 10.0, if code == 10 { 1 } else { code + 1 })
                 };
                 
@@ -1675,11 +1670,20 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 if let Ok(xy_alt) = xy_from_renotation_ovoid_interpolated(&alt_spec) {
                     let diff_alt = euclidean_distance(&[x, y], &[xy_alt[0], xy_alt[1]]);
                     
-                    // Use the alternative if it's clearly better OR if they're very similar
-                    // (when very similar, prefer the interpretation that matches Python's convention)
-                    // Python tends to prefer higher codes when at boundaries
-                    if diff_alt < difference * 0.99 || 
-                       (diff_alt < difference * 1.01 && alt_code > code) {
+                    // Python's preference: hue ≈ 0 in NEXT family (higher code)
+                    // So if Rust converged to hue ≈ 10, we should prefer the alternative
+                    // which would be hue ≈ 0 in the next family
+                    let prefer_alternative = if hue > 9.8 {
+                        // Rust has hue ≈ 10, alternative is hue ≈ 0 in next family
+                        // This matches Python's preference, so prefer it when close
+                        diff_alt <= difference * 1.05  // Be more aggressive in switching
+                    } else {
+                        // Rust has hue ≈ 0, alternative is hue ≈ 10 in prev family
+                        // This is opposite of Python's preference, only switch if clearly better
+                        diff_alt < difference * 0.95
+                    };
+                    
+                    if prefer_alternative {
                         final_spec = alt_spec;
                     }
                 }
