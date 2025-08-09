@@ -1764,8 +1764,10 @@ impl MathematicalMunsellConverter {
         };
         
         // Debug: Print what we're looking for
-        if chroma > 24.0 {
-            // println!("Looking for exact match: hue_str={}, value={}, chroma={}", hue_str, value, chroma);
+        if hue == 10.0 && code == 5 && (value - 9.0).abs() < 0.01 && (chroma - 6.0).abs() < 0.01 {
+            eprintln!("=== DEBUG LOOKUP ===");
+            eprintln!("Looking for exact match: hue_str={}, value={}, chroma={}", hue_str, value, chroma);
+            eprintln!("code={}, family={}", code, family);
         }
         
         // Try to find exact match first with full hue string
@@ -1776,7 +1778,24 @@ impl MathematicalMunsellConverter {
                 if chroma > 24.0 {
                     // println!("EXACT MATCH FOUND: {} {} {} -> ({}, {})", entry_family, entry_value, entry_chroma, x, y);
                 }
+                if hue == 10.0 && code == 5 && (value - 9.0).abs() < 0.01 && (chroma - 6.0).abs() < 0.01 {
+                    eprintln!("EXACT MATCH FOUND: {} {} {} -> ({}, {})", entry_family, entry_value, entry_chroma, x, y);
+                }
                 return Ok((x, y));
+            }
+        }
+        
+        if hue == 10.0 && code == 5 && (value - 9.0).abs() < 0.01 && (chroma - 6.0).abs() < 0.01 {
+            eprintln!("NO EXACT MATCH FOUND! Falling back to interpolation");
+            // Check first few entries to see what's available
+            eprintln!("Sample entries from renotation data:");
+            let mut count = 0;
+            for &((ref entry_family, entry_value, entry_chroma), (x, y, _Y)) in self.renotation_data {
+                if entry_family.contains("10Y") || entry_family.contains("10GY") {
+                    eprintln!("  {} {} {} -> ({}, {})", entry_family, entry_value, entry_chroma, x, y);
+                    count += 1;
+                    if count > 10 { break; }
+                }
             }
         }
         
@@ -1920,11 +1939,15 @@ impl MathematicalMunsellConverter {
         // Check if chroma is even (for potential direct lookup)
         let chroma_is_even = (chroma - 2.0 * (chroma / 2.0).round()).abs() < THRESHOLD_INTEGER;
         
+        
         if is_standard_hue && chroma_is_even {
-            // Can do direct lookup
-            let rounded_hue = 2.5 * (hue / 2.5).round();
+            // Can do direct lookup, but need to use corrected hue and code for hue=0 case
+            let ((hue_cw, code_cw), (_hue_ccw, _code_ccw)) = hue_conversions::bounding_hues_from_renotation(hue, code);
             let chroma_even = 2.0 * (chroma / 2.0).round();
-            return self.lookup_xy_from_renotation(rounded_hue, value_normalized, chroma_even, code);
+            
+            
+            // For standard hues, both boundaries should be the same, so use the CW one
+            return self.lookup_xy_from_renotation(hue_cw, value_normalized, chroma_even, code_cw);
         }
         
         // Need to interpolate - first handle chroma interpolation if needed
@@ -2013,6 +2036,18 @@ impl MathematicalMunsellConverter {
                      hue_cw, hue_conversions::code_to_family(code_cw), code_cw,
                      hue_ccw, hue_conversions::code_to_family(code_ccw), code_ccw);
             eprintln!("          Minus (cw): xy=({:.6}, {:.6})", x_minus, y_minus);
+        }
+        
+        // Debug for hue 0.0 issue
+        if (hue - 0.0).abs() < 0.01 && (value - 9.0).abs() < 0.01 && (chroma - 6.0).abs() < 0.01 && code == 4 {
+            eprintln!("=== DEBUGGING HUE 0.0 GY ===");
+            eprintln!("  xy_from_renotation_ovoid_for_even_chroma:");
+            eprintln!("    Input: hue={:.3}, value={:.0}, chroma={:.1}, code={}", hue, value, chroma, code);
+            eprintln!("    Boundaries: cw={}{}(code={}), ccw={}{}(code={})", 
+                     hue_cw, hue_conversions::code_to_family(code_cw), code_cw,
+                     hue_ccw, hue_conversions::code_to_family(code_ccw), code_ccw);
+            eprintln!("    Python expects: boundaries=((10.0, 5), (10.0, 5))");
+            eprintln!("    Minus (cw): xy=({:.6}, {:.6})", x_minus, y_minus);
             eprintln!("          Plus (ccw): xy=({:.6}, {:.6})", x_plus, y_plus);
         }
         
