@@ -144,8 +144,9 @@ pub fn munsell_specification_to_munsell_colour(
     // Python: if is_grey_munsell_colour(specification):
     if crate::python_port::is_grey_munsell_colour(&spec) {
         // Python: return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
-        // Format: 'N{0:.{1}f}' where {0} is value, {1} is decimals
-        return Ok(format!("N{:.prec$}", value, prec = value_decimals));
+        // Format: 'N {0:.{1}f}' where {0} is value, {1} is decimals
+        // Note: Python uses 'N {value}' with a space after N
+        return Ok(format!("N {:.prec$}", value, prec = value_decimals));
     } else {
         // Python: hue = round(hue, hue_decimals)
         let hue = round_to_decimals(hue, hue_decimals);

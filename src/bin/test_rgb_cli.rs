@@ -53,7 +53,7 @@ fn main() {
                 Err(_) => {
                     // Fallback formatting if the string function fails
                     if spec[0].is_nan() {
-                        println!("Munsell: N{:.1}", spec[1]);
+                        println!("Munsell: N {:.1}", spec[1]);
                     } else {
                         let code = spec[3] as u8;
                         let family = match code {
