@@ -45,6 +45,7 @@ geo = "0.30"
 [dev-dependencies]
 approx = "0.5"
 criterion = { version = "0.5", features = ["html_reports"] }
+proptest = "1.0"
 
 [features]
 default = []

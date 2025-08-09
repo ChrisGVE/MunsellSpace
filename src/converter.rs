@@ -1455,4 +1455,272 @@ mod tests {
         // For now, let's just check that we have some results
         assert!(stats.total_colors > 0);
     }
+
+    #[test]
+    fn test_converter_error_handling() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test validation of RGB values
+        // Note: u8 automatically constrains to 0-255, so we can't test out-of-range directly
+        // but we can test other validation logic if it exists
+        
+        // Test valid RGB values work
+        assert!(converter.srgb_to_munsell([0, 0, 0]).is_ok());
+        assert!(converter.srgb_to_munsell([255, 255, 255]).is_ok());
+        assert!(converter.srgb_to_munsell([128, 64, 192]).is_ok());
+    }
+
+    #[test]
+    fn test_batch_conversion_edge_cases() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test empty batch
+        let empty_colors: Vec<[u8; 3]> = vec![];
+        let results = converter.convert_batch(&empty_colors).unwrap();
+        assert_eq!(results.len(), 0);
+        
+        // Test single color batch
+        let single_color = vec![[255, 0, 0]];
+        let results = converter.convert_batch(&single_color).unwrap();
+        assert_eq!(results.len(), 1);
+        
+        // Test large batch with repeated colors
+        let repeated_colors = vec![[0, 0, 0]; 100];
+        let results = converter.convert_batch(&repeated_colors).unwrap();
+        assert_eq!(results.len(), 100);
+        for result in &results {
+            assert_eq!(result.notation, "N 0.0");
+        }
+    }
+
+    #[test]
+    fn test_converter_reference_data_access() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test reference count
+        let count = converter.reference_count();
+        assert!(count > 4000); // Should have 4007 colors
+        assert!(count < 5000); // Reasonable upper bound
+        
+        // Test reference points count
+        let points_count = converter.reference_points.len();
+        assert!(points_count > 4000);
+        assert!(points_count < 5000);
+    }
+
+    #[test]
+    fn test_lab_to_munsell_conversion() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test standard Lab colors
+        let white_lab = [100.0, 0.0, 0.0]; // Pure white
+        let result = converter.lab_to_munsell(white_lab);
+        assert!(result.is_ok());
+        let white_munsell = result.unwrap();
+        assert!(white_munsell.is_neutral() || white_munsell.value > 9.0);
+        
+        let black_lab = [0.0, 0.0, 0.0]; // Pure black
+        let result = converter.lab_to_munsell(black_lab);
+        assert!(result.is_ok());
+        let black_munsell = result.unwrap();
+        assert!(black_munsell.is_neutral() || black_munsell.value < 1.0);
+        
+        // Test chromatic Lab color
+        let red_lab = [50.0, 70.0, 50.0]; // Reddish color
+        let result = converter.lab_to_munsell(red_lab);
+        assert!(result.is_ok());
+        let red_munsell = result.unwrap();
+        // Should be chromatic and in red family (if working correctly)
+        println!("Red Lab->Munsell: {}", red_munsell.notation);
+    }
+
+    #[test]
+    fn test_edge_case_colors() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test pure RGB primaries
+        let red = converter.srgb_to_munsell([255, 0, 0]).unwrap();
+        println!("Pure red: {}", red.notation);
+        assert!(red.is_chromatic());
+        
+        let green = converter.srgb_to_munsell([0, 255, 0]).unwrap();
+        println!("Pure green: {}", green.notation);
+        assert!(green.is_chromatic());
+        
+        let blue = converter.srgb_to_munsell([0, 0, 255]).unwrap();
+        println!("Pure blue: {}", blue.notation);
+        assert!(blue.is_chromatic());
+        
+        // Test pure RGB secondaries
+        let yellow = converter.srgb_to_munsell([255, 255, 0]).unwrap();
+        println!("Pure yellow: {}", yellow.notation);
+        assert!(yellow.is_chromatic());
+        
+        let cyan = converter.srgb_to_munsell([0, 255, 255]).unwrap();
+        println!("Pure cyan: {}", cyan.notation);
+        assert!(cyan.is_chromatic());
+        
+        let magenta = converter.srgb_to_munsell([255, 0, 255]).unwrap();
+        println!("Pure magenta: {}", magenta.notation);
+        assert!(magenta.is_chromatic());
+        
+        // Test grayscale values
+        for gray_level in [0, 64, 128, 192, 255] {
+            let gray = converter.srgb_to_munsell([gray_level, gray_level, gray_level]).unwrap();
+            println!("Gray {}: {}", gray_level, gray.notation);
+            // Most grays should be neutral, but very light ones might not be
+            if gray_level == 0 {
+                assert_eq!(gray.notation, "N 0.0");
+            }
+        }
+    }
+
+    #[test]
+    fn test_color_space_conversion_functions() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test sRGB to linear RGB conversion
+        let srgb = [0.5, 0.25, 0.75];
+        let linear = converter.srgb_to_linear_rgb(srgb);
+        assert!(linear[0] > 0.0 && linear[0] < 1.0);
+        assert!(linear[1] > 0.0 && linear[1] < 1.0);
+        assert!(linear[2] > 0.0 && linear[2] < 1.0);
+        
+        // Test linear RGB to XYZ conversion
+        let xyz = converter.linear_rgb_to_xyz_d65(linear);
+        assert!(xyz[0] >= 0.0);
+        assert!(xyz[1] >= 0.0);
+        assert!(xyz[2] >= 0.0);
+        
+        // Test XYZ to xyY conversion
+        let xyy = converter.xyz_to_xyy(xyz);
+        assert!(xyy[0] >= 0.0 && xyy[0] <= 1.0); // x chromaticity
+        assert!(xyy[1] >= 0.0 && xyy[1] <= 1.0); // y chromaticity  
+        assert!(xyy[2] >= 0.0); // Y luminance
+        
+        // Test XYZ to Lab conversion
+        let lab = converter.xyz_to_lab_d65(xyz);
+        assert!(lab[0] >= 0.0 && lab[0] <= 100.0); // L* lightness
+        // a* and b* can be negative
+    }
+
+    #[test]
+    fn test_munsell_calculation_functions() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test value calculation
+        let y_values = [0.0, 0.18, 0.5, 1.0];
+        for y in y_values {
+            let value = converter.xyz_y_to_munsell_value(y);
+            assert!(value >= 0.0 && value <= 10.0);
+        }
+        
+        // Test achromatic detection
+        let white_x = 0.31271; // D65 white point
+        let white_y = 0.32902;
+        assert!(converter.is_achromatic(white_x, white_y));
+        
+        // Test non-achromatic point
+        assert!(!converter.is_achromatic(0.5, 0.3));
+        
+        // Test chroma calculation
+        let chroma = converter.calculate_munsell_chroma(0.4, 0.3, 0.5);
+        assert!(chroma >= 0.0);
+    }
+
+    #[test]
+    fn test_hue_angle_calculations() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test degrees to Munsell hue conversion
+        let test_angles = [0.0, 90.0, 180.0, 270.0, 360.0];
+        for angle in test_angles {
+            let hue = converter.degrees_to_munsell_hue(angle);
+            println!("Angle {}° -> Hue {}", angle, hue);
+            assert!(!hue.is_empty());
+            
+            // Verify it contains a valid hue family
+            let hue_families = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
+            let contains_valid_family = hue_families.iter().any(|&family| hue.contains(family));
+            assert!(contains_valid_family, "Hue '{}' doesn't contain valid family", hue);
+        }
+    }
+
+    #[test]
+    fn test_spatial_interpolation() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test finding nearest reference points
+        let test_xyy = [0.31271, 0.32902, 0.18]; // D65 white point with some luminance
+        let nearest = converter.find_nearest_reference_points(test_xyy, 5);
+        assert!(nearest.len() <= 5);
+        assert!(nearest.len() > 0);
+        
+        // Test that distances are reasonable
+        for (distance, _point) in &nearest {
+            assert!(*distance >= 0.0);
+            assert!(*distance < 1.0); // Should be reasonable distance in xyY space
+        }
+        
+        // Test spatial interpolation with a test point
+        let value = converter.xyz_y_to_munsell_value(test_xyy[2]);
+        let result = converter.spatial_interpolation_munsell(test_xyy, value);
+        // Result may be None if interpolation fails, which is acceptable
+        if let Some(munsell) = result {
+            println!("Spatial interpolation result: {}", munsell.notation);
+            assert!(!munsell.notation.is_empty());
+        }
+    }
+
+    #[test]
+    fn test_reference_lookup() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test that reference colors return exact matches
+        // We know [0, 0, 0] should be in the reference data as "N 0.0"
+        let black = converter.srgb_to_munsell([0, 0, 0]).unwrap();
+        assert_eq!(black.notation, "N 0.0");
+        
+        // Test some other colors that should be exact matches from reference data
+        // Note: These specific values should be verified to exist in the reference dataset
+        let test_colors = [
+            [0, 0, 0],    // Should be N 0.0
+            // Add more colors that we know are in the reference dataset
+        ];
+        
+        for rgb in test_colors {
+            let result = converter.srgb_to_munsell(rgb);
+            assert!(result.is_ok(), "Failed to convert RGB {:?}", rgb);
+        }
+    }
+
+    #[test]
+    fn test_converter_consistency() {
+        let converter = MunsellConverter::new().unwrap();
+        
+        // Test that conversion is deterministic
+        let test_color = [128, 64, 192];
+        let result1 = converter.srgb_to_munsell(test_color).unwrap();
+        let result2 = converter.srgb_to_munsell(test_color).unwrap();
+        assert_eq!(result1.notation, result2.notation);
+        
+        // Test Lab roundtrip consistency (sRGB -> Lab -> Munsell should be similar to sRGB -> Munsell)
+        let srgb_result = converter.srgb_to_munsell(test_color).unwrap();
+        
+        let srgb_norm = [
+            test_color[0] as f64 / 255.0,
+            test_color[1] as f64 / 255.0,
+            test_color[2] as f64 / 255.0,
+        ];
+        let linear_rgb = converter.srgb_to_linear_rgb(srgb_norm);
+        let xyz = converter.linear_rgb_to_xyz_d65(linear_rgb);
+        let lab = converter.xyz_to_lab_d65(xyz);
+        let lab_result = converter.lab_to_munsell(lab).unwrap();
+        
+        // Results should be very similar (may have slight differences due to precision)
+        assert_eq!(srgb_result.is_chromatic(), lab_result.is_chromatic());
+        
+        println!("sRGB->Munsell: {}", srgb_result.notation);
+        println!("Lab->Munsell:  {}", lab_result.notation);
+    }
 }

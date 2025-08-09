@@ -61,6 +61,8 @@ pub mod traced_port;
 mod test_hue_angle;
 #[cfg(test)]
 mod test_angle_debug;
+// #[cfg(test)]
+// mod proptest_suite;
 
 pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};

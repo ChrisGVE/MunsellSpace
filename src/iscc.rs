@@ -890,7 +890,6 @@ pub enum ValidationError {
 
 #[cfg(test)]
 mod tests {
-    
     #[test]
     fn test_boundary_disambiguation() {
         // Test that boundary rules prevent ambiguous classification

@@ -235,6 +235,15 @@ impl MunsellColor {
         }
         
         let hue = parts[0].to_string();
+        
+        // Validate hue format (should be number + valid hue family)
+        if !is_valid_hue_format(&hue) {
+            return Err(MunsellError::InvalidNotation {
+                notation: notation.to_string(),
+                reason: "Invalid hue format. Expected format like '5R', '2.5YR', etc.".to_string(),
+            });
+        }
+        
         let value_chroma = parts[1];
         
         if !value_chroma.contains('/') {
@@ -662,6 +671,37 @@ fn ray_casting_point_in_polygon(test_x: f64, test_y: f64, vertices: &[(f64, f64)
     inside
 }
 
+/// Validates that a hue string has the correct format (number + valid hue family).
+fn is_valid_hue_format(hue: &str) -> bool {
+    // Valid hue families
+    let valid_families = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
+    
+    // Check if hue ends with a valid family
+    let has_valid_family = valid_families.iter().any(|&family| hue.ends_with(family));
+    if !has_valid_family {
+        return false;
+    }
+    
+    // Find which family it ends with
+    let family = valid_families.iter()
+        .find(|&&family| hue.ends_with(family))
+        .unwrap();
+    
+    // Extract the numeric part
+    let numeric_part = hue.strip_suffix(family).unwrap_or("");
+    
+    // Check if numeric part is empty or invalid
+    if numeric_part.is_empty() {
+        return false;
+    }
+    
+    // Parse numeric part - should be a valid float in range 0.0-10.0  
+    match numeric_part.parse::<f64>() {
+        Ok(num) => num > 0.0 && num <= 10.0,
+        Err(_) => false,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -706,5 +746,261 @@ mod tests {
         let gray = MunsellColor::from_notation("N 5.6/").unwrap();
         assert!(gray.is_neutral());
         assert_eq!(gray.value, 5.6);
+    }
+
+    #[test]
+    fn test_rgb_color_edge_cases() {
+        // Test boundary values
+        let black = RgbColor::new(0, 0, 0);
+        assert!(black.is_grayscale());
+        assert_eq!(black.to_array(), [0, 0, 0]);
+        
+        let white = RgbColor::new(255, 255, 255);
+        assert!(white.is_grayscale());
+        assert_eq!(white.to_array(), [255, 255, 255]);
+        
+        // Test various grayscale values
+        for i in 0..=255 {
+            let gray = RgbColor::new(i, i, i);
+            assert!(gray.is_grayscale());
+        }
+        
+        // Test non-grayscale combinations
+        let red = RgbColor::new(255, 0, 0);
+        assert!(!red.is_grayscale());
+        
+        let green = RgbColor::new(0, 255, 0);
+        assert!(!green.is_grayscale());
+        
+        let blue = RgbColor::new(0, 0, 255);
+        assert!(!blue.is_grayscale());
+    }
+
+    #[test]
+    fn test_munsell_color_edge_cases() {
+        // Test zero chroma
+        let zero_chroma = MunsellColor::new_chromatic("5R".to_string(), 5.0, 0.0);
+        assert_eq!(zero_chroma.notation, "5R 5.0/0.0");
+        assert!(zero_chroma.is_chromatic());
+        
+        // Test high chroma
+        let high_chroma = MunsellColor::new_chromatic("5R".to_string(), 5.0, 20.0);
+        assert_eq!(high_chroma.notation, "5R 5.0/20.0");
+        
+        // Test boundary values
+        let min_value = MunsellColor::new_chromatic("5R".to_string(), 0.0, 10.0);
+        assert_eq!(min_value.value, 0.0);
+        
+        let max_value = MunsellColor::new_chromatic("5R".to_string(), 10.0, 10.0);
+        assert_eq!(max_value.value, 10.0);
+    }
+
+    #[test]
+    fn test_munsell_color_neutral_edge_cases() {
+        // Test boundary neutral values
+        let black_neutral = MunsellColor::new_neutral(0.0);
+        assert_eq!(black_neutral.notation, "N 0.0");
+        assert!(black_neutral.is_neutral());
+        assert!(!black_neutral.is_chromatic());
+        
+        let white_neutral = MunsellColor::new_neutral(10.0);
+        assert_eq!(white_neutral.notation, "N 10.0/");
+        
+        // Test fractional values
+        let mid_neutral = MunsellColor::new_neutral(5.5);
+        assert_eq!(mid_neutral.notation, "N 5.5/");
+    }
+
+    #[test]
+    fn test_munsell_parsing_variants() {
+        // Test different hue families
+        let hue_families = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
+        for family in &hue_families {
+            let notation = format!("5{} 5.0/10.0", family);
+            let color = MunsellColor::from_notation(&notation).unwrap();
+            assert_eq!(color.hue_family(), Some(family.to_string()));
+            assert_eq!(color.value, 5.0);
+            assert_eq!(color.chroma, Some(10.0));
+        }
+        
+        // Test different hue numbers
+        for hue_num in [2.5, 5.0, 7.5, 10.0] {
+            let notation = format!("{}R 5.0/10.0", hue_num);
+            let color = MunsellColor::from_notation(&notation).unwrap();
+            assert!(color.hue.as_ref().unwrap().contains("R"));
+        }
+        
+        // Test decimal values
+        let precise = MunsellColor::from_notation("5.5R 6.25/12.75").unwrap();
+        assert_eq!(precise.value, 6.25);
+        assert_eq!(precise.chroma, Some(12.75));
+    }
+
+    #[test]
+    fn test_munsell_parsing_invalid_cases() {
+        // Test invalid notations
+        assert!(MunsellColor::from_notation("").is_err());
+        assert!(MunsellColor::from_notation("invalid").is_err());
+        assert!(MunsellColor::from_notation("5X 5.0/10.0").is_err()); // Invalid hue family
+        assert!(MunsellColor::from_notation("R 5.0/10.0").is_err()); // Missing hue number
+        assert!(MunsellColor::from_notation("5R /10.0").is_err()); // Missing value
+        assert!(MunsellColor::from_notation("5R 5.0/").is_err()); // Missing chroma for chromatic
+        assert!(MunsellColor::from_notation("5R -1.0/10.0").is_err()); // Negative value
+        assert!(MunsellColor::from_notation("5R 5.0/-1.0").is_err()); // Negative chroma
+        assert!(MunsellColor::from_notation("N /").is_err()); // Missing value for neutral
+        assert!(MunsellColor::from_notation("N 5.0/10.0").is_err()); // Chroma for neutral
+    }
+
+    #[test]
+    fn test_munsell_color_display() {
+        let chromatic = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.0);
+        assert_eq!(format!("{}", chromatic), "5R 4.0/14.0");
+        
+        let neutral = MunsellColor::new_neutral(5.6);
+        assert_eq!(format!("{}", neutral), "N 5.6/");
+    }
+
+    #[test]
+    fn test_munsell_color_debug() {
+        let color = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.0);
+        let debug_str = format!("{:?}", color);
+        assert!(debug_str.contains("MunsellColor"));
+        assert!(debug_str.contains("5R"));
+        assert!(debug_str.contains("4"));
+        assert!(debug_str.contains("14"));
+    }
+
+    #[test]
+    fn test_munsell_color_clone() {
+        let original = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.0);
+        let cloned = original.clone();
+        assert_eq!(original.notation, cloned.notation);
+        assert_eq!(original.hue, cloned.hue);
+        assert_eq!(original.value, cloned.value);
+        assert_eq!(original.chroma, cloned.chroma);
+    }
+
+    #[test]
+    fn test_rgb_color_display() {
+        let color = RgbColor::new(255, 128, 64);
+        assert_eq!(format!("{}", color), "RGB(255, 128, 64)");
+    }
+
+    #[test]
+    fn test_rgb_color_debug() {
+        let color = RgbColor::new(255, 128, 64);
+        let debug_str = format!("{:?}", color);
+        assert!(debug_str.contains("RgbColor"));
+        assert!(debug_str.contains("255"));
+        assert!(debug_str.contains("128"));
+        assert!(debug_str.contains("64"));
+    }
+
+    #[test]
+    fn test_rgb_color_clone() {
+        let original = RgbColor::new(255, 128, 64);
+        let cloned = original.clone();
+        assert_eq!(original.r, cloned.r);
+        assert_eq!(original.g, cloned.g);
+        assert_eq!(original.b, cloned.b);
+    }
+
+    #[test]
+    fn test_rgb_color_equality() {
+        let color1 = RgbColor::new(255, 128, 64);
+        let color2 = RgbColor::new(255, 128, 64);
+        let color3 = RgbColor::new(255, 128, 65);
+        
+        assert_eq!(color1, color2);
+        assert_ne!(color1, color3);
+    }
+
+    #[test]
+    fn test_munsell_color_equality() {
+        let color1 = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.0);
+        let color2 = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.0);
+        let color3 = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.1);
+        
+        assert_eq!(color1, color2);
+        assert_ne!(color1, color3);
+    }
+
+    #[test]
+    fn test_munsell_point_functionality() {
+        let point = MunsellPoint {
+            hue1: "5R".to_string(),
+            hue2: "7R".to_string(),
+            value: 6.0,
+            chroma: 12.0,
+            is_open_chroma: false,
+        };
+        
+        assert_eq!(point.hue1, "5R");
+        assert_eq!(point.hue2, "7R");
+        assert_eq!(point.value, 6.0);
+        assert_eq!(point.chroma, 12.0);
+        assert!(!point.is_open_chroma);
+        
+        // Test cloning
+        let cloned = point.clone();
+        assert_eq!(point.hue1, cloned.hue1);
+        assert_eq!(point.hue2, cloned.hue2);
+        assert_eq!(point.value, cloned.value);
+        assert_eq!(point.chroma, cloned.chroma);
+        assert_eq!(point.is_open_chroma, cloned.is_open_chroma);
+    }
+
+    #[test]
+    fn test_iscc_nbs_name_functionality() {
+        let name = IsccNbsName {
+            color_number: 34,
+            descriptor: "Strong".to_string(),
+            color_name: "Red".to_string(),
+            modifier: None,
+            revised_name: "Strong Red".to_string(),
+            shade: "Red".to_string(),
+        };
+        
+        assert_eq!(name.color_number, 34);
+        assert_eq!(name.color_name, "Red");
+        assert_eq!(name.revised_name, "Strong Red");
+        
+        // Test cloning
+        let cloned = name.clone();
+        assert_eq!(name.color_number, cloned.color_number);
+        assert_eq!(name.color_name, cloned.color_name);
+        assert_eq!(name.revised_name, cloned.revised_name);
+    }
+
+    #[test]
+    fn test_iscc_nbs_polygon_functionality() {
+        let polygon = IsccNbsPolygon {
+            color_number: 34,
+            descriptor: "Strong".to_string(),
+            color_name: "Red".to_string(),
+            modifier: None,
+            revised_color: "Strong Red".to_string(),
+            points: vec![
+                MunsellPoint {
+                    hue1: "5R".to_string(),
+                    hue2: "7R".to_string(),
+                    value: 5.0,
+                    chroma: 10.0,
+                    is_open_chroma: false,
+                }
+            ],
+        };
+        
+        assert_eq!(polygon.color_number, 34);
+        assert_eq!(polygon.color_name, "Red");
+        assert_eq!(polygon.revised_color, "Strong Red");
+        assert_eq!(polygon.points.len(), 1);
+        
+        // Test cloning
+        let cloned = polygon.clone();
+        assert_eq!(polygon.color_number, cloned.color_number);
+        assert_eq!(polygon.color_name, cloned.color_name);
+        assert_eq!(polygon.revised_color, cloned.revised_color);
+        assert_eq!(polygon.points.len(), cloned.points.len());
     }
 }
