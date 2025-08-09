@@ -751,20 +751,25 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
         
         // Special handling for value > 9
         if value_ceil > 9.0 {
-            // For values between 9 and 10, we need to extrapolate
-            // because value=10 has max_chroma=0
+            // For values between 9 and 10, Python interpolates between
+            // value=9 and the illuminant (value=10) based on luminance Y
             if chroma > 0.0 {
-                // Extrapolate from value=8 and value=9
-                let spec_8 = [spec[0], 8.0, spec[2], spec[3]];
-                let xy_8 = xy_from_renotation_ovoid_interpolated(&spec_8)?;
-                
+                // Get xy at value=9
                 let spec_9 = [spec[0], 9.0, spec[2], spec[3]];
                 let xy_9 = xy_from_renotation_ovoid_interpolated(&spec_9)?;
                 
-                // Extrapolate to the target value
-                let t = value - 8.0;  // t will be > 1.0 for extrapolation
-                let x = xy_8[0] + t * (xy_9[0] - xy_8[0]);
-                let y = xy_8[1] + t * (xy_9[1] - xy_8[1]);
+                // At value=10, use illuminant C
+                let xy_10 = crate::constants::ILLUMINANT_C;
+                
+                // Interpolate based on luminance Y, not value directly
+                let y_current = luminance_astmd1535(value);
+                let y_9 = luminance_astmd1535(9.0);
+                let y_10 = luminance_astmd1535(10.0);
+                
+                // Linear interpolation based on Y
+                let t = (y_current - y_9) / (y_10 - y_9);
+                let x = xy_9[0] + t * (xy_10[0] - xy_9[0]);
+                let y = xy_9[1] + t * (xy_10[1] - xy_9[1]);
                 
                 return Ok([x, y]);
             } else {
@@ -790,23 +795,9 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
     
     // Special case for value=10 (ideal white)
     if value >= 10.0 {
-        if chroma > 0.0 {
-            // Extrapolate from value=8 and value=9 for non-zero chromas at value=10
-            let spec_8 = [spec[0], 8.0, spec[2], spec[3]];
-            let xy_8 = xy_from_renotation_ovoid_interpolated(&spec_8)?;
-            
-            let spec_9 = [spec[0], 9.0, spec[2], spec[3]];
-            let xy_9 = xy_from_renotation_ovoid_interpolated(&spec_9)?;
-            
-            // Extrapolate to value=10
-            let t = 2.0;  // From 8 to 10 is 2 units
-            let x = xy_8[0] + t * (xy_9[0] - xy_8[0]);
-            let y = xy_8[1] + t * (xy_9[1] - xy_8[1]);
-            
-            return Ok([x, y]);
-        } else {
-            return Ok(crate::constants::ILLUMINANT_C);
-        }
+        // At value=10, all colors converge to illuminant C
+        // regardless of chroma
+        return Ok(crate::constants::ILLUMINANT_C);
     }
     
     // Check maximum available chroma for this hue/value
