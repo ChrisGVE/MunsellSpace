@@ -507,6 +507,15 @@ impl ISCC_NBS_Classifier {
     
     /// Handle "-ish" modifier transformations with English grammar rules
     fn construct_ish_descriptor(&self, revised_color: &str, modifier: &str) -> String {
+        let modifier = modifier.trim();
+        
+        // Handle special cases like "-ish gray", "-ish black" 
+        if modifier.starts_with("-ish ") {
+            let suffix_word = &modifier[5..]; // Skip "-ish "
+            let transformed_color = self.apply_ish_transformation(revised_color.trim());
+            return format!("{} {}", transformed_color, suffix_word);
+        }
+        
         // Parse modifier: split on "-ish" to extract prefix and suffix
         let parts: Vec<&str> = modifier.split("-ish").collect();
         let prefix = parts[0].trim();
