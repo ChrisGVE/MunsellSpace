@@ -4,6 +4,21 @@
 use crate::error::Result;
 // use std::f64::consts::PI;  // Currently unused
 
+/// Convert Munsell value to luminance using ASTM D1535-08e1 method
+/// EXACT 1:1 PORT from Python colour-science luminance.py lines 198-208
+fn luminance_ASTMD1535(value: f64) -> f64 {
+    // Python formula:
+    // Y = (1.1914 * V - 0.22533 * (V**2) + 0.23352 * (V**3) 
+    //      - 0.020484 * (V**4) + 0.00081939 * (V**5))
+    let v = value;
+    let v2 = v * v;
+    let v3 = v2 * v;
+    let v4 = v3 * v;
+    let v5 = v4 * v;
+    
+    1.1914 * v - 0.22533 * v2 + 0.23352 * v3 - 0.020484 * v4 + 0.00081939 * v5
+}
+
 /// Convert [hue, code] to ASTM hue number
 /// Exact implementation from Python colour-science
 /// ASTM_hue = 10 * ((7 - code) % 10) + hue
@@ -559,13 +574,16 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
 
 /// Get maximum chroma from renotation data
 /// Exact 1:1 port from Python colour-science
-pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
+pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> Result<f64> {
+    eprintln!("DEBUG maximum_chroma_from_renotation ENTRY: hue={:.4}, value={:.4}, code={}", hue, value, code);
+    
     use crate::constants::maximum_chromas_data::MAXIMUM_CHROMAS;
     
     // Ideal white, no chroma - but only for values very close to 10
     // For values between 9 and 10, we need to interpolate
     if value >= 9.99 {
-        return 0.0;
+        eprintln!("  Returning 0.0 for value >= 9.99");
+        return Ok(0.0);
     }
     
     let (value_minus, value_plus) = if value % 1.0 == 0.0 {
@@ -613,21 +631,42 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
     if value_plus <= 9.0 {
         // Return minimum of all four limits
         let result = ma_limit_mcw.min(ma_limit_mccw).min(ma_limit_pcw).min(ma_limit_pccw);
-        result
+        eprintln!("  value_plus <= 9.0: ma_limit_mcw={:.4}, ma_limit_mccw={:.4}, ma_limit_pcw={:.4}, ma_limit_pccw={:.4}, result={:.4}",
+                  ma_limit_mcw, ma_limit_mccw, ma_limit_pcw, ma_limit_pccw, result);
+        Ok(result)
     } else {
-        // For values > 9, Python doesn't aggressively reduce chroma
-        // Testing shows high-value colors can maintain significant chroma
-        // For example: RGB(187,255,153) at value 9.35 has chroma 12.8
+        // EXACT 1:1 PORT from Python colour-science:
+        // For values > 9, Python uses LINEAR INTERPOLATION based on luminance
+        // From munsell.py lines 2559-2568:
+        // L = luminance_ASTMD1535(value)
+        // L9 = luminance_ASTMD1535(9)
+        // L10 = luminance_ASTMD1535(10)
+        // max_chroma = min(
+        //     LinearInterpolator([L9, L10], [ma_limit_mcw, 0])(L),
+        //     LinearInterpolator([L9, L10], [ma_limit_mccw, 0])(L)
+        // )
         
-        let base_chroma = ma_limit_mcw.min(ma_limit_mccw);
+        let l = luminance_ASTMD1535(value);
+        let l9 = luminance_ASTMD1535(9.0);
+        let l10 = luminance_ASTMD1535(10.0);
         
-        // Much gentler reduction - Python allows high chromas even at high values
-        // Linear interpolation from value 9 to value 10
-        // At value 9.35, keep ~95% of chroma (matches Python's behavior)
-        let reduction_factor = 2.0 - (value / 10.0); // At 9.35: 2.0 - 0.935 = 1.065
-        let reduction_factor = reduction_factor.min(1.0); // Cap at 1.0
+        eprintln!("DEBUG maximum_chroma_from_renotation:");
+        eprintln!("  value={:.4}, hue={:.4}", value, hue);
+        eprintln!("  L(value)={:.4}, L(9)={:.4}, L(10)={:.4}", l, l9, l10);
+        eprintln!("  ma_limit_mcw={:.4}, ma_limit_mccw={:.4}", ma_limit_mcw, ma_limit_mccw);
         
-        base_chroma * reduction_factor
+        // Linear interpolation from [L9, L10] to [chroma, 0]
+        use crate::python_port_interpolation::LinearInterpolator;
+        let interpolator_cw = LinearInterpolator::new(vec![l9, l10], vec![ma_limit_mcw, 0.0])?;
+        let chroma_cw = interpolator_cw.interpolate(l);
+        
+        let interpolator_ccw = LinearInterpolator::new(vec![l9, l10], vec![ma_limit_mccw, 0.0])?;
+        let chroma_ccw = interpolator_ccw.interpolate(l);
+        
+        let result = chroma_cw.min(chroma_ccw);
+        eprintln!("  chroma_cw={:.4}, chroma_ccw={:.4}, result={:.4}", chroma_cw, chroma_ccw, result);
+        
+        Ok(result)
     }
 }
 
@@ -771,7 +810,7 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
     }
     
     // Check maximum available chroma for this hue/value
-    let max_chroma = maximum_chroma_from_renotation(spec[0], value, spec[3] as u8);
+    let max_chroma = maximum_chroma_from_renotation(spec[0], value, spec[3] as u8)?;
     
     // Handle chromas beyond available data by extrapolation
     if chroma > max_chroma {
@@ -864,7 +903,7 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
             Err(_) => {
                 // Data doesn't exist even for standard spec, need to extrapolate
                 // NOTE: Use the original value from spec, not value_for_lookup, for max chroma
-                let max_chroma = maximum_chroma_from_renotation(spec[0], spec[1], spec[3] as u8);
+                let max_chroma = maximum_chroma_from_renotation(spec[0], spec[1], spec[3] as u8)?;
                 
                 if chroma > max_chroma {
                     // Extrapolate from highest available chromas
@@ -1005,7 +1044,7 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     // Get xy for lower hue - handle high chromas by extrapolation
     let spec_minus = [hue_minus, value_for_lookup, chroma, code_minus as f64];
     
-    let max_chroma_minus = maximum_chroma_from_renotation(hue_minus, value_for_lookup, code_minus);
+    let max_chroma_minus = maximum_chroma_from_renotation(hue_minus, value_for_lookup, code_minus)?;
     
     let (x_minus, y_minus, y_val_minus) = if chroma <= max_chroma_minus {
         // Try to get the data, but it might not exist
@@ -1086,7 +1125,7 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
     let spec_plus = [hue_plus, value_for_lookup, chroma, code_plus as f64];
     
     
-    let max_chroma_plus = maximum_chroma_from_renotation(hue_plus, value_for_lookup, code_plus);
+    let max_chroma_plus = maximum_chroma_from_renotation(hue_plus, value_for_lookup, code_plus)?;
     
     let (x_plus, y_plus, y_val_plus) = if chroma <= max_chroma_plus {
         // Try to get the data, but it might not exist (e.g., 0Y at high chromas)
@@ -1232,11 +1271,14 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     
     // Convert Y to Munsell value
     let value = munsell_value_astmd1535(big_y * 100.0);
+    eprintln!("DEBUG: Y={:.6}, value={:.6}", big_y, value);
+    
     let value = if (value - value.round()).abs() < 1e-10 {
         value.round()
     } else {
         value
     };
+    eprintln!("DEBUG: value after rounding={:.6}", value);
     
     // Get xy for the center (grey) at this value
     // Grey specifications should always work
@@ -1269,6 +1311,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     // NOTE: DO NOT scale by (5.0/5.5) - this causes incorrect convergence!
     // The initial_spec[2] from LCHab is already correctly scaled.
     let initial_chroma = initial_spec[2];
+    eprintln!("DEBUG: Initial chroma from LCHab: {:.4}", initial_chroma);
+    
     let initial_chroma = if initial_chroma.is_nan() || initial_chroma < 0.1 {
         1.0 // Default to low chroma for edge cases
     } else if initial_chroma > 50.0 {
@@ -1279,6 +1323,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         // Don't artificially limit high-value colors
         initial_chroma
     };
+    eprintln!("DEBUG: Initial chroma after clamping: {:.4}", initial_chroma);
     
     // Ensure initial hue is valid
     let initial_hue = if initial_spec[0].is_nan() {
@@ -1331,7 +1376,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let hue_angle_current = hue_to_hue_angle(hue_current, code_current);
         
         // Check maximum chroma
-        let chroma_maximum = maximum_chroma_from_renotation(hue_current, value, code_current);
+        let chroma_maximum = maximum_chroma_from_renotation(hue_current, value, code_current)?;
         let mut chroma_current = if chroma_current > chroma_maximum {
             chroma_maximum
         } else {
@@ -1474,7 +1519,11 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         
         // Chroma refinement loop
         // NOTE: We do NOT check convergence here - that happens after chroma refinement
-        let chroma_maximum = maximum_chroma_from_renotation(hue_new, value, code_new);
+        let chroma_maximum = maximum_chroma_from_renotation(hue_new, value, code_new)?;
+        
+        eprintln!("DEBUG ITER {}: BEFORE chroma={:.4}, max={:.4}, hue={:.4}, value={:.4}, code={}", 
+                 iterations, specification_current[2], chroma_maximum, hue_new, value, code_new);
+        
         if specification_current[2] > chroma_maximum {
             specification_current[2] = chroma_maximum;
         }
@@ -1489,9 +1538,11 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         );
         // If we're already at the target rho, no need to refine chroma
         if (rho_current - rho_input).abs() < 1e-10 {
-        // eprintln!("TRACE|ITER:CHROMA_CHECK|rho_current={:.9},rho_input={:.9},skip={}", rho_current, rho_input, (rho_current - rho_input).abs() < 1e-10);
+            eprintln!("DEBUG ITER {}: Skipping chroma refinement, rho already at target", iterations);
             specification_current = [hue_new, value, chroma_current, code_new as f64];
         } else {
+            eprintln!("DEBUG ITER {}: Entering chroma refinement. rho_current={:.6}, rho_input={:.6}, diff={:.9}", 
+                     iterations, rho_current, rho_input, (rho_current - rho_input).abs());
             // Chroma refinement loop
             let mut rho_bounds_data = vec![rho_current];
             let mut chroma_bounds_data = vec![chroma_current];
@@ -1570,8 +1621,12 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 // eprintln!("TRACE|ITER_{}:CHROMA_REFINE_END|final_chroma={:.6}", iterations, chroma_new);
                 
                 specification_current = [hue_new, value, chroma_new, code_new as f64];
+                eprintln!("DEBUG ITER {}: AFTER interpolation chroma_new={:.4}", iterations, chroma_new);
             }
         } // End of chroma refinement else block
+        
+        eprintln!("DEBUG ITER {}: FINAL spec=[{:.4}, {:.4}, {:.4}, {}]", 
+                 iterations, specification_current[0], specification_current[1], specification_current[2], specification_current[3] as u8);
         
         // if iterations <= 3 {
         // }

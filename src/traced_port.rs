@@ -195,19 +195,19 @@ pub fn hue_angle_to_hue(hue_angle: f64) -> (f64, u8) {
 }
 
 /// Traced version of maximum_chroma_from_renotation
-pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> f64 {
+pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> Result<f64> {
     let func_name = "maximum_chroma_from_renotation";
     
     trace!(func_name, 1, format_vars(&[("hue", fmt_f64(hue)), ("value", fmt_f64(value)), ("code", code.to_string())]), "ENTER", "");
     
     // Use the actual implementation from python_port.rs
     // This is a simplified version - in reality we'd need to instrument the full function
-    let result = crate::python_port::maximum_chroma_from_renotation(hue, value, code);
+    let result = crate::python_port::maximum_chroma_from_renotation(hue, value, code)?;
     
     trace!(func_name, 2, format_vars(&[("result", fmt_f64(result))]), "CALL", "crate::python_port::maximum_chroma_from_renotation");
     trace!(func_name, 3, format_vars(&[("result", fmt_f64(result))]), "RETURN", "");
     
-    result
+    Ok(result)
 }
 
 /// Traced version of bounding_hues_from_renotation
@@ -417,7 +417,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         trace!(func_name, 23, format_vars(&[("hue_angle_current", fmt_f64(hue_angle_current))]), "CALL", "hue_to_hue_angle");
         
         // Check maximum chroma
-        let chroma_maximum = maximum_chroma_from_renotation(hue_current, value, code_current);
+        let chroma_maximum = maximum_chroma_from_renotation(hue_current, value, code_current)?;
         trace!(func_name, 24, format_vars(&[("chroma_maximum", fmt_f64(chroma_maximum))]), "CALL", "maximum_chroma_from_renotation");
         
         let chroma_current = if chroma_current > chroma_maximum {
