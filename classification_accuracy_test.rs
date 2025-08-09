@@ -234,7 +234,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         match classification_result {
             Ok(Some(result)) => {
-                let actual_name = result.revised_descriptor().to_string();
+                let actual_name = result.full_iscc_nbs_name();
                 
                 if actual_name.to_lowercase() == expected_name.to_lowercase() {
                     successful_classifications += 1;
@@ -377,7 +377,7 @@ fn generate_error_analysis_report(
                 
                 let actual_name = example.actual_name.as_deref().unwrap_or("No classification");
                 
-                writeln!(report, "| [{}, {}, {}] | {} | {} | {} | {} |",
+                writeln!(report, "| #{:02X}{:02X}{:02X} | {} | {} | {} | {} |",
                          example.rgb[0], example.rgb[1], example.rgb[2],
                          example.expected_name,
                          actual_name,
@@ -411,7 +411,7 @@ fn generate_error_analysis_report(
         let error_msg = failure.error_message.as_deref().unwrap_or("Classification mismatch");
         let category = ErrorCategory::categorize_failure(&failure.expected_name, &failure.actual_name);
         
-        writeln!(report, "| {} | [{},{},{}] | {} | {} | {} | {} | {} |",
+        writeln!(report, "| {} | #{:02X}{:02X}{:02X} | {} | {} | {} | {} | {} |",
                  i + 1, failure.rgb[0], failure.rgb[1], failure.rgb[2],
                  failure.expected_name, actual_name, munsell_coords,
                  error_msg, category.description())?;
