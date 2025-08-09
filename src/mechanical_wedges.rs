@@ -1,12 +1,12 @@
 use std::collections::HashMap;
 use crate::{MunsellError, Result};
-use crate::iscc::IsccNbsColor;
+use crate::iscc::ISCC_NBS_Color;
 
 /// Mechanical hue wedge distribution system for ISCC-NBS classification
 /// Implements the deterministic approach outlined in ALGO.md
 pub struct MechanicalWedgeSystem {
     /// All 100 wedge containers (e.g., "1R→2R", "2R→3R", etc.)
-    wedge_containers: HashMap<String, Vec<IsccNbsColor>>,
+    wedge_containers: HashMap<String, Vec<ISCC_NBS_Color>>,
     /// Ordered sequence of all Munsell hue references  
     hue_sequence: Vec<String>,
     /// Quick lookup from hue to sequence position
@@ -50,7 +50,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Create all 100 wedge containers (empty initially)
-    fn create_all_wedge_containers(sequence: &[String]) -> HashMap<String, Vec<IsccNbsColor>> {
+    fn create_all_wedge_containers(sequence: &[String]) -> HashMap<String, Vec<ISCC_NBS_Color>> {
         let mut containers = HashMap::new();
         
         for i in 0..sequence.len() {
@@ -65,7 +65,7 @@ impl MechanicalWedgeSystem {
     
     /// Distribute a polygon into appropriate wedge containers
     /// For polygon spanning hue1 to hue2, copies go into all wedges in that range
-    pub fn distribute_polygon(&mut self, polygon: IsccNbsColor) -> Result<()> {
+    pub fn distribute_polygon(&mut self, polygon: ISCC_NBS_Color) -> Result<()> {
         let (start_hue, end_hue) = Self::parse_polygon_hue_range(&polygon)?;
         let wedge_keys = self.find_wedges_in_range(&start_hue, &end_hue)?;
         
@@ -80,7 +80,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Parse polygon hue range from ISCC-NBS data
-    fn parse_polygon_hue_range(polygon: &IsccNbsColor) -> Result<(String, String)> {
+    fn parse_polygon_hue_range(polygon: &ISCC_NBS_Color) -> Result<(String, String)> {
         // Extract hue range from polygon data (e.g., "5R" to "7YR")
         // This depends on how hue ranges are stored in IsccNbsColor
         // For now, assume they're in a hue_range field
@@ -122,7 +122,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Classify a color by finding its containing wedge and searching within it
-    pub fn classify_color(&self, hue: &str, value: f64, chroma: f64) -> Option<&IsccNbsColor> {
+    pub fn classify_color(&self, hue: &str, value: f64, chroma: f64) -> Option<&ISCC_NBS_Color> {
         // 1. Find the containing wedge for this hue
         let wedge_key = self.find_containing_wedge(hue)?;
         
@@ -190,7 +190,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Check if a point (value, chroma) is inside a polygon
-    fn point_in_polygon(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> bool {
+    fn point_in_polygon(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> bool {
         // Use the geo crate's Contains trait for robust point-in-polygon testing
         use geo::Contains;
         let point = geo::Point::new(chroma, value); // Note: chroma=x, value=y
@@ -223,7 +223,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Validate a single wedge container
-    fn validate_single_wedge(&self, _wedge_key: &str, container: &[IsccNbsColor]) -> SingleWedgeValidation {
+    fn validate_single_wedge(&self, _wedge_key: &str, container: &[ISCC_NBS_Color]) -> SingleWedgeValidation {
         let mut validation = SingleWedgeValidation::new();
         
         // Check coverage: should cover chroma 0→50, value 0→10
@@ -240,21 +240,21 @@ impl MechanicalWedgeSystem {
     }
     
     /// Check if wedge container provides complete coverage
-    fn check_wedge_coverage(&self, _container: &[IsccNbsColor]) -> bool {
+    fn check_wedge_coverage(&self, _container: &[ISCC_NBS_Color]) -> bool {
         // TODO: Implement coverage checking using geo crate operations
         // Should verify that union of all polygons covers rectangle [0,50] × [0,10]
         true // Placeholder
     }
     
     /// Detect gaps between polygons in wedge container
-    fn detect_wedge_gaps(&self, _container: &[IsccNbsColor]) -> Vec<String> {
+    fn detect_wedge_gaps(&self, _container: &[ISCC_NBS_Color]) -> Vec<String> {
         // TODO: Implement gap detection using geo crate
         // Look for areas not covered by any polygon
         Vec::new() // Placeholder
     }
     
     /// Detect intersections between polygons in wedge container
-    fn detect_wedge_intersections(&self, _container: &[IsccNbsColor]) -> Vec<String> {
+    fn detect_wedge_intersections(&self, _container: &[ISCC_NBS_Color]) -> Vec<String> {
         // TODO: Implement intersection detection using geo crate
         // Look for overlapping polygon interiors
         Vec::new() // Placeholder

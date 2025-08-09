@@ -1,10 +1,10 @@
-use munsellspace::IsccNbsClassifier;
+use munsellspace::ISCC_NBS_Classifier;
 
 #[test]
 fn debug_available_plane_keys() {
     println!("=== DEBUGGING AVAILABLE PLANE KEYS ===");
     
-    let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
+    let classifier = ISCC_NBS_Classifier::new().expect("Failed to create classifier");
     
     // We can't access private fields directly, so let's test some specific lookups
     // and try to understand the plane key structure

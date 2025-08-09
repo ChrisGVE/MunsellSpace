@@ -56,6 +56,8 @@ pub mod python_port_utils;
 pub mod python_port_interpolation;
 pub mod python_port_cache;
 pub mod traced_port;
+pub mod mechanical_wedges;
+pub mod integration_test;
 
 // Test modules were moved to their respective implementation files
 // #[cfg(test)]
@@ -65,7 +67,8 @@ pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
 pub use error::{MunsellError, Result};
 pub use illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
-pub use iscc::{IsccNbsClassifier, IsccNbsResult};
+pub use iscc::{ISCC_NBS_Classifier, ISCC_NBS_Result};
+pub use mechanical_wedges::MechanicalWedgeSystem;
 pub use mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
 
 /// Library version

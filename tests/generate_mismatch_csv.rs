@@ -1,4 +1,4 @@
-use munsellspace::{IsccNbsClassifier, MunsellConverter};
+use munsellspace::{ISCC_NBS_Classifier, MunsellConverter};
 use std::fs::File;
 use std::io::Write;
 
@@ -6,7 +6,7 @@ use std::io::Write;
 fn generate_mismatch_csv() {
     println!("=== GENERATING COMPREHENSIVE MISMATCH CSV ===");
     
-    let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
+    let classifier = ISCC_NBS_Classifier::new().expect("Failed to create classifier");
     let converter = MunsellConverter::new().expect("Failed to create converter");
     
     // Load the reference dataset
