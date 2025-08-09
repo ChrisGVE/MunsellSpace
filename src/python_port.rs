@@ -702,18 +702,23 @@ pub fn xy_from_renotation_ovoid_interpolated(spec: &[f64; 4]) -> Result<[f64; 2]
             // Handle edge cases
             // For values > 9, we need special handling since renotation data stops at 9
             if value > 9.0 {
-                // For values > 9, we can't interpolate with value=10 data
-                // Instead, we extrapolate from value=8 and value=9
-                let spec_8 = [spec[0], 8.0, 2.0, spec[3]];
-                let xy_8 = xy_from_renotation_ovoid_interpolated(&spec_8)?;
-                
+                // For values > 9, interpolate between value=9 and illuminant C
+                // based on luminance Y (same as for higher chromas)
                 let spec_9 = [spec[0], 9.0, 2.0, spec[3]];
                 let xy_9 = xy_from_renotation_ovoid_interpolated(&spec_9)?;
                 
-                // Extrapolate to the target value
-                let t = value - 8.0;  // t will be > 1.0 for extrapolation
-                [xy_8[0] + t * (xy_9[0] - xy_8[0]),
-                 xy_8[1] + t * (xy_9[1] - xy_8[1])]
+                // At value=10, use illuminant C
+                let xy_10 = crate::constants::ILLUMINANT_C;
+                
+                // Interpolate based on luminance Y, not value directly
+                let y_current = luminance_astmd1535(value);
+                let y_9 = luminance_astmd1535(9.0);
+                let y_10 = luminance_astmd1535(10.0);
+                
+                // Linear interpolation based on Y
+                let t = (y_current - y_9) / (y_10 - y_9);
+                [xy_9[0] + t * (xy_10[0] - xy_9[0]),
+                 xy_9[1] + t * (xy_10[1] - xy_9[1])]
             } else {
                 let (val_low, val_high) = if value_floor < 1.0 {
                     (1.0, 2.0)
