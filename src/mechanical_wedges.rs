@@ -138,17 +138,16 @@ impl MechanicalWedgeSystem {
     fn find_containing_wedge(&self, hue: &str) -> Option<String> {
         let (hue_number, hue_family) = self.parse_hue(hue).ok()?;
         
-        // Find the exact or nearest hue in our sequence
-        let target_hue = format!("{}{}", hue_number.round() as i32, hue_family);
-        let position = self.hue_to_position.get(&target_hue)?;
-        
         // Apply boundary rules: hue belongs to wedge where lower_bound < hue ≤ upper_bound
-        // Special case: exact boundary hues belong to the previous wedge
-        let wedge_start_pos = if hue_number.fract() == 0.0 && hue_number as i32 > 1 {
-            // Exact boundary (e.g., 4R) belongs to previous wedge (3R→4R)
+        let wedge_start_pos = if hue_number.fract() == 0.0 {
+            // Exact boundary (e.g., 1R, 4R, 10R) belongs to previous wedge (10RP→1R, 3R→4R, 9R→10R)
+            let exact_hue = format!("{}{}", hue_number as i32, hue_family);
+            let position = self.hue_to_position.get(&exact_hue)?;
             (*position + self.hue_sequence.len() - 1) % self.hue_sequence.len()
         } else {
-            // Fractional hue (e.g., 4.5R) belongs to forward wedge (4R→5R)  
+            // Fractional hue (e.g., 4.5R) belongs to wedge starting from floor (4R→5R)
+            let floor_hue = format!("{}{}", hue_number.floor() as i32, hue_family);
+            let position = self.hue_to_position.get(&floor_hue)?;
             *position
         };
         
