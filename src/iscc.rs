@@ -114,7 +114,7 @@ impl ISCC_NBS_Classifier {
     /// let classifier = ISCC_NBS_Classifier::new().expect("Failed to create classifier");
     /// ```
     pub fn new() -> Result<Self, MunsellError> {
-        Self::new_with_hue_range_method(crate::mechanical_wedges::HueRangeMethod::IncludeStartExcludeEnd)
+        Self::new_with_hue_range_method(crate::mechanical_wedges::HueRangeMethod::ExcludeStartIncludeEnd)
     }
     
     /// Create a new ISCC-NBS classifier with specified hue range interpretation method.

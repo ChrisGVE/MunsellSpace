@@ -29,9 +29,9 @@ pub struct MechanicalWedgeSystem {
 
 impl MechanicalWedgeSystem {
     /// Create new mechanical wedge system with all 100 wedge containers
-    /// Uses Method 1 (IncludeStartExcludeEnd) by default for backward compatibility
+    /// Uses Method 2 (ExcludeStartIncludeEnd) by default for optimal accuracy
     pub fn new() -> Self {
-        Self::new_with_method(HueRangeMethod::IncludeStartExcludeEnd)
+        Self::new_with_method(HueRangeMethod::ExcludeStartIncludeEnd)
     }
     
     /// Create new mechanical wedge system with specified hue range method
