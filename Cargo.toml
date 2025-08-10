@@ -90,6 +90,10 @@ path = "classification_accuracy_test.rs"
 name = "hue_range_method_comparison"
 path = "hue_range_method_comparison.rs"
 
+[[bin]]
+name = "comprehensive_conversion_dataset"
+path = "comprehensive_conversion_dataset.rs"
+
 [profile.release]
 lto = true
 codegen-units = 1
