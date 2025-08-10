@@ -7,6 +7,7 @@
 use palette::{Srgb, Xyz, convert::IntoColor, white_point::D65};
 use crate::constants::*;
 use crate::error::{MunsellError, Result};
+use crate::illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
 
 // Critical constants from Python colour-science
 const THRESHOLD_INTEGER: f64 = 1e-3;  // Python's achromatic threshold
@@ -633,6 +634,12 @@ mod interpolation_methods {
 
 /// Mathematical Munsell converter using ASTM D1535 algorithms
 pub struct MathematicalMunsellConverter {
+    /// Source illuminant (illuminant of the input RGB values)
+    source_illuminant: Illuminant,
+    /// Target illuminant for Munsell calculations (typically D65, but configurable)
+    target_illuminant: Illuminant,
+    /// Chromatic adaptation method to use
+    adaptation_method: ChromaticAdaptationMethod,
     /// Cached interpolation data for performance
     renotation_data: &'static [((&'static str, f64, f64), (f64, f64, f64))],
 }
@@ -654,8 +661,159 @@ impl MathematicalMunsellConverter {
     /// ```
     pub fn new() -> Result<Self> {
         Ok(Self {
+            source_illuminant: Illuminant::D65,     // sRGB standard
+            target_illuminant: Illuminant::D65,     // D65 for backward compatibility
+            adaptation_method: ChromaticAdaptationMethod::Bradford,
             renotation_data: MUNSELL_RENOTATION_DATA,
         })
+    }
+    
+    /// Create a new converter with custom illuminant configuration
+    ///
+    /// # Arguments
+    /// * `source` - Source illuminant (illuminant of the input RGB values)
+    /// * `target` - Target illuminant for Munsell calculations
+    /// * `method` - Chromatic adaptation method
+    ///
+    /// # Returns
+    /// Result containing the converter instance or an error
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{MathematicalMunsellConverter, Illuminant, ChromaticAdaptationMethod};
+    /// 
+    /// let converter = MathematicalMunsellConverter::with_illuminants(
+    ///     Illuminant::D65,
+    ///     Illuminant::C,
+    ///     ChromaticAdaptationMethod::Bradford
+    /// ).expect("Failed to create converter");
+    /// ```
+    pub fn with_illuminants(
+        source: Illuminant,
+        target: Illuminant,
+        method: ChromaticAdaptationMethod,
+    ) -> Result<Self> {
+        Ok(Self {
+            source_illuminant: source,
+            target_illuminant: target,
+            adaptation_method: method,
+            renotation_data: MUNSELL_RENOTATION_DATA,
+        })
+    }
+    
+    /// Set the source illuminant (illuminant of the input RGB values)
+    ///
+    /// # Arguments
+    /// * `illuminant` - The new source illuminant
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{MathematicalMunsellConverter, Illuminant};
+    /// 
+    /// let mut converter = MathematicalMunsellConverter::new().unwrap();
+    /// converter.set_source_illuminant(Illuminant::A);
+    /// ```
+    pub fn set_source_illuminant(&mut self, illuminant: Illuminant) {
+        self.source_illuminant = illuminant;
+    }
+    
+    /// Set the target illuminant for Munsell calculations
+    ///
+    /// # Arguments
+    /// * `illuminant` - The new target illuminant
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{MathematicalMunsellConverter, Illuminant};
+    /// 
+    /// let mut converter = MathematicalMunsellConverter::new().unwrap();
+    /// converter.set_target_illuminant(Illuminant::C);
+    /// ```
+    pub fn set_target_illuminant(&mut self, illuminant: Illuminant) {
+        self.target_illuminant = illuminant;
+    }
+    
+    /// Set the chromatic adaptation method
+    ///
+    /// # Arguments
+    /// * `method` - The new chromatic adaptation method
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{MathematicalMunsellConverter, ChromaticAdaptationMethod};
+    /// 
+    /// let mut converter = MathematicalMunsellConverter::new().unwrap();
+    /// converter.set_adaptation_method(ChromaticAdaptationMethod::VonKries);
+    /// ```
+    pub fn set_adaptation_method(&mut self, method: ChromaticAdaptationMethod) {
+        self.adaptation_method = method;
+    }
+    
+    /// Get the current source illuminant
+    ///
+    /// # Returns
+    /// The current source illuminant
+    pub fn source_illuminant(&self) -> Illuminant {
+        self.source_illuminant
+    }
+    
+    /// Get the current target illuminant
+    ///
+    /// # Returns
+    /// The current target illuminant
+    pub fn target_illuminant(&self) -> Illuminant {
+        self.target_illuminant
+    }
+    
+    /// Get the current chromatic adaptation method
+    ///
+    /// # Returns
+    /// The current chromatic adaptation method
+    pub fn adaptation_method(&self) -> ChromaticAdaptationMethod {
+        self.adaptation_method
+    }
+    
+    /// Create a preset converter for D65 → C (traditional Munsell setup)
+    ///
+    /// This is the most common configuration for accurate Munsell conversion,
+    /// as the original Munsell data was measured under Illuminant C.
+    ///
+    /// # Returns
+    /// Result containing the converter instance or an error
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::MathematicalMunsellConverter;
+    /// 
+    /// let converter = MathematicalMunsellConverter::d65_to_c().unwrap();
+    /// ```
+    pub fn d65_to_c() -> Result<Self> {
+        Self::with_illuminants(
+            Illuminant::D65,
+            Illuminant::C,
+            ChromaticAdaptationMethod::Bradford,
+        )
+    }
+    
+    /// Create a preset converter for D50 → C (print industry setup)
+    ///
+    /// Common in print workflows where D50 is the standard viewing illuminant.
+    ///
+    /// # Returns
+    /// Result containing the converter instance or an error
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::MathematicalMunsellConverter;
+    /// 
+    /// let converter = MathematicalMunsellConverter::d50_to_c().unwrap();
+    /// ```
+    pub fn d50_to_c() -> Result<Self> {
+        Self::with_illuminants(
+            Illuminant::D50,
+            Illuminant::C,
+            ChromaticAdaptationMethod::Bradford,
+        )
     }
 
     /// Convert sRGB color to Munsell specification using mathematical algorithms
@@ -685,10 +843,10 @@ impl MathematicalMunsellConverter {
         self.xyy_to_munsell_specification(xyy)
     }
 
-    /// Convert sRGB to CIE xyY color space.
+    /// Convert sRGB to CIE xyY color space with configurable chromatic adaptation.
     ///
-    /// Converts sRGB colors to CIE xyY chromaticity coordinates using D65 illuminant.
-    /// No chromatic adaptation is needed since both sRGB and Munsell data use D65.
+    /// Converts sRGB colors to CIE xyY chromaticity coordinates, applying chromatic
+    /// adaptation from the configured source illuminant to target illuminant if needed.
     ///
     /// # Arguments
     /// * `rgb` - sRGB color as [R, G, B] array with components 0-255
@@ -724,17 +882,25 @@ impl MathematicalMunsellConverter {
         let linear_rgb = srgb.into_linear();
         // println!("TRACE: 3. Linear RGB: [{:.6}, {:.6}, {:.6}]", linear_rgb.red, linear_rgb.green, linear_rgb.blue);
         
-        // Convert Linear RGB → XYZ (D65 illuminant)
+        // Convert Linear RGB → XYZ (D65 illuminant - sRGB standard)
         let xyz_d65: Xyz<D65, f64> = linear_rgb.into_color();
         let (x_d65, y_d65, z_d65) = xyz_d65.into_components();
         // println!("TRACE: 4. XYZ (D65): [{:.6}, {:.6}, {:.6}]", x_d65, y_d65, z_d65);
         
-        // Convert XYZ (D65) to xyY - NO chromatic adaptation needed
-        // Python colour-science uses D65 coordinates directly
-        let xyy_d65 = self.xyz_to_xyy([x_d65, y_d65, z_d65]);
-        // println!("TRACE: 5. xyY (D65): [{:.6}, {:.6}, {:.6}]", xyy_d65.x, xyy_d65.y, xyy_d65.Y);
+        // Step 2: Perform chromatic adaptation if needed (source illuminant → target illuminant)
+        let xyz_adapted = ChromaticAdaptation::adapt(
+            [x_d65, y_d65, z_d65],
+            self.source_illuminant,
+            self.target_illuminant,
+            self.adaptation_method,
+        )?;
+        // println!("TRACE: 4.5. XYZ (adapted): [{:.6}, {:.6}, {:.6}]", xyz_adapted[0], xyz_adapted[1], xyz_adapted[2]);
         
-        Ok(xyy_d65)
+        // Convert adapted XYZ to xyY
+        let xyy = self.xyz_to_xyy(xyz_adapted);
+        // println!("TRACE: 5. xyY (target illuminant): [{:.6}, {:.6}, {:.6}]", xyy.x, xyy.y, xyy.Y);
+        
+        Ok(xyy)
     }
 
 
