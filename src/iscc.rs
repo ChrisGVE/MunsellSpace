@@ -58,9 +58,11 @@ impl ISCC_NBS_Result {
         self.iscc_nbs_color_id
     }
     
-    /// Get the complete ISCC-NBS name (descriptor + color, e.g., "vivid red")
+    /// Get the complete ISCC-NBS name (already complete descriptor, e.g., "vivid red")
     pub fn full_iscc_nbs_name(&self) -> String {
-        format!("{} {}", self.iscc_nbs_descriptor, self.iscc_nbs_color)
+        // The descriptor field already contains the complete name (e.g., "vivid pink")
+        // No need to combine with color field which would create "vivid pink pink"
+        self.iscc_nbs_descriptor.clone()
     }
 }
 
@@ -751,16 +753,16 @@ impl ISCC_NBS_Classifier {
                 .parse()
                 .map_err(|e| Self::data_error(format!("Invalid polygon_group: {}", e)))?;
             
-            // Use iscc-nbs-modifier (column 4) as the descriptor to avoid duplication
-            let descriptor = record.get(4)
-                .ok_or_else(|| Self::data_error("Missing modifier".to_string()))?
+            // Use iscc-nbs-descriptor (column 2) as the descriptor
+            let descriptor = record.get(2)
+                .ok_or_else(|| Self::data_error("Missing iscc-nbs-descriptor".to_string()))?
                 .to_string();
                 
             let color_name = record.get(3)
                 .ok_or_else(|| Self::data_error("Missing color_name".to_string()))?
                 .to_string();
                 
-            // Column 2 (iscc-nbs-descriptor) contains full name, we don't need it since we construct from parts
+            // Use iscc-nbs-modifier (column 4) as the modifier
             let modifier = record.get(4).filter(|s| !s.is_empty()).map(|s| s.to_string());
             
             let revised_color = record.get(5)
