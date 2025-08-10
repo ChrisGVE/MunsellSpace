@@ -916,7 +916,7 @@ impl MathematicalMunsellConverter {
         use coordinate_transforms::*;
         use hue_conversions::*;
         
-        const CONVERGENCE_THRESHOLD: f64 = THRESHOLD_INTEGER / 1e4; // 1e-7
+        const CONVERGENCE_THRESHOLD: f64 = 1e-4; // Practical threshold for floating-point precision
         
         // Step 1: Calculate Munsell Value using ASTM D1535 polynomial
         eprintln!("  Y luminance input: {:.6} (normalized, will be converted to percentage)", xyy.Y);
