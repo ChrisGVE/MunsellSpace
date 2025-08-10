@@ -6,7 +6,7 @@
 use crate::error::{MunsellError, Result};
 
 /// CIE Standard Illuminant
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Illuminant {
     /// CIE Standard Illuminant A (Incandescent/Tungsten)
     A,

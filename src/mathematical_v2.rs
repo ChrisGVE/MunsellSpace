@@ -407,6 +407,126 @@ impl MathematicalMunsellConverter {
         
         Ok([r, g, b])
     }
+    
+    // ===== CONVENIENCE METHODS FOR USER-FRIENDLY ILLUMINANT CONTROL =====
+    
+    /// Set the target illuminant (where Munsell calculations are performed)
+    /// Keeps source illuminant as D65 for sRGB compatibility
+    ///
+    /// # Arguments  
+    /// * `illuminant` - Target illuminant for Munsell space calculations
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{mathematical_v2::MathematicalMunsellConverter, Illuminant};
+    ///
+    /// let mut converter = MathematicalMunsellConverter::new().unwrap();
+    /// 
+    /// // Use Illuminant C for traditional Munsell color matching
+    /// converter.set_illuminant(Illuminant::C);
+    /// let munsell_c = converter.srgb_to_munsell([255, 0, 0]).unwrap();
+    /// 
+    /// // Switch to tungsten lighting for indoor conditions
+    /// converter.set_illuminant(Illuminant::A);  
+    /// let munsell_a = converter.srgb_to_munsell([255, 0, 0]).unwrap();
+    /// ```
+    pub fn set_illuminant(&mut self, illuminant: Illuminant) {
+        self.config.target_illuminant = illuminant;
+    }
+    
+    /// Get the current target illuminant
+    pub fn get_illuminant(&self) -> Illuminant {
+        self.config.target_illuminant
+    }
+    
+    /// Set both source and target illuminants
+    /// Use when converting between color spaces under specific lighting conditions
+    ///
+    /// # Arguments
+    /// * `source` - Illuminant of the source color space  
+    /// * `target` - Illuminant for Munsell calculations
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{mathematical_v2::MathematicalMunsellConverter, Illuminant};
+    ///
+    /// let mut converter = MathematicalMunsellConverter::new().unwrap();
+    /// 
+    /// // Convert from tungsten-lit photo to daylight Munsell values
+    /// converter.set_illuminants(Illuminant::A, Illuminant::D65);
+    /// ```
+    pub fn set_illuminants(&mut self, source: Illuminant, target: Illuminant) {
+        self.config.source_illuminant = source;
+        self.config.target_illuminant = target;
+    }
+    
+    /// Set the chromatic adaptation method
+    ///
+    /// # Arguments
+    /// * `method` - Chromatic adaptation algorithm to use
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{mathematical_v2::MathematicalMunsellConverter, ChromaticAdaptationMethod};
+    ///
+    /// let mut converter = MathematicalMunsellConverter::new().unwrap();
+    /// converter.set_adaptation_method(ChromaticAdaptationMethod::VonKries);
+    /// ```
+    pub fn set_adaptation_method(&mut self, method: ChromaticAdaptationMethod) {
+        self.config.adaptation_method = method;
+    }
+    
+    /// Reset to default configuration (D65 → C, Bradford adaptation)
+    pub fn reset_to_defaults(&mut self) {
+        self.config = MunsellConfig::default();
+    }
+    
+    /// Create a quick preset for common viewing conditions
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::mathematical_v2::MathematicalMunsellConverter;
+    ///
+    /// // Daylight color matching  
+    /// let mut converter = MathematicalMunsellConverter::daylight_preset().unwrap();
+    /// 
+    /// // Tungsten lighting conditions
+    /// let mut converter = MathematicalMunsellConverter::tungsten_preset().unwrap();
+    /// ```
+    pub fn daylight_preset() -> Result<Self> {
+        let config = MunsellConfig {
+            source_illuminant: Illuminant::D65,
+            target_illuminant: Illuminant::D65,
+            adaptation_method: ChromaticAdaptationMethod::Bradford,
+        };
+        Self::with_config(config)
+    }
+    
+    /// Create preset for tungsten lighting conditions
+    pub fn tungsten_preset() -> Result<Self> {
+        let config = MunsellConfig {
+            source_illuminant: Illuminant::D65,  // sRGB standard
+            target_illuminant: Illuminant::A,    // Tungsten
+            adaptation_method: ChromaticAdaptationMethod::Bradford,
+        };
+        Self::with_config(config)
+    }
+    
+    /// Create preset for traditional Munsell color matching (Illuminant C)
+    pub fn munsell_standard_preset() -> Result<Self> {
+        // Uses default which is already D65 → C
+        Self::new()
+    }
+    
+    /// Create preset for cool white fluorescent conditions
+    pub fn fluorescent_preset() -> Result<Self> {
+        let config = MunsellConfig {
+            source_illuminant: Illuminant::D65,
+            target_illuminant: Illuminant::F2,
+            adaptation_method: ChromaticAdaptationMethod::Bradford,
+        };
+        Self::with_config(config)
+    }
 }
 
 #[cfg(test)]
