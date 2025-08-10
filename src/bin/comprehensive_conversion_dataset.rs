@@ -13,7 +13,7 @@
 use munsellspace::mathematical::{MathematicalMunsellConverter};
 use munsellspace::illuminants::{Illuminant, ChromaticAdaptationMethod};
 use munsellspace::iscc::IsccNbsClassifier;
-use std::collections::{HashMap, BTreeMap};
+use std::collections::HashMap;
 use std::fmt::Write;
 use std::fs;
 use csv::ReaderBuilder;
@@ -82,13 +82,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Generating comprehensive analysis of both ISCC-NBS datasets");
     println!("across all illuminants and methods.\\n");
     
-    // Load datasets (using first 20 colors for quick analysis)
-    let mut w3_colors = load_w3_dataset()?;
-    let mut centore_colors = load_centore_dataset()?;
-    
-    // Limit to first 20 colors for faster analysis
-    w3_colors.truncate(20);
-    centore_colors.truncate(20);
+    // Load full datasets as requested by user
+    let w3_colors = load_w3_dataset()?;
+    let centore_colors = load_centore_dataset()?;
     
     println!("📊 Datasets loaded:");
     println!("  • W3 ISCC NBS Colors: {} colors", w3_colors.len());
@@ -129,7 +125,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         false // is_centore_format
     )?;
     
-    // Test chromatic adaptation methods on first 10 colors
+    // Test chromatic adaptation methods on first 10 colors as requested
     let adaptation_results = analyze_adaptation_methods(&centore_colors, &illuminants)?;
     
     // Generate comprehensive report
@@ -243,7 +239,7 @@ where
                             };
                             
                             let actual_name = format!("{} {}", 
-                                result.iscc_nbs_descriptor(), 
+                                result.iscc_nbs_modifier().unwrap_or(""), 
                                 result.iscc_nbs_color());
                             
                             if actual_name.to_lowercase() == expected_name.to_lowercase() {
@@ -333,7 +329,7 @@ fn analyze_adaptation_methods(
         (ChromaticAdaptationMethod::XYZScaling, "XYZScaling"),
     ];
     
-    let test_colors = &colors[..3.min(colors.len())];
+    let test_colors = &colors[..10.min(colors.len())];
     let mut results = Vec::new();
     
     for (method, method_name) in &adaptation_methods {
@@ -426,6 +422,9 @@ fn generate_comprehensive_report(
     }
     writeln!(&mut report, "")?;
     
+    // Add summary statistics at the top as requested by user
+    write_summary_statistics(&mut report, w3_results, centore_results)?;
+    
     // Dataset summaries
     write_dataset_summary(&mut report, w3_results)?;
     write_dataset_summary(&mut report, centore_results)?;
@@ -504,12 +503,12 @@ fn write_dataset_details(
     
     writeln!(report, "## {} Detailed Analysis", results.dataset_name)?;
     writeln!(report, "")?;
-    writeln!(report, "### Color-by-Color Breakdown (First 5 Colors)")?;
+    writeln!(report, "### Color-by-Color Breakdown (First 3 Colors)")?;
     writeln!(report, "")?;
     
-    // Get first 5 colors from D65 results as reference
+    // Get first 3 colors from D65 results as reference
     if let Some(d65_results) = results.illuminant_results.get(&Illuminant::D65) {
-        let sample_colors = &d65_results[..5.min(d65_results.len())];
+        let sample_colors = &d65_results[..3.min(d65_results.len())];
         
         for (i, color_result) in sample_colors.iter().enumerate() {
             writeln!(report, "#### Color {} - {}", i + 1, color_result.notation)?;
@@ -573,8 +572,8 @@ fn write_adaptation_analysis(
                     .collect::<Vec<_>>()
                     .join("|"))?;
         
-        // Show first 5 colors
-        for color_idx in 0..5 {
+        // Show first 10 colors as requested
+        for color_idx in 0..10.min(method_results.values().next().map_or(0, |r| r.len())) {
             write!(report, "| Color {} |", color_idx + 1)?;
             
             for (illuminant, _illuminant_short, _) in illuminants {
@@ -592,6 +591,59 @@ fn write_adaptation_analysis(
         }
         writeln!(report, "")?;
     }
+    
+    Ok(())
+}
+
+/// Write summary statistics section as requested by user
+fn write_summary_statistics(
+    report: &mut String,
+    w3_results: &DatasetResults,
+    centore_results: &DatasetResults,
+) -> Result<(), Box<dyn std::error::Error>> {
+    writeln!(report, "## Summary of Matched Color Names")?;
+    writeln!(report, "")?;
+    writeln!(report, "Overall accuracy statistics for each dataset and illuminant:")?;
+    writeln!(report, "")?;
+    
+    // Summary table for both datasets
+    writeln!(report, "| Dataset | Illuminant | Total Colors | Exact Matches | Accuracy |")?;
+    writeln!(report, "|---------|------------|--------------|---------------|----------|")?;
+    
+    let illuminant_order = [
+        Illuminant::A, Illuminant::C, Illuminant::D50, Illuminant::D55, 
+        Illuminant::D65, Illuminant::D75, Illuminant::E, Illuminant::F2, 
+        Illuminant::F7, Illuminant::F11
+    ];
+    
+    for illuminant in illuminant_order {
+        let illuminant_name = match illuminant {
+            Illuminant::A => "A",
+            Illuminant::C => "C",
+            Illuminant::D50 => "D50", 
+            Illuminant::D55 => "D55",
+            Illuminant::D65 => "D65",
+            Illuminant::D75 => "D75", 
+            Illuminant::E => "E",
+            Illuminant::F2 => "F2",
+            Illuminant::F7 => "F7",
+            Illuminant::F11 => "F11",
+            _ => "Unknown",
+        };
+        
+        // W3 dataset stats
+        if let Some(stats) = w3_results.accuracy_stats.get(&illuminant) {
+            writeln!(report, "| W3 ISCC NBS Colors | {} | {} | {} | {:.1}% |",
+                    illuminant_name, stats.total_colors, stats.classification_matches, stats.classification_accuracy)?;
+        }
+        
+        // Paul Centore dataset stats  
+        if let Some(stats) = centore_results.accuracy_stats.get(&illuminant) {
+            writeln!(report, "| Paul Centore ISCC NBS System | {} | {} | {} | {:.1}% |",
+                    illuminant_name, stats.total_colors, stats.classification_matches, stats.classification_accuracy)?;
+        }
+    }
+    writeln!(report, "")?;
     
     Ok(())
 }
