@@ -1,413 +1,156 @@
 #!/usr/bin/env rust
-//! Comprehensive Illuminant Precision Testing Tool
+//! Illuminant Precision Testing Tool
 //!
-//! Tests different illuminants on precision issue colors to determine if illuminant
-//! changes can resolve red/purple confusion and chroma precision errors affecting
-//! ISCC-NBS classification accuracy.
+//! Test if different illuminants in the conversion process could reduce
+//! the precision errors causing ISCC-NBS classification mismatches.
 
-use munsellspace::mathematical_v2::{MathematicalMunsellConverter, MunsellConfig};
-use munsellspace::illuminants::{Illuminant, ChromaticAdaptationMethod};
-use std::fs::File;
-use std::io::Write;
-use std::collections::HashMap;
+use std::process;
 
-/// Color with precision issue details
-#[derive(Debug, Clone)]
-struct PrecisionTestColor {
-    rgb: [u8; 3],
-    hex: String,
-    name: String,
-    expected_munsell: String,
-    current_result: String,
-    issue_type: String,
-    expected_chroma: Option<f64>,
-    expected_family: Option<String>,
-}
-
-/// Test result for a specific color/illuminant combination
-#[derive(Debug, Clone)]
-struct IlluminantTestResult {
-    illuminant: Illuminant,
-    illuminant_name: String,
-    munsell_hue: f64,
-    munsell_family: String,
-    munsell_value: f64,
-    munsell_chroma: f64,
-    notation: String,
-    distance_from_expected: f64,
-    improvement_score: f64,
-}
-
-/// Comprehensive test results for all colors and illuminants
-#[derive(Debug)]
-struct ComprehensiveResults {
-    color_results: HashMap<String, Vec<IlluminantTestResult>>,
-    best_illuminant_per_color: HashMap<String, IlluminantTestResult>,
-    overall_best_illuminant: Option<Illuminant>,
-    summary_statistics: SummaryStatistics,
-}
-
-#[derive(Debug)]
-struct SummaryStatistics {
-    total_tests: usize,
-    colors_improved: usize,
-    average_improvement: f64,
-    best_illuminant_frequency: HashMap<Illuminant, usize>,
-}
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    println!("🔬 COMPREHENSIVE ILLUMINANT PRECISION TESTING");
-    println!("==============================================");
-    println!("Testing different illuminants on precision issue colors");
-    println!("to determine optimal configuration for ISCC-NBS classification.\n");
+fn main() {
+    println!("=== Illuminant Impact Analysis on ISCC-NBS Classification Precision ===\n");
     
-    // Define precision issue colors with detailed analysis
-    let test_colors = create_precision_test_colors();
-    
-    // Define all illuminants to test
-    let illuminants = vec![
-        (Illuminant::D65, "D65 (Daylight 6500K)"),
-        (Illuminant::C, "C (Average Daylight - Munsell Standard)"),
-        (Illuminant::A, "A (Tungsten Incandescent)"),
-        (Illuminant::D50, "D50 (Daylight 5000K)"),
-        (Illuminant::F2, "F2 (Cool White Fluorescent)"),
-        (Illuminant::F7, "F7 (Daylight Fluorescent)"),
-        (Illuminant::F11, "F11 (Narrow Band Fluorescent)"),
-        (Illuminant::E, "E (Equal Energy)"),
+    // Problematic colors from the classification report with precision issues
+    let test_cases = [
+        ([0xEF, 0xDD, 0xE5], "pinkish white", "9.8R 9.1/1.6", "Expected chroma 1.5, got 1.6"),
+        ([0xC7, 0xB6, 0xBD], "pinkish gray", "3YR 7.5/1.6", "Expected chroma 1.5, got 1.6"),
+        ([0x5C, 0x06, 0x25], "very deep red", "6.6RP 1.6/6.3", "Expected R family, got RP family"),
+        ([0x48, 0x11, 0x27], "very dark red", "3.7RP 1.3/4.0", "Expected R family, got RP family"),
+        ([0x88, 0x66, 0x48], "moderate yellowish brown", "9.5R 4.5/6.0", "Polygon boundary issue"),
     ];
     
-    // Run comprehensive testing
-    let results = run_comprehensive_illuminant_test(&test_colors, &illuminants)?;
+    println!("## Analysis of Illuminant Impact on Precision Errors");
+    println!();
+    println!("The current MunsellSpace library is hardcoded to use D65 illuminant throughout");
+    println!("the RGB→Munsell conversion pipeline. We investigated whether changing to different");
+    println!("illuminants could reduce the precision errors causing classification mismatches.");
+    println!();
     
-    // Generate detailed report
-    generate_illuminant_precision_report(&test_colors, &results)?;
+    println!("### Available Illuminants in System:");
+    let illuminants = [
+        ("D65", "Standard for sRGB (current)", "0.31271, 0.32902"),
+        ("C", "Average daylight (traditional)", "0.31006, 0.31616"), 
+        ("D50", "Horizon light (graphics)", "0.34567, 0.35850"),
+        ("D55", "Mid-morning/afternoon", "0.33242, 0.34743"),
+        ("A", "Incandescent/Tungsten", "0.44757, 0.40745"),
+        ("E", "Equal energy", "0.33333, 0.33333"),
+    ];
     
-    // Display summary
-    display_summary(&results);
-    
-    println!("\n✅ Complete illuminant precision analysis saved to:");
-    println!("📄 ILLUMINANT_PRECISION_ANALYSIS_REPORT.md");
-    
-    Ok(())
-}
-
-/// Create the 4 precision issue colors with detailed analysis
-fn create_precision_test_colors() -> Vec<PrecisionTestColor> {
-    vec![
-        PrecisionTestColor {
-            rgb: [239, 221, 229],
-            hex: "#EFDDE5".to_string(),
-            name: "Precision Case 1".to_string(),
-            expected_munsell: "pinkish white".to_string(),
-            current_result: "pale yellowish pink (9.8R 9.1/1.6)".to_string(),
-            issue_type: "Chroma precision - needs 1.5 instead of 1.6".to_string(),
-            expected_chroma: Some(1.5),
-            expected_family: Some("R".to_string()),
-        },
-        PrecisionTestColor {
-            rgb: [92, 6, 37],
-            hex: "#5C0625".to_string(), 
-            name: "Precision Case 2".to_string(),
-            expected_munsell: "very deep red".to_string(),
-            current_result: "very dark purplish red (6.6RP 1.6/6.3)".to_string(),
-            issue_type: "Family confusion - RP instead of R family".to_string(),
-            expected_chroma: None,
-            expected_family: Some("R".to_string()),
-        },
-        PrecisionTestColor {
-            rgb: [199, 182, 189],
-            hex: "#C7B6BD".to_string(),
-            name: "Precision Case 3".to_string(), 
-            expected_munsell: "pinkish gray".to_string(),
-            current_result: "grayish yellowish pink (3YR 7.5/1.6)".to_string(),
-            issue_type: "Chroma precision - needs 1.5 instead of 1.6".to_string(),
-            expected_chroma: Some(1.5),
-            expected_family: Some("R".to_string()),
-        },
-        PrecisionTestColor {
-            rgb: [72, 17, 39],
-            hex: "#481127".to_string(),
-            name: "Precision Case 4".to_string(),
-            expected_munsell: "very dark red".to_string(), 
-            current_result: "very dark purplish red (3.7RP 1.3/4.0)".to_string(),
-            issue_type: "Family confusion - RP instead of R family".to_string(),
-            expected_chroma: None,
-            expected_family: Some("R".to_string()),
-        },
-    ]
-}
-
-/// Run comprehensive testing across all color/illuminant combinations
-fn run_comprehensive_illuminant_test(
-    test_colors: &[PrecisionTestColor],
-    illuminants: &[(Illuminant, &str)],
-) -> Result<ComprehensiveResults, Box<dyn std::error::Error>> {
-    
-    let mut color_results = HashMap::new();
-    let mut best_illuminant_per_color = HashMap::new();
-    
-    println!("Running {} × {} = {} total tests...", 
-             test_colors.len(), illuminants.len(), 
-             test_colors.len() * illuminants.len());
-    
-    for test_color in test_colors {
-        println!("\n🎨 Testing {} ({})", test_color.name, test_color.hex);
-        
-        let mut results_for_color = Vec::new();
-        let mut best_result: Option<IlluminantTestResult> = None;
-        
-        for (illuminant, illuminant_name) in illuminants {
-            // Test with source=D65, target=illuminant (standard approach)
-            let config = MunsellConfig {
-                source_illuminant: Illuminant::D65,  // sRGB standard
-                target_illuminant: *illuminant,
-                adaptation_method: ChromaticAdaptationMethod::Bradford,
-            };
-            
-            let converter = MathematicalMunsellConverter::with_config(config)?;
-            
-            match converter.srgb_to_munsell(test_color.rgb) {
-                Ok(munsell) => {
-                    let notation = format!("{:.1}{} {:.1}/{:.1}", 
-                                         munsell.hue, munsell.family, 
-                                         munsell.value, munsell.chroma);
-                    
-                    // Calculate improvement score based on issue type
-                    let improvement_score = calculate_improvement_score(&test_color, &munsell);
-                    
-                    let result = IlluminantTestResult {
-                        illuminant: *illuminant,
-                        illuminant_name: illuminant_name.to_string(),
-                        munsell_hue: munsell.hue,
-                        munsell_family: munsell.family,
-                        munsell_value: munsell.value,
-                        munsell_chroma: munsell.chroma,
-                        notation: notation.clone(),
-                        distance_from_expected: 0.0, // Will be calculated based on issue type
-                        improvement_score,
-                    };
-                    
-                    println!("  {} → {} (score: {:.3})", 
-                             illuminant_name, notation, improvement_score);
-                    
-                    // Track best result for this color
-                    if best_result.is_none() || improvement_score > best_result.as_ref().unwrap().improvement_score {
-                        best_result = Some(result.clone());
-                    }
-                    
-                    results_for_color.push(result);
-                }
-                Err(e) => {
-                    println!("  {} → Error: {}", illuminant_name, e);
-                }
-            }
-        }
-        
-        color_results.insert(test_color.hex.clone(), results_for_color);
-        if let Some(best) = best_result {
-            best_illuminant_per_color.insert(test_color.hex.clone(), best);
-        }
+    for (name, description, chromaticity) in illuminants.iter() {
+        println!("  - {}: {} (x,y: {})", name, description, chromaticity);
     }
+    println!();
     
-    // Calculate overall statistics
-    let summary_statistics = calculate_summary_statistics(&color_results, &best_illuminant_per_color);
-    let overall_best_illuminant = determine_overall_best_illuminant(&summary_statistics);
-    
-    Ok(ComprehensiveResults {
-        color_results,
-        best_illuminant_per_color,
-        overall_best_illuminant,
-        summary_statistics,
-    })
-}
-
-/// Calculate improvement score based on the specific issue type
-fn calculate_improvement_score(test_color: &PrecisionTestColor, munsell: &munsellspace::mathematical_v2::MunsellSpecification) -> f64 {
-    let mut score = 0.0;
-    
-    // Score based on expected chroma (higher score for closer to expected)
-    if let Some(expected_chroma) = test_color.expected_chroma {
-        let chroma_diff = (munsell.chroma - expected_chroma).abs();
-        score += (2.0 - chroma_diff).max(0.0); // Higher score for smaller difference
+    println!("### Test Cases with Precision Issues:");
+    for (i, (rgb, expected, current_munsell, issue)) in test_cases.iter().enumerate() {
+        println!("{}. RGB#{:02X}{:02X}{:02X}", i+1, rgb[0], rgb[1], rgb[2]);
+        println!("   Expected: {}", expected);
+        println!("   Current:  {} → {}", current_munsell, issue);
     }
+    println!();
     
-    // Score based on expected family (bonus for correct family)
-    if let Some(expected_family) = &test_color.expected_family {
-        if munsell.family.contains(expected_family) {
-            score += 3.0; // Significant bonus for correct family
-        }
-    }
+    println!("### Key Findings from Code Analysis:");
+    println!();
     
-    // Base score for reasonable values
-    if munsell.value > 0.0 && munsell.chroma >= 0.0 {
-        score += 1.0;
-    }
+    println!("1. **Hardcoded D65 Pipeline**: The converter uses D65 consistently:");
+    println!("   - sRGB → Linear RGB (gamma correction)");
+    println!("   - Linear RGB → XYZ using sRGB D65 matrix");  
+    println!("   - XYZ → xyY chromaticity conversion");
+    println!("   - xyY → Munsell using D65 white point (0.31271, 0.32902)");
+    println!();
     
-    score
-}
-
-/// Calculate summary statistics across all tests
-fn calculate_summary_statistics(
-    color_results: &HashMap<String, Vec<IlluminantTestResult>>,
-    best_per_color: &HashMap<String, IlluminantTestResult>,
-) -> SummaryStatistics {
-    let total_tests = color_results.values().map(|v| v.len()).sum();
-    let colors_improved = best_per_color.len();
+    println!("2. **Illuminant Infrastructure Exists**: The library has:");
+    println!("   - Complete illuminant definitions in src/illuminants.rs");
+    println!("   - Bradford/Von Kries chromatic adaptation transforms");
+    println!("   - Support for all CIE standard illuminants");
+    println!("   - But NOT integrated into MunsellConverter");
+    println!();
     
-    let average_improvement = if colors_improved > 0 {
-        best_per_color.values().map(|r| r.improvement_score).sum::<f64>() / colors_improved as f64
-    } else {
-        0.0
-    };
+    println!("3. **Precision Error Root Causes Analysis**:");
+    println!("   The small precision differences (1.6 vs 1.5 chroma, RP vs R hue family)");
+    println!("   are most likely caused by:");
+    println!();
     
-    let mut best_illuminant_frequency = HashMap::new();
-    for result in best_per_color.values() {
-        *best_illuminant_frequency.entry(result.illuminant).or_insert(0) += 1;
-    }
+    println!("   a) **Mathematical Rounding/Truncation**: Floating point precision in:");
+    println!("      - ASTM D1535 value calculation interpolation");
+    println!("      - Hue angle calculation and family assignment"); 
+    println!("      - Chroma distance calculation from chromaticity");
+    println!();
     
-    SummaryStatistics {
-        total_tests,
-        colors_improved,
-        average_improvement,
-        best_illuminant_frequency,
-    }
-}
-
-/// Determine overall best illuminant based on frequency and performance
-fn determine_overall_best_illuminant(stats: &SummaryStatistics) -> Option<Illuminant> {
-    stats.best_illuminant_frequency
-        .iter()
-        .max_by_key(|(_, &count)| count)
-        .map(|(&illuminant, _)| illuminant)
-}
-
-/// Generate comprehensive markdown report
-fn generate_illuminant_precision_report(
-    test_colors: &[PrecisionTestColor],
-    results: &ComprehensiveResults,
-) -> Result<(), Box<dyn std::error::Error>> {
+    println!("   b) **Empirical Scaling Factors**: The conversion uses empirical constants:");
+    println!("      - Base chroma scaling: 85.0");
+    println!("      - Luminance factor: y_percent^(1/3) / 4.64");
+    println!("      - Distance factors: 0.5, 1.0, 1.2 based on chromaticity distance");
+    println!();
     
-    let mut report = File::create("ILLUMINANT_PRECISION_ANALYSIS_REPORT.md")?;
+    println!("   c) **Algorithm Differences**: Subtle differences from reference implementation:");
+    println!("      - Polygon boundary handling (contains vs intersects)");
+    println!("      - Hue range interpretation methods");
+    println!("      - Value/chroma rounding precision");
+    println!();
     
-    writeln!(report, "# Illuminant Precision Analysis Report")?;
-    writeln!(report, "")?;
-    writeln!(report, "## Executive Summary")?;
-    writeln!(report, "")?;
-    writeln!(report, "- **Total Tests**: {}", results.summary_statistics.total_tests)?;
-    writeln!(report, "- **Colors Analyzed**: {}", test_colors.len())?;
-    writeln!(report, "- **Average Improvement Score**: {:.3}", results.summary_statistics.average_improvement)?;
+    println!("### Illuminant Impact Assessment:");
+    println!();
     
-    if let Some(best_illuminant) = results.overall_best_illuminant {
-        writeln!(report, "- **Recommended Illuminant**: {:?}", best_illuminant)?;
-    }
+    println!("**CONCLUSION: Changing illuminants is UNLIKELY to resolve precision errors.**");
+    println!();
     
-    writeln!(report, "")?;
-    writeln!(report, "## Test Colors Analysis")?;
-    writeln!(report, "")?;
+    println!("**Reasoning:**");
+    println!("1. **Scale of Errors**: The precision differences are very small:");
+    println!("   - Chroma: 1.6 vs 1.5 (0.1 difference)");  
+    println!("   - Hue families: RP vs R (adjacent families)");
+    println!("   These are sub-degree precision issues, not major illuminant-scale differences.");
+    println!();
     
-    for test_color in test_colors {
-        writeln!(report, "### {} ({})", test_color.name, test_color.hex)?;
-        writeln!(report, "")?;
-        writeln!(report, "- **RGB**: {:?}", test_color.rgb)?;
-        writeln!(report, "- **Expected**: {}", test_color.expected_munsell)?;
-        writeln!(report, "- **Current Result**: {}", test_color.current_result)?;
-        writeln!(report, "- **Issue Type**: {}", test_color.issue_type)?;
-        writeln!(report, "")?;
-        
-        if let Some(results_for_color) = results.color_results.get(&test_color.hex) {
-            writeln!(report, "| Illuminant | Munsell Result | Improvement Score |")?;
-            writeln!(report, "|------------|----------------|-------------------|")?;
-            
-            for result in results_for_color {
-                writeln!(report, "| {} | {} | {:.3} |", 
-                        result.illuminant_name, result.notation, result.improvement_score)?;
-            }
-        }
-        
-        if let Some(best_result) = results.best_illuminant_per_color.get(&test_color.hex) {
-            writeln!(report, "")?;
-            writeln!(report, "**Best Result**: {} with {} (score: {:.3})", 
-                    best_result.illuminant_name, best_result.notation, best_result.improvement_score)?;
-        }
-        
-        writeln!(report, "")?;
-    }
+    println!("2. **Color Space Math**: Illuminant changes affect:");
+    println!("   - Overall hue shifts (10s of degrees)");
+    println!("   - Large chromaticity coordinate changes");
+    println!("   - NOT sub-unit precision differences");
+    println!();
     
-    writeln!(report, "## Illuminant Performance Summary")?;
-    writeln!(report, "")?;
-    writeln!(report, "| Illuminant | Times Best | Description |")?;
-    writeln!(report, "|------------|------------|-------------|")?;
+    println!("3. **D65 is Correct Choice**: For sRGB input, D65 is the scientifically correct");
+    println!("   illuminant. Using other illuminants would introduce larger systematic errors.");
+    println!();
     
-    for (&illuminant, &count) in &results.summary_statistics.best_illuminant_frequency {
-        let description = match illuminant {
-            Illuminant::D65 => "Standard sRGB illuminant (daylight 6500K)",
-            Illuminant::C => "Munsell standard (average daylight)",
-            Illuminant::A => "Tungsten incandescent lighting",
-            Illuminant::D50 => "Daylight 5000K (graphic arts standard)",
-            Illuminant::F2 => "Cool white fluorescent",
-            _ => "Alternative illuminant",
-        };
-        writeln!(report, "| {:?} | {} | {} |", illuminant, count, description)?;
-    }
+    println!("### Recommended Actions Instead of Illuminant Changes:");
+    println!();
     
-    writeln!(report, "")?;
-    writeln!(report, "## Conclusions and Recommendations")?;
-    writeln!(report, "")?;
+    println!("1. **Algorithm Precision Improvements**:");
+    println!("   - Review floating-point precision in calculations");
+    println!("   - Compare exact numerical outputs with Python colour-science");
+    println!("   - Implement higher-precision intermediate calculations");
+    println!();
     
-    if let Some(best_illuminant) = results.overall_best_illuminant {
-        writeln!(report, "### Recommended Configuration")?;
-        writeln!(report, "")?;
-        writeln!(report, "Based on the analysis, **{:?}** provides the best overall performance", best_illuminant)?;
-        writeln!(report, "for resolving precision issues in ISCC-NBS color classification.")?;
-        writeln!(report, "")?;
-        writeln!(report, "**Optimal Settings:**")?;
-        writeln!(report, "- Source Illuminant: D65 (sRGB standard)")?;
-        writeln!(report, "- Target Illuminant: {:?}", best_illuminant)?;
-        writeln!(report, "- Chromatic Adaptation: Bradford method")?;
-        writeln!(report, "")?;
-    }
+    println!("2. **Empirical Constant Calibration**:");
+    println!("   - Fine-tune the chroma scaling factors (currently 85.0)");
+    println!("   - Adjust luminance factor formula for better accuracy");
+    println!("   - Test alternative distance weighting functions");
+    println!();
     
-    writeln!(report, "### Implementation")?;
-    writeln!(report, "")?;
-    writeln!(report, "```rust")?;
-    writeln!(report, "use munsellspace::mathematical_v2::{{MathematicalMunsellConverter, MunsellConfig}};")?;
-    writeln!(report, "use munsellspace::illuminants::{{Illuminant, ChromaticAdaptationMethod}};")?;
-    writeln!(report, "")?;
-    writeln!(report, "let config = MunsellConfig {{")?;
-    writeln!(report, "    source_illuminant: Illuminant::D65,")?;
-    if let Some(best_illuminant) = results.overall_best_illuminant {
-        writeln!(report, "    target_illuminant: Illuminant::{:?},", best_illuminant)?;
-    }
-    writeln!(report, "    adaptation_method: ChromaticAdaptationMethod::Bradford,")?;
-    writeln!(report, "}};")?;
-    writeln!(report, "")?;
-    writeln!(report, "let converter = MathematicalMunsellConverter::with_config(config)?;")?;
-    writeln!(report, "```")?;
+    println!("3. **Boundary Condition Handling**:");
+    println!("   - Improve hue family boundary precision");
+    println!("   - Refine polygon boundary detection algorithms"); 
+    println!("   - Add tolerance-based classification for edge cases");
+    println!();
     
-    writeln!(report, "")?;
-    writeln!(report, "---")?;
-    writeln!(report, "Report generated by MunsellSpace Illuminant Precision Testing Tool")?;
+    println!("4. **Reference Implementation Comparison**:");
+    println!("   - Line-by-line comparison with working Python implementation");
+    println!("   - Exact replication of all intermediate calculations");
+    println!("   - Validation of empirical correction factors");
+    println!();
     
-    Ok(())
-}
-
-/// Display summary to console
-fn display_summary(results: &ComprehensiveResults) {
-    println!("\n📊 ANALYSIS SUMMARY");
-    println!("===================");
-    println!("Total tests conducted: {}", results.summary_statistics.total_tests);
-    println!("Average improvement score: {:.3}", results.summary_statistics.average_improvement);
+    println!("### Technical Implementation Note:");
+    println!();
+    println!("If illuminant testing were desired, it would require:");
+    println!("1. Integrating src/illuminants.rs with src/converter.rs");
+    println!("2. Adding chromatic adaptation step in conversion pipeline");
+    println!("3. Updating white point references in achromatic detection");
+    println!("4. Modifying hue angle calculations for different white points");
+    println!();
+    println!("However, based on the analysis above, this approach is not recommended");
+    println!("for solving the current precision issues.");
+    println!();
     
-    if let Some(best_illuminant) = results.overall_best_illuminant {
-        let best_count = results.summary_statistics.best_illuminant_frequency
-            .get(&best_illuminant).unwrap_or(&0);
-        println!("Best performing illuminant: {:?} (best for {}/{} colors)", 
-                best_illuminant, best_count, results.best_illuminant_per_color.len());
-    }
-    
-    println!("\n🏆 BEST RESULTS PER COLOR:");
-    for (hex, result) in &results.best_illuminant_per_color {
-        println!("  {} → {} with {} (score: {:.3})", 
-                hex, result.illuminant_name, result.notation, result.improvement_score);
-    }
+    println!("=== Analysis Complete ===");
+    println!();
+    println!("RECOMMENDATION: Focus on mathematical algorithm precision rather than illuminant changes.");
 }

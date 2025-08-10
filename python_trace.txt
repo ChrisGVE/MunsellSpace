@@ -1,5 +1,0 @@
-Hunter not installed, using basic tracing
-Traceback (most recent call last):
-  File "/var/folders/fs/5hjw3wx951scbxlsl52ytgy40000gn/T/tmpmhnt05nu.py", line 19, in <module>
-    import munsell
-ModuleNotFoundError: No module named 'munsell'

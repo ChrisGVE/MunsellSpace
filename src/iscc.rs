@@ -5,7 +5,7 @@ use crate::error::MunsellError;
 
 /// Complete ISCC-NBS color classification result
 #[derive(Debug, Clone)]
-pub struct IsccNbsResult {
+pub struct ISCC_NBS_Result {
     /// ISCC-NBS descriptor from CSV 'iscc-nbs-descriptor' column (e.g., "vivid")
     pub iscc_nbs_descriptor: String,
     /// ISCC-NBS color from CSV 'iscc-nbs-color' column (e.g., "red")
@@ -22,7 +22,7 @@ pub struct IsccNbsResult {
     pub iscc_nbs_color_id: u16,
 }
 
-impl IsccNbsResult {
+impl ISCC_NBS_Result {
     /// Get the ISCC-NBS descriptor
     pub fn iscc_nbs_descriptor(&self) -> &str {
         &self.iscc_nbs_descriptor
@@ -57,44 +57,50 @@ impl IsccNbsResult {
     pub fn iscc_nbs_color_id(&self) -> u16 {
         self.iscc_nbs_color_id
     }
+    
+    /// Get the complete ISCC-NBS name (already complete descriptor, e.g., "vivid red")
+    pub fn full_iscc_nbs_name(&self) -> String {
+        // The descriptor field already contains the complete name (e.g., "vivid pink")
+        // No need to combine with color field which would create "vivid pink pink"
+        self.iscc_nbs_descriptor.clone()
+    }
 }
 
 /// Internal representation of an ISCC-NBS color category with its polygonal region
 #[derive(Debug, Clone)]
-struct IsccNbsColor {
+pub struct ISCC_NBS_Color {
     /// Color number from ISCC-NBS standard
-    color_number: u16,
+    pub color_number: u16,
     /// Polygon group number (for colors with multiple regions)
-    polygon_group: u8,
+    pub polygon_group: u8,
     /// ISCC-NBS descriptor (e.g., "vivid")
-    descriptor: String,
+    pub descriptor: String,
     /// ISCC-NBS color name (e.g., "red")
-    color_name: String,
+    pub color_name: String,
     /// Optional modifier (e.g., "-ish")
-    modifier: Option<String>,
+    pub modifier: Option<String>,
     /// Revised color name
-    revised_color: String,
+    pub revised_color: String,
     /// Hue range (e.g., "1R", "7R") - will be split into adjacent planes
-    hue_range: (String, String),
+    pub hue_range: (String, String),
     /// Polygon defining the color region in Munsell value-chroma space
-    polygon: Polygon<f64>,
+    pub polygon: Polygon<f64>,
 }
 
 /// ISCC-NBS color naming engine with proper boundary disambiguation and caching
-#[derive(Debug)]
-pub struct IsccNbsClassifier {
-    /// Organized by adjacent Munsell hue planes for efficient lookup (e.g., "1R-2R", "2R-3R")
-    hue_planes: HashMap<String, Vec<IsccNbsColor>>,
+pub struct ISCC_NBS_Classifier {
+    /// Mechanical wedge system for deterministic hue-based classification
+    pub wedge_system: crate::mechanical_wedges::MechanicalWedgeSystem,
     /// Small LRU cache for successive lookups without repeated searches
-    cache: std::cell::RefCell<HashMap<(String, String, String), Option<IsccNbsResult>>>, // (hue, value_str, chroma_str) -> result
+    cache: std::cell::RefCell<HashMap<(String, String, String), Option<ISCC_NBS_Result>>>, // (hue, value_str, chroma_str) -> result
     /// Maximum cache size
     cache_max_size: usize,
 }
 
 /// Embedded ISCC-NBS data - no external files needed
-const ISCC_NBS_DATA: &str = include_str!("../ISCC-NBS-Definitions.csv");
+const ISCC_NBS_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
 
-impl IsccNbsClassifier {
+impl ISCC_NBS_Classifier {
     /// Create a new ISCC-NBS classifier using embedded data.
     ///
     /// Creates a classifier loaded with the standard ISCC-NBS color definitions
@@ -105,16 +111,44 @@ impl IsccNbsClassifier {
     ///
     /// # Examples
     /// ```rust
-    /// use munsellspace::IsccNbsClassifier;
+    /// use munsellspace::ISCC_NBS_Classifier;
     /// 
-    /// let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
+    /// let classifier = ISCC_NBS_Classifier::new().expect("Failed to create classifier");
     /// ```
     pub fn new() -> Result<Self, MunsellError> {
+        Self::new_with_hue_range_method(crate::mechanical_wedges::HueRangeMethod::ExcludeStartIncludeEnd)
+    }
+    
+    /// Create a new ISCC-NBS classifier with specified hue range interpretation method.
+    ///
+    /// Creates a classifier with configurable hue range boundary interpretation
+    /// for testing different polygon distribution strategies.
+    ///
+    /// # Arguments
+    /// * `hue_range_method` - Method for interpreting hue range boundaries
+    ///
+    /// # Returns
+    /// Result containing the classifier or an error if data loading fails
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::{ISCC_NBS_Classifier, mechanical_wedges::HueRangeMethod};
+    /// 
+    /// let classifier = ISCC_NBS_Classifier::new_with_hue_range_method(
+    ///     HueRangeMethod::ExcludeStartIncludeEnd
+    /// ).expect("Failed to create classifier");
+    /// ```
+    pub fn new_with_hue_range_method(hue_range_method: crate::mechanical_wedges::HueRangeMethod) -> Result<Self, MunsellError> {
         let colors = Self::load_embedded_data()?;
-        let hue_planes = Self::organize_by_adjacent_planes(colors);
+        let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new_with_method(hue_range_method);
         
-        Ok(IsccNbsClassifier { 
-            hue_planes,
+        // Distribute all polygons into the mechanical wedge system
+        for polygon in colors {
+            wedge_system.distribute_polygon(polygon)?;
+        }
+        
+        Ok(ISCC_NBS_Classifier { 
+            wedge_system,
             cache: std::cell::RefCell::new(HashMap::new()),
             cache_max_size: 256, // Small cache for performance
         })
@@ -133,17 +167,48 @@ impl IsccNbsClassifier {
     ///
     /// # Examples
     /// ```rust,no_run
-    /// use munsellspace::IsccNbsClassifier;
+    /// use munsellspace::ISCC_NBS_Classifier;
     /// 
-    /// let classifier = IsccNbsClassifier::from_csv("custom_colors.csv")?;
+    /// let classifier = ISCC_NBS_Classifier::from_csv("custom_colors.csv")?;
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
     pub fn from_csv(csv_path: &str) -> Result<Self, MunsellError> {
+        Self::from_csv_with_hue_range_method(csv_path, crate::mechanical_wedges::HueRangeMethod::IncludeStartExcludeEnd)
+    }
+    
+    /// Create a new ISCC-NBS classifier from external CSV file with specified hue range method.
+    ///
+    /// Loads color definitions from an external CSV file with configurable hue range
+    /// boundary interpretation for testing different polygon distribution strategies.
+    ///
+    /// # Arguments
+    /// * `csv_path` - Path to the CSV file containing ISCC-NBS definitions
+    /// * `hue_range_method` - Method for interpreting hue range boundaries
+    ///
+    /// # Returns
+    /// Result containing the classifier or an error if file loading fails
+    ///
+    /// # Examples
+    /// ```rust,no_run
+    /// use munsellspace::{ISCC_NBS_Classifier, mechanical_wedges::HueRangeMethod};
+    /// 
+    /// let classifier = ISCC_NBS_Classifier::from_csv_with_hue_range_method(
+    ///     "custom_colors.csv",
+    ///     HueRangeMethod::ExcludeStartIncludeEnd
+    /// )?;
+    /// # Ok::<(), Box<dyn std::error::Error>>(())
+    /// ```
+    pub fn from_csv_with_hue_range_method(csv_path: &str, hue_range_method: crate::mechanical_wedges::HueRangeMethod) -> Result<Self, MunsellError> {
         let colors = Self::load_iscc_data(csv_path)?;
-        let hue_planes = Self::organize_by_adjacent_planes(colors);
+        let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new_with_method(hue_range_method);
         
-        Ok(IsccNbsClassifier { 
-            hue_planes,
+        // Distribute all polygons into the mechanical wedge system
+        for polygon in colors {
+            wedge_system.distribute_polygon(polygon)?;
+        }
+        
+        Ok(ISCC_NBS_Classifier { 
+            wedge_system,
             cache: std::cell::RefCell::new(HashMap::new()),
             cache_max_size: 256,
         })
@@ -160,14 +225,14 @@ impl IsccNbsClassifier {
     /// * `chroma` - Munsell chroma (saturation) from 0.0 upwards
     ///
     /// # Returns
-    /// Result containing Some(IsccNbsResult) if classified, None if outside all regions
+    /// Result containing Some(ISCC_NBS_Result) if classified, None if outside all regions
     ///
     /// # Examples
     /// ```rust
-    /// use munsellspace::IsccNbsClassifier;
+    /// use munsellspace::ISCC_NBS_Classifier;
     /// 
     /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /// let classifier = IsccNbsClassifier::new()?;
+    /// let classifier = ISCC_NBS_Classifier::new()?;
     /// 
     /// let result = classifier.classify_munsell("5R", 4.0, 14.0)?;
     /// if let Some(classification) = result {
@@ -176,7 +241,7 @@ impl IsccNbsClassifier {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn classify_munsell(&self, hue: &str, value: f64, chroma: f64) -> Result<Option<IsccNbsResult>, MunsellError> {
+    pub fn classify_munsell(&self, hue: &str, value: f64, chroma: f64) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
         // Create cache key
         let cache_key = (hue.to_string(), format!("{:.1}", value), format!("{:.1}", chroma));
         
@@ -188,25 +253,11 @@ impl IsccNbsClassifier {
             }
         }
         
-        // Convert Munsell hue to adjacent plane
-        let hue_plane = self.munsell_hue_to_adjacent_plane(hue)?;
-        
-        // Get polygons for this hue plane
-        let Some(colors) = self.hue_planes.get(&hue_plane) else {
-            let result = None;
+        // Use the mechanical wedge system for classification
+        if let Some(color) = self.wedge_system.classify_color(hue, value, chroma) {
+            let result = Some(self.create_iscc_result(color));
             self.cache_result(cache_key, result.clone());
             return Ok(result);
-        };
-        
-        let point = Point::new(value, chroma);
-        
-        // Check each polygon with ISCC boundary rules
-        for color in colors {
-            if self.point_in_iscc_polygon(&point, color)? {
-                let result = Some(self.create_iscc_result(color));
-                self.cache_result(cache_key, result.clone());
-                return Ok(result);
-            }
         }
         
         let result = None;
@@ -215,7 +266,7 @@ impl IsccNbsClassifier {
     }
     
     /// Helper method to cache results with size management
-    fn cache_result(&self, key: (String, String, String), result: Option<IsccNbsResult>) {
+    fn cache_result(&self, key: (String, String, String), result: Option<ISCC_NBS_Result>) {
         let mut cache = self.cache.borrow_mut();
         
         // Simple cache size management - remove oldest entries if needed
@@ -229,6 +280,94 @@ impl IsccNbsClassifier {
         cache.insert(key, result);
     }
     
+    /// Debug method to inspect wedge system state
+    pub fn debug_wedge_lookup(&self, hue: &str, value: f64, chroma: f64) -> String {
+        let wedge_stats = self.wedge_system.get_wedge_statistics();
+        let mut debug_info = format!("=== WEDGE SYSTEM DEBUG ===\n");
+        debug_info.push_str(&format!("Input: hue={}, value={}, chroma={}\n", hue, value, chroma));
+        debug_info.push_str(&format!("Total wedges: {}\n", wedge_stats.total_wedges));
+        debug_info.push_str(&format!("Total polygons: {}\n", wedge_stats.total_polygons));
+        
+        // Try to get the specific wedge for this hue
+        if let Some(expected_wedge) = self.debug_find_expected_wedge(hue) {
+            debug_info.push_str(&format!("Expected wedge for {}: {}\n", hue, expected_wedge));
+            
+            // Check if this wedge exists and has polygons
+            if let Some(polygon_count) = wedge_stats.wedge_counts.get(&expected_wedge) {
+                debug_info.push_str(&format!("Wedge {} exists with {} polygons\n", expected_wedge, polygon_count));
+                
+                // Look for color 43 specifically
+                if let Some(color_43_info) = self.debug_find_color_43(&expected_wedge) {
+                    debug_info.push_str(&format!("Color 43 found: {}\n", color_43_info));
+                } else {
+                    debug_info.push_str("Color 43 NOT found in this wedge\n");
+                }
+            } else {
+                debug_info.push_str(&format!("❌ Wedge {} DOES NOT EXIST\n", expected_wedge));
+            }
+        } else {
+            debug_info.push_str(&format!("❌ Could not determine expected wedge for hue {}\n", hue));
+        }
+        
+        debug_info
+    }
+    
+    /// Helper to determine expected wedge key
+    fn debug_find_expected_wedge(&self, hue: &str) -> Option<String> {
+        // Parse the hue to determine expected wedge
+        if let Ok((hue_number, family)) = Self::parse_hue_static(hue) {
+            let wedge_num = if hue_number > 9.0 && hue_number <= 10.0 {
+                10
+            } else {
+                ((hue_number.ceil() as u8).max(1)).min(10)
+            };
+            
+            let wedge_hue = format!("{}{}", wedge_num, family);
+            
+            // For 10R, next should be 1YR
+            if wedge_hue == "10R" {
+                Some("10R→1YR".to_string())
+            } else {
+                // This is simplified - need full logic for all wedge transitions
+                Some(format!("{}→?", wedge_hue))
+            }
+        } else {
+            None
+        }
+    }
+    
+    /// Helper to find color 43 in a specific wedge
+    fn debug_find_color_43(&self, wedge_key: &str) -> Option<String> {
+        // Check if color 43 exists in the specified wedge
+        if let Some(contents) = self.wedge_system.debug_wedge_contents(wedge_key) {
+            for content in &contents {
+                if content.starts_with("Color 43:") {
+                    return Some(content.clone());
+                }
+            }
+            Some(format!("Color 43 NOT found in wedge {} (has {} colors)", wedge_key, contents.len()))
+        } else {
+            Some(format!("Wedge {} does not exist", wedge_key))
+        }
+    }
+    
+    /// Public debug methods for system inspection
+    pub fn debug_find_all_color_43(&self) -> Vec<String> {
+        self.wedge_system.debug_find_color(43)
+    }
+    
+    pub fn debug_wedge_contents(&self, wedge_key: &str) -> Option<Vec<String>> {
+        self.wedge_system.debug_wedge_contents(wedge_key)
+    }
+    
+    pub fn debug_test_point(&self, wedge_key: &str, color_number: u16, value: f64, chroma: f64) -> Option<bool> {
+        self.wedge_system.debug_point_test(wedge_key, color_number, value, chroma)
+    }
+    
+    pub fn debug_test_point_detailed(&self, wedge_key: &str, color_number: u16, value: f64, chroma: f64) -> Option<String> {
+        self.wedge_system.debug_point_test_detailed(wedge_key, color_number, value, chroma)
+    }
+    
     /// Classify a MunsellColor object using the ISCC-NBS system.
     ///
     /// Convenience method for classifying a MunsellColor struct directly.
@@ -238,14 +377,14 @@ impl IsccNbsClassifier {
     /// * `munsell` - MunsellColor object to classify
     ///
     /// # Returns
-    /// Result containing Some(IsccNbsResult) if classified, None if neutral or unclassifiable
+    /// Result containing Some(ISCC_NBS_Result) if classified, None if neutral or unclassifiable
     ///
     /// # Examples
     /// ```rust
-    /// use munsellspace::{IsccNbsClassifier, MunsellColor};
+    /// use munsellspace::{ISCC_NBS_Classifier, MunsellColor};
     /// 
     /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /// let classifier = IsccNbsClassifier::new()?;
+    /// let classifier = ISCC_NBS_Classifier::new()?;
     /// let munsell = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.0);
     /// 
     /// let result = classifier.classify_munsell_color(&munsell)?;
@@ -255,7 +394,7 @@ impl IsccNbsClassifier {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn classify_munsell_color(&self, munsell: &crate::types::MunsellColor) -> Result<Option<IsccNbsResult>, MunsellError> {
+    pub fn classify_munsell_color(&self, munsell: &crate::types::MunsellColor) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
         // Handle neutral colors (no hue/chroma)
         if let (Some(hue), Some(chroma)) = (&munsell.hue, munsell.chroma) {
             self.classify_munsell(hue, munsell.value, chroma)
@@ -275,14 +414,14 @@ impl IsccNbsClassifier {
     /// * `rgb` - RGB color as [R, G, B] array with components 0-255
     ///
     /// # Returns
-    /// Result containing Some(IsccNbsResult) if classified, None if unclassifiable
+    /// Result containing Some(ISCC_NBS_Result) if classified, None if unclassifiable
     ///
     /// # Examples
     /// ```rust
-    /// use munsellspace::IsccNbsClassifier;
+    /// use munsellspace::ISCC_NBS_Classifier;
     /// 
     /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /// let classifier = IsccNbsClassifier::new()?;
+    /// let classifier = ISCC_NBS_Classifier::new()?;
     /// 
     /// let result = classifier.classify_srgb([255, 0, 0])?; // Pure red
     /// if let Some(classification) = result {
@@ -291,7 +430,7 @@ impl IsccNbsClassifier {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn classify_srgb(&self, rgb: [u8; 3]) -> Result<Option<IsccNbsResult>, MunsellError> {
+    pub fn classify_srgb(&self, rgb: [u8; 3]) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
         use crate::MunsellConverter;
         
         // Convert sRGB to Munsell first
@@ -302,17 +441,120 @@ impl IsccNbsClassifier {
         self.classify_munsell_color(&munsell)
     }
     
-    /// Classify a Lab color directly (convenience method)
-    pub fn classify_lab(&self, _lab: [f64; 3]) -> Result<Option<IsccNbsResult>, MunsellError> {
-        // Convert Lab to sRGB first (if converter supports this), then to Munsell
-        // For now, return error as Lab conversion may not be implemented
-        Err(MunsellError::ConversionError { 
-            message: "Lab to ISCC-NBS conversion not yet implemented".to_string() 
-        })
+    /// Classify a Lab color using the ISCC-NBS system.
+    ///
+    /// Convenience method that first converts Lab to Munsell, then classifies
+    /// using the ISCC-NBS color naming system.
+    ///
+    /// # Arguments
+    /// * `lab` - Lab color as [L*, a*, b*] array where L* is 0-100, a* and b* are typically -128 to +128
+    ///
+    /// # Returns
+    /// Result containing Some(ISCC_NBS_Result) if classified, None if unclassifiable
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::ISCC_NBS_Classifier;
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = ISCC_NBS_Classifier::new()?;
+    /// 
+    /// let result = classifier.classify_lab([53.23, 80.11, 67.22])?; // Bright red
+    /// if let Some(classification) = result {
+    ///     println!("Lab color is: {} {}", classification.iscc_nbs_descriptor, classification.iscc_nbs_color);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn classify_lab(&self, lab: [f64; 3]) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+        use crate::MunsellConverter;
+        
+        // Convert Lab to Munsell first
+        let converter = MunsellConverter::new()?;
+        let munsell = converter.lab_to_munsell(lab)?;
+        
+        // Then classify the Munsell color
+        self.classify_munsell_color(&munsell)
+    }
+    
+    /// Classify a hex color using the ISCC-NBS system.
+    ///
+    /// Convenience method that first converts hex to sRGB, then to Munsell, then classifies
+    /// using the ISCC-NBS color naming system.
+    ///
+    /// # Arguments
+    /// * `hex` - Hex color string (e.g., "#FF0000", "FF0000", "#f00", "f00")
+    ///
+    /// # Returns
+    /// Result containing Some(ISCC_NBS_Result) if classified, None if unclassifiable
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::ISCC_NBS_Classifier;
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = ISCC_NBS_Classifier::new()?;
+    /// 
+    /// let result = classifier.classify_hex("#FF0000")?; // Red
+    /// if let Some(classification) = result {
+    ///     println!("Hex #FF0000 is: {} {}", classification.iscc_nbs_descriptor, classification.iscc_nbs_color);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn classify_hex(&self, hex: &str) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+        // Parse hex string to RGB
+        let rgb = self.parse_hex_to_rgb(hex)?;
+        
+        // Then classify using existing sRGB method
+        self.classify_srgb(rgb)
+    }
+    
+    /// Parse hex color string to RGB array
+    fn parse_hex_to_rgb(&self, hex: &str) -> Result<[u8; 3], MunsellError> {
+        let hex = hex.trim_start_matches('#');
+        
+        let rgb = if hex.len() == 3 {
+            // Short form: "f00" -> "ff0000"
+            let r = u8::from_str_radix(&hex[0..1].repeat(2), 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            let g = u8::from_str_radix(&hex[1..2].repeat(2), 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            let b = u8::from_str_radix(&hex[2..3].repeat(2), 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            [r, g, b]
+        } else if hex.len() == 6 {
+            // Long form: "ff0000"
+            let r = u8::from_str_radix(&hex[0..2], 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            let g = u8::from_str_radix(&hex[2..4], 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            let b = u8::from_str_radix(&hex[4..6], 16)
+                .map_err(|_| MunsellError::ConversionError { 
+                    message: format!("Invalid hex color format: {}", hex) 
+                })?;
+            [r, g, b]
+        } else {
+            return Err(MunsellError::ConversionError { 
+                message: format!("Invalid hex color length: {}. Expected 3 or 6 characters after #", hex.len()) 
+            });
+        };
+        
+        Ok(rgb)
     }
     
     /// Check if point is in polygon using ISCC-NBS boundary disambiguation rules
-    fn point_in_iscc_polygon(&self, point: &Point<f64>, color: &IsccNbsColor) -> Result<bool, MunsellError> {
+    fn point_in_iscc_polygon(&self, point: &Point<f64>, color: &ISCC_NBS_Color) -> Result<bool, MunsellError> {
         // First check: standard geometric containment (fast rejection)
         if !color.polygon.contains(point) {
             return Ok(false);
@@ -320,7 +562,7 @@ impl IsccNbsClassifier {
         
         // Second check: Apply ISCC boundary rules for disambiguation
         let bounds = self.get_polygon_bounds(&color.polygon);
-        let (value, chroma) = (point.x(), point.y());
+        let (chroma, value) = (point.x(), point.y()); // x=chroma, y=value
         
         // Value boundary rules
         let value_ok = if bounds.min_value == 0.0 {
@@ -345,8 +587,9 @@ impl IsccNbsClassifier {
     fn get_polygon_bounds(&self, polygon: &Polygon<f64>) -> PolygonBounds {
         let coords: Vec<_> = polygon.exterior().coords().collect();
         
-        let values: Vec<f64> = coords.iter().map(|c| c.x).collect();
-        let chromas: Vec<f64> = coords.iter().map(|c| c.y).collect();
+        // x=chroma, y=value in our coordinate system
+        let chromas: Vec<f64> = coords.iter().map(|c| c.x).collect();
+        let values: Vec<f64> = coords.iter().map(|c| c.y).collect();
         
         PolygonBounds {
             min_value: values.iter().fold(f64::INFINITY, |a, &b| a.min(b)),
@@ -356,30 +599,18 @@ impl IsccNbsClassifier {
         }
     }
     
-    /// Convert Munsell hue notation to adjacent plane identifier
-    fn munsell_hue_to_adjacent_plane(&self, hue: &str) -> Result<String, MunsellError> {
-        // Parse Munsell hue (e.g., "5R", "2.5YR", "10PB")
-        let hue = hue.trim();
-        
-        // Extract number and hue family
-        let (hue_number, hue_family) = self.parse_munsell_hue(hue)?;
-        
-        // Convert to adjacent plane format
-        // For hue "5R", we might map to plane "4R-6R" or find the specific plane it belongs to
-        let plane_key = self.find_adjacent_plane_for_hue(hue_number, &hue_family)?;
-        
-        Ok(plane_key)
-    }
+    // OBSOLETE METHOD - Replaced by MechanicalWedgeSystem
+    // This method is no longer needed since the wedge system handles hue mapping directly
     
     /// Create comprehensive ISCC-NBS result from color data
-    fn create_iscc_result(&self, color: &IsccNbsColor) -> IsccNbsResult {
+    fn create_iscc_result(&self, color: &ISCC_NBS_Color) -> ISCC_NBS_Result {
         // Extract shade from revised_color (last word specifically)
         let shade = self.extract_shade(&color.revised_color);
         
         // Construct revised descriptor from revised_color + iscc_nbs_modifier
         let revised_descriptor = self.construct_revised_descriptor(&color.revised_color, &color.modifier);
         
-        IsccNbsResult {
+        ISCC_NBS_Result {
             iscc_nbs_descriptor: color.descriptor.clone(),
             iscc_nbs_color: color.color_name.clone(),
             iscc_nbs_modifier: color.modifier.clone(),
@@ -420,29 +651,7 @@ impl IsccNbsClassifier {
     
     /// Handle "-ish" modifier transformations with English grammar rules
     fn construct_ish_descriptor(&self, revised_color: &str, modifier: &str) -> String {
-        // Parse modifier: split on "-ish" to extract prefix and suffix
-        let parts: Vec<&str> = modifier.split("-ish").collect();
-        let prefix = parts[0].trim();
-        let suffix = if parts.len() > 1 { parts[1].trim() } else { "" };
-        
-        // Transform color (Rule 5: olive exception)
-        let transformed_color = if revised_color.trim() == "olive" {
-            revised_color.trim().to_string()
-        } else {
-            self.apply_ish_transformation(revised_color.trim())
-        };
-        
-        // Combine parts: prefix + colorish + suffix
-        let mut result = Vec::new();
-        if !prefix.is_empty() { 
-            result.push(prefix); 
-        }
-        result.push(&transformed_color);
-        if !suffix.is_empty() { 
-            result.push(suffix); 
-        }
-        
-        result.join(" ")
+        self.construct_proper_name("", revised_color, modifier).trim().to_string()
     }
     
     /// Apply English grammar rules for "-ish" transformations
@@ -460,10 +669,38 @@ impl IsccNbsClassifier {
         }
     }
     
+    /// Construct proper ISCC-NBS name using correct -ish logic
+    fn construct_proper_name(&self, descriptor: &str, color_name: &str, modifier: &str) -> String {
+        let modifier = modifier.trim();
+        
+        // Test if "-ish" is in the modifier
+        if modifier.contains("-ish") {
+            // Use the mapping table: replace the color with its -ish version
+            let ish_color = self.apply_ish_transformation(color_name);
+            
+            // Replace "-ish" in the modifier with the mapped color
+            let final_modifier = modifier.replace("-ish", "");
+            
+            if final_modifier.trim().is_empty() {
+                // Just the -ish transformation: "descriptor + color-ish"
+                format!("{} {}", descriptor, ish_color)
+            } else {
+                // Modifier + -ish transformation: "descriptor + modifier + color-ish"
+                format!("{} {} {}", descriptor, final_modifier.trim(), ish_color)
+            }
+        } else if !modifier.is_empty() {
+            // Regular modifier: "descriptor + modifier + color"
+            format!("{} {} {}", descriptor, modifier, color_name)
+        } else {
+            // No modifier: "descriptor + color"
+            format!("{} {}", descriptor, color_name)
+        }
+    }
+    
     /// Format the complete ISCC-NBS color name
-    fn format_color_name(&self, color: &IsccNbsColor) -> String {
+    fn format_color_name(&self, color: &ISCC_NBS_Color) -> String {
         match &color.modifier {
-            Some(modifier) => format!("{} {}{}", color.descriptor, color.color_name, modifier),
+            Some(modifier) => self.construct_proper_name(&color.descriptor, &color.color_name, modifier),
             None => format!("{} {}", color.descriptor, color.color_name),
         }
     }
@@ -474,12 +711,12 @@ impl IsccNbsClassifier {
     }
     
     /// Load ISCC-NBS data from embedded CSV string
-    fn load_embedded_data() -> Result<Vec<IsccNbsColor>, MunsellError> {
+    fn load_embedded_data() -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
         Self::parse_csv_data(ISCC_NBS_DATA)
     }
     
     /// Load ISCC-NBS data from CSV file (for testing/development)
-    fn load_iscc_data(csv_path: &str) -> Result<Vec<IsccNbsColor>, MunsellError> {
+    fn load_iscc_data(csv_path: &str) -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
         use std::fs;
         let csv_content = fs::read_to_string(csv_path)
             .map_err(|e| MunsellError::ReferenceDataError { message: format!("Failed to read CSV file: {}", e) })?;
@@ -487,7 +724,7 @@ impl IsccNbsClassifier {
     }
     
     /// Parse CSV data and convert to polygons
-    fn parse_csv_data(csv_content: &str) -> Result<Vec<IsccNbsColor>, MunsellError> {
+    fn parse_csv_data(csv_content: &str) -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
         use csv::Reader;
         use geo::{LineString, Coord};
         
@@ -516,14 +753,16 @@ impl IsccNbsClassifier {
                 .parse()
                 .map_err(|e| Self::data_error(format!("Invalid polygon_group: {}", e)))?;
             
+            // Use iscc-nbs-descriptor (column 2) as the descriptor
             let descriptor = record.get(2)
-                .ok_or_else(|| Self::data_error("Missing descriptor".to_string()))?
+                .ok_or_else(|| Self::data_error("Missing iscc-nbs-descriptor".to_string()))?
                 .to_string();
                 
             let color_name = record.get(3)
                 .ok_or_else(|| Self::data_error("Missing color_name".to_string()))?
                 .to_string();
                 
+            // Use iscc-nbs-modifier (column 4) as the modifier
             let modifier = record.get(4).filter(|s| !s.is_empty()).map(|s| s.to_string());
             
             let revised_color = record.get(5)
@@ -574,8 +813,9 @@ impl IsccNbsClassifier {
                     .clone();
             
             // Create LineString from points (geo requires a closed ring)
+            // NOTE: Using consistent coordinate system: x=chroma, y=value (matches mechanical wedge system)
             let mut coords: Vec<Coord<f64>> = points.into_iter()
-                .map(|(value, chroma)| Coord { x: value, y: chroma })
+                .map(|(value, chroma)| Coord { x: chroma, y: value })
                 .collect();
             
             // Ensure polygon is closed
@@ -588,7 +828,7 @@ impl IsccNbsClassifier {
             let exterior = LineString::from(coords);
             let polygon = Polygon::new(exterior, vec![]); // No holes in ISCC-NBS polygons
             
-            colors.push(IsccNbsColor {
+            colors.push(ISCC_NBS_Color {
                 color_number,
                 polygon_group,
                 descriptor,
@@ -604,8 +844,8 @@ impl IsccNbsClassifier {
     }
     
     /// Organize colors by adjacent Munsell planes for efficient lookup
-    fn organize_by_adjacent_planes(colors: Vec<IsccNbsColor>) -> HashMap<String, Vec<IsccNbsColor>> {
-        let mut plane_map: HashMap<String, Vec<IsccNbsColor>> = HashMap::new();
+    fn organize_by_adjacent_planes(colors: Vec<ISCC_NBS_Color>) -> HashMap<String, Vec<ISCC_NBS_Color>> {
+        let mut plane_map: HashMap<String, Vec<ISCC_NBS_Color>> = HashMap::new();
         
         for color in colors {
             // Split the color's hue range into adjacent planes
@@ -769,119 +1009,24 @@ impl IsccNbsClassifier {
         Ok((number, family_str.to_string()))
     }
     
+    // OBSOLETE METHODS - Replaced by MechanicalWedgeSystem
+    // These methods are no longer needed since the wedge system handles classification directly
+    /*
     /// Find the adjacent plane that contains the given hue using mechanical wedge system
     fn find_adjacent_plane_for_hue(&self, hue_number: f64, hue_family: &str) -> Result<String, MunsellError> {
-        // MECHANICAL WEDGE SYSTEM: Deterministic mapping using boundary rules
-        // Rule: lower_bound < hue ≤ upper_bound (consistent with disambiguation)
-        
-        // Step 1: Determine which wedge contains this hue using boundary rules
-        let containing_wedge = self.determine_containing_wedge(hue_number, hue_family);
-        
-        // Step 2: Generate systematic wedge keys in priority order
-        let wedge_keys = self.generate_wedge_keys(&containing_wedge);
-        
-        // Step 3: Look for exact matches in order of preference
-        for key in &wedge_keys {
-            if self.hue_planes.contains_key(key) {
-                return Ok(key.clone());
-            }
-        }
-        
-        // Step 4: Fallback search with comprehensive key patterns
-        let fallback_keys = self.generate_fallback_keys(hue_number, hue_family);
-        for key in &fallback_keys {
-            if self.hue_planes.contains_key(key) {
-                return Ok(key.clone());
-            }
-        }
-        
-        // Step 5: Final fallback - any plane containing the family
-        for plane_key in self.hue_planes.keys() {
-            if plane_key.contains(hue_family) {
-                return Ok(plane_key.clone());
-            }
-        }
-        
+        // This functionality is now handled by MechanicalWedgeSystem
         Err(MunsellError::ConversionError {
-            message: format!("No wedge found for hue {}{} in mechanical system", hue_number, hue_family)
+            message: "Method obsolete - use MechanicalWedgeSystem directly".to_string()
         })
     }
-    
-    /// Determine the containing wedge using boundary rules: lower_bound < hue ≤ upper_bound
-    fn determine_containing_wedge(&self, hue_number: f64, hue_family: &str) -> (i32, i32, String) {
-        let is_exact_boundary = (hue_number - hue_number.round()).abs() < 0.1;
-        let hue_int = hue_number.round() as i32;
-        
-        if is_exact_boundary {
-            // Exact boundary hues belong to previous wedge
-            // e.g., 4.0R belongs to wedge 3R→4R
-            let upper = hue_int;
-            let lower = if upper == 1 { 10 } else { upper - 1 };
-            (lower, upper, hue_family.to_string())
-        } else {
-            // Fractional hues belong to forward wedge  
-            // e.g., 4.5R belongs to wedge 4R→5R
-            let lower = hue_number.floor() as i32;
-            let upper = if lower == 10 { 1 } else { lower + 1 };
-            (lower, upper, hue_family.to_string())
-        }
-    }
-    
-    /// Generate systematic wedge keys in priority order
-    fn generate_wedge_keys(&self, wedge: &(i32, i32, String)) -> Vec<String> {
-        let (lower, upper, family) = wedge;
-        vec![
-            // Primary wedge key format
-            format!("{}{}-{}{}", lower, family, upper, family),
-            // Individual hue keys
-            format!("{}{}", lower, family),
-            format!("{}{}", upper, family),
-            // Fractional variants
-            format!("{}.5{}", lower, family),
-            format!("{}.5{}", upper, family),
-        ]
-    }
-    
-    /// Generate comprehensive fallback keys for robustness
-    fn generate_fallback_keys(&self, hue_number: f64, hue_family: &str) -> Vec<String> {
-        let mut keys = Vec::new();
-        
-        // Floor/ceil variants
-        let floor_num = hue_number.floor() as i32;
-        let ceil_num = hue_number.ceil() as i32;
-        
-        keys.extend(vec![
-            format!("{}{}", floor_num, hue_family),
-            format!("{}{}", ceil_num, hue_family),
-            format!("{}{}", hue_number.round() as i32, hue_family),
-        ]);
-        
-        // Range keys with adjacent numbers
-        for base in &[floor_num, ceil_num] {
-            let next = if *base == 10 { 1 } else { base + 1 };
-            let prev = if *base == 1 { 10 } else { base - 1 };
-            
-            keys.extend(vec![
-                format!("{}{}-{}{}", base, hue_family, next, hue_family),
-                format!("{}{}-{}{}", prev, hue_family, base, hue_family),
-            ]);
-        }
-        
-        keys
-    }
-    
-    /// Check if a hue falls within a specific plane (simplified)
-    fn hue_in_plane(&self, _hue_number: f64, hue_family: &str, plane_key: &str) -> bool {
-        // Simple check: if plane key contains the family, it's a match
-        plane_key.contains(hue_family)
-    }
+    */
     
     
 }
 
 /// Validation functions using geo crate  
 pub mod validation {
-    use super::{IsccNbsColor, ValidationError};
+    use super::{ISCC_NBS_Color, ValidationError};
     use geo::Intersects;
     
     /// Validate ISCC-NBS polygon data for integrity.
@@ -899,13 +1044,13 @@ pub mod validation {
     /// ```rust,ignore
     /// use munsellspace::iscc::validation::validate_polygons;
     /// 
-    /// // Note: This requires internal IsccNbsColor which is not public
+    /// // Note: This requires internal ISCC_NBS_Color which is not public
     /// let errors = validate_polygons(&color_data);
     /// if errors.is_empty() {
     ///     println!("All polygons are valid!");
     /// }
     /// ```
-    pub fn validate_polygons(colors: &[IsccNbsColor]) -> Vec<ValidationError> {
+    pub fn validate_polygons(colors: &[ISCC_NBS_Color]) -> Vec<ValidationError> {
         let mut errors = Vec::new();
         
         // Check right angles using geo's geometric operations

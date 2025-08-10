@@ -82,6 +82,18 @@ path = "src/bin/test_simple_colors.rs"
 name = "trace_color"
 path = "src/bin/trace_color.rs"
 
+[[bin]]
+name = "classification_accuracy_test"
+path = "classification_accuracy_test.rs"
+
+[[bin]]
+name = "hue_range_method_comparison"
+path = "hue_range_method_comparison.rs"
+
+[[bin]]
+name = "comprehensive_conversion_dataset"
+path = "comprehensive_conversion_dataset.rs"
+
 [profile.release]
 lto = true
 codegen-units = 1

@@ -1,21 +1,41 @@
 use std::collections::HashMap;
 use crate::{MunsellError, Result};
-use crate::iscc::IsccNbsColor;
+use crate::iscc::ISCC_NBS_Color;
+use geo::CoordsIter;
+
+/// Hue range interpretation method for ISCC-NBS polygon assignments
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HueRangeMethod {
+    /// Method 1: Includes starting boundary, excludes ending boundary
+    /// Example: "8R-2YR" -> [8R, 9R, 10R, 1YR]
+    IncludeStartExcludeEnd,
+    /// Method 2: Excludes starting boundary, includes ending boundary  
+    /// Example: "8R-2YR" -> [9R, 10R, 1YR, 2YR]
+    ExcludeStartIncludeEnd,
+}
 
 /// Mechanical hue wedge distribution system for ISCC-NBS classification
 /// Implements the deterministic approach outlined in ALGO.md
 pub struct MechanicalWedgeSystem {
     /// All 100 wedge containers (e.g., "1R→2R", "2R→3R", etc.)
-    wedge_containers: HashMap<String, Vec<IsccNbsColor>>,
+    wedge_containers: HashMap<String, Vec<ISCC_NBS_Color>>,
     /// Ordered sequence of all Munsell hue references  
     hue_sequence: Vec<String>,
     /// Quick lookup from hue to sequence position
     hue_to_position: HashMap<String, usize>,
+    /// Hue range interpretation method for polygon distribution
+    hue_range_method: HueRangeMethod,
 }
 
 impl MechanicalWedgeSystem {
     /// Create new mechanical wedge system with all 100 wedge containers
+    /// Uses Method 2 (ExcludeStartIncludeEnd) by default for optimal accuracy
     pub fn new() -> Self {
+        Self::new_with_method(HueRangeMethod::ExcludeStartIncludeEnd)
+    }
+    
+    /// Create new mechanical wedge system with specified hue range method
+    pub fn new_with_method(hue_range_method: HueRangeMethod) -> Self {
         let hue_sequence = Self::create_reference_hue_sequence();
         let hue_to_position = Self::create_position_lookup(&hue_sequence);
         let wedge_containers = Self::create_all_wedge_containers(&hue_sequence);
@@ -24,7 +44,13 @@ impl MechanicalWedgeSystem {
             wedge_containers,
             hue_sequence,
             hue_to_position,
+            hue_range_method,
         }
+    }
+    
+    /// Get the current hue range interpretation method
+    pub fn hue_range_method(&self) -> HueRangeMethod {
+        self.hue_range_method
     }
     
     /// Create the complete ordered sequence of Munsell hue references
@@ -50,7 +76,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Create all 100 wedge containers (empty initially)
-    fn create_all_wedge_containers(sequence: &[String]) -> HashMap<String, Vec<IsccNbsColor>> {
+    fn create_all_wedge_containers(sequence: &[String]) -> HashMap<String, Vec<ISCC_NBS_Color>> {
         let mut containers = HashMap::new();
         
         for i in 0..sequence.len() {
@@ -65,7 +91,7 @@ impl MechanicalWedgeSystem {
     
     /// Distribute a polygon into appropriate wedge containers
     /// For polygon spanning hue1 to hue2, copies go into all wedges in that range
-    pub fn distribute_polygon(&mut self, polygon: IsccNbsColor) -> Result<()> {
+    pub fn distribute_polygon(&mut self, polygon: ISCC_NBS_Color) -> Result<()> {
         let (start_hue, end_hue) = Self::parse_polygon_hue_range(&polygon)?;
         let wedge_keys = self.find_wedges_in_range(&start_hue, &end_hue)?;
         
@@ -80,14 +106,14 @@ impl MechanicalWedgeSystem {
     }
     
     /// Parse polygon hue range from ISCC-NBS data
-    fn parse_polygon_hue_range(polygon: &IsccNbsColor) -> Result<(String, String)> {
+    fn parse_polygon_hue_range(polygon: &ISCC_NBS_Color) -> Result<(String, String)> {
         // Extract hue range from polygon data (e.g., "5R" to "7YR")
         // This depends on how hue ranges are stored in IsccNbsColor
         // For now, assume they're in a hue_range field
         Ok((polygon.hue_range.0.clone(), polygon.hue_range.1.clone()))
     }
     
-    /// Find all wedge keys that span from start_hue to end_hue
+    /// Find all wedge keys that span from start_hue to end_hue using configured method
     fn find_wedges_in_range(&self, start_hue: &str, end_hue: &str) -> Result<Vec<String>> {
         let start_pos = self.hue_to_position.get(start_hue)
             .ok_or_else(|| MunsellError::ConversionError { 
@@ -100,29 +126,54 @@ impl MechanicalWedgeSystem {
             })?;
         
         let mut wedge_keys = Vec::new();
-        let mut current_pos = *start_pos;
         
-        // Handle wraparound case (e.g., 9RP to 2R)
-        loop {
-            let next_pos = (current_pos + 1) % self.hue_sequence.len();
-            let start_hue_at_pos = &self.hue_sequence[current_pos];
-            let end_hue_at_pos = &self.hue_sequence[next_pos];
-            
-            wedge_keys.push(format!("{}→{}", start_hue_at_pos, end_hue_at_pos));
-            
-            // Stop when we reach the end position
-            if current_pos == *end_pos {
-                break;
+        match self.hue_range_method {
+            HueRangeMethod::IncludeStartExcludeEnd => {
+                // Method 1: [8R, 9R, 10R, 1YR] - includes starting boundary
+                let mut current_pos = *start_pos;
+                
+                loop {
+                    let next_pos = (current_pos + 1) % self.hue_sequence.len();
+                    let start_hue_at_pos = &self.hue_sequence[current_pos];
+                    let end_hue_at_pos = &self.hue_sequence[next_pos];
+                    
+                    wedge_keys.push(format!("{}→{}", start_hue_at_pos, end_hue_at_pos));
+                    
+                    // Stop when we reach the end position (end_pos is excluded)
+                    if current_pos == *end_pos {
+                        break;
+                    }
+                    
+                    current_pos = next_pos;
+                }
             }
             
-            current_pos = next_pos;
+            HueRangeMethod::ExcludeStartIncludeEnd => {
+                // Method 2: [9R, 10R, 1YR, 2YR] - excludes starting boundary, includes ending
+                let mut current_pos = (*start_pos + 1) % self.hue_sequence.len();
+                
+                loop {
+                    let next_pos = (current_pos + 1) % self.hue_sequence.len();
+                    let start_hue_at_pos = &self.hue_sequence[current_pos];
+                    let end_hue_at_pos = &self.hue_sequence[next_pos];
+                    
+                    wedge_keys.push(format!("{}→{}", start_hue_at_pos, end_hue_at_pos));
+                    
+                    // Stop when we've included the end position
+                    if current_pos == *end_pos {
+                        break;
+                    }
+                    
+                    current_pos = next_pos;
+                }
+            }
         }
         
         Ok(wedge_keys)
     }
     
     /// Classify a color by finding its containing wedge and searching within it
-    pub fn classify_color(&self, hue: &str, value: f64, chroma: f64) -> Option<&IsccNbsColor> {
+    pub fn classify_color(&self, hue: &str, value: f64, chroma: f64) -> Option<&ISCC_NBS_Color> {
         // 1. Find the containing wedge for this hue
         let wedge_key = self.find_containing_wedge(hue)?;
         
@@ -134,26 +185,59 @@ impl MechanicalWedgeSystem {
             .find(|polygon| self.point_in_polygon(value, chroma, polygon))
     }
     
-    /// Find which wedge contains the given hue using boundary rules
+    /// Find which wedge contains the given hue using correct range interpretation
+    /// 1R represents [0-1], 2R represents (1-2], ..., 10R represents (9-10]
     fn find_containing_wedge(&self, hue: &str) -> Option<String> {
         let (hue_number, hue_family) = self.parse_hue(hue).ok()?;
         
-        // Find the exact or nearest hue in our sequence
-        let target_hue = format!("{}{}", hue_number.round() as i32, hue_family);
-        let position = self.hue_to_position.get(&target_hue)?;
-        
-        // Apply boundary rules: hue belongs to wedge where lower_bound < hue ≤ upper_bound
-        // Special case: exact boundary hues belong to the previous wedge
-        let wedge_start_pos = if hue_number.fract() == 0.0 && hue_number as i32 > 1 {
-            // Exact boundary (e.g., 4R) belongs to previous wedge (3R→4R)
-            (*position + self.hue_sequence.len() - 1) % self.hue_sequence.len()
+        // Handle the range interpretation directly without modulo first
+        // to properly handle the 10.0 case
+        let wedge_number = if hue_number == 0.0 || (hue_number > 0.0 && hue_number <= 1.0) {
+            // [0, 1] belongs to 1R
+            1
+        } else if hue_number > 1.0 && hue_number <= 2.0 {
+            // (1, 2] belongs to 2R
+            2
+        } else if hue_number > 2.0 && hue_number <= 3.0 {
+            // (2, 3] belongs to 3R
+            3
+        } else if hue_number > 3.0 && hue_number <= 4.0 {
+            // (3, 4] belongs to 4R
+            4
+        } else if hue_number > 4.0 && hue_number <= 5.0 {
+            // (4, 5] belongs to 5R
+            5
+        } else if hue_number > 5.0 && hue_number <= 6.0 {
+            // (5, 6] belongs to 6R
+            6
+        } else if hue_number > 6.0 && hue_number <= 7.0 {
+            // (6, 7] belongs to 7R
+            7
+        } else if hue_number > 7.0 && hue_number <= 8.0 {
+            // (7, 8] belongs to 8R
+            8
+        } else if hue_number > 8.0 && hue_number <= 9.0 {
+            // (8, 9] belongs to 9R
+            9
+        } else if hue_number > 9.0 && hue_number <= 10.0 {
+            // (9, 10] belongs to 10R
+            10
         } else {
-            // Fractional hue (e.g., 4.5R) belongs to forward wedge (4R→5R)  
-            *position
+            // Handle wraparound for values > 10.0
+            let normalized = hue_number % 10.0;
+            if normalized == 0.0 || normalized <= 1.0 {
+                1
+            } else {
+                (normalized.ceil() as u8).min(10)
+            }
         };
         
-        let wedge_end_pos = (wedge_start_pos + 1) % self.hue_sequence.len();
-        let start_hue = &self.hue_sequence[wedge_start_pos];
+        // Find the corresponding wedge key
+        let wedge_hue = format!("{}{}", wedge_number, hue_family);
+        let wedge_pos = self.hue_to_position.get(&wedge_hue)?;
+        let wedge_end_pos = (*wedge_pos + 1) % self.hue_sequence.len();
+        
+        let start_hue = &self.hue_sequence[*wedge_pos];
         let end_hue = &self.hue_sequence[wedge_end_pos];
         
         Some(format!("{}→{}", start_hue, end_hue))
@@ -189,12 +273,14 @@ impl MechanicalWedgeSystem {
         Ok((number, family_str.to_string()))
     }
     
-    /// Check if a point (value, chroma) is inside a polygon
-    fn point_in_polygon(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> bool {
-        // Use the geo crate's Contains trait for robust point-in-polygon testing
-        use geo::Contains;
+    /// Check if a point (value, chroma) is inside a polygon, including boundaries
+    fn point_in_polygon(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> bool {
+        // Use both Contains and Intersects for boundary-inclusive testing
+        use geo::{Contains, Intersects};
         let point = geo::Point::new(chroma, value); // Note: chroma=x, value=y
-        polygon.polygon.contains(&point)
+        
+        // Check if point is inside (contains) OR on the boundary (intersects)
+        polygon.polygon.contains(&point) || polygon.polygon.intersects(&point)
     }
     
     /// Get statistics about wedge container distribution
@@ -210,6 +296,77 @@ impl MechanicalWedgeSystem {
         stats
     }
     
+    /// Debug method to check if a specific wedge exists and list its contents
+    pub fn debug_wedge_contents(&self, wedge_key: &str) -> Option<Vec<String>> {
+        if let Some(container) = self.wedge_containers.get(wedge_key) {
+            let contents = container.iter()
+                .map(|color| format!("Color {}: {} {} (polygon: {} points)", 
+                    color.color_number,
+                    color.descriptor,
+                    color.color_name,
+                    color.polygon.exterior().coords_count()
+                ))
+                .collect();
+            Some(contents)
+        } else {
+            None
+        }
+    }
+    
+    /// Debug method to find all wedge keys that contain a specific color number
+    pub fn debug_find_color(&self, color_number: u16) -> Vec<String> {
+        let mut found_wedges = Vec::new();
+        
+        for (wedge_key, container) in &self.wedge_containers {
+            if container.iter().any(|color| color.color_number == color_number) {
+                found_wedges.push(wedge_key.clone());
+            }
+        }
+        
+        found_wedges
+    }
+    
+    /// Debug method to test point-in-polygon for a specific color
+    pub fn debug_point_test(&self, wedge_key: &str, color_number: u16, value: f64, chroma: f64) -> Option<bool> {
+        if let Some(container) = self.wedge_containers.get(wedge_key) {
+            if let Some(color) = container.iter().find(|c| c.color_number == color_number) {
+                let result = self.point_in_polygon(value, chroma, color);
+                return Some(result);
+            }
+        }
+        None
+    }
+    
+    /// Detailed debug method to show polygon bounds and test point
+    pub fn debug_point_test_detailed(&self, wedge_key: &str, color_number: u16, value: f64, chroma: f64) -> Option<String> {
+        if let Some(container) = self.wedge_containers.get(wedge_key) {
+            if let Some(color) = container.iter().find(|c| c.color_number == color_number) {
+                // Extract polygon coordinates
+                let coord_count = color.polygon.exterior().coords_count();
+                let coord_points: Vec<_> = color.polygon.exterior().coords().collect();
+                
+                let test_point = geo::Point::new(chroma, value);
+                let result = self.point_in_polygon(value, chroma, color);
+                
+                let debug_info = format!(
+                    "Color {} in wedge {}\n\
+                     Hue range: {} to {}\n\
+                     Test point: (value={}, chroma={}) -> Point::new(x={}, y={}) [chroma=x, value=y]\n\
+                     Polygon {} coordinates: {:?}\n\
+                     Point-in-polygon result: {}",
+                    color_number, wedge_key,
+                    color.hue_range.0, color.hue_range.1,
+                    value, chroma, chroma, value,
+                    coord_count, coord_points,
+                    result
+                );
+                
+                return Some(debug_info);
+            }
+        }
+        None
+    }
+    
     /// Validate all wedge containers for coverage, gaps, and intersections
     pub fn validate_all_wedges(&self) -> WedgeValidationResults {
         let mut results = WedgeValidationResults::new();
@@ -223,7 +380,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Validate a single wedge container
-    fn validate_single_wedge(&self, _wedge_key: &str, container: &[IsccNbsColor]) -> SingleWedgeValidation {
+    fn validate_single_wedge(&self, _wedge_key: &str, container: &[ISCC_NBS_Color]) -> SingleWedgeValidation {
         let mut validation = SingleWedgeValidation::new();
         
         // Check coverage: should cover chroma 0→50, value 0→10
@@ -240,21 +397,21 @@ impl MechanicalWedgeSystem {
     }
     
     /// Check if wedge container provides complete coverage
-    fn check_wedge_coverage(&self, _container: &[IsccNbsColor]) -> bool {
+    fn check_wedge_coverage(&self, _container: &[ISCC_NBS_Color]) -> bool {
         // TODO: Implement coverage checking using geo crate operations
         // Should verify that union of all polygons covers rectangle [0,50] × [0,10]
         true // Placeholder
     }
     
     /// Detect gaps between polygons in wedge container
-    fn detect_wedge_gaps(&self, _container: &[IsccNbsColor]) -> Vec<String> {
+    fn detect_wedge_gaps(&self, _container: &[ISCC_NBS_Color]) -> Vec<String> {
         // TODO: Implement gap detection using geo crate
         // Look for areas not covered by any polygon
         Vec::new() // Placeholder
     }
     
     /// Detect intersections between polygons in wedge container
-    fn detect_wedge_intersections(&self, _container: &[IsccNbsColor]) -> Vec<String> {
+    fn detect_wedge_intersections(&self, _container: &[ISCC_NBS_Color]) -> Vec<String> {
         // TODO: Implement intersection detection using geo crate
         // Look for overlapping polygon interiors
         Vec::new() // Placeholder
@@ -371,18 +528,33 @@ mod tests {
     }
     
     #[test]
-    fn test_containing_wedge_boundary_rules() {
+    fn test_containing_wedge_range_based_rules() {
         let system = MechanicalWedgeSystem::new();
         
-        // Exact boundary hues belong to previous wedge
-        assert_eq!(system.find_containing_wedge("4R"), Some("3R→4R".to_string()));
-        assert_eq!(system.find_containing_wedge("10R"), Some("9R→10R".to_string()));
+        // Range-based interpretation: 1R = [0-1], 2R = (1-2], etc.
         
-        // Fractional hues belong to forward wedge
-        assert_eq!(system.find_containing_wedge("4.5R"), Some("4R→5R".to_string()));
-        assert_eq!(system.find_containing_wedge("7.2YR"), Some("7YR→8YR".to_string()));
+        // Values in [0, 1] belong to 1R wedge
+        assert_eq!(system.find_containing_wedge("0.0R"), Some("1R→2R".to_string()));
+        assert_eq!(system.find_containing_wedge("0.5R"), Some("1R→2R".to_string()));
+        assert_eq!(system.find_containing_wedge("1.0R"), Some("1R→2R".to_string()));
         
-        // Test wraparound case
-        assert_eq!(system.find_containing_wedge("1R"), Some("10RP→1R".to_string()));
+        // Values in (1, 2] belong to 2R wedge
+        assert_eq!(system.find_containing_wedge("1.1R"), Some("2R→3R".to_string()));
+        assert_eq!(system.find_containing_wedge("1.5R"), Some("2R→3R".to_string()));
+        assert_eq!(system.find_containing_wedge("2.0R"), Some("2R→3R".to_string()));
+        
+        // Values in (4, 5] belong to 5R wedge
+        assert_eq!(system.find_containing_wedge("4.5R"), Some("5R→6R".to_string()));
+        
+        // Values in (9, 10] belong to 10R wedge
+        assert_eq!(system.find_containing_wedge("9.5R"), Some("10R→1YR".to_string()));
+        assert_eq!(system.find_containing_wedge("10.0R"), Some("10R→1YR".to_string()));
+        
+        // Test different families
+        assert_eq!(system.find_containing_wedge("7.2YR"), Some("8YR→9YR".to_string()));
+        
+        // Test wraparound: values >= 10 should wrap to [0, 1] range
+        assert_eq!(system.find_containing_wedge("10.5R"), Some("1R→2R".to_string()));
+        assert_eq!(system.find_containing_wedge("11.0R"), Some("1R→2R".to_string()));
     }
 }

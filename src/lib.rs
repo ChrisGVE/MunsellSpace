@@ -57,11 +57,10 @@ pub mod python_port_utils;
 pub mod python_port_interpolation;
 pub mod python_port_cache;
 pub mod traced_port;
+pub mod mechanical_wedges;
+pub mod integration_test;
 
-#[cfg(test)]
-mod test_hue_angle;
-#[cfg(test)]
-mod test_angle_debug;
+// Test modules were moved to their respective implementation files
 // #[cfg(test)]
 // mod proptest_suite;
 
@@ -69,7 +68,8 @@ pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
 pub use error::{MunsellError, Result};
 pub use illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
-pub use iscc::{IsccNbsClassifier, IsccNbsResult};
+pub use iscc::{ISCC_NBS_Classifier, ISCC_NBS_Result};
+pub use mechanical_wedges::{MechanicalWedgeSystem, HueRangeMethod};
 pub use mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
 pub use reverse_conversion::{ReverseConverter, ColorFormats, CieLab, HslColor, HsvColor, munsell_to_hex_string};
 
