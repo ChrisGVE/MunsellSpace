@@ -5,7 +5,7 @@
 //! Focus is on meaningful color differences rather than pure colors.
 
 use munsellspace::mathematical::{MathematicalMunsellConverter};
-use munsellspace::illuminants::Illuminant;
+use munsellspace::illuminants::{Illuminant, ChromaticAdaptationMethod};
 use munsellspace::iscc::IsccNbsClassifier;
 use std::collections::HashMap;
 use std::fmt::Write;
@@ -185,9 +185,13 @@ fn run_illuminant_matrix_comparison(
         for (illuminant, illuminant_name, illuminant_short) in illuminants {
             print!("   {:<4}: ", illuminant_short);
             
-            // Create converter with specific illuminant matrix (this is conceptual - 
-            // the actual Original converter uses fixed D65, but we're testing the concept)
-            let converter = MathematicalMunsellConverter::new()?;
+            // Create converter with specific illuminant configuration
+            // sRGB source (D65) → target illuminant with Bradford adaptation
+            let converter = MathematicalMunsellConverter::with_illuminants(
+                Illuminant::D65,  // sRGB source
+                *illuminant,       // Target illuminant
+                ChromaticAdaptationMethod::Bradford,
+            )?;
             
             match converter.srgb_to_munsell(test_color.rgb) {
                 Ok(munsell) => {
