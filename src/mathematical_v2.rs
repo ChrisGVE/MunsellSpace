@@ -339,7 +339,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Convert Munsell specification to xyY
-    fn munsell_specification_to_xyy(&self, spec: &MunsellSpecification) -> Result<CieXyY> {
+    pub fn munsell_specification_to_xyy(&self, spec: &MunsellSpecification) -> Result<CieXyY> {
         // Handle achromatic colors
         if spec.family == "N" || spec.chroma == 0.0 {
             let y = self.munsell_value_to_luminance(spec.value)?;

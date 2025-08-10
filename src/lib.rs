@@ -47,6 +47,7 @@ pub mod iscc;
 pub mod constants;
 pub mod mathematical;
 pub mod mathematical_v2;
+pub mod reverse_conversion;
 pub mod python_port;
 pub mod python_port_helpers;
 pub mod python_converter;
@@ -70,6 +71,7 @@ pub use error::{MunsellError, Result};
 pub use illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
 pub use iscc::{IsccNbsClassifier, IsccNbsResult};
 pub use mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
+pub use reverse_conversion::{ReverseConverter, ColorFormats, CieLab, HslColor, HsvColor, munsell_to_hex_string};
 
 /// Library version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
