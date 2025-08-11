@@ -42,6 +42,9 @@ palette = { version = "0.7", features = ["std", "serializing"] }
 # Geometric operations for ISCC-NBS polygon validation and point-in-polygon queries
 geo = "0.30"
 
+# Parallel processing for performance
+rayon = "1.10"
+
 [dev-dependencies]
 approx = "0.5"
 criterion = { version = "0.5", features = ["html_reports"] }
@@ -93,6 +96,18 @@ path = "hue_range_method_comparison.rs"
 [[bin]]
 name = "comprehensive_conversion_dataset"
 path = "comprehensive_conversion_dataset.rs"
+
+[[bin]]
+name = "comprehensive_dataset_misses"
+path = "investigation/src/comprehensive_dataset_misses.rs"
+
+[[bin]]
+name = "comprehensive_dataset_misses_v2"
+path = "investigation/src/comprehensive_dataset_misses_v2.rs"
+
+[[bin]]
+name = "test_pink_restored"
+path = "test_pink_restored.rs"
 
 [profile.release]
 lto = true

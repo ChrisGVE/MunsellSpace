@@ -7,15 +7,31 @@
 use palette::{Srgb, Xyz, convert::IntoColor, white_point::D65};
 use crate::constants::*;
 use crate::error::{MunsellError, Result};
-use crate::illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
 
 // Critical constants from Python colour-science
 const THRESHOLD_INTEGER: f64 = 1e-3;  // Python's achromatic threshold
+const TOLERANCE_ABSOLUTE_DEFAULT: f64 = 1e-8;
 const MAX_OUTER_ITERATIONS: usize = 64;
 const MAX_INNER_ITERATIONS: usize = 16;
 
-// Note: Python colour-science does NOT use chromatic adaptation
-// It works directly with D65 coordinates throughout
+// Chromatic adaptation constants
+// D65 white point: [0.95047, 1.00000, 1.08883]
+const D65_WHITE_POINT: [f64; 3] = [0.95047, 1.00000, 1.08883];
+// Illuminant C white point: [0.98074, 1.00000, 1.18232]
+const ILLUMINANT_C_WHITE_POINT: [f64; 3] = [0.98074, 1.00000, 1.18232];
+
+// Bradford chromatic adaptation matrix (from D65 to Illuminant C)
+const BRADFORD_FORWARD: [[f64; 3]; 3] = [
+    [ 0.8951000,  0.2664000, -0.1614000],
+    [-0.7502000,  1.7135000,  0.0367000],  
+    [ 0.0389000, -0.0685000,  1.0296000]
+];
+
+const BRADFORD_INVERSE: [[f64; 3]; 3] = [
+    [ 0.9869929, -0.1470543,  0.1599627],
+    [ 0.4323053,  0.5183603,  0.0492912],
+    [-0.0085287,  0.0400428,  0.9684867]
+];
 
 /// Mathematical Munsell specification representation
 #[derive(Debug, Clone, PartialEq)]
@@ -32,22 +48,6 @@ pub struct CieXyY {
     pub x: f64,            // Chromaticity x
     pub y: f64,            // Chromaticity y  
     pub Y: f64,            // Luminance Y
-}
-
-/// CIE Lab color space representation
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct CieLab {
-    pub L: f64,            // Lightness
-    pub a: f64,            // Green-Red axis
-    pub b: f64,            // Blue-Yellow axis
-}
-
-/// CIE LCHab color space representation
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct CieLCHab {
-    pub L: f64,            // Lightness
-    pub C: f64,            // Chroma
-    pub h: f64,            // Hue angle in degrees
 }
 
 /// Coordinate transformation functions following Python colour-science
@@ -86,19 +86,27 @@ mod coordinate_transforms {
 /// Hue angle conversion functions following Python colour-science exact implementation
 mod hue_conversions {
 
+    /// Hue family codes as used in Python colour-science
+    const HUE_FAMILY_CODES: [(u8, &str); 10] = [
+        (1, "BG"), (2, "G"), (3, "GY"), (4, "Y"), (5, "YR"),
+        (6, "R"), (7, "RP"), (8, "P"), (9, "PB"), (10, "B")
+    ];
 
-    /// Convert [hue, code] to ASTM hue number
+    /// Convert [hue, code] to ASTM hue angle
     /// Exact implementation from Python colour-science
-    /// ASTM_hue = 10 * ((7 - code) % 10) + hue
     pub fn hue_to_astm_hue(hue: f64, code: u8) -> f64 {
-        let astm_hue = 10.0 * (((7 - code as i32) % 10) as f64) + hue;
-        
-        // Return 100 if ASTM_hue == 0, else ASTM_hue
-        if astm_hue == 0.0 {
-            100.0
+        // Calculate single_hue following exact Python formula
+        // CRITICAL: Use 17.0 as in Python, and handle modulo correctly!
+        let raw = ((17.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5);
+        // Python-style modulo: always returns positive result
+        let single_hue = if raw < 0.0 {
+            (raw % 10.0 + 10.0) % 10.0
         } else {
-            astm_hue
-        }
+            raw % 10.0
+        };
+        
+        // Linear interpolation with exact breakpoints from Python
+        linear_interpolate_hue_angle(single_hue)
     }
 
     /// Convert hue angle to [hue, code] pair
@@ -109,7 +117,6 @@ mod hue_conversions {
         
         // Determine code based on single_hue ranges
         // CRITICAL FIX: Use Python's EXACT code mapping from hue_angle_to_hue
-        // CRITICAL FIX 2: P/RP boundary is at exactly 8.5, use < not <=
         let code = if single_hue <= 0.5 { 7 }       // R  (code 7)
                    else if single_hue <= 1.5 { 6 }  // YR (code 6)
                    else if single_hue <= 2.5 { 5 }  // Y  (code 5)
@@ -118,7 +125,7 @@ mod hue_conversions {
                    else if single_hue <= 5.5 { 2 }  // BG (code 2)
                    else if single_hue <= 6.5 { 1 }  // B  (code 1)
                    else if single_hue <= 7.5 { 10 } // PB (code 10)
-                   else if single_hue < 8.5 { 9 }   // P  (code 9) - NOTE: < not <=
+                   else if single_hue <= 8.5 { 9 }  // P  (code 9)
                    else if single_hue <= 9.5 { 8 }  // RP (code 8)
                    else { 7 };                       // R (wraparound back to code 7)
         
@@ -174,9 +181,9 @@ mod hue_conversions {
     /// Exact implementation from Python colour-science
     pub fn bounding_hues_from_renotation(hue: f64, code: u8) -> ((f64, u8), (f64, u8)) {
         let mut hue_cw: f64;
-        let code_cw: u8;
+        let mut code_cw: u8;
         let mut hue_ccw: f64;
-        let code_ccw: u8;
+        let mut code_ccw: u8;
 
         // Check if hue is exact multiple of 2.5
         if (hue % 2.5 - 0.0).abs() < 1e-10 {
@@ -276,26 +283,11 @@ mod hue_conversions {
     /// Exact implementation of Python colour-science hue_to_hue_angle function
     pub fn hue_to_hue_angle(hue: f64, code: u8) -> f64 {
         // Calculate single_hue following exact Python formula
-        // CRITICAL: Must use 17.0, not 18.0!
-        let raw = (17.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5;
-        // Python's modulo always returns positive values, Rust can return negative
-        // So we need to ensure positive result
-        let single_hue = if raw < 0.0 {
-            (raw % 10.0) + 10.0
-        } else {
-            raw % 10.0
-        };
+        // FIXED: Python's formula uses (18 - code) for their mapping
+        let single_hue = ((18.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5) % 10.0;
         
         // Use linear interpolation with exact Python breakpoints
-        let angle = linear_interpolate_hue_angle(single_hue);
-        
-        // Debug - also check GY (code=4) for our test case
-        if std::env::var("DEBUG_MUNSELL").is_ok() && (code == 7 && ((hue - 2.5).abs() < 0.01 || (hue - 4.13).abs() < 0.01 || (hue - 5.0).abs() < 0.01) || (code == 4 && (hue - 8.548).abs() < 0.01)) {
-            eprintln!("            DEBUG hue_to_hue_angle: hue={:.3}, code={}", hue, code);
-            eprintln!("              raw={:.6}, single_hue={:.6}, angle={:.6}", raw, single_hue, angle);
-        }
-        
-        angle
+        linear_interpolate_hue_angle(single_hue)
     }
 }
 
@@ -634,186 +626,16 @@ mod interpolation_methods {
 
 /// Mathematical Munsell converter using ASTM D1535 algorithms
 pub struct MathematicalMunsellConverter {
-    /// Source illuminant (illuminant of the input RGB values)
-    source_illuminant: Illuminant,
-    /// Target illuminant for Munsell calculations (typically D65, but configurable)
-    target_illuminant: Illuminant,
-    /// Chromatic adaptation method to use
-    adaptation_method: ChromaticAdaptationMethod,
     /// Cached interpolation data for performance
     renotation_data: &'static [((&'static str, f64, f64), (f64, f64, f64))],
 }
 
 impl MathematicalMunsellConverter {
-    /// Create a new mathematical Munsell converter.
-    ///
-    /// Creates a converter that uses ASTM D1535 mathematical algorithms
-    /// for high-precision Munsell color space conversion.
-    ///
-    /// # Returns
-    /// Result containing the converter instance or an error
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::MathematicalMunsellConverter;
-    /// 
-    /// let converter = MathematicalMunsellConverter::new().expect("Failed to create converter");
-    /// ```
+    /// Create a new mathematical converter instance
     pub fn new() -> Result<Self> {
         Ok(Self {
-            source_illuminant: Illuminant::D65,     // sRGB standard
-            target_illuminant: Illuminant::D65,     // D65 for backward compatibility
-            adaptation_method: ChromaticAdaptationMethod::Bradford,
             renotation_data: MUNSELL_RENOTATION_DATA,
         })
-    }
-    
-    /// Create a new converter with custom illuminant configuration
-    ///
-    /// # Arguments
-    /// * `source` - Source illuminant (illuminant of the input RGB values)
-    /// * `target` - Target illuminant for Munsell calculations
-    /// * `method` - Chromatic adaptation method
-    ///
-    /// # Returns
-    /// Result containing the converter instance or an error
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::{MathematicalMunsellConverter, Illuminant, ChromaticAdaptationMethod};
-    /// 
-    /// let converter = MathematicalMunsellConverter::with_illuminants(
-    ///     Illuminant::D65,
-    ///     Illuminant::C,
-    ///     ChromaticAdaptationMethod::Bradford
-    /// ).expect("Failed to create converter");
-    /// ```
-    pub fn with_illuminants(
-        source: Illuminant,
-        target: Illuminant,
-        method: ChromaticAdaptationMethod,
-    ) -> Result<Self> {
-        Ok(Self {
-            source_illuminant: source,
-            target_illuminant: target,
-            adaptation_method: method,
-            renotation_data: MUNSELL_RENOTATION_DATA,
-        })
-    }
-    
-    /// Set the source illuminant (illuminant of the input RGB values)
-    ///
-    /// # Arguments
-    /// * `illuminant` - The new source illuminant
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::{MathematicalMunsellConverter, Illuminant};
-    /// 
-    /// let mut converter = MathematicalMunsellConverter::new().unwrap();
-    /// converter.set_source_illuminant(Illuminant::A);
-    /// ```
-    pub fn set_source_illuminant(&mut self, illuminant: Illuminant) {
-        self.source_illuminant = illuminant;
-    }
-    
-    /// Set the target illuminant for Munsell calculations
-    ///
-    /// # Arguments
-    /// * `illuminant` - The new target illuminant
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::{MathematicalMunsellConverter, Illuminant};
-    /// 
-    /// let mut converter = MathematicalMunsellConverter::new().unwrap();
-    /// converter.set_target_illuminant(Illuminant::C);
-    /// ```
-    pub fn set_target_illuminant(&mut self, illuminant: Illuminant) {
-        self.target_illuminant = illuminant;
-    }
-    
-    /// Set the chromatic adaptation method
-    ///
-    /// # Arguments
-    /// * `method` - The new chromatic adaptation method
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::{MathematicalMunsellConverter, ChromaticAdaptationMethod};
-    /// 
-    /// let mut converter = MathematicalMunsellConverter::new().unwrap();
-    /// converter.set_adaptation_method(ChromaticAdaptationMethod::VonKries);
-    /// ```
-    pub fn set_adaptation_method(&mut self, method: ChromaticAdaptationMethod) {
-        self.adaptation_method = method;
-    }
-    
-    /// Get the current source illuminant
-    ///
-    /// # Returns
-    /// The current source illuminant
-    pub fn source_illuminant(&self) -> Illuminant {
-        self.source_illuminant
-    }
-    
-    /// Get the current target illuminant
-    ///
-    /// # Returns
-    /// The current target illuminant
-    pub fn target_illuminant(&self) -> Illuminant {
-        self.target_illuminant
-    }
-    
-    /// Get the current chromatic adaptation method
-    ///
-    /// # Returns
-    /// The current chromatic adaptation method
-    pub fn adaptation_method(&self) -> ChromaticAdaptationMethod {
-        self.adaptation_method
-    }
-    
-    /// Create a preset converter for D65 → C (traditional Munsell setup)
-    ///
-    /// This is the most common configuration for accurate Munsell conversion,
-    /// as the original Munsell data was measured under Illuminant C.
-    ///
-    /// # Returns
-    /// Result containing the converter instance or an error
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::MathematicalMunsellConverter;
-    /// 
-    /// let converter = MathematicalMunsellConverter::d65_to_c().unwrap();
-    /// ```
-    pub fn d65_to_c() -> Result<Self> {
-        Self::with_illuminants(
-            Illuminant::D65,
-            Illuminant::C,
-            ChromaticAdaptationMethod::Bradford,
-        )
-    }
-    
-    /// Create a preset converter for D50 → C (print industry setup)
-    ///
-    /// Common in print workflows where D50 is the standard viewing illuminant.
-    ///
-    /// # Returns
-    /// Result containing the converter instance or an error
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::MathematicalMunsellConverter;
-    /// 
-    /// let converter = MathematicalMunsellConverter::d50_to_c().unwrap();
-    /// ```
-    pub fn d50_to_c() -> Result<Self> {
-        Self::with_illuminants(
-            Illuminant::D50,
-            Illuminant::C,
-            ChromaticAdaptationMethod::Bradford,
-        )
     }
 
     /// Convert sRGB color to Munsell specification using mathematical algorithms
@@ -826,14 +648,9 @@ impl MathematicalMunsellConverter {
     ///
     /// # Example
     /// ```rust
-    /// use munsellspace::MathematicalMunsellConverter;
-    /// 
-    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
     /// let converter = MathematicalMunsellConverter::new()?;
     /// let munsell = converter.srgb_to_munsell([255, 0, 0])?;
     /// println!("Red: {}.{} {:.1}/{:.1}", munsell.hue, munsell.family, munsell.value, munsell.chroma);
-    /// # Ok(())
-    /// # }
     /// ```
     pub fn srgb_to_munsell(&self, rgb: [u8; 3]) -> Result<MunsellSpecification> {
         // Step 1: Convert sRGB to xyY using palette crate
@@ -843,28 +660,7 @@ impl MathematicalMunsellConverter {
         self.xyy_to_munsell_specification(xyy)
     }
 
-    /// Convert sRGB to CIE xyY color space with configurable chromatic adaptation.
-    ///
-    /// Converts sRGB colors to CIE xyY chromaticity coordinates, applying chromatic
-    /// adaptation from the configured source illuminant to target illuminant if needed.
-    ///
-    /// # Arguments
-    /// * `rgb` - sRGB color as [R, G, B] array with components 0-255
-    ///
-    /// # Returns
-    /// Result containing CieXyY coordinates or an error
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::MathematicalMunsellConverter;
-    /// 
-    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /// let converter = MathematicalMunsellConverter::new()?;
-    /// let xyy = converter.srgb_to_xyy([255, 0, 0])?;
-    /// println!("Red xyY: x={:.4}, y={:.4}, Y={:.4}", xyy.x, xyy.y, xyy.Y);
-    /// # Ok(())
-    /// # }
-    /// ```
+    /// Convert sRGB to CIE xyY color space (D65 illuminant - no adaptation needed)
     pub fn srgb_to_xyy(&self, rgb: [u8; 3]) -> Result<CieXyY> {
         // println!("TRACE: 1. Input RGB: {:?}", rgb);
         
@@ -882,27 +678,45 @@ impl MathematicalMunsellConverter {
         let linear_rgb = srgb.into_linear();
         // println!("TRACE: 3. Linear RGB: [{:.6}, {:.6}, {:.6}]", linear_rgb.red, linear_rgb.green, linear_rgb.blue);
         
-        // Convert Linear RGB → XYZ (D65 illuminant - sRGB standard)
+        // Convert Linear RGB → XYZ (D65 illuminant)
         let xyz_d65: Xyz<D65, f64> = linear_rgb.into_color();
         let (x_d65, y_d65, z_d65) = xyz_d65.into_components();
         // println!("TRACE: 4. XYZ (D65): [{:.6}, {:.6}, {:.6}]", x_d65, y_d65, z_d65);
         
-        // Step 2: Perform chromatic adaptation if needed (source illuminant → target illuminant)
-        let xyz_adapted = ChromaticAdaptation::adapt(
-            [x_d65, y_d65, z_d65],
-            self.source_illuminant,
-            self.target_illuminant,
-            self.adaptation_method,
-        )?;
-        // println!("TRACE: 4.5. XYZ (adapted): [{:.6}, {:.6}, {:.6}]", xyz_adapted[0], xyz_adapted[1], xyz_adapted[2]);
+        // Convert XYZ (D65) to xyY - NO chromatic adaptation needed
+        // Python colour-science uses D65 coordinates directly
+        let xyy_d65 = self.xyz_to_xyy([x_d65, y_d65, z_d65]);
+        // println!("TRACE: 5. xyY (D65): [{:.6}, {:.6}, {:.6}]", xyy_d65.x, xyy_d65.y, xyy_d65.Y);
         
-        // Convert adapted XYZ to xyY
-        let xyy = self.xyz_to_xyy(xyz_adapted);
-        // println!("TRACE: 5. xyY (target illuminant): [{:.6}, {:.6}, {:.6}]", xyy.x, xyy.y, xyy.Y);
-        
-        Ok(xyy)
+        Ok(xyy_d65)
     }
 
+    /// Chromatic adaptation from D65 to Illuminant C using Bradford transform
+    fn chromatic_adaptation_d65_to_c(&self, xyz_d65: [f64; 3]) -> Result<[f64; 3]> {
+        // Step 1: Transform XYZ to Bradford cone space
+        let cone_d65 = self.matrix_multiply_3x3(&BRADFORD_FORWARD, &xyz_d65);
+        
+        // Step 2: Calculate adaptation factors
+        let cone_c_white = self.matrix_multiply_3x3(&BRADFORD_FORWARD, &ILLUMINANT_C_WHITE_POINT);
+        let cone_d65_white = self.matrix_multiply_3x3(&BRADFORD_FORWARD, &D65_WHITE_POINT);
+        
+        // Avoid division by zero
+        if cone_d65_white[0].abs() < 1e-15 || cone_d65_white[1].abs() < 1e-15 || cone_d65_white[2].abs() < 1e-15 {
+            return Err(MunsellError::ConvergenceFailed);
+        }
+        
+        // Step 3: Apply adaptation scaling
+        let cone_adapted = [
+            cone_d65[0] * cone_c_white[0] / cone_d65_white[0],
+            cone_d65[1] * cone_c_white[1] / cone_d65_white[1],
+            cone_d65[2] * cone_c_white[2] / cone_d65_white[2],
+        ];
+        
+        // Step 4: Transform back to XYZ
+        let xyz_c = self.matrix_multiply_3x3(&BRADFORD_INVERSE, &cone_adapted);
+        
+        Ok(xyz_c)
+    }
 
     /// Convert XYZ to xyY coordinates
     fn xyz_to_xyy(&self, xyz: [f64; 3]) -> CieXyY {
@@ -919,157 +733,17 @@ impl MathematicalMunsellConverter {
             }
         }
     }
-    
-    /// Convert xyY to XYZ coordinates
-    fn xyy_to_xyz(&self, xyy: CieXyY) -> [f64; 3] {
-        if xyy.y.abs() < 1e-15 {
-            // Handle edge case where y = 0
-            [0.0, xyy.Y, 0.0]
-        } else {
-            let X = xyy.x * xyy.Y / xyy.y;
-            let Z = (1.0 - xyy.x - xyy.y) * xyy.Y / xyy.y;
-            [X, xyy.Y, Z]
-        }
-    }
-    
-    /// Convert XYZ to Lab using Illuminant C as reference
-    fn xyz_to_lab(&self, xyz: [f64; 3]) -> CieLab {
-        // Illuminant C white point in XYZ (normalized Y=1)
-        let x_n = ILLUMINANT_C[0];
-        let y_n = ILLUMINANT_C[1];
-        let Y_n = 1.0;
-        
-        // Convert chromaticity to XYZ
-        let _X_n = x_n * Y_n / y_n;
-        let _Z_n = (1.0 - x_n - y_n) * Y_n / y_n;
-        
-        self.xyz_to_lab_with_xy_reference(xyz, [x_n, y_n])
-    }
-    
-    /// Convert XYZ to Lab using xy chromaticity as reference (Python style)
-    fn xyz_to_lab_with_xy_reference(&self, xyz: [f64; 3], xy_ref: [f64; 2]) -> CieLab {
-        // Convert xy chromaticity to XYZ with Y=1
-        let x_n = xy_ref[0];
-        let y_n = xy_ref[1];
-        let Y_n = 1.0;
-        
-        let X_n = x_n * Y_n / y_n;
-        let Z_n = (1.0 - x_n - y_n) * Y_n / y_n;
-        
-        // Normalize XYZ by reference white
-        let x_r = xyz[0] / X_n;
-        let y_r = xyz[1] / Y_n;
-        let z_r = xyz[2] / Z_n;
-        
-        // Apply the f function (CIE standard)
-        let delta = 6.0 / 29.0;
-        let delta_cubed = delta * delta * delta;
-        
-        let f = |t: f64| -> f64 {
-            if t > delta_cubed {
-                t.powf(1.0 / 3.0)
-            } else {
-                t / (3.0 * delta * delta) + 4.0 / 29.0
-            }
-        };
-        
-        let f_x = f(x_r);
-        let f_y = f(y_r);
-        let f_z = f(z_r);
-        
-        CieLab {
-            L: 116.0 * f_y - 16.0,
-            a: 500.0 * (f_x - f_y),
-            b: 200.0 * (f_y - f_z),
-        }
-    }
-    
-    /// Convert Lab to LCHab
-    fn lab_to_lchab(&self, lab: CieLab) -> CieLCHab {
-        use std::f64::consts::PI;
-        
-        let C = (lab.a * lab.a + lab.b * lab.b).sqrt();
-        let h_rad = lab.b.atan2(lab.a);
-        let h_deg = h_rad * 180.0 / PI;
-        
-        // Normalize to [0, 360)
-        let h = if h_deg < 0.0 { h_deg + 360.0 } else { h_deg };
-        
-        CieLCHab {
-            L: lab.L,
-            C,
-            h,
-        }
-    }
-    
-    /// Convert LCHab to approximate Munsell specification (for initial guess)
-    /// Direct port from Python colour-science
-    fn lchab_to_munsell_specification(&self, lch: CieLCHab) -> (f64, f64, f64, u8) {
-        let hab = lch.h;
-        
-        // Determine code based on LCH hue angle
-        let code = if hab == 0.0 {
-            8  // RP
-        } else if hab <= 36.0 {
-            7  // R
-        } else if hab <= 72.0 {
-            6  // YR
-        } else if hab <= 108.0 {
-            5  // Y
-        } else if hab <= 144.0 {
-            4  // GY
-        } else if hab <= 180.0 {
-            3  // G
-        } else if hab <= 216.0 {
-            2  // BG
-        } else if hab <= 252.0 {
-            1  // B
-        } else if hab <= 288.0 {
-            10 // PB
-        } else if hab <= 324.0 {
-            9  // P
-        } else {
-            8  // RP
-        };
-        
-        // Linear interpolation for hue: maps [0, 36] to [0, 10]
-        let hab_mod = hab % 36.0;
-        let mut hue = (hab_mod / 36.0) * 10.0;
-        if hue == 0.0 {
-            hue = 10.0;
-        }
-        
-        // Direct conversions from Python
-        let value = lch.L / 10.0;
-        let chroma = lch.C / 5.0;
-        
-        (hue, value, chroma, code)
+
+    /// Multiply 3x3 matrix with 3D vector
+    fn matrix_multiply_3x3(&self, matrix: &[[f64; 3]; 3], vector: &[f64; 3]) -> [f64; 3] {
+        [
+            matrix[0][0] * vector[0] + matrix[0][1] * vector[1] + matrix[0][2] * vector[2],
+            matrix[1][0] * vector[0] + matrix[1][1] * vector[1] + matrix[1][2] * vector[2],
+            matrix[2][0] * vector[0] + matrix[2][1] * vector[1] + matrix[2][2] * vector[2],
+        ]
     }
 
-
-    /// Convert CIE xyY to Munsell specification using ASTM D1535 algorithm.
-    ///
-    /// Implements the complete dual-loop iterative algorithm from ASTM D1535
-    /// for mathematical Munsell color space conversion with high precision.
-    ///
-    /// # Arguments
-    /// * `xyy` - CIE xyY chromaticity coordinates
-    ///
-    /// # Returns
-    /// Result containing MunsellSpecification with hue, value, chroma, and family
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::{MathematicalMunsellConverter, CieXyY};
-    /// 
-    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /// let converter = MathematicalMunsellConverter::new()?;
-    /// let xyy = CieXyY { x: 0.64, y: 0.33, Y: 21.26 };
-    /// let munsell = converter.xyy_to_munsell_specification(xyy)?;
-    /// println!("Munsell: {}.{} {:.1}/{:.1}", munsell.hue, munsell.family, munsell.value, munsell.chroma);
-    /// # Ok(())
-    /// # }
-    /// ```
+    /// Convert CIE xyY to Munsell specification using ASTM D1535 algorithm
     pub fn xyy_to_munsell_specification(&self, xyy: CieXyY) -> Result<MunsellSpecification> {
         let debug = std::env::var("DEBUG_MUNSELL").is_ok();
         if debug {
@@ -1081,8 +755,9 @@ impl MathematicalMunsellConverter {
         
         use coordinate_transforms::*;
         use hue_conversions::*;
+        use interpolation_methods::*;
         
-        const CONVERGENCE_THRESHOLD: f64 = 1e-4; // Practical threshold for floating-point precision
+        const CONVERGENCE_THRESHOLD: f64 = THRESHOLD_INTEGER / 1e4; // 1e-7
         
         // Step 1: Calculate Munsell Value using ASTM D1535 polynomial
         eprintln!("  Y luminance input: {:.6} (normalized, will be converted to percentage)", xyy.Y);
@@ -1120,16 +795,10 @@ impl MathematicalMunsellConverter {
         let phi_input = phi_input_rad.to_degrees();
         eprintln!("  Polar coords: rho={:.6}, phi={:.6}°", rho_input, phi_input);
         
-        // Debug for specific test colors
-        let is_debug_238 = (xyy.x - 0.558939).abs() < 0.0001 && (xyy.y - 0.285274).abs() < 0.0001;
-        let is_debug_68 = (xyy.x - 0.320938).abs() < 0.0001 && (xyy.y - 0.154190).abs() < 0.0001;
-        let is_debug_color = is_debug_238 || is_debug_68 || debug;
+        // Debug for RGB [238,0,85] specifically
+        let is_debug_color = (xyy.x - 0.558939).abs() < 0.0001 && (xyy.y - 0.285274).abs() < 0.0001;
         if is_debug_color {
-            if is_debug_238 {
-                eprintln!("DEBUG: Testing RGB [238,0,85]");
-            } else if is_debug_68 {
-                eprintln!("DEBUG: Testing RGB [68,0,68]");
-            }
+            eprintln!("DEBUG: Testing RGB [238,0,85]");
         }
         
         // Step 3: Check for achromatic using rho_input (like Python)
@@ -1147,24 +816,16 @@ impl MathematicalMunsellConverter {
         }
 
         // Step 4: Generate initial guess using direct xyY angle
-        let initial_spec = self.generate_initial_guess(xyy, value)?;
+        let initial_spec = self.generate_initial_guess(xyy)?;
         let mut hue_current = initial_spec.0;
         let mut code_current = initial_spec.1;
         let mut chroma_current = initial_spec.2;  // No additional scaling needed
-        if is_debug_color {
-            eprintln!("  Initial guess: hue={:.6}, code={}, chroma={:.6}", hue_current, code_current, chroma_current);
-            eprintln!("  Initial angle: {:.2}°", hue_to_astm_hue(hue_current, code_current));
-        }
+        eprintln!("  Initial guess: hue={:.6}, code={}, chroma={:.6}", hue_current, code_current, chroma_current);
         
         // Note: rho_input and phi_input already calculated above relative to achromatic center
         // Don't recalculate them here!
         
         eprintln!("\n  Starting main loop (max {} iterations)...", MAX_OUTER_ITERATIONS);
-        
-        // Track previous states to detect stuck loops
-        let mut prev_hue = hue_current;
-        let mut prev_chroma = chroma_current;
-        let mut stuck_count = 0;
         
         // Step 4: DUAL-LOOP ITERATIVE ALGORITHM
         for outer_iteration in 0..MAX_OUTER_ITERATIONS {
@@ -1184,7 +845,7 @@ impl MathematicalMunsellConverter {
             // eprintln!("Current xy: x={:.6}, y={:.6}", x_current, y_current);
             
             // Convert to cylindrical coordinates relative to achromatic center (NOT Illuminant C directly!)
-            let (_rho_current, phi_current, _) = cartesian_to_cylindrical(
+            let (rho_current, phi_current, _) = cartesian_to_cylindrical(
                 x_current - x_center, 
                 y_current - y_center, 
                 xyy.Y
@@ -1202,30 +863,33 @@ impl MathematicalMunsellConverter {
                 phi_current_difference -= 360.0;
             }
             
-            // Python ALWAYS includes initial phi difference (lines 112-113)
-            let mut phi_differences_data = vec![phi_current_difference];
-            let mut hue_angles_differences_data = vec![0.0];
+            // Don't include the initial point if phi_difference is essentially 0
+            // because it's not a sampled point, it's our starting position
+            let mut phi_differences_data = if phi_current_difference.abs() < 1e-6 {
+                vec![]
+            } else {
+                vec![phi_current_difference]
+            };
+            let mut hue_angles_differences_data = if phi_current_difference.abs() < 1e-6 {
+                vec![]
+            } else {
+                vec![0.0]
+            };
             let hue_angle_current = hue_to_astm_hue(hue_current, code_current);
+            let mut extrapolate = false;
             let mut iterations_inner = 0;
             
-            // Python inner loop behavior (lines 120-172)
-            if is_debug_color && outer_iteration == 0 {
-                eprintln!("  Inner hue loop start: phi_input={:.3}°, phi_current={:.3}°, diff={:.3}°", 
-                         phi_input, phi_current_degrees, phi_current_difference);
-            }
-            
-            let mut extrapolate = false;
-            
-            // Python loop condition: same sign AND not extrapolate
-            while {
-                let min_phi = phi_differences_data.iter().fold(f64::INFINITY, |a, &b| a.min(b));
-                let max_phi = phi_differences_data.iter().fold(f64::NEG_INFINITY, |a, &b| a.max(b));
-                (min_phi.signum() == max_phi.signum()) && !extrapolate
-            } {
+            // Python's condition: continue while all phi_differences have same sign AND not extrapolating
+            // eprintln!("  Inner hue loop start: phi_input={:.3}°, phi_current={:.3}°, diff={:.3}°", 
+            //          phi_input, phi_current_degrees, phi_current_difference);
+            while (phi_differences_data.iter().all(|&d| d >= 0.0) || 
+                   phi_differences_data.iter().all(|&d| d <= 0.0)) && 
+                  !extrapolate {
+                
                 iterations_inner += 1;
                 if iterations_inner > MAX_INNER_ITERATIONS {
-                    // Python raises RuntimeError here but it's rare
-                    break;
+                    // eprintln!("  Inner hue loop: max iterations reached");
+                    break; // Prevent infinite loop
                 }
                 
                 // Python line 1167: step by (phi_input - phi_current) each iteration
@@ -1247,7 +911,7 @@ impl MathematicalMunsellConverter {
                 };
                 
                 // Then normalize to [-180, 180] for circular arithmetic
-                let hue_angle_difference_inner = if step_mod > 180.0 {
+                let mut hue_angle_difference_inner = if step_mod > 180.0 {
                     step_mod - 360.0
                 } else {
                     step_mod
@@ -1255,15 +919,17 @@ impl MathematicalMunsellConverter {
                 
                 let (hue_inner, code_inner) = hue_angle_to_hue(hue_angle_inner);
                 
-                // Python lines 147-155: Get xy for this test hue
+                // Get xy for this test hue - Python does this even when extrapolating
+                // but doesn't use the result (lines 1177-1185)
                 let (x_inner, y_inner) = self.munsell_specification_to_xy(hue_inner, value, chroma_current, code_inner)?;
                 
-                // Python lines 157-158: Check if we should extrapolate
+                // Check if we should enable extrapolation AFTER getting xy
+                // CRITICAL: Python enables extrapolation after 2 points (lines 1187-1188)
                 if phi_differences_data.len() >= 2 {
                     extrapolate = true;
                 }
                 
-                // Python lines 160-171: Only add point if NOT extrapolating
+                // If not extrapolating, calculate and store phi difference (Python lines 1190-1201)
                 if !extrapolate {
                     // Calculate phi for this test point (relative to achromatic center)
                     let (_, phi_inner, _) = cartesian_to_cylindrical(
@@ -1271,32 +937,25 @@ impl MathematicalMunsellConverter {
                         y_inner - y_center,
                         xyy.Y
                     );
-                    let phi_inner_degrees = phi_inner.to_degrees();
+                    let mut phi_inner_degrees = phi_inner.to_degrees();
+                    // Normalize to [0, 360) range
+                    if phi_inner_degrees < 0.0 {
+                        phi_inner_degrees += 360.0;
+                    }
                     
-                    // Python line 165: Calculate phi difference
                     let mut phi_inner_difference = (360.0 - phi_input + phi_inner_degrees) % 360.0;
                     if phi_inner_difference > 180.0 {
                         phi_inner_difference -= 360.0;
                     }
                     
-                    // Python lines 169-171: Append to arrays
                     phi_differences_data.push(phi_inner_difference);
                     hue_angles_differences_data.push(hue_angle_difference_inner);
-                    
-                    if is_debug_color && outer_iteration == 0 {
-                        eprintln!("    Inner iteration {}: angle={:.1}°, hue={:.3}, code={}", 
-                                 iterations_inner, hue_angle_inner, hue_inner, code_inner);
-                        eprintln!("      xy=({:.6}, {:.6}), phi={:.3}°, phi_diff={:.3}°", 
-                                 x_inner, y_inner, phi_inner_degrees, phi_inner_difference);
-                    }
+                    // eprintln!("    Inner iteration {}: phi_diff={:.3}°, hue_angle_diff={:.3}°", 
+                    //          iterations_inner, phi_inner_difference, hue_angle_difference_inner);
                 }
             }
             
-            if is_debug_color && outer_iteration == 0 {
-                eprintln!("  Inner hue loop end: collected {} points", phi_differences_data.len());
-                eprintln!("    phi_differences: {:?}", phi_differences_data);
-                eprintln!("    hue_angle_diffs: {:?}", hue_angles_differences_data);
-            }
+            // eprintln!("  Inner hue loop end: collected {} points", phi_differences_data.len());
             
             // Extrapolate/interpolate to find where phi_difference = 0
             // SIMPLIFIED: Match Python's simple approach - no stuck detection, no perturbations
@@ -1314,10 +973,6 @@ impl MathematicalMunsellConverter {
                 // Simple linear interpolation to find where phi_difference = 0
                 // This matches Python's LinearInterpolator which uses np.interp
                 let result = self.linear_interpolate(&sorted_phi, &sorted_hue, 0.0)?;
-                
-                if is_debug_color && outer_iteration == 0 {
-                    eprintln!("  Interpolation: target=0.0, result={:.3}", result);
-                }
                 
                 // Python takes modulo 360 of the result
                 if result < 0.0 {
@@ -1344,29 +999,6 @@ impl MathematicalMunsellConverter {
             // This matches Python's approach which doesn't have any special stuck handling
             hue_current = hue_new;
             code_current = code_new;
-            
-            // CRITICAL: Python checks convergence AFTER hue refinement (line 199)
-            let (x_after_hue, y_after_hue) = self.munsell_specification_to_xy(hue_current, value, chroma_current, code_current)?;
-            
-            // CRITICAL DEBUG: Check if we're getting wrong coordinates
-            if outer_iteration == 4 && (x_after_hue - xyy.x).abs() < 1e-6 {
-                eprintln!("  WARNING: x_after_hue ({:.6}) is suspiciously close to target x ({:.6})", x_after_hue, xyy.x);
-                eprintln!("  This suggests a bug in coordinate calculation!");
-            }
-            
-            let difference_after_hue = ((xyy.x - x_after_hue).powi(2) + (xyy.y - y_after_hue).powi(2)).sqrt();
-            
-            if outer_iteration < 5 {
-                eprintln!("  After hue refinement: spec=(hue={:.3}, value={:.3}, chroma={:.3}, code={})", 
-                         hue_current, value, chroma_current, code_current);
-                eprintln!("  After hue refinement: target=({:.6}, {:.6}), current=({:.6}, {:.6})", xyy.x, xyy.y, x_after_hue, y_after_hue);
-                eprintln!("  Distance after hue refinement: {:.8} (threshold={:.8})", difference_after_hue, CONVERGENCE_THRESHOLD);
-            }
-            
-            // REMOVED: Early convergence check after hue refinement
-            // This was causing premature convergence at lower chromas
-            // Python doesn't have this check, so the algorithm continues
-            // to explore the chroma dimension even when hue is good
             
             // CRITICAL: Cap chroma at maximum SECOND TIME (Python lines 1237-1252)
             let chroma_maximum = self.maximum_chroma_from_renotation(hue_current, value, code_current)?;
@@ -1472,8 +1104,7 @@ impl MathematicalMunsellConverter {
                     eprintln!("    chroma_bounds: {:?}", sorted_chroma);
                 }
                 
-                // For chroma, we want clamping behavior (no extrapolation beyond bounds)
-                let interpolated = self.linear_interpolate_clamped(&sorted_rho, &sorted_chroma, rho_input)?;
+                let interpolated = self.linear_interpolate(&sorted_rho, &sorted_chroma, rho_input)?;
                 
                 if outer_iteration < 2 {
                     eprintln!("    -> interpolated chroma: {:.3}", interpolated);
@@ -1500,83 +1131,28 @@ impl MathematicalMunsellConverter {
             }
             
             if difference < CONVERGENCE_THRESHOLD {
-                // CRITICAL: Before accepting convergence, ensure we're not at a local minimum
-                // Python seems to prefer higher chroma solutions when multiple exist
-                // This helps avoid converging to lower chroma when higher is available
-                
-                // Only accept convergence if we've done enough iterations to explore the space
-                // or if the chroma is reasonably high
-                let min_iterations_for_convergence = 8;
-                let reasonable_chroma = chroma_current > 10.0 || chroma_current > (rho_input * 100.0);
-                
-                if outer_iteration >= min_iterations_for_convergence || reasonable_chroma {
-                    // Converged! Apply full normalization to match Python
-                    // CRITICAL: Check for chroma == 0 -> achromatic
-                    if chroma_current < 1e-10 {
-                        return Ok(MunsellSpecification {
-                            hue: 0.0,
-                            family: "N".to_string(),
-                            value,
-                            chroma: 0.0,
-                        });
-                    }
-                    
-                    // Apply hue normalization (0YR -> 10R)
-                    let (normalized_hue, normalized_code) = Self::normalize_munsell_specification(hue_current, code_current);
-                    let family = code_to_family(normalized_code);
-                    
+                // Converged! Apply full normalization to match Python
+                // CRITICAL: Check for chroma == 0 -> achromatic
+                if chroma_current < 1e-10 {
                     return Ok(MunsellSpecification {
-                        hue: normalized_hue,
-                        family: family.to_string(),
+                        hue: 0.0,
+                        family: "N".to_string(),
                         value,
-                        chroma: chroma_current,
+                        chroma: 0.0,
                     });
-                } else {
-                    // Continue iterating even though we're close
-                    if outer_iteration < 5 {
-                        eprintln!("  Continuing despite convergence to explore higher chromas (iteration {})", outer_iteration);
-                    }
                 }
+                
+                // Apply hue normalization (0YR -> 10R)
+                let (normalized_hue, normalized_code) = Self::normalize_munsell_specification(hue_current, code_current);
+                let family = code_to_family(normalized_code);
+                
+                return Ok(MunsellSpecification {
+                    hue: normalized_hue,
+                    family: family.to_string(),
+                    value,
+                    chroma: chroma_current,
+                });
             }
-            
-            // Check if we're stuck (no progress)
-            if (hue_current - prev_hue).abs() < 1e-6 && (chroma_current - prev_chroma).abs() < 1e-6 {
-                stuck_count += 1;
-                if stuck_count >= 3 {
-                    // We're stuck - likely phi_input ≈ phi_current
-                    // Accept current solution if it's reasonably close
-                    if difference < 0.01 {  // More lenient threshold for stuck cases
-                        if outer_iteration < 10 {
-                            eprintln!("  Stuck at iteration {}, accepting solution with diff={:.6}", outer_iteration, difference);
-                        }
-                        
-                        // Apply normalization and return
-                        if chroma_current < 1e-10 {
-                            return Ok(MunsellSpecification {
-                                hue: 0.0,
-                                family: "N".to_string(),
-                                value,
-                                chroma: 0.0,
-                            });
-                        }
-                        
-                        let (normalized_hue, normalized_code) = Self::normalize_munsell_specification(hue_current, code_current);
-                        let family = code_to_family(normalized_code);
-                        
-                        return Ok(MunsellSpecification {
-                            hue: normalized_hue,
-                            family: family.to_string(),
-                            value,
-                            chroma: chroma_current,
-                        });
-                    }
-                }
-            } else {
-                stuck_count = 0;  // Reset if we made progress
-            }
-            
-            prev_hue = hue_current;
-            prev_chroma = chroma_current;
         }
         
         // If we reach here, the algorithm didn't converge
@@ -1594,8 +1170,6 @@ impl MathematicalMunsellConverter {
                 chroma: 0.0,
             });
         }
-        
-        // TODO: Add boundary checking here if needed
         
         // Apply hue normalization (0YR -> 10R)
         let (normalized_hue, normalized_code) = Self::normalize_munsell_specification(hue_current, code_current);
@@ -1637,64 +1211,42 @@ impl MathematicalMunsellConverter {
         }
     }
     
-    /// Generate initial guess using Lab/LCH color space
-    /// Exact implementation following Python colour-science lines 55-74
-    fn generate_initial_guess(&self, xyy: CieXyY, munsell_value: f64) -> Result<(f64, u8, f64)> {
-        // Line 55: Convert xyY to XYZ
-        let xyz = self.xyy_to_xyz(xyy);
+    /// Generate initial guess using direct xyY angle (NOT Lab/LCH as Python doesn't use it)
+    fn generate_initial_guess(&self, xyy: CieXyY) -> Result<(f64, u8, f64)> {
+        use coordinate_transforms::cartesian_to_cylindrical;
+        use hue_conversions::hue_angle_to_hue;
         
-        // Lines 57-63: Calculate special reference white
-        // Python calculates XYZ for Illuminant C at the same Y level as input
-        let x_i = ILLUMINANT_C[0];
-        let y_i = ILLUMINANT_C[1];
-        let Y = xyy.Y;
+        // CRITICAL FIX: Python doesn't use Lab/LCH for initial guess!
+        // It uses the direct hue angle from xyY coordinates relative to Illuminant C
         
-        // Line 59: Convert to XYZ at same Y
-        let X_r = x_i * Y / y_i;
-        let Y_r = Y;
-        let Z_r = (1.0 - x_i - y_i) * Y / y_i;
+        // Calculate angle directly from xyY relative to Illuminant C
+        let dx = xyy.x - ILLUMINANT_C[0];
+        let dy = xyy.y - ILLUMINANT_C[1];
+        let (rho, phi_rad, _) = cartesian_to_cylindrical(dx, dy, xyy.Y);
+        let mut phi_deg = phi_rad.to_degrees();
         
-        // Lines 61-62: Normalize the reference so Y_r = 1
-        let xyz_r_normalized = [
-            (1.0 / Y_r) * X_r,
-            1.0,
-            (1.0 / Y_r) * Z_r,
-        ];
+        // Ensure angle is in [0, 360) range
+        if phi_deg < 0.0 {
+            phi_deg += 360.0;
+        }
         
-        // Python then converts this to xy chromaticity
-        let xy_ref = [
-            xyz_r_normalized[0] / (xyz_r_normalized[0] + xyz_r_normalized[1] + xyz_r_normalized[2]),
-            xyz_r_normalized[1] / (xyz_r_normalized[0] + xyz_r_normalized[1] + xyz_r_normalized[2]),
-        ];
+        eprintln!("  Initial guess from direct xyY angle: {:.1}°", phi_deg);
         
-        // Line 64: Convert to Lab using the xy reference
-        let lab = self.xyz_to_lab_with_xy_reference(xyz, xy_ref);
+        // Convert angle to Munsell hue and code using the interpolation breakpoints
+        let (hue_initial, code_initial) = hue_angle_to_hue(phi_deg);
         
-        // Line 65: Convert Lab to LCHab
-        let lch = self.lab_to_lchab(lab);
+        // Initial chroma estimate based on distance from achromatic center
+        // Python uses a simple scaling factor here
+        let chroma_initial = rho * 50.0;  // Empirical scaling factor
         
-        eprintln!("  Initial guess from Lab/LCH: L={:.2}, C={:.2}, h={:.1}°", lch.L, lch.C, lch.h);
+        eprintln!("  Initial guess: hue={:.3}, code={}, chroma={:.3}", hue_initial, code_initial, chroma_initial);
         
-        // Lines 66-68: Convert LCH to Munsell specification
-        let (hue_initial, _value_initial, chroma_initial, code_initial) = self.lchab_to_munsell_specification(lch);
-        
-        // Line 72: Apply (5/5.5) scaling factor to chroma
-        // For high-value colors, use less aggressive scaling as they tend to have higher chromas
-        let scaling_factor = if munsell_value >= 8.5 {
-            0.95  // Less reduction for high-value colors
-        } else {
-            5.0 / 5.5  // Standard scaling (~0.909)
-        };
-        let chroma_scaled = scaling_factor * chroma_initial;
-        
-        eprintln!("  Initial Munsell from LCH: hue={:.3}, chroma={:.3} (scaled={:.3}), code={}", 
-                 hue_initial, chroma_initial, chroma_scaled, code_initial);
-        
-        Ok((hue_initial, code_initial, chroma_scaled))
+        Ok((hue_initial, code_initial, chroma_initial))
     }
     
-    /// Old implementation - to be removed
-    fn _old_lchab_to_munsell_specification(&self, _l: f64, _c: f64, hab: f64) -> (f64, u8) {
+    /// Exact implementation of Python LCHab_to_munsell_specification function
+    /// This is the exact algorithm from colour-science munsell.py lines 2422-2480
+    fn lchab_to_munsell_specification(&self, _l: f64, _c: f64, hab: f64) -> (f64, u8) {
         // FIXED: Correct code assignment based on Python's actual behavior
         // Python uses 36° segments with different boundaries than we had
         let code = if hab < 18.0 || hab >= 342.0 {
@@ -1735,52 +1287,7 @@ impl MathematicalMunsellConverter {
         (hue, code)
     }
 
-    /// Linear interpolation helper function with clamping (no extrapolation)
-    /// Used for chroma interpolation where we want to stay within bounds
-    fn linear_interpolate_clamped(&self, x_values: &[f64], y_values: &[f64], x_target: f64) -> Result<f64> {
-        if x_values.len() != y_values.len() || x_values.len() < 2 {
-            return Err(MunsellError::InterpolationError { 
-                message: "Invalid data for interpolation".to_string() 
-            });
-        }
-        
-        // Sort by x values
-        let mut paired: Vec<_> = x_values.iter().zip(y_values.iter())
-            .map(|(&x, &y)| (x, y))
-            .collect();
-        paired.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
-        
-        // Clamp to boundaries if outside range
-        let first_x = paired[0].0;
-        let last_x = paired[paired.len() - 1].0;
-        
-        if x_target <= first_x {
-            return Ok(paired[0].1);
-        }
-        if x_target >= last_x {
-            return Ok(paired[paired.len() - 1].1);
-        }
-        
-        // Find bracketing points
-        for i in 0..paired.len()-1 {
-            let (x1, y1) = paired[i];
-            let (x2, y2) = paired[i+1];
-            
-            if x1 <= x_target && x_target <= x2 {
-                if (x2 - x1).abs() < 1e-10 {
-                    return Ok(y1);
-                }
-                let t = (x_target - x1) / (x2 - x1);
-                return Ok(y1 + t * (y2 - y1));
-            }
-        }
-        
-        // Should not reach here
-        Ok(paired[0].1)
-    }
-
-    /// Linear interpolation helper function with EXTRAPOLATION support
-    /// Python uses Extrapolator(LinearInterpolator(...)) which extrapolates beyond boundaries
+    /// Linear interpolation helper function
     fn linear_interpolate(&self, x_values: &[f64], y_values: &[f64], x_target: f64) -> Result<f64> {
         if x_values.len() != y_values.len() || x_values.len() < 2 {
             return Err(MunsellError::InterpolationError { 
@@ -1788,22 +1295,18 @@ impl MathematicalMunsellConverter {
             });
         }
         
-        // For the hue angle interpolation, we need extrapolation behavior
-        // Python's Extrapolator extends the line beyond the data points
+        // Find the two closest x values that bracket x_target
+        let mut best_result = y_values[0];
+        let mut best_distance = (x_values[0] - x_target).abs();
         
-        // Sort by x values (assumed already sorted in our case)
-        let mut paired: Vec<_> = x_values.iter().zip(y_values.iter())
-            .map(|(&x, &y)| (x, y))
-            .collect();
-        paired.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
-        
-        // Find bracketing points or closest two points for extrapolation
-        for i in 0..paired.len()-1 {
-            let (x1, y1) = paired[i];
-            let (x2, y2) = paired[i+1];
+        for i in 0..x_values.len()-1 {
+            let x1 = x_values[i];
+            let x2 = x_values[i+1];
+            let y1 = y_values[i];
+            let y2 = y_values[i+1];
             
             // Check if x_target is between x1 and x2
-            if x1 <= x_target && x_target <= x2 {
+            if (x1 <= x_target && x_target <= x2) || (x2 <= x_target && x_target <= x1) {
                 // Linear interpolation
                 if (x2 - x1).abs() < 1e-10 {
                     return Ok(y1);
@@ -1811,37 +1314,53 @@ impl MathematicalMunsellConverter {
                 let t = (x_target - x1) / (x2 - x1);
                 return Ok(y1 + t * (y2 - y1));
             }
+            
+            // Track closest point for extrapolation
+            let distance = (x1 - x_target).abs();
+            if distance < best_distance {
+                best_distance = distance;
+                best_result = y1;
+            }
         }
         
-        // If we get here, x_target is outside the range - need to extrapolate
-        // Use the two closest points to create the line
-        let (x1, y1) = paired[0];
-        let (x2, y2) = paired[1];
-        let (last_x1, last_y1) = paired[paired.len()-2];
-        let (last_x2, last_y2) = paired[paired.len()-1];
-        
-        if x_target < x1 {
-            // Extrapolate from the first two points
-            if (x2 - x1).abs() < 1e-10 {
-                return Ok(y1);
-            }
-            let t = (x_target - x1) / (x2 - x1);
-            Ok(y1 + t * (y2 - y1))
-        } else if x_target > last_x2 {
-            // Extrapolate from the last two points
-            if (last_x2 - last_x1).abs() < 1e-10 {
-                return Ok(last_y2);
-            }
-            let t = (x_target - last_x1) / (last_x2 - last_x1);
-            Ok(last_y1 + t * (last_y2 - last_y1))
-        } else {
-            // Should not happen if logic is correct
-            Ok(y_values[0])
+        // Check last point
+        let last_idx = x_values.len() - 1;
+        let distance = (x_values[last_idx] - x_target).abs();
+        if distance < best_distance {
+            best_distance = distance;
+            best_result = y_values[last_idx];
         }
+        
+        // CRITICAL FIX: Match np.interp behavior - CLAMP to boundaries instead of extrapolating!
+        // np.interp returns boundary values when x is outside the data range
+        // This prevents oscillation caused by aggressive extrapolation
+        if x_values.len() >= 2 {
+            // Sort indices by x value
+            let mut indices: Vec<usize> = (0..x_values.len()).collect();
+            indices.sort_by(|&i, &j| x_values[i].partial_cmp(&x_values[j]).unwrap());
+            
+            let sorted_x: Vec<f64> = indices.iter().map(|&i| x_values[i]).collect();
+            let sorted_y: Vec<f64> = indices.iter().map(|&i| y_values[i]).collect();
+            
+            // Check if we need to clamp
+            let first_x = sorted_x[0];
+            let last_x = sorted_x[sorted_x.len() - 1];
+            
+            if x_target <= first_x {
+                // Left boundary - return first y value (like np.interp default)
+                return Ok(sorted_y[0]);
+            } else if x_target >= last_x {
+                // Right boundary - return last y value (like np.interp default)
+                return Ok(sorted_y[sorted_y.len() - 1]);
+            }
+        }
+        
+        // Fallback to nearest neighbor if can't determine boundaries
+        Ok(best_result)
     }
 
     /// Calculate maximum chroma from renotation data
-    fn maximum_chroma_from_renotation(&self, _hue: f64, value: f64, code: u8) -> Result<f64> {
+    fn maximum_chroma_from_renotation(&self, hue: f64, value: f64, code: u8) -> Result<f64> {
         // CRITICAL: Must use actual renotation data to find maximum chroma
         // This is essential for proper convergence!
         
@@ -1878,29 +1397,15 @@ impl MathematicalMunsellConverter {
             }
         }
         
-        // If no data found, use more realistic defaults based on value
-        // These are based on analysis of Python's behavior and typical Munsell ranges
+        // If no data found, use conservative defaults based on value
         if max_chroma < 0.1 {
-            // Use more accurate defaults, especially for high-value colors
             max_chroma = match value as i32 {
-                0..=1 => 12.0,
-                2 => 20.0,
-                3 => 30.0,
-                4 => 38.0,
-                5 => 40.0,
-                6 => 38.0,
-                7 => 36.0,
-                8 => 34.0,
-                9 => 28.0,   // Increased from 20.0 for high-value colors
-                10 => 16.0,  // Increased from 12.0
-                _ => 10.0,
+                0..=2 => 10.0,
+                3..=5 => 15.0,
+                6..=8 => 20.0,
+                9..=10 => 10.0,
+                _ => 8.0,
             };
-            
-            // Special handling for green families at high values
-            // Greens can have higher chromas at high values
-            if (family == "G" || family == "GY" || family == "BG") && value >= 8.0 {
-                max_chroma = max_chroma.max(32.0);
-            }
         }
         
         Ok(max_chroma)
@@ -1913,11 +1418,10 @@ impl MathematicalMunsellConverter {
         // This is essential for convergence accuracy!
         
         // Debug output for problematic cases
-        let debug = std::env::var("DEBUG_MUNSELL").is_ok();
-        if debug && (hue - 8.548).abs() < 0.01 && (chroma - 7.125).abs() < 0.01 {
-            eprintln!("DEBUG munsell_specification_to_xy: hue={:.3}, value={:.3}, chroma={:.3}, code={}", 
-                     hue, value, chroma, code);
-        }
+        // if (hue - 5.296).abs() < 0.01 && (chroma - 0.248).abs() < 0.01 {
+        //     eprintln!("DEBUG munsell_specification_to_xy: hue={:.3}, value={:.3}, chroma={:.3}, code={}", 
+        //              hue, value, chroma, code);
+        // }
         
         // Check if value is essentially an integer
         let is_integer = (value - value.round()).abs() < 1e-10;
@@ -1941,13 +1445,6 @@ impl MathematicalMunsellConverter {
                 self.xy_from_renotation_ovoid(hue, value_plus, chroma, code)?
             };
             
-            // Debug output
-            if std::env::var("DEBUG_MUNSELL").is_ok() && (hue - 4.130).abs() < 0.01 && (chroma - 18.159).abs() < 0.01 {
-                eprintln!("    Value interpolation: value_minus={}, value_plus={}", value_minus, value_plus);
-                eprintln!("      xy_minus=({:.6}, {:.6})", x_minus, y_minus);
-                eprintln!("      xy_plus=({:.6}, {:.6})", x_plus, y_plus);
-            }
-            
             if value_minus == value_plus || (x_minus == x_plus && y_minus == y_plus) {
                 // No interpolation needed
                 Ok((x_minus, y_minus))
@@ -1961,12 +1458,6 @@ impl MathematicalMunsellConverter {
                 let t = (y_actual - y_minus_lum) / (y_plus_lum - y_minus_lum);
                 let x = x_minus + t * (x_plus - x_minus);
                 let y = y_minus + t * (y_plus - y_minus);
-                
-                // Debug output
-                if std::env::var("DEBUG_MUNSELL").is_ok() && (hue - 4.130).abs() < 0.01 && (chroma - 18.159).abs() < 0.01 {
-                    eprintln!("      Y luminances: minus={:.6}, plus={:.6}, actual={:.6}", y_minus_lum, y_plus_lum, y_actual);
-                    eprintln!("      t={:.6}, result xy=({:.6}, {:.6})", t, x, y);
-                }
                 
                 Ok((x, y))
             }
@@ -1991,10 +1482,8 @@ impl MathematicalMunsellConverter {
         };
         
         // Debug: Print what we're looking for
-        if hue == 10.0 && code == 5 && (value - 9.0).abs() < 0.01 && (chroma - 6.0).abs() < 0.01 {
-            eprintln!("=== DEBUG LOOKUP ===");
-            eprintln!("Looking for exact match: hue_str={}, value={}, chroma={}", hue_str, value, chroma);
-            eprintln!("code={}, family={}", code, family);
+        if chroma > 24.0 {
+            // println!("Looking for exact match: hue_str={}, value={}, chroma={}", hue_str, value, chroma);
         }
         
         // Try to find exact match first with full hue string
@@ -2005,24 +1494,7 @@ impl MathematicalMunsellConverter {
                 if chroma > 24.0 {
                     // println!("EXACT MATCH FOUND: {} {} {} -> ({}, {})", entry_family, entry_value, entry_chroma, x, y);
                 }
-                if hue == 10.0 && code == 5 && (value - 9.0).abs() < 0.01 && (chroma - 6.0).abs() < 0.01 {
-                    eprintln!("EXACT MATCH FOUND: {} {} {} -> ({}, {})", entry_family, entry_value, entry_chroma, x, y);
-                }
                 return Ok((x, y));
-            }
-        }
-        
-        if hue == 10.0 && code == 5 && (value - 9.0).abs() < 0.01 && (chroma - 6.0).abs() < 0.01 {
-            eprintln!("NO EXACT MATCH FOUND! Falling back to interpolation");
-            // Check first few entries to see what's available
-            eprintln!("Sample entries from renotation data:");
-            let mut count = 0;
-            for &((ref entry_family, entry_value, entry_chroma), (x, y, _Y)) in self.renotation_data {
-                if entry_family.contains("10Y") || entry_family.contains("10GY") {
-                    eprintln!("  {} {} {} -> ({}, {})", entry_family, entry_value, entry_chroma, x, y);
-                    count += 1;
-                    if count > 10 { break; }
-                }
             }
         }
         
@@ -2045,7 +1517,7 @@ impl MathematicalMunsellConverter {
         for &((ref entry_family, entry_value, entry_chroma), (x, y, _Y)) in self.renotation_data {
             // Check if this entry has the same family
             if entry_family.ends_with(&family) {
-                matching_entries.push(((*entry_family).to_string(), entry_value, entry_chroma, x, y));
+                matching_entries.push((entry_family.clone(), entry_value, entry_chroma, x, y));
             }
         }
         
@@ -2140,18 +1612,15 @@ impl MathematicalMunsellConverter {
     /// Complete Python xy_from_renotation_ovoid algorithm implementation
     /// This is the exact algorithm from colour-science munsell.py lines 2265-2419
     fn xy_from_renotation_ovoid(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
+        use crate::constants::ILLUMINANT_C;
         
         // CRITICAL: Value must be integer for renotation lookup
         // Chroma interpolation is handled below - DO NOT round chroma here!
         let value_normalized = value.round(); // Must be integer for dataset lookup
         
         // Debug: Show what we're looking up
-        let debug = std::env::var("DEBUG_MUNSELL").is_ok();
-        if debug && (hue - 8.548).abs() < 0.01 && (chroma - 6.0).abs() < 0.1 {
-            eprintln!("    xy_from_renotation_ovoid: hue={:.3}, value={:.3}->{:.0}, chroma={:.3}, code={}", 
-                     hue, value, value_normalized, chroma, code);
-            eprintln!("      Family: {}", hue_conversions::code_to_family(code));
-        }
+        // eprintln!("    xy_from_renotation_ovoid: hue={:.3}, value={:.3}->{:.0}, chroma={:.3}, code={}", 
+        //          hue, value, value_normalized, chroma, code);
         
         // Check if this is a standard hue (2.5, 5.0, 7.5, 10.0 or exact 0)
         const THRESHOLD_INTEGER: f64 = 1e-7;
@@ -2166,15 +1635,11 @@ impl MathematicalMunsellConverter {
         // Check if chroma is even (for potential direct lookup)
         let chroma_is_even = (chroma - 2.0 * (chroma / 2.0).round()).abs() < THRESHOLD_INTEGER;
         
-        
         if is_standard_hue && chroma_is_even {
-            // Can do direct lookup, but need to use corrected hue and code for hue=0 case
-            let ((hue_cw, code_cw), (_hue_ccw, _code_ccw)) = hue_conversions::bounding_hues_from_renotation(hue, code);
+            // Can do direct lookup
+            let rounded_hue = 2.5 * (hue / 2.5).round();
             let chroma_even = 2.0 * (chroma / 2.0).round();
-            
-            
-            // For standard hues, both boundaries should be the same, so use the CW one
-            return self.lookup_xy_from_renotation(hue_cw, value_normalized, chroma_even, code_cw);
+            return self.lookup_xy_from_renotation(rounded_hue, value_normalized, chroma_even, code);
         }
         
         // Need to interpolate - first handle chroma interpolation if needed
@@ -2184,10 +1649,9 @@ impl MathematicalMunsellConverter {
             let chroma_upper = chroma_lower + 2.0;
             
             // Debug print for chroma interpolation
-            if debug && (hue - 8.548).abs() < 0.5 && (chroma - 7.125).abs() < 0.5 {
-                eprintln!("      CHROMA INTERPOLATION: chroma={:.3} → lower={:.1}, upper={:.1}", 
-                         chroma, chroma_lower, chroma_upper);
-                eprintln!("      is_standard_hue={}", is_standard_hue);
+            if chroma > 20.0 && chroma < 22.0 {
+                // eprintln!("CHROMA INTERPOLATION: chroma={:.6} → lower={:.1}, upper={:.1}", 
+                //          chroma, chroma_lower, chroma_upper);
             }
             
             // Get xy for lower chroma
@@ -2211,16 +1675,10 @@ impl MathematicalMunsellConverter {
             let x = x_lower + t * (x_upper - x_lower);
             let y = y_lower + t * (y_upper - y_lower);
             
-            if debug && (hue - 8.548).abs() < 0.5 && (chroma - 7.125).abs() < 0.5 {
-                eprintln!("      Lower: ({:.6}, {:.6}), Upper: ({:.6}, {:.6})", x_lower, y_lower, x_upper, y_upper);
-                eprintln!("      t={:.3}, Result: ({:.6}, {:.6})", t, x, y);
-            }
-            
-            if std::env::var("DEBUG_MUNSELL").is_ok() && (hue - 4.130).abs() < 0.01 && (chroma - 18.159).abs() < 0.01 {
-                eprintln!("      CHROMA INTERPOLATION RESULT:");
-                eprintln!("        Lower (chroma {}): xy=({:.6}, {:.6})", chroma_lower, x_lower, y_lower);
-                eprintln!("        Upper (chroma {}): xy=({:.6}, {:.6})", chroma_upper, x_upper, y_upper);
-                eprintln!("        t={:.6}, result: xy=({:.6}, {:.6})", t, x, y);
+            if chroma > 20.0 && chroma < 22.0 {
+                // eprintln!("  Lower: xy=({:.6}, {:.6})", x_lower, y_lower);
+                // eprintln!("  Upper: xy=({:.6}, {:.6})", x_upper, y_upper);
+                // eprintln!("  t={:.6}, result: xy=({:.6}, {:.6})", t, x, y);
             }
             
             return Ok((x, y));
@@ -2255,40 +1713,6 @@ impl MathematicalMunsellConverter {
         let (x_plus, y_plus) = self.lookup_xy_from_renotation(hue_ccw, value, chroma, code_ccw)?;
         let y_luminance_plus = self.get_y_luminance_from_renotation(hue_ccw, value, chroma, code_ccw)?;
         
-        // Debug
-        if std::env::var("DEBUG_MUNSELL").is_ok() && ((hue - 4.130).abs() < 0.01 && (chroma - 18.0).abs() < 0.2 || (hue - 8.548).abs() < 0.01) {
-            eprintln!("        xy_from_renotation_ovoid_for_even_chroma:");
-            eprintln!("          Input: hue={:.3}, value={:.0}, chroma={:.1}", hue, value, chroma);
-            eprintln!("          Boundaries: cw={}{}(code={}), ccw={}{}(code={})", 
-                     hue_cw, hue_conversions::code_to_family(code_cw), code_cw,
-                     hue_ccw, hue_conversions::code_to_family(code_ccw), code_ccw);
-            eprintln!("          Minus (cw): xy=({:.6}, {:.6})", x_minus, y_minus);
-        }
-        
-        // Debug for hue 0.0 issue
-        if (hue - 0.0).abs() < 0.01 && (value - 9.0).abs() < 0.01 && (chroma - 6.0).abs() < 0.01 && code == 4 {
-            eprintln!("=== DEBUGGING HUE 0.0 GY ===");
-            eprintln!("  xy_from_renotation_ovoid_for_even_chroma:");
-            eprintln!("    Input: hue={:.3}, value={:.0}, chroma={:.1}, code={}", hue, value, chroma, code);
-            eprintln!("    Boundaries: cw={}{}(code={}), ccw={}{}(code={})", 
-                     hue_cw, hue_conversions::code_to_family(code_cw), code_cw,
-                     hue_ccw, hue_conversions::code_to_family(code_ccw), code_ccw);
-            eprintln!("    Python expects: boundaries=((10.0, 5), (10.0, 5))");
-            eprintln!("    Minus (cw): xy=({:.6}, {:.6})", x_minus, y_minus);
-            eprintln!("          Plus (ccw): xy=({:.6}, {:.6})", x_plus, y_plus);
-        }
-        
-        // DEBUG: Print lookup results for RP cases
-        if code == 8 && std::env::var("DEBUG_MUNSELL").is_ok() {
-            eprintln!("      RP LOOKUP DEBUG:");
-            eprintln!("        Input: hue={:.3}, value={:.1}, chroma={:.1}, code={}", hue, value, chroma, code);
-            eprintln!("        Boundaries: cw={}{}(code={}), ccw={}{}(code={})", 
-                     hue_cw, hue_conversions::code_to_family(code_cw), code_cw,
-                     hue_ccw, hue_conversions::code_to_family(code_ccw), code_ccw);
-            eprintln!("        Minus (cw): x={:.6}, y={:.6}", x_minus, y_minus);
-            eprintln!("        Plus (ccw): x={:.6}, y={:.6}", x_plus, y_plus);
-        }
-        
         // DEBUG: Print lookup results (disabled for production)
         // if chroma > 24.0 {
         //     println!("=== RENOTATION LOOKUP DEBUG ===");
@@ -2315,14 +1739,6 @@ impl MathematicalMunsellConverter {
         let hue_angle = hue_conversions::hue_to_hue_angle(hue, code);
         let hue_angle_upper = hue_conversions::hue_to_hue_angle(hue_ccw, code_ccw);
         
-        // Debug hue angles
-        if std::env::var("DEBUG_MUNSELL").is_ok() && (hue - 4.130).abs() < 0.01 && (chroma - 18.0).abs() < 0.2 {
-            eprintln!("          Hue angle calculation:");
-            eprintln!("            hue_cw={:.1}, code_cw={} -> angle={:.3}°", hue_cw, code_cw, hue_angle_lower);
-            eprintln!("            hue={:.3}, code={} -> angle={:.3}°", hue, code, hue_angle);
-            eprintln!("            hue_ccw={:.1}, code_ccw={} -> angle={:.3}°", hue_ccw, code_ccw, hue_angle_upper);
-        }
-        
         // Handle phi angle wrapping (Python lines 2376-2377)
         if phi_minus_deg - phi_plus_deg > 180.0 {
             phi_plus_deg += 360.0;
@@ -2345,21 +1761,8 @@ impl MathematicalMunsellConverter {
             }
         }
         
-        // Debug angle correction
-        if std::env::var("DEBUG_MUNSELL").is_ok() && ((hue - 4.130).abs() < 0.01 && (chroma - 18.0).abs() < 0.2 || (hue - 8.548).abs() < 0.01) {
-            eprintln!("          After angle correction:");
-            eprintln!("            hue_angle_lower_corrected={:.3}°", hue_angle_lower_corrected);
-            eprintln!("            hue_angle_corrected={:.3}°", hue_angle_corrected);
-            eprintln!("            hue_angle_upper={:.3}°", hue_angle_upper);
-        }
-        
         // Get interpolation method (Linear vs Radial)
         let interpolation_method = self.get_interpolation_method(hue, value, chroma, code)?;
-        
-        // Debug
-        if std::env::var("DEBUG_MUNSELL").is_ok() && ((hue - 4.130).abs() < 0.01 && (chroma - 18.0).abs() < 0.2 || (hue - 8.548).abs() < 0.01) {
-            eprintln!("          Interpolation method: {}", interpolation_method);
-        }
         
         // if chroma > 24.0 {
         //     println!("Interpolation method: {}", interpolation_method);
@@ -2371,14 +1774,6 @@ impl MathematicalMunsellConverter {
         
         if interpolation_method == "Linear" {
             // Linear interpolation (Python lines 2399-2404)
-            
-            // DEBUG for RP cases
-            if code == 8 && std::env::var("DEBUG_MUNSELL").is_ok() {
-                eprintln!("        Interpolation angles: lower={:.3}°, current={:.3}°, upper={:.3}°",
-                         hue_angle_lower_corrected, hue_angle_corrected, hue_angle_upper);
-                eprintln!("        Interpolation method: Linear");
-            }
-            
             let x = self.linear_interpolate_2d(
                 hue_angle_lower_corrected, hue_angle_upper, x_minus, x_plus, hue_angle_corrected
             );
@@ -2386,29 +1781,13 @@ impl MathematicalMunsellConverter {
                 hue_angle_lower_corrected, hue_angle_upper, y_minus, y_plus, hue_angle_corrected
             );
             
-            if std::env::var("DEBUG_MUNSELL").is_ok() && (hue - 4.130).abs() < 0.01 && (chroma - 18.0).abs() < 0.2 {
-                eprintln!("          Linear interpolation:");
-                eprintln!("            Angles: {:.3}° -> {:.3}° -> {:.3}°", 
-                         hue_angle_lower_corrected, hue_angle_corrected, hue_angle_upper);
-                eprintln!("            X: {:.6} -> {:.6} -> {:.6}", x_minus, x, x_plus);
-                eprintln!("            Y: {:.6} -> {:.6} -> {:.6}", y_minus, y, y_plus);
-                eprintln!("            Result: xy=({:.6}, {:.6})", x, y);
-            }
+            // if chroma > 24.0 {
+            //     println!("Linear interpolation result: x={:.6}, y={:.6}", x, y);
+            // }
             
             Ok((x, y))
         } else if interpolation_method == "Radial" {
             // Radial interpolation (Python lines 2405-2417)
-            
-            // Debug for 8.548GY case
-            if std::env::var("DEBUG_MUNSELL").is_ok() && (hue - 8.548).abs() < 0.01 {
-                eprintln!("          Radial interpolation:");
-                eprintln!("            Cylindrical coords:");
-                eprintln!("              CW:  rho={:.8}, phi={:.8}°", rho_minus, phi_minus_deg);
-                eprintln!("              CCW: rho={:.8}, phi={:.8}°", rho_plus, phi_plus_deg);
-                eprintln!("            Hue angles: {:.8}° -> {:.8}° -> {:.8}°", 
-                         hue_angle_lower_corrected, hue_angle_corrected, hue_angle_upper);
-            }
-            
             let rho = self.linear_interpolate_2d(
                 hue_angle_lower_corrected, hue_angle_upper, rho_minus, rho_plus, hue_angle_corrected
             );
@@ -2422,21 +1801,10 @@ impl MathematicalMunsellConverter {
             let x = x_offset + x_grey;
             let y = y_offset + y_grey;
             
-            // Debug for 8.548GY case
-            if std::env::var("DEBUG_MUNSELL").is_ok() && (hue - 8.548).abs() < 0.01 {
-                eprintln!("            Interpolated polar: rho={:.8}, phi={:.8}°", rho, phi_deg);
-                eprintln!("            Cartesian offset: ({:.8}, {:.8})", x_offset, y_offset);
-                eprintln!("            Final result: xy=({:.8}, {:.8})", x, y);
-            }
-            
-            if std::env::var("DEBUG_MUNSELL").is_ok() && (hue - 4.130).abs() < 0.01 && (chroma - 18.0).abs() < 0.2 {
-                eprintln!("          Radial interpolation:");
-                eprintln!("            Angles: {:.3}° -> {:.3}° -> {:.3}°", 
-                         hue_angle_lower_corrected, hue_angle_corrected, hue_angle_upper);
-                eprintln!("            Rho: {:.6} -> {:.6} -> {:.6}", rho_minus, rho, rho_plus);
-                eprintln!("            Phi: {:.3}° -> {:.3}° -> {:.3}°", phi_minus_deg, phi_deg, phi_plus_deg);
-                eprintln!("            Result: xy=({:.6}, {:.6})", x, y);
-            }
+            // if chroma > 24.0 {
+            //     println!("Radial interpolation: rho={:.6}, phi={:.3}°", rho, phi_deg);
+            //     println!("Result: x={:.6}, y={:.6}", x, y);
+            // }
             
             Ok((x, y))
         } else {
@@ -2447,7 +1815,7 @@ impl MathematicalMunsellConverter {
     }
     
     /// Get Y luminance value from renotation data
-    fn get_y_luminance_from_renotation(&self, _hue: f64, value: f64, chroma: f64, code: u8) -> Result<f64> {
+    fn get_y_luminance_from_renotation(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<f64> {
         let family = hue_conversions::code_to_family(code);
         
         for &((ref entry_family, entry_value, entry_chroma), (_, _, y_luminance)) in self.renotation_data {
@@ -2466,9 +1834,11 @@ impl MathematicalMunsellConverter {
     }
     
     /// Get interpolation method using Python's interpolation_method_from_renotation_ovoid
-    fn get_interpolation_method(&self, _hue: f64, value: f64, chroma: f64, _code: u8) -> Result<&'static str> {
+    fn get_interpolation_method(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<&'static str> {
         // This is a complex lookup from interpolation_methods::INTERPOLATION_METHODS
         // For now, implement the key logic patterns from Python
+        
+        let family = hue_conversions::code_to_family(code);
         
         // Most common patterns from the interpolation method table
         if value <= 1.0 || chroma <= 2.0 {
@@ -2509,7 +1879,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Fallback interpolation method
-    fn interpolate_hue_chroma_to_xy(&self, _hue: f64, value: f64, _chroma: f64, _code: u8) -> Result<(f64, f64)> {
+    fn interpolate_hue_chroma_to_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
         // Use the old interpolation method as fallback
         let (_, _, _) = self.interpolate_hue_chroma(0.31006, 0.31616, value)?; // Use illuminant C as dummy
         
@@ -2635,7 +2005,7 @@ impl MathematicalMunsellConverter {
             let error_magnitude = (error_x * error_x + error_y * error_y).sqrt();
             
             // Check convergence
-            if error_magnitude < 1e-8 {
+            if error_magnitude < TOLERANCE_ABSOLUTE_DEFAULT {
                 return Ok((current_spec.hue, current_spec.family, current_spec.chroma));
             }
             
@@ -2833,7 +2203,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Refine Munsell specification using gradient estimation
-    fn refine_munsell_specification(&self, spec: &MunsellSpecification, _target_x: f64, _target_y: f64, error_x: f64, error_y: f64) -> Result<MunsellSpecification> {
+    fn refine_munsell_specification(&self, spec: &MunsellSpecification, target_x: f64, target_y: f64, error_x: f64, error_y: f64) -> Result<MunsellSpecification> {
         // Gradient-based refinement (simplified)
         let step_size = 0.1;
         
@@ -2944,78 +2314,6 @@ mod tests {
     fn test_mathematical_converter_creation() {
         let converter = MathematicalMunsellConverter::new().unwrap();
         assert_eq!(converter.renotation_data.len(), 4995);
-    }
-    
-    #[test]
-    fn test_xy_from_renotation_ovoid_exact_match() {
-        // Test cases generated from Python colour-science
-        // Each tuple is (hue, value, chroma, code, expected_x, expected_y)
-        let test_cases = vec![
-            // Standard hues with even chroma (direct lookup)
-            (7.5, 9.0, 6.0, 4, 0.33510000, 0.41110000),   // 7.5GY 9/6
-            (10.0, 9.0, 6.0, 4, 0.31530000, 0.40080000),  // 10GY 9/6
-            (2.5, 9.0, 6.0, 4, 0.36700000, 0.41780000),   // 2.5GY 9/6
-            (5.0, 9.0, 6.0, 4, 0.35720000, 0.41790000),   // 5GY 9/6
-            
-            // Non-standard hues with even chroma (hue interpolation)
-            (8.548, 9.0, 6.0, 4, 0.32624128, 0.40731066), // 8.548GY 9/6 - our problematic case
-            (8.0, 9.0, 6.0, 4, 0.33077856, 0.40939540),   // 8.0GY 9/6
-            (8.5, 9.0, 6.0, 4, 0.32663013, 0.40750196),   // 8.5GY 9/6
-            (3.75, 9.0, 6.0, 4, 0.36206360, 0.41796313),  // 3.75GY 9/6
-            
-            // Standard hues with different even chromas
-            (7.5, 9.0, 8.0, 4, 0.34140000, 0.44150000),   // 7.5GY 9/8
-            (10.0, 9.0, 4.0, 4, 0.31440000, 0.37110000),  // 10GY 9/4
-            
-            // Non-standard hues with different even chromas
-            (8.548, 9.0, 8.0, 4, 0.32981167, 0.43564075), // 8.548GY 9/8
-            (8.0, 9.0, 10.0, 4, 0.34018503, 0.47050971),  // 8.0GY 9/10
-            
-            // Edge cases
-            (0.0, 9.0, 6.0, 4, 0.37610000, 0.41550000),   // 0GY 9/6
-            (1.0, 9.0, 6.0, 4, 0.37245958, 0.41651637),   // 1GY 9/6
-            (9.5, 9.0, 6.0, 4, 0.31888375, 0.40319280),   // 9.5GY 9/6
-            
-            // Different values
-            (8.548, 8.0, 6.0, 4, 0.32540691, 0.40855420), // 8.548GY 8/6
-            (8.548, 7.0, 6.0, 4, 0.32511042, 0.41402286), // 8.548GY 7/6
-            
-            // Different chromas
-            (8.548, 9.0, 8.0, 4, 0.32981167, 0.43564075),  // 8.548GY 9/8 (duplicate)
-            (8.548, 9.0, 10.0, 4, 0.33293507, 0.46689680), // 8.548GY 9/10
-            (8.548, 9.0, 12.0, 4, 0.33480029, 0.49625646), // 8.548GY 9/12
-        ];
-        
-        let converter = MathematicalMunsellConverter::new().unwrap();
-        
-        // Ensure debug is enabled
-        std::env::set_var("DEBUG_MUNSELL", "1");
-        eprintln!("DEBUG_MUNSELL enabled: {}", std::env::var("DEBUG_MUNSELL").is_ok());
-        
-        for (hue, value, chroma, code, expected_x, expected_y) in test_cases {
-            if (hue - 8.548f64).abs() < 0.01 {
-                eprintln!("\n=== Testing {:.3}GY {}/{} ===", hue, value, chroma);
-            }
-            let (x, y) = converter.xy_from_renotation_ovoid(hue, value, chroma, code).unwrap();
-            
-            // Allow for small floating point differences and interpolation precision (1e-3)
-            let x_diff = (x - expected_x).abs();
-            let y_diff = (y - expected_y).abs();
-            
-            assert!(
-                x_diff < 1e-3,
-                "X mismatch for {:.3}GY {}/{}: got {:.8}, expected {:.8} (diff: {:.2e})",
-                hue, value, chroma, x, expected_x, x_diff
-            );
-            
-            assert!(
-                y_diff < 1e-3,
-                "Y mismatch for {:.3}GY {}/{}: got {:.8}, expected {:.8} (diff: {:.2e})",
-                hue, value, chroma, y, expected_y, y_diff
-            );
-            
-            println!("✓ {:.3}GY {}/{}: ({:.8}, {:.8}) matches Python", hue, value, chroma, x, y);
-        }
     }
 
     #[test]

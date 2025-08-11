@@ -1,18 +1,15 @@
 //! Comprehensive Conversion Dataset Analysis Tool
-//!
-//! Generates COMPREHENSIVE_CONVERSION_DATASET.md with detailed analysis of both
-//! ISCC-NBS reference datasets across all illuminants and methods.
-//!
-//! This tool tests:
-//! - W3 ISCC NBS Colors (267 colors from ISCC_NBS_REFERENCE_DATASET.csv)
-//! - Paul Centore ISCC NBS System (260 colors from iscc_nbs_colors.csv)
-//! - All 10 illuminants with Original mathematical converter
-//! - Different chromatic adaptation methods for first 10 colors
-//! - ISCC-NBS classification accuracy for both wedge creation methods
+//! 
+//! Generates a SINGLE comprehensive report file with:
+//! - Both mathematical converters (v1 and v2)
+//! - All 10 illuminants
+//! - Both ISCC-NBS hue range methods
+//! - Special chromatic adaptation analysis for first 10 colors
 
+use munsellspace::iscc::{IsccNbsClassifier, HueRangeMethod};
 use munsellspace::mathematical::{MathematicalMunsellConverter};
+use munsellspace::mathematical_v2::{MathematicalMunsellConverter as MathematicalMunsellConverterV2, MunsellConfig};
 use munsellspace::illuminants::{Illuminant, ChromaticAdaptationMethod};
-use munsellspace::iscc::IsccNbsClassifier;
 use std::collections::HashMap;
 use std::fmt::Write;
 use std::fs;
@@ -42,106 +39,104 @@ struct CentoreIsccColor {
     b: u8,
 }
 
-/// Color conversion result for a specific illuminant
+/// Result for a single color test
 #[derive(Debug, Clone)]
-struct ConversionResult {
-    illuminant: Illuminant,
-    illuminant_short: String,
-    munsell_hue: f64,
-    munsell_family: String,
-    munsell_value: f64,
-    munsell_chroma: f64,
-    notation: String,
-    iscc_classification: Option<String>,
-    success: bool,
-    error: Option<String>,
+struct ColorTestResult {
+    munsell_notation: String,
+    method1_result: String,
+    method1_match: bool,
+    method2_result: String,
+    method2_match: bool,
+    conversion_success: bool,
 }
 
-/// Dataset analysis results
-#[derive(Debug)]
-struct DatasetResults {
-    dataset_name: String,
-    total_colors: usize,
-    illuminant_results: HashMap<Illuminant, Vec<ConversionResult>>,
-    accuracy_stats: HashMap<Illuminant, AccuracyStats>,
-}
-
-/// Accuracy statistics per illuminant
-#[derive(Debug)]
-struct AccuracyStats {
-    total_colors: usize,
-    successful_conversions: usize,
-    classification_matches: usize,
-    success_rate: f64,
-    classification_accuracy: f64,
+/// Statistics for an illuminant configuration
+#[derive(Debug, Clone)]
+struct IlluminantStats {
+    method1_correct: usize,
+    method2_correct: usize,
+    total_tested: usize,
+    method1_accuracy: f64,
+    method2_accuracy: f64,
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    println!("🔬 COMPREHENSIVE CONVERSION DATASET ANALYSIS");
-    println!("============================================");
-    println!("Generating comprehensive analysis of both ISCC-NBS datasets");
-    println!("across all illuminants and methods.\\n");
+    println!("🔬 Generating Comprehensive Conversion Dataset Analysis");
+    println!("======================================================");
     
-    // Load full datasets as requested by user
+    // Load datasets
     let w3_colors = load_w3_dataset()?;
     let centore_colors = load_centore_dataset()?;
     
-    println!("📊 Datasets loaded:");
-    println!("  • W3 ISCC NBS Colors: {} colors", w3_colors.len());
-    println!("  • Paul Centore ISCC NBS System: {} colors", centore_colors.len());
-    println!();
+    println!("📊 Loaded {} W3 colors and {} Centore colors", w3_colors.len(), centore_colors.len());
     
-    // Define illuminants with details
+    // Define illuminants
     let illuminants = vec![
-        (Illuminant::A, "A", "Tungsten Incandescent (2856K)"),
-        (Illuminant::C, "C", "Average Daylight (Munsell Standard, 6774K)"),
-        (Illuminant::D50, "D50", "Daylight 5000K (Printing Industry)"),
-        (Illuminant::D55, "D55", "Mid-morning/Afternoon Daylight (5500K)"),
-        (Illuminant::D65, "D65", "Daylight 6500K (sRGB Standard)"),
-        (Illuminant::D75, "D75", "North Sky Daylight (7500K)"),
-        (Illuminant::E, "E", "Equal Energy Illuminant"),
-        (Illuminant::F2, "F2", "Cool White Fluorescent (4230K)"),
-        (Illuminant::F7, "F7", "Daylight Fluorescent (6500K)"),
-        (Illuminant::F11, "F11", "Narrow Band Fluorescent (4000K)"),
+        (Illuminant::A, "A", "Incandescent/Tungsten (2856K)"),
+        (Illuminant::C, "C", "Average Daylight (6774K)"),
+        (Illuminant::D50, "D50", "Horizon Light (5003K)"),
+        (Illuminant::D55, "D55", "Mid-morning Daylight (5503K)"),
+        (Illuminant::D65, "D65", "Noon Daylight (6504K)"),
+        (Illuminant::D75, "D75", "North Sky Daylight (7504K)"),
+        (Illuminant::E, "E", "Equal Energy"),
+        (Illuminant::F2, "F2", "Cool White Fluorescent"),
+        (Illuminant::F7, "F7", "D65 Simulator Fluorescent"),
+        (Illuminant::F11, "F11", "Narrow Band Fluorescent"),
     ];
     
-    // Initialize ISCC-NBS classifier
-    let iscc_classifier = IsccNbsClassifier::new()?;
+    // Define chromatic adaptation methods
+    let adaptation_methods = vec![
+        (ChromaticAdaptationMethod::Bradford, "Bradford"),
+        (ChromaticAdaptationMethod::VonKries, "VonKries"),
+        (ChromaticAdaptationMethod::CAT02, "CAT02"),
+        (ChromaticAdaptationMethod::XYZScaling, "XYZScaling"),
+    ];
     
-    // Analyze both datasets
-    let w3_results = analyze_dataset(
-        "W3 ISCC NBS Colors", 
-        &w3_colors, 
-        &illuminants, 
-        &iscc_classifier,
-        true  // is_w3_format
+    // Initialize classifiers
+    let method1_classifier = IsccNbsClassifier::new_with_hue_range_method(
+        HueRangeMethod::IncludeStartExcludeEnd
+    )?;
+    let method2_classifier = IsccNbsClassifier::new_with_hue_range_method(
+        HueRangeMethod::ExcludeStartIncludeEnd
     )?;
     
-    let centore_results = analyze_dataset(
-        "Paul Centore ISCC NBS System", 
-        &centore_colors, 
-        &illuminants, 
-        &iscc_classifier,
-        false // is_centore_format
+    // Process both datasets
+    println!("\n🧪 Processing W3 ISCC-NBS dataset...");
+    let w3_results = process_dataset_w3(
+        &w3_colors,
+        &illuminants,
+        &adaptation_methods,
+        &method1_classifier,
+        &method2_classifier,
     )?;
     
-    // Test chromatic adaptation methods on first 10 colors as requested
-    let adaptation_results = analyze_adaptation_methods(&centore_colors, &illuminants)?;
+    println!("\n🧪 Processing Paul Centore dataset...");
+    let centore_results = process_dataset_centore(
+        &centore_colors,
+        &illuminants,
+        &adaptation_methods,
+        &method1_classifier,
+        &method2_classifier,
+    )?;
     
     // Generate comprehensive report
-    generate_comprehensive_report(&w3_results, &centore_results, &illuminants, &adaptation_results)?;
+    println!("\n📝 Generating comprehensive report...");
+    generate_comprehensive_report(
+        &w3_results,
+        &centore_results,
+        &illuminants,
+        &adaptation_methods,
+    )?;
     
-    println!("✅ Comprehensive conversion dataset analysis complete!");
-    println!("📄 Report saved to: COMPREHENSIVE_CONVERSION_DATASET.md");
+    println!("\n✅ Report generated: COMPREHENSIVE_CONVERSION_DATASET.md");
     
     Ok(())
 }
 
-/// Load W3 ISCC-NBS reference dataset
 fn load_w3_dataset() -> Result<Vec<W3IsccColor>, Box<dyn std::error::Error>> {
     let mut reader = ReaderBuilder::new()
         .has_headers(true)
-        .from_path("ISCC_NBS_REFERENCE_DATASET.csv")?;
+        .from_path("tests/data/ISCC_NBS_REFERENCE_DATASET.csv")?;
     
     let mut colors = Vec::new();
     for result in reader.deserialize() {
@@ -152,11 +147,10 @@ fn load_w3_dataset() -> Result<Vec<W3IsccColor>, Box<dyn std::error::Error>> {
     Ok(colors)
 }
 
-/// Load Paul Centore ISCC-NBS dataset
 fn load_centore_dataset() -> Result<Vec<CentoreIsccColor>, Box<dyn std::error::Error>> {
     let mut reader = ReaderBuilder::new()
         .has_headers(true)
-        .from_path("iscc_nbs_colors.csv")?;
+        .from_path("tests/data/MUNSELL_COLOR_SCIENCE_COMPLETE.csv")?;
     
     let mut colors = Vec::new();
     for result in reader.deserialize() {
@@ -167,291 +161,481 @@ fn load_centore_dataset() -> Result<Vec<CentoreIsccColor>, Box<dyn std::error::E
     Ok(colors)
 }
 
-/// Analyze dataset across all illuminants
-fn analyze_dataset<T>(
-    dataset_name: &str,
-    colors: &[T],
+fn process_dataset_w3(
+    colors: &[W3IsccColor],
     illuminants: &[(Illuminant, &str, &str)],
-    iscc_classifier: &IsccNbsClassifier,
-    is_w3_format: bool
-) -> Result<DatasetResults, Box<dyn std::error::Error>>
-where
-    T: std::fmt::Debug,
-{
-    println!("🧪 Analyzing {} ({} colors)", dataset_name, colors.len());
+    adaptation_methods: &[(ChromaticAdaptationMethod, &str)],
+    method1_classifier: &IsccNbsClassifier,
+    method2_classifier: &IsccNbsClassifier,
+) -> Result<HashMap<String, HashMap<String, ColorTestResult>>, Box<dyn std::error::Error>> {
     
-    let mut illuminant_results = HashMap::new();
-    let mut accuracy_stats = HashMap::new();
+    let mut all_results = HashMap::new();
     
-    for (illuminant, illuminant_short, _illuminant_desc) in illuminants {
-        print!("  Testing {}: ", illuminant_short);
+    for (idx, color) in colors.iter().enumerate() {
+        // Parse hex color
+        let hex = color.srgb.trim_start_matches('#');
+        if hex.len() != 6 { continue; }
         
-        let converter = MathematicalMunsellConverter::with_illuminants(
-            Illuminant::D65,  // sRGB source
-            *illuminant,      // Target illuminant
-            ChromaticAdaptationMethod::Bradford,
-        )?;
+        let r = u8::from_str_radix(&hex[0..2], 16)?;
+        let g = u8::from_str_radix(&hex[2..4], 16)?;
+        let b = u8::from_str_radix(&hex[4..6], 16)?;
+        let rgb = [r, g, b];
         
-        let mut results = Vec::new();
-        let mut successful_conversions = 0;
-        let mut classification_matches = 0;
+        let hex_code = format!("#{:02X}{:02X}{:02X}", r, g, b);
+        let expected_name = format!("{} {}", color.modifier.trim(), color.color.trim());
         
-        for (i, color) in colors.iter().enumerate() {
-            let rgb = if is_w3_format {
-                // Parse W3 format "#RRGGBB"
-                let w3_color = unsafe { &*(color as *const T as *const W3IsccColor) };
-                let hex = w3_color.srgb.trim_start_matches('#');
-                if hex.len() != 6 {
-                    continue;
-                }
-                let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0);
-                let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0);
-                let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0);
-                [r, g, b]
-            } else {
-                // Use Centore format
-                let centore_color = unsafe { &*(color as *const T as *const CentoreIsccColor) };
-                [centore_color.r, centore_color.g, centore_color.b]
-            };
+        let mut color_results = HashMap::new();
+        
+        // Test all illuminant configurations
+        for (illuminant, illum_code, _) in illuminants {
+            // Test v1 (mathematical.rs)
+            let v1_key = format!("{}_v1", illum_code);
+            color_results.insert(v1_key.clone(), test_color_v1(
+                rgb, 
+                &expected_name,
+                *illuminant, 
+                ChromaticAdaptationMethod::Bradford,
+                method1_classifier,
+                method2_classifier,
+            ));
             
+            // Test v2 (mathematical_v2.rs)
+            let v2_key = format!("{}_v2", illum_code);
+            color_results.insert(v2_key.clone(), test_color_v2(
+                rgb,
+                &expected_name,
+                *illuminant,
+                ChromaticAdaptationMethod::Bradford,
+                method1_classifier,
+                method2_classifier,
+            ));
+            
+            // For first 10 colors, test all adaptation methods
+            if idx < 10 {
+                for (adapt_method, adapt_name) in adaptation_methods {
+                    if *adapt_name != "Bradford" {  // Bradford already tested above
+                        let v1_adapt_key = format!("{}_v1_{}", illum_code, adapt_name);
+                        color_results.insert(v1_adapt_key, test_color_v1(
+                            rgb,
+                            &expected_name,
+                            *illuminant,
+                            *adapt_method,
+                            method1_classifier,
+                            method2_classifier,
+                        ));
+                        
+                        let v2_adapt_key = format!("{}_v2_{}", illum_code, adapt_name);
+                        color_results.insert(v2_adapt_key, test_color_v2(
+                            rgb,
+                            &expected_name,
+                            *illuminant,
+                            *adapt_method,
+                            method1_classifier,
+                            method2_classifier,
+                        ));
+                    }
+                }
+            }
+        }
+        
+        all_results.insert(hex_code, color_results);
+        
+        if (idx + 1) % 50 == 0 {
+            println!("  Processed {} colors...", idx + 1);
+        }
+    }
+    
+    Ok(all_results)
+}
+
+fn process_dataset_centore(
+    colors: &[CentoreIsccColor],
+    illuminants: &[(Illuminant, &str, &str)],
+    adaptation_methods: &[(ChromaticAdaptationMethod, &str)],
+    method1_classifier: &IsccNbsClassifier,
+    method2_classifier: &IsccNbsClassifier,
+) -> Result<HashMap<String, HashMap<String, ColorTestResult>>, Box<dyn std::error::Error>> {
+    
+    let mut all_results = HashMap::new();
+    
+    for (idx, color) in colors.iter().enumerate() {
+        let rgb = [color.r, color.g, color.b];
+        let hex_code = format!("#{:02X}{:02X}{:02X}", color.r, color.g, color.b);
+        let expected_name = color.name.clone();
+        
+        let mut color_results = HashMap::new();
+        
+        // Test all illuminant configurations
+        for (illuminant, illum_code, _) in illuminants {
+            // Test v1 (mathematical.rs)
+            let v1_key = format!("{}_v1", illum_code);
+            color_results.insert(v1_key.clone(), test_color_v1(
+                rgb,
+                &expected_name,
+                *illuminant,
+                ChromaticAdaptationMethod::Bradford,
+                method1_classifier,
+                method2_classifier,
+            ));
+            
+            // Test v2 (mathematical_v2.rs)
+            let v2_key = format!("{}_v2", illum_code);
+            color_results.insert(v2_key.clone(), test_color_v2(
+                rgb,
+                &expected_name,
+                *illuminant,
+                ChromaticAdaptationMethod::Bradford,
+                method1_classifier,
+                method2_classifier,
+            ));
+            
+            // For first 10 colors, test all adaptation methods
+            if idx < 10 {
+                for (adapt_method, adapt_name) in adaptation_methods {
+                    if *adapt_name != "Bradford" {
+                        let v1_adapt_key = format!("{}_v1_{}", illum_code, adapt_name);
+                        color_results.insert(v1_adapt_key, test_color_v1(
+                            rgb,
+                            &expected_name,
+                            *illuminant,
+                            *adapt_method,
+                            method1_classifier,
+                            method2_classifier,
+                        ));
+                        
+                        let v2_adapt_key = format!("{}_v2_{}", illum_code, adapt_name);
+                        color_results.insert(v2_adapt_key, test_color_v2(
+                            rgb,
+                            &expected_name,
+                            *illuminant,
+                            *adapt_method,
+                            method1_classifier,
+                            method2_classifier,
+                        ));
+                    }
+                }
+            }
+        }
+        
+        all_results.insert(hex_code, color_results);
+        
+        if (idx + 1) % 50 == 0 {
+            println!("  Processed {} colors...", idx + 1);
+        }
+    }
+    
+    Ok(all_results)
+}
+
+fn test_color_v1(
+    rgb: [u8; 3],
+    expected_name: &str,
+    illuminant: Illuminant,
+    adaptation: ChromaticAdaptationMethod,
+    method1_classifier: &IsccNbsClassifier,
+    method2_classifier: &IsccNbsClassifier,
+) -> ColorTestResult {
+    // Use v1 converter (mathematical.rs)
+    match MathematicalMunsellConverter::with_illuminants(
+        Illuminant::D65,
+        illuminant,
+        adaptation,
+    ) {
+        Ok(converter) => {
             match converter.srgb_to_munsell(rgb) {
                 Ok(munsell) => {
-                    successful_conversions += 1;
+                    let notation = format!("{:.1}{} {:.1}/{:.1}",
+                        munsell.hue, munsell.family,
+                        munsell.value, munsell.chroma);
                     
-                    let notation = format!("{:.1}{} {:.1}/{:.1}", 
-                                   munsell.hue, munsell.family, 
-                                   munsell.value, munsell.chroma);
-                    
-                    // Get ISCC-NBS classification
-                    let iscc_classification = match iscc_classifier.classify_munsell(
-                        &format!("{}{}", munsell.hue, munsell.family), 
-                        munsell.value, 
+                    // Test Method 1
+                    let method1_result = match method1_classifier.classify_munsell(
+                        &format!("{}{}", munsell.hue, munsell.family),
+                        munsell.value,
                         munsell.chroma
                     ) {
                         Ok(Some(result)) => {
-                            // Check if classification matches expected
-                            let expected_name = if is_w3_format {
-                                let w3_color = unsafe { &*(color as *const T as *const W3IsccColor) };
-                                format!("{} {}", w3_color.modifier.trim(), w3_color.color.trim())
+                            // Use modifier and color (not descriptor)
+                            let modifier = result.iscc_nbs_modifier().unwrap_or("");
+                            let color = result.iscc_nbs_color();
+                            if modifier.is_empty() {
+                                color.to_string()
                             } else {
-                                let centore_color = unsafe { &*(color as *const T as *const CentoreIsccColor) };
-                                centore_color.name.clone()
-                            };
-                            
-                            let actual_name = format!("{} {}", 
-                                result.iscc_nbs_modifier().unwrap_or(""), 
-                                result.iscc_nbs_color());
-                            
-                            if actual_name.to_lowercase() == expected_name.to_lowercase() {
-                                classification_matches += 1;
+                                format!("{} {}", modifier, color)
                             }
-                            
-                            Some(actual_name)
                         },
-                        Ok(None) => Some("unclassified".to_string()),
-                        Err(_) => None,
+                        _ => "N/A".to_string(),
                     };
                     
-                    results.push(ConversionResult {
-                        illuminant: *illuminant,
-                        illuminant_short: illuminant_short.to_string(),
-                        munsell_hue: munsell.hue,
-                        munsell_family: munsell.family,
-                        munsell_value: munsell.value,
-                        munsell_chroma: munsell.chroma,
-                        notation,
-                        iscc_classification,
-                        success: true,
-                        error: None,
-                    });
-                }
-                Err(e) => {
-                    results.push(ConversionResult {
-                        illuminant: *illuminant,
-                        illuminant_short: illuminant_short.to_string(),
-                        munsell_hue: 0.0,
-                        munsell_family: "N".to_string(),
-                        munsell_value: 0.0,
-                        munsell_chroma: 0.0,
-                        notation: "Error".to_string(),
-                        iscc_classification: None,
-                        success: false,
-                        error: Some(e.to_string()),
-                    });
+                    // Test Method 2
+                    let method2_result = match method2_classifier.classify_munsell(
+                        &format!("{}{}", munsell.hue, munsell.family),
+                        munsell.value,
+                        munsell.chroma
+                    ) {
+                        Ok(Some(result)) => {
+                            // Use modifier and color (not descriptor)
+                            let modifier = result.iscc_nbs_modifier().unwrap_or("");
+                            let color = result.iscc_nbs_color();
+                            if modifier.is_empty() {
+                                color.to_string()
+                            } else {
+                                format!("{} {}", modifier, color)
+                            }
+                        },
+                        _ => "N/A".to_string(),
+                    };
+                    
+                    ColorTestResult {
+                        munsell_notation: notation,
+                        method1_result: method1_result.clone(),
+                        method1_match: method1_result.to_lowercase() == expected_name.to_lowercase(),
+                        method2_result: method2_result.clone(),
+                        method2_match: method2_result.to_lowercase() == expected_name.to_lowercase(),
+                        conversion_success: true,
+                    }
+                },
+                Err(_) => ColorTestResult {
+                    munsell_notation: "ERROR".to_string(),
+                    method1_result: "N/A".to_string(),
+                    method1_match: false,
+                    method2_result: "N/A".to_string(),
+                    method2_match: false,
+                    conversion_success: false,
                 }
             }
-            
-            // Progress indicator
-            if i % 50 == 0 {
-                print!(".");
-            }
+        },
+        Err(_) => ColorTestResult {
+            munsell_notation: "ERROR".to_string(),
+            method1_result: "N/A".to_string(),
+            method1_match: false,
+            method2_result: "N/A".to_string(),
+            method2_match: false,
+            conversion_success: false,
         }
-        
-        let success_rate = (successful_conversions as f64 / colors.len() as f64) * 100.0;
-        let classification_accuracy = if successful_conversions > 0 {
-            (classification_matches as f64 / successful_conversions as f64) * 100.0
-        } else {
-            0.0
-        };
-        
-        println!(" {:.1}% success, {:.1}% accuracy", success_rate, classification_accuracy);
-        
-        illuminant_results.insert(*illuminant, results);
-        accuracy_stats.insert(*illuminant, AccuracyStats {
-            total_colors: colors.len(),
-            successful_conversions,
-            classification_matches,
-            success_rate,
-            classification_accuracy,
-        });
     }
-    
-    Ok(DatasetResults {
-        dataset_name: dataset_name.to_string(),
-        total_colors: colors.len(),
-        illuminant_results,
-        accuracy_stats,
-    })
 }
 
-/// Analyze different chromatic adaptation methods on first 10 colors
-fn analyze_adaptation_methods(
-    colors: &[CentoreIsccColor],
-    illuminants: &[(Illuminant, &str, &str)]
-) -> Result<Vec<(String, HashMap<Illuminant, Vec<ConversionResult>>)>, Box<dyn std::error::Error>> {
+fn test_color_v2(
+    rgb: [u8; 3],
+    expected_name: &str,
+    illuminant: Illuminant,
+    adaptation: ChromaticAdaptationMethod,
+    method1_classifier: &IsccNbsClassifier,
+    method2_classifier: &IsccNbsClassifier,
+) -> ColorTestResult {
+    // Use v2 converter (mathematical_v2.rs)
+    let config = MunsellConfig {
+        source_illuminant: Illuminant::D65,
+        target_illuminant: illuminant,
+        adaptation_method: adaptation,
+    };
     
-    println!("🔄 Testing chromatic adaptation methods on first 10 colors...");
-    
-    let adaptation_methods = vec![
-        (ChromaticAdaptationMethod::Bradford, "Bradford"),
-        (ChromaticAdaptationMethod::VonKries, "VonKries"),
-        (ChromaticAdaptationMethod::CAT02, "CAT02"),
-        (ChromaticAdaptationMethod::XYZScaling, "XYZScaling"),
-    ];
-    
-    let test_colors = &colors[..10.min(colors.len())];
-    let mut results = Vec::new();
-    
-    for (method, method_name) in &adaptation_methods {
-        print!("  {}: ", method_name);
-        let mut method_results = HashMap::new();
-        
-        for (illuminant, illuminant_short, _) in illuminants {
-            let converter = MathematicalMunsellConverter::with_illuminants(
-                Illuminant::D65,
-                *illuminant,
-                *method,
-            )?;
-            
-            let mut illuminant_results = Vec::new();
-            
-            for color in test_colors {
-                match converter.srgb_to_munsell([color.r, color.g, color.b]) {
-                    Ok(munsell) => {
-                        let notation = format!("{:.1}{} {:.1}/{:.1}", 
-                                       munsell.hue, munsell.family, 
-                                       munsell.value, munsell.chroma);
-                        
-                        illuminant_results.push(ConversionResult {
-                            illuminant: *illuminant,
-                            illuminant_short: illuminant_short.to_string(),
-                            munsell_hue: munsell.hue,
-                            munsell_family: munsell.family,
-                            munsell_value: munsell.value,
-                            munsell_chroma: munsell.chroma,
-                            notation,
-                            iscc_classification: None,
-                            success: true,
-                            error: None,
-                        });
+    match MathematicalMunsellConverterV2::with_config(config) {
+        Ok(converter) => {
+            match converter.srgb_to_munsell(rgb) {
+                Ok(munsell) => {
+                    let notation = format!("{:.1}{} {:.1}/{:.1}",
+                        munsell.hue, munsell.family,
+                        munsell.value, munsell.chroma);
+                    
+                    // Test Method 1
+                    let method1_result = match method1_classifier.classify_munsell(
+                        &format!("{}{}", munsell.hue, munsell.family),
+                        munsell.value,
+                        munsell.chroma
+                    ) {
+                        Ok(Some(result)) => {
+                            // Use modifier and color (not descriptor)
+                            let modifier = result.iscc_nbs_modifier().unwrap_or("");
+                            let color = result.iscc_nbs_color();
+                            if modifier.is_empty() {
+                                color.to_string()
+                            } else {
+                                format!("{} {}", modifier, color)
+                            }
+                        },
+                        _ => "N/A".to_string(),
+                    };
+                    
+                    // Test Method 2
+                    let method2_result = match method2_classifier.classify_munsell(
+                        &format!("{}{}", munsell.hue, munsell.family),
+                        munsell.value,
+                        munsell.chroma
+                    ) {
+                        Ok(Some(result)) => {
+                            // Use modifier and color (not descriptor)
+                            let modifier = result.iscc_nbs_modifier().unwrap_or("");
+                            let color = result.iscc_nbs_color();
+                            if modifier.is_empty() {
+                                color.to_string()
+                            } else {
+                                format!("{} {}", modifier, color)
+                            }
+                        },
+                        _ => "N/A".to_string(),
+                    };
+                    
+                    ColorTestResult {
+                        munsell_notation: notation,
+                        method1_result: method1_result.clone(),
+                        method1_match: method1_result.to_lowercase() == expected_name.to_lowercase(),
+                        method2_result: method2_result.clone(),
+                        method2_match: method2_result.to_lowercase() == expected_name.to_lowercase(),
+                        conversion_success: true,
                     }
-                    Err(e) => {
-                        illuminant_results.push(ConversionResult {
-                            illuminant: *illuminant,
-                            illuminant_short: illuminant_short.to_string(),
-                            munsell_hue: 0.0,
-                            munsell_family: "N".to_string(),
-                            munsell_value: 0.0,
-                            munsell_chroma: 0.0,
-                            notation: "Error".to_string(),
-                            iscc_classification: None,
-                            success: false,
-                            error: Some(e.to_string()),
-                        });
-                    }
+                },
+                Err(_) => ColorTestResult {
+                    munsell_notation: "ERROR".to_string(),
+                    method1_result: "N/A".to_string(),
+                    method1_match: false,
+                    method2_result: "N/A".to_string(),
+                    method2_match: false,
+                    conversion_success: false,
                 }
             }
-            
-            method_results.insert(*illuminant, illuminant_results);
+        },
+        Err(_) => ColorTestResult {
+            munsell_notation: "ERROR".to_string(),
+            method1_result: "N/A".to_string(),
+            method1_match: false,
+            method2_result: "N/A".to_string(),
+            method2_match: false,
+            conversion_success: false,
         }
-        
-        results.push((method_name.to_string(), method_results));
-        println!("✓");
     }
-    
-    Ok(results)
 }
 
-/// Generate comprehensive markdown report
 fn generate_comprehensive_report(
-    w3_results: &DatasetResults,
-    centore_results: &DatasetResults,
+    w3_results: &HashMap<String, HashMap<String, ColorTestResult>>,
+    centore_results: &HashMap<String, HashMap<String, ColorTestResult>>,
     illuminants: &[(Illuminant, &str, &str)],
-    adaptation_results: &Vec<(String, HashMap<Illuminant, Vec<ConversionResult>>)>
+    adaptation_methods: &[(ChromaticAdaptationMethod, &str)],
 ) -> Result<(), Box<dyn std::error::Error>> {
     
     let mut report = String::new();
     
     // Header
-    writeln!(&mut report, "# Comprehensive Conversion Dataset Analysis Report")?;
-    writeln!(&mut report, "")?;
-    writeln!(&mut report, "## Executive Summary")?;
-    writeln!(&mut report, "")?;
-    writeln!(&mut report, "This report provides comprehensive analysis of ISCC-NBS color classification")?;
-    writeln!(&mut report, "accuracy across multiple datasets, illuminants, and conversion methods using")?;
-    writeln!(&mut report, "the MunsellSpace Original mathematical converter with chromatic adaptation.")?;
-    writeln!(&mut report, "")?;
+    writeln!(&mut report, "# Comprehensive Conversion Dataset Analysis")?;
+    writeln!(&mut report)?;
+    writeln!(&mut report, "## Illuminant Descriptions")?;
+    writeln!(&mut report)?;
+    writeln!(&mut report, "| Code | Illuminant | Description | Mathematical Method |")?;
+    writeln!(&mut report, "|------|------------|-------------|---------------------|")?;
     
-    // Illuminant details
-    writeln!(&mut report, "## Illuminant Configurations")?;
-    writeln!(&mut report, "")?;
-    writeln!(&mut report, "| ID | Name | Description |")?;
-    writeln!(&mut report, "|----|------|-------------|")?;
-    for (_, short, desc) in illuminants {
-        writeln!(&mut report, "| {} | {} | {} |", short, short, desc)?;
+    for (illuminant, code, desc) in illuminants {
+        writeln!(&mut report, "| {}_v1 | {} | {} | mathematical.rs (Original) |", code, code, desc)?;
+        writeln!(&mut report, "| {}_v2 | {} | {} | mathematical_v2.rs (V2) |", code, code, desc)?;
     }
-    writeln!(&mut report, "")?;
+    writeln!(&mut report)?;
     
-    // Add summary statistics at the top as requested by user
-    write_summary_statistics(&mut report, w3_results, centore_results)?;
+    // Calculate statistics for summary tables
+    let w3_stats = calculate_dataset_statistics(w3_results, illuminants);
+    let centore_stats = calculate_dataset_statistics(centore_results, illuminants);
     
-    // Dataset summaries
-    write_dataset_summary(&mut report, w3_results)?;
-    write_dataset_summary(&mut report, centore_results)?;
+    // Summary table for W3 dataset
+    writeln!(&mut report, "## Summary: W3 ISCC-NBS Dataset ({} colors)", w3_results.len())?;
+    writeln!(&mut report)?;
+    writeln!(&mut report, "| Illuminant | Method 1 Accuracy | Method 2 Accuracy |")?;
+    writeln!(&mut report, "|------------|-------------------|-------------------|")?;
     
-    // Detailed analysis for both datasets
-    write_dataset_details(&mut report, w3_results, illuminants)?;
-    write_dataset_details(&mut report, centore_results, illuminants)?;
+    for (illuminant, code, _) in illuminants {
+        let v1_key = format!("{}_v1", code);
+        let v2_key = format!("{}_v2", code);
+        
+        if let Some(stats) = w3_stats.get(&v1_key) {
+            writeln!(&mut report, "| {} | {:.1}% | {:.1}% |", 
+                v1_key, stats.method1_accuracy, stats.method2_accuracy)?;
+        }
+        if let Some(stats) = w3_stats.get(&v2_key) {
+            writeln!(&mut report, "| {} | {:.1}% | {:.1}% |",
+                v2_key, stats.method1_accuracy, stats.method2_accuracy)?;
+        }
+    }
+    writeln!(&mut report)?;
     
-    // Chromatic adaptation methods comparison
-    write_adaptation_analysis(&mut report, adaptation_results, illuminants)?;
+    // Summary table for Centore dataset
+    writeln!(&mut report, "## Summary: Paul Centore ISCC-NBS Dataset ({} colors)", centore_results.len())?;
+    writeln!(&mut report)?;
+    writeln!(&mut report, "| Illuminant | Method 1 Accuracy | Method 2 Accuracy |")?;
+    writeln!(&mut report, "|------------|-------------------|-------------------|")?;
     
-    // Conclusions
-    writeln!(&mut report, "## Conclusions")?;
-    writeln!(&mut report, "")?;
-    writeln!(&mut report, "### Key Findings")?;
-    writeln!(&mut report, "")?;
-    writeln!(&mut report, "1. **Illuminant Impact**: Different illuminants show significant variations in")?;
-    writeln!(&mut report, "   color classification, confirming the importance of chromatic adaptation.")?;
-    writeln!(&mut report, "")?;
-    writeln!(&mut report, "2. **Dataset Comparison**: Paul Centore's dataset shows different accuracy")?;
-    writeln!(&mut report, "   patterns compared to the W3 reference, likely due to improved centroids.")?;
-    writeln!(&mut report, "")?;
-    writeln!(&mut report, "3. **Adaptation Methods**: Bradford adaptation generally provides the most")?;
-    writeln!(&mut report, "   consistent results across different illuminants.")?;
-    writeln!(&mut report, "")?;
-    writeln!(&mut report, "---")?;
-    writeln!(&mut report, "Report generated by MunsellSpace Comprehensive Conversion Dataset Tool")?;
+    for (illuminant, code, _) in illuminants {
+        let v1_key = format!("{}_v1", code);
+        let v2_key = format!("{}_v2", code);
+        
+        if let Some(stats) = centore_stats.get(&v1_key) {
+            writeln!(&mut report, "| {} | {:.1}% | {:.1}% |",
+                v1_key, stats.method1_accuracy, stats.method2_accuracy)?;
+        }
+        if let Some(stats) = centore_stats.get(&v2_key) {
+            writeln!(&mut report, "| {} | {:.1}% | {:.1}% |",
+                v2_key, stats.method1_accuracy, stats.method2_accuracy)?;
+        }
+    }
+    writeln!(&mut report)?;
+    
+    // W3 Dataset Details
+    writeln!(&mut report, "## W3 ISCC-NBS Dataset - Detailed Results")?;
+    writeln!(&mut report)?;
+    
+    // Sort colors by hex code for consistent ordering
+    let mut w3_colors: Vec<_> = w3_results.iter().collect();
+    w3_colors.sort_by_key(|(hex, _)| hex.as_str());
+    
+    for (idx, (hex_code, color_results)) in w3_colors.iter().enumerate() {
+        if idx < 10 {
+            // First 10 colors with adaptation methods
+            write_color_detail_with_adaptation(
+                &mut report,
+                idx + 1,
+                hex_code,
+                color_results,
+                illuminants,
+                adaptation_methods,
+            )?;
+        } else {
+            // Regular colors
+            write_color_detail(
+                &mut report,
+                idx + 1,
+                hex_code,
+                color_results,
+                illuminants,
+            )?;
+        }
+    }
+    
+    // Centore Dataset Details
+    writeln!(&mut report, "## Paul Centore ISCC-NBS Dataset - Detailed Results")?;
+    writeln!(&mut report)?;
+    
+    let mut centore_colors: Vec<_> = centore_results.iter().collect();
+    centore_colors.sort_by_key(|(hex, _)| hex.as_str());
+    
+    for (idx, (hex_code, color_results)) in centore_colors.iter().enumerate() {
+        if idx < 10 {
+            // First 10 colors with adaptation methods
+            write_color_detail_with_adaptation(
+                &mut report,
+                idx + 1,
+                hex_code,
+                color_results,
+                illuminants,
+                adaptation_methods,
+            )?;
+        } else {
+            // Regular colors
+            write_color_detail(
+                &mut report,
+                idx + 1,
+                hex_code,
+                color_results,
+                illuminants,
+            )?;
+        }
+    }
     
     // Write report to file
     fs::write("COMPREHENSIVE_CONVERSION_DATASET.md", report)?;
@@ -459,191 +643,169 @@ fn generate_comprehensive_report(
     Ok(())
 }
 
-/// Write dataset summary section
-fn write_dataset_summary(report: &mut String, results: &DatasetResults) -> Result<(), Box<dyn std::error::Error>> {
-    writeln!(report, "### {} Summary", results.dataset_name)?;
-    writeln!(report, "")?;
-    writeln!(report, "**Total Colors**: {}", results.total_colors)?;
-    writeln!(report, "")?;
+fn calculate_dataset_statistics(
+    results: &HashMap<String, HashMap<String, ColorTestResult>>,
+    illuminants: &[(Illuminant, &str, &str)],
+) -> HashMap<String, IlluminantStats> {
     
-    // Accuracy table
-    writeln!(report, "| Illuminant | Success Rate | Classification Accuracy |")?;
-    writeln!(report, "|------------|--------------|-------------------------|")?;
+    let mut stats = HashMap::new();
     
-    for illuminant in [Illuminant::A, Illuminant::C, Illuminant::D50, Illuminant::D55, Illuminant::D65, Illuminant::D75, Illuminant::E, Illuminant::F2, Illuminant::F7, Illuminant::F11] {
-        if let Some(stats) = results.accuracy_stats.get(&illuminant) {
-            let illuminant_name = match illuminant {
-                Illuminant::A => "A",
-                Illuminant::B => "B",
-                Illuminant::C => "C", 
-                Illuminant::D50 => "D50",
-                Illuminant::D55 => "D55",
-                Illuminant::D65 => "D65",
-                Illuminant::D75 => "D75",
-                Illuminant::E => "E",
-                Illuminant::F2 => "F2",
-                Illuminant::F7 => "F7",
-                Illuminant::F11 => "F11",
+    for (illuminant, code, _) in illuminants {
+        let v1_key = format!("{}_v1", code);
+        let v2_key = format!("{}_v2", code);
+        
+        // Calculate v1 stats
+        let mut v1_m1_correct = 0;
+        let mut v1_m2_correct = 0;
+        let mut v1_total = 0;
+        
+        for (_, color_results) in results {
+            if let Some(result) = color_results.get(&v1_key) {
+                if result.conversion_success {
+                    v1_total += 1;
+                    if result.method1_match { v1_m1_correct += 1; }
+                    if result.method2_match { v1_m2_correct += 1; }
+                }
+            }
+        }
+        
+        stats.insert(v1_key, IlluminantStats {
+            method1_correct: v1_m1_correct,
+            method2_correct: v1_m2_correct,
+            total_tested: v1_total,
+            method1_accuracy: if v1_total > 0 { (v1_m1_correct as f64 / v1_total as f64) * 100.0 } else { 0.0 },
+            method2_accuracy: if v1_total > 0 { (v1_m2_correct as f64 / v1_total as f64) * 100.0 } else { 0.0 },
+        });
+        
+        // Calculate v2 stats
+        let mut v2_m1_correct = 0;
+        let mut v2_m2_correct = 0;
+        let mut v2_total = 0;
+        
+        for (_, color_results) in results {
+            if let Some(result) = color_results.get(&v2_key) {
+                if result.conversion_success {
+                    v2_total += 1;
+                    if result.method1_match { v2_m1_correct += 1; }
+                    if result.method2_match { v2_m2_correct += 1; }
+                }
+            }
+        }
+        
+        stats.insert(v2_key, IlluminantStats {
+            method1_correct: v2_m1_correct,
+            method2_correct: v2_m2_correct,
+            total_tested: v2_total,
+            method1_accuracy: if v2_total > 0 { (v2_m1_correct as f64 / v2_total as f64) * 100.0 } else { 0.0 },
+            method2_accuracy: if v2_total > 0 { (v2_m2_correct as f64 / v2_total as f64) * 100.0 } else { 0.0 },
+        });
+    }
+    
+    stats
+}
+
+fn write_color_detail(
+    report: &mut String,
+    number: usize,
+    hex_code: &str,
+    color_results: &HashMap<String, ColorTestResult>,
+    illuminants: &[(Illuminant, &str, &str)],
+) -> Result<(), Box<dyn std::error::Error>> {
+    
+    writeln!(report, "### {}. {}", number, hex_code)?;
+    writeln!(report)?;
+    writeln!(report, "| Illuminant | Munsell Result | Method 1 Result | M1✓ | Method 2 Result | M2✓ |")?;
+    writeln!(report, "|------------|----------------|-----------------|-----|-----------------|-----|")?;
+    
+    for (_, code, _) in illuminants {
+        // v1 results
+        let v1_key = format!("{}_v1", code);
+        if let Some(result) = color_results.get(&v1_key) {
+            writeln!(report, "| {} | {} | {} | {} | {} | {} |",
+                v1_key,
+                result.munsell_notation,
+                result.method1_result,
+                if result.method1_match { "✅" } else { "❌" },
+                result.method2_result,
+                if result.method2_match { "✅" } else { "❌" }
+            )?;
+        }
+        
+        // v2 results
+        let v2_key = format!("{}_v2", code);
+        if let Some(result) = color_results.get(&v2_key) {
+            writeln!(report, "| {} | {} | {} | {} | {} | {} |",
+                v2_key,
+                result.munsell_notation,
+                result.method1_result,
+                if result.method1_match { "✅" } else { "❌" },
+                result.method2_result,
+                if result.method2_match { "✅" } else { "❌" }
+            )?;
+        }
+    }
+    writeln!(report)?;
+    
+    Ok(())
+}
+
+fn write_color_detail_with_adaptation(
+    report: &mut String,
+    number: usize,
+    hex_code: &str,
+    color_results: &HashMap<String, ColorTestResult>,
+    illuminants: &[(Illuminant, &str, &str)],
+    adaptation_methods: &[(ChromaticAdaptationMethod, &str)],
+) -> Result<(), Box<dyn std::error::Error>> {
+    
+    writeln!(report, "### {}. {} (with chromatic adaptation methods)", number, hex_code)?;
+    writeln!(report)?;
+    writeln!(report, "| Illuminant | Adaptation | Munsell Result | Method 1 Result | M1✓ | Method 2 Result | M2✓ |")?;
+    writeln!(report, "|------------|------------|----------------|-----------------|-----|-----------------|-----|")?;
+    
+    for (_, code, _) in illuminants {
+        // Show all adaptation methods
+        for (_, adapt_name) in adaptation_methods {
+            // v1 results
+            let v1_key = if *adapt_name == "Bradford" {
+                format!("{}_v1", code)
+            } else {
+                format!("{}_v1_{}", code, adapt_name)
             };
-            writeln!(report, "| {} | {:.1}% | {:.1}% |", 
-                    illuminant_name, stats.success_rate, stats.classification_accuracy)?;
-        }
-    }
-    writeln!(report, "")?;
-    
-    Ok(())
-}
-
-/// Write detailed dataset analysis
-fn write_dataset_details(
-    report: &mut String, 
-    results: &DatasetResults,
-    illuminants: &[(Illuminant, &str, &str)]
-) -> Result<(), Box<dyn std::error::Error>> {
-    
-    writeln!(report, "## {} Detailed Analysis", results.dataset_name)?;
-    writeln!(report, "")?;
-    writeln!(report, "### Color-by-Color Breakdown (First 3 Colors)")?;
-    writeln!(report, "")?;
-    
-    // Get first 3 colors from D65 results as reference
-    if let Some(d65_results) = results.illuminant_results.get(&Illuminant::D65) {
-        let sample_colors = &d65_results[..3.min(d65_results.len())];
-        
-        for (i, color_result) in sample_colors.iter().enumerate() {
-            writeln!(report, "#### Color {} - {}", i + 1, color_result.notation)?;
-            writeln!(report, "")?;
             
-            // Table for this color across all illuminants
-            writeln!(report, "| Illuminant | Munsell Result | ISCC-NBS Classification | Status |")?;
-            writeln!(report, "|------------|----------------|-------------------------|--------|")?;
-            
-            for (illuminant, illuminant_short, _) in illuminants {
-                if let Some(illuminant_results) = results.illuminant_results.get(illuminant) {
-                    if let Some(result) = illuminant_results.get(i) {
-                        let classification = result.iscc_classification
-                            .as_ref()
-                            .map(|s| s.as_str())
-                            .unwrap_or("none");
-                        let status = if result.success { "✅" } else { "❌" };
-                        
-                        writeln!(report, "| {} | {} | {} | {} |", 
-                                illuminant_short, result.notation, classification, status)?;
-                    }
-                }
+            if let Some(result) = color_results.get(&v1_key) {
+                writeln!(report, "| {} | {} | {} | {} | {} | {} | {} |",
+                    format!("{}_v1", code),
+                    adapt_name,
+                    result.munsell_notation,
+                    result.method1_result,
+                    if result.method1_match { "✅" } else { "❌" },
+                    result.method2_result,
+                    if result.method2_match { "✅" } else { "❌" }
+                )?;
             }
-            writeln!(report, "")?;
-        }
-    }
-    
-    Ok(())
-}
-
-/// Write chromatic adaptation methods analysis
-fn write_adaptation_analysis(
-    report: &mut String,
-    adaptation_results: &Vec<(String, HashMap<Illuminant, Vec<ConversionResult>>)>,
-    illuminants: &[(Illuminant, &str, &str)]
-) -> Result<(), Box<dyn std::error::Error>> {
-    
-    writeln!(report, "## Chromatic Adaptation Methods Comparison")?;
-    writeln!(report, "")?;
-    writeln!(report, "Analysis of different chromatic adaptation methods on first 10 colors")?;
-    writeln!(report, "from Paul Centore ISCC NBS System dataset.")?;
-    writeln!(report, "")?;
-    
-    // Create comparison table
-    writeln!(report, "### Adaptation Method Comparison")?;
-    writeln!(report, "")?;
-    
-    for (method_name, method_results) in adaptation_results {
-        writeln!(report, "#### {} Adaptation", method_name)?;
-        writeln!(report, "")?;
-        
-        // Table showing first few colors across illuminants
-        writeln!(report, "| Color | {} |", 
-                illuminants.iter()
-                    .map(|(_, short, _)| *short)
-                    .collect::<Vec<_>>()
-                    .join(" | "))?;
-        writeln!(report, "|-------|{}|", 
-                illuminants.iter()
-                    .map(|_| "---")
-                    .collect::<Vec<_>>()
-                    .join("|"))?;
-        
-        // Show first 10 colors as requested
-        for color_idx in 0..10.min(method_results.values().next().map_or(0, |r| r.len())) {
-            write!(report, "| Color {} |", color_idx + 1)?;
             
-            for (illuminant, _illuminant_short, _) in illuminants {
-                if let Some(illuminant_results) = method_results.get(illuminant) {
-                    if let Some(result) = illuminant_results.get(color_idx) {
-                        write!(report, " {} |", result.notation)?;
-                    } else {
-                        write!(report, " Error |")?;
-                    }
-                } else {
-                    write!(report, " - |")?;
-                }
+            // v2 results
+            let v2_key = if *adapt_name == "Bradford" {
+                format!("{}_v2", code)
+            } else {
+                format!("{}_v2_{}", code, adapt_name)
+            };
+            
+            if let Some(result) = color_results.get(&v2_key) {
+                writeln!(report, "| {} | {} | {} | {} | {} | {} | {} |",
+                    format!("{}_v2", code),
+                    adapt_name,
+                    result.munsell_notation,
+                    result.method1_result,
+                    if result.method1_match { "✅" } else { "❌" },
+                    result.method2_result,
+                    if result.method2_match { "✅" } else { "❌" }
+                )?;
             }
-            writeln!(report, "")?;
-        }
-        writeln!(report, "")?;
-    }
-    
-    Ok(())
-}
-
-/// Write summary statistics section as requested by user
-fn write_summary_statistics(
-    report: &mut String,
-    w3_results: &DatasetResults,
-    centore_results: &DatasetResults,
-) -> Result<(), Box<dyn std::error::Error>> {
-    writeln!(report, "## Summary of Matched Color Names")?;
-    writeln!(report, "")?;
-    writeln!(report, "Overall accuracy statistics for each dataset and illuminant:")?;
-    writeln!(report, "")?;
-    
-    // Summary table for both datasets
-    writeln!(report, "| Dataset | Illuminant | Total Colors | Exact Matches | Accuracy |")?;
-    writeln!(report, "|---------|------------|--------------|---------------|----------|")?;
-    
-    let illuminant_order = [
-        Illuminant::A, Illuminant::C, Illuminant::D50, Illuminant::D55, 
-        Illuminant::D65, Illuminant::D75, Illuminant::E, Illuminant::F2, 
-        Illuminant::F7, Illuminant::F11
-    ];
-    
-    for illuminant in illuminant_order {
-        let illuminant_name = match illuminant {
-            Illuminant::A => "A",
-            Illuminant::C => "C",
-            Illuminant::D50 => "D50", 
-            Illuminant::D55 => "D55",
-            Illuminant::D65 => "D65",
-            Illuminant::D75 => "D75", 
-            Illuminant::E => "E",
-            Illuminant::F2 => "F2",
-            Illuminant::F7 => "F7",
-            Illuminant::F11 => "F11",
-            _ => "Unknown",
-        };
-        
-        // W3 dataset stats
-        if let Some(stats) = w3_results.accuracy_stats.get(&illuminant) {
-            writeln!(report, "| W3 ISCC NBS Colors | {} | {} | {} | {:.1}% |",
-                    illuminant_name, stats.total_colors, stats.classification_matches, stats.classification_accuracy)?;
-        }
-        
-        // Paul Centore dataset stats  
-        if let Some(stats) = centore_results.accuracy_stats.get(&illuminant) {
-            writeln!(report, "| Paul Centore ISCC NBS System | {} | {} | {} | {:.1}% |",
-                    illuminant_name, stats.total_colors, stats.classification_matches, stats.classification_accuracy)?;
         }
     }
-    writeln!(report, "")?;
+    writeln!(report)?;
     
     Ok(())
 }
