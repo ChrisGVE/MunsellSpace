@@ -101,8 +101,21 @@ def rgb_to_munsell(rgb, target_illuminant='C', adaptation_method='Bradford'):
         if isinstance(munsell, str):
             return munsell
         else:
-            # If it returns a specification object, format it
-            return colour.notation.munsell_colour_to_munsell_value(munsell)
+            # If it returns a specification (array), we need to handle chroma clamping
+            # munsell specification is [hue, value, chroma, code]
+            if hasattr(munsell, '__len__') and len(munsell) >= 3:
+                hue, value, chroma = munsell[0], munsell[1], munsell[2]
+                # Clamp chroma to valid range [2, 50] to avoid API errors
+                if chroma < 2.0:
+                    # For very low chroma, this is essentially a neutral color
+                    # Return as Neutral with appropriate value
+                    return f"N {value:.1f}/"
+                elif chroma > 50.0:
+                    chroma = 50.0
+                    munsell = np.array([hue, value, chroma] + list(munsell[3:]))
+            
+            # Format it using the colour-science function
+            return colour.notation.munsell.munsell_specification_to_munsell_colour(munsell)
             
     except Exception as e:
         return f"ERROR: {str(e)}"

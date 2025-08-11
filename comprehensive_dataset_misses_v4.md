@@ -1,369 +1,259 @@
-# Comprehensive Conversion Dataset - Mismatches Analysis V4 (COMPREHENSIVE FIX)
+# Comprehensive Conversion Dataset - Mismatches Analysis V4
 
-Generated: 1754930967
+## W3 Dataset
 
-## Configuration
+### Summary Statistics
 
-- Converter: Restored breakthrough mathematical converter (60.4% baseline)
-- Chromatic Adaptation: XYZScaling
-- Illuminants tested: C, D65, F7
+| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Rust Accuracy | Python Accuracy |
+| ---------- | ----- | ------------ | -------------- | ------------- | ------------- | --------------- |
+| C          | 267   | 221          | 172            | 50            | 82.8%         | 79.3%           |
+| D65        | 267   | 134          | 127            | 47            | 50.2%         | 57.7%           |
+| F7         | 267   | 134          | 125            | 48            | 50.2%         | 57.1%           |
 
-## Key Fixes in V4:
+### Detailed Mismatches (First 5 colors)
 
-- **FIX 1**: Python API mapping: 'XYZ Scaling' (not 'XYZScaling')
-- **FIX 2**: Expected names use construct_revised_descriptor() logic
-- **FIX 3**: ISCC-NBS classification uses revised_descriptor field
-- **FIX 4**: Accuracy calculated as matches / (total - errors)
-- **FIX 5**: Track Unknown classifications for investigation
-- **FIX 6**: Store actual Python error messages for debugging
+**Expected: vivid pink**
+Hex: #FFB5BA
 
-## W3 Dataset Results
+| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
+| C          | 0.7R 8.0/6.8 | light pink      | ✗   | 1.0R 8.0/6.6   | moderate pink     | ✗   |
 
-### Overall Statistics
+**Expected: very dark red**
+Hex: #3F1728
 
-- Total unique colors: 267
+| Illuminant | Rust Munsell | Rust descriptor        | ✓/✗ | Python Munsell | Python descriptor      | ✓/✗ |
+| ---------- | ------------ | ---------------------- | --- | -------------- | ---------------------- | --- |
+| C          | 1.0R 1.4/4.2 | very dark purplish red | ✗   | 1.0R 1.4/4.0   | very dark purplish red | ✗   |
 
-### Accuracy by Illuminant (W3) - FIXED Calculation
+**Expected: vivid yellowish pink**
+Hex: #FFB7A5
 
-| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Effective Pop | Rust Accuracy | Python Accuracy | Rust Unknown | Python Unknown |
-| ---------- | ----- | ------------ | -------------- | ------------- | ------------- | ------------- | --------------- | ------------ | -------------- |
-| C          | 267   | 221          | 172            | 50            | 217           | 82.8%         | 79.3%           | 4            | 2              |
-| D65        | 267   | 134          | 127            | 47            | 220           | 50.2%         | 57.7%           | 1            | 1              |
-| F7         | 267   | 134          | 125            | 48            | 219           | 50.2%         | 57.1%           | 1            | 1              |
+| Illuminant | Rust Munsell | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
+| ---------- | ------------ | -------------------- | --- | -------------- | -------------------- | --- |
+| C          | 7.9R 8.0/6.4 | light yellowish pink | ✗   | 8.4R 8.0/6.1   | light yellowish pink | ✗   |
 
-## Centore Dataset Results
+**Expected: deep yellowish pink**
+Hex: #E66721
 
-### Overall Statistics
+| Illuminant | Rust Munsell   | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
+| ---------- | -------------- | -------------------- | --- | -------------- | -------------------- | --- |
+| C          | 0.9YR 5.8/13.8 | vivid reddish orange | ✗   | 1.3YR 5.8/13.4 | vivid reddish orange | ✗   |
 
-- Total unique colors: 260
+**Expected: light yellowish pink**
+Hex: #F4C2C2
 
-### Accuracy by Illuminant (Centore) - FIXED Calculation
+| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
+| C          | 2.1R 8.2/4.6 | light pink      | ✗   | 2.4R 8.2/4.5   | light pink        | ✗   |
 
-| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Effective Pop | Rust Accuracy | Python Accuracy | Rust Unknown | Python Unknown |
-| ---------- | ----- | ------------ | -------------- | ------------- | ------------- | ------------- | --------------- | ------------ | -------------- |
-| C          | 260   | 186          | 177            | 42            | 218           | 71.5%         | 81.2%           | 2            | 2              |
-| D65        | 260   | 239          | 205            | 46            | 214           | 91.9%         | 95.8%           | 1            | 1              |
-| F7         | 260   | 239          | 206            | 45            | 215           | 91.9%         | 95.8%           | 1            | 1              |
+**Expected: vivid pink**
+Hex: #FFB5BA
 
-## Python Error Analysis
+| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
+| D65        | 4.7R 8.0/6.0 | light pink      | ✗   | 4.7R 8.0/6.0   | light pink        | ✗   |
 
-### Sample Python Errors (First 5 per illuminant)
+**Expected: strong pink**
+Hex: #EA9399
 
-#### Illuminant C - Python Errors
+| Illuminant | Rust Munsell | Rust descriptor       | ✓/✗ | Python Munsell | Python descriptor     | ✓/✗ |
+| ---------- | ------------ | --------------------- | --- | -------------- | --------------------- | --- |
+| D65        | 4.2R 6.9/7.4 | strong yellowish pink | ✗   | 4.2R 6.9/7.4   | strong yellowish pink | ✗   |
 
-**W3 - Color: #EAE3E1 - Expected: "pinkish white"**
+**Expected: light pink**
+Hex: #F9CCCA
 
-- Rust: 8.7R 9.1/0.7 → "pinkish white" ✓
-- Python Error: `ERROR: "array([ 9.43793462,  9.0551813 ,  0.7188615 ,  7.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell  | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
+| ---------- | ------------- | -------------------- | --- | -------------- | -------------------- | --- |
+| D65        | 0.3YR 8.5/3.3 | light yellowish pink | ✗   | 0.3YR 8.5/3.2  | light yellowish pink | ✗   |
 
-**W3 - Color: #C1B6B3 - Expected: "pinkish gray"**
+**Expected: moderate pink**
+Hex: #DEA5A4
 
-- Rust: 9.2R 7.4/1.1 → "pinkish gray" ✓
-- Python Error: `ERROR: "array([ 9.76980612,  7.41177786,  1.00245538,  7.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell | Rust descriptor         | ✓/✗ | Python Munsell | Python descriptor       | ✓/✗ |
+| ---------- | ------------ | ----------------------- | --- | -------------- | ----------------------- | --- |
+| D65        | 7.7R 7.2/4.5 | moderate yellowish pink | ✗   | 7.7R 7.2/4.5   | moderate yellowish pink | ✗   |
 
-**W3 - Color: #543D3F - Expected: "dark grayish red"**
+**Expected: dark pink**
+Hex: #C08081
 
-- Rust: 2.7R 2.8/1.9 → "dark grayish red" ✓
-- Python Error: `ERROR: "array([ 2.99032469,  2.80224172,  1.84372743,  7.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell | Rust descriptor     | ✓/✗ | Python Munsell | Python descriptor   | ✓/✗ |
+| ---------- | ------------ | ------------------- | --- | -------------- | ------------------- | --- |
+| D65        | 6.2R 5.9/5.4 | dark yellowish pink | ✗   | 6.2R 5.9/5.4   | dark yellowish pink | ✗   |
 
-**W3 - Color: #2E1D21 - Expected: "blackish red"**
+**Expected: vivid pink**
+Hex: #FFB5BA
 
-- Rust: 3.9R 1.3/1.5 → "blackish red" ✓
-- Python Error: `ERROR: "array([ 4.03229803,  1.26674496,  1.39799177,  7.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
+| F7         | 4.8R 8.0/6.0 | light pink      | ✗   | 4.8R 8.0/6.0   | light pink        | ✗   |
 
-**W3 - Color: #8F817F - Expected: "reddish gray"**
+**Expected: strong pink**
+Hex: #EA9399
 
-- Rust: 6.9R 5.4/1.3 → "reddish gray" ✓
-- Python Error: `ERROR: "array([ 7.4100523 ,  5.40961079,  1.20988396,  7.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell | Rust descriptor       | ✓/✗ | Python Munsell | Python descriptor     | ✓/✗ |
+| ---------- | ------------ | --------------------- | --- | -------------- | --------------------- | --- |
+| F7         | 4.3R 6.9/7.4 | strong yellowish pink | ✗   | 4.3R 6.9/7.4   | strong yellowish pink | ✗   |
 
-#### Illuminant D65 - Python Errors
+**Expected: light pink**
+Hex: #F9CCCA
 
-**W3 - Color: #EAD8D7 - Expected: "pale pink"**
+| Illuminant | Rust Munsell  | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
+| ---------- | ------------- | -------------------- | --- | -------------- | -------------------- | --- |
+| F7         | 0.3YR 8.5/3.3 | light yellowish pink | ✗   | 0.3YR 8.5/3.3  | light yellowish pink | ✗   |
 
-- Rust: 8.8YR 8.7/1.1 → "yellowish white" ✗
-- Python Error: `ERROR: "array([ 8.89119271,  8.74717951,  1.13746344,  6.        ])" specification chroma must be normalised to domain [2, 50]!`
+**Expected: moderate pink**
+Hex: #DEA5A4
 
-**W3 - Color: #C4AEAD - Expected: "grayish pink"**
+| Illuminant | Rust Munsell | Rust descriptor         | ✓/✗ | Python Munsell | Python descriptor       | ✓/✗ |
+| ---------- | ------------ | ----------------------- | --- | -------------- | ----------------------- | --- |
+| F7         | 7.8R 7.2/4.5 | moderate yellowish pink | ✗   | 7.8R 7.2/4.5   | moderate yellowish pink | ✗   |
 
-- Rust: 5.4YR 7.2/1.5 → "brownish pink" ✗
-- Python Error: `ERROR: "array([ 5.37454125,  7.21094898,  1.48735216,  6.        ])" specification chroma must be normalised to domain [2, 50]!`
+**Expected: dark pink**
+Hex: #C08081
 
-**W3 - Color: #EAE3E1 - Expected: "pinkish white"**
+| Illuminant | Rust Munsell | Rust descriptor     | ✓/✗ | Python Munsell | Python descriptor   | ✓/✗ |
+| ---------- | ------------ | ------------------- | --- | -------------- | ------------------- | --- |
+| F7         | 6.2R 5.9/5.4 | dark yellowish pink | ✗   | 6.3R 5.9/5.4   | dark yellowish pink | ✗   |
 
-- Rust: 2.3GY 9.1/0.8 → "yellowish white" ✗
-- Python Error: `ERROR: "array([ 2.2962285 ,  9.05538813,  0.83433887,  4.        ])" specification chroma must be normalised to domain [2, 50]!`
+## Centore Dataset
 
-**W3 - Color: #C1B6B3 - Expected: "pinkish gray"**
+### Summary Statistics
 
-- Rust: 4.2Y 7.4/0.9 → "yellowish gray" ✗
-- Python Error: `ERROR: "array([ 4.25367892,  7.41207592,  0.92686117,  5.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Rust Accuracy | Python Accuracy |
+| ---------- | ----- | ------------ | -------------- | ------------- | ------------- | --------------- |
+| C          | 260   | 186          | 176            | 42            | 71.5%         | 80.7%           |
+| D65        | 260   | 239          | 205            | 46            | 91.9%         | 95.8%           |
+| F7         | 260   | 239          | 206            | 45            | 91.9%         | 95.8%           |
 
-**W3 - Color: #543D3F - Expected: "dark grayish red"**
+### Detailed Mismatches (First 5 colors)
 
-- Rust: 8.2R 2.8/1.6 → "grayish reddish brown" ✗
-- Python Error: `ERROR: "array([ 8.14029075,  2.80094519,  1.64257188,  7.        ])" specification chroma must be normalised to domain [2, 50]!`
+**Expected: light pink**
+Hex: #F8C3CE
 
-#### Illuminant F7 - Python Errors
+| Illuminant | Rust Munsell  | Rust descriptor     | ✓/✗ | Python Munsell | Python descriptor   | ✓/✗ |
+| ---------- | ------------- | ------------------- | --- | -------------- | ------------------- | --- |
+| C          | 7.1RP 8.3/5.2 | light purplish pink | ✗   | 7.2RP 8.3/5.1  | light purplish pink | ✗   |
 
-**W3 - Color: #EAD8D7 - Expected: "pale pink"**
+**Expected: moderate pink**
+Hex: #E2A3AE
 
-- Rust: 8.9YR 8.7/1.2 → "yellowish white" ✗
-- Python Error: `ERROR: "array([ 8.90980652,  8.74722252,  1.15122854,  6.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell  | Rust descriptor        | ✓/✗ | Python Munsell | Python descriptor      | ✓/✗ |
+| ---------- | ------------- | ---------------------- | --- | -------------- | ---------------------- | --- |
+| C          | 8.3RP 7.2/6.3 | moderate purplish pink | ✗   | 8.4RP 7.2/6.0  | moderate purplish pink | ✗   |
 
-**W3 - Color: #C4AEAD - Expected: "grayish pink"**
+**Expected: pale pink**
+Hex: #EFD1DC
 
-- Rust: 5.4YR 7.2/1.5 → "brownish pink" ✗
-- Python Error: `ERROR: "array([ 5.43319755,  7.21100317,  1.49844129,  6.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell  | Rust descriptor    | ✓/✗ | Python Munsell | Python descriptor  | ✓/✗ |
+| ---------- | ------------- | ------------------ | --- | -------------- | ------------------ | --- |
+| C          | 4.2RP 8.6/3.7 | pale purplish pink | ✗   | 3.8RP 8.6/3.5  | pale purplish pink | ✗   |
 
-**W3 - Color: #EAE3E1 - Expected: "pinkish white"**
+**Expected: grayish pink**
+Hex: #CBADB7
 
-- Rust: 2.2GY 9.1/0.8 → "yellowish white" ✗
-- Python Error: `ERROR: "array([ 2.10814781,  9.05541097,  0.8455287 ,  4.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell  | Rust descriptor       | ✓/✗ | Python Munsell | Python descriptor     | ✓/✗ |
+| ---------- | ------------- | --------------------- | --- | -------------- | --------------------- | --- |
+| C          | 6.6RP 7.3/3.2 | grayish purplish pink | ✗   | 4.5RP 7.3/3.4  | grayish purplish pink | ✗   |
 
-**W3 - Color: #C1B6B3 - Expected: "pinkish gray"**
+**Expected: pinkish white**
+Hex: #EFDDE5
 
-- Rust: 4.3Y 7.4/0.9 → "yellowish gray" ✗
-- Python Error: `ERROR: "array([ 4.21101266,  7.41211292,  0.93906721,  5.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell  | Rust descriptor    | ✓/✗ | Python Munsell | Python descriptor  | ✓/✗ |
+| ---------- | ------------- | ------------------ | --- | -------------- | ------------------ | --- |
+| C          | 3.0RP 9.0/2.6 | pale purplish pink | ✗   | 2.6RP 9.0/2.5  | pale purplish pink | ✗   |
 
-**W3 - Color: #543D3F - Expected: "dark grayish red"**
+**Expected: light grayish red**
+Hex: #B4888D
 
-- Rust: 8.2R 2.8/1.6 → "grayish reddish brown" ✗
-- Python Error: `ERROR: "array([ 8.20490786,  2.80099829,  1.646625  ,  7.        ])" specification chroma must be normalised to domain [2, 50]!`
+| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
+| D65        | 5.2R 6.0/3.6 | pale red        | ✗   | 5.2R 6.0/3.6   | pale red          | ✗   |
 
-## Unknown Classification Analysis
+**Expected: light grayish reddish brown**
+Hex: #9E7F7A
 
-### Colors Classified as "Unknown" (First 5 per illuminant)
+| Illuminant | Rust Munsell  | Rust descriptor    | ✓/✗ | Python Munsell | Python descriptor  | ✓/✗ |
+| ---------- | ------------- | ------------------ | --- | -------------- | ------------------ | --- |
+| D65        | 3.0YR 5.5/2.4 | pale reddish brown | ✗   | 3.0YR 5.5/2.4  | pale reddish brown | ✗   |
 
-These may be outside ISCC-NBS polygon boundaries or neutral colors.
+**Expected: light grayish brown**
+Hex: #997F75
 
-#### Illuminant C - Unknown Classifications
+| Illuminant | Rust Munsell  | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------- | --------------- | --- | -------------- | ----------------- | --- |
+| D65        | 7.3YR 5.4/2.2 | pale brown      | ✗   | 7.3YR 5.4/2.2  | pale brown        | ✗   |
 
-**W3 - Color: #C19A6B - Expected: "light yellowish brown"**
+**Expected: light grayish yellowish brown**
+Hex: #B49B8D
 
-- Rust: 8.7YR 6.5/5.0 → "Unknown" ✗ (UNKNOWN)
-- Python: 9.1YR 6.5/4.9 → "light yellowish brown" ✓
+| Illuminant | Rust Munsell  | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
+| ---------- | ------------- | -------------------- | --- | -------------- | -------------------- | --- |
+| D65        | 9.3YR 6.5/2.3 | pale yellowish brown | ✗   | 9.3YR 6.5/2.3  | pale yellowish brown | ✗   |
 
-**W3 - Color: #AA98A9 - Expected: "pale purple"**
+**Expected: light grayish olive**
+Hex: #8E856F
 
-- Rust: 7.8P 6.4/3.1 → "Unknown" ✗ (UNKNOWN)
-- Python: 7.8P 6.4/3.0 → "pale purple" ✓
+| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
+| D65        | 8.2Y 5.5/2.2 | pale olive      | ✗   | 8.2Y 5.5/2.2   | pale olive        | ✗   |
 
-**W3 - Color: #555555 - Expected: "dark grey"**
+**Expected: light grayish red**
+Hex: #B4888D
 
-- Rust: 0.0N 3.6/0.0 → "Unknown" ✗ (UNKNOWN)
-- Python: N3.6 → "Unknown" ✗ (UNKNOWN)
+| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
+| F7         | 5.3R 6.0/3.6 | pale red        | ✗   | 5.3R 6.0/3.6   | pale red          | ✗   |
 
-**W3 - Color: #222222 - Expected: "black"**
+**Expected: light grayish reddish brown**
+Hex: #9E7F7A
 
-- Rust: 0.0N 1.3/0.0 → "Unknown" ✗ (UNKNOWN)
-- Python: N1.3 → "Unknown" ✗ (UNKNOWN)
+| Illuminant | Rust Munsell  | Rust descriptor    | ✓/✗ | Python Munsell | Python descriptor  | ✓/✗ |
+| ---------- | ------------- | ------------------ | --- | -------------- | ------------------ | --- |
+| F7         | 3.0YR 5.5/2.4 | pale reddish brown | ✗   | 3.0YR 5.5/2.4  | pale reddish brown | ✗   |
 
-**Centore - Color: #B4888D - Expected: "light grayish red"**
+**Expected: light grayish brown**
+Hex: #997F75
 
-- Rust: 9.8RP 6.0/4.4 → "Unknown" ✗ (UNKNOWN)
-- Python: 10.0RP 6.0/4.2 → "Unknown" ✗ (UNKNOWN)
+| Illuminant | Rust Munsell  | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------- | --------------- | --- | -------------- | ----------------- | --- |
+| F7         | 7.3YR 5.4/2.2 | pale brown      | ✗   | 7.3YR 5.4/2.2  | pale brown        | ✗   |
 
-#### Illuminant D65 - Unknown Classifications
+**Expected: light grayish yellowish brown**
+Hex: #B49B8D
 
-**W3 - Color: #C19A6B - Expected: "light yellowish brown"**
+| Illuminant | Rust Munsell  | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
+| ---------- | ------------- | -------------------- | --- | -------------- | -------------------- | --- |
+| F7         | 9.3YR 6.5/2.3 | pale yellowish brown | ✗   | 9.3YR 6.5/2.3  | pale yellowish brown | ✗   |
 
-- Rust: 1.0Y 6.5/5.1 → "Unknown" ✗ (UNKNOWN)
-- Python: 1.0Y 6.5/5.1 → "Unknown" ✗ (UNKNOWN)
+**Expected: light grayish olive**
+Hex: #8E856F
 
-**Centore - Color: #AD97B3 - Expected: "pale purple"**
+| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
+| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
+| F7         | 8.2Y 5.5/2.2 | pale olive      | ✗   | 8.2Y 5.5/2.2   | pale olive        | ✗   |
 
-- Rust: 6.9P 6.4/3.2 → "Unknown" ✗ (UNKNOWN)
-- Python: 6.8P 6.4/3.2 → "Unknown" ✗ (UNKNOWN)
+## Python Errors
 
-#### Illuminant F7 - Unknown Classifications
+### First 5 errors per dataset
 
-**W3 - Color: #C19A6B - Expected: "light yellowish brown"**
+#### W3 Dataset Python Errors
 
-- Rust: 1.0Y 6.5/5.1 → "Unknown" ✗ (UNKNOWN)
-- Python: 1.0Y 6.5/5.1 → "Unknown" ✗ (UNKNOWN)
+| Descriptor       | Hex     | Returned Python Error                                                                                                 |
+| ---------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| pinkish white    | #EAE3E1 | ERROR: "array([ 9.43793462, 9.0551813 , 0.7188615 , 7. ])" specification chroma must be normalised to domain [2, 50]! |
+| pinkish gray     | #C1B6B3 | ERROR: "array([ 9.76980612, 7.41177786, 1.00245538, 7. ])" specification chroma must be normalised to domain [2, 50]! |
+| dark grayish red | #543D3F | ERROR: "array([ 2.99032469, 2.80224172, 1.84372743, 7. ])" specification chroma must be normalised to domain [2, 50]! |
+| blackish red     | #2E1D21 | ERROR: "array([ 4.03229803, 1.26674496, 1.39799177, 7. ])" specification chroma must be normalised to domain [2, 50]! |
+| reddish gray     | #8F817F | ERROR: "array([ 7.4100523 , 5.40961079, 1.20988396, 7. ])" specification chroma must be normalised to domain [2, 50]! |
 
-**Centore - Color: #AD97B3 - Expected: "pale purple"**
+#### Centore Dataset Python Errors
 
-- Rust: 6.9P 6.4/3.2 → "Unknown" ✗ (UNKNOWN)
-- Python: 6.9P 6.4/3.2 → "Unknown" ✗ (UNKNOWN)
-
-## Detailed Mismatch Analysis (First 5 per illuminant)
-
-Excludes Python errors and Unknown classifications for focus on actual classification differences.
-
-### W3 Dataset - Detailed Mismatches
-
-#### Illuminant C - W3 Mismatches
-
-**Color: #FFB5BA - Expected: "vivid pink"**
-
-- Rust: 0.7R 8.0/6.8 → "light pink" ✗
-- Python: 1.0R 8.0/6.6 → "moderate pink" ✗
-
-**Color: #3F1728 - Expected: "very dark red"**
-
-- Rust: 1.0R 1.4/4.2 → "very dark purplish red" ✗
-- Python: 1.0R 1.4/4.0 → "very dark purplish red" ✗
-
-**Color: #FFB7A5 - Expected: "vivid yellowish pink"**
-
-- Rust: 7.9R 8.0/6.4 → "light yellowish pink" ✗
-- Python: 8.4R 8.0/6.1 → "light yellowish pink" ✗
-
-**Color: #E66721 - Expected: "deep yellowish pink"**
-
-- Rust: 0.9YR 5.8/13.8 → "vivid reddish orange" ✗
-- Python: 1.3YR 5.8/13.4 → "vivid reddish orange" ✗
-
-**Color: #F4C2C2 - Expected: "light yellowish pink"**
-
-- Rust: 2.1R 8.2/4.6 → "light pink" ✗
-- Python: 2.4R 8.2/4.5 → "light pink" ✗
-
-#### Illuminant D65 - W3 Mismatches
-
-**Color: #FFB5BA - Expected: "vivid pink"**
-
-- Rust: 4.7R 8.0/6.0 → "light pink" ✗
-- Python: 4.7R 8.0/6.0 → "light pink" ✗
-
-**Color: #EA9399 - Expected: "strong pink"**
-
-- Rust: 4.2R 6.9/7.4 → "strong yellowish pink" ✗
-- Python: 4.2R 6.9/7.4 → "strong yellowish pink" ✗
-
-**Color: #F9CCCA - Expected: "light pink"**
-
-- Rust: 0.3YR 8.5/3.3 → "light yellowish pink" ✗
-- Python: 0.3YR 8.5/3.2 → "light yellowish pink" ✗
-
-**Color: #DEA5A4 - Expected: "moderate pink"**
-
-- Rust: 7.7R 7.2/4.5 → "moderate yellowish pink" ✗
-- Python: 7.7R 7.2/4.5 → "moderate yellowish pink" ✗
-
-**Color: #C08081 - Expected: "dark pink"**
-
-- Rust: 6.2R 5.9/5.4 → "dark yellowish pink" ✗
-- Python: 6.2R 5.9/5.4 → "dark yellowish pink" ✗
-
-#### Illuminant F7 - W3 Mismatches
-
-**Color: #FFB5BA - Expected: "vivid pink"**
-
-- Rust: 4.8R 8.0/6.0 → "light pink" ✗
-- Python: 4.8R 8.0/6.0 → "light pink" ✗
-
-**Color: #EA9399 - Expected: "strong pink"**
-
-- Rust: 4.3R 6.9/7.4 → "strong yellowish pink" ✗
-- Python: 4.3R 6.9/7.4 → "strong yellowish pink" ✗
-
-**Color: #F9CCCA - Expected: "light pink"**
-
-- Rust: 0.3YR 8.5/3.3 → "light yellowish pink" ✗
-- Python: 0.3YR 8.5/3.3 → "light yellowish pink" ✗
-
-**Color: #DEA5A4 - Expected: "moderate pink"**
-
-- Rust: 7.8R 7.2/4.5 → "moderate yellowish pink" ✗
-- Python: 7.8R 7.2/4.5 → "moderate yellowish pink" ✗
-
-**Color: #C08081 - Expected: "dark pink"**
-
-- Rust: 6.2R 5.9/5.4 → "dark yellowish pink" ✗
-- Python: 6.3R 5.9/5.4 → "dark yellowish pink" ✗
-
-### Centore Dataset - Detailed Mismatches
-
-#### Illuminant C - Centore Mismatches
-
-**Color: #F8C3CE - Expected: "light pink"**
-
-- Rust: 7.1RP 8.3/5.2 → "light purplish pink" ✗
-- Python: 7.2RP 8.3/5.1 → "light purplish pink" ✗
-
-**Color: #E2A3AE - Expected: "moderate pink"**
-
-- Rust: 8.3RP 7.2/6.3 → "moderate purplish pink" ✗
-- Python: 8.4RP 7.2/6.0 → "moderate purplish pink" ✗
-
-**Color: #EFD1DC - Expected: "pale pink"**
-
-- Rust: 4.2RP 8.6/3.7 → "pale purplish pink" ✗
-- Python: 3.8RP 8.6/3.5 → "pale purplish pink" ✗
-
-**Color: #CBADB7 - Expected: "grayish pink"**
-
-- Rust: 6.6RP 7.3/3.2 → "grayish purplish pink" ✗
-- Python: 4.5RP 7.3/3.4 → "grayish purplish pink" ✗
-
-**Color: #EFDDE5 - Expected: "pinkish white"**
-
-- Rust: 3.0RP 9.0/2.6 → "pale purplish pink" ✗
-- Python: 2.6RP 9.0/2.5 → "pale purplish pink" ✗
-
-#### Illuminant D65 - Centore Mismatches
-
-**Color: #B4888D - Expected: "light grayish red"**
-
-- Rust: 5.2R 6.0/3.6 → "pale red" ✗
-- Python: 5.2R 6.0/3.6 → "pale red" ✗
-
-**Color: #9E7F7A - Expected: "light grayish reddish brown"**
-
-- Rust: 3.0YR 5.5/2.4 → "pale reddish brown" ✗
-- Python: 3.0YR 5.5/2.4 → "pale reddish brown" ✗
-
-**Color: #997F75 - Expected: "light grayish brown"**
-
-- Rust: 7.3YR 5.4/2.2 → "pale brown" ✗
-- Python: 7.3YR 5.4/2.2 → "pale brown" ✗
-
-**Color: #B49B8D - Expected: "light grayish yellowish brown"**
-
-- Rust: 9.3YR 6.5/2.3 → "pale yellowish brown" ✗
-- Python: 9.3YR 6.5/2.3 → "pale yellowish brown" ✗
-
-**Color: #8E856F - Expected: "light grayish olive"**
-
-- Rust: 8.2Y 5.5/2.2 → "pale olive" ✗
-- Python: 8.2Y 5.5/2.2 → "pale olive" ✗
-
-#### Illuminant F7 - Centore Mismatches
-
-**Color: #B4888D - Expected: "light grayish red"**
-
-- Rust: 5.3R 6.0/3.6 → "pale red" ✗
-- Python: 5.3R 6.0/3.6 → "pale red" ✗
-
-**Color: #9E7F7A - Expected: "light grayish reddish brown"**
-
-- Rust: 3.0YR 5.5/2.4 → "pale reddish brown" ✗
-- Python: 3.0YR 5.5/2.4 → "pale reddish brown" ✗
-
-**Color: #997F75 - Expected: "light grayish brown"**
-
-- Rust: 7.3YR 5.4/2.2 → "pale brown" ✗
-- Python: 7.3YR 5.4/2.2 → "pale brown" ✗
-
-**Color: #B49B8D - Expected: "light grayish yellowish brown"**
-
-- Rust: 9.3YR 6.5/2.3 → "pale yellowish brown" ✗
-- Python: 9.3YR 6.5/2.3 → "pale yellowish brown" ✗
-
-**Color: #8E856F - Expected: "light grayish olive"**
-
-- Rust: 8.2Y 5.5/2.2 → "pale olive" ✗
-- Python: 8.2Y 5.5/2.2 → "pale olive" ✗
-
-## Summary
-
-### V4 Comprehensive Fixes Applied:
-
-1. **Python API Fix**: Used 'XYZ Scaling' instead of 'XYZScaling'
-2. **ISCC-NBS Fix**: Used revised_descriptor field from construct_revised_descriptor()
-3. **Accuracy Fix**: Calculate as matches / (total - errors)
-4. **Error Tracking**: Store actual Python error messages for debugging
-5. **Unknown Analysis**: Track colors outside ISCC-NBS boundaries
-6. **Expected Names**: Apply construct_revised_descriptor() logic to ground truth
+| Descriptor         | Hex     | Returned Python Error                                                                                                 |
+| ------------------ | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| blackish red       | #332127 | ERROR: "array([ 1.19199824, 1.48442643, 1.5378845 , 7. ])" specification chroma must be normalised to domain [2, 50]! |
+| reddish gray       | #928186 | ERROR: "array([ 5.44787417, 5.45794177, 1.8388855 , 8. ])" specification chroma must be normalised to domain [2, 50]! |
+| dark reddish gray  | #5D4E53 | ERROR: "array([ 5.88772911, 3.42928413, 1.32505296, 8. ])" specification chroma must be normalised to domain [2, 50]! |
+| reddish black      | #30262B | ERROR: "array([ 6.3657322 , 1.61643972, 0.96025915, 8. ])" specification chroma must be normalised to domain [2, 50]! |
+| dark grayish brown | #3E2C28 | ERROR: "array([ 2.41100042, 1.97183673, 1.68372951, 6. ])" specification chroma must be normalised to domain [2, 50]! |
