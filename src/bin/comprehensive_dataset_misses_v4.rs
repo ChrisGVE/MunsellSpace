@@ -348,11 +348,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     writeln!(&mut report)?;
     
-    // W3 Detailed Mismatches (limit to 5 colors total, show all illuminants per color)
+    // W3 Detailed Mismatches (limit to 5 colors, only show illuminants where Rust doesn't match)
     writeln!(&mut report, "### Detailed Mismatches (First 5 colors)")?;
     writeln!(&mut report)?;
     
-    // Collect unique mismatched colors across all illuminants
+    // Collect unique colors that have Rust mismatches
     let mut unique_colors = std::collections::HashSet::new();
     let mut color_results = Vec::new();
     
@@ -366,7 +366,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         if let Some(results) = w3_results.get(illum_name) {
             for result in results.iter()
-                .filter(|r| (!r.rust_match || !r.python_match) && !r.python_error) 
+                .filter(|r| !r.rust_match) // Only care about Rust mismatches
             {
                 let color_key = format!("{:02X}{:02X}{:02X}", result.rgb[0], result.rgb[1], result.rgb[2]);
                 if unique_colors.insert(color_key.clone()) && unique_colors.len() <= 5 {
@@ -376,15 +376,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
     
-    // Now display each unique color with all illuminant results
-    for (hex_key, expected_name, rgb) in color_results.iter().take(5) {
-        writeln!(&mut report, "**Expected: {}**", expected_name)?;
-        writeln!(&mut report, "Hex: #{}", hex_key)?;
-        writeln!(&mut report)?;
-        writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | Match | Python Munsell | Python descriptor | Match |")?;
-        writeln!(&mut report, "|------------|--------------|-----------------|-------|----------------|-------------------|-------|")?;
+    // Display each unique color with ONLY illuminants where Rust doesn't match
+    let mut color_count = 0;
+    for (hex_key, expected_name, rgb) in color_results.iter() {
+        if color_count >= 5 { break; }
+        color_count += 1;
         
-        // Show results for all illuminants for this color
+        writeln!(&mut report, "#### Color {}: {}", color_count, expected_name)?;
+        writeln!(&mut report)?;
+        writeln!(&mut report, "**Hex:** #{}", hex_key)?;
+        writeln!(&mut report)?;
+        writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor |")?;
+        writeln!(&mut report, "|------------|--------------|-----------------|----------------|-------------------|")?;
+        
+        // Only show illuminants where Rust doesn't match
         for (illuminant, _) in &configurations {
             let illum_name = match illuminant {
                 MathIlluminant::C => "C",
@@ -397,26 +402,70 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 if let Some(result) = results.iter()
                     .find(|r| r.rgb == *rgb)
                 {
-                    let rust_icon = if result.rust_match { "✅" } else { "❌" };
-                    let python_icon = if result.python_error {
-                        "⚠️"
-                    } else if result.python_match {
-                        "✅"
-                    } else {
-                        "❌"
-                    };
-                    
-                    writeln!(&mut report, "| {:10} | {:12} | {:15} | {:5} | {:14} | {:17} | {:5} |",
-                        illum_name,
-                        result.munsell_notation,
-                        result.rust_iscc,
-                        rust_icon,
-                        if result.python_error { "ERROR".to_string() } else { result.python_munsell.clone() },
-                        if result.python_error { "Python API Error".to_string() } else { result.python_iscc.clone() },
-                        python_icon
-                    )?;
+                    // Only show this row if Rust doesn't match
+                    if !result.rust_match {
+                        let rust_descriptor = if result.rust_unknown {
+                            "(Unknown)".to_string()
+                        } else if result.rust_iscc.is_empty() || result.rust_iscc == "Unknown" {
+                            "(No match)".to_string()
+                        } else {
+                            result.rust_iscc.clone()
+                        };
+                        
+                        let python_descriptor = if result.python_error {
+                            "(Error)".to_string()
+                        } else if result.python_unknown {
+                            "(Unknown)".to_string()
+                        } else if result.python_iscc.is_empty() || result.python_iscc == "Unknown" {
+                            "(No match)".to_string()
+                        } else {
+                            result.python_iscc.clone()
+                        };
+                        
+                        writeln!(&mut report, "| {:10} | {:12} | {:15} | {:14} | {:17} |",
+                            illum_name,
+                            result.munsell_notation,
+                            rust_descriptor,
+                            if result.python_error { "ERROR".to_string() } else { result.python_munsell.clone() },
+                            python_descriptor
+                        )?;
+                    }
                 }
             }
+        }
+        writeln!(&mut report)?;
+    }
+    
+    // W3 Python Errors section (within W3 section)
+    writeln!(&mut report, "### Python Errors (First 5)")?;
+    writeln!(&mut report)?;
+    
+    let mut w3_errors = Vec::new();
+    for (illuminant, _) in &configurations {
+        let illum_name = match illuminant {
+            MathIlluminant::C => "C",
+            MathIlluminant::D65 => "D65",
+            MathIlluminant::F7 => "F7",
+            _ => continue,
+        };
+        
+        if let Some(results) = w3_results.get(illum_name) {
+            for result in results.iter().filter(|r| r.python_error) {
+                if w3_errors.len() < 5 {
+                    w3_errors.push(result);
+                }
+            }
+        }
+    }
+    
+    if !w3_errors.is_empty() {
+        writeln!(&mut report, "| Descriptor | Hex | Error Message |")?;
+        writeln!(&mut report, "|------------|-----|---------------|")?;
+        for result in &w3_errors {
+            writeln!(&mut report, "| {} | #{:02X}{:02X}{:02X} | {} |",
+                result.expected_name,
+                result.rgb[0], result.rgb[1], result.rgb[2],
+                result.python_error_msg)?;
         }
         writeln!(&mut report)?;
     }
@@ -458,11 +507,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     writeln!(&mut report)?;
     
-    // Centore Detailed Mismatches (limit to 5 colors total, show all illuminants per color)
+    // Centore Detailed Mismatches (limit to 5 colors, only show illuminants where Rust doesn't match)
     writeln!(&mut report, "### Detailed Mismatches (First 5 colors)")?;
     writeln!(&mut report)?;
     
-    // Collect unique mismatched colors across all illuminants
+    // Collect unique colors that have Rust mismatches
     let mut unique_colors = std::collections::HashSet::new();
     let mut color_results = Vec::new();
     
@@ -476,7 +525,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         if let Some(results) = centore_results.get(illum_name) {
             for result in results.iter()
-                .filter(|r| (!r.rust_match || !r.python_match) && !r.python_error)
+                .filter(|r| !r.rust_match) // Only care about Rust mismatches
             {
                 let color_key = format!("{:02X}{:02X}{:02X}", result.rgb[0], result.rgb[1], result.rgb[2]);
                 if unique_colors.insert(color_key.clone()) && unique_colors.len() <= 5 {
@@ -486,15 +535,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
     
-    // Now display each unique color with all illuminant results
-    for (hex_key, expected_name, rgb) in color_results.iter().take(5) {
-        writeln!(&mut report, "**Expected: {}**", expected_name)?;
-        writeln!(&mut report, "Hex: #{}", hex_key)?;
-        writeln!(&mut report)?;
-        writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | Match | Python Munsell | Python descriptor | Match |")?;
-        writeln!(&mut report, "|------------|--------------|-----------------|-------|----------------|-------------------|-------|")?;
+    // Display each unique color with ONLY illuminants where Rust doesn't match
+    let mut color_count = 0;
+    for (hex_key, expected_name, rgb) in color_results.iter() {
+        if color_count >= 5 { break; }
+        color_count += 1;
         
-        // Show results for all illuminants for this color
+        writeln!(&mut report, "#### Color {}: {}", color_count, expected_name)?;
+        writeln!(&mut report)?;
+        writeln!(&mut report, "**Hex:** #{}", hex_key)?;
+        writeln!(&mut report)?;
+        writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor |")?;
+        writeln!(&mut report, "|------------|--------------|-----------------|----------------|-------------------|")?;
+        
+        // Only show illuminants where Rust doesn't match
         for (illuminant, _) in &configurations {
             let illum_name = match illuminant {
                 MathIlluminant::C => "C",
@@ -507,41 +561,45 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 if let Some(result) = results.iter()
                     .find(|r| r.rgb == *rgb)
                 {
-                    let rust_icon = if result.rust_match { "✅" } else { "❌" };
-                    let python_icon = if result.python_error {
-                        "⚠️"
-                    } else if result.python_match {
-                        "✅"
-                    } else {
-                        "❌"
-                    };
-                    
-                    writeln!(&mut report, "| {:10} | {:12} | {:15} | {:5} | {:14} | {:17} | {:5} |",
-                        illum_name,
-                        result.munsell_notation,
-                        result.rust_iscc,
-                        rust_icon,
-                        if result.python_error { "ERROR".to_string() } else { result.python_munsell.clone() },
-                        if result.python_error { "Python API Error".to_string() } else { result.python_iscc.clone() },
-                        python_icon
-                    )?;
+                    // Only show this row if Rust doesn't match
+                    if !result.rust_match {
+                        let rust_descriptor = if result.rust_unknown {
+                            "(Unknown)".to_string()
+                        } else if result.rust_iscc.is_empty() || result.rust_iscc == "Unknown" {
+                            "(No match)".to_string()
+                        } else {
+                            result.rust_iscc.clone()
+                        };
+                        
+                        let python_descriptor = if result.python_error {
+                            "(Error)".to_string()
+                        } else if result.python_unknown {
+                            "(Unknown)".to_string()
+                        } else if result.python_iscc.is_empty() || result.python_iscc == "Unknown" {
+                            "(No match)".to_string()
+                        } else {
+                            result.python_iscc.clone()
+                        };
+                        
+                        writeln!(&mut report, "| {:10} | {:12} | {:15} | {:14} | {:17} |",
+                            illum_name,
+                            result.munsell_notation,
+                            rust_descriptor,
+                            if result.python_error { "ERROR".to_string() } else { result.python_munsell.clone() },
+                            python_descriptor
+                        )?;
+                    }
                 }
             }
         }
         writeln!(&mut report)?;
     }
     
-    // ========== PYTHON ERRORS SECTION ==========
-    writeln!(&mut report)?;
-    writeln!(&mut report, "## Python Errors")?;
-    writeln!(&mut report)?;
-    writeln!(&mut report, "### First 5 errors per dataset")?;
+    // Centore Python Errors section (within Centore section)
+    writeln!(&mut report, "### Python Errors (First 5)")?;
     writeln!(&mut report)?;
     
-    // Collect all Python errors from both datasets
-    let mut w3_errors = Vec::new();
     let mut centore_errors = Vec::new();
-    
     for (illuminant, _) in &configurations {
         let illum_name = match illuminant {
             MathIlluminant::C => "C",
@@ -550,16 +608,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             _ => continue,
         };
         
-        if let Some(w3_results) = w3_results.get(illum_name) {
-            for result in w3_results.iter().filter(|r| r.python_error) {
-                if w3_errors.len() < 5 {
-                    w3_errors.push(result);
-                }
-            }
-        }
-        
-        if let Some(centore_results) = centore_results.get(illum_name) {
-            for result in centore_results.iter().filter(|r| r.python_error) {
+        if let Some(results) = centore_results.get(illum_name) {
+            for result in results.iter().filter(|r| r.python_error) {
                 if centore_errors.len() < 5 {
                     centore_errors.push(result);
                 }
@@ -567,27 +617,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
     
-    // W3 Python Errors Table
-    if !w3_errors.is_empty() {
-        writeln!(&mut report, "#### W3 Dataset Python Errors")?;
-        writeln!(&mut report)?;
-        writeln!(&mut report, "| Descriptor | Hex | Returned Python Error |")?;
-        writeln!(&mut report, "|------------|-----|----------------------|")?;
-        for result in &w3_errors {
-            writeln!(&mut report, "| {} | #{:02X}{:02X}{:02X} | {} |",
-                result.expected_name,
-                result.rgb[0], result.rgb[1], result.rgb[2],
-                result.python_error_msg)?;
-        }
-        writeln!(&mut report)?;
-    }
-    
-    // Centore Python Errors Table
     if !centore_errors.is_empty() {
-        writeln!(&mut report, "#### Centore Dataset Python Errors")?;
-        writeln!(&mut report)?;
-        writeln!(&mut report, "| Descriptor | Hex | Returned Python Error |")?;
-        writeln!(&mut report, "|------------|-----|----------------------|")?;
+        writeln!(&mut report, "| Descriptor | Hex | Error Message |")?;
+        writeln!(&mut report, "|------------|-----|---------------|")?;
         for result in &centore_errors {
             writeln!(&mut report, "| {} | #{:02X}{:02X}{:02X} | {} |",
                 result.expected_name,

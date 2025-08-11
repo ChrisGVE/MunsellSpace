@@ -6,116 +6,56 @@
 
 | Illuminant | Total | Rust Correct | Python Correct | Python Errors | Rust Accuracy | Python Accuracy |
 | ---------- | ----- | ------------ | -------------- | ------------- | ------------- | --------------- |
-| C          | 267   | 221          | 172            | 50            | 82.8%         | 79.3%           |
-| D65        | 267   | 134          | 127            | 47            | 50.2%         | 57.7%           |
-| F7         | 267   | 134          | 125            | 48            | 50.2%         | 57.1%           |
+| C          | 267   | 221          | 173            | 50            | 82.8%         | 79.7%           |
+| D65        | 267   | 134          | 128            | 47            | 50.2%         | 58.2%           |
+| F7         | 267   | 134          | 127            | 48            | 50.2%         | 58.0%           |
 
 ### Detailed Mismatches (First 5 colors)
 
 **Expected: vivid pink**
 Hex: #FFB5BA
 
-| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
-| C          | 0.7R 8.0/6.8 | light pink      | ✗   | 1.0R 8.0/6.6   | moderate pink     | ✗   |
+| Illuminant | Rust Munsell | Rust descriptor | Match | Python Munsell | Python descriptor | Match |
+| ---------- | ------------ | --------------- | ----- | -------------- | ----------------- | ----- |
+| C          | 0.7R 8.0/6.8 | light pink      | ❌    | 1.0R 8.0/6.6   | moderate pink     | ❌    |
+| D65        | 4.7R 8.0/6.0 | light pink      | ❌    | 4.7R 8.0/6.0   | light pink        | ❌    |
+| F7         | 4.8R 8.0/6.0 | light pink      | ❌    | 4.8R 8.0/6.0   | light pink        | ❌    |
 
 **Expected: very dark red**
 Hex: #3F1728
 
-| Illuminant | Rust Munsell | Rust descriptor        | ✓/✗ | Python Munsell | Python descriptor      | ✓/✗ |
-| ---------- | ------------ | ---------------------- | --- | -------------- | ---------------------- | --- |
-| C          | 1.0R 1.4/4.2 | very dark purplish red | ✗   | 1.0R 1.4/4.0   | very dark purplish red | ✗   |
+| Illuminant | Rust Munsell | Rust descriptor        | Match | Python Munsell | Python descriptor      | Match |
+| ---------- | ------------ | ---------------------- | ----- | -------------- | ---------------------- | ----- |
+| C          | 1.0R 1.4/4.2 | very dark purplish red | ❌    | 1.0R 1.4/4.0   | very dark purplish red | ❌    |
+| D65        | 2.2R 1.4/3.8 | very dark red          | ✅    | 2.2R 1.4/3.8   | very dark red          | ✅    |
+| F7         | 2.2R 1.4/3.8 | very dark red          | ✅    | 2.2R 1.4/3.8   | very dark red          | ✅    |
 
 **Expected: vivid yellowish pink**
 Hex: #FFB7A5
 
-| Illuminant | Rust Munsell | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
-| ---------- | ------------ | -------------------- | --- | -------------- | -------------------- | --- |
-| C          | 7.9R 8.0/6.4 | light yellowish pink | ✗   | 8.4R 8.0/6.1   | light yellowish pink | ✗   |
+| Illuminant | Rust Munsell  | Rust descriptor      | Match | Python Munsell | Python descriptor    | Match |
+| ---------- | ------------- | -------------------- | ----- | -------------- | -------------------- | ----- |
+| C          | 7.9R 8.0/6.4  | light yellowish pink | ❌    | 8.4R 8.0/6.1   | light yellowish pink | ❌    |
+| D65        | 1.1YR 8.0/5.8 | light yellowish pink | ❌    | 1.2YR 8.0/5.8  | light yellowish pink | ❌    |
+| F7         | 1.2YR 8.0/5.9 | light yellowish pink | ❌    | 1.2YR 8.0/5.8  | light yellowish pink | ❌    |
 
 **Expected: deep yellowish pink**
 Hex: #E66721
 
-| Illuminant | Rust Munsell   | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
-| ---------- | -------------- | -------------------- | --- | -------------- | -------------------- | --- |
-| C          | 0.9YR 5.8/13.8 | vivid reddish orange | ✗   | 1.3YR 5.8/13.4 | vivid reddish orange | ✗   |
+| Illuminant | Rust Munsell   | Rust descriptor      | Match | Python Munsell | Python descriptor    | Match |
+| ---------- | -------------- | -------------------- | ----- | -------------- | -------------------- | ----- |
+| C          | 0.9YR 5.8/13.8 | vivid reddish orange | ❌    | 1.3YR 5.8/13.4 | vivid reddish orange | ❌    |
+| D65        | 1.8YR 5.8/13.4 | vivid reddish orange | ❌    | 1.8YR 5.8/13.4 | vivid reddish orange | ❌    |
+| F7         | 1.8YR 5.8/13.4 | vivid reddish orange | ❌    | 1.8YR 5.8/13.4 | vivid reddish orange | ❌    |
 
 **Expected: light yellowish pink**
 Hex: #F4C2C2
 
-| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
-| C          | 2.1R 8.2/4.6 | light pink      | ✗   | 2.4R 8.2/4.5   | light pink        | ✗   |
-
-**Expected: vivid pink**
-Hex: #FFB5BA
-
-| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
-| D65        | 4.7R 8.0/6.0 | light pink      | ✗   | 4.7R 8.0/6.0   | light pink        | ✗   |
-
-**Expected: strong pink**
-Hex: #EA9399
-
-| Illuminant | Rust Munsell | Rust descriptor       | ✓/✗ | Python Munsell | Python descriptor     | ✓/✗ |
-| ---------- | ------------ | --------------------- | --- | -------------- | --------------------- | --- |
-| D65        | 4.2R 6.9/7.4 | strong yellowish pink | ✗   | 4.2R 6.9/7.4   | strong yellowish pink | ✗   |
-
-**Expected: light pink**
-Hex: #F9CCCA
-
-| Illuminant | Rust Munsell  | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
-| ---------- | ------------- | -------------------- | --- | -------------- | -------------------- | --- |
-| D65        | 0.3YR 8.5/3.3 | light yellowish pink | ✗   | 0.3YR 8.5/3.2  | light yellowish pink | ✗   |
-
-**Expected: moderate pink**
-Hex: #DEA5A4
-
-| Illuminant | Rust Munsell | Rust descriptor         | ✓/✗ | Python Munsell | Python descriptor       | ✓/✗ |
-| ---------- | ------------ | ----------------------- | --- | -------------- | ----------------------- | --- |
-| D65        | 7.7R 7.2/4.5 | moderate yellowish pink | ✗   | 7.7R 7.2/4.5   | moderate yellowish pink | ✗   |
-
-**Expected: dark pink**
-Hex: #C08081
-
-| Illuminant | Rust Munsell | Rust descriptor     | ✓/✗ | Python Munsell | Python descriptor   | ✓/✗ |
-| ---------- | ------------ | ------------------- | --- | -------------- | ------------------- | --- |
-| D65        | 6.2R 5.9/5.4 | dark yellowish pink | ✗   | 6.2R 5.9/5.4   | dark yellowish pink | ✗   |
-
-**Expected: vivid pink**
-Hex: #FFB5BA
-
-| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
-| F7         | 4.8R 8.0/6.0 | light pink      | ✗   | 4.8R 8.0/6.0   | light pink        | ✗   |
-
-**Expected: strong pink**
-Hex: #EA9399
-
-| Illuminant | Rust Munsell | Rust descriptor       | ✓/✗ | Python Munsell | Python descriptor     | ✓/✗ |
-| ---------- | ------------ | --------------------- | --- | -------------- | --------------------- | --- |
-| F7         | 4.3R 6.9/7.4 | strong yellowish pink | ✗   | 4.3R 6.9/7.4   | strong yellowish pink | ✗   |
-
-**Expected: light pink**
-Hex: #F9CCCA
-
-| Illuminant | Rust Munsell  | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
-| ---------- | ------------- | -------------------- | --- | -------------- | -------------------- | --- |
-| F7         | 0.3YR 8.5/3.3 | light yellowish pink | ✗   | 0.3YR 8.5/3.3  | light yellowish pink | ✗   |
-
-**Expected: moderate pink**
-Hex: #DEA5A4
-
-| Illuminant | Rust Munsell | Rust descriptor         | ✓/✗ | Python Munsell | Python descriptor       | ✓/✗ |
-| ---------- | ------------ | ----------------------- | --- | -------------- | ----------------------- | --- |
-| F7         | 7.8R 7.2/4.5 | moderate yellowish pink | ✗   | 7.8R 7.2/4.5   | moderate yellowish pink | ✗   |
-
-**Expected: dark pink**
-Hex: #C08081
-
-| Illuminant | Rust Munsell | Rust descriptor     | ✓/✗ | Python Munsell | Python descriptor   | ✓/✗ |
-| ---------- | ------------ | ------------------- | --- | -------------- | ------------------- | --- |
-| F7         | 6.2R 5.9/5.4 | dark yellowish pink | ✗   | 6.3R 5.9/5.4   | dark yellowish pink | ✗   |
+| Illuminant | Rust Munsell | Rust descriptor      | Match | Python Munsell | Python descriptor    | Match |
+| ---------- | ------------ | -------------------- | ----- | -------------- | -------------------- | ----- |
+| C          | 2.1R 8.2/4.6 | light pink           | ❌    | 2.4R 8.2/4.5   | light pink           | ❌    |
+| D65        | 8.3R 8.2/3.7 | light yellowish pink | ✅    | 8.4R 8.2/3.7   | light yellowish pink | ✅    |
+| F7         | 8.4R 8.2/3.7 | light yellowish pink | ✅    | 8.5R 8.2/3.7   | light yellowish pink | ✅    |
 
 ## Centore Dataset
 
@@ -123,7 +63,7 @@ Hex: #C08081
 
 | Illuminant | Total | Rust Correct | Python Correct | Python Errors | Rust Accuracy | Python Accuracy |
 | ---------- | ----- | ------------ | -------------- | ------------- | ------------- | --------------- |
-| C          | 260   | 186          | 176            | 42            | 71.5%         | 80.7%           |
+| C          | 260   | 186          | 177            | 42            | 71.5%         | 81.2%           |
 | D65        | 260   | 239          | 205            | 46            | 91.9%         | 95.8%           |
 | F7         | 260   | 239          | 206            | 45            | 91.9%         | 95.8%           |
 
@@ -132,107 +72,47 @@ Hex: #C08081
 **Expected: light pink**
 Hex: #F8C3CE
 
-| Illuminant | Rust Munsell  | Rust descriptor     | ✓/✗ | Python Munsell | Python descriptor   | ✓/✗ |
-| ---------- | ------------- | ------------------- | --- | -------------- | ------------------- | --- |
-| C          | 7.1RP 8.3/5.2 | light purplish pink | ✗   | 7.2RP 8.3/5.1  | light purplish pink | ✗   |
+| Illuminant | Rust Munsell  | Rust descriptor     | Match | Python Munsell | Python descriptor   | Match |
+| ---------- | ------------- | ------------------- | ----- | -------------- | ------------------- | ----- |
+| C          | 7.1RP 8.3/5.2 | light purplish pink | ❌    | 7.2RP 8.3/5.1  | light purplish pink | ❌    |
+| D65        | 2.4R 8.3/4.2  | light pink          | ✅    | 2.4R 8.3/4.2   | light pink          | ✅    |
+| F7         | 2.5R 8.3/4.2  | light pink          | ✅    | 2.5R 8.3/4.2   | light pink          | ✅    |
 
 **Expected: moderate pink**
 Hex: #E2A3AE
 
-| Illuminant | Rust Munsell  | Rust descriptor        | ✓/✗ | Python Munsell | Python descriptor      | ✓/✗ |
-| ---------- | ------------- | ---------------------- | --- | -------------- | ---------------------- | --- |
-| C          | 8.3RP 7.2/6.3 | moderate purplish pink | ✗   | 8.4RP 7.2/6.0  | moderate purplish pink | ✗   |
+| Illuminant | Rust Munsell  | Rust descriptor        | Match | Python Munsell | Python descriptor      | Match |
+| ---------- | ------------- | ---------------------- | ----- | -------------- | ---------------------- | ----- |
+| C          | 8.3RP 7.2/6.3 | moderate purplish pink | ❌    | 8.4RP 7.2/6.0  | moderate purplish pink | ❌    |
+| D65        | 2.2R 7.2/5.3  | moderate pink          | ✅    | 2.2R 7.2/5.3   | moderate pink          | ✅    |
+| F7         | 2.2R 7.2/5.3  | moderate pink          | ✅    | 2.2R 7.2/5.3   | moderate pink          | ✅    |
 
 **Expected: pale pink**
 Hex: #EFD1DC
 
-| Illuminant | Rust Munsell  | Rust descriptor    | ✓/✗ | Python Munsell | Python descriptor  | ✓/✗ |
-| ---------- | ------------- | ------------------ | --- | -------------- | ------------------ | --- |
-| C          | 4.2RP 8.6/3.7 | pale purplish pink | ✗   | 3.8RP 8.6/3.5  | pale purplish pink | ✗   |
+| Illuminant | Rust Munsell  | Rust descriptor    | Match | Python Munsell | Python descriptor  | Match |
+| ---------- | ------------- | ------------------ | ----- | -------------- | ------------------ | ----- |
+| C          | 4.2RP 8.6/3.7 | pale purplish pink | ❌    | 3.8RP 8.6/3.5  | pale purplish pink | ❌    |
+| D65        | 3.0R 8.6/2.4  | pale pink          | ✅    | 2.9R 8.6/2.4   | pale pink          | ✅    |
+| F7         | 3.1R 8.6/2.4  | pale pink          | ✅    | 3.1R 8.6/2.4   | pale pink          | ✅    |
 
 **Expected: grayish pink**
 Hex: #CBADB7
 
-| Illuminant | Rust Munsell  | Rust descriptor       | ✓/✗ | Python Munsell | Python descriptor     | ✓/✗ |
-| ---------- | ------------- | --------------------- | --- | -------------- | --------------------- | --- |
-| C          | 6.6RP 7.3/3.2 | grayish purplish pink | ✗   | 4.5RP 7.3/3.4  | grayish purplish pink | ✗   |
+| Illuminant | Rust Munsell  | Rust descriptor       | Match | Python Munsell | Python descriptor     | Match |
+| ---------- | ------------- | --------------------- | ----- | -------------- | --------------------- | ----- |
+| C          | 6.6RP 7.3/3.2 | grayish purplish pink | ❌    | 4.5RP 7.3/3.4  | grayish purplish pink | ❌    |
+| D65        | 2.2R 7.3/2.4  | grayish pink          | ✅    | 2.2R 7.3/2.4   | grayish pink          | ✅    |
+| F7         | 2.3R 7.3/2.4  | grayish pink          | ✅    | 2.3R 7.3/2.4   | grayish pink          | ✅    |
 
 **Expected: pinkish white**
 Hex: #EFDDE5
 
-| Illuminant | Rust Munsell  | Rust descriptor    | ✓/✗ | Python Munsell | Python descriptor  | ✓/✗ |
-| ---------- | ------------- | ------------------ | --- | -------------- | ------------------ | --- |
-| C          | 3.0RP 9.0/2.6 | pale purplish pink | ✗   | 2.6RP 9.0/2.5  | pale purplish pink | ✗   |
-
-**Expected: light grayish red**
-Hex: #B4888D
-
-| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
-| D65        | 5.2R 6.0/3.6 | pale red        | ✗   | 5.2R 6.0/3.6   | pale red          | ✗   |
-
-**Expected: light grayish reddish brown**
-Hex: #9E7F7A
-
-| Illuminant | Rust Munsell  | Rust descriptor    | ✓/✗ | Python Munsell | Python descriptor  | ✓/✗ |
-| ---------- | ------------- | ------------------ | --- | -------------- | ------------------ | --- |
-| D65        | 3.0YR 5.5/2.4 | pale reddish brown | ✗   | 3.0YR 5.5/2.4  | pale reddish brown | ✗   |
-
-**Expected: light grayish brown**
-Hex: #997F75
-
-| Illuminant | Rust Munsell  | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------- | --------------- | --- | -------------- | ----------------- | --- |
-| D65        | 7.3YR 5.4/2.2 | pale brown      | ✗   | 7.3YR 5.4/2.2  | pale brown        | ✗   |
-
-**Expected: light grayish yellowish brown**
-Hex: #B49B8D
-
-| Illuminant | Rust Munsell  | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
-| ---------- | ------------- | -------------------- | --- | -------------- | -------------------- | --- |
-| D65        | 9.3YR 6.5/2.3 | pale yellowish brown | ✗   | 9.3YR 6.5/2.3  | pale yellowish brown | ✗   |
-
-**Expected: light grayish olive**
-Hex: #8E856F
-
-| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
-| D65        | 8.2Y 5.5/2.2 | pale olive      | ✗   | 8.2Y 5.5/2.2   | pale olive        | ✗   |
-
-**Expected: light grayish red**
-Hex: #B4888D
-
-| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
-| F7         | 5.3R 6.0/3.6 | pale red        | ✗   | 5.3R 6.0/3.6   | pale red          | ✗   |
-
-**Expected: light grayish reddish brown**
-Hex: #9E7F7A
-
-| Illuminant | Rust Munsell  | Rust descriptor    | ✓/✗ | Python Munsell | Python descriptor  | ✓/✗ |
-| ---------- | ------------- | ------------------ | --- | -------------- | ------------------ | --- |
-| F7         | 3.0YR 5.5/2.4 | pale reddish brown | ✗   | 3.0YR 5.5/2.4  | pale reddish brown | ✗   |
-
-**Expected: light grayish brown**
-Hex: #997F75
-
-| Illuminant | Rust Munsell  | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------- | --------------- | --- | -------------- | ----------------- | --- |
-| F7         | 7.3YR 5.4/2.2 | pale brown      | ✗   | 7.3YR 5.4/2.2  | pale brown        | ✗   |
-
-**Expected: light grayish yellowish brown**
-Hex: #B49B8D
-
-| Illuminant | Rust Munsell  | Rust descriptor      | ✓/✗ | Python Munsell | Python descriptor    | ✓/✗ |
-| ---------- | ------------- | -------------------- | --- | -------------- | -------------------- | --- |
-| F7         | 9.3YR 6.5/2.3 | pale yellowish brown | ✗   | 9.3YR 6.5/2.3  | pale yellowish brown | ✗   |
-
-**Expected: light grayish olive**
-Hex: #8E856F
-
-| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |
-| ---------- | ------------ | --------------- | --- | -------------- | ----------------- | --- |
-| F7         | 8.2Y 5.5/2.2 | pale olive      | ✗   | 8.2Y 5.5/2.2   | pale olive        | ✗   |
+| Illuminant | Rust Munsell  | Rust descriptor    | Match | Python Munsell | Python descriptor  | Match |
+| ---------- | ------------- | ------------------ | ----- | -------------- | ------------------ | ----- |
+| C          | 3.0RP 9.0/2.6 | pale purplish pink | ❌    | 2.6RP 9.0/2.5  | pale purplish pink | ❌    |
+| D65        | 1.3YR 9.0/1.0 | pinkish white      | ✅    | ERROR          | Python API Error   | ⚠️    |
+| F7         | 1.4YR 9.0/1.0 | pinkish white      | ✅    | ERROR          | Python API Error   | ⚠️    |
 
 ## Python Errors
 

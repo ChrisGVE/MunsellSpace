@@ -94,28 +94,39 @@ def rgb_to_munsell(rgb, target_illuminant='C', adaptation_method='Bradford'):
         xyY = colour.XYZ_to_xyY(XYZ_adapted)
         
         # Convert xyY to Munsell
-        munsell = colour.xyY_to_munsell_colour(xyY)
+        munsell_spec = colour.xyY_to_munsell_colour(xyY)
         
         # Format Munsell notation
-        # munsell is typically in format like "5R 5.0/14.0" or could be a specification
-        if isinstance(munsell, str):
-            return munsell
+        # munsell_spec is typically in format like "5R 5.0/14.0" or could be a specification
+        if isinstance(munsell_spec, str):
+            return munsell_spec
         else:
             # If it returns a specification (array), we need to handle chroma clamping
             # munsell specification is [hue, value, chroma, code]
-            if hasattr(munsell, '__len__') and len(munsell) >= 3:
-                hue, value, chroma = munsell[0], munsell[1], munsell[2]
+            if hasattr(munsell_spec, '__len__') and len(munsell_spec) >= 3:
+                hue, value, chroma = munsell_spec[0], munsell_spec[1], munsell_spec[2]
                 # Clamp chroma to valid range [2, 50] to avoid API errors
                 if chroma < 2.0:
                     # For very low chroma, this is essentially a neutral color
                     # Return as Neutral with appropriate value
                     return f"N {value:.1f}/"
                 elif chroma > 50.0:
+                    # Clamp to maximum
                     chroma = 50.0
-                    munsell = np.array([hue, value, chroma] + list(munsell[3:]))
+                    munsell_spec = np.array([hue, value, chroma] + list(munsell_spec[3:]))
+                else:
+                    # Chroma is in valid range, but we need to ensure it's at least 2.0
+                    # for the munsell_specification_to_munsell_colour function
+                    munsell_spec = np.array([hue, value, max(2.0, chroma)] + list(munsell_spec[3:]))
             
             # Format it using the colour-science function
-            return colour.notation.munsell.munsell_specification_to_munsell_colour(munsell)
+            try:
+                return colour.notation.munsell.munsell_specification_to_munsell_colour(munsell_spec)
+            except Exception as e:
+                # If still failing, just return neutral
+                if "chroma must be normalised" in str(e):
+                    return f"N {value:.1f}/"
+                raise
             
     except Exception as e:
         return f"ERROR: {str(e)}"
