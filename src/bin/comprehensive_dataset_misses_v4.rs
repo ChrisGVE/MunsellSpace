@@ -318,8 +318,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // W3 Summary Statistics Table
     writeln!(&mut report, "### Summary Statistics")?;
     writeln!(&mut report)?;
-    writeln!(&mut report, "| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Rust Accuracy | Python Accuracy |")?;
-    writeln!(&mut report, "|------------|-------|--------------|----------------|---------------|---------------|-----------------|")?;
+    writeln!(&mut report, "| Illuminant | Total | Rust Correct | Rust Unknown | Python Correct | Python Unknown | Python Errors | Rust Accuracy | Python Accuracy |")?;
+    writeln!(&mut report, "|------------|-------|--------------|--------------|----------------|----------------|---------------|---------------|-----------------|")?;
     
     for (illuminant, _) in &configurations {
         let illum_name = match illuminant {
@@ -330,7 +330,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         };
         
         let rust_matches = w3_stats.rust_matches.get(illum_name).unwrap_or(&0);
+        let rust_unknowns = w3_stats.rust_unknowns.get(illum_name).unwrap_or(&0);
         let python_matches = w3_stats.python_matches.get(illum_name).unwrap_or(&0);
+        let python_unknowns = w3_stats.python_unknowns.get(illum_name).unwrap_or(&0);
         let python_errors = w3_stats.python_errors.get(illum_name).unwrap_or(&0);
         
         // Calculate accuracy correctly: matches / (total - errors)
@@ -342,9 +344,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             0.0
         };
         
-        writeln!(&mut report, "| {:10} | {:5} | {:12} | {:14} | {:13} | {:12.1}% | {:14.1}% |",
-            illum_name, w3_stats.total_unique_colors, rust_matches, python_matches, 
-            python_errors, rust_acc, python_acc)?;
+        writeln!(&mut report, "| {:10} | {:5} | {:12} | {:12} | {:14} | {:14} | {:13} | {:12.1}% | {:14.1}% |",
+            illum_name, w3_stats.total_unique_colors, rust_matches, rust_unknowns,
+            python_matches, python_unknowns, python_errors, rust_acc, python_acc)?;
     }
     writeln!(&mut report)?;
     
@@ -477,8 +479,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Centore Summary Statistics Table
     writeln!(&mut report, "### Summary Statistics")?;
     writeln!(&mut report)?;
-    writeln!(&mut report, "| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Rust Accuracy | Python Accuracy |")?;
-    writeln!(&mut report, "|------------|-------|--------------|----------------|---------------|---------------|-----------------|")?;
+    writeln!(&mut report, "| Illuminant | Total | Rust Correct | Rust Unknown | Python Correct | Python Unknown | Python Errors | Rust Accuracy | Python Accuracy |")?;
+    writeln!(&mut report, "|------------|-------|--------------|--------------|----------------|----------------|---------------|---------------|-----------------|")?;
     
     for (illuminant, _) in &configurations {
         let illum_name = match illuminant {
@@ -489,7 +491,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         };
         
         let rust_matches = centore_stats.rust_matches.get(illum_name).unwrap_or(&0);
+        let rust_unknowns = centore_stats.rust_unknowns.get(illum_name).unwrap_or(&0);
         let python_matches = centore_stats.python_matches.get(illum_name).unwrap_or(&0);
+        let python_unknowns = centore_stats.python_unknowns.get(illum_name).unwrap_or(&0);
         let python_errors = centore_stats.python_errors.get(illum_name).unwrap_or(&0);
         
         // Calculate accuracy correctly: matches / (total - errors) 
@@ -501,9 +505,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             0.0
         };
         
-        writeln!(&mut report, "| {:10} | {:5} | {:12} | {:14} | {:13} | {:12.1}% | {:14.1}% |",
-            illum_name, centore_stats.total_unique_colors, rust_matches, python_matches,
-            python_errors, rust_acc, python_acc)?;
+        writeln!(&mut report, "| {:10} | {:5} | {:12} | {:12} | {:14} | {:14} | {:13} | {:12.1}% | {:14.1}% |",
+            illum_name, centore_stats.total_unique_colors, rust_matches, rust_unknowns,
+            python_matches, python_unknowns, python_errors, rust_acc, python_acc)?;
     }
     writeln!(&mut report)?;
     
