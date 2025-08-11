@@ -7,6 +7,7 @@ Returns JSON with Python-calculated Munsell notations.
 
 import json
 import sys
+import re
 import numpy as np
 import colour
 from colour.models import RGB_COLOURSPACE_sRGB
@@ -93,8 +94,28 @@ def rgb_to_munsell(rgb, target_illuminant='C', adaptation_method='Bradford'):
         # Convert XYZ to xyY
         xyY = colour.XYZ_to_xyY(XYZ_adapted)
         
-        # Convert xyY to Munsell
-        munsell_spec = colour.xyY_to_munsell_colour(xyY)
+        # Convert xyY to Munsell - wrap in try/catch to handle chroma errors
+        try:
+            munsell_spec = colour.xyY_to_munsell_colour(xyY)
+        except Exception as e:
+            # Check if it's a chroma normalization error
+            if "chroma must be normalised" in str(e):
+                # Extract the value from the error message if possible
+                # Error format: "array([ hue, value, chroma, code ])" specification chroma must be normalised
+                try:
+                    import re
+                    match = re.search(r'array\(\[\s*([\d.-]+),\s*([\d.-]+),\s*([\d.-]+)', str(e))
+                    if match:
+                        value = float(match.group(2))
+                        return f"N {value:.1f}/"
+                    else:
+                        # Default to middle gray if we can't extract value
+                        return "N 5.0/"
+                except:
+                    return "N 5.0/"
+            else:
+                # Re-raise other exceptions
+                raise
         
         # Format Munsell notation
         # munsell_spec is typically in format like "5R 5.0/14.0" or could be a specification
@@ -115,9 +136,8 @@ def rgb_to_munsell(rgb, target_illuminant='C', adaptation_method='Bradford'):
                     chroma = 50.0
                     munsell_spec = np.array([hue, value, chroma] + list(munsell_spec[3:]))
                 else:
-                    # Chroma is in valid range, but we need to ensure it's at least 2.0
-                    # for the munsell_specification_to_munsell_colour function
-                    munsell_spec = np.array([hue, value, max(2.0, chroma)] + list(munsell_spec[3:]))
+                    # Chroma is in valid range, ensure proper formatting
+                    munsell_spec = np.array([hue, value, chroma] + list(munsell_spec[3:]))
             
             # Format it using the colour-science function
             try:
