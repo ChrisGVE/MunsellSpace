@@ -70,7 +70,13 @@ pub use error::{MunsellError, Result};
 pub use illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
 pub use iscc::{ISCC_NBS_Classifier, ISCC_NBS_Result};
 pub use mechanical_wedges::{MechanicalWedgeSystem, HueRangeMethod};
-pub use mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
+pub use mathematical::{
+    MathematicalMunsellConverter, 
+    MunsellSpecification, 
+    CieXyY,
+    Illuminant as MathematicalIlluminant,
+    ChromaticAdaptation as MathematicalChromaticAdaptation
+};
 pub use reverse_conversion::{ReverseConverter, ColorFormats, CieLab, HslColor, HsvColor, munsell_to_hex_string};
 
 /// Library version

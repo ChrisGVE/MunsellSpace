@@ -109,6 +109,18 @@ path = "investigation/src/comprehensive_dataset_misses_v2.rs"
 name = "test_pink_restored"
 path = "test_pink_restored.rs"
 
+[[bin]]
+name = "test_illuminant_support"
+path = "test_illuminant_support.rs"
+
+[[bin]]
+name = "test_illuminant_accuracy"
+path = "test_illuminant_accuracy.rs"
+
+[[bin]]
+name = "quick_accuracy_test"
+path = "quick_accuracy_test.rs"
+
 [profile.release]
 lto = true
 codegen-units = 1

@@ -14,24 +14,84 @@ const TOLERANCE_ABSOLUTE_DEFAULT: f64 = 1e-8;
 const MAX_OUTER_ITERATIONS: usize = 64;
 const MAX_INNER_ITERATIONS: usize = 16;
 
-// Chromatic adaptation constants
-// D65 white point: [0.95047, 1.00000, 1.08883]
+// Standard illuminant white points (CIE 1931 2° Standard Observer)
 const D65_WHITE_POINT: [f64; 3] = [0.95047, 1.00000, 1.08883];
-// Illuminant C white point: [0.98074, 1.00000, 1.18232]
 const ILLUMINANT_C_WHITE_POINT: [f64; 3] = [0.98074, 1.00000, 1.18232];
+const ILLUMINANT_A_WHITE_POINT: [f64; 3] = [1.09850, 1.00000, 0.35585];
+const ILLUMINANT_E_WHITE_POINT: [f64; 3] = [1.00000, 1.00000, 1.00000];
+const D50_WHITE_POINT: [f64; 3] = [0.96422, 1.00000, 0.82521];
+const D55_WHITE_POINT: [f64; 3] = [0.95682, 1.00000, 0.92149];
+const D75_WHITE_POINT: [f64; 3] = [0.94972, 1.00000, 1.22638];
+const F2_WHITE_POINT: [f64; 3] = [0.99186, 1.00000, 0.67393];  // Cool White Fluorescent
+const F7_WHITE_POINT: [f64; 3] = [0.95041, 1.00000, 1.08747];  // Daylight Fluorescent
+const F11_WHITE_POINT: [f64; 3] = [1.00962, 1.00000, 0.64350]; // Narrow Band Fluorescent
 
-// Bradford chromatic adaptation matrix (from D65 to Illuminant C)
-const BRADFORD_FORWARD: [[f64; 3]; 3] = [
+// Bradford chromatic adaptation matrix
+const BRADFORD_MATRIX: [[f64; 3]; 3] = [
     [ 0.8951000,  0.2664000, -0.1614000],
     [-0.7502000,  1.7135000,  0.0367000],  
     [ 0.0389000, -0.0685000,  1.0296000]
 ];
 
-const BRADFORD_INVERSE: [[f64; 3]; 3] = [
+const BRADFORD_MATRIX_INV: [[f64; 3]; 3] = [
     [ 0.9869929, -0.1470543,  0.1599627],
     [ 0.4323053,  0.5183603,  0.0492912],
     [-0.0085287,  0.0400428,  0.9684867]
 ];
+
+// CAT02 chromatic adaptation matrix
+const CAT02_MATRIX: [[f64; 3]; 3] = [
+    [ 0.7328000,  0.4296000, -0.1624000],
+    [-0.7036000,  1.6975000,  0.0061000],
+    [ 0.0030000,  0.0136000,  0.9834000]
+];
+
+const CAT02_MATRIX_INV: [[f64; 3]; 3] = [
+    [ 1.0961238, -0.2788690,  0.1827452],
+    [ 0.4543690,  0.4735332,  0.0720978],
+    [-0.0096276, -0.0056980,  1.0153256]
+];
+
+/// Supported standard illuminants
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Illuminant {
+    A,
+    C,
+    E,
+    D50,
+    D55,
+    D65,
+    D75,
+    F2,
+    F7,
+    F11,
+}
+
+impl Illuminant {
+    /// Get the XYZ white point for this illuminant
+    pub fn white_point(&self) -> [f64; 3] {
+        match self {
+            Illuminant::A => ILLUMINANT_A_WHITE_POINT,
+            Illuminant::C => ILLUMINANT_C_WHITE_POINT,
+            Illuminant::E => ILLUMINANT_E_WHITE_POINT,
+            Illuminant::D50 => D50_WHITE_POINT,
+            Illuminant::D55 => D55_WHITE_POINT,
+            Illuminant::D65 => D65_WHITE_POINT,
+            Illuminant::D75 => D75_WHITE_POINT,
+            Illuminant::F2 => F2_WHITE_POINT,
+            Illuminant::F7 => F7_WHITE_POINT,
+            Illuminant::F11 => F11_WHITE_POINT,
+        }
+    }
+}
+
+/// Chromatic adaptation method
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum ChromaticAdaptation {
+    Bradford,
+    XYZScaling,
+    CAT02,
+}
 
 /// Mathematical Munsell specification representation
 #[derive(Debug, Clone, PartialEq)]
@@ -628,13 +688,32 @@ mod interpolation_methods {
 pub struct MathematicalMunsellConverter {
     /// Cached interpolation data for performance
     renotation_data: &'static [((&'static str, f64, f64), (f64, f64, f64))],
+    /// Source illuminant (sRGB is D65)
+    source_illuminant: Illuminant,
+    /// Target illuminant for Munsell calculations
+    target_illuminant: Illuminant,
+    /// Chromatic adaptation method to use
+    adaptation_method: ChromaticAdaptation,
 }
 
 impl MathematicalMunsellConverter {
-    /// Create a new mathematical converter instance
+    /// Create a new mathematical converter instance with default D65 illuminant
     pub fn new() -> Result<Self> {
         Ok(Self {
             renotation_data: MUNSELL_RENOTATION_DATA,
+            source_illuminant: Illuminant::D65,
+            target_illuminant: Illuminant::D65,
+            adaptation_method: ChromaticAdaptation::Bradford,
+        })
+    }
+    
+    /// Create a converter with specified illuminants and adaptation method
+    pub fn with_illuminants(source: Illuminant, target: Illuminant, method: ChromaticAdaptation) -> Result<Self> {
+        Ok(Self {
+            renotation_data: MUNSELL_RENOTATION_DATA,
+            source_illuminant: source,
+            target_illuminant: target,
+            adaptation_method: method,
         })
     }
 
@@ -660,62 +739,118 @@ impl MathematicalMunsellConverter {
         self.xyy_to_munsell_specification(xyy)
     }
 
-    /// Convert sRGB to CIE xyY color space (D65 illuminant - no adaptation needed)
+    /// Convert sRGB to CIE xyY color space with optional chromatic adaptation
     pub fn srgb_to_xyy(&self, rgb: [u8; 3]) -> Result<CieXyY> {
-        // println!("TRACE: 1. Input RGB: {:?}", rgb);
-        
         // Create sRGB color with normalized values [0.0, 1.0]
         let rgb_norm = [
             rgb[0] as f64 / 255.0,
             rgb[1] as f64 / 255.0,
             rgb[2] as f64 / 255.0,
         ];
-        // println!("TRACE: 2. Normalized RGB: {:?}", rgb_norm);
         
         let srgb = Srgb::new(rgb_norm[0], rgb_norm[1], rgb_norm[2]);
         
         // Convert sRGB → Linear RGB
         let linear_rgb = srgb.into_linear();
-        // println!("TRACE: 3. Linear RGB: [{:.6}, {:.6}, {:.6}]", linear_rgb.red, linear_rgb.green, linear_rgb.blue);
         
-        // Convert Linear RGB → XYZ (D65 illuminant)
-        let xyz_d65: Xyz<D65, f64> = linear_rgb.into_color();
-        let (x_d65, y_d65, z_d65) = xyz_d65.into_components();
-        // println!("TRACE: 4. XYZ (D65): [{:.6}, {:.6}, {:.6}]", x_d65, y_d65, z_d65);
+        // Convert Linear RGB → XYZ (source illuminant)
+        let xyz_source: Xyz<D65, f64> = linear_rgb.into_color();
+        let (x_src, y_src, z_src) = xyz_source.into_components();
+        let xyz_src = [x_src, y_src, z_src];
         
-        // Convert XYZ (D65) to xyY - NO chromatic adaptation needed
-        // Python colour-science uses D65 coordinates directly
-        let xyy_d65 = self.xyz_to_xyy([x_d65, y_d65, z_d65]);
-        // println!("TRACE: 5. xyY (D65): [{:.6}, {:.6}, {:.6}]", xyy_d65.x, xyy_d65.y, xyy_d65.Y);
+        // Apply chromatic adaptation if needed
+        let xyz_adapted = if self.source_illuminant == self.target_illuminant {
+            // No adaptation needed
+            xyz_src
+        } else {
+            // Apply chromatic adaptation from source to target illuminant
+            self.chromatic_adaptation(xyz_src, self.source_illuminant, self.target_illuminant)?
+        };
         
-        Ok(xyy_d65)
+        // Convert XYZ to xyY
+        let xyy = self.xyz_to_xyy(xyz_adapted);
+        
+        Ok(xyy)
     }
 
-    /// Chromatic adaptation from D65 to Illuminant C using Bradford transform
-    fn chromatic_adaptation_d65_to_c(&self, xyz_d65: [f64; 3]) -> Result<[f64; 3]> {
-        // Step 1: Transform XYZ to Bradford cone space
-        let cone_d65 = self.matrix_multiply_3x3(&BRADFORD_FORWARD, &xyz_d65);
+    /// Perform chromatic adaptation between illuminants
+    fn chromatic_adaptation(&self, xyz: [f64; 3], source: Illuminant, target: Illuminant) -> Result<[f64; 3]> {
+        match self.adaptation_method {
+            ChromaticAdaptation::XYZScaling => {
+                // Simple XYZ scaling method
+                let source_wp = source.white_point();
+                let target_wp = target.white_point();
+                
+                // Avoid division by zero
+                if source_wp[0].abs() < 1e-15 || source_wp[1].abs() < 1e-15 || source_wp[2].abs() < 1e-15 {
+                    return Err(MunsellError::ConvergenceFailed);
+                }
+                
+                Ok([
+                    xyz[0] * target_wp[0] / source_wp[0],
+                    xyz[1] * target_wp[1] / source_wp[1],
+                    xyz[2] * target_wp[2] / source_wp[2],
+                ])
+            }
+            ChromaticAdaptation::Bradford => {
+                self.bradford_adaptation(xyz, source, target)
+            }
+            ChromaticAdaptation::CAT02 => {
+                self.cat02_adaptation(xyz, source, target)
+            }
+        }
+    }
+    
+    /// Bradford chromatic adaptation transform
+    fn bradford_adaptation(&self, xyz: [f64; 3], source: Illuminant, target: Illuminant) -> Result<[f64; 3]> {
+        let source_wp = source.white_point();
+        let target_wp = target.white_point();
         
-        // Step 2: Calculate adaptation factors
-        let cone_c_white = self.matrix_multiply_3x3(&BRADFORD_FORWARD, &ILLUMINANT_C_WHITE_POINT);
-        let cone_d65_white = self.matrix_multiply_3x3(&BRADFORD_FORWARD, &D65_WHITE_POINT);
+        // Transform to cone response domain
+        let cone_src = self.matrix_multiply_3x3(&BRADFORD_MATRIX, &xyz);
+        let cone_src_wp = self.matrix_multiply_3x3(&BRADFORD_MATRIX, &source_wp);
+        let cone_tgt_wp = self.matrix_multiply_3x3(&BRADFORD_MATRIX, &target_wp);
         
         // Avoid division by zero
-        if cone_d65_white[0].abs() < 1e-15 || cone_d65_white[1].abs() < 1e-15 || cone_d65_white[2].abs() < 1e-15 {
+        if cone_src_wp[0].abs() < 1e-15 || cone_src_wp[1].abs() < 1e-15 || cone_src_wp[2].abs() < 1e-15 {
             return Err(MunsellError::ConvergenceFailed);
         }
         
-        // Step 3: Apply adaptation scaling
+        // Apply adaptation
         let cone_adapted = [
-            cone_d65[0] * cone_c_white[0] / cone_d65_white[0],
-            cone_d65[1] * cone_c_white[1] / cone_d65_white[1],
-            cone_d65[2] * cone_c_white[2] / cone_d65_white[2],
+            cone_src[0] * cone_tgt_wp[0] / cone_src_wp[0],
+            cone_src[1] * cone_tgt_wp[1] / cone_src_wp[1],
+            cone_src[2] * cone_tgt_wp[2] / cone_src_wp[2],
         ];
         
-        // Step 4: Transform back to XYZ
-        let xyz_c = self.matrix_multiply_3x3(&BRADFORD_INVERSE, &cone_adapted);
+        // Transform back to XYZ
+        Ok(self.matrix_multiply_3x3(&BRADFORD_MATRIX_INV, &cone_adapted))
+    }
+    
+    /// CAT02 chromatic adaptation transform
+    fn cat02_adaptation(&self, xyz: [f64; 3], source: Illuminant, target: Illuminant) -> Result<[f64; 3]> {
+        let source_wp = source.white_point();
+        let target_wp = target.white_point();
         
-        Ok(xyz_c)
+        // Transform to CAT02 response domain
+        let cat_src = self.matrix_multiply_3x3(&CAT02_MATRIX, &xyz);
+        let cat_src_wp = self.matrix_multiply_3x3(&CAT02_MATRIX, &source_wp);
+        let cat_tgt_wp = self.matrix_multiply_3x3(&CAT02_MATRIX, &target_wp);
+        
+        // Avoid division by zero
+        if cat_src_wp[0].abs() < 1e-15 || cat_src_wp[1].abs() < 1e-15 || cat_src_wp[2].abs() < 1e-15 {
+            return Err(MunsellError::ConvergenceFailed);
+        }
+        
+        // Apply adaptation
+        let cat_adapted = [
+            cat_src[0] * cat_tgt_wp[0] / cat_src_wp[0],
+            cat_src[1] * cat_tgt_wp[1] / cat_src_wp[1],
+            cat_src[2] * cat_tgt_wp[2] / cat_src_wp[2],
+        ];
+        
+        // Transform back to XYZ
+        Ok(self.matrix_multiply_3x3(&CAT02_MATRIX_INV, &cat_adapted))
     }
 
     /// Convert XYZ to xyY coordinates
