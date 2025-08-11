@@ -106,6 +106,10 @@ name = "comprehensive_dataset_misses_v2"
 path = "investigation/src/comprehensive_dataset_misses_v2.rs"
 
 [[bin]]
+name = "comprehensive_dataset_misses_v3"
+path = "investigation/src/comprehensive_dataset_misses_v3.rs"
+
+[[bin]]
 name = "test_pink_restored"
 path = "test_pink_restored.rs"
 
@@ -120,6 +124,10 @@ path = "test_illuminant_accuracy.rs"
 [[bin]]
 name = "quick_accuracy_test"
 path = "quick_accuracy_test.rs"
+
+[[bin]]
+name = "quick_v3_comparison"
+path = "quick_v3_comparison.rs"
 
 [profile.release]
 lto = true
