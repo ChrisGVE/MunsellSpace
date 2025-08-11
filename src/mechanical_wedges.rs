@@ -273,6 +273,53 @@ impl MechanicalWedgeSystem {
         Ok((number, family_str.to_string()))
     }
     
+    /// Find which wedge a given hue belongs to
+    pub fn find_wedge_for_hue(&self, hue: &str) -> Option<String> {
+        // Parse hue like "5.2R" or "10YR"
+        let (hue_num, family) = self.parse_hue(hue).ok()?;
+        
+        // Determine which reference hues bracket this value
+        let (start_ref, end_ref) = self.find_bracketing_hues(hue_num, &family)?;
+        
+        // Return the wedge key
+        Some(format!("{}→{}", start_ref, end_ref))
+    }
+    
+    /// Get polygons in a specific wedge
+    pub fn get_wedge_polygons(&self, wedge_key: &str) -> Option<&Vec<ISCC_NBS_Color>> {
+        self.wedge_containers.get(wedge_key)
+    }
+    
+    /// Find the reference hues that bracket a given hue value
+    fn find_bracketing_hues(&self, hue_num: f64, family: &str) -> Option<(String, String)> {
+        // Round down to get the starting reference
+        let start_num = hue_num.floor() as u32;
+        let end_num = if start_num == 10 { 1 } else { start_num + 1 };
+        
+        // Handle family transition at 10
+        if start_num == 10 {
+            // Transition to next family
+            let next_family = self.get_next_family(family)?;
+            Some((
+                format!("{}{}", start_num, family),
+                format!("{}{}", end_num, next_family)
+            ))
+        } else {
+            Some((
+                format!("{}{}", start_num, family),
+                format!("{}{}", end_num, family)
+            ))
+        }
+    }
+    
+    /// Get the next family in the sequence
+    fn get_next_family(&self, family: &str) -> Option<String> {
+        let families = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
+        let pos = families.iter().position(|&f| f == family)?;
+        let next_pos = (pos + 1) % families.len();
+        Some(families[next_pos].to_string())
+    }
+    
     /// Check if a point (value, chroma) is inside a polygon, including boundaries
     fn point_in_polygon(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> bool {
         // Use both Contains and Intersects for boundary-inclusive testing

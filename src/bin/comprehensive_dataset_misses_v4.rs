@@ -7,6 +7,7 @@
 //! - Unknown Classifications: Track and investigate why colors return "Unknown"
 //! - Report Structure: Clear separation of datasets with proper accuracy calculation
 //! - Key Fixes: XYZ scaling mapping, construct_revised_descriptor usage, accuracy = matches/(total-errors)
+//! - Distance Calculation: Show shortest distance to correct polygon in Value/Chroma coordinates
 
 use munsellspace::iscc::ISCC_NBS_Classifier as IsccNbsClassifier;
 use munsellspace::mathematical::{
@@ -21,6 +22,8 @@ use csv::ReaderBuilder;
 use serde::{Deserialize, Serialize};
 use std::process::{Command, Stdio};
 use std::io::Write as IoWrite;
+use geo::prelude::*;
+use geo::{Point, LineString, Polygon};
 
 #[derive(Debug, Deserialize, Clone)]
 struct W3IsccColor {
@@ -93,6 +96,148 @@ struct PythonConversionResult {
     results: HashMap<String, String>,
 }
 
+/// Helper function to parse Munsell notation into hue, value, chroma
+fn parse_munsell_notation(notation: &str) -> Option<(String, f64, f64)> {
+    // Handle neutral colors (e.g., "N 5.0/")
+    if notation.starts_with("N ") {
+        if let Some(value_str) = notation.strip_prefix("N ").and_then(|s| s.strip_suffix("/")) {
+            if let Ok(value) = value_str.parse::<f64>() {
+                return Some(("N".to_string(), value, 0.0));
+            }
+        }
+    }
+    
+    // Parse regular Munsell notation (e.g., "5.2R 4.5/8.3")
+    let parts: Vec<&str> = notation.split(' ').collect();
+    if parts.len() != 2 {
+        return None;
+    }
+    
+    let hue = parts[0].to_string();
+    let value_chroma = parts[1];
+    
+    let vc_parts: Vec<&str> = value_chroma.split('/').collect();
+    if vc_parts.len() != 2 {
+        return None;
+    }
+    
+    let value = vc_parts[0].parse::<f64>().ok()?;
+    let chroma = vc_parts[1].parse::<f64>().ok()?;
+    
+    Some((hue, value, chroma))
+}
+
+/// Calculate distance to the correct polygon for the expected color
+fn calculate_distance_to_correct_polygon(
+    rust_munsell: &str,
+    expected_name: &str,
+    classifier: &IsccNbsClassifier
+) -> String {
+    // Parse the Rust Munsell notation
+    let (rust_hue, rust_value, rust_chroma) = match parse_munsell_notation(rust_munsell) {
+        Some(parsed) => parsed,
+        None => return String::new(),
+    };
+    
+    // Handle neutral colors
+    if rust_hue == "N" {
+        return String::new();
+    }
+    
+    // Get the polygon for the expected descriptor in the same wedge
+    let polygon = match classifier.get_polygon_in_wedge(&rust_hue, expected_name) {
+        Some(p) => p,
+        None => return String::new(), // No polygon found in this wedge for expected color
+    };
+    
+    // Calculate the distance from the point to the polygon
+    let (value_dist, chroma_dist) = calculate_polygon_distance(
+        rust_value,
+        rust_chroma,
+        &polygon.polygon
+    );
+    
+    // Format the result - show signed distances
+    if value_dist.abs() < 0.01 && chroma_dist.abs() < 0.01 {
+        "(0.0, 0.0)".to_string() // Point is inside or on the boundary
+    } else {
+        format!("({:+.1}, {:+.1})", value_dist, chroma_dist)
+    }
+}
+
+/// Calculate the shortest distance from a point to a polygon boundary
+/// Returns (value_distance, chroma_distance) as signed values
+fn calculate_polygon_distance(
+    point_value: f64, 
+    point_chroma: f64,
+    target_polygon: &Polygon<f64>
+) -> (f64, f64) {
+    let test_point = Point::new(point_chroma, point_value); // Note: geo uses (x,y) = (chroma, value)
+    
+    // Check if point is inside polygon
+    if target_polygon.contains(&test_point) {
+        return (0.0, 0.0); // Already inside
+    }
+    
+    // Find the closest point on the polygon boundary
+    let exterior = target_polygon.exterior();
+    let mut min_distance = f64::MAX;
+    let mut closest_point = test_point;
+    
+    // Check each edge of the polygon
+    for line in exterior.lines() {
+        // Get the closest point on this line segment to our test point
+        let line_string = LineString::from(vec![line.start, line.end]);
+        
+        // Calculate point-to-line distance
+        for coord in line_string.coords() {
+            let boundary_point = Point::new(coord.x, coord.y);
+            let dist = test_point.euclidean_distance(&boundary_point);
+            
+            if dist < min_distance {
+                min_distance = dist;
+                closest_point = boundary_point;
+            }
+        }
+        
+        // Also check projection onto line segment
+        let start = Point::new(line.start.x, line.start.y);
+        let end = Point::new(line.end.x, line.end.y);
+        
+        // Vector from start to end
+        let dx = end.x() - start.x();
+        let dy = end.y() - start.y();
+        
+        // Vector from start to test point
+        let px = test_point.x() - start.x();
+        let py = test_point.y() - start.y();
+        
+        // Project test point onto line
+        let dot = px * dx + py * dy;
+        let len_sq = dx * dx + dy * dy;
+        
+        if len_sq > 0.0 {
+            let t = (dot / len_sq).max(0.0).min(1.0);
+            let projected = Point::new(
+                start.x() + t * dx,
+                start.y() + t * dy
+            );
+            
+            let dist = test_point.euclidean_distance(&projected);
+            if dist < min_distance {
+                min_distance = dist;
+                closest_point = projected;
+            }
+        }
+    }
+    
+    // Return signed distances (closest_point - test_point)
+    let chroma_dist = closest_point.x() - test_point.x();
+    let value_dist = closest_point.y() - test_point.y();
+    
+    (value_dist, chroma_dist)
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🔬 Generating Comprehensive Conversion Dataset - Mismatches Analysis V4");
     println!("=======================================================================");
@@ -159,7 +304,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     println!("🐍 Getting Python Munsell values for {} color/illuminant combinations...", python_requests.len());
     println!("   Using FIXED Python API: 'XYZ Scaling' (not 'XYZScaling')");
-    let python_results = get_python_munsell_batch(&python_requests)?;
+    
+    // Process in smaller batches to avoid timeout
+    const BATCH_SIZE: usize = 100;
+    let mut python_results = HashMap::new();
+    
+    for (batch_num, chunk) in python_requests.chunks(BATCH_SIZE).enumerate() {
+        eprint!("   Processing batch {}/{}...\r", batch_num + 1, (python_requests.len() + BATCH_SIZE - 1) / BATCH_SIZE);
+        let batch_results = get_python_munsell_batch(chunk)?;
+        python_results.extend(batch_results);
+    }
+    eprintln!("   Processing complete!                                        ");
     println!("✅ Received {} Python results", python_results.len());
     
     // Analyze results with comprehensive tracking
@@ -351,7 +506,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     writeln!(&mut report)?;
     
     // W3 Detailed Mismatches (limit to 5 colors, only show illuminants where Rust doesn't match)
-    writeln!(&mut report, "### Detailed Mismatches (First 5 colors)")?;
+    writeln!(&mut report, "### Detailed Mismatches")?;
     writeln!(&mut report)?;
     
     // Collect unique colors that have Rust mismatches
@@ -371,7 +526,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .filter(|r| !r.rust_match) // Only care about Rust mismatches
             {
                 let color_key = format!("{:02X}{:02X}{:02X}", result.rgb[0], result.rgb[1], result.rgb[2]);
-                if unique_colors.insert(color_key.clone()) && unique_colors.len() <= 5 {
+                if unique_colors.insert(color_key.clone()) {
                     color_results.push((color_key, result.expected_name.clone(), result.rgb));
                 }
             }
@@ -381,15 +536,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Display each unique color with ONLY illuminants where Rust doesn't match
     let mut color_count = 0;
     for (hex_key, expected_name, rgb) in color_results.iter() {
-        if color_count >= 5 { break; }
         color_count += 1;
         
         writeln!(&mut report, "#### Color {}: {}", color_count, expected_name)?;
         writeln!(&mut report)?;
         writeln!(&mut report, "**Hex:** #{}", hex_key)?;
         writeln!(&mut report)?;
-        writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor |")?;
-        writeln!(&mut report, "|------------|--------------|-----------------|----------------|-------------------|")?;
+        writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |")?;
+        writeln!(&mut report, "|------------|--------------|-----------------|----------------|-------------------|--------------|")?;
         
         // Only show illuminants where Rust doesn't match
         for (illuminant, _) in &configurations {
@@ -424,12 +578,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                             result.python_iscc.clone()
                         };
                         
-                        writeln!(&mut report, "| {:10} | {:12} | {:15} | {:14} | {:17} |",
+                        // Calculate polygon distance
+                        let dist_str = calculate_distance_to_correct_polygon(
+                            &result.munsell_notation,
+                            expected_name,
+                            &classifier
+                        );
+                        
+                        writeln!(&mut report, "| {:10} | {:12} | {:15} | {:14} | {:17} | {:12} |",
                             illum_name,
                             result.munsell_notation,
                             rust_descriptor,
                             if result.python_error { "ERROR".to_string() } else { result.python_munsell.clone() },
-                            python_descriptor
+                            python_descriptor,
+                            dist_str
                         )?;
                     }
                 }
@@ -439,7 +601,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     
     // W3 Python Errors section (within W3 section)
-    writeln!(&mut report, "### Python Errors (First 5)")?;
+    writeln!(&mut report, "### Python Errors")?;
     writeln!(&mut report)?;
     
     let mut w3_errors = Vec::new();
@@ -453,9 +615,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         if let Some(results) = w3_results.get(illum_name) {
             for result in results.iter().filter(|r| r.python_error) {
-                if w3_errors.len() < 5 {
-                    w3_errors.push(result);
-                }
+                w3_errors.push(result);
             }
         }
     }
@@ -512,7 +672,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     writeln!(&mut report)?;
     
     // Centore Detailed Mismatches (limit to 5 colors, only show illuminants where Rust doesn't match)
-    writeln!(&mut report, "### Detailed Mismatches (First 5 colors)")?;
+    writeln!(&mut report, "### Detailed Mismatches")?;
     writeln!(&mut report)?;
     
     // Collect unique colors that have Rust mismatches
@@ -532,7 +692,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .filter(|r| !r.rust_match) // Only care about Rust mismatches
             {
                 let color_key = format!("{:02X}{:02X}{:02X}", result.rgb[0], result.rgb[1], result.rgb[2]);
-                if unique_colors.insert(color_key.clone()) && unique_colors.len() <= 5 {
+                if unique_colors.insert(color_key.clone()) {
                     color_results.push((color_key, result.expected_name.clone(), result.rgb));
                 }
             }
@@ -542,15 +702,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Display each unique color with ONLY illuminants where Rust doesn't match
     let mut color_count = 0;
     for (hex_key, expected_name, rgb) in color_results.iter() {
-        if color_count >= 5 { break; }
         color_count += 1;
         
         writeln!(&mut report, "#### Color {}: {}", color_count, expected_name)?;
         writeln!(&mut report)?;
         writeln!(&mut report, "**Hex:** #{}", hex_key)?;
         writeln!(&mut report)?;
-        writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor |")?;
-        writeln!(&mut report, "|------------|--------------|-----------------|----------------|-------------------|")?;
+        writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |")?;
+        writeln!(&mut report, "|------------|--------------|-----------------|----------------|-------------------|--------------|")?;
         
         // Only show illuminants where Rust doesn't match
         for (illuminant, _) in &configurations {
@@ -585,12 +744,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                             result.python_iscc.clone()
                         };
                         
-                        writeln!(&mut report, "| {:10} | {:12} | {:15} | {:14} | {:17} |",
+                        // Calculate polygon distance
+                        let dist_str = calculate_distance_to_correct_polygon(
+                            &result.munsell_notation,
+                            expected_name,
+                            &classifier
+                        );
+                        
+                        writeln!(&mut report, "| {:10} | {:12} | {:15} | {:14} | {:17} | {:12} |",
                             illum_name,
                             result.munsell_notation,
                             rust_descriptor,
                             if result.python_error { "ERROR".to_string() } else { result.python_munsell.clone() },
-                            python_descriptor
+                            python_descriptor,
+                            dist_str
                         )?;
                     }
                 }
@@ -600,7 +767,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     
     // Centore Python Errors section (within Centore section)
-    writeln!(&mut report, "### Python Errors (First 5)")?;
+    writeln!(&mut report, "### Python Errors")?;
     writeln!(&mut report)?;
     
     let mut centore_errors = Vec::new();
@@ -614,9 +781,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         if let Some(results) = centore_results.get(illum_name) {
             for result in results.iter().filter(|r| r.python_error) {
-                if centore_errors.len() < 5 {
-                    centore_errors.push(result);
-                }
+                centore_errors.push(result);
             }
         }
     }
@@ -783,7 +948,7 @@ fn parse_rgb(srgb_str: &str) -> Result<[u8; 3], Box<dyn std::error::Error>> {
 
 fn get_python_munsell_batch(requests: &[PythonConversion]) -> Result<HashMap<String, String>, Box<dyn std::error::Error>> {
     let mut child = Command::new("python3")
-        .arg("/Users/chris/Dropbox/dev/projects/libraries/MunsellSpace/investigation/src/generate_python_munsell.py")
+        .arg("investigation/src/generate_python_munsell.py")
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
@@ -796,6 +961,7 @@ fn get_python_munsell_batch(requests: &[PythonConversion]) -> Result<HashMap<Str
         };
         let json = serde_json::to_string(&request)?;
         stdin.write_all(json.as_bytes())?;
+        stdin.flush()?;
     }
     
     // Read response

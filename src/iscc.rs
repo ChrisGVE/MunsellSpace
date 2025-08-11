@@ -321,6 +321,25 @@ impl ISCC_NBS_Classifier {
         cache.insert(key, result);
     }
     
+    /// Get a polygon by its expected descriptor and hue wedge
+    /// Returns the polygon if found in the specified wedge
+    pub fn get_polygon_in_wedge(&self, hue: &str, expected_descriptor: &str) -> Option<&ISCC_NBS_Color> {
+        // Determine which wedge this hue belongs to
+        let wedge_key = self.wedge_system.find_wedge_for_hue(hue)?;
+        
+        // Get polygons in this wedge and find matching descriptor
+        self.wedge_system.get_wedge_polygons(&wedge_key)?
+            .iter()
+            .find(|polygon| {
+                // Check if this polygon's full descriptor matches the expected one
+                let full_name = self.construct_color_descriptor(
+                    polygon.modifier.as_deref().unwrap_or(""),
+                    &polygon.color_name
+                );
+                full_name.to_lowercase() == expected_descriptor.to_lowercase()
+            })
+    }
+    
     /// Debug method to inspect wedge system state
     pub fn debug_wedge_lookup(&self, hue: &str, value: f64, chroma: f64) -> String {
         let wedge_stats = self.wedge_system.get_wedge_statistics();
