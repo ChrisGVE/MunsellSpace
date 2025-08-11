@@ -66,12 +66,15 @@ def rgb_to_munsell(rgb, target_illuminant='C', adaptation_method='Bradford'):
             target_white_xy = colour.CCS_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['C']
             target_white = colour.xy_to_XYZ(np.append(target_white_xy, 1.0))
         
-        # Map adaptation methods - colour-science uses different names
+        # Map adaptation methods - colour-science API updated
+        # Available methods: ('CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries', 'Zhai 2018', 'vK20')
         method_map = {
-            'Bradford': 'Von Kries',  # Colour-science uses Von Kries for Bradford
-            'CAT02': 'CMCCAT2000',    # CAT02 is called CMCCAT2000 in colour-science
-            'XYZScaling': 'Von Kries', # XYZ Scaling approximates Von Kries
-            'VonKries': 'Von Kries'
+            'Bradford': 'Von Kries',      # Bradford approximated by Von Kries
+            'CAT02': 'Von Kries',         # CAT02 approximated by Von Kries (CMCCAT2000 needs extra params)
+            'XYZScaling': 'Von Kries',    # XYZ Scaling approximated by Von Kries
+            'XYZ Scaling': 'Von Kries',   # Handle both with and without space
+            'VonKries': 'Von Kries',
+            'Von Kries': 'Von Kries'
         }
         
         adapt_method = method_map.get(adaptation_method, 'Von Kries')
