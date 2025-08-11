@@ -138,8 +138,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 adaptation: "XYZ Scaling".to_string(),  // Changed from "XYZScaling" to "XYZ Scaling"
             });
             
-            // FIX 2: Use construct_revised_descriptor() logic for expected names
-            let expected_name = construct_expected_name(&color.modifier, &color.color);
+            // Use the single clean API function for expected names
+            let expected_name = classifier.construct_color_descriptor(&color.modifier, &color.color);
             all_test_data.push((id, rgb, illum_name.to_string(), expected_name, "W3"));
         }
         
@@ -203,8 +203,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         let (rust_iscc, rust_unknown) = match rust_classification_result {
             Ok(Some(result)) => {
-                // FIX 3: Use the revised_descriptor field which uses construct_revised_descriptor()
-                (result.revised_descriptor.clone(), false)
+                // Use our single clean API function
+                let descriptor = classifier.construct_color_descriptor(
+                    result.iscc_nbs_modifier().unwrap_or(""),
+                    result.iscc_nbs_color()
+                );
+                (descriptor, false)
             },
             Ok(None) => ("Unknown".to_string(), true),
             Err(_) => ("Unknown".to_string(), true),
@@ -227,8 +231,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     let chroma = chroma_str.parse::<f64>().unwrap_or(0.0);
                     match classifier.classify_munsell(hue_part, value, chroma) {
                         Ok(Some(result)) => {
-                            // FIX 3: Use revised_descriptor for consistency with Rust
-                            (result.revised_descriptor.clone(), false)
+                            // Use our single clean API function
+                            let descriptor = classifier.construct_color_descriptor(
+                                result.iscc_nbs_modifier().unwrap_or(""),
+                                result.iscc_nbs_color()
+                            );
+                            (descriptor, false)
                         },
                         Ok(None) => ("Unknown".to_string(), true),
                         Err(_) => ("Unknown".to_string(), true),
@@ -298,33 +306,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .push(result);
     }
     
-    // Generate comprehensive report
+    // Generate report with proper v2 structure as requested by user
     let mut report = String::new();
-    writeln!(&mut report, "# Comprehensive Conversion Dataset - Mismatches Analysis V4 (COMPREHENSIVE FIX)")?;
-    writeln!(&mut report, "\nGenerated: {}", std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .unwrap()
-        .as_secs())?;
-    writeln!(&mut report, "\n## Configuration")?;
-    writeln!(&mut report, "- Converter: Restored breakthrough mathematical converter (60.4% baseline)")?;
-    writeln!(&mut report, "- Chromatic Adaptation: XYZScaling")?;
-    writeln!(&mut report, "- Illuminants tested: C, D65, F7")?;
-    writeln!(&mut report, "\n## Key Fixes in V4:")?;
-    writeln!(&mut report, "- **FIX 1**: Python API mapping: 'XYZ Scaling' (not 'XYZScaling')")?;
-    writeln!(&mut report, "- **FIX 2**: Expected names use construct_revised_descriptor() logic")?;
-    writeln!(&mut report, "- **FIX 3**: ISCC-NBS classification uses revised_descriptor field")?;
-    writeln!(&mut report, "- **FIX 4**: Accuracy calculated as matches / (total - errors)")?;
-    writeln!(&mut report, "- **FIX 5**: Track Unknown classifications for investigation")?;
-    writeln!(&mut report, "- **FIX 6**: Store actual Python error messages for debugging")?;
+    writeln!(&mut report, "# Comprehensive Conversion Dataset - Mismatches Analysis V4")?;
+    writeln!(&mut report)?;
     
-    // W3 Dataset Results with FIXED accuracy calculation
-    writeln!(&mut report, "\n## W3 Dataset Results")?;
-    writeln!(&mut report, "\n### Overall Statistics")?;
-    writeln!(&mut report, "- Total unique colors: {}", w3_stats.total_unique_colors)?;
+    // ========== W3 DATASET SECTION ==========
+    writeln!(&mut report, "## W3 Dataset")?;
+    writeln!(&mut report)?;
     
-    writeln!(&mut report, "\n### Accuracy by Illuminant (W3) - FIXED Calculation")?;
-    writeln!(&mut report, "| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Effective Pop | Rust Accuracy | Python Accuracy | Rust Unknown | Python Unknown |")?;
-    writeln!(&mut report, "|------------|-------|--------------|----------------|---------------|---------------|---------------|-----------------|--------------|----------------|")?;
+    // W3 Summary Statistics Table
+    writeln!(&mut report, "### Summary Statistics")?;
+    writeln!(&mut report)?;
+    writeln!(&mut report, "| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Rust Accuracy | Python Accuracy |")?;
+    writeln!(&mut report, "|------------|-------|--------------|----------------|---------------|---------------|-----------------|")?;
     
     for (illuminant, _) in &configurations {
         let illum_name = match illuminant {
@@ -337,10 +332,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let rust_matches = w3_stats.rust_matches.get(illum_name).unwrap_or(&0);
         let python_matches = w3_stats.python_matches.get(illum_name).unwrap_or(&0);
         let python_errors = w3_stats.python_errors.get(illum_name).unwrap_or(&0);
-        let rust_unknowns = w3_stats.rust_unknowns.get(illum_name).unwrap_or(&0);
-        let python_unknowns = w3_stats.python_unknowns.get(illum_name).unwrap_or(&0);
         
-        // FIX 4: Calculate accuracy as matches / (total - errors)
+        // Calculate accuracy correctly: matches / (total - errors)
         let effective_population = w3_stats.total_unique_colors - python_errors;
         let rust_acc = (*rust_matches as f64 / w3_stats.total_unique_colors as f64) * 100.0;
         let python_acc = if effective_population > 0 {
@@ -349,19 +342,63 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             0.0
         };
         
-        writeln!(&mut report, "| {:10} | {:5} | {:12} | {:14} | {:13} | {:13} | {:13.1}% | {:15.1}% | {:12} | {:14} |",
+        writeln!(&mut report, "| {:10} | {:5} | {:12} | {:14} | {:13} | {:12.1}% | {:14.1}% |",
             illum_name, w3_stats.total_unique_colors, rust_matches, python_matches, 
-            python_errors, effective_population, rust_acc, python_acc, rust_unknowns, python_unknowns)?;
+            python_errors, rust_acc, python_acc)?;
+    }
+    writeln!(&mut report)?;
+    
+    // W3 Detailed Mismatches (limit to 5 per illuminant)
+    writeln!(&mut report, "### Detailed Mismatches (First 5 colors)")?;
+    writeln!(&mut report)?;
+    
+    for (illuminant, _) in &configurations {
+        let illum_name = match illuminant {
+            MathIlluminant::C => "C",
+            MathIlluminant::D65 => "D65",
+            MathIlluminant::F7 => "F7",
+            _ => continue,
+        };
+        
+        if let Some(results) = w3_results.get(illum_name) {
+            // Get mismatches (excluding Python errors and unknowns)
+            let mismatches: Vec<_> = results.iter()
+                .filter(|r| (!r.rust_match || !r.python_match) && !r.python_error)
+                .take(5)
+                .collect();
+            
+            if !mismatches.is_empty() {
+                for result in mismatches {
+                    writeln!(&mut report, "**Expected: {}**", result.expected_name)?;
+                    writeln!(&mut report, "Hex: #{:02X}{:02X}{:02X}", 
+                        result.rgb[0], result.rgb[1], result.rgb[2])?;
+                    writeln!(&mut report)?;
+                    writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |")?;
+                    writeln!(&mut report, "|------------|--------------|-----------------|-----|----------------|-------------------|-----|")?;
+                    writeln!(&mut report, "| {:10} | {:12} | {:15} | {:3} | {:14} | {:17} | {:3} |",
+                        illum_name,
+                        result.munsell_notation,
+                        result.rust_iscc,
+                        if result.rust_match { "✓" } else { "✗" },
+                        result.python_munsell,
+                        result.python_iscc,
+                        if result.python_match { "✓" } else { "✗" }
+                    )?;
+                    writeln!(&mut report)?;
+                }
+            }
+        }
     }
     
-    // Centore Dataset Results with FIXED accuracy calculation
-    writeln!(&mut report, "\n## Centore Dataset Results")?;
-    writeln!(&mut report, "\n### Overall Statistics")?;
-    writeln!(&mut report, "- Total unique colors: {}", centore_stats.total_unique_colors)?;
+    // ========== CENTORE DATASET SECTION ==========
+    writeln!(&mut report, "## Centore Dataset")?;
+    writeln!(&mut report)?;
     
-    writeln!(&mut report, "\n### Accuracy by Illuminant (Centore) - FIXED Calculation")?;
-    writeln!(&mut report, "| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Effective Pop | Rust Accuracy | Python Accuracy | Rust Unknown | Python Unknown |")?;
-    writeln!(&mut report, "|------------|-------|--------------|----------------|---------------|---------------|---------------|-----------------|--------------|----------------|")?;
+    // Centore Summary Statistics Table
+    writeln!(&mut report, "### Summary Statistics")?;
+    writeln!(&mut report)?;
+    writeln!(&mut report, "| Illuminant | Total | Rust Correct | Python Correct | Python Errors | Rust Accuracy | Python Accuracy |")?;
+    writeln!(&mut report, "|------------|-------|--------------|----------------|---------------|---------------|-----------------|")?;
     
     for (illuminant, _) in &configurations {
         let illum_name = match illuminant {
@@ -374,10 +411,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let rust_matches = centore_stats.rust_matches.get(illum_name).unwrap_or(&0);
         let python_matches = centore_stats.python_matches.get(illum_name).unwrap_or(&0);
         let python_errors = centore_stats.python_errors.get(illum_name).unwrap_or(&0);
-        let rust_unknowns = centore_stats.rust_unknowns.get(illum_name).unwrap_or(&0);
-        let python_unknowns = centore_stats.python_unknowns.get(illum_name).unwrap_or(&0);
         
-        // FIX 4: Calculate accuracy as matches / (total - errors) 
+        // Calculate accuracy correctly: matches / (total - errors) 
         let effective_population = centore_stats.total_unique_colors - python_errors;
         let rust_acc = (*rust_matches as f64 / centore_stats.total_unique_colors as f64) * 100.0;
         let python_acc = if effective_population > 0 {
@@ -386,132 +421,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             0.0
         };
         
-        writeln!(&mut report, "| {:10} | {:5} | {:12} | {:14} | {:13} | {:13} | {:13.1}% | {:15.1}% | {:12} | {:14} |",
+        writeln!(&mut report, "| {:10} | {:5} | {:12} | {:14} | {:13} | {:12.1}% | {:14.1}% |",
             illum_name, centore_stats.total_unique_colors, rust_matches, python_matches,
-            python_errors, effective_population, rust_acc, python_acc, rust_unknowns, python_unknowns)?;
+            python_errors, rust_acc, python_acc)?;
     }
+    writeln!(&mut report)?;
     
-    // Detailed Analysis: Python Errors
-    writeln!(&mut report, "\n## Python Error Analysis")?;
-    writeln!(&mut report, "\n### Sample Python Errors (First 5 per illuminant)")?;
+    // Centore Detailed Mismatches (limit to 5 per illuminant)
+    writeln!(&mut report, "### Detailed Mismatches (First 5 colors)")?;
+    writeln!(&mut report)?;
     
-    for (illuminant, _) in &configurations {
-        let illum_name = match illuminant {
-            MathIlluminant::C => "C",
-            MathIlluminant::D65 => "D65",
-            MathIlluminant::F7 => "F7",
-            _ => continue,
-        };
-        
-        // Collect Python errors from both datasets
-        let mut all_errors = Vec::new();
-        
-        if let Some(w3_results) = w3_results.get(illum_name) {
-            for result in w3_results.iter().filter(|r| r.python_error) {
-                all_errors.push(("W3", result));
-            }
-        }
-        
-        if let Some(centore_results) = centore_results.get(illum_name) {
-            for result in centore_results.iter().filter(|r| r.python_error) {
-                all_errors.push(("Centore", result));
-            }
-        }
-        
-        if !all_errors.is_empty() {
-            writeln!(&mut report, "\n#### Illuminant {} - Python Errors", illum_name)?;
-            for (dataset, result) in all_errors.iter().take(5) {
-                writeln!(&mut report, "\n**{} - Color: #{:02X}{:02X}{:02X} - Expected: \"{}\"**", 
-                    dataset, result.rgb[0], result.rgb[1], result.rgb[2], result.expected_name)?;
-                writeln!(&mut report, "- Rust: {} → \"{}\" {}", 
-                    result.munsell_notation, result.rust_iscc, 
-                    if result.rust_match { "✓" } else { "✗" })?;
-                writeln!(&mut report, "- Python Error: `{}`", result.python_error_msg)?;
-            }
-        }
-    }
-    
-    // Detailed Analysis: Unknown Classifications
-    writeln!(&mut report, "\n## Unknown Classification Analysis")?;
-    writeln!(&mut report, "\n### Colors Classified as \"Unknown\" (First 5 per illuminant)")?;
-    writeln!(&mut report, "These may be outside ISCC-NBS polygon boundaries or neutral colors.")?;
-    
-    for (illuminant, _) in &configurations {
-        let illum_name = match illuminant {
-            MathIlluminant::C => "C",
-            MathIlluminant::D65 => "D65", 
-            MathIlluminant::F7 => "F7",
-            _ => continue,
-        };
-        
-        // Collect Unknown classifications from both datasets
-        let mut all_unknowns = Vec::new();
-        
-        if let Some(w3_results) = w3_results.get(illum_name) {
-            for result in w3_results.iter().filter(|r| r.rust_unknown || r.python_unknown) {
-                all_unknowns.push(("W3", result));
-            }
-        }
-        
-        if let Some(centore_results) = centore_results.get(illum_name) {
-            for result in centore_results.iter().filter(|r| r.rust_unknown || r.python_unknown) {
-                all_unknowns.push(("Centore", result));
-            }
-        }
-        
-        if !all_unknowns.is_empty() {
-            writeln!(&mut report, "\n#### Illuminant {} - Unknown Classifications", illum_name)?;
-            for (dataset, result) in all_unknowns.iter().take(5) {
-                writeln!(&mut report, "\n**{} - Color: #{:02X}{:02X}{:02X} - Expected: \"{}\"**", 
-                    dataset, result.rgb[0], result.rgb[1], result.rgb[2], result.expected_name)?;
-                writeln!(&mut report, "- Rust: {} → \"{}\" {} {}", 
-                    result.munsell_notation, result.rust_iscc, 
-                    if result.rust_match { "✓" } else { "✗" },
-                    if result.rust_unknown { "(UNKNOWN)" } else { "" })?;
-                writeln!(&mut report, "- Python: {} → \"{}\" {} {}", 
-                    result.python_munsell, result.python_iscc,
-                    if result.python_error { "ERROR" } else if result.python_match { "✓" } else { "✗" },
-                    if result.python_unknown { "(UNKNOWN)" } else { "" })?;
-            }
-        }
-    }
-    
-    // Detailed Mismatches (like v2 format but enhanced)
-    writeln!(&mut report, "\n## Detailed Mismatch Analysis (First 5 per illuminant)")?;
-    writeln!(&mut report, "Excludes Python errors and Unknown classifications for focus on actual classification differences.")?;
-    
-    writeln!(&mut report, "\n### W3 Dataset - Detailed Mismatches")?;
-    for (illuminant, _) in &configurations {
-        let illum_name = match illuminant {
-            MathIlluminant::C => "C",
-            MathIlluminant::D65 => "D65",
-            MathIlluminant::F7 => "F7",
-            _ => continue,
-        };
-        
-        if let Some(results) = w3_results.get(illum_name) {
-            let mismatches: Vec<_> = results.iter()
-                .filter(|r| !r.rust_match && !r.python_error && !r.rust_unknown && !r.python_unknown)
-                .take(5)
-                .collect();
-            
-            if !mismatches.is_empty() {
-                writeln!(&mut report, "\n#### Illuminant {} - W3 Mismatches", illum_name)?;
-                for result in mismatches {
-                    writeln!(&mut report, "\n**Color: #{:02X}{:02X}{:02X} - Expected: \"{}\"**", 
-                        result.rgb[0], result.rgb[1], result.rgb[2], result.expected_name)?;
-                    writeln!(&mut report, "- Rust: {} → \"{}\" {}", 
-                        result.munsell_notation, result.rust_iscc, 
-                        if result.rust_match { "✓" } else { "✗" })?;
-                    writeln!(&mut report, "- Python: {} → \"{}\" {}",
-                        result.python_munsell, result.python_iscc,
-                        if result.python_match { "✓" } else { "✗" })?;
-                }
-            }
-        }
-    }
-    
-    writeln!(&mut report, "\n### Centore Dataset - Detailed Mismatches")?;
     for (illuminant, _) in &configurations {
         let illum_name = match illuminant {
             MathIlluminant::C => "C",
@@ -521,36 +440,100 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         };
         
         if let Some(results) = centore_results.get(illum_name) {
+            // Get mismatches (excluding Python errors and unknowns)
             let mismatches: Vec<_> = results.iter()
-                .filter(|r| !r.rust_match && !r.python_error && !r.rust_unknown && !r.python_unknown)
+                .filter(|r| (!r.rust_match || !r.python_match) && !r.python_error)
                 .take(5)
                 .collect();
             
             if !mismatches.is_empty() {
-                writeln!(&mut report, "\n#### Illuminant {} - Centore Mismatches", illum_name)?;
                 for result in mismatches {
-                    writeln!(&mut report, "\n**Color: #{:02X}{:02X}{:02X} - Expected: \"{}\"**", 
-                        result.rgb[0], result.rgb[1], result.rgb[2], result.expected_name)?;
-                    writeln!(&mut report, "- Rust: {} → \"{}\" {}", 
-                        result.munsell_notation, result.rust_iscc, 
-                        if result.rust_match { "✓" } else { "✗" })?;
-                    writeln!(&mut report, "- Python: {} → \"{}\" {}",
-                        result.python_munsell, result.python_iscc,
-                        if result.python_match { "✓" } else { "✗" })?;
+                    writeln!(&mut report, "**Expected: {}**", result.expected_name)?;
+                    writeln!(&mut report, "Hex: #{:02X}{:02X}{:02X}", 
+                        result.rgb[0], result.rgb[1], result.rgb[2])?;
+                    writeln!(&mut report)?;
+                    writeln!(&mut report, "| Illuminant | Rust Munsell | Rust descriptor | ✓/✗ | Python Munsell | Python descriptor | ✓/✗ |")?;
+                    writeln!(&mut report, "|------------|--------------|-----------------|-----|----------------|-------------------|-----|")?;
+                    writeln!(&mut report, "| {:10} | {:12} | {:15} | {:3} | {:14} | {:17} | {:3} |",
+                        illum_name,
+                        result.munsell_notation,
+                        result.rust_iscc,
+                        if result.rust_match { "✓" } else { "✗" },
+                        result.python_munsell,
+                        result.python_iscc,
+                        if result.python_match { "✓" } else { "✗" }
+                    )?;
+                    writeln!(&mut report)?;
                 }
             }
         }
     }
     
-    // Summary with corrected accuracy analysis
-    writeln!(&mut report, "\n## Summary")?;
-    writeln!(&mut report, "\n### V4 Comprehensive Fixes Applied:")?;
-    writeln!(&mut report, "1. **Python API Fix**: Used 'XYZ Scaling' instead of 'XYZScaling'")?;
-    writeln!(&mut report, "2. **ISCC-NBS Fix**: Used revised_descriptor field from construct_revised_descriptor()")?;
-    writeln!(&mut report, "3. **Accuracy Fix**: Calculate as matches / (total - errors)")?;
-    writeln!(&mut report, "4. **Error Tracking**: Store actual Python error messages for debugging")?;
-    writeln!(&mut report, "5. **Unknown Analysis**: Track colors outside ISCC-NBS boundaries")?;
-    writeln!(&mut report, "6. **Expected Names**: Apply construct_revised_descriptor() logic to ground truth")?;
+    // ========== PYTHON ERRORS SECTION ==========
+    writeln!(&mut report)?;
+    writeln!(&mut report, "## Python Errors")?;
+    writeln!(&mut report)?;
+    writeln!(&mut report, "### First 5 errors per dataset")?;
+    writeln!(&mut report)?;
+    
+    // Collect all Python errors from both datasets
+    let mut w3_errors = Vec::new();
+    let mut centore_errors = Vec::new();
+    
+    for (illuminant, _) in &configurations {
+        let illum_name = match illuminant {
+            MathIlluminant::C => "C",
+            MathIlluminant::D65 => "D65",
+            MathIlluminant::F7 => "F7",
+            _ => continue,
+        };
+        
+        if let Some(w3_results) = w3_results.get(illum_name) {
+            for result in w3_results.iter().filter(|r| r.python_error) {
+                if w3_errors.len() < 5 {
+                    w3_errors.push(result);
+                }
+            }
+        }
+        
+        if let Some(centore_results) = centore_results.get(illum_name) {
+            for result in centore_results.iter().filter(|r| r.python_error) {
+                if centore_errors.len() < 5 {
+                    centore_errors.push(result);
+                }
+            }
+        }
+    }
+    
+    // W3 Python Errors Table
+    if !w3_errors.is_empty() {
+        writeln!(&mut report, "#### W3 Dataset Python Errors")?;
+        writeln!(&mut report)?;
+        writeln!(&mut report, "| Descriptor | Hex | Returned Python Error |")?;
+        writeln!(&mut report, "|------------|-----|----------------------|")?;
+        for result in &w3_errors {
+            writeln!(&mut report, "| {} | #{:02X}{:02X}{:02X} | {} |",
+                result.expected_name,
+                result.rgb[0], result.rgb[1], result.rgb[2],
+                result.python_error_msg)?;
+        }
+        writeln!(&mut report)?;
+    }
+    
+    // Centore Python Errors Table
+    if !centore_errors.is_empty() {
+        writeln!(&mut report, "#### Centore Dataset Python Errors")?;
+        writeln!(&mut report)?;
+        writeln!(&mut report, "| Descriptor | Hex | Returned Python Error |")?;
+        writeln!(&mut report, "|------------|-----|----------------------|")?;
+        for result in &centore_errors {
+            writeln!(&mut report, "| {} | #{:02X}{:02X}{:02X} | {} |",
+                result.expected_name,
+                result.rgb[0], result.rgb[1], result.rgb[2],
+                result.python_error_msg)?;
+        }
+        writeln!(&mut report)?;
+    }
     
     // Write report
     let output_path = "comprehensive_dataset_misses_v4.md";

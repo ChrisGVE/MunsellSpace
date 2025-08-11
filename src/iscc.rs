@@ -101,6 +101,47 @@ pub struct ISCC_NBS_Classifier {
 const ISCC_NBS_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
 
 impl ISCC_NBS_Classifier {
+    /// Construct a proper ISCC-NBS color descriptor from modifier and color name
+    /// 
+    /// This is the PUBLIC API for combining modifier + color into the standard ISCC-NBS format.
+    /// Handles special cases like "-ish" transformations and empty modifiers.
+    /// 
+    /// # Arguments
+    /// * `modifier` - The color modifier (e.g., "vivid", "pale", "-ish white")
+    /// * `color_name` - The base color name (e.g., "red", "pink", "blue")
+    /// 
+    /// # Returns
+    /// The properly formatted ISCC-NBS descriptor (e.g., "vivid red", "pinkish white")
+    pub fn construct_color_descriptor(&self, modifier: &str, color_name: &str) -> String {
+        let modifier = modifier.trim();
+        let color_name = color_name.trim();
+        
+        // Handle empty or dash-only modifiers
+        if modifier.is_empty() || modifier == "-" {
+            return color_name.to_string();
+        }
+        
+        // Handle "-ish" transformations
+        if modifier.contains("-ish") {
+            // For "-ish white" + "pink" = "pinkish white"
+            // For "-ish gray" + "red" = "reddish gray"
+            let suffix_start = modifier.find("-ish").unwrap() + 4;
+            let suffix = modifier[suffix_start..].trim();
+            
+            if !suffix.is_empty() {
+                // Apply -ish to the color_name and append the suffix
+                let transformed = self.apply_ish_transformation(color_name);
+                return format!("{} {}", transformed, suffix);
+            } else {
+                // Just apply -ish to the color
+                return self.apply_ish_transformation(color_name);
+            }
+        }
+        
+        // Standard modifier + color combination
+        format!("{} {}", modifier, color_name)
+    }
+    
     /// Create a new ISCC-NBS classifier using embedded data.
     ///
     /// Creates a classifier loaded with the standard ISCC-NBS color definitions

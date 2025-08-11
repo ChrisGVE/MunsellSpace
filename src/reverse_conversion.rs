@@ -4,7 +4,7 @@
 //! specifications to various color spaces and formats, using CIE Lab as an
 //! intermediate color space for maximum accuracy and color science compliance.
 
-use crate::mathematical_v2::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
+use crate::mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
 use crate::error::{MunsellError, Result};
 use palette::{Srgb, Hsl, Hsv, Xyz, convert::IntoColor, white_point::D65};
 
@@ -137,7 +137,9 @@ impl ReverseConverter {
     
     /// Convert Munsell specification to sRGB [0-255]
     pub fn munsell_to_srgb(&self, spec: &MunsellSpecification) -> Result<[u8; 3]> {
-        self.converter.munsell_to_srgb(spec)
+        // TODO: Implement reverse conversion with restored mathematical converter
+        // self.converter.munsell_to_srgb(spec)
+        Err(MunsellError::NotImplemented("Reverse conversion temporarily disabled during restoration".to_string()))
     }
     
     /// Convert Munsell specification to hexadecimal string

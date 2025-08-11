@@ -102,12 +102,16 @@ name = "comprehensive_dataset_misses"
 path = "investigation/src/comprehensive_dataset_misses.rs"
 
 [[bin]]
-name = "comprehensive_dataset_misses_v2"
-path = "investigation/src/comprehensive_dataset_misses_v2.rs"
-
-[[bin]]
 name = "comprehensive_dataset_misses_v3"
 path = "investigation/src/comprehensive_dataset_misses_v3.rs"
+
+[[bin]]
+name = "comprehensive_dataset_misses_v3b"
+path = "investigation/src/comprehensive_dataset_misses_v3b.rs"
+
+[[bin]]
+name = "comprehensive_dataset_misses_v4"
+path = "src/bin/comprehensive_dataset_misses_v4.rs"
 
 [[bin]]
 name = "test_pink_restored"
@@ -125,9 +129,6 @@ path = "test_illuminant_accuracy.rs"
 name = "quick_accuracy_test"
 path = "quick_accuracy_test.rs"
 
-[[bin]]
-name = "quick_v3_comparison"
-path = "quick_v3_comparison.rs"
 
 [profile.release]
 lto = true

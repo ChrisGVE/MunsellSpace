@@ -28,10 +28,8 @@
 
 ## File Structure
 
-- `src/mathematical.rs` - Restored breakthrough version with illuminant support
-- `src/mathematical_v2.rs` - Simplified version without convergence (faster but less accurate)
-- `investigation/src/comprehensive_dataset_misses_v2.rs` - Analysis using simplified version
-- `investigation/src/comprehensive_dataset_misses_v3.rs` - Analysis using restored breakthrough version (slow)
+- `src/mathematical.rs` - Restored breakthrough version with illuminant support (THE precise algorithm)
+- `investigation/src/comprehensive_dataset_misses_v3.rs` - Analysis using restored breakthrough version
 
 ## Next Steps
 

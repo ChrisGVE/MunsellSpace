@@ -46,7 +46,6 @@ pub mod illuminants;
 pub mod iscc;
 pub mod constants;
 pub mod mathematical;
-pub mod mathematical_v2;
 pub mod reverse_conversion;
 pub mod python_port;
 pub mod python_port_helpers;

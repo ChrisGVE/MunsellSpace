@@ -61,6 +61,9 @@ pub enum MunsellError {
     
     /// Invalid Munsell color specification.
     InvalidMunsellColor(String),
+    
+    /// Feature not yet implemented.
+    NotImplemented(String),
 }
 
 impl fmt::Display for MunsellError {
@@ -92,6 +95,9 @@ impl fmt::Display for MunsellError {
             }
             MunsellError::InvalidMunsellColor(message) => {
                 write!(f, "Invalid Munsell color: {}", message)
+            }
+            MunsellError::NotImplemented(message) => {
+                write!(f, "Not implemented: {}", message)
             }
         }
     }
