@@ -34,7 +34,7 @@ struct W3IsccColor {
     #[serde(rename = " modifier ")]
     modifier: String,
     #[serde(rename = "color ")]
-    color: String,
+    revised_color_name: String,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -125,6 +125,38 @@ fn parse_munsell_notation(notation: &str) -> Option<(String, f64, f64)> {
     let chroma = vc_parts[1].parse::<f64>().ok()?;
     
     Some((hue, value, chroma))
+}
+
+/// Extract the color part from an ISCC-NBS name by removing the modifier
+/// e.g., "moderate yellow green" with modifier "moderate" -> "yellow green"
+fn extract_color_from_iscc_name(iscc_nbs_name: &str, modifier: &str) -> String {
+    let modifier = modifier.trim();
+    let iscc_nbs_name = iscc_nbs_name.trim();
+    
+    // Handle empty or dash-only modifiers - return the full name
+    if modifier.is_empty() || modifier == "-" {
+        return iscc_nbs_name.to_string();
+    }
+    
+    // Handle "-ish" modifiers like "-ish white"
+    if modifier.contains("-ish") {
+        // For "-ish white", we want to extract everything after "-ish " 
+        if let Some(suffix_start) = modifier.find("-ish ") {
+            let suffix = modifier[suffix_start + 5..].trim();
+            return suffix.to_string();
+        }
+        // If it's just "-ish", return the full name
+        return iscc_nbs_name.to_string();
+    }
+    
+    // For regular modifiers, remove the modifier from the beginning
+    if iscc_nbs_name.starts_with(modifier) {
+        let remaining = iscc_nbs_name[modifier.len()..].trim();
+        return remaining.to_string();
+    }
+    
+    // If we can't extract, return the full name as fallback
+    iscc_nbs_name.to_string()
 }
 
 /// Calculate distance to the correct polygon for the expected color
@@ -283,8 +315,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 adaptation: "XYZ Scaling".to_string(),  // Changed from "XYZScaling" to "XYZ Scaling"
             });
             
-            // Use the original ISCC-NBS name directly for consistent comparison
-            let expected_name = color.iscc_nbs_name.clone();
+            // Extract the original ISCC-NBS color from the full name and use with modifier
+            let iscc_color = extract_color_from_iscc_name(&color.iscc_nbs_name, &color.modifier);
+            let expected_name = classifier.construct_color_descriptor(&color.modifier, &iscc_color);
             all_test_data.push((id, rgb, illum_name.to_string(), expected_name, "W3"));
         }
         
