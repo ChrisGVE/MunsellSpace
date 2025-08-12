@@ -243,7 +243,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("=======================================================================");
     println!("COMPREHENSIVE FIX VERSION: All identified issues addressed");
     println!("- Python Error Handling: Exclude errors from accuracy calculations");
-    println!("- ISCC-NBS Generation: Use construct_revised_descriptor() function"); 
+    println!("- ISCC-NBS Generation: Use original ISCC-NBS names for consistency"); 
     println!("- Python API Issues: Fix XYZ Scaling mapping and validation errors");
     println!("- Unknown Classifications: Track and investigate causes");
     println!("- Accuracy Formula: matches / (total - errors)");
@@ -283,8 +283,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 adaptation: "XYZ Scaling".to_string(),  // Changed from "XYZScaling" to "XYZ Scaling"
             });
             
-            // Use the single clean API function for expected names
-            let expected_name = classifier.construct_color_descriptor(&color.modifier, &color.color);
+            // Use the original ISCC-NBS name directly for consistent comparison
+            let expected_name = color.iscc_nbs_name.clone();
             all_test_data.push((id, rgb, illum_name.to_string(), expected_name, "W3"));
         }
         
