@@ -128,57 +128,6 @@ fn parse_munsell_notation(notation: &str) -> Option<(String, f64, f64)> {
     Some((hue, value, chroma))
 }
 
-/// Extract the color part from an ISCC-NBS name by removing the modifier
-/// e.g., "moderate yellow green" with modifier "moderate" -> "yellow green"
-/// e.g., "pinkish white" with modifier "-ish white" -> "pink"
-fn extract_color_from_iscc_name(iscc_nbs_name: &str, modifier: &str) -> String {
-    let modifier = modifier.trim();
-    let iscc_nbs_name = iscc_nbs_name.trim();
-    
-    // Handle empty or dash-only modifiers - return the full name
-    if modifier.is_empty() || modifier == "-" {
-        return iscc_nbs_name.to_string();
-    }
-    
-    // Handle "-ish" modifiers like "-ish white"
-    if modifier.contains("-ish") {
-        // For "pinkish white" with modifier "-ish white", we want to extract "pink"
-        // Strategy: Remove the modifier suffix from the ISCC name
-        if let Some(suffix_start) = modifier.find("-ish ") {
-            let suffix = modifier[suffix_start + 4..].trim(); // Get " white" part
-            if iscc_nbs_name.ends_with(suffix) {
-                // Remove the suffix from the end of the ISCC name
-                let prefix_len = iscc_nbs_name.len() - suffix.len();
-                let color_part = iscc_nbs_name[..prefix_len].trim();
-                // Remove the "ish" part to get just the color
-                if color_part.ends_with("ish") {
-                    let base_color = color_part[..color_part.len() - 3].trim();
-                    // Handle special cases where removing "ish" creates incomplete words
-                    match base_color {
-                        "blu" => return "blue".to_string(),
-                        "purpl" => return "purple".to_string(),
-                        "redd" => return "red".to_string(),
-                        "brown" => return "brown".to_string(),
-                        "green" => return "green".to_string(),
-                        _ => return base_color.to_string(),
-                    }
-                }
-                return color_part.to_string();
-            }
-        }
-        // If it's just "-ish", return the full name
-        return iscc_nbs_name.to_string();
-    }
-    
-    // For regular modifiers, remove the modifier from the beginning
-    if iscc_nbs_name.starts_with(modifier) {
-        let remaining = iscc_nbs_name[modifier.len()..].trim();
-        return remaining.to_string();
-    }
-    
-    // If we can't extract, return the full name as fallback
-    iscc_nbs_name.to_string()
-}
 
 /// Calculate distance to the correct polygon for the expected color
 fn calculate_distance_to_correct_polygon(
@@ -336,9 +285,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 adaptation: "XYZ Scaling".to_string(),  // Changed from "XYZScaling" to "XYZ Scaling"
             });
             
-            // Extract the original ISCC-NBS color from the full name and use with modifier
-            let iscc_color = extract_color_from_iscc_name(&color.iscc_nbs_color_name, &color.iscc_nbs_modifier);
-            let expected_name = classifier.construct_color_descriptor(&color.iscc_nbs_modifier, &iscc_color);
+            // Use the ISCC-NBS color name directly - it's already the correct descriptor
+            let expected_name = color.iscc_nbs_color_name.clone();
             all_test_data.push((id, rgb, illum_name.to_string(), expected_name, "W3"));
         }
         
