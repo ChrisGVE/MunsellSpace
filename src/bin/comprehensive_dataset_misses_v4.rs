@@ -40,7 +40,8 @@ struct W3IsccColor {
 #[derive(Debug, Deserialize, Clone)]
 struct CentoreIsccColor {
     number: u16,
-    name: String,
+    #[serde(rename = "name")]
+    iscc_nbs_color_name: String,
     r: u8,
     g: u8,
     b: u8,
@@ -331,7 +332,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 illuminant: illum_name.to_string(),
                 adaptation: "XYZ Scaling".to_string(),  // Fixed mapping
             });
-            all_test_data.push((id, rgb, illum_name.to_string(), color.name.clone(), "Centore"));
+            all_test_data.push((id, rgb, illum_name.to_string(), color.iscc_nbs_color_name.clone(), "Centore"));
         }
     }
     
