@@ -348,8 +348,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         // Convert with Rust
         let rust_spec = converter.srgb_to_munsell(rgb)?;
-        let rust_notation = format!("{:.1}{} {:.1}/{:.1}", 
-            rust_spec.hue, rust_spec.family, rust_spec.value, rust_spec.chroma);
+        let rust_notation = converter.format_munsell_notation(&rust_spec);
         
         // FIX 3: Use proper ISCC-NBS classification with construct_revised_descriptor logic
         let rust_classification_result = classifier.classify_munsell(

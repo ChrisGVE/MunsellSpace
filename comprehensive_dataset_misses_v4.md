@@ -6,9 +6,9 @@
 
 | Illuminant | Total | Rust Correct | Rust Unknown | Python Correct | Python Unknown | Python Errors | Rust Accuracy | Python Accuracy |
 | ---------- | ----- | ------------ | ------------ | -------------- | -------------- | ------------- | ------------- | --------------- |
-| C          | 267   | 196          | 3            | 173            | 52             | 0             | 73.4%         | 64.8%           |
-| D65        | 267   | 138          | 0            | 135            | 47             | 0             | 51.7%         | 50.6%           |
-| F7         | 267   | 138          | 0            | 134            | 48             | 0             | 51.7%         | 50.2%           |
+| C          | 267   | 208          | 3            | 171            | 52             | 0             | 77.9%         | 64.0%           |
+| D65        | 267   | 140          | 0            | 131            | 47             | 0             | 52.4%         | 49.1%           |
+| F7         | 267   | 140          | 0            | 130            | 48             | 0             | 52.4%         | 48.7%           |
 
 ### Detailed Mismatches
 
@@ -18,31 +18,11 @@
 
 | Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 0.7R 8.0/6.8 | light pink      | 1.0R 8.0/6.6   | moderate pink     |              |
+| C          | 0.7R 8.0/6.8 | light pink      | 1.0R 8.0/6.6   | light pink        |              |
 | D65        | 4.7R 8.0/6.0 | light pink      | 4.7R 8.0/6.0   | light pink        | (+0.0, +5.0) |
 | F7         | 4.8R 8.0/6.0 | light pink      | 4.8R 8.0/6.0   | light pink        | (+0.0, +5.0) |
 
-#### Color 2: whiteish white
-
-**Hex:** #EAE3E1
-
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 8.7R 9.1/0.7  | pinkish white   | N 5.0/         | (Unknown)         |              |
-| D65        | 2.3GY 9.1/0.8 | yellowish white | N 5.0/         | (Unknown)         |              |
-| F7         | 2.2GY 9.1/0.8 | yellowish white | N 9.1/         | (Unknown)         |              |
-
-#### Color 3: grayish gray
-
-**Hex:** #C1B6B3
-
-| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 9.2R 7.4/1.1 | pinkish gray    | N 7.4/         | (Unknown)         |              |
-| D65        | 4.2Y 7.4/0.9 | yellowish gray  | N 7.4/         | (Unknown)         |              |
-| F7         | 4.3Y 7.4/0.9 | yellowish gray  | N 7.4/         | (Unknown)         |              |
-
-#### Color 4: very dark red
+#### Color 2: very dark red
 
 **Hex:** #3F1728
 
@@ -50,7 +30,7 @@
 | ---------- | ------------ | ---------------------- | -------------- | ---------------------- | ------------ |
 | C          | 1.0R 1.4/4.2 | very dark purplish red | 1.0R 1.4/4.0   | very dark purplish red |              |
 
-#### Color 5: pale light grayish red
+#### Color 3: light grayish red
 
 **Hex:** #AD8884
 
@@ -60,17 +40,7 @@
 | D65        | 1.2YR 5.9/2.9 | pale reddish brown | 1.3YR 5.9/2.8  | pale reddish brown |              |
 | F7         | 1.3YR 5.9/2.9 | pale reddish brown | 1.3YR 5.9/2.9  | pale reddish brown |              |
 
-#### Color 6: grayish gray
-
-**Hex:** #8F817F
-
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 6.9R 5.4/1.3  | reddish gray    | N 5.0/         | (Unknown)         |              |
-| D65        | 9.3YR 5.4/1.0 | brownish gray   | N 5.0/         | (Unknown)         |              |
-| F7         | 9.3YR 5.4/1.0 | brownish gray   | N 5.4/         | (Unknown)         |              |
-
-#### Color 7: grayish gray
+#### Color 4: dark reddish gray
 
 **Hex:** #5C504F
 
@@ -80,27 +50,17 @@
 | D65        | 7.6YR 3.5/0.8 | brownish gray   | N 3.5/         | (Unknown)         |              |
 | F7         | 7.6YR 3.5/0.8 | brownish gray   | N 5.0/         | (Unknown)         |              |
 
-#### Color 8: blackish black
-
-**Hex:** #282022
-
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 3.0R 1.3/0.7  | reddish black   | N 1.3/         | (Unknown)         |              |
-| D65        | 1.5YR 1.3/0.5 | black           | N 5.0/         | (Unknown)         |              |
-| F7         | 1.6YR 1.3/0.5 | black           | N 1.3/         | (Unknown)         |              |
-
-#### Color 9: vivid yellowish pink
+#### Color 5: vivid yellowish pink
 
 **Hex:** #FFB7A5
 
-| Illuminant | Rust Munsell  | Rust descriptor      | Python Munsell | Python descriptor       | Dist polygon |
-| ---------- | ------------- | -------------------- | -------------- | ----------------------- | ------------ |
-| C          | 7.9R 8.0/6.4  | light yellowish pink | 8.4R 8.0/6.1   | moderate yellowish pink | (+0.0, +4.6) |
-| D65        | 1.1YR 8.0/5.8 | light yellowish pink | 1.2YR 8.0/5.8  | moderate yellowish pink | (+0.0, +5.2) |
-| F7         | 1.2YR 8.0/5.9 | light yellowish pink | 1.2YR 8.0/5.8  | moderate yellowish pink | (+0.0, +5.1) |
+| Illuminant | Rust Munsell  | Rust descriptor      | Python Munsell | Python descriptor    | Dist polygon |
+| ---------- | ------------- | -------------------- | -------------- | -------------------- | ------------ |
+| C          | 7.9R 8.0/6.4  | light yellowish pink | 8.4R 8.0/6.1   | light yellowish pink | (+0.0, +4.6) |
+| D65        | 1.1YR 8.0/5.8 | light yellowish pink | 1.2YR 8.0/5.8  | light yellowish pink | (+0.0, +5.2) |
+| F7         | 1.2YR 8.0/5.9 | light yellowish pink | 1.2YR 8.0/5.8  | light yellowish pink | (+0.0, +5.1) |
 
-#### Color 10: deep yellowish pink
+#### Color 6: deep yellowish pink
 
 **Hex:** #E66721
 
@@ -110,7 +70,7 @@
 | D65        | 1.8YR 5.8/13.4 | vivid reddish orange | 1.8YR 5.8/13.4 | vivid reddish orange |              |
 | F7         | 1.8YR 5.8/13.4 | vivid reddish orange | 1.8YR 5.8/13.4 | vivid reddish orange |              |
 
-#### Color 11: light yellowish pink
+#### Color 7: light yellowish pink
 
 **Hex:** #F4C2C2
 
@@ -118,7 +78,7 @@
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
 | C          | 2.1R 8.2/4.6 | light pink      | 2.4R 8.2/4.5   | light pink        |              |
 
-#### Color 12: moderate yellowish pink
+#### Color 8: moderate yellowish pink
 
 **Hex:** #D9A6A9
 
@@ -126,7 +86,17 @@
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
 | C          | 0.9R 7.2/5.0 | moderate pink   | 1.2R 7.2/4.8   | moderate pink     |              |
 
-#### Color 13: pale light grayish reddish brown
+#### Color 9: dark reddish brown
+
+**Hex:** #3E1D1E
+
+| Illuminant | Rust Munsell  | Rust descriptor            | Python Munsell | Python descriptor          | Dist polygon |
+| ---------- | ------------- | -------------------------- | -------------- | -------------------------- | ------------ |
+| C          | 9.2R 1.5/3.0  | dark grayish reddish brown | 9.5R 1.5/2.9   | dark grayish reddish brown | (0.0, 0.0)   |
+| D65        | 0.8YR 1.5/2.8 | dark grayish reddish brown | 0.8YR 1.5/2.8  | dark grayish reddish brown |              |
+| F7         | 0.8YR 1.5/2.8 | dark grayish reddish brown | 0.8YR 1.5/2.8  | dark grayish reddish brown |              |
+
+#### Color 10: light grayish reddish brown
 
 **Hex:** #977F73
 
@@ -136,7 +106,7 @@
 | D65        | 8.7YR 5.4/2.2 | grayish yellowish brown | 8.7YR 5.4/2.2  | grayish yellowish brown |              |
 | F7         | 8.7YR 5.4/2.2 | grayish yellowish brown | 8.7YR 5.4/2.2  | grayish yellowish brown |              |
 
-#### Color 14: vivid orange
+#### Color 11: vivid orange
 
 **Hex:** #F38400
 
@@ -146,7 +116,7 @@
 | D65        | 5.0YR 6.5/13.7 | strong orange   | 5.0YR 6.5/13.7 | strong orange     | (+0.0, +0.3) |
 | F7         | 5.0YR 6.5/13.7 | strong orange   | 5.0YR 6.5/13.7 | strong orange     | (+0.0, +0.3) |
 
-#### Color 15: brilliant orange
+#### Color 12: brilliant orange
 
 **Hex:** #FD943F
 
@@ -156,17 +126,17 @@
 | D65        | 4.9YR 7.0/11.8 | strong orange   | 4.9YR 7.0/11.8 | strong orange     | (+0.5, +0.0) |
 | F7         | 4.9YR 7.0/11.8 | strong orange   | 4.9YR 7.0/11.8 | strong orange     | (+0.5, +0.0) |
 
-#### Color 16: deep brown
+#### Color 13: deep brown
 
 **Hex:** #593319
 
 | Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 5.6YR 2.5/4.7 | moderate brown  | 6.0YR 2.5/4.5  | moderate brown    | (+0.0, +0.3) |
-| D65        | 6.9YR 2.5/4.6 | moderate brown  | 6.9YR 2.5/4.6  | moderate brown    | (+0.0, +0.4) |
-| F7         | 6.9YR 2.5/4.6 | moderate brown  | 6.9YR 2.5/4.6  | moderate brown    | (+0.0, +0.4) |
+| C          | 5.6YR 2.5/4.7 | dark brown      | 6.0YR 2.5/4.5  | dark brown        | (+0.0, +0.3) |
+| D65        | 6.9YR 2.5/4.6 | dark brown      | 6.9YR 2.5/4.6  | dark brown        | (+0.0, +0.4) |
+| F7         | 6.9YR 2.5/4.6 | dark brown      | 6.9YR 2.5/4.6  | dark brown        | (+0.0, +0.4) |
 
-#### Color 17: pale light grayish brown
+#### Color 14: light grayish brown
 
 **Hex:** #958070
 
@@ -176,37 +146,25 @@
 | D65        | 1.0Y 5.4/2.2  | grayish yellowish brown | 1.0Y 5.4/2.2   | grayish yellowish brown |              |
 | F7         | 1.0Y 5.4/2.2  | grayish yellowish brown | 1.0Y 5.4/2.2   | grayish yellowish brown |              |
 
-#### Color 18: grayish gray
+#### Color 15: light brownish gray
 
 **Hex:** #8E8279
 
 | Illuminant | Rust Munsell  | Rust descriptor   | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | ----------------- | -------------- | ----------------- | ------------ |
-| C          | 7.0YR 5.4/1.2 | brownish gray     | N 5.4/         | (Unknown)         |              |
+| C          | 7.0YR 5.4/1.2 | pale brown        | N 5.4/         | (Unknown)         |              |
 | D65        | 3.7Y 5.4/1.4  | light olive brown | N 5.4/         | (Unknown)         |              |
 | F7         | 3.7Y 5.4/1.4  | light olive brown | N 5.4/         | (Unknown)         |              |
 
-#### Color 19: grayish gray
+#### Color 16: brownish gray
 
 **Hex:** #5B504F
 
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 6.9R 3.5/0.8  | reddish gray    | N 3.5/         | (Unknown)         |              |
-| D65        | 8.3YR 3.5/0.8 | brownish gray   | N 3.5/         | (Unknown)         |              |
-| F7         | 8.4YR 3.5/0.8 | brownish gray   | N 5.0/         | (Unknown)         |              |
+| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
+| C          | 6.9R 3.5/0.8 | reddish gray    | N 3.5/         | (Unknown)         |              |
 
-#### Color 20: blackish black
-
-**Hex:** #28201C
-
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 7.4YR 1.3/0.7 | brownish black  | N 1.3/         | (Unknown)         |              |
-| D65        | 1.2Y 1.3/0.8  | brownish black  | N 1.3/         | (Unknown)         |              |
-| F7         | 1.3Y 1.3/0.8  | brownish black  | N 5.0/         | (Unknown)         |              |
-
-#### Color 21: vivid orange yellow
+#### Color 17: vivid orange yellow
 
 **Hex:** #F6A600
 
@@ -216,7 +174,7 @@
 | D65        | 9.7YR 7.3/12.7 | strong orange yellow | 9.7YR 7.3/12.7 | strong orange yellow | (+0.0, +1.3) |
 | F7         | 9.7YR 7.3/12.7 | strong orange yellow | 9.7YR 7.3/12.7 | strong orange yellow | (+0.0, +1.3) |
 
-#### Color 22: deep yellowish brown
+#### Color 18: deep yellowish brown
 
 **Hex:** #654522
 
@@ -226,7 +184,7 @@
 | D65        | 0.1Y 3.2/4.6  | dark yellowish brown | 0.1Y 3.2/4.6   | dark yellowish brown |              |
 | F7         | 0.1Y 3.2/4.6  | dark yellowish brown | 0.1Y 3.2/4.6   | dark yellowish brown |              |
 
-#### Color 23: pale light grayish yellowish brown
+#### Color 19: light grayish yellowish brown
 
 **Hex:** #AE9B82
 
@@ -236,37 +194,17 @@
 | D65        | 3.6Y 6.4/2.6  | light olive brown    | 3.7Y 6.4/2.6   | light olive brown    |              |
 | F7         | 3.6Y 6.4/2.7  | light olive brown    | 3.6Y 6.4/2.7   | light olive brown    |              |
 
-#### Color 24: whiteish white
-
-**Hex:** #F0EAD6
-
-| Illuminant | Rust Munsell  | Rust descriptor   | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | ----------------- | -------------- | ----------------- | ------------ |
-| C          | 4.2Y 9.3/1.2  | yellowish white   | N 9.3/         | (Unknown)         |              |
-| D65        | 2.6GY 9.3/1.8 | pale yellow green | 2.4GY 9.3/2.4  | pale yellow green |              |
-| F7         | 2.5GY 9.3/1.8 | pale yellow green | 2.3GY 9.3/2.4  | pale yellow green |              |
-
-#### Color 25: grayish gray
-
-**Hex:** #BFB8A5
-
-| Illuminant | Rust Munsell  | Rust descriptor      | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | -------------------- | -------------- | ----------------- | ------------ |
-| C          | 3.7Y 7.4/1.4  | yellowish gray       | N 7.4/         | (Unknown)         |              |
-| D65        | 0.5GY 7.4/1.9 | grayish yellow green | N 7.4/         | (Unknown)         |              |
-| F7         | 0.5GY 7.4/1.9 | grayish yellow green | N 7.4/         | (Unknown)         |              |
-
-#### Color 26: dark olive
+#### Color 20: dark olive
 
 **Hex:** #403D21
 
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 8.8Y 2.5/2.8  | grayish olive   | 9.1Y 2.5/2.8   | grayish olive     | (+0.0, +0.2) |
-| D65        | 0.4GY 2.5/3.0 | moderate olive  | 0.4GY 2.5/3.0  | moderate olive    |              |
-| F7         | 0.4GY 2.5/3.0 | moderate olive  | 0.3GY 2.5/3.0  | dark olive        |              |
+| Illuminant | Rust Munsell  | Rust descriptor    | Python Munsell | Python descriptor  | Dist polygon |
+| ---------- | ------------- | ------------------ | -------------- | ------------------ | ------------ |
+| C          | 8.8Y 2.5/2.8  | dark grayish olive | 9.1Y 2.5/2.8   | dark grayish olive | (+0.0, +0.2) |
+| D65        | 0.4GY 2.5/3.0 | moderate olive     | 0.4GY 2.5/3.0  | moderate olive     |              |
+| F7         | 0.4GY 2.5/3.0 | moderate olive     | 0.3GY 2.5/3.0  | moderate olive     |              |
 
-#### Color 27: pale light grayish olive
+#### Color 21: light grayish olive
 
 **Hex:** #8C8767
 
@@ -276,7 +214,7 @@
 | D65        | 0.7GY 5.5/2.9 | pale olive      | 0.6GY 5.5/2.9  | pale olive        |              |
 | F7         | 0.7GY 5.5/2.9 | pale olive      | 0.6GY 5.5/2.9  | pale olive        |              |
 
-#### Color 28: grayish gray
+#### Color 22: light olive gray
 
 **Hex:** #8A8776
 
@@ -286,17 +224,17 @@
 | D65        | 1.8GY 5.5/1.8 | pale olive      | N 5.0/         | (Unknown)         |              |
 | F7         | 1.8GY 5.5/1.8 | pale olive      | N 5.5/         | (Unknown)         |              |
 
-#### Color 29: grayish gray
+#### Color 23: olive gray
 
 **Hex:** #57554C
 
 | Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
 | C          | 7.4Y 3.5/0.8  | oliveish gray   | N 3.5/         | (Unknown)         |              |
-| D65        | 1.6GY 3.5/1.2 | grayish olive   | N 3.5/         | (Unknown)         |              |
-| F7         | 1.6GY 3.5/1.2 | grayish olive   | N 3.5/         | (Unknown)         |              |
+| D65        | 1.6GY 3.5/1.2 | oliveish gray   | N 3.5/         | (Unknown)         |              |
+| F7         | 1.6GY 3.5/1.2 | oliveish gray   | N 3.5/         | (Unknown)         |              |
 
-#### Color 30: blackish black
+#### Color 24: olive black
 
 **Hex:** #25241D
 
@@ -306,7 +244,7 @@
 | D65        | 1.3GY 1.4/1.1 | dark olive      | N 1.4/         | (Unknown)         |              |
 | F7         | 1.3GY 1.4/1.1 | dark olive      | N 1.4/         | (Unknown)         |              |
 
-#### Color 31: deep yellow green
+#### Color 25: deep yellow green
 
 **Hex:** #467129
 
@@ -314,7 +252,7 @@
 | ---------- | ------------- | -------------------- | -------------- | -------------------- | ------------ |
 | C          | 7.4GY 4.2/6.8 | moderate olive green | 7.4GY 4.2/6.7  | moderate olive green | (+0.0, +0.2) |
 
-#### Color 32: strong olive green
+#### Color 26: strong olive green
 
 **Hex:** #404F00
 
@@ -324,7 +262,7 @@
 | D65        | 4.3GY 3.1/6.6 | moderate olive green | 4.3GY 3.1/6.6  | moderate olive green | (+0.0, +0.4) |
 | F7         | 4.3GY 3.1/6.6 | moderate olive green | 4.3GY 3.1/6.6  | moderate olive green | (+0.0, +0.4) |
 
-#### Color 33: deep olive green
+#### Color 27: deep olive green
 
 **Hex:** #232F00
 
@@ -334,7 +272,7 @@
 | D65        | 4.2GY 1.7/4.3 | dark olive green | 4.2GY 1.7/4.3  | dark olive green  | (+0.0, +2.7) |
 | F7         | 4.2GY 1.7/4.3 | dark olive green | 4.2GY 1.7/4.3  | dark olive green  | (+0.0, +2.7) |
 
-#### Color 34: vivid yellowish green
+#### Color 28: vivid yellowish green
 
 **Hex:** #27A64C
 
@@ -342,7 +280,7 @@
 | ---------- | ------------- | ---------------------- | -------------- | ---------------------- | ------------ |
 | C          | 1.1G 5.9/10.8 | strong yellowish green | 0.9G 5.9/10.5  | strong yellowish green | (+0.0, +0.2) |
 
-#### Color 35: very deep yellowish green
+#### Color 29: very deep yellowish green
 
 **Hex:** #003118
 
@@ -352,7 +290,7 @@
 | D65        | 0.9G 1.7/4.7 | very dark yellowish green | 0.9G 1.7/4.7   | very dark yellowish green |              |
 | F7         | 0.9G 1.7/4.7 | very dark yellowish green | 0.9G 1.7/4.7   | very dark yellowish green |              |
 
-#### Color 36: vivid green
+#### Color 30: vivid green
 
 **Hex:** #008856
 
@@ -362,7 +300,7 @@
 | D65        | 2.9G 4.9/8.9 | strong yellowish green | 2.9G 4.9/8.9   | strong yellowish green |              |
 | F7         | 2.9G 4.9/8.9 | strong yellowish green | 2.9G 4.9/8.9   | strong yellowish green |              |
 
-#### Color 37: strong green
+#### Color 31: strong green
 
 **Hex:** #007959
 
@@ -370,7 +308,7 @@
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
 | C          | 6.1G 4.4/7.0 | moderate green  | 6.1G 4.4/6.7   | moderate green    | (0.0, 0.0)   |
 
-#### Color 38: deep green
+#### Color 32: deep green
 
 **Hex:** #00543D
 
@@ -380,37 +318,27 @@
 | D65        | 4.8G 3.1/6.1 | dark green      | 4.8G 3.1/6.1   | dark green        | (-0.0, +0.9) |
 | F7         | 4.8G 3.1/6.1 | dark green      | 4.8G 3.1/6.1   | dark green        | (-0.0, +0.9) |
 
-#### Color 39: whiteish white
+#### Color 33: very dark green
 
-**Hex:** #DFEDE8
+**Hex:** #1C352D
 
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 1.2BG 9.2/0.8 | greenish white  | N 5.0/         | (Unknown)         |              |
-| D65        | 2.7G 9.2/1.5  | very pale green | 2.7G 9.2/2.0   | very pale green   |              |
-| F7         | 2.6G 9.2/1.5  | very pale green | 2.5G 9.2/2.0   | very pale green   |              |
+| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
+| C          | 7.9G 2.0/2.8 | dark green      | 7.9G 2.0/2.8   | dark green        | (0.0, 0.0)   |
+| D65        | 5.6G 2.0/3.1 | dark green      | 5.6G 2.0/3.1   | dark green        | (0.0, 0.0)   |
+| F7         | 5.6G 2.0/3.1 | dark green      | 5.6G 2.0/3.1   | dark green        | (0.0, 0.0)   |
 
-#### Color 40: grayish gray
+#### Color 34: light greenish gray
 
 **Hex:** #B2BEB5
 
 | Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
 | C          | 2.8G 7.5/1.0 | greenish gray   | N 7.5/         | (Unknown)         |              |
-| D65        | 0.8G 7.5/1.7 | very pale green | N 7.5/         | (Unknown)         |              |
-| F7         | 0.8G 7.5/1.7 | very pale green | N 7.5/         | (Unknown)         |              |
+| D65        | 0.8G 7.5/1.7 | pale green      | N 7.5/         | (Unknown)         |              |
+| F7         | 0.8G 7.5/1.7 | pale green      | N 7.5/         | (Unknown)         |              |
 
-#### Color 41: grayish gray
-
-**Hex:** #7D8984
-
-| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 8.3G 5.5/1.0 | greenish gray   | N 5.5/         | (Unknown)         |              |
-| D65        | 2.6G 5.5/1.6 | grayish green   | N 5.5/         | (Unknown)         |              |
-| F7         | 2.5G 5.5/1.6 | grayish green   | N 5.5/         | (Unknown)         |              |
-
-#### Color 42: grayish gray
+#### Color 35: dark greenish gray
 
 **Hex:** #4E5755
 
@@ -420,17 +348,7 @@
 | D65        | 4.4G 3.6/1.3  | grayish green   | N 5.0/         | (Unknown)         |              |
 | F7         | 4.3G 3.6/1.3  | grayish green   | N 5.0/         | (Unknown)         |              |
 
-#### Color 43: blackish black
-
-**Hex:** #1E2321
-
-| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 7.1G 1.3/0.7 | greenish black  | N 5.0/         | (Unknown)         |              |
-| D65        | 1.9G 1.3/1.0 | blackish green  | N 1.3/         | (Unknown)         |              |
-| F7         | 1.8G 1.3/1.0 | blackish green  | N 1.3/         | (Unknown)         |              |
-
-#### Color 44: vivid bluish green
+#### Color 36: vivid bluish green
 
 **Hex:** #008882
 
@@ -440,7 +358,7 @@
 | D65        | 3.4BG 5.0/7.1 | strong bluish green   | 3.4BG 5.0/7.1  | strong bluish green   | (+0.0, +3.9) |
 | F7         | 3.4BG 5.0/7.1 | strong bluish green   | 3.3BG 5.0/7.1  | strong bluish green   | (+0.0, +3.9) |
 
-#### Color 45: strong bluish green
+#### Color 37: strong bluish green
 
 **Hex:** #007A74
 
@@ -450,7 +368,7 @@
 | D65        | 3.0BG 4.5/6.4 | moderate bluish green | 3.0BG 4.5/6.4  | moderate bluish green | (+0.0, +0.6) |
 | F7         | 2.9BG 4.5/6.4 | moderate bluish green | 2.9BG 4.5/6.4  | moderate bluish green | (+0.0, +0.6) |
 
-#### Color 46: deep bluish green
+#### Color 38: deep bluish green
 
 **Hex:** #00443F
 
@@ -460,7 +378,7 @@
 | D65        | 1.5BG 2.5/4.7 | dark bluish green | 1.5BG 2.5/4.7  | dark bluish green | (+0.0, +2.3) |
 | F7         | 1.5BG 2.5/4.7 | dark bluish green | 1.5BG 2.5/4.7  | dark bluish green | (+0.0, +2.3) |
 
-#### Color 47: vivid greenish blue
+#### Color 39: vivid greenish blue
 
 **Hex:** #0085A1
 
@@ -470,7 +388,7 @@
 | D65        | 3.0B 5.0/6.9 | moderate greenish blue | 3.1B 5.0/6.9   | moderate greenish blue | (+0.0, +4.1) |
 | F7         | 3.0B 5.0/6.9 | moderate greenish blue | 3.0B 5.0/6.9   | moderate greenish blue | (+0.0, +4.1) |
 
-#### Color 48: strong greenish blue
+#### Color 40: strong greenish blue
 
 **Hex:** #007791
 
@@ -480,7 +398,7 @@
 | D65        | 2.9B 4.5/6.3 | moderate greenish blue | 2.9B 4.5/6.2   | moderate greenish blue | (+0.0, +0.7) |
 | F7         | 2.9B 4.5/6.2 | moderate greenish blue | 2.9B 4.5/6.2   | moderate greenish blue | (+0.0, +0.8) |
 
-#### Color 49: deep greenish blue
+#### Color 41: deep greenish blue
 
 **Hex:** #2E8495
 
@@ -490,7 +408,7 @@
 | D65        | 0.4B 5.0/5.8 | moderate greenish blue | 0.4B 5.0/5.8   | moderate greenish blue |              |
 | F7         | 0.4B 5.0/5.8 | moderate greenish blue | 0.4B 5.0/5.7   | moderate greenish blue |              |
 
-#### Color 50: vivid blue
+#### Color 42: vivid blue
 
 **Hex:** #00A1C2
 
@@ -500,7 +418,7 @@
 | D65        | 3.4B 6.0/7.9 | brilliant greenish blue | 3.5B 6.0/7.9   | brilliant greenish blue |              |
 | F7         | 3.4B 6.0/7.9 | brilliant greenish blue | 3.5B 6.0/7.9   | brilliant greenish blue |              |
 
-#### Color 51: deep blue
+#### Color 43: deep blue
 
 **Hex:** #00416A
 
@@ -510,17 +428,17 @@
 | D65        | 1.3PB 2.6/5.9 | dark blue       | 1.3PB 2.6/5.9  | dark blue         | (+0.0, +1.1) |
 | F7         | 1.3PB 2.6/5.9 | dark blue       | 1.3PB 2.6/5.9  | dark blue         | (+0.0, +1.1) |
 
-#### Color 52: whiteish white
+#### Color 44: bluish white
 
 **Hex:** #E9E9ED
 
 | Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 9.3PB 9.2/0.8 | purplish white  | N 5.0/         | (Unknown)         |              |
+| C          | 9.3PB 9.2/0.8 | purplish white  | N 5.0/         | (Unknown)         | (0.0, 0.0)   |
 | D65        | 0.7G 9.2/0.6  | greenish white  | N 5.0/         | (Unknown)         |              |
 | F7         | 0.5G 9.2/0.6  | greenish white  | N 9.2/         | (Unknown)         |              |
 
-#### Color 53: grayish gray
+#### Color 45: light bluish gray
 
 **Hex:** #B4BCC0
 
@@ -530,17 +448,7 @@
 | D65        | 8.6G 7.5/1.0 | greenish gray   | N 7.5/         | (Unknown)         |              |
 | F7         | 8.4G 7.5/1.0 | greenish gray   | N 5.0/         | (Unknown)         |              |
 
-#### Color 54: grayish gray
-
-**Hex:** #81878B
-
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 9.5B 5.5/0.8  | bluish gray     | N 5.5/         | (Unknown)         |              |
-| D65        | 0.5BG 5.5/0.9 | greenish gray   | N 5.5/         | (Unknown)         |              |
-| F7         | 0.2BG 5.5/0.9 | greenish gray   | N 5.5/         | (Unknown)         |              |
-
-#### Color 55: grayish gray
+#### Color 46: dark bluish gray
 
 **Hex:** #51585E
 
@@ -550,17 +458,7 @@
 | D65        | 8.6BG 3.6/0.9 | greenish gray   | N 3.6/         | (Unknown)         |              |
 | F7         | 8.5BG 3.6/0.9 | greenish gray   | N 5.0/         | (Unknown)         |              |
 
-#### Color 56: blackish black
-
-**Hex:** #202428
-
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 9.8B 1.4/0.7  | bluish black    | N 5.0/         | (Unknown)         |              |
-| D65        | 9.9BG 1.4/0.7 | greenish black  | N 5.0/         | (Unknown)         |              |
-| F7         | 9.9BG 1.4/0.7 | greenish black  | N 5.0/         | (Unknown)         |              |
-
-#### Color 57: brilliant purplish blue
+#### Color 47: brilliant purplish blue
 
 **Hex:** #6C79B8
 
@@ -570,7 +468,7 @@
 | D65        | 6.8PB 5.1/7.7 | moderate blue       | 6.8PB 5.1/7.7  | moderate blue       |              |
 | F7         | 6.9PB 5.1/7.7 | moderate blue       | 6.8PB 5.1/7.7  | moderate blue       |              |
 
-#### Color 58: strong purple
+#### Color 48: strong purple
 
 **Hex:** #875692
 
@@ -580,7 +478,7 @@
 | D65        | 6.9P 4.3/7.8 | moderate purple | 6.9P 4.3/7.8   | moderate purple   | (+0.0, +1.2) |
 | F7         | 6.9P 4.3/7.8 | moderate purple | 6.9P 4.3/7.8   | moderate purple   | (+0.0, +1.2) |
 
-#### Color 59: pale purple
+#### Color 49: pale purple
 
 **Hex:** #AA98A9
 
@@ -588,17 +486,7 @@
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
 | C          | 7.8P 6.4/3.1 | (Unknown)       | 7.8P 6.4/3.0   | pale purple       | (+0.0, -0.1) |
 
-#### Color 60: whiteish white
-
-**Hex:** #E8E3E5
-
-| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 4.2RP 9.0/0.8 | purplish white  | N 9.1/         | (Unknown)         |              |
-| D65        | 5.6GY 9.0/0.6 | greenish white  | N 9.0/         | (Unknown)         |              |
-| F7         | 5.5GY 9.0/0.6 | greenish white  | N 9.0/         | (Unknown)         |              |
-
-#### Color 61: grayish gray
+#### Color 50: light purplish gray
 
 **Hex:** #BFB9BD
 
@@ -608,17 +496,7 @@
 | D65        | 2.0GY 7.5/0.4 | light gray      | N 7.5/         | (Unknown)         |              |
 | F7         | 1.9GY 7.5/0.4 | light gray      | N 7.5/         | (Unknown)         |              |
 
-#### Color 62: grayish gray
-
-**Hex:** #8B8589
-
-| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 8.9P 5.5/0.8 | purplish gray   | N 5.5/         | (Unknown)         |              |
-| D65        | 5.1Y 5.5/0.3 | medium gray     | N 5.5/         | (Unknown)         |              |
-| F7         | 5.1Y 5.5/0.3 | medium gray     | N 5.5/         | (Unknown)         |              |
-
-#### Color 63: grayish gray
+#### Color 51: dark purplish gray
 
 **Hex:** #5D555B
 
@@ -628,27 +506,27 @@
 | D65        | 9.2RP 3.6/0.4 | dark grey       | N 3.6/         | (Unknown)         |              |
 | F7         | 9.5RP 3.6/0.4 | dark grey       | N 5.0/         | (Unknown)         |              |
 
-#### Color 64: blackish black
+#### Color 52: purplish black
 
 **Hex:** #242124
 
 | Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 9.4P 1.3/0.4 | black           | N 1.3/         | (Unknown)         |              |
+| C          | 9.4P 1.3/0.4 | black           | N 1.3/         | (Unknown)         | (+0.0, +0.1) |
 | D65        | 0.1R 1.3/0.1 | black           | N 1.3/         | (Unknown)         |              |
 | F7         | 0.5R 1.3/0.1 | black           | N 1.3/         | (Unknown)         |              |
 
-#### Color 65: very deep reddish purple
+#### Color 53: very deep reddish purple
 
 **Hex:** #54194E
 
-| Illuminant | Rust Munsell  | Rust descriptor     | Python Munsell | Python descriptor        | Dist polygon |
-| ---------- | ------------- | ------------------- | -------------- | ------------------------ | ------------ |
-| C          | 10.0P 2.0/8.2 | deep reddish purple | 0.4RP 2.0/8.1  | very deep reddish purple | (0.0, 0.0)   |
-| D65        | 9.4P 2.0/7.4  | deep reddish purple | 1.0RP 2.0/7.8  | very deep reddish purple |              |
-| F7         | 9.4P 2.0/7.4  | deep reddish purple | 1.0RP 2.0/7.8  | very deep reddish purple |              |
+| Illuminant | Rust Munsell  | Rust descriptor     | Python Munsell | Python descriptor   | Dist polygon |
+| ---------- | ------------- | ------------------- | -------------- | ------------------- | ------------ |
+| C          | 10.0P 2.0/8.2 | deep reddish purple | 0.4RP 2.0/8.1  | deep reddish purple | (0.0, 0.0)   |
+| D65        | 9.4P 2.0/7.4  | deep reddish purple | 1.0RP 2.0/7.8  | deep reddish purple |              |
+| F7         | 9.4P 2.0/7.4  | deep reddish purple | 1.0RP 2.0/7.8  | deep reddish purple |              |
 
-#### Color 66: brilliant purplish pink
+#### Color 54: brilliant purplish pink
 
 **Hex:** #FFC8D6
 
@@ -658,7 +536,7 @@
 | D65        | 0.8R 8.5/4.4  | light pink          | 0.8R 8.5/4.4   | light pink          |              |
 | F7         | 0.9R 8.5/4.4  | light pink          | 0.9R 8.5/4.4   | light pink          |              |
 
-#### Color 67: vivid purplish red
+#### Color 55: vivid purplish red
 
 **Hex:** #CE4676
 
@@ -668,7 +546,7 @@
 | D65        | 8.8RP 4.9/12.3 | strong purplish pink | 8.7RP 4.9/12.5 | strong purplish pink |              |
 | F7         | 8.8RP 4.9/12.3 | strong purplish pink | 8.7RP 4.9/12.5 | strong purplish pink |              |
 
-#### Color 68: strong purplish red
+#### Color 56: strong purplish red
 
 **Hex:** #B3446C
 
@@ -678,7 +556,7 @@
 | D65        | 8.5RP 4.4/10.3 | moderate purplish red | 8.4RP 4.4/10.3 | moderate purplish red |              |
 | F7         | 8.5RP 4.4/10.3 | moderate purplish red | 8.5RP 4.4/10.3 | moderate purplish red |              |
 
-#### Color 69: pale light grayish purplish red
+#### Color 57: light grayish purplish red
 
 **Hex:** #AF868E
 
@@ -688,17 +566,17 @@
 | D65        | 3.1R 5.9/3.4  | pale red          | 3.1R 5.9/3.4   | pale red          |              |
 | F7         | 3.2R 5.9/3.4  | pale red          | 3.2R 5.9/3.4   | pale red          |              |
 
-#### Color 70: dark gray
+#### Color 58: dark gray
 
 **Hex:** #555555
 
 | Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
 | C          | 0.0N 3.6/0.0  | (Unknown)       | N3.6           | (Unknown)         |              |
-| D65        | 7.2GY 3.6/0.5 | greenish gray   | N 3.6/         | (Unknown)         |              |
-| F7         | 7.1GY 3.6/0.5 | greenish gray   | N 3.6/         | (Unknown)         |              |
+| D65        | 7.2GY 3.6/0.5 | dark grey       | N 3.6/         | (Unknown)         |              |
+| F7         | 7.1GY 3.6/0.5 | dark grey       | N 3.6/         | (Unknown)         |              |
 
-#### Color 71: black
+#### Color 59: black
 
 **Hex:** #222222
 
@@ -706,7 +584,7 @@
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
 | C          | 0.0N 1.3/0.0 | (Unknown)       | N1.3           | (Unknown)         |              |
 
-#### Color 72: strong pink
+#### Color 60: strong pink
 
 **Hex:** #EA9399
 
@@ -715,7 +593,7 @@
 | D65        | 4.2R 6.9/7.4 | strong yellowish pink | 4.2R 6.9/7.4   | strong yellowish pink | (0.0, 0.0)   |
 | F7         | 4.3R 6.9/7.4 | strong yellowish pink | 4.3R 6.9/7.4   | strong yellowish pink | (0.0, 0.0)   |
 
-#### Color 73: light pink
+#### Color 61: light pink
 
 **Hex:** #F9CCCA
 
@@ -724,7 +602,7 @@
 | D65        | 0.3YR 8.5/3.3 | light yellowish pink | 0.3YR 8.5/3.2  | light yellowish pink |              |
 | F7         | 0.3YR 8.5/3.3 | light yellowish pink | 0.3YR 8.5/3.3  | light yellowish pink |              |
 
-#### Color 74: moderate pink
+#### Color 62: moderate pink
 
 **Hex:** #DEA5A4
 
@@ -733,7 +611,7 @@
 | D65        | 7.7R 7.2/4.5 | moderate yellowish pink | 7.7R 7.2/4.5   | moderate yellowish pink |              |
 | F7         | 7.8R 7.2/4.5 | moderate yellowish pink | 7.8R 7.2/4.5   | moderate yellowish pink |              |
 
-#### Color 75: dark pink
+#### Color 63: dark pink
 
 **Hex:** #C08081
 
@@ -742,7 +620,7 @@
 | D65        | 6.2R 5.9/5.4 | dark yellowish pink | 6.2R 5.9/5.4   | dark yellowish pink | (0.0, 0.0)   |
 | F7         | 6.2R 5.9/5.4 | dark yellowish pink | 6.3R 5.9/5.4   | dark yellowish pink | (0.0, 0.0)   |
 
-#### Color 76: pale pink
+#### Color 64: pale pink
 
 **Hex:** #EAD8D7
 
@@ -751,7 +629,7 @@
 | D65        | 8.8YR 8.7/1.1 | yellowish white | N 8.7/         | (Unknown)         |              |
 | F7         | 8.9YR 8.7/1.2 | yellowish white | N 8.7/         | (Unknown)         |              |
 
-#### Color 77: grayish pink
+#### Color 65: grayish pink
 
 **Hex:** #C4AEAD
 
@@ -760,7 +638,25 @@
 | D65        | 5.4YR 7.2/1.5 | brownish pink   | N 7.2/         | (Unknown)         |              |
 | F7         | 5.4YR 7.2/1.5 | brownish pink   | N 7.2/         | (Unknown)         |              |
 
-#### Color 78: dark grayish red
+#### Color 66: pinkish white
+
+**Hex:** #EAE3E1
+
+| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 2.3GY 9.1/0.8 | yellowish white | N 5.0/         | (Unknown)         |              |
+| F7         | 2.2GY 9.1/0.8 | yellowish white | N 9.1/         | (Unknown)         |              |
+
+#### Color 67: pinkish gray
+
+**Hex:** #C1B6B3
+
+| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 4.2Y 7.4/0.9 | yellowish gray  | N 7.4/         | (Unknown)         |              |
+| F7         | 4.3Y 7.4/0.9 | yellowish gray  | N 7.4/         | (Unknown)         |              |
+
+#### Color 68: dark grayish red
 
 **Hex:** #543D3F
 
@@ -769,7 +665,7 @@
 | D65        | 8.2R 2.8/1.6 | grayish reddish brown | N 2.8/         | (Unknown)         |              |
 | F7         | 8.2R 2.8/1.6 | grayish reddish brown | N 2.8/         | (Unknown)         |              |
 
-#### Color 79: blackish red
+#### Color 69: blackish red
 
 **Hex:** #2E1D21
 
@@ -778,7 +674,25 @@
 | D65        | 7.6R 1.3/1.2 | dark reddish brown | N 1.3/         | (Unknown)         |              |
 | F7         | 7.7R 1.3/1.2 | dark reddish brown | N 1.3/         | (Unknown)         |              |
 
-#### Color 80: dark yellowish pink
+#### Color 70: reddish gray
+
+**Hex:** #8F817F
+
+| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 9.3YR 5.4/1.0 | brownish gray   | N 5.0/         | (Unknown)         |              |
+| F7         | 9.3YR 5.4/1.0 | brownish gray   | N 5.4/         | (Unknown)         |              |
+
+#### Color 71: reddish black
+
+**Hex:** #282022
+
+| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 1.5YR 1.3/0.5 | brownish black  | N 5.0/         | (Unknown)         | (0.0, 0.0)   |
+| F7         | 1.6YR 1.3/0.5 | brownish black  | N 1.3/         | (Unknown)         | (0.0, 0.0)   |
+
+#### Color 72: dark yellowish pink
 
 **Hex:** #C48379
 
@@ -787,7 +701,7 @@
 | D65        | 9.5R 6.0/5.6 | grayish reddish orange | 9.5R 6.0/5.5   | grayish reddish orange |              |
 | F7         | 9.5R 6.0/5.6 | grayish reddish orange | 9.6R 6.0/5.6   | grayish reddish orange |              |
 
-#### Color 81: pale yellowish pink
+#### Color 73: pale yellowish pink
 
 **Hex:** #ECD5C5
 
@@ -796,7 +710,7 @@
 | D65        | 0.9Y 8.6/2.1 | pale orange yellow | 1.0Y 8.6/2.1   | pale orange yellow |              |
 | F7         | 1.0Y 8.6/2.1 | pale orange yellow | 1.0Y 8.6/2.1   | pale orange yellow |              |
 
-#### Color 82: grayish yellowish pink
+#### Color 74: grayish yellowish pink
 
 **Hex:** #C7ADA3
 
@@ -805,7 +719,7 @@
 | D65        | 8.0YR 7.2/2.1 | brownish pink   | 8.0YR 7.2/2.1  | brownish pink     |              |
 | F7         | 8.0YR 7.2/2.1 | brownish pink   | 8.0YR 7.2/2.1  | brownish pink     |              |
 
-#### Color 83: brownish pink
+#### Color 75: brownish pink
 
 **Hex:** #C2AC99
 
@@ -814,7 +728,7 @@
 | D65        | 1.6Y 7.1/2.4 | grayish yellow  | 1.7Y 7.1/2.4   | grayish yellow    |              |
 | F7         | 1.7Y 7.1/2.4 | grayish yellow  | 1.7Y 7.1/2.4   | grayish yellow    |              |
 
-#### Color 84: light reddish brown
+#### Color 76: light reddish brown
 
 **Hex:** #A87C6D
 
@@ -823,16 +737,7 @@
 | D65        | 3.8YR 5.5/3.8 | light brown     | 3.8YR 5.5/3.8  | light brown       | (0.0, 0.0)   |
 | F7         | 3.8YR 5.5/3.9 | light brown     | 3.9YR 5.5/3.8  | light brown       | (0.0, 0.0)   |
 
-#### Color 85: dark reddish brown
-
-**Hex:** #3E1D1E
-
-| Illuminant | Rust Munsell  | Rust descriptor            | Python Munsell | Python descriptor          | Dist polygon |
-| ---------- | ------------- | -------------------------- | -------------- | -------------------------- | ------------ |
-| D65        | 0.8YR 1.5/2.8 | dark grayish reddish brown | 0.8YR 1.5/2.8  | dark grayish reddish brown |              |
-| F7         | 0.8YR 1.5/2.8 | dark grayish reddish brown | 0.8YR 1.5/2.8  | dark grayish reddish brown |              |
-
-#### Color 86: grayish reddish brown
+#### Color 77: grayish reddish brown
 
 **Hex:** #674C47
 
@@ -841,7 +746,7 @@
 | D65        | 3.2YR 3.4/2.1 | grayish brown   | 3.2YR 3.4/2.1  | grayish brown     | (0.0, 0.0)   |
 | F7         | 3.2YR 3.4/2.1 | grayish brown   | 3.2YR 3.4/2.1  | grayish brown     | (0.0, 0.0)   |
 
-#### Color 87: dark grayish reddish brown
+#### Color 78: dark grayish reddish brown
 
 **Hex:** #43302E
 
@@ -850,7 +755,7 @@
 | D65        | 3.4YR 2.2/1.6 | dark grayish brown | N 2.2/         | (Unknown)         | (0.0, 0.0)   |
 | F7         | 3.4YR 2.2/1.6 | dark grayish brown | N 2.2/         | (Unknown)         | (0.0, 0.0)   |
 
-#### Color 88: light brown
+#### Color 79: light brown
 
 **Hex:** #A67B5B
 
@@ -859,7 +764,7 @@
 | D65        | 8.1YR 5.4/4.6 | moderate yellowish brown | 8.1YR 5.4/4.6  | moderate yellowish brown | (0.0, 0.0)   |
 | F7         | 8.1YR 5.4/4.6 | moderate yellowish brown | 8.1YR 5.4/4.6  | moderate yellowish brown | (0.0, 0.0)   |
 
-#### Color 89: moderate brown
+#### Color 80: moderate brown
 
 **Hex:** #6F4E37
 
@@ -868,16 +773,16 @@
 | D65        | 8.1YR 3.6/3.6 | moderate yellowish brown | 8.1YR 3.6/3.6  | moderate yellowish brown | (0.0, 0.0)   |
 | F7         | 8.1YR 3.6/3.6 | moderate yellowish brown | 8.1YR 3.6/3.6  | moderate yellowish brown | (0.0, 0.0)   |
 
-#### Color 90: grayish brown
+#### Color 81: grayish brown
 
 **Hex:** #635147
 
-| Illuminant | Rust Munsell  | Rust descriptor         | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | ----------------------- | -------------- | ----------------- | ------------ |
-| D65        | 9.5YR 3.5/1.7 | grayish yellowish brown | N 3.5/         | (Unknown)         |              |
-| F7         | 9.5YR 3.5/1.7 | grayish yellowish brown | N 3.5/         | (Unknown)         |              |
+| Illuminant | Rust Munsell  | Rust descriptor              | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | ---------------------------- | -------------- | ----------------- | ------------ |
+| D65        | 9.5YR 3.5/1.7 | dark grayish yellowish brown | N 3.5/         | (Unknown)         |              |
+| F7         | 9.5YR 3.5/1.7 | dark grayish yellowish brown | N 3.5/         | (Unknown)         |              |
 
-#### Color 91: dark grayish brown
+#### Color 82: dark grayish brown
 
 **Hex:** #3E322C
 
@@ -886,7 +791,7 @@
 | D65        | 0.0Y 2.2/1.3 | dark grayish yellowish brown | N 2.2/         | (Unknown)         |              |
 | F7         | 0.1Y 2.2/1.3 | dark grayish yellowish brown | N 2.2/         | (Unknown)         |              |
 
-#### Color 92: brilliant orange yellow
+#### Color 83: brilliant orange yellow
 
 **Hex:** #FFC14F
 
@@ -895,7 +800,7 @@
 | D65        | 1.5Y 8.1/10.1 | brilliant yellow | 1.5Y 8.1/10.1  | brilliant yellow  | (0.0, 0.0)   |
 | F7         | 1.5Y 8.1/10.1 | brilliant yellow | 1.5Y 8.1/10.1  | brilliant yellow  | (0.0, 0.0)   |
 
-#### Color 93: light orange yellow
+#### Color 84: light orange yellow
 
 **Hex:** #FBC97F
 
@@ -904,7 +809,7 @@
 | D65        | 1.3Y 8.3/7.0 | light yellow    | 1.4Y 8.3/7.0   | light yellow      | (0.0, 0.0)   |
 | F7         | 1.3Y 8.3/7.0 | light yellow    | 1.4Y 8.3/7.0   | light yellow      | (0.0, 0.0)   |
 
-#### Color 94: pale orange yellow
+#### Color 85: pale orange yellow
 
 **Hex:** #FAD6A5
 
@@ -913,7 +818,7 @@
 | D65        | 1.9Y 8.7/4.7 | pale yellow     | 1.9Y 8.7/4.7   | pale yellow       | (0.0, 0.0)   |
 | F7         | 1.9Y 8.7/4.7 | pale yellow     | 1.9Y 8.7/4.7   | pale yellow       | (0.0, 0.0)   |
 
-#### Color 95: moderate yellowish brown
+#### Color 86: moderate yellowish brown
 
 **Hex:** #826644
 
@@ -922,7 +827,7 @@
 | D65        | 1.6Y 4.4/3.8 | moderate olive brown | 1.6Y 4.4/3.8   | moderate olive brown | (0.0, 0.0)   |
 | F7         | 1.6Y 4.4/3.8 | moderate olive brown | 1.6Y 4.4/3.8   | moderate olive brown | (0.0, 0.0)   |
 
-#### Color 96: grayish yellowish brown
+#### Color 87: grayish yellowish brown
 
 **Hex:** #7E6D5A
 
@@ -931,7 +836,7 @@
 | D65        | 3.1Y 4.6/2.2 | light olive brown | 3.1Y 4.6/2.2   | light olive brown |              |
 | F7         | 3.1Y 4.6/2.2 | light olive brown | 3.1Y 4.6/2.2   | light olive brown |              |
 
-#### Color 97: dark grayish yellowish brown
+#### Color 88: dark grayish yellowish brown
 
 **Hex:** #483C32
 
@@ -940,7 +845,7 @@
 | D65        | 2.1Y 2.6/1.6 | moderate olive brown | N 2.6/         | (Unknown)         |              |
 | F7         | 2.2Y 2.6/1.6 | moderate olive brown | N 5.0/         | (Unknown)         |              |
 
-#### Color 98: pale yellow
+#### Color 89: pale yellow
 
 **Hex:** #F3E5AB
 
@@ -949,7 +854,7 @@
 | D65        | 8.8Y 9.1/4.4 | pale greenish yellow | 8.8Y 9.1/4.7   | pale greenish yellow | (+0.0, -1.4) |
 | F7         | 8.8Y 9.1/4.4 | pale greenish yellow | 8.8Y 9.1/4.7   | pale greenish yellow | (+0.0, -1.4) |
 
-#### Color 99: grayish yellow
+#### Color 90: grayish yellow
 
 **Hex:** #C2B280
 
@@ -958,7 +863,25 @@
 | D65        | 7.3Y 7.2/4.2 | grayish greenish yellow | 7.3Y 7.2/4.2   | grayish greenish yellow | (0.0, 0.0)   |
 | F7         | 7.3Y 7.2/4.2 | grayish greenish yellow | 7.3Y 7.2/4.2   | grayish greenish yellow | (0.0, 0.0)   |
 
-#### Color 100: moderate olive brown
+#### Color 91: yellowish white
+
+**Hex:** #F0EAD6
+
+| Illuminant | Rust Munsell  | Rust descriptor   | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | ----------------- | -------------- | ----------------- | ------------ |
+| D65        | 2.6GY 9.3/1.8 | pale yellow green | 2.4GY 9.3/2.4  | pale yellow green | (+0.0, -0.6) |
+| F7         | 2.5GY 9.3/1.8 | pale yellow green | 2.3GY 9.3/2.4  | pale yellow green | (+0.0, -0.6) |
+
+#### Color 92: yellowish gray
+
+**Hex:** #BFB8A5
+
+| Illuminant | Rust Munsell  | Rust descriptor      | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | -------------------- | -------------- | ----------------- | ------------ |
+| D65        | 0.5GY 7.4/1.9 | grayish yellow green | N 7.4/         | (Unknown)         |              |
+| F7         | 0.5GY 7.4/1.9 | grayish yellow green | N 7.4/         | (Unknown)         |              |
+
+#### Color 93: moderate olive brown
 
 **Hex:** #6C541E
 
@@ -967,7 +890,7 @@
 | D65        | 4.2Y 3.7/5.2 | moderate olive  | 4.2Y 3.7/5.2   | moderate olive    | (0.0, 0.0)   |
 | F7         | 4.2Y 3.7/5.2 | moderate olive  | 4.2Y 3.7/5.2   | moderate olive    | (0.0, 0.0)   |
 
-#### Color 101: dark olive brown
+#### Color 94: dark olive brown
 
 **Hex:** #3B3121
 
@@ -976,7 +899,7 @@
 | D65        | 4.9Y 2.1/2.2 | dark grayish olive | 4.9Y 2.1/2.2   | dark grayish olive | (0.0, 0.0)   |
 | F7         | 4.9Y 2.1/2.2 | dark grayish olive | 4.9Y 2.1/2.2   | dark grayish olive | (0.0, 0.0)   |
 
-#### Color 102: pale greenish yellow
+#### Color 95: pale greenish yellow
 
 **Hex:** #EBE8A4
 
@@ -985,7 +908,7 @@
 | D65        | 2.2GY 9.1/5.0 | light yellow green | 2.2GY 9.1/5.3  | light yellow green | (0.0, 0.0)   |
 | F7         | 2.2GY 9.1/5.0 | light yellow green | 2.1GY 9.1/5.3  | light yellow green | (0.0, 0.0)   |
 
-#### Color 103: pale yellow green
+#### Color 96: pale yellow green
 
 **Hex:** #DADFB7
 
@@ -994,16 +917,7 @@
 | D65        | 5.4GY 8.7/3.3 | light yellow green | 5.4GY 8.7/3.3  | light yellow green | (+0.0, -0.3) |
 | F7         | 5.4GY 8.7/3.3 | light yellow green | 5.4GY 8.7/3.3  | light yellow green | (+0.0, -0.3) |
 
-#### Color 104: grayish yellow green
-
-**Hex:** #8F9779
-
-| Illuminant | Rust Munsell  | Rust descriptor       | Python Munsell | Python descriptor    | Dist polygon |
-| ---------- | ------------- | --------------------- | -------------- | -------------------- | ------------ |
-| D65        | 5.8GY 6.0/3.0 | moderate yellow green | 5.7GY 6.0/3.0  | grayish yellow green | (0.0, 0.0)   |
-| F7         | 5.8GY 6.0/3.0 | moderate yellow green | 5.7GY 6.0/3.0  | grayish yellow green | (0.0, 0.0)   |
-
-#### Color 105: very pale green
+#### Color 97: very pale green
 
 **Hex:** #C7E6D7
 
@@ -1012,7 +926,25 @@
 | D65        | 3.7G 8.9/2.9 | very light green | 3.7G 8.9/2.8   | very light green  | (+0.0, -0.4) |
 | F7         | 3.6G 8.9/2.9 | very light green | 3.6G 8.9/2.9   | very light green  | (+0.0, -0.4) |
 
-#### Color 106: very light greenish blue
+#### Color 98: greenish white
+
+**Hex:** #DFEDE8
+
+| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 2.7G 9.2/1.5 | very pale green | 2.7G 9.2/2.0   | very pale green   | (+0.0, -0.3) |
+| F7         | 2.6G 9.2/1.5 | very pale green | 2.5G 9.2/2.0   | very pale green   | (+0.0, -0.3) |
+
+#### Color 99: greenish gray
+
+**Hex:** #7D8984
+
+| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 2.6G 5.5/1.6 | pale green      | N 5.5/         | (Unknown)         | (+0.0, -0.4) |
+| F7         | 2.5G 5.5/1.6 | pale green      | N 5.5/         | (Unknown)         | (+0.0, -0.4) |
+
+#### Color 100: very light greenish blue
 
 **Hex:** #9CD1DC
 
@@ -1021,7 +953,7 @@
 | D65        | 9.2BG 8.0/4.0 | very light bluish green | 9.2BG 8.0/4.0  | very light bluish green |              |
 | F7         | 9.2BG 8.0/4.0 | very light bluish green | 9.2BG 8.0/4.0  | very light bluish green |              |
 
-#### Color 107: brilliant blue
+#### Color 101: brilliant blue
 
 **Hex:** #4997D0
 
@@ -1030,7 +962,7 @@
 | D65        | 0.6PB 5.9/8.4 | light blue      | 0.6PB 5.9/8.4  | light blue        |              |
 | F7         | 0.6PB 5.9/8.4 | light blue      | 0.5PB 5.9/8.4  | light blue        |              |
 
-#### Color 108: strong blue
+#### Color 102: strong blue
 
 **Hex:** #0067A5
 
@@ -1039,7 +971,25 @@
 | D65        | 2.0PB 4.1/9.0 | moderate blue   | 2.0PB 4.1/9.0  | moderate blue     | (0.0, 0.0)   |
 | F7         | 2.0PB 4.1/9.0 | moderate blue   | 2.0PB 4.1/9.0  | moderate blue     | (0.0, 0.0)   |
 
-#### Color 109: vivid purplish blue
+#### Color 103: bluish gray
+
+**Hex:** #81878B
+
+| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 0.5BG 5.5/0.9 | greenish gray   | N 5.5/         | (Unknown)         |              |
+| F7         | 0.2BG 5.5/0.9 | greenish gray   | N 5.5/         | (Unknown)         |              |
+
+#### Color 104: bluish black
+
+**Hex:** #202428
+
+| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 9.9BG 1.4/0.7 | greenish black  | N 5.0/         | (Unknown)         |              |
+| F7         | 9.9BG 1.4/0.7 | greenish black  | N 5.0/         | (Unknown)         |              |
+
+#### Color 105: vivid purplish blue
 
 **Hex:** #30267A
 
@@ -1048,7 +998,7 @@
 | D65        | 8.3PB 2.1/10.8 | deep purplish blue | 8.3PB 2.1/10.9 | deep purplish blue | (+0.0, +0.2) |
 | F7         | 8.3PB 2.1/10.8 | deep purplish blue | 8.3PB 2.1/10.9 | deep purplish blue | (+0.0, +0.2) |
 
-#### Color 110: deep purplish blue
+#### Color 106: deep purplish blue
 
 **Hex:** #272458
 
@@ -1057,7 +1007,7 @@
 | D65        | 8.0PB 1.7/6.6 | dark purplish blue | 8.0PB 1.7/6.6  | dark purplish blue | (+0.0, +0.4) |
 | F7         | 8.0PB 1.7/6.6 | dark purplish blue | 8.0PB 1.7/6.6  | dark purplish blue | (+0.0, +0.4) |
 
-#### Color 111: very light purplish blue
+#### Color 107: very light purplish blue
 
 **Hex:** #B3BCE2
 
@@ -1066,7 +1016,7 @@
 | D65        | 5.6PB 7.6/4.2 | very pale purplish blue | 5.5PB 7.6/4.2  | very pale purplish blue |              |
 | F7         | 5.6PB 7.6/4.1 | very pale purplish blue | 5.5PB 7.6/4.1  | very pale purplish blue |              |
 
-#### Color 112: very pale purplish blue
+#### Color 108: very pale purplish blue
 
 **Hex:** #C0C8E1
 
@@ -1075,7 +1025,7 @@
 | D65        | 2.4PB 8.0/2.6 | very pale blue  | 2.4PB 8.0/2.6  | very pale blue    |              |
 | F7         | 2.4PB 8.0/2.6 | very pale blue  | 2.4PB 8.0/2.6  | very pale blue    |              |
 
-#### Color 113: pale purplish blue
+#### Color 109: pale purplish blue
 
 **Hex:** #8C92AC
 
@@ -1084,7 +1034,7 @@
 | D65        | 4.7PB 6.0/2.9 | pale blue       | 4.7PB 6.0/2.9  | pale blue         |              |
 | F7         | 4.7PB 6.0/2.9 | pale blue       | 4.7PB 6.0/2.9  | pale blue         |              |
 
-#### Color 114: grayish purplish blue
+#### Color 110: grayish purplish blue
 
 **Hex:** #4C516D
 
@@ -1093,7 +1043,7 @@
 | D65        | 6.0PB 3.5/3.0 | grayish blue    | 6.0PB 3.5/3.0  | grayish blue      | (0.0, 0.0)   |
 | F7         | 6.0PB 3.5/3.0 | grayish blue    | 6.0PB 3.5/3.0  | grayish blue      | (0.0, 0.0)   |
 
-#### Color 115: vivid violet
+#### Color 111: vivid violet
 
 **Hex:** #9065CA
 
@@ -1102,7 +1052,7 @@
 | D65        | 2.2P 5.0/12.6 | brilliant violet | 2.2P 5.0/12.6  | brilliant violet  | (+0.0, +0.4) |
 | F7         | 2.2P 5.0/12.6 | brilliant violet | 2.2P 5.0/12.6  | brilliant violet  | (+0.0, +0.4) |
 
-#### Color 116: brilliant violet
+#### Color 112: brilliant violet
 
 **Hex:** #7E73B8
 
@@ -1111,7 +1061,7 @@
 | D65        | 9.8PB 5.1/8.2 | light violet    | 9.8PB 5.1/8.2  | light violet      |              |
 | F7         | 9.8PB 5.1/8.2 | light violet    | 9.8PB 5.1/8.2  | light violet      |              |
 
-#### Color 117: strong violet
+#### Color 113: strong violet
 
 **Hex:** #604E97
 
@@ -1120,7 +1070,16 @@
 | D65        | 0.2P 3.7/8.8 | moderate violet | 0.2P 3.7/8.8   | moderate violet   |              |
 | F7         | 0.2P 3.7/8.8 | moderate violet | 0.2P 3.7/8.8   | moderate violet   |              |
 
-#### Color 118: very light violet
+#### Color 114: deep violet
+
+**Hex:** #32174D
+
+| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 1.7P 1.4/7.0 | dark violet     | 1.7P 1.4/7.0   | dark violet       | (0.0, 0.0)   |
+| F7         | 1.7P 1.4/7.0 | dark violet     | 1.7P 1.4/7.0   | dark violet       | (0.0, 0.0)   |
+
+#### Color 115: very light violet
 
 **Hex:** #DCD0FF
 
@@ -1129,7 +1088,7 @@
 | D65        | 1.1P 8.5/4.6 | very pale violet | 1.1P 8.5/4.6   | very pale violet  | (+0.0, +0.4) |
 | F7         | 1.2P 8.5/4.6 | very pale violet | 1.1P 8.5/4.6   | very pale violet  | (+0.0, +0.4) |
 
-#### Color 119: very pale violet
+#### Color 116: very pale violet
 
 **Hex:** #C4C3DD
 
@@ -1138,7 +1097,7 @@
 | D65        | 6.6PB 7.9/2.5 | very pale blue  | 6.6PB 7.9/2.5  | very pale blue    |              |
 | F7         | 6.6PB 7.9/2.5 | very pale blue  | 6.6PB 7.9/2.5  | very pale blue    |              |
 
-#### Color 120: pale violet
+#### Color 117: pale violet
 
 **Hex:** #9690AB
 
@@ -1147,7 +1106,7 @@
 | D65        | 9.6PB 6.0/2.7 | pale purple     | 9.6PB 6.0/2.7  | pale purple       |              |
 | F7         | 9.6PB 6.0/2.7 | pale purple     | 9.6PB 6.0/2.7  | pale purple       |              |
 
-#### Color 121: grayish violet
+#### Color 118: grayish violet
 
 **Hex:** #554C69
 
@@ -1156,7 +1115,7 @@
 | D65        | 0.8P 3.4/2.8 | dark grayish purple | 0.8P 3.4/2.8   | dark grayish purple |              |
 | F7         | 0.8P 3.4/2.8 | dark grayish purple | 0.8P 3.4/2.8   | dark grayish purple |              |
 
-#### Color 122: vivid purple
+#### Color 119: vivid purple
 
 **Hex:** #9A4EAE
 
@@ -1165,7 +1124,7 @@
 | D65        | 6.3P 4.5/12.5 | strong purple   | 6.4P 4.5/12.6  | strong purple     | (+0.0, +0.5) |
 | F7         | 6.3P 4.5/12.5 | strong purple   | 6.4P 4.5/12.6  | strong purple     | (+0.0, +0.5) |
 
-#### Color 123: very deep purple
+#### Color 120: very deep purple
 
 **Hex:** #401A4C
 
@@ -1174,7 +1133,7 @@
 | D65        | 5.7P 1.7/6.7 | very dark purple | 5.7P 1.7/6.7   | very dark purple  | (+0.0, +0.3) |
 | F7         | 5.8P 1.7/6.7 | very dark purple | 5.8P 1.7/6.7   | very dark purple  | (+0.0, +0.3) |
 
-#### Color 124: very light purple
+#### Color 121: very light purple
 
 **Hex:** #D5BADB
 
@@ -1183,7 +1142,7 @@
 | D65        | 7.1P 7.8/3.8 | very pale purple | 7.1P 7.8/3.8   | very pale purple  | (+0.0, +1.2) |
 | F7         | 7.1P 7.8/3.8 | very pale purple | 7.1P 7.8/3.8   | very pale purple  | (+0.0, +1.2) |
 
-#### Color 125: dark grayish purple
+#### Color 122: dark grayish purple
 
 **Hex:** #50404D
 
@@ -1192,7 +1151,25 @@
 | D65        | 1.5RP 2.9/1.4 | purplish gray   | N 2.9/         | (Unknown)         | (+0.0, +0.1) |
 | F7         | 1.6RP 2.9/1.4 | purplish gray   | N 2.9/         | (Unknown)         | (+0.0, +0.1) |
 
-#### Color 126: vivid reddish purple
+#### Color 123: purplish white
+
+**Hex:** #E8E3E5
+
+| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 5.6GY 9.0/0.6 | greenish white  | N 9.0/         | (Unknown)         |              |
+| F7         | 5.5GY 9.0/0.6 | greenish white  | N 9.0/         | (Unknown)         |              |
+
+#### Color 124: purplish gray
+
+**Hex:** #8B8589
+
+| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 5.1Y 5.5/0.3 | medium gray     | N 5.5/         | (Unknown)         |              |
+| F7         | 5.1Y 5.5/0.3 | medium gray     | N 5.5/         | (Unknown)         |              |
+
+#### Color 125: vivid reddish purple
 
 **Hex:** #870074
 
@@ -1201,7 +1178,7 @@
 | D65        | 0.1RP 3.0/12.9 | deep reddish purple | 1.5RP 3.0/13.0 | vivid reddish purple |              |
 | F7         | 10.0P 3.0/12.5 | deep reddish purple | 1.5RP 3.0/13.0 | vivid reddish purple | (+0.0, +0.5) |
 
-#### Color 127: strong reddish purple
+#### Color 126: strong reddish purple
 
 **Hex:** #9E4F88
 
@@ -1210,16 +1187,16 @@
 | D65        | 2.1RP 4.4/8.9 | moderate reddish purple | 2.0RP 4.4/9.0  | moderate reddish purple | (+0.0, +0.1) |
 | F7         | 2.1RP 4.4/8.9 | moderate reddish purple | 2.0RP 4.4/9.0  | moderate reddish purple | (+0.0, +0.1) |
 
-#### Color 128: pale reddish purple
+#### Color 127: pale reddish purple
 
 **Hex:** #AA8A9E
 
-| Illuminant | Rust Munsell  | Rust descriptor   | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | ----------------- | -------------- | ----------------- | ------------ |
-| D65        | 5.5RP 6.0/3.0 | pale purple       | 3.5RP 6.0/3.2  | pale purplish red |              |
-| F7         | 5.1RP 6.0/3.0 | pale purplish red | 3.6RP 6.0/3.2  | pale purplish red |              |
+| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
+| D65        | 5.5RP 6.0/3.0 | pale purple     | 3.5RP 6.0/3.2  | pale purplish red |              |
+| F7         | 5.1RP 6.0/3.0 | pale purple     | 3.6RP 6.0/3.2  | pale purplish red |              |
 
-#### Color 129: grayish reddish purple
+#### Color 128: grayish reddish purple
 
 **Hex:** #836479
 
@@ -1228,7 +1205,7 @@
 | D65        | 5.1RP 4.5/2.9 | grayish purple       | 2.8RP 4.5/3.1  | grayish reddish purple |              |
 | F7         | 4.8RP 4.5/3.1 | grayish purplish red | 2.9RP 4.5/3.1  | grayish reddish purple |              |
 
-#### Color 130: strong purplish pink
+#### Color 129: strong purplish pink
 
 **Hex:** #E68FAC
 
@@ -1237,7 +1214,7 @@
 | D65        | 7.6RP 6.8/8.0 | moderate purplish pink | 7.6RP 6.8/8.0  | moderate purplish pink | (+0.0, +1.0) |
 | F7         | 7.6RP 6.8/8.0 | moderate purplish pink | 7.6RP 6.8/8.0  | moderate purplish pink | (+0.0, +1.0) |
 
-#### Color 131: light purplish pink
+#### Color 130: light purplish pink
 
 **Hex:** #EFBBCC
 
@@ -1246,7 +1223,7 @@
 | D65        | 8.8RP 8.0/4.5 | pale purplish pink | 8.8RP 8.0/4.5  | pale purplish pink | (+0.0, +0.5) |
 | F7         | 8.9RP 8.0/4.5 | pale purplish pink | 8.9RP 8.0/4.5  | pale purplish pink | (+0.0, +0.5) |
 
-#### Color 132: pale purplish pink
+#### Color 131: pale purplish pink
 
 **Hex:** #E8CCD7
 
@@ -1255,7 +1232,7 @@
 | D65        | 2.7R 8.4/2.3 | pale pink       | 2.7R 8.4/2.3   | pale pink         |              |
 | F7         | 2.9R 8.4/2.3 | pale pink       | 2.9R 8.4/2.3   | pale pink         |              |
 
-#### Color 133: grayish purplish pink
+#### Color 132: grayish purplish pink
 
 **Hex:** #C3A6B1
 
@@ -1264,16 +1241,16 @@
 | D65        | 0.6R 7.0/2.4 | grayish pink    | 0.5R 7.0/2.4   | grayish pink      |              |
 | F7         | 0.7R 7.0/2.4 | grayish pink    | 0.7R 7.0/2.4   | grayish pink      |              |
 
-#### Color 134: deep purplish red
+#### Color 133: very deep purplish red
 
-**Hex:** #78184A
+**Hex:** #54133B
 
-| Illuminant | Rust Munsell  | Rust descriptor   | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | ----------------- | -------------- | ----------------- | ------------ |
-| D65        | 7.9RP 2.7/9.0 | dark purplish red | 7.8RP 2.7/9.0  | deep purplish red | (0.0, 0.0)   |
-| F7         | 7.9RP 2.7/9.0 | dark purplish red | 7.9RP 2.7/9.0  | dark purplish red | (0.0, 0.0)   |
+| Illuminant | Rust Munsell  | Rust descriptor        | Python Munsell | Python descriptor      | Dist polygon |
+| ---------- | ------------- | ---------------------- | -------------- | ---------------------- | ------------ |
+| D65        | 7.2RP 1.8/7.0 | very dark purplish red | 7.2RP 1.8/7.0  | very dark purplish red | (0.0, 0.0)   |
+| F7         | 7.2RP 1.8/7.0 | very dark purplish red | 7.2RP 1.8/7.0  | very dark purplish red | (0.0, 0.0)   |
 
-#### Color 135: white
+#### Color 134: white
 
 **Hex:** #F2F3F4
 
@@ -1282,7 +1259,7 @@
 | D65        | 9.6GY 9.6/0.8 | greenish white  | N 9.6/         | (Unknown)         | (+0.0, -0.3) |
 | F7         | 9.5GY 9.6/0.8 | greenish white  | N 9.6/         | (Unknown)         | (+0.0, -0.3) |
 
-#### Color 136: light gray
+#### Color 135: light gray
 
 **Hex:** #B9B8B5
 
@@ -1291,7 +1268,7 @@
 | D65        | 6.5GY 7.4/0.9 | greenish gray   | N 7.4/         | (Unknown)         | (+0.0, -0.4) |
 | F7         | 6.4GY 7.4/0.9 | greenish gray   | N 5.0/         | (Unknown)         | (+0.0, -0.4) |
 
-#### Color 137: medium gray
+#### Color 136: medium gray
 
 **Hex:** #848482
 
@@ -1386,7 +1363,7 @@
 
 | Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 5.4RP 5.5/1.9 | grayish purple  | N 5.5/         | (Unknown)         |              |
+| C          | 5.4RP 5.5/1.9 | pale purple     | N 5.5/         | (Unknown)         |              |
 
 #### Color 10: dark reddish gray
 
@@ -1412,7 +1389,7 @@
 
 | Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 3.9R 6.0/7.0 | dark pink       | 4.3R 6.0/6.7   | dark pink         |              |
+| C          | 3.9R 6.0/7.0 | deep pink       | 4.3R 6.0/6.7   | dark pink         |              |
 
 #### Color 13: pale yellowish pink
 
@@ -1428,7 +1405,7 @@
 
 | Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 2.2R 7.2/3.1 | moderate pink   | 2.5R 7.2/3.0   | moderate pink     |              |
+| C          | 2.2R 7.2/3.1 | moderate pink   | 2.5R 7.2/3.0   | grayish pink      |              |
 
 #### Color 15: brownish pink
 
@@ -1444,27 +1421,35 @@
 
 | Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 6.7R 5.5/4.6 | grayish red     | 7.2R 5.5/4.4   | pale red          |              |
+| C          | 6.7R 5.5/4.6 | grayish red     | 7.2R 5.5/4.4   | grayish red       |              |
 
-#### Color 17: light grayish reddish brown
+#### Color 17: moderate reddish brown
+
+**Hex:** #7D423B
+
+| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor      | Dist polygon |
+| ---------- | ------------ | --------------- | -------------- | ---------------------- | ------------ |
+| C          | 7.6R 3.5/5.5 | grayish red     | 8.1R 3.5/5.2   | moderate reddish brown | (0.0, 0.0)   |
+
+#### Color 18: light grayish reddish brown
 
 **Hex:** #9E7F7A
 
 | Illuminant | Rust Munsell  | Rust descriptor    | Python Munsell | Python descriptor  | Dist polygon |
 | ---------- | ------------- | ------------------ | -------------- | ------------------ | ------------ |
-| C          | 7.3R 5.5/2.8  | grayish red        | 7.7R 5.5/2.7   | pale red           |              |
+| C          | 7.3R 5.5/2.8  | grayish red        | 7.7R 5.5/2.7   | grayish red        |              |
 | D65        | 3.0YR 5.5/2.4 | pale reddish brown | 3.0YR 5.5/2.4  | pale reddish brown |              |
 | F7         | 3.0YR 5.5/2.4 | pale reddish brown | 3.0YR 5.5/2.4  | pale reddish brown |              |
 
-#### Color 18: grayish reddish brown
+#### Color 19: grayish reddish brown
 
 **Hex:** #6C4D4B
 
-| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor     | Dist polygon |
-| ---------- | ------------ | --------------- | -------------- | --------------------- | ------------ |
-| C          | 5.9R 3.5/2.6 | grayish red     | 6.3R 3.5/2.5   | grayish reddish brown |              |
+| Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
+| C          | 5.9R 3.5/2.6 | grayish red     | 6.3R 3.5/2.5   | grayish red       |              |
 
-#### Color 19: vivid orange
+#### Color 20: vivid orange
 
 **Hex:** #F7760B
 
@@ -1472,7 +1457,7 @@
 | ---------- | -------------- | -------------------- | -------------- | ----------------- | ------------ |
 | C          | 2.0YR 6.3/14.9 | vivid reddish orange | 2.4YR 6.3/14.5 | vivid orange      |              |
 
-#### Color 20: light brown
+#### Color 21: light brown
 
 **Hex:** #AD7C63
 
@@ -1480,7 +1465,7 @@
 | ---------- | ------------- | ------------------- | -------------- | ----------------- | ------------ |
 | C          | 2.8YR 5.5/4.8 | light reddish brown | 3.2YR 5.5/4.7  | light brown       |              |
 
-#### Color 21: moderate brown
+#### Color 22: moderate brown
 
 **Hex:** #724A38
 
@@ -1488,7 +1473,7 @@
 | ---------- | ------------- | ---------------------- | -------------- | ----------------- | ------------ |
 | C          | 3.0YR 3.5/4.0 | moderate reddish brown | 3.4YR 3.5/3.8  | moderate brown    |              |
 
-#### Color 22: light grayish brown
+#### Color 23: light grayish brown
 
 **Hex:** #997F75
 
@@ -1498,7 +1483,7 @@
 | D65        | 7.3YR 5.4/2.2 | pale brown         | 7.3YR 5.4/2.2  | pale brown         |              |
 | F7         | 7.3YR 5.4/2.2 | pale brown         | 7.3YR 5.4/2.2  | pale brown         |              |
 
-#### Color 23: grayish brown
+#### Color 24: grayish brown
 
 **Hex:** #674F48
 
@@ -1506,7 +1491,7 @@
 | ---------- | ------------- | --------------------- | -------------- | --------------------- | ------------ |
 | C          | 1.1YR 3.5/2.0 | grayish reddish brown | 1.6YR 3.5/2.0  | grayish reddish brown |              |
 
-#### Color 24: dark grayish brown
+#### Color 25: dark grayish brown
 
 **Hex:** #3E2C28
 
@@ -1514,7 +1499,7 @@
 | ---------- | ------------- | -------------------------- | -------------- | ----------------- | ------------ |
 | C          | 2.0YR 2.0/1.7 | dark grayish reddish brown | N 2.0/         | (Unknown)         |              |
 
-#### Color 25: light brownish gray
+#### Color 26: light brownish gray
 
 **Hex:** #928281
 
@@ -1524,7 +1509,7 @@
 | D65        | 7.2YR 5.5/1.1 | brownish gray   | N 5.5/         | (Unknown)         |              |
 | F7         | 7.3YR 5.5/1.1 | brownish gray   | N 5.5/         | (Unknown)         |              |
 
-#### Color 26: brownish gray
+#### Color 27: brownish gray
 
 **Hex:** #605251
 
@@ -1532,7 +1517,7 @@
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
 | C          | 6.1R 3.6/1.1 | reddish gray    | N 3.6/         | (Unknown)         |              |
 
-#### Color 27: pale orange yellow
+#### Color 28: pale orange yellow
 
 **Hex:** #EEC6A6
 
@@ -1540,7 +1525,7 @@
 | ---------- | ------------- | -------------------- | -------------- | -------------------- | ------------ |
 | C          | 5.3YR 8.2/4.1 | light yellowish pink | 5.8YR 8.2/3.9  | light yellowish pink |              |
 
-#### Color 28: light yellowish brown
+#### Color 29: light yellowish brown
 
 **Hex:** #C49A74
 
@@ -1548,15 +1533,15 @@
 | ---------- | ------------- | ----------------------- | -------------- | --------------------- | ------------ |
 | C          | 6.7YR 6.6/4.7 | moderate yellowish pink | 7.3YR 6.6/4.6  | light yellowish brown |              |
 
-#### Color 29: moderate yellowish brown
+#### Color 30: moderate yellowish brown
 
 **Hex:** #886648
 
 | Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 7.2YR 4.5/3.9 | light brown     | 7.7YR 4.5/3.8  | light brown       |              |
+| C          | 7.2YR 4.5/3.9 | moderate brown  | 7.7YR 4.5/3.8  | moderate brown    |              |
 
-#### Color 30: dark yellowish brown
+#### Color 31: dark yellowish brown
 
 **Hex:** #50341A
 
@@ -1564,25 +1549,25 @@
 | ---------- | ------------- | --------------- | -------------- | -------------------- | ------------ |
 | C          | 7.9YR 2.4/3.8 | dark brown      | 8.3YR 2.4/3.8  | dark yellowish brown |              |
 
-#### Color 31: light grayish yellowish brown
+#### Color 32: light grayish yellowish brown
 
 **Hex:** #B49B8D
 
-| Illuminant | Rust Munsell  | Rust descriptor      | Python Munsell | Python descriptor      | Dist polygon |
-| ---------- | ------------- | -------------------- | -------------- | ---------------------- | ------------ |
-| C          | 3.7YR 6.5/2.4 | pale reddish brown   | 4.2YR 6.5/2.3  | grayish yellowish pink |              |
-| D65        | 9.3YR 6.5/2.3 | pale yellowish brown | 9.3YR 6.5/2.3  | pale yellowish brown   |              |
-| F7         | 9.3YR 6.5/2.3 | pale yellowish brown | 9.3YR 6.5/2.3  | pale yellowish brown   |              |
+| Illuminant | Rust Munsell  | Rust descriptor        | Python Munsell | Python descriptor      | Dist polygon |
+| ---------- | ------------- | ---------------------- | -------------- | ---------------------- | ------------ |
+| C          | 3.7YR 6.5/2.4 | grayish yellowish pink | 4.2YR 6.5/2.3  | grayish yellowish pink |              |
+| D65        | 9.3YR 6.5/2.3 | pale yellowish brown   | 9.3YR 6.5/2.3  | pale yellowish brown   |              |
+| F7         | 9.3YR 6.5/2.3 | pale yellowish brown   | 9.3YR 6.5/2.3  | pale yellowish brown   |              |
 
-#### Color 32: grayish yellowish brown
+#### Color 33: grayish yellowish brown
 
 **Hex:** #7E695D
 
-| Illuminant | Rust Munsell  | Rust descriptor    | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | ------------------ | -------------- | ----------------- | ------------ |
-| C          | 4.6YR 4.5/2.0 | pale reddish brown | N 4.5/         | (Unknown)         |              |
+| Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
+| ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
+| C          | 4.6YR 4.5/2.0 | grayish brown   | N 4.5/         | (Unknown)         |              |
 
-#### Color 33: dark grayish yellowish brown
+#### Color 34: dark grayish yellowish brown
 
 **Hex:** #4D3D33
 
@@ -1590,7 +1575,7 @@
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
 | C          | 6.6YR 2.7/1.7 | grayish brown   | N 2.7/         | (Unknown)         |              |
 
-#### Color 34: pale yellow
+#### Color 35: pale yellow
 
 **Hex:** #EFD7B2
 
@@ -1598,7 +1583,7 @@
 | ---------- | ------------- | ------------------ | -------------- | ------------------ | ------------ |
 | C          | 9.9YR 8.7/3.1 | pale orange yellow | 0.3Y 8.7/3.1   | pale orange yellow |              |
 
-#### Color 35: grayish yellow
+#### Color 36: grayish yellow
 
 **Hex:** #C8B18B
 
@@ -1606,7 +1591,7 @@
 | ---------- | ------------ | --------------------- | -------------- | ----------------- | ------------ |
 | C          | 0.9Y 7.2/3.4 | light yellowish brown | 1.3Y 7.2/3.3   | grayish yellow    |              |
 
-#### Color 36: yellowish white
+#### Color 37: yellowish white
 
 **Hex:** #EEDFDA
 
@@ -1614,7 +1599,7 @@
 | ---------- | ------------ | ------------------- | -------------- | ----------------- | ------------ |
 | C          | 9.7R 9.0/1.6 | pale yellowish pink | N 9.0/         | (Unknown)         |              |
 
-#### Color 37: yellowish gray
+#### Color 38: yellowish gray
 
 **Hex:** #C6B9B1
 
@@ -1622,7 +1607,7 @@
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
 | C          | 4.3YR 7.5/1.2 | pinkish gray    | N 7.5/         | (Unknown)         |              |
 
-#### Color 38: light greenish yellow
+#### Color 39: light greenish yellow
 
 **Hex:** #E9DD8A
 
@@ -1630,7 +1615,7 @@
 | ---------- | ------------ | --------------- | -------------- | --------------------- | ------------ |
 | C          | 6.9Y 8.7/5.6 | light yellow    | 7.3Y 8.7/5.5   | light greenish yellow |              |
 
-#### Color 39: pale greenish yellow
+#### Color 40: pale greenish yellow
 
 **Hex:** #E6DCAB
 
@@ -1638,7 +1623,7 @@
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
 | C          | 5.6Y 8.7/3.3 | pale yellow     | 6.1Y 8.7/3.2   | pale yellow       |              |
 
-#### Color 40: grayish greenish yellow
+#### Color 41: grayish greenish yellow
 
 **Hex:** #BEB584
 
@@ -1646,7 +1631,7 @@
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
 | C          | 6.6Y 7.3/3.5 | grayish yellow  | 7.0Y 7.2/3.5   | grayish yellow    |              |
 
-#### Color 41: light grayish olive
+#### Color 42: light grayish olive
 
 **Hex:** #8E856F
 
@@ -1656,7 +1641,7 @@
 | D65        | 8.2Y 5.5/2.2 | pale olive        | 8.2Y 5.5/2.2   | pale olive        |              |
 | F7         | 8.2Y 5.5/2.2 | pale olive        | 8.2Y 5.5/2.2   | pale olive        |              |
 
-#### Color 42: light olive gray
+#### Color 43: light olive gray
 
 **Hex:** #8F877F
 
@@ -1666,7 +1651,7 @@
 | D65        | 7.3Y 5.6/1.2  | oliveish gray   | N 5.6/         | (Unknown)         |              |
 | F7         | 7.3Y 5.6/1.2  | oliveish gray   | N 5.6/         | (Unknown)         |              |
 
-#### Color 43: olive gray
+#### Color 44: olive gray
 
 **Hex:** #58514A
 
@@ -1676,25 +1661,25 @@
 | D65        | 6.0Y 3.4/1.1 | oliveish gray   | N 3.4/         | (Unknown)         |              |
 | F7         | 6.0Y 3.4/1.1 | oliveish gray   | N 3.4/         | (Unknown)         |              |
 
-#### Color 44: olive black
+#### Color 45: olive black
 
 **Hex:** #23211C
 
 | Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 6.2Y 1.2/0.5 | oliveish black  | N 1.2/         | (Unknown)         |              |
+| C          | 6.2Y 1.2/0.5 | black           | N 1.2/         | (Unknown)         |              |
 | D65        | 9.9Y 1.2/0.8 | oliveish black  | N 1.2/         | (Unknown)         |              |
 | F7         | 9.9Y 1.2/0.8 | oliveish black  | N 1.2/         | (Unknown)         |              |
 
-#### Color 45: very pale green
+#### Color 46: very pale green
 
 **Hex:** #C7D9D6
 
 | Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 5.8BG 8.5/1.2 | greenish gray   | N 8.5/         | (Unknown)         | (0.0, 0.0)   |
+| C          | 5.8BG 8.5/1.2 | greenish white  | N 8.5/         | (Unknown)         | (0.0, 0.0)   |
 
-#### Color 46: greenish white
+#### Color 47: greenish white
 
 **Hex:** #E0E2E5
 
@@ -1702,7 +1687,7 @@
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
 | C          | 4.9PB 9.0/0.6 | bluish white    | N 9.0/         | (Unknown)         |              |
 
-#### Color 47: light greenish gray
+#### Color 48: light greenish gray
 
 **Hex:** #BABEC1
 
@@ -1712,15 +1697,15 @@
 | D65        | 3.6G 7.6/0.8  | greenish gray   | N 7.6/         | (Unknown)         |              |
 | F7         | 3.4G 7.6/0.8  | greenish gray   | N 7.6/         | (Unknown)         |              |
 
-#### Color 48: greenish gray
+#### Color 49: greenish gray
 
 **Hex:** #848888
 
 | Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 8.1BG 5.5/0.3 | medium gray     | N 5.0/         | (Unknown)         | (+1.0, +0.2) |
+| C          | 8.1BG 5.5/0.3 | medium gray     | N 5.0/         | (Unknown)         | (+0.0, +0.2) |
 
-#### Color 49: dark greenish gray
+#### Color 50: dark greenish gray
 
 **Hex:** #545858
 
@@ -1730,21 +1715,13 @@
 | D65        | 2.5G 3.6/0.8  | greenish gray   | N 5.0/         | (Unknown)         |              |
 | F7         | 2.4G 3.6/0.8  | greenish gray   | N 3.6/         | (Unknown)         |              |
 
-#### Color 50: vivid bluish green
+#### Color 51: vivid bluish green
 
 **Hex:** #13FCD5
 
 | Illuminant | Rust Munsell   | Rust descriptor        | Python Munsell | Python descriptor      | Dist polygon |
 | ---------- | -------------- | ---------------------- | -------------- | ---------------------- | ------------ |
 | C          | 1.4BG 8.9/10.5 | brilliant bluish green | 1.4BG 8.9/10.1 | brilliant bluish green | (+0.0, +0.5) |
-
-#### Color 51: strong bluish green
-
-**Hex:** #0D8F82
-
-| Illuminant | Rust Munsell  | Rust descriptor       | Python Munsell | Python descriptor     | Dist polygon |
-| ---------- | ------------- | --------------------- | -------------- | --------------------- | ------------ |
-| C          | 3.3BG 5.2/7.0 | moderate bluish green | 3.5BG 5.2/6.7  | moderate bluish green | (0.0, 0.0)   |
 
 #### Color 52: very pale blue
 
@@ -1778,7 +1755,7 @@
 
 | Illuminant | Rust Munsell  | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------- | --------------- | -------------- | ----------------- | ------------ |
-| C          | 6.1PB 5.5/1.9 | pale blue       | N 5.5/         | (Unknown)         | (+0.0, -0.4) |
+| C          | 6.1PB 5.5/1.9 | grayish blue    | N 5.5/         | (Unknown)         | (+0.0, -0.4) |
 
 #### Color 56: dark bluish gray
 
@@ -1846,7 +1823,7 @@
 
 | Illuminant | Rust Munsell | Rust descriptor  | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------ | ---------------- | -------------- | ----------------- | ------------ |
-| C          | 6.4P 7.5/2.7 | very pale purple | 6.3P 7.5/2.7   | pale purple       |              |
+| C          | 6.4P 7.5/2.7 | very pale purple | 6.3P 7.5/2.7   | very pale purple  |              |
 | D65        | 8.6P 7.5/1.1 | purplish gray    | N 5.0/         | (Unknown)         |              |
 | F7         | 8.8P 7.5/1.1 | purplish gray    | N 5.0/         | (Unknown)         |              |
 
@@ -1856,7 +1833,7 @@
 
 | Illuminant | Rust Munsell | Rust descriptor | Python Munsell | Python descriptor | Dist polygon |
 | ---------- | ------------ | --------------- | -------------- | ----------------- | ------------ |
-| C          | 7.0P 5.5/2.0 | pale purple     | 6.9P 5.5/2.0   | pale purple       | (+1.0, -0.5) |
+| C          | 7.0P 5.5/2.0 | grayish purple  | 6.9P 5.5/2.0   | grayish purple    | (-1.0, -0.5) |
 
 #### Color 65: dark purplish gray
 
@@ -1908,11 +1885,11 @@
 
 **Hex:** #B2879B
 
-| Illuminant | Rust Munsell  | Rust descriptor    | Python Munsell | Python descriptor | Dist polygon |
-| ---------- | ------------- | ------------------ | -------------- | ----------------- | ------------ |
-| C          | 4.9RP 6.0/5.2 | dark purplish pink | 3.3RP 6.0/5.0  | pale purplish red |              |
-| D65        | 5.5RP 6.0/4.1 | pale purplish red  | 5.5RP 6.0/4.1  | pale purplish red |              |
-| F7         | 5.6RP 6.0/4.1 | pale purplish red  | 5.6RP 6.0/4.1  | pale purplish red |              |
+| Illuminant | Rust Munsell  | Rust descriptor    | Python Munsell | Python descriptor  | Dist polygon |
+| ---------- | ------------- | ------------------ | -------------- | ------------------ | ------------ |
+| C          | 4.9RP 6.0/5.2 | dark purplish pink | 3.3RP 6.0/5.0  | dark purplish pink |              |
+| D65        | 5.5RP 6.0/4.1 | pale purplish red  | 5.5RP 6.0/4.1  | pale purplish red  |              |
+| F7         | 5.6RP 6.0/4.1 | pale purplish red  | 5.6RP 6.0/4.1  | pale purplish red  |              |
 
 #### Color 71: white
 
