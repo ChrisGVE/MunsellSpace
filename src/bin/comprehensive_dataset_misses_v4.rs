@@ -30,9 +30,9 @@ struct W3IsccColor {
     #[serde(rename = "sRGB ")]
     srgb: String,
     #[serde(rename = "ISCC-NBS Name")]
-    iscc_nbs_name: String,
+    iscc_nbs_color_name: String,
     #[serde(rename = " modifier ")]
-    modifier: String,
+    iscc_nbs_modifier: String,
     #[serde(rename = "color ")]
     revised_color_name: String,
 }
@@ -316,8 +316,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             });
             
             // Extract the original ISCC-NBS color from the full name and use with modifier
-            let iscc_color = extract_color_from_iscc_name(&color.iscc_nbs_name, &color.modifier);
-            let expected_name = classifier.construct_color_descriptor(&color.modifier, &iscc_color);
+            let iscc_color = extract_color_from_iscc_name(&color.iscc_nbs_color_name, &color.iscc_nbs_modifier);
+            let expected_name = classifier.construct_color_descriptor(&color.iscc_nbs_modifier, &iscc_color);
             all_test_data.push((id, rgb, illum_name.to_string(), expected_name, "W3"));
         }
         
