@@ -347,10 +347,8 @@ impl MechanicalWedgeSystem {
     pub fn debug_wedge_contents(&self, wedge_key: &str) -> Option<Vec<String>> {
         if let Some(container) = self.wedge_containers.get(wedge_key) {
             let contents = container.iter()
-                .map(|color| format!("Color {}: {} {} (polygon: {} points)", 
+                .map(|color| format!("Color {} (polygon: {} points)", 
                     color.color_number,
-                    color.descriptor,
-                    color.color_name,
                     color.polygon.exterior().coords_count()
                 ))
                 .collect();

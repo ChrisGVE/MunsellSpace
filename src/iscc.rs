@@ -66,21 +66,27 @@ impl ISCC_NBS_Result {
     }
 }
 
+/// Color metadata stored separately from geometry for efficient memory usage
+#[derive(Debug, Clone)]
+pub struct ColorMetadata {
+    /// ISCC-NBS descriptor from CSV 'iscc-nbs-descriptor' column (e.g., "vivid pink")
+    pub iscc_nbs_descriptor: String,
+    /// ISCC-NBS color name from CSV 'iscc-nbs-color' column (e.g., "pink")
+    pub iscc_nbs_color_name: String,
+    /// ISCC-NBS modifier from CSV 'iscc-nbs-modifier' column (e.g., "vivid")
+    pub iscc_nbs_modifier: Option<String>,
+    /// Revised color name from CSV 'revised-color' column (e.g., "pink")
+    pub revised_color_name: String,
+}
+
 /// Internal representation of an ISCC-NBS color category with its polygonal region
+/// Metadata is stored separately to avoid duplication across wedges
 #[derive(Debug, Clone)]
 pub struct ISCC_NBS_Color {
-    /// Color number from ISCC-NBS standard
+    /// Color number from ISCC-NBS standard - used to lookup metadata
     pub color_number: u16,
     /// Polygon group number (for colors with multiple regions)
     pub polygon_group: u8,
-    /// ISCC-NBS descriptor (e.g., "vivid")
-    pub descriptor: String,
-    /// ISCC-NBS color name (e.g., "red")
-    pub color_name: String,
-    /// Optional modifier (e.g., "-ish")
-    pub modifier: Option<String>,
-    /// Revised color name
-    pub revised_color: String,
     /// Hue range (e.g., "1R", "7R") - will be split into adjacent planes
     pub hue_range: (String, String),
     /// Polygon defining the color region in Munsell value-chroma space
@@ -91,6 +97,8 @@ pub struct ISCC_NBS_Color {
 pub struct ISCC_NBS_Classifier {
     /// Mechanical wedge system for deterministic hue-based classification
     pub wedge_system: crate::mechanical_wedges::MechanicalWedgeSystem,
+    /// Metadata lookup table - stores metadata once per color number instead of duplicating in each wedge
+    color_metadata: HashMap<u16, ColorMetadata>,
     /// Small LRU cache for successive lookups without repeated searches
     cache: std::cell::RefCell<HashMap<(String, String, String), Option<ISCC_NBS_Result>>>, // (hue, value_str, chroma_str) -> result
     /// Maximum cache size
@@ -180,7 +188,7 @@ impl ISCC_NBS_Classifier {
     /// ).expect("Failed to create classifier");
     /// ```
     pub fn new_with_hue_range_method(hue_range_method: crate::mechanical_wedges::HueRangeMethod) -> Result<Self, MunsellError> {
-        let colors = Self::load_embedded_data()?;
+        let (colors, color_metadata) = Self::load_embedded_data()?;
         let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new_with_method(hue_range_method);
         
         // Distribute all polygons into the mechanical wedge system
@@ -190,6 +198,7 @@ impl ISCC_NBS_Classifier {
         
         Ok(ISCC_NBS_Classifier { 
             wedge_system,
+            color_metadata,
             cache: std::cell::RefCell::new(HashMap::new()),
             cache_max_size: 256, // Small cache for performance
         })
@@ -240,7 +249,7 @@ impl ISCC_NBS_Classifier {
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
     pub fn from_csv_with_hue_range_method(csv_path: &str, hue_range_method: crate::mechanical_wedges::HueRangeMethod) -> Result<Self, MunsellError> {
-        let colors = Self::load_iscc_data(csv_path)?;
+        let (colors, color_metadata) = Self::load_iscc_data(csv_path)?;
         let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new_with_method(hue_range_method);
         
         // Distribute all polygons into the mechanical wedge system
@@ -250,18 +259,72 @@ impl ISCC_NBS_Classifier {
         
         Ok(ISCC_NBS_Classifier { 
             wedge_system,
+            color_metadata,
             cache: std::cell::RefCell::new(HashMap::new()),
             cache_max_size: 256,
         })
     }
     
+    /// Check if a hue represents an achromatic (neutral) color.
+    /// Achromatic colors have family "N" indicating no hue.
+    ///
+    /// # Arguments
+    /// * `hue` - Munsell hue string (e.g., "N", "5R", "2.5YR")
+    ///
+    /// # Returns
+    /// true if the color is achromatic (neutral), false otherwise
+    fn is_achromatic(&self, hue: &str) -> bool {
+        hue.trim().to_uppercase() == "N"
+    }
+    
+    /// Classify an achromatic (neutral) color based on its value.
+    /// Maps value ranges to specific ISCC-NBS neutral color categories.
+    ///
+    /// # Arguments
+    /// * `value` - Munsell value (lightness) from 0.0 to 10.0
+    ///
+    /// # Returns
+    /// Result containing Some(ISCC_NBS_Result) for the appropriate neutral color
+    fn classify_achromatic(&self, value: f64) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+        let color_number = if value >= 0.0 && value <= 2.5 {
+            267 // black
+        } else if value > 2.5 && value <= 4.5 {
+            266 // dark gray
+        } else if value > 4.5 && value <= 6.5 {
+            265 // medium gray
+        } else if value > 6.5 && value <= 8.5 {
+            264 // light gray
+        } else if value > 8.5 && value <= 10.0 {
+            263 // white
+        } else {
+            return Ok(None); // Value out of range
+        };
+        
+        // Look up the metadata for this neutral color
+        if let Some(metadata) = self.color_metadata.get(&color_number) {
+            let result = ISCC_NBS_Result {
+                iscc_nbs_descriptor: metadata.iscc_nbs_descriptor.clone(),
+                iscc_nbs_color: metadata.iscc_nbs_color_name.clone(),
+                iscc_nbs_modifier: metadata.iscc_nbs_modifier.clone(),
+                revised_color: metadata.revised_color_name.clone(),
+                revised_descriptor: self.construct_revised_descriptor(&metadata.revised_color_name, &metadata.iscc_nbs_modifier),
+                shade: self.extract_shade(&metadata.revised_color_name),
+                iscc_nbs_color_id: color_number,
+            };
+            Ok(Some(result))
+        } else {
+            Ok(None)
+        }
+    }
+
     /// Classify a Munsell color using the ISCC-NBS system.
     ///
     /// Determines which ISCC-NBS color category (e.g., "vivid red") a Munsell color falls into
     /// by checking polygon containment in the standardized color regions.
+    /// Handles achromatic (neutral) colors with special value-based mapping.
     ///
     /// # Arguments
-    /// * `hue` - Munsell hue string (e.g., "5R", "2.5YR")
+    /// * `hue` - Munsell hue string (e.g., "5R", "2.5YR", "N" for neutral)
     /// * `value` - Munsell value (lightness) from 0.0 to 10.0
     /// * `chroma` - Munsell chroma (saturation) from 0.0 upwards
     ///
@@ -283,6 +346,11 @@ impl ISCC_NBS_Classifier {
     /// # }
     /// ```
     pub fn classify_munsell(&self, hue: &str, value: f64, chroma: f64) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+        // Check for achromatic colors first
+        if self.is_achromatic(hue) {
+            return self.classify_achromatic(value);
+        }
+        
         // Round values to 1 decimal place for consistent classification
         let rounded_value = (value * 10.0).round() / 10.0;
         let rounded_chroma = (chroma * 10.0).round() / 10.0;
@@ -335,12 +403,16 @@ impl ISCC_NBS_Classifier {
         self.wedge_system.get_wedge_polygons(&wedge_key)?
             .iter()
             .find(|polygon| {
-                // Check if this polygon's full descriptor matches the expected one
-                let full_name = self.construct_color_descriptor(
-                    polygon.modifier.as_deref().unwrap_or(""),
-                    &polygon.color_name
-                );
-                full_name.to_lowercase() == expected_descriptor.to_lowercase()
+                // Check if this polygon's full descriptor matches the expected one using metadata lookup
+                if let Some(metadata) = self.color_metadata.get(&polygon.color_number) {
+                    let full_name = self.construct_color_descriptor(
+                        metadata.iscc_nbs_modifier.as_deref().unwrap_or(""),
+                        &metadata.iscc_nbs_color_name
+                    );
+                    full_name.to_lowercase() == expected_descriptor.to_lowercase()
+                } else {
+                    false
+                }
             })
     }
     
@@ -666,22 +738,36 @@ impl ISCC_NBS_Classifier {
     // OBSOLETE METHOD - Replaced by MechanicalWedgeSystem
     // This method is no longer needed since the wedge system handles hue mapping directly
     
-    /// Create comprehensive ISCC-NBS result from color data
+    /// Create comprehensive ISCC-NBS result from color data using metadata lookup
     fn create_iscc_result(&self, color: &ISCC_NBS_Color) -> ISCC_NBS_Result {
-        // Extract shade from revised_color (last word specifically)
-        let shade = self.extract_shade(&color.revised_color);
-        
-        // Construct revised descriptor from revised_color + iscc_nbs_modifier
-        let revised_descriptor = self.construct_revised_descriptor(&color.revised_color, &color.modifier);
-        
-        ISCC_NBS_Result {
-            iscc_nbs_descriptor: color.descriptor.clone(),
-            iscc_nbs_color: color.color_name.clone(),
-            iscc_nbs_modifier: color.modifier.clone(),
-            revised_color: color.revised_color.clone(),
-            revised_descriptor,
-            shade,
-            iscc_nbs_color_id: color.color_number,
+        // Look up metadata for this color number
+        if let Some(metadata) = self.color_metadata.get(&color.color_number) {
+            // Extract shade from revised_color (last word specifically)
+            let shade = self.extract_shade(&metadata.revised_color_name);
+            
+            // Construct revised descriptor from revised_color + iscc_nbs_modifier
+            let revised_descriptor = self.construct_revised_descriptor(&metadata.revised_color_name, &metadata.iscc_nbs_modifier);
+            
+            ISCC_NBS_Result {
+                iscc_nbs_descriptor: metadata.iscc_nbs_descriptor.clone(),
+                iscc_nbs_color: metadata.iscc_nbs_color_name.clone(),
+                iscc_nbs_modifier: metadata.iscc_nbs_modifier.clone(),
+                revised_color: metadata.revised_color_name.clone(),
+                revised_descriptor,
+                shade,
+                iscc_nbs_color_id: color.color_number,
+            }
+        } else {
+            // Fallback if metadata is missing (should not happen with valid data)
+            ISCC_NBS_Result {
+                iscc_nbs_descriptor: "unknown".to_string(),
+                iscc_nbs_color: "unknown".to_string(),
+                iscc_nbs_modifier: None,
+                revised_color: "unknown".to_string(),
+                revised_descriptor: "unknown".to_string(),
+                shade: "unknown".to_string(),
+                iscc_nbs_color_id: color.color_number,
+            }
         }
     }
     
@@ -761,11 +847,15 @@ impl ISCC_NBS_Classifier {
         }
     }
     
-    /// Format the complete ISCC-NBS color name
+    /// Format the complete ISCC-NBS color name using metadata lookup
     fn format_color_name(&self, color: &ISCC_NBS_Color) -> String {
-        match &color.modifier {
-            Some(modifier) => self.construct_proper_name(&color.descriptor, &color.color_name, modifier),
-            None => format!("{} {}", color.descriptor, color.color_name),
+        if let Some(metadata) = self.color_metadata.get(&color.color_number) {
+            match &metadata.iscc_nbs_modifier {
+                Some(modifier) => self.construct_proper_name(&metadata.iscc_nbs_descriptor, &metadata.iscc_nbs_color_name, modifier),
+                None => format!("{} {}", metadata.iscc_nbs_descriptor, metadata.iscc_nbs_color_name),
+            }
+        } else {
+            format!("unknown color {}", color.color_number)
         }
     }
     
@@ -775,26 +865,27 @@ impl ISCC_NBS_Classifier {
     }
     
     /// Load ISCC-NBS data from embedded CSV string
-    fn load_embedded_data() -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
+    fn load_embedded_data() -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
         Self::parse_csv_data(ISCC_NBS_DATA)
     }
     
     /// Load ISCC-NBS data from CSV file (for testing/development)
-    fn load_iscc_data(csv_path: &str) -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
+    fn load_iscc_data(csv_path: &str) -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
         use std::fs;
         let csv_content = fs::read_to_string(csv_path)
             .map_err(|e| MunsellError::ReferenceDataError { message: format!("Failed to read CSV file: {}", e) })?;
         Self::parse_csv_data(&csv_content)
     }
     
-    /// Parse CSV data and convert to polygons
-    fn parse_csv_data(csv_content: &str) -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
+    /// Parse CSV data and convert to polygons with separate metadata lookup table
+    fn parse_csv_data(csv_content: &str) -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
         use csv::Reader;
         use geo::{LineString, Coord};
         
         let mut reader = Reader::from_reader(csv_content.as_bytes());
         let mut color_groups: std::collections::HashMap<(u16, u8), Vec<(f64, f64)>> = std::collections::HashMap::new();
-        let mut color_metadata: std::collections::HashMap<(u16, u8), (String, String, Option<String>, String, String, String)> = std::collections::HashMap::new();
+        let mut polygon_metadata: std::collections::HashMap<(u16, u8), (String, String, Option<String>, String, String, String)> = std::collections::HashMap::new();
+        let mut color_metadata: HashMap<u16, ColorMetadata> = HashMap::new();
         
         // Parse CSV data and group points by color_number and polygon group
         for result in reader.records() {
@@ -855,9 +946,19 @@ impl ISCC_NBS_Classifier {
             let key = (color_number, polygon_group);
             color_groups.entry(key).or_insert_with(Vec::new).push((value, chroma));
             
-            // Store metadata (same for all points in a group)
-            if !color_metadata.contains_key(&key) {
-                color_metadata.insert(key, (descriptor, color_name, modifier, revised_color, hue1, hue2));
+            // Store polygon-specific metadata (same for all points in a group)
+            if !polygon_metadata.contains_key(&key) {
+                polygon_metadata.insert(key, (descriptor.clone(), color_name.clone(), modifier.clone(), revised_color.clone(), hue1, hue2));
+            }
+            
+            // Store color-level metadata (indexed by color_number only) 
+            if !color_metadata.contains_key(&color_number) {
+                color_metadata.insert(color_number, ColorMetadata {
+                    iscc_nbs_descriptor: descriptor,
+                    iscc_nbs_color_name: color_name,
+                    iscc_nbs_modifier: modifier,
+                    revised_color_name: revised_color,
+                });
             }
         }
         
@@ -871,9 +972,9 @@ impl ISCC_NBS_Classifier {
                 )));
             }
             
-            let (descriptor, color_name, modifier, revised_color, hue1, hue2) = 
-                color_metadata.get(&(color_number, polygon_group))
-                    .ok_or_else(|| Self::data_error("Missing metadata".to_string()))?
+            let (_descriptor, _color_name, _modifier, _revised_color, hue1, hue2) = 
+                polygon_metadata.get(&(color_number, polygon_group))
+                    .ok_or_else(|| Self::data_error("Missing polygon metadata".to_string()))?
                     .clone();
             
             // Create LineString from points (geo requires a closed ring)
@@ -895,16 +996,12 @@ impl ISCC_NBS_Classifier {
             colors.push(ISCC_NBS_Color {
                 color_number,
                 polygon_group,
-                descriptor,
-                color_name,
-                modifier,
-                revised_color,
                 hue_range: (hue1, hue2),
                 polygon,
             });
         }
         
-        Ok(colors)
+        Ok((colors, color_metadata))
     }
     
     /// Organize colors by adjacent Munsell planes for efficient lookup
