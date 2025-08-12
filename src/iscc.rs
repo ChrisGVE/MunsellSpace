@@ -283,8 +283,12 @@ impl ISCC_NBS_Classifier {
     /// # }
     /// ```
     pub fn classify_munsell(&self, hue: &str, value: f64, chroma: f64) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
-        // Create cache key
-        let cache_key = (hue.to_string(), format!("{:.1}", value), format!("{:.1}", chroma));
+        // Round values to 1 decimal place for consistent classification
+        let rounded_value = (value * 10.0).round() / 10.0;
+        let rounded_chroma = (chroma * 10.0).round() / 10.0;
+        
+        // Create cache key using rounded values
+        let cache_key = (hue.to_string(), format!("{:.1}", rounded_value), format!("{:.1}", rounded_chroma));
         
         // Check cache first
         {
@@ -294,8 +298,8 @@ impl ISCC_NBS_Classifier {
             }
         }
         
-        // Use the mechanical wedge system for classification
-        if let Some(color) = self.wedge_system.classify_color(hue, value, chroma) {
+        // Use the mechanical wedge system for classification with rounded values
+        if let Some(color) = self.wedge_system.classify_color(hue, rounded_value, rounded_chroma) {
             let result = Some(self.create_iscc_result(color));
             self.cache_result(cache_key, result.clone());
             return Ok(result);
