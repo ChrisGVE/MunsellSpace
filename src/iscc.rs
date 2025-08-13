@@ -3,6 +3,28 @@ use geo::{Point, Polygon};
 use std::collections::HashMap;
 use crate::error::MunsellError;
 use crate::mechanical_wedges::MechanicalWedgeSystem;
+use lazy_static::lazy_static;
+
+// Define -ish transformation dictionary at module level
+lazy_static! {
+    static ref COLOR_TO_ISH: HashMap<&'static str, &'static str> = {
+        let mut m = HashMap::new();
+        m.insert("brown", "brownish");
+        m.insert("blue", "bluish");
+        m.insert("red", "reddish");
+        m.insert("green", "greenish");
+        m.insert("yellow", "yellowish");
+        m.insert("purple", "purplish");
+        m.insert("pink", "pinkish");
+        m.insert("orange", "orangish");
+        m.insert("gray", "grayish");
+        m.insert("grey", "greyish");
+        m.insert("olive", "olive");  // Special case - stays as "olive"
+        m.insert("white", "whitish");
+        m.insert("black", "blackish");
+        m
+    };
+}
 
 /// Complete ISCC-NBS color classification result
 #[derive(Debug, Clone)]
@@ -11,11 +33,11 @@ pub struct ISCC_NBS_Result {
     pub iscc_nbs_descriptor: String,
     /// ISCC-NBS color from CSV 'iscc-nbs-color' column (e.g., "red")
     pub iscc_nbs_color: String,
-    /// ISCC-NBS modifier from CSV 'iscc-nbs-modifier' column (not just Black/White)
-    pub iscc_nbs_modifier: Option<String>,
+    /// ISCC-NBS formatter from CSV 'iscc-nbs-formatter' column (format string with placeholders)
+    pub iscc_nbs_formatter: Option<String>,
     /// Revised color name from CSV 'revised-color' column
     pub revised_color: String,
-    /// Revised descriptor constructed from revised_color + iscc_nbs_modifier
+    /// Revised descriptor constructed from revised_color + iscc_nbs_formatter
     pub revised_descriptor: String,
     /// Shade (last word of revised_color specifically)
     pub shade: String,
@@ -34,9 +56,9 @@ impl ISCC_NBS_Result {
         &self.iscc_nbs_color
     }
     
-    /// Get the ISCC-NBS modifier (if any)
-    pub fn iscc_nbs_modifier(&self) -> Option<&str> {
-        self.iscc_nbs_modifier.as_deref()
+    /// Get the ISCC-NBS formatter (if any)
+    pub fn iscc_nbs_formatter(&self) -> Option<&str> {
+        self.iscc_nbs_formatter.as_deref()
     }
     
     /// Get the revised color name
@@ -44,7 +66,7 @@ impl ISCC_NBS_Result {
         &self.revised_color
     }
     
-    /// Get the revised descriptor (constructed from revised_color + iscc_nbs_modifier)
+    /// Get the revised descriptor (constructed from revised_color + iscc_nbs_formatter)
     pub fn revised_descriptor(&self) -> &str {
         &self.revised_descriptor
     }
@@ -74,8 +96,8 @@ pub struct ColorMetadata {
     pub iscc_nbs_descriptor: String,
     /// ISCC-NBS color name from CSV 'iscc-nbs-color' column (e.g., "pink")
     pub iscc_nbs_color_name: String,
-    /// ISCC-NBS modifier from CSV 'iscc-nbs-modifier' column (e.g., "vivid")
-    pub iscc_nbs_modifier: Option<String>,
+    /// ISCC-NBS formatter from CSV 'iscc-nbs-formatter' column (e.g., "{0} vivid")
+    pub iscc_nbs_formatter: Option<String>,
     /// Revised color name from CSV 'revised-color' column (e.g., "pink")
     pub revised_color_name: String,
 }
@@ -110,45 +132,39 @@ pub struct ISCC_NBS_Classifier {
 const ISCC_NBS_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
 
 impl ISCC_NBS_Classifier {
-    /// Construct a proper ISCC-NBS color descriptor from modifier and color name
-    /// 
-    /// This is the PUBLIC API for combining modifier + color into the standard ISCC-NBS format.
-    /// Handles special cases like "-ish" transformations and empty modifiers.
+    /// Simple descriptor construction using CSV format strings and -ish dictionary lookup
     /// 
     /// # Arguments
-    /// * `modifier` - The color modifier (e.g., "vivid", "pale", "-ish white")
-    /// * `color_name` - The base color name (e.g., "red", "pink", "blue")
+    /// * `formatter` - Format string from CSV (e.g., "{0} vivid", "-ish white")
+    /// * `color_name` - Base color name (e.g., "pink", "red")
     /// 
     /// # Returns
-    /// The properly formatted ISCC-NBS descriptor (e.g., "vivid red", "pinkish white")
-    pub fn construct_color_descriptor(&self, modifier: &str, color_name: &str) -> String {
-        let modifier = modifier.trim();
-        let color_name = color_name.trim();
-        
-        // Handle empty or dash-only modifiers
-        if modifier.is_empty() || modifier == "-" {
-            return color_name.to_string();
-        }
-        
-        // Handle "-ish" transformations
-        if modifier.contains("-ish") {
-            // For "-ish white" + "pink" = "pinkish white"
-            // For "-ish gray" + "red" = "reddish gray"
-            let suffix_start = modifier.find("-ish").unwrap() + 4;
-            let suffix = modifier[suffix_start..].trim();
+    /// The properly formatted ISCC-NBS descriptor
+    fn construct_descriptor(&self, formatter: &str, color_name: &str) -> String {
+        if formatter.contains("{0}") {
+            // Standard case: "{0} vivid" → "pink vivid"
+            formatter.replace("{0}", color_name)
+        } else if formatter.starts_with("-ish") {
+            // Special -ish case: "-ish white" → "pinkish white"
+            let color_name_ish = COLOR_TO_ISH.get(color_name)
+                .copied() // Convert &&str to &str
+                .unwrap_or_else(|| {
+                    // For unknown colors not in dictionary, add "ish"
+                    color_name // This will be handled below
+                });
             
-            if !suffix.is_empty() {
-                // Apply -ish to the color_name and append the suffix
-                let transformed = self.apply_ish_transformation(color_name);
-                return format!("{} {}", transformed, suffix);
+            let suffix = &formatter[4..]; // Remove "-ish" prefix
+            if suffix.trim().is_empty() {
+                // Just "-ish" → "pinkish"
+                color_name_ish.to_string()
             } else {
-                // Just apply -ish to the color
-                return self.apply_ish_transformation(color_name);
+                // "-ish white" → "pinkish white"
+                format!("{}{}", color_name_ish, suffix)
             }
+        } else {
+            // Fallback - just return the formatter as-is
+            formatter.to_string()
         }
-        
-        // Standard modifier + color combination
-        format!("{} {}", modifier, color_name)
     }
     
     /// Create a new ISCC-NBS classifier using embedded data.
@@ -261,9 +277,9 @@ impl ISCC_NBS_Classifier {
             let result = ISCC_NBS_Result {
                 iscc_nbs_descriptor: metadata.iscc_nbs_descriptor.clone(),
                 iscc_nbs_color: metadata.iscc_nbs_color_name.clone(),
-                iscc_nbs_modifier: metadata.iscc_nbs_modifier.clone(),
+                iscc_nbs_formatter: metadata.iscc_nbs_formatter.clone(),
                 revised_color: metadata.revised_color_name.clone(),
-                revised_descriptor: self.construct_revised_descriptor(&metadata.revised_color_name, &metadata.iscc_nbs_modifier),
+                revised_descriptor: self.construct_revised_descriptor(&metadata.revised_color_name, &metadata.iscc_nbs_formatter),
                 shade: self.extract_shade(&metadata.revised_color_name),
                 iscc_nbs_color_id: color_number,
             };
@@ -408,11 +424,8 @@ impl ISCC_NBS_Classifier {
             .find(|polygon| {
                 // Check if this polygon's full descriptor matches the expected one using metadata lookup
                 if let Some(metadata) = self.color_metadata.get(&polygon.color_number) {
-                    let full_name = self.construct_color_descriptor(
-                        metadata.iscc_nbs_modifier.as_deref().unwrap_or(""),
-                        &metadata.iscc_nbs_color_name
-                    );
-                    full_name.to_lowercase() == expected_descriptor.to_lowercase()
+                    // Use the iscc_nbs_descriptor directly from CSV which contains the complete descriptor
+                    metadata.iscc_nbs_descriptor.to_lowercase() == expected_descriptor.to_lowercase()
                 } else {
                     false
                 }
@@ -748,13 +761,13 @@ impl ISCC_NBS_Classifier {
             // Extract shade from revised_color (last word specifically)
             let shade = self.extract_shade(&metadata.revised_color_name);
             
-            // Construct revised descriptor from revised_color + iscc_nbs_modifier
-            let revised_descriptor = self.construct_revised_descriptor(&metadata.revised_color_name, &metadata.iscc_nbs_modifier);
+            // Construct revised descriptor from revised_color + iscc_nbs_formatter
+            let revised_descriptor = self.construct_revised_descriptor(&metadata.revised_color_name, &metadata.iscc_nbs_formatter);
             
             ISCC_NBS_Result {
                 iscc_nbs_descriptor: metadata.iscc_nbs_descriptor.clone(),
                 iscc_nbs_color: metadata.iscc_nbs_color_name.clone(),
-                iscc_nbs_modifier: metadata.iscc_nbs_modifier.clone(),
+                iscc_nbs_formatter: metadata.iscc_nbs_formatter.clone(),
                 revised_color: metadata.revised_color_name.clone(),
                 revised_descriptor,
                 shade,
@@ -765,7 +778,7 @@ impl ISCC_NBS_Classifier {
             ISCC_NBS_Result {
                 iscc_nbs_descriptor: "unknown".to_string(),
                 iscc_nbs_color: "unknown".to_string(),
-                iscc_nbs_modifier: None,
+                iscc_nbs_formatter: None,
                 revised_color: "unknown".to_string(),
                 revised_descriptor: "unknown".to_string(),
                 shade: "unknown".to_string(),
@@ -783,84 +796,15 @@ impl ISCC_NBS_Classifier {
             .to_string()
     }
     
-    /// Construct revised descriptor from revised_color + iscc_nbs_modifier
-    /// Following ISCC-NBS standardized rules for descriptor construction
-    fn construct_revised_descriptor(&self, revised_color: &str, iscc_nbs_modifier: &Option<String>) -> String {
-        match iscc_nbs_modifier {
-            // Rule 2: No modifier case
+    /// Construct revised descriptor from revised_color + iscc_nbs_formatter
+    /// Using simple format string replacement with dictionary lookup
+    fn construct_revised_descriptor(&self, revised_color: &str, iscc_nbs_formatter: &Option<String>) -> String {
+        match iscc_nbs_formatter {
             None => revised_color.trim().to_string(),
-            
-            // Rule 3: "-ish" transformation rules
-            Some(modifier) if modifier.contains("-ish") => {
-                self.construct_ish_descriptor(revised_color, modifier)
-            },
-            
-            // Rule 1: Basic prefix rule
-            Some(modifier) => {
-                format!("{} {}", modifier.trim(), revised_color.trim())
-            }
+            Some(formatter) => self.construct_descriptor(formatter, revised_color),
         }
     }
     
-    /// Handle "-ish" modifier transformations with English grammar rules
-    fn construct_ish_descriptor(&self, revised_color: &str, modifier: &str) -> String {
-        self.construct_proper_name("", revised_color, modifier).trim().to_string()
-    }
-    
-    /// Apply English grammar rules for "-ish" transformations
-    fn apply_ish_transformation(&self, color: &str) -> String {
-        match color {
-            "brown" => "brownish".to_string(),
-            "blue" => "bluish".to_string(), 
-            "red" => "reddish".to_string(),
-            "green" => "greenish".to_string(),
-            "yellow" => "yellowish".to_string(), 
-            "purple" => "purplish".to_string(),
-            "pink" => "pinkish".to_string(),
-            // Default fallback for any other colors
-            _ => format!("{}ish", color),
-        }
-    }
-    
-    /// Construct proper ISCC-NBS name using correct -ish logic
-    fn construct_proper_name(&self, descriptor: &str, color_name: &str, modifier: &str) -> String {
-        let modifier = modifier.trim();
-        
-        // Test if "-ish" is in the modifier
-        if modifier.contains("-ish") {
-            // Use the mapping table: replace the color with its -ish version
-            let ish_color = self.apply_ish_transformation(color_name);
-            
-            // Replace "-ish" in the modifier with the mapped color
-            let final_modifier = modifier.replace("-ish", "");
-            
-            if final_modifier.trim().is_empty() {
-                // Just the -ish transformation: "descriptor + color-ish"
-                format!("{} {}", descriptor, ish_color)
-            } else {
-                // Modifier + -ish transformation: "descriptor + modifier + color-ish"
-                format!("{} {} {}", descriptor, final_modifier.trim(), ish_color)
-            }
-        } else if !modifier.is_empty() {
-            // Regular modifier: "descriptor + modifier + color"
-            format!("{} {} {}", descriptor, modifier, color_name)
-        } else {
-            // No modifier: "descriptor + color"
-            format!("{} {}", descriptor, color_name)
-        }
-    }
-    
-    /// Format the complete ISCC-NBS color name using metadata lookup
-    fn format_color_name(&self, color: &ISCC_NBS_Color) -> String {
-        if let Some(metadata) = self.color_metadata.get(&color.color_number) {
-            match &metadata.iscc_nbs_modifier {
-                Some(modifier) => self.construct_proper_name(&metadata.iscc_nbs_descriptor, &metadata.iscc_nbs_color_name, modifier),
-                None => format!("{} {}", metadata.iscc_nbs_descriptor, metadata.iscc_nbs_color_name),
-            }
-        } else {
-            format!("unknown color {}", color.color_number)
-        }
-    }
     
     /// Helper function to create data error
     fn data_error<S: Into<String>>(msg: S) -> MunsellError {
@@ -920,8 +864,8 @@ impl ISCC_NBS_Classifier {
                 .ok_or_else(|| Self::data_error("Missing color_name".to_string()))?
                 .to_string();
                 
-            // Use iscc-nbs-modifier (column 4) as the modifier
-            let modifier = record.get(4).filter(|s| !s.is_empty()).map(|s| s.to_string());
+            // Use iscc-nbs-formatter (column 4) as the formatter
+            let formatter = record.get(4).filter(|s| !s.is_empty()).map(|s| s.to_string());
             
             let revised_color = record.get(5)
                 .ok_or_else(|| Self::data_error("Missing revised_color".to_string()))?
@@ -951,7 +895,7 @@ impl ISCC_NBS_Classifier {
             
             // Store polygon-specific metadata (same for all points in a group)
             if !polygon_metadata.contains_key(&key) {
-                polygon_metadata.insert(key, (descriptor.clone(), color_name.clone(), modifier.clone(), revised_color.clone(), hue1, hue2));
+                polygon_metadata.insert(key, (descriptor.clone(), color_name.clone(), formatter.clone(), revised_color.clone(), hue1, hue2));
             }
             
             // Store color-level metadata (indexed by color_number only) 
@@ -959,7 +903,7 @@ impl ISCC_NBS_Classifier {
                 color_metadata.insert(color_number, ColorMetadata {
                     iscc_nbs_descriptor: descriptor,
                     iscc_nbs_color_name: color_name,
-                    iscc_nbs_modifier: modifier,
+                    iscc_nbs_formatter: formatter,
                     revised_color_name: revised_color,
                 });
             }

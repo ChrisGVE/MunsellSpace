@@ -144,3 +144,7 @@ harness = false
 [[bin]]
 name = "wedge_coverage_test"
 path = "src/bin/wedge_coverage_test.rs"
+
+[[bin]]
+name = "test_iscc_refactor"
+path = "test_iscc_refactor.rs"
