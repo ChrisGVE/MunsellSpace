@@ -1,16 +1,7 @@
 //! Lab color space functions - exact 1:1 port from Python colour-science
 //! Line-by-line port with exact behavior matching
 
-
-// Constants for Lab color space (D65 illuminant, 2° observer)
-const XN_D65: f64 = 0.95047;  // X tristimulus value for D65
-const YN_D65: f64 = 1.00000;  // Y tristimulus value for D65
-const ZN_D65: f64 = 1.08883;  // Z tristimulus value for D65
-
-// Constants for Illuminant C (used in Munsell)
-const XN_C: f64 = 0.98074;
-const YN_C: f64 = 1.00000;
-const ZN_C: f64 = 1.18232;
+use crate::constants::{ILLUMINANT_D65_XYZ, ILLUMINANT_C_XYZ};
 
 /// Convert XYZ to Lab color space
 /// Exact 1:1 port from Python colour-science XYZ_to_Lab
@@ -18,9 +9,9 @@ const ZN_C: f64 = 1.18232;
 pub fn xyz_to_lab(xyz: [f64; 3], illuminant: &str) -> [f64; 3] {
     // Select illuminant white point
     let (xn, yn, zn) = match illuminant {
-        "D65" => (XN_D65, YN_D65, ZN_D65),
-        "C" => (XN_C, YN_C, ZN_C),
-        _ => (XN_C, YN_C, ZN_C), // Default to C for Munsell
+        "D65" => (ILLUMINANT_D65_XYZ[0], ILLUMINANT_D65_XYZ[1], ILLUMINANT_D65_XYZ[2]),
+        "C" => (ILLUMINANT_C_XYZ[0], ILLUMINANT_C_XYZ[1], ILLUMINANT_C_XYZ[2]),
+        _ => (ILLUMINANT_C_XYZ[0], ILLUMINANT_C_XYZ[1], ILLUMINANT_C_XYZ[2]), // Default to C for Munsell
     };
     
     // Python: X_r, Y_r, Z_r = XYZ / illuminant
@@ -66,9 +57,9 @@ pub fn xyz_to_lab(xyz: [f64; 3], illuminant: &str) -> [f64; 3] {
 /// Exact 1:1 port from Python colour-science Lab_to_XYZ
 pub fn lab_to_xyz(lab: [f64; 3], illuminant: &str) -> [f64; 3] {
     let (xn, yn, zn) = match illuminant {
-        "D65" => (XN_D65, YN_D65, ZN_D65),
-        "C" => (XN_C, YN_C, ZN_C),
-        _ => (XN_C, YN_C, ZN_C),
+        "D65" => (ILLUMINANT_D65_XYZ[0], ILLUMINANT_D65_XYZ[1], ILLUMINANT_D65_XYZ[2]),
+        "C" => (ILLUMINANT_C_XYZ[0], ILLUMINANT_C_XYZ[1], ILLUMINANT_C_XYZ[2]),
+        _ => (ILLUMINANT_C_XYZ[0], ILLUMINANT_C_XYZ[1], ILLUMINANT_C_XYZ[2]),
     };
     
     let l = lab[0];

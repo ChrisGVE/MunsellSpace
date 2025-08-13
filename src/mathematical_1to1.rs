@@ -14,8 +14,8 @@ const MAX_OUTER_ITERATIONS: usize = 64;
 const MAX_INNER_ITERATIONS: usize = 16;
 
 // Illuminant C chromaticity coordinates
-const ILLUMINANT_C_X: f64 = 0.31006;
-const ILLUMINANT_C_Y: f64 = 0.31616;
+const ILLUMINANT_C_X: f64 = ILLUMINANT_C_CHROMATICITY[0];
+const ILLUMINANT_C_Y: f64 = ILLUMINANT_C_CHROMATICITY[1];
 
 /// Mathematical Munsell specification representation
 #[derive(Debug, Clone, PartialEq)]

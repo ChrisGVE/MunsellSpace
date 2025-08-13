@@ -14,43 +14,8 @@ const TOLERANCE_ABSOLUTE_DEFAULT: f64 = 1e-8;
 const MAX_OUTER_ITERATIONS: usize = 64;
 const MAX_INNER_ITERATIONS: usize = 16;
 
-// Standard illuminant white points (CIE 1931 2° Standard Observer)
-const D65_WHITE_POINT: [f64; 3] = [0.95047, 1.00000, 1.08883];
-const ILLUMINANT_C_WHITE_POINT: [f64; 3] = [0.98074, 1.00000, 1.18232];
-const ILLUMINANT_A_WHITE_POINT: [f64; 3] = [1.09850, 1.00000, 0.35585];
-const ILLUMINANT_E_WHITE_POINT: [f64; 3] = [1.00000, 1.00000, 1.00000];
-const D50_WHITE_POINT: [f64; 3] = [0.96422, 1.00000, 0.82521];
-const D55_WHITE_POINT: [f64; 3] = [0.95682, 1.00000, 0.92149];
-const D75_WHITE_POINT: [f64; 3] = [0.94972, 1.00000, 1.22638];
-const F2_WHITE_POINT: [f64; 3] = [0.99186, 1.00000, 0.67393];  // Cool White Fluorescent
-const F7_WHITE_POINT: [f64; 3] = [0.95041, 1.00000, 1.08747];  // Daylight Fluorescent
-const F11_WHITE_POINT: [f64; 3] = [1.00962, 1.00000, 0.64350]; // Narrow Band Fluorescent
-
-// Bradford chromatic adaptation matrix
-const BRADFORD_MATRIX: [[f64; 3]; 3] = [
-    [ 0.8951000,  0.2664000, -0.1614000],
-    [-0.7502000,  1.7135000,  0.0367000],  
-    [ 0.0389000, -0.0685000,  1.0296000]
-];
-
-const BRADFORD_MATRIX_INV: [[f64; 3]; 3] = [
-    [ 0.9869929, -0.1470543,  0.1599627],
-    [ 0.4323053,  0.5183603,  0.0492912],
-    [-0.0085287,  0.0400428,  0.9684867]
-];
-
-// CAT02 chromatic adaptation matrix
-const CAT02_MATRIX: [[f64; 3]; 3] = [
-    [ 0.7328000,  0.4296000, -0.1624000],
-    [-0.7036000,  1.6975000,  0.0061000],
-    [ 0.0030000,  0.0136000,  0.9834000]
-];
-
-const CAT02_MATRIX_INV: [[f64; 3]; 3] = [
-    [ 1.0961238, -0.2788690,  0.1827452],
-    [ 0.4543690,  0.4735332,  0.0720978],
-    [-0.0096276, -0.0056980,  1.0153256]
-];
+// Import centralized illuminant and adaptation constants
+// Standard illuminant white points are now imported from constants module
 
 /// Supported standard illuminants
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -71,16 +36,16 @@ impl Illuminant {
     /// Get the XYZ white point for this illuminant
     pub fn white_point(&self) -> [f64; 3] {
         match self {
-            Illuminant::A => ILLUMINANT_A_WHITE_POINT,
-            Illuminant::C => ILLUMINANT_C_WHITE_POINT,
-            Illuminant::E => ILLUMINANT_E_WHITE_POINT,
-            Illuminant::D50 => D50_WHITE_POINT,
-            Illuminant::D55 => D55_WHITE_POINT,
-            Illuminant::D65 => D65_WHITE_POINT,
-            Illuminant::D75 => D75_WHITE_POINT,
-            Illuminant::F2 => F2_WHITE_POINT,
-            Illuminant::F7 => F7_WHITE_POINT,
-            Illuminant::F11 => F11_WHITE_POINT,
+            Illuminant::A => ILLUMINANT_A_XYZ,
+            Illuminant::C => ILLUMINANT_C_XYZ,
+            Illuminant::E => ILLUMINANT_E_XYZ,
+            Illuminant::D50 => ILLUMINANT_D50_XYZ,
+            Illuminant::D55 => ILLUMINANT_D55_XYZ,
+            Illuminant::D65 => ILLUMINANT_D65_XYZ,
+            Illuminant::D75 => ILLUMINANT_D75_XYZ,
+            Illuminant::F2 => ILLUMINANT_F2_XYZ,
+            Illuminant::F7 => ILLUMINANT_F7_XYZ,
+            Illuminant::F11 => ILLUMINANT_F11_XYZ,
         }
     }
 }

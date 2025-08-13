@@ -9,6 +9,8 @@ pub mod color_ish;
 pub mod achromatic;
 pub mod iscc_nbs_colors;
 pub mod iscc_nbs_polygons;
+pub mod illuminants;
+pub mod chromatic_adaptation;
 
 // Re-export all constants from the submodules
 pub use munsell_renotation_dataset::MUNSELL_RENOTATION_DATA;
@@ -17,10 +19,9 @@ pub use color_ish::{COLOR_TO_ISH_MAPPINGS, get_color_ish};
 pub use achromatic::{ACHROMATIC_BOUNDARIES, get_achromatic_color_number, get_achromatic_color_name, is_achromatic_hue};
 pub use iscc_nbs_colors::{ISCC_NBS_COLORS, IsccNbsColorEntry, get_color_by_number, color_entry_to_metadata, get_all_color_numbers};
 pub use iscc_nbs_polygons::{PolygonDefinition, PolygonPoint, get_polygon_definitions};
+pub use illuminants::*;
+pub use chromatic_adaptation::*;
 
-/// CIE Illuminant C chromaticity coordinates (x, y)
-/// Used as the reference white point for Munsell color calculations
-pub const ILLUMINANT_C: [f64; 2] = [0.31006, 0.31616];
 
 /// Magnesium oxide reflectance factor
 /// Used to scale Y luminance values in the Munsell Renotation dataset

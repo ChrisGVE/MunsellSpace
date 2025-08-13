@@ -6,6 +6,7 @@ use std::collections::HashMap;
 
 use crate::error::{MunsellError, Result};
 use crate::types::{MunsellColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
+use crate::constants::{BRADFORD_MATRIX, BRADFORD_MATRIX_INV, ILLUMINANT_D65_XYZ, ILLUMINANT_C_XYZ};
 
 /// Reference data entry for color conversion.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -424,43 +425,30 @@ impl MunsellConverter {
     /// Perform chromatic adaptation from D65 to Illuminant C using Bradford transform.
     /// This is CRITICAL for accurate Munsell conversion as reference data uses Illuminant C.
     fn chromatic_adaptation_d65_to_c(&self, xyz_d65: [f64; 3]) -> [f64; 3] {
-        // Illuminant white points
-        let illuminant_d65 = [0.95047, 1.00000, 1.08883]; // D65
-        let illuminant_c = [0.98074, 1.00000, 1.18232];   // Illuminant C
-
-        // Bradford adaptation matrix
-        let bradford_matrix = [
-            [ 0.8951000,  0.2664000, -0.1614000],
-            [-0.7502000,  1.7135000,  0.0367000],
-            [ 0.0389000, -0.0685000,  1.0296000],
-        ];
-
-        let bradford_inv = [
-            [ 0.9869929, -0.1470543,  0.1599627],
-            [ 0.4323053,  0.5183603,  0.0492912],
-            [-0.0085287,  0.0400428,  0.9684867],
-        ];
+        // Illuminant white points from centralized constants
+        let illuminant_d65 = ILLUMINANT_D65_XYZ;
+        let illuminant_c = ILLUMINANT_C_XYZ;
 
         // Convert illuminants to Bradford cone space
         let mut source_bradford = [0.0; 3];
         let mut dest_bradford = [0.0; 3];
 
         for i in 0..3 {
-            source_bradford[i] = bradford_matrix[i][0] * illuminant_d65[0] +
-                               bradford_matrix[i][1] * illuminant_d65[1] +
-                               bradford_matrix[i][2] * illuminant_d65[2];
+            source_bradford[i] = BRADFORD_MATRIX[i][0] * illuminant_d65[0] +
+                               BRADFORD_MATRIX[i][1] * illuminant_d65[1] +
+                               BRADFORD_MATRIX[i][2] * illuminant_d65[2];
             
-            dest_bradford[i] = bradford_matrix[i][0] * illuminant_c[0] +
-                             bradford_matrix[i][1] * illuminant_c[1] +
-                             bradford_matrix[i][2] * illuminant_c[2];
+            dest_bradford[i] = BRADFORD_MATRIX[i][0] * illuminant_c[0] +
+                             BRADFORD_MATRIX[i][1] * illuminant_c[1] +
+                             BRADFORD_MATRIX[i][2] * illuminant_c[2];
         }
 
         // Convert input XYZ to Bradford cone space
         let mut xyz_bradford = [0.0; 3];
         for i in 0..3 {
-            xyz_bradford[i] = bradford_matrix[i][0] * xyz_d65[0] +
-                            bradford_matrix[i][1] * xyz_d65[1] +
-                            bradford_matrix[i][2] * xyz_d65[2];
+            xyz_bradford[i] = BRADFORD_MATRIX[i][0] * xyz_d65[0] +
+                            BRADFORD_MATRIX[i][1] * xyz_d65[1] +
+                            BRADFORD_MATRIX[i][2] * xyz_d65[2];
         }
 
         // Apply adaptation
@@ -471,9 +459,9 @@ impl MunsellConverter {
         // Convert back to XYZ
         let mut xyz_c = [0.0; 3];
         for i in 0..3 {
-            xyz_c[i] = bradford_inv[i][0] * xyz_bradford[0] +
-                      bradford_inv[i][1] * xyz_bradford[1] +
-                      bradford_inv[i][2] * xyz_bradford[2];
+            xyz_c[i] = BRADFORD_MATRIX_INV[i][0] * xyz_bradford[0] +
+                      BRADFORD_MATRIX_INV[i][1] * xyz_bradford[1] +
+                      BRADFORD_MATRIX_INV[i][2] * xyz_bradford[2];
         }
 
         xyz_c
