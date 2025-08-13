@@ -74,49 +74,12 @@ name = "mathematical_convert_rgb"
 path = "src/bin/mathematical_convert_rgb.rs"
 
 [[bin]]
-name = "test_python_port_accuracy"
-path = "src/bin/test_python_port_accuracy.rs"
-
-[[bin]]
-name = "test_simple_colors"
-path = "src/bin/test_simple_colors.rs"
-
-[[bin]]
-name = "trace_color"
-path = "src/bin/trace_color.rs"
-
-[[bin]]
-name = "classification_accuracy_test"
-path = "classification_accuracy_test.rs"
-
-[[bin]]
-name = "hue_range_method_comparison"
-path = "hue_range_method_comparison.rs"
-
-[[bin]]
-name = "comprehensive_conversion_dataset"
-path = "comprehensive_conversion_dataset.rs"
-
-[[bin]]
 name = "comprehensive_dataset_misses"
 path = "investigation/src/comprehensive_dataset_misses.rs"
 
 [[bin]]
-name = "test_pink_restored"
-path = "test_pink_restored.rs"
-
-[[bin]]
-name = "test_illuminant_support"
-path = "test_illuminant_support.rs"
-
-[[bin]]
-name = "test_illuminant_accuracy"
-path = "test_illuminant_accuracy.rs"
-
-[[bin]]
-name = "quick_accuracy_test"
-path = "quick_accuracy_test.rs"
-
+name = "wedge_coverage_test"
+path = "investigation/src/wedge_coverage_test.rs"
 
 [profile.release]
 lto = true
@@ -129,6 +92,3 @@ debug = true
 [[bench]]
 name = "conversion_benchmarks"
 harness = false
-[[bin]]
-name = "wedge_coverage_test"
-path = "investigation/wedge_coverage_test.rs"
