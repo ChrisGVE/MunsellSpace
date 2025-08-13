@@ -25,67 +25,6 @@ lazy_static! {
     };
 }
 
-/// Complete ISCC-NBS color classification result - constructed on-the-fly from ColorMetadata
-#[derive(Debug, Clone)]
-pub struct ISCC_NBS_Result {
-    /// ISCC-NBS descriptor constructed from formatter + color name
-    pub iscc_nbs_descriptor: String,
-    /// ISCC-NBS color from metadata
-    pub iscc_nbs_color: String,
-    /// ISCC-NBS formatter from metadata
-    pub iscc_nbs_formatter: Option<String>,
-    /// Revised color name from metadata
-    pub revised_color: String,
-    /// Revised descriptor constructed from revised_color + formatter
-    pub revised_descriptor: String,
-    /// Shade (last word of revised_color)
-    pub shade: String,
-    /// ISCC-NBS color ID
-    pub iscc_nbs_color_id: u16,
-}
-
-impl ISCC_NBS_Result {
-    /// Get the ISCC-NBS descriptor
-    pub fn iscc_nbs_descriptor(&self) -> &str {
-        &self.iscc_nbs_descriptor
-    }
-
-    /// Get the ISCC-NBS color
-    pub fn iscc_nbs_color(&self) -> &str {
-        &self.iscc_nbs_color
-    }
-
-    /// Get the ISCC-NBS formatter (if any)
-    pub fn iscc_nbs_formatter(&self) -> Option<&str> {
-        self.iscc_nbs_formatter.as_deref()
-    }
-
-    /// Get the revised color name
-    pub fn revised_color(&self) -> &str {
-        &self.revised_color
-    }
-
-    /// Get the revised descriptor
-    pub fn revised_descriptor(&self) -> &str {
-        &self.revised_descriptor
-    }
-
-    /// Get the shade
-    pub fn shade(&self) -> &str {
-        &self.shade
-    }
-
-    /// Get the ISCC-NBS color ID
-    pub fn iscc_nbs_color_id(&self) -> u16 {
-        self.iscc_nbs_color_id
-    }
-
-    /// Get the complete ISCC-NBS name
-    pub fn full_iscc_nbs_name(&self) -> String {
-        self.iscc_nbs_descriptor.clone()
-    }
-}
-
 /// Color metadata with on-the-fly descriptor construction
 #[derive(Debug, Clone)]
 pub struct ColorMetadata {
@@ -95,6 +34,8 @@ pub struct ColorMetadata {
     pub iscc_nbs_formatter: Option<String>,
     /// Alternative color name from CSV 'alt_color_name' column (e.g., "pink")
     pub alt_color_name: String,
+    /// Color shade from CSV 'color_shade' column
+    pub color_shade: String,
 }
 
 impl ColorMetadata {
@@ -116,14 +57,9 @@ impl ColorMetadata {
         }
     }
 
-    /// Get the shade (last word of alt_color_name)
-    pub fn shade(&self) -> String {
-        self.alt_color_name
-            .trim()
-            .split_whitespace()
-            .last()
-            .unwrap_or("unknown")
-            .to_string()
+    /// Get the shade (loaded from CSV)
+    pub fn shade(&self) -> &str {
+        &self.color_shade
     }
 
     /// Static descriptor construction using CSV format strings and -ish dictionary lookup
@@ -247,25 +183,9 @@ impl ISCC_NBS_Classifier {
         self.get_achromatic_color_number(value)
     }
 
-    /// Build a complete ISCC_NBS_Result from a color number and metadata
-    fn build_result(&self, color_number: u16) -> Option<ISCC_NBS_Result> {
-        if let Some(metadata) = self.color_metadata.get(&color_number) {
-            let iscc_nbs_descriptor = metadata.iscc_nbs_descriptor();
-            let revised_descriptor = metadata.alt_color_descriptor();
-            let shade = metadata.shade();
-
-            Some(ISCC_NBS_Result {
-                iscc_nbs_descriptor,
-                iscc_nbs_color: metadata.iscc_nbs_color_name.clone(),
-                iscc_nbs_formatter: metadata.iscc_nbs_formatter.clone(),
-                revised_color: metadata.alt_color_name.clone(),
-                revised_descriptor,
-                shade,
-                iscc_nbs_color_id: color_number,
-            })
-        } else {
-            None
-        }
+    /// Build a ColorMetadata result from a color number by cloning from the colors HashMap
+    fn build_result(&self, color_number: u16) -> Option<ColorMetadata> {
+        self.color_metadata.get(&color_number).cloned()
     }
 
     /// Classify a Munsell color using the ISCC-NBS system.
@@ -274,7 +194,7 @@ impl ISCC_NBS_Classifier {
         hue: &str,
         value: f64,
         chroma: f64,
-    ) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+    ) -> Result<Option<ColorMetadata>, MunsellError> {
         // Check for achromatic colors first
         if self.is_achromatic(hue) {
             if let Some(color_number) = self.classify_achromatic(value) {
@@ -342,6 +262,33 @@ impl ISCC_NBS_Classifier {
         Ok(colors)
     }
 
+    /// Classify a Munsell color using the ISCC-NBS system (convenience method).
+    pub fn classify(
+        &self,
+        hue: &str,
+        value: f64,
+        chroma: f64,
+    ) -> Option<ColorMetadata> {
+        self.classify_munsell(hue, value, chroma).ok().flatten()
+    }
+
+    /// Classify a Munsell color with detailed error information.
+    pub fn classify_with_details(
+        &self,
+        hue: &str,
+        value: f64,
+        chroma: f64,
+    ) -> Option<(ColorMetadata, String)> {
+        match self.classify_munsell(hue, value, chroma) {
+            Ok(Some(metadata)) => {
+                let details = format!("Classified Munsell {}:{}/{} successfully", hue, value, chroma);
+                Some((metadata, details))
+            }
+            Ok(None) => None,
+            Err(_) => None,
+        }
+    }
+
     /// Helper method to cache results with size management
     fn cache_result(&self, key: (String, String, String), result: Option<u16>) {
         let mut cache = self.cache.borrow_mut();
@@ -385,7 +332,7 @@ impl ISCC_NBS_Classifier {
     pub fn classify_munsell_color(
         &self,
         munsell: &crate::types::MunsellColor,
-    ) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+    ) -> Result<Option<ColorMetadata>, MunsellError> {
         // Handle neutral colors (no hue/chroma)
         if let (Some(hue), Some(chroma)) = (&munsell.hue, munsell.chroma) {
             self.classify_munsell(hue, munsell.value, chroma)
@@ -396,7 +343,7 @@ impl ISCC_NBS_Classifier {
     }
 
     /// Classify an sRGB color using the ISCC-NBS system.
-    pub fn classify_srgb(&self, rgb: [u8; 3]) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+    pub fn classify_srgb(&self, rgb: [u8; 3]) -> Result<Option<ColorMetadata>, MunsellError> {
         use crate::MunsellConverter;
 
         // Convert sRGB to Munsell first
@@ -408,7 +355,7 @@ impl ISCC_NBS_Classifier {
     }
 
     /// Classify a Lab color using the ISCC-NBS system.
-    pub fn classify_lab(&self, lab: [f64; 3]) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+    pub fn classify_lab(&self, lab: [f64; 3]) -> Result<Option<ColorMetadata>, MunsellError> {
         use crate::MunsellConverter;
 
         // Convert Lab to Munsell first
@@ -420,7 +367,7 @@ impl ISCC_NBS_Classifier {
     }
 
     /// Classify a hex color using the ISCC-NBS system.
-    pub fn classify_hex(&self, hex: &str) -> Result<Option<ISCC_NBS_Result>, MunsellError> {
+    pub fn classify_hex(&self, hex: &str) -> Result<Option<ColorMetadata>, MunsellError> {
         // Parse hex string to RGB
         let rgb = self.parse_hex_to_rgb(hex)?;
 
@@ -527,7 +474,7 @@ impl ISCC_NBS_Classifier {
         let mut reader = Reader::from_reader(csv_content.as_bytes());
         let mut color_metadata: HashMap<u16, ColorMetadata> = HashMap::new();
 
-        // Parse CSV data: color_number,iscc_nbs_color_name,iscc_nbs_formatter,alt_color_name
+        // Parse CSV data: color_number,iscc_nbs_color_name,iscc_nbs_formatter,alt_color_name,color_shade
         for result in reader.records() {
             let record = result.map_err(|e| MunsellError::ReferenceDataError {
                 message: format!("CSV parsing error: {}", e),
@@ -554,12 +501,18 @@ impl ISCC_NBS_Classifier {
                 .ok_or_else(|| Self::data_error("Missing alt_color_name".to_string()))?
                 .to_string();
 
+            let color_shade = record
+                .get(4)
+                .ok_or_else(|| Self::data_error("Missing color_shade".to_string()))?
+                .to_string();
+
             color_metadata.insert(
                 color_number,
                 ColorMetadata {
                     iscc_nbs_color_name,
                     iscc_nbs_formatter,
                     alt_color_name,
+                    color_shade,
                 },
             );
         }

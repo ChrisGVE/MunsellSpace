@@ -6,7 +6,7 @@
 
 use std::collections::VecDeque;
 use std::sync::{Arc, Mutex};
-use crate::{MunsellColor, ISCC_NBS_Result, MunsellError};
+use crate::{MunsellColor, ColorMetadata, MunsellError};
 
 /// Maximum number of cached entries (FIFO eviction when exceeded)
 const CACHE_SIZE: usize = 500;
@@ -19,7 +19,7 @@ pub struct CachedColorResult {
     /// Munsell notation result
     pub munsell: MunsellColor,
     /// ISCC-NBS classification result (if applicable)
-    pub iscc_nbs: Option<ISCC_NBS_Result>,
+    pub iscc_nbs: Option<ColorMetadata>,
 }
 
 /// Thread-safe FIFO cache for color conversions
