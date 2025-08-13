@@ -1,4 +1,4 @@
-use crate::constants::{get_color_ish, get_achromatic_color_number, is_achromatic_hue, get_color_by_number, color_entry_to_metadata};
+use crate::constants::{get_color_ish, get_achromatic_color_number, is_achromatic_hue, get_color_by_number, color_entry_to_metadata, get_polygon_definitions};
 use crate::error::MunsellError;
 use crate::mechanical_wedges::MechanicalWedgeSystem;
 use geo::Polygon;
@@ -77,8 +77,7 @@ pub struct ISCC_NBS_Classifier {
     cache_max_size: usize,
 }
 
-/// Embedded ISCC-NBS polygon data - no external files needed
-const ISCC_NBS_POLYGON_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
+// Embedded ISCC-NBS polygon data is now in constants module - no CSV loading needed
 
 impl ISCC_NBS_Classifier {
     /// Create a new ISCC-NBS classifier using embedded data.
@@ -389,10 +388,53 @@ impl ISCC_NBS_Classifier {
         }
     }
 
+    /// Load ISCC-NBS polygon data from embedded constants (no file I/O required)
+    fn parse_embedded_polygon_data() -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
+        use geo::{Coord, LineString};
+        let mut colors = Vec::new();
+        
+        // Convert embedded polygon definitions to ISCC_NBS_Color instances
+        for polygon_def in get_polygon_definitions() {
+            if polygon_def.points.len() < 3 {
+                return Err(Self::data_error(format!(
+                    "Insufficient points for polygon: color {} polygon_group {} has {} points",
+                    polygon_def.color_number,
+                    polygon_def.polygon_group,
+                    polygon_def.points.len()
+                )));
+            }
+            
+            // Convert points to geo::Coord format (value, chroma) - note coordinate order
+            let mut coords: Vec<Coord<f64>> = polygon_def.points.iter()
+                .map(|p| Coord { x: p.value, y: p.chroma })
+                .collect();
+                
+            // Ensure polygon is closed (first point equals last point)
+            if !coords.is_empty() && coords.first() != coords.last() {
+                coords.push(coords[0]);
+            }
+            
+            // Create exterior ring from coordinates
+            let exterior = LineString::new(coords);
+            
+            // Create polygon (no holes for ISCC-NBS regions)
+            let polygon = geo::Polygon::new(exterior, vec![]);
+            
+            colors.push(ISCC_NBS_Color {
+                color_number: polygon_def.color_number,
+                polygon_group: polygon_def.polygon_group,
+                hue_range: (polygon_def.hue1.to_string(), polygon_def.hue2.to_string()),
+                polygon,
+            });
+        }
+        
+        Ok(colors)
+    }
+
     /// Load ISCC-NBS data from embedded constants (no file I/O required)
     fn load_embedded_iscc_data() -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
-        // Load polygon data from embedded CSV string
-        let polygons = Self::parse_polygon_csv_data(ISCC_NBS_POLYGON_DATA)?;
+        // Load polygon data from embedded constants
+        let polygons = Self::parse_embedded_polygon_data()?;
         
         // Load color metadata from embedded constants
         let mut color_metadata: HashMap<u16, ColorMetadata> = HashMap::new();

@@ -8,6 +8,7 @@ pub mod munsell_renotation_dataset;
 pub mod color_ish;
 pub mod achromatic;
 pub mod iscc_nbs_colors;
+pub mod iscc_nbs_polygons;
 
 // Re-export all constants from the submodules
 pub use munsell_renotation_dataset::MUNSELL_RENOTATION_DATA;
@@ -15,6 +16,7 @@ pub use maximum_chromas_data::MAXIMUM_CHROMAS;
 pub use color_ish::{COLOR_TO_ISH_MAPPINGS, get_color_ish};
 pub use achromatic::{ACHROMATIC_BOUNDARIES, get_achromatic_color_number, get_achromatic_color_name, is_achromatic_hue};
 pub use iscc_nbs_colors::{ISCC_NBS_COLORS, IsccNbsColorEntry, get_color_by_number, color_entry_to_metadata, get_all_color_numbers};
+pub use iscc_nbs_polygons::{PolygonDefinition, PolygonPoint, get_polygon_definitions};
 
 /// CIE Illuminant C chromaticity coordinates (x, y)
 /// Used as the reference white point for Munsell color calculations
