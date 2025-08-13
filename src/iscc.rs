@@ -140,7 +140,7 @@ impl ISCC_NBS_Classifier {
     /// 
     /// # Returns
     /// The properly formatted ISCC-NBS descriptor
-    fn construct_descriptor(&self, formatter: &str, color_name: &str) -> String {
+    pub fn construct_descriptor(&self, formatter: &str, color_name: &str) -> String {
         if formatter.contains("{0}") {
             // Standard case: "{0} vivid" → "pink vivid"
             formatter.replace("{0}", color_name)
