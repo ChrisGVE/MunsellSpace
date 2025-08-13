@@ -1,29 +1,8 @@
+use crate::constants::{get_color_ish, get_achromatic_color_number, is_achromatic_hue};
 use crate::error::MunsellError;
 use crate::mechanical_wedges::MechanicalWedgeSystem;
 use geo::Polygon;
-use lazy_static::lazy_static;
 use std::collections::HashMap;
-
-// Define -ish transformation dictionary at module level
-lazy_static! {
-    static ref COLOR_TO_ISH: HashMap<&'static str, &'static str> = {
-        let mut m = HashMap::new();
-        m.insert("brown", "brownish");
-        m.insert("blue", "bluish");
-        m.insert("red", "reddish");
-        m.insert("green", "greenish");
-        m.insert("yellow", "yellowish");
-        m.insert("purple", "purplish");
-        m.insert("pink", "pinkish");
-        m.insert("orange", "orangish");
-        m.insert("gray", "grayish");
-        m.insert("grey", "greyish");
-        m.insert("olive", "olive");  // Special case - stays as "olive"
-        m.insert("white", "whitish");
-        m.insert("black", "blackish");
-        m
-    };
-}
 
 /// Color metadata with on-the-fly descriptor construction
 #[derive(Debug, Clone)]
@@ -64,10 +43,7 @@ impl ColorMetadata {
 
     /// Static descriptor construction using CSV format strings and -ish dictionary lookup
     pub fn construct_descriptor(formatter: &str, color_name: &str) -> String {
-        let color_name_ish = COLOR_TO_ISH
-            .get(color_name)
-            .copied()
-            .unwrap_or(color_name);
+        let color_name_ish = get_color_ish(color_name);
         
         // Replace {0} with color_name and {1} with color_name_ish
         formatter
@@ -135,39 +111,13 @@ impl ISCC_NBS_Classifier {
 
     /// Check if a hue represents an achromatic (neutral) color.
     fn is_achromatic(&self, hue: &str) -> bool {
-        let hue = hue.trim().to_uppercase();
-        // Check for various neutral notations:
-        // - Just "N"
-        // - Numeric prefix: "0N", "0.0N", etc.
-        if hue == "N" {
-            return true;
-        }
-
-        // Check if it ends with N and everything before it is numeric (digits or decimal point)
-        if let Some(n_pos) = hue.rfind('N') {
-            let prefix = &hue[..n_pos];
-            return prefix.is_empty() || prefix.chars().all(|c| c.is_ascii_digit() || c == '.');
-        }
-
-        false
+        is_achromatic_hue(hue)
     }
 
     /// Get the achromatic (neutral) color number for a given value.
     /// Helper method to eliminate duplication between classify_achromatic and find_all_colors_at_point.
     fn get_achromatic_color_number(&self, value: f64) -> Option<u16> {
-        let color_number = if value >= 0.0 && value <= 2.5 {
-            267 // black
-        } else if value > 2.5 && value <= 4.5 {
-            266 // dark gray
-        } else if value > 4.5 && value <= 6.5 {
-            265 // medium gray
-        } else if value > 6.5 && value <= 8.5 {
-            264 // light gray
-        } else if value > 8.5 && value <= 10.0 {
-            263 // white
-        } else {
-            return None; // Value out of range
-        };
+        let color_number = get_achromatic_color_number(value)?;
 
         // Verify the metadata exists before returning
         if self.color_metadata.contains_key(&color_number) {
