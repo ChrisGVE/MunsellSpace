@@ -54,7 +54,6 @@ pub mod python_port_strings;
 pub mod python_port_lab;
 pub mod python_port_utils;
 pub mod python_port_interpolation;
-pub mod python_port_cache;
 pub mod mechanical_wedges;
 pub mod unified_cache;
 
