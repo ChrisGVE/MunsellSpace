@@ -14,7 +14,7 @@ pub fn is_specification_in_renotation(spec: &[f64; 4]) -> bool {
     
     // Handle grey colors
     // Python: if is_grey_munsell_colour(specification):
-    if crate::python_port::is_grey_munsell_colour(spec) {
+    if crate::munsell_color_science::is_grey_munsell_colour(spec) {
         // Check if this grey value exists in the data
         // Python: checks for 'N' entries with matching value
         for &((family, v, c), _) in MUNSELL_RENOTATION_DATA.iter() {
@@ -288,14 +288,14 @@ pub fn munsell_value_mccamy1987(y: f64) -> f64 {
 pub fn munsell_value(y: f64, method: &str) -> f64 {
     // Python: dispatches to specific method based on string
     match method {
-        "ASTM D1535" => crate::python_port::munsell_value_astmd1535(y),
+        "ASTM D1535" => crate::munsell_color_science::munsell_value_astmd1535(y),
         "Priest 1920" => munsell_value_priest1920(y),
         "Munsell 1933" => munsell_value_munsell1933(y),
         "Moon 1943" => munsell_value_moon1943(y),
         "Saunderson 1944" => munsell_value_saunderson1944(y),
         "Ladd 1955" => munsell_value_ladd1955(y),
         "McCamy 1987" => munsell_value_mccamy1987(y),
-        _ => crate::python_port::munsell_value_astmd1535(y), // Default
+        _ => crate::munsell_color_science::munsell_value_astmd1535(y), // Default
     }
 }
 
@@ -366,7 +366,7 @@ mod tests {
         let y = 0.5;
         
         // Test different methods give reasonable values
-        let astm = crate::python_port::munsell_value_astmd1535(y);
+        let astm = crate::munsell_color_science::munsell_value_astmd1535(y);
         let priest = munsell_value_priest1920(y);
         let munsell = munsell_value_munsell1933(y);
         

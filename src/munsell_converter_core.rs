@@ -2,8 +2,8 @@
 //! This module integrates the exact 1:1 Python ports for accurate conversion
 
 use crate::error::{MunsellError, Result};
-use crate::python_port::*;
-use crate::python_port_strings::*;
+use crate::munsell_color_science::*;
+use crate::color_notation_parser::*;
 use crate::types::{MunsellColor, RgbColor};
 
 /// Python-compatible Munsell converter using exact colour-science algorithms

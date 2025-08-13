@@ -5,9 +5,9 @@
 //! intermediate color space for maximum accuracy and color science compliance.
 
 use crate::mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
-use crate::python_converter::PythonMunsellConverter;
-use crate::python_port_strings::munsell_colour_to_munsell_specification;
-use crate::python_port::munsell_specification_to_xyy;
+use crate::munsell_converter_core::PythonMunsellConverter;
+use crate::color_notation_parser::munsell_colour_to_munsell_specification;
+use crate::munsell_color_science::munsell_specification_to_xyy;
 use crate::error::{MunsellError, Result};
 use palette::{Srgb, Hsl, Hsv, Xyz, convert::IntoColor, white_point::D65};
 

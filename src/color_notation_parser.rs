@@ -127,7 +127,7 @@ pub fn parse_munsell_colour(munsell_colour: &str) -> Result<[f64; 4]> {
 pub fn munsell_colour_to_munsell_specification(munsell_colour: &str) -> Result<[f64; 4]> {
     // Python: return normalise_munsell_specification(parse_munsell_colour(munsell_colour))
     let spec = parse_munsell_colour(munsell_colour)?;
-    Ok(crate::python_port::normalise_munsell_specification(&spec))
+    Ok(crate::munsell_color_science::normalise_munsell_specification(&spec))
 }
 
 /// Convert Munsell specification to Munsell colour string
@@ -139,14 +139,14 @@ pub fn munsell_specification_to_munsell_colour(
     chroma_decimals: usize,
 ) -> Result<String> {
     // Python: hue, value, chroma, code = tsplit(normalise_munsell_specification(specification))
-    let spec = crate::python_port::normalise_munsell_specification(specification);
+    let spec = crate::munsell_color_science::normalise_munsell_specification(specification);
     let hue = spec[0];
     let value = spec[1];
     let chroma = spec[2];
     let code = spec[3] as u8;
     
     // Python: if is_grey_munsell_colour(specification):
-    if crate::python_port::is_grey_munsell_colour(&spec) {
+    if crate::munsell_color_science::is_grey_munsell_colour(&spec) {
         // Python: return MUNSELL_GRAY_EXTENDED_FORMAT.format(value, value_decimals)
         // Format: 'N {0:.{1}f}' where {0} is value, {1} is decimals
         // Note: Python uses 'N {value}' with a space after N
@@ -213,7 +213,7 @@ pub fn xyy_to_munsell_colour(
     chroma_decimals: usize,
 ) -> Result<String> {
     // Python: specification = xyY_to_munsell_specification(xyY)
-    let specification = crate::python_port::xyy_to_munsell_specification(xyy)?;
+    let specification = crate::munsell_color_science::xyy_to_munsell_specification(xyy)?;
     
     // Python: return munsell_specification_to_munsell_colour(
     //     specification, hue_decimals, value_decimals, chroma_decimals)
@@ -232,7 +232,7 @@ pub fn munsell_colour_to_xyy(munsell_colour: &str) -> Result<[f64; 3]> {
     let specification = munsell_colour_to_munsell_specification(munsell_colour)?;
     
     // Python: return munsell_specification_to_xyY(specification)
-    crate::python_port::munsell_specification_to_xyy(&specification)
+    crate::munsell_color_science::munsell_specification_to_xyy(&specification)
 }
 
 // Helper function for rounding to specific decimal places

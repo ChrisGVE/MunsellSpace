@@ -642,7 +642,7 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> Result<
         eprintln!("  ma_limit_mcw={:.4}, ma_limit_mccw={:.4}", ma_limit_mcw, ma_limit_mccw);
         
         // Linear interpolation from [L9, L10] to [chroma, 0]
-        use crate::python_port_interpolation::LinearInterpolator;
+        use crate::color_interpolation::LinearInterpolator;
         let interpolator_cw = LinearInterpolator::new(vec![l9, l10], vec![ma_limit_mcw, 0.0])?;
         let chroma_cw = interpolator_cw.interpolate(l);
         
@@ -1242,11 +1242,11 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
 pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     eprintln!("DEBUG: Entering xyy_to_munsell_specification with xyy=[{:.4}, {:.4}, {:.4}]", xyy[0], xyy[1], xyy[2]);
     
-    use crate::python_port_interpolation::{LinearInterpolator, Extrapolator, ExtrapolationMethod};
-    use crate::python_port_lab::{
+    use crate::color_interpolation::{LinearInterpolator, Extrapolator, ExtrapolationMethod};
+    use crate::lab_color_space::{
         xyy_to_xyz, xyz_to_lab, lab_to_lchab, lchab_to_munsell_specification
     };
-    use crate::python_port_utils::euclidean_distance;
+    use crate::color_math_utils::euclidean_distance;
     
     let (x, y, big_y) = (xyy[0], xyy[1], xyy[2]);
     
