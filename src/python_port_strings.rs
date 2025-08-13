@@ -7,9 +7,13 @@ use std::collections::HashMap;
 use lazy_static::lazy_static;
 
 // Python: MUNSELL_GRAY_PATTERN = r'N(?P<value>[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)'
+// Modified to allow:
+// - Optional number before N (e.g., "0.0N 5", "5.0N 5") even though it's meaningless for neutrals
+// - Optional space after N
+// - Optional trailing slash/zero for common notation formats
 lazy_static! {
     static ref MUNSELL_GRAY_PATTERN: Regex = Regex::new(
-        r"(?i)N(?P<value>[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)"
+        r"(?i)(?:[0-9]*\.?[0-9]+\s*)?N\s*(?P<value>[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)(/\s*0*\.?0*)?"
     ).unwrap();
 }
 
