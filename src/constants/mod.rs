@@ -1,10 +1,14 @@
-//! Mathematical constants for Munsell color space conversion
+//! Mathematical constants and datasets for Munsell color space conversion
 //! 
 //! This module contains all constants required for accurate ASTM D1535 compliant
-//! Munsell color space conversion, including the complete Munsell Renotation dataset
-//! from the Python colour-science library.
+//! Munsell color space conversion, including datasets and mathematical constants.
 
 pub mod maximum_chromas_data;
+pub mod munsell_renotation_dataset;
+
+// Re-export all constants from the submodules
+pub use munsell_renotation_dataset::MUNSELL_RENOTATION_DATA;
+pub use maximum_chromas_data::MAXIMUM_CHROMAS;
 
 /// CIE Illuminant C chromaticity coordinates (x, y)
 /// Used as the reference white point for Munsell color calculations
@@ -70,13 +74,6 @@ pub const SRGB_TO_XYZ_MATRIX: [[f64; 3]; 3] = [
 pub const MUNSELL_HUE_FAMILIES: [&str; 10] = [
     "R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"
 ];
-
-/// Complete Munsell Renotation dataset
-/// Format: ((hue_string, value, chroma), (x, y, Y))
-/// Source: Python colour-science library MUNSELL_COLOURS_ALL
-/// IMPORTANT: Y values are scaled by 1/0.975 factor in the original dataset
-pub const MUNSELL_RENOTATION_DATA: &[((&str, f64, f64), (f64, f64, f64))] = 
-    include!("munsell_renotation_data_entries.rs");
 
 #[cfg(test)]
 mod tests {
