@@ -1,4 +1,4 @@
-use crate::constants::{get_color_ish, get_achromatic_color_number, is_achromatic_hue};
+use crate::constants::{get_color_ish, get_achromatic_color_number, is_achromatic_hue, get_color_by_number, color_entry_to_metadata};
 use crate::error::MunsellError;
 use crate::mechanical_wedges::MechanicalWedgeSystem;
 use geo::Polygon;
@@ -77,18 +77,26 @@ pub struct ISCC_NBS_Classifier {
     cache_max_size: usize,
 }
 
-/// Embedded ISCC-NBS data - no external files needed
+/// Embedded ISCC-NBS polygon data - no external files needed
 const ISCC_NBS_POLYGON_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
-const ISCC_NBS_COLOR_DATA: &str = include_str!("../assets/ISCC-NBS-Colors.csv");
 
 impl ISCC_NBS_Classifier {
     /// Create a new ISCC-NBS classifier using embedded data.
     pub fn new() -> Result<Self, MunsellError> {
-        let csv_path = concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/assets/ISCC-NBS-Definitions.csv"
-        );
-        Self::from_csv(csv_path)
+        let (colors, color_metadata) = Self::load_embedded_iscc_data()?;
+        let mut wedge_system = MechanicalWedgeSystem::new();
+
+        // Distribute all polygons into the mechanical wedge system
+        for polygon in colors {
+            wedge_system.distribute_polygon(polygon)?;
+        }
+
+        Ok(ISCC_NBS_Classifier {
+            wedge_system,
+            color_metadata,
+            cache: std::cell::RefCell::new(HashMap::new()),
+            cache_max_size: 256,
+        })
     }
 
     /// Create a new ISCC-NBS classifier from external CSV file.
@@ -379,6 +387,24 @@ impl ISCC_NBS_Classifier {
         MunsellError::ReferenceDataError {
             message: msg.into(),
         }
+    }
+
+    /// Load ISCC-NBS data from embedded constants (no file I/O required)
+    fn load_embedded_iscc_data() -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
+        // Load polygon data from embedded CSV string
+        let polygons = Self::parse_polygon_csv_data(ISCC_NBS_POLYGON_DATA)?;
+        
+        // Load color metadata from embedded constants
+        let mut color_metadata: HashMap<u16, ColorMetadata> = HashMap::new();
+        
+        for &color_number in crate::constants::get_all_color_numbers().iter() {
+            if let Some(entry) = get_color_by_number(color_number) {
+                let metadata = color_entry_to_metadata(entry);
+                color_metadata.insert(color_number, metadata);
+            }
+        }
+        
+        Ok((polygons, color_metadata))
     }
 
     /// Load ISCC-NBS data from CSV files (for testing/development)
