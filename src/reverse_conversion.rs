@@ -5,6 +5,9 @@
 //! intermediate color space for maximum accuracy and color science compliance.
 
 use crate::mathematical::{MathematicalMunsellConverter, MunsellSpecification, CieXyY};
+use crate::python_converter::PythonMunsellConverter;
+use crate::python_port_strings::munsell_colour_to_munsell_specification;
+use crate::python_port::munsell_specification_to_xyy;
 use crate::error::{MunsellError, Result};
 use palette::{Srgb, Hsl, Hsv, Xyz, convert::IntoColor, white_point::D65};
 
@@ -53,6 +56,8 @@ pub struct ColorFormats {
 pub struct ReverseConverter {
     /// Mathematical converter for Munsell operations
     converter: MathematicalMunsellConverter,
+    /// Python-compatible converter for accurate reverse conversion
+    python_converter: PythonMunsellConverter,
 }
 
 impl ReverseConverter {
@@ -60,12 +65,16 @@ impl ReverseConverter {
     pub fn new() -> Result<Self> {
         Ok(Self {
             converter: MathematicalMunsellConverter::new()?,
+            python_converter: PythonMunsellConverter::new(),
         })
     }
     
     /// Create reverse converter with custom mathematical converter
     pub fn with_converter(converter: MathematicalMunsellConverter) -> Self {
-        Self { converter }
+        Self { 
+            converter, 
+            python_converter: PythonMunsellConverter::new(),
+        }
     }
     
     /// Convert Munsell specification to all color formats
@@ -97,8 +106,10 @@ impl ReverseConverter {
     /// println!("HSL: H{:.1}° S{:.1}% L{:.1}%", colors.hsl.h, colors.hsl.s, colors.hsl.l);
     /// ```
     pub fn munsell_to_all_formats(&self, spec: &MunsellSpecification) -> Result<ColorFormats> {
-        // Step 1: Munsell → xyY (via mathematical converter)
-        let xyy = self.converter.munsell_specification_to_xyy(spec)?;
+        // Step 1: Munsell → xyY (via Python port for accuracy)
+        let spec_array = self.munsell_spec_to_array(spec)?;
+        let xyy_array = munsell_specification_to_xyy(&spec_array)?;
+        let xyy = CieXyY { x: xyy_array[0], y: xyy_array[1], Y: xyy_array[2] };
         
         // Step 2: xyY → XYZ
         let xyz = self.xyy_to_xyz(&xyy)?;
@@ -130,16 +141,22 @@ impl ReverseConverter {
     
     /// Convert Munsell specification to CIE L*a*b*
     pub fn munsell_to_lab(&self, spec: &MunsellSpecification) -> Result<CieLab> {
-        let xyy = self.converter.munsell_specification_to_xyy(spec)?;
+        let spec_array = self.munsell_spec_to_array(spec)?;
+        let xyy_array = munsell_specification_to_xyy(&spec_array)?;
+        let xyy = CieXyY { x: xyy_array[0], y: xyy_array[1], Y: xyy_array[2] };
         let xyz = self.xyy_to_xyz(&xyy)?;
         self.xyz_to_lab(xyz)
     }
     
     /// Convert Munsell specification to sRGB [0-255]
     pub fn munsell_to_srgb(&self, spec: &MunsellSpecification) -> Result<[u8; 3]> {
-        // TODO: Implement reverse conversion with restored mathematical converter
-        // self.converter.munsell_to_srgb(spec)
-        Err(MunsellError::NotImplemented("Reverse conversion temporarily disabled during restoration".to_string()))
+        // Convert MunsellSpecification to notation string
+        let notation = self.spec_to_notation_string(spec)?;
+        
+        // Use Python converter for accurate reverse conversion
+        let rgb_color = self.python_converter.munsell_to_srgb(&notation)?;
+        
+        Ok([rgb_color.r, rgb_color.g, rgb_color.b])
     }
     
     /// Convert Munsell specification to hexadecimal string
@@ -161,6 +178,89 @@ impl ReverseConverter {
     }
     
     // ===== PRIVATE CONVERSION METHODS =====
+    
+    /// Convert MunsellSpecification to Python port format [hue, value, chroma, code]
+    fn munsell_spec_to_array(&self, spec: &MunsellSpecification) -> Result<[f64; 4]> {
+        // Handle neutral colors
+        if spec.family == "N" {
+            return Ok([f64::NAN, spec.value, 0.0, f64::NAN]);
+        }
+        
+        // Convert family string to numeric code
+        let code = match spec.family.as_str() {
+            "B" => 1,
+            "BG" => 2,
+            "G" => 3,
+            "GY" => 4,
+            "Y" => 5,
+            "YR" => 6,
+            "R" => 7,
+            "RP" => 8,
+            "P" => 9,
+            "PB" => 10,
+            _ => return Err(MunsellError::InvalidNotation {
+                notation: spec.family.clone(),
+                reason: "Invalid family code".to_string(),
+            }),
+        };
+        
+        Ok([spec.hue, spec.value, spec.chroma, code as f64])
+    }
+    
+    /// Convert MunsellSpecification to notation string (e.g., "5R 4/14" or "N 5")
+    fn spec_to_notation_string(&self, spec: &MunsellSpecification) -> Result<String> {
+        // Handle neutral colors
+        if spec.family == "N" {
+            return Ok(format!("N {}", spec.value));
+        }
+        
+        // Handle chromatic colors
+        let hue_str = if spec.hue == spec.hue.floor() {
+            format!("{}", spec.hue as i32)
+        } else {
+            format!("{:.1}", spec.hue)
+        };
+        
+        Ok(format!("{}{} {}/{}", hue_str, spec.family, spec.value, spec.chroma))
+    }
+    
+    /// Convert array format [hue, value, chroma, code] back to MunsellSpecification
+    fn array_to_munsell_spec(&self, spec_array: [f64; 4]) -> Result<MunsellSpecification> {
+        // Handle neutral colors
+        if spec_array[0].is_nan() && spec_array[2].is_nan() {
+            return Ok(MunsellSpecification {
+                hue: 0.0,
+                family: "N".to_string(),
+                value: spec_array[1],
+                chroma: 0.0,
+            });
+        }
+        
+        // Convert numeric code back to family string
+        let family = match spec_array[3] as u8 {
+            1 => "B",
+            2 => "BG",
+            3 => "G",
+            4 => "GY",
+            5 => "Y",
+            6 => "YR",
+            7 => "R",
+            8 => "RP",
+            9 => "P",
+            10 => "PB",
+            code => return Err(MunsellError::InvalidNotation {
+                notation: code.to_string(),
+                reason: "Invalid family code".to_string(),
+            }),
+        };
+        
+        Ok(MunsellSpecification {
+            hue: spec_array[0],
+            family: family.to_string(),
+            value: spec_array[1],
+            chroma: spec_array[2],
+        })
+    }
     
     /// Convert xyY to XYZ color space
     fn xyy_to_xyz(&self, xyy: &CieXyY) -> Result<[f64; 3]> {
@@ -303,122 +403,19 @@ pub fn munsell_to_hex_string(munsell_notation: &str) -> Result<String> {
     converter.munsell_to_hex(&spec)
 }
 
-/// Parse Munsell notation string to MunsellSpecification
+/// Parse Munsell notation string to MunsellSpecification using Python-ported parser
 /// 
 /// Supports formats like:
 /// - "5R 4/14" (standard format)
 /// - "N 5", "N5", "N5/", "N 5/", "N5/0", "N 5/0.0" (neutral colors)
 /// - "2.5YR 6/8" (decimal hue)
 pub fn parse_munsell_notation(notation: &str) -> Result<MunsellSpecification> {
-    let notation = notation.trim();
+    // Use Python-ported parser for consistency
+    let spec_array = munsell_colour_to_munsell_specification(notation)?;
     
-    // Handle neutral colors (e.g., "N 5", "N5", "N5/", "N 5/", "N5/0", "N 5/0.0")
-    if notation.starts_with('N') {
-        let value_part = notation.strip_prefix('N').unwrap().trim();
-        
-        // Handle chroma part after slash (should be 0 or 0.0 for neutral colors)
-        let value_str = if let Some(slash_pos) = value_part.find('/') {
-            let (value_part, chroma_part) = value_part.split_at(slash_pos);
-            let chroma_part = chroma_part.strip_prefix('/').unwrap().trim();
-            
-            // Verify chroma is 0 or 0.0 (or empty)
-            if !chroma_part.is_empty() {
-                let chroma: f64 = chroma_part.parse().map_err(|_| {
-                    MunsellError::InvalidNotation {
-                        notation: notation.to_string(),
-                        reason: "Invalid neutral chroma".to_string(),
-                    }
-                })?;
-                
-                if chroma != 0.0 {
-                    return Err(MunsellError::InvalidNotation {
-                        notation: notation.to_string(),
-                        reason: "Neutral colors must have zero chroma".to_string(),
-                    });
-                }
-            }
-            
-            value_part.trim()
-        } else {
-            // Remove trailing slash if present (no chroma specified)
-            value_part.strip_suffix('/').unwrap_or(value_part)
-        };
-        
-        let value = value_str.parse::<f64>().map_err(|_| {
-            MunsellError::InvalidNotation {
-                notation: notation.to_string(),
-                reason: "Invalid neutral value".to_string(),
-            }
-        })?;
-        
-        return Ok(MunsellSpecification {
-            hue: 0.0,
-            family: "N".to_string(),
-            value,
-            chroma: 0.0,
-        });
-    }
-    
-    // Handle chromatic colors (e.g., "5R 4/14")
-    let parts: Vec<&str> = notation.split_whitespace().collect();
-    if parts.len() != 2 {
-        return Err(MunsellError::InvalidNotation {
-            notation: notation.to_string(),
-            reason: "Expected format: 'HueFamily Value/Chroma' or 'N Value'".to_string(),
-        });
-    }
-    
-    // Parse hue and family from first part (e.g., "5R")
-    let hue_part = parts[0];
-    let mut hue_str = String::new();
-    let mut family = String::new();
-    
-    for c in hue_part.chars() {
-        if c.is_ascii_digit() || c == '.' {
-            hue_str.push(c);
-        } else {
-            family.push_str(&hue_part[hue_str.len()..]);
-            break;
-        }
-    }
-    
-    let hue = hue_str.parse::<f64>().map_err(|_| {
-        MunsellError::InvalidNotation {
-            notation: notation.to_string(),
-            reason: "Invalid hue number".to_string(),
-        }
-    })?;
-    
-    // Parse value and chroma from second part (e.g., "4/14")
-    let value_chroma = parts[1];
-    let vc_parts: Vec<&str> = value_chroma.split('/').collect();
-    if vc_parts.len() != 2 {
-        return Err(MunsellError::InvalidNotation {
-            notation: notation.to_string(),
-            reason: "Value/Chroma must be separated by '/'".to_string(),
-        });
-    }
-    
-    let value = vc_parts[0].parse::<f64>().map_err(|_| {
-        MunsellError::InvalidNotation {
-            notation: notation.to_string(),
-            reason: "Invalid value number".to_string(),
-        }
-    })?;
-    
-    let chroma = vc_parts[1].parse::<f64>().map_err(|_| {
-        MunsellError::InvalidNotation {
-            notation: notation.to_string(),
-            reason: "Invalid chroma number".to_string(),
-        }
-    })?;
-    
-    Ok(MunsellSpecification {
-        hue,
-        family,
-        value,
-        chroma,
-    })
+    // Create a dummy converter to use the helper method
+    let converter = ReverseConverter::new()?;
+    converter.array_to_munsell_spec(spec_array)
 }
 
 #[cfg(test)]
@@ -434,8 +431,8 @@ mod tests {
         assert_eq!(spec.value, 4.0);
         assert_eq!(spec.chroma, 14.0);
         
-        // Test neutral color
-        let spec = parse_munsell_notation("N 5").unwrap();
+        // Test neutral color (Python format without space)
+        let spec = parse_munsell_notation("N5").unwrap();
         assert_eq!(spec.hue, 0.0);
         assert_eq!(spec.family, "N");
         assert_eq!(spec.value, 5.0);
@@ -503,5 +500,49 @@ mod tests {
         let [r, g, b] = colors.srgb;
         let diff = ((r as i16 - g as i16).abs() + (g as i16 - b as i16).abs() + (b as i16 - r as i16).abs()) as f64;
         assert!(diff < 50.0); // Colors should be close (grayish)
+    }
+    
+    #[test]
+    fn test_comprehensive_reverse_conversion() {
+        let converter = ReverseConverter::new().unwrap();
+        
+        // Test a red color
+        let red_spec = MunsellSpecification {
+            hue: 5.0,
+            family: "R".to_string(),
+            value: 4.0,
+            chroma: 14.0,
+        };
+        
+        // Test individual methods
+        let srgb = converter.munsell_to_srgb(&red_spec).unwrap();
+        let hex = converter.munsell_to_hex(&red_spec).unwrap();
+        let lab = converter.munsell_to_lab(&red_spec).unwrap();
+        let hsl = converter.munsell_to_hsl(&red_spec).unwrap();
+        let hsv = converter.munsell_to_hsv(&red_spec).unwrap();
+        
+        // All methods should work without error
+        assert!(srgb[0] > 0); // Red channel should be present
+        assert!(hex.starts_with('#'));
+        assert_eq!(hex.len(), 7); // Valid hex format
+        assert!(lab.l > 0.0); // Positive lightness
+        assert!(hsl.h >= 0.0 && hsl.h < 360.0); // Valid hue range
+        assert!(hsv.v > 0.0); // Positive brightness
+        
+        // Test comprehensive method
+        let colors = converter.munsell_to_all_formats(&red_spec).unwrap();
+        
+        // Results should be consistent
+        assert_eq!(colors.srgb, srgb);
+        assert_eq!(colors.hex, hex);
+        assert_eq!(colors.lab.l, lab.l);
+        assert_eq!(colors.hsl.h, hsl.h);
+        assert_eq!(colors.hsv.v, hsv.v);
+        
+        // Verify the original spec is preserved
+        assert_eq!(colors.munsell.hue, red_spec.hue);
+        assert_eq!(colors.munsell.family, red_spec.family);
+        assert_eq!(colors.munsell.value, red_spec.value);
+        assert_eq!(colors.munsell.chroma, red_spec.chroma);
     }
 }
