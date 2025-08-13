@@ -141,3 +141,6 @@ debug = true
 [[bench]]
 name = "conversion_benchmarks"
 harness = false
+[[bin]]
+name = "wedge_coverage_test"
+path = "investigation/wedge_coverage_test.rs"

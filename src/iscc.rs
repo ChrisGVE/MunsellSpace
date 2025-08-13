@@ -2,6 +2,7 @@ use geo::prelude::*;
 use geo::{Point, Polygon};
 use std::collections::HashMap;
 use crate::error::MunsellError;
+use crate::mechanical_wedges::MechanicalWedgeSystem;
 
 /// Complete ISCC-NBS color classification result
 #[derive(Debug, Clone)]
@@ -165,43 +166,8 @@ impl ISCC_NBS_Classifier {
     /// let classifier = ISCC_NBS_Classifier::new().expect("Failed to create classifier");
     /// ```
     pub fn new() -> Result<Self, MunsellError> {
-        Self::new_with_hue_range_method(crate::mechanical_wedges::HueRangeMethod::ExcludeStartIncludeEnd)
-    }
-    
-    /// Create a new ISCC-NBS classifier with specified hue range interpretation method.
-    ///
-    /// Creates a classifier with configurable hue range boundary interpretation
-    /// for testing different polygon distribution strategies.
-    ///
-    /// # Arguments
-    /// * `hue_range_method` - Method for interpreting hue range boundaries
-    ///
-    /// # Returns
-    /// Result containing the classifier or an error if data loading fails
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::{ISCC_NBS_Classifier, mechanical_wedges::HueRangeMethod};
-    /// 
-    /// let classifier = ISCC_NBS_Classifier::new_with_hue_range_method(
-    ///     HueRangeMethod::ExcludeStartIncludeEnd
-    /// ).expect("Failed to create classifier");
-    /// ```
-    pub fn new_with_hue_range_method(hue_range_method: crate::mechanical_wedges::HueRangeMethod) -> Result<Self, MunsellError> {
-        let (colors, color_metadata) = Self::load_embedded_data()?;
-        let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new_with_method(hue_range_method);
-        
-        // Distribute all polygons into the mechanical wedge system
-        for polygon in colors {
-            wedge_system.distribute_polygon(polygon)?;
-        }
-        
-        Ok(ISCC_NBS_Classifier { 
-            wedge_system,
-            color_metadata,
-            cache: std::cell::RefCell::new(HashMap::new()),
-            cache_max_size: 256, // Small cache for performance
-        })
+        let csv_path = concat!(env!("CARGO_MANIFEST_DIR"), "/assets/ISCC-NBS-Definitions.csv");
+        Self::from_csv(csv_path)
     }
     
     /// Create a new ISCC-NBS classifier from external CSV file.
@@ -223,34 +189,8 @@ impl ISCC_NBS_Classifier {
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
     pub fn from_csv(csv_path: &str) -> Result<Self, MunsellError> {
-        Self::from_csv_with_hue_range_method(csv_path, crate::mechanical_wedges::HueRangeMethod::IncludeStartExcludeEnd)
-    }
-    
-    /// Create a new ISCC-NBS classifier from external CSV file with specified hue range method.
-    ///
-    /// Loads color definitions from an external CSV file with configurable hue range
-    /// boundary interpretation for testing different polygon distribution strategies.
-    ///
-    /// # Arguments
-    /// * `csv_path` - Path to the CSV file containing ISCC-NBS definitions
-    /// * `hue_range_method` - Method for interpreting hue range boundaries
-    ///
-    /// # Returns
-    /// Result containing the classifier or an error if file loading fails
-    ///
-    /// # Examples
-    /// ```rust,no_run
-    /// use munsellspace::{ISCC_NBS_Classifier, mechanical_wedges::HueRangeMethod};
-    /// 
-    /// let classifier = ISCC_NBS_Classifier::from_csv_with_hue_range_method(
-    ///     "custom_colors.csv",
-    ///     HueRangeMethod::ExcludeStartIncludeEnd
-    /// )?;
-    /// # Ok::<(), Box<dyn std::error::Error>>(())
-    /// ```
-    pub fn from_csv_with_hue_range_method(csv_path: &str, hue_range_method: crate::mechanical_wedges::HueRangeMethod) -> Result<Self, MunsellError> {
         let (colors, color_metadata) = Self::load_iscc_data(csv_path)?;
-        let mut wedge_system = crate::mechanical_wedges::MechanicalWedgeSystem::new_with_method(hue_range_method);
+        let mut wedge_system = MechanicalWedgeSystem::new();
         
         // Distribute all polygons into the mechanical wedge system
         for polygon in colors {
@@ -274,7 +214,23 @@ impl ISCC_NBS_Classifier {
     /// # Returns
     /// true if the color is achromatic (neutral), false otherwise
     fn is_achromatic(&self, hue: &str) -> bool {
-        hue.trim().to_uppercase() == "N"
+        let hue = hue.trim().to_uppercase();
+        // Check for various neutral notations:
+        // - Just "N"
+        // - Numeric prefix: "0N", "0.0N", etc.
+        // - Just checking if it contains only digits/dots before "N"
+        if hue == "N" {
+            return true;
+        }
+        
+        // Check if it ends with N and everything before it is numeric (digits or decimal point)
+        if let Some(n_pos) = hue.rfind('N') {
+            let prefix = &hue[..n_pos];
+            // Allow empty prefix (just "N") or numeric prefix (like "0", "0.0", etc.)
+            return prefix.is_empty() || prefix.chars().all(|c| c.is_ascii_digit() || c == '.');
+        }
+        
+        false
     }
     
     /// Classify an achromatic (neutral) color based on its value.
@@ -351,12 +307,13 @@ impl ISCC_NBS_Classifier {
             return self.classify_achromatic(value);
         }
         
-        // Round values to 1 decimal place for consistent classification
-        let rounded_value = (value * 10.0).round() / 10.0;
-        let rounded_chroma = (chroma * 10.0).round() / 10.0;
+        // Round values to 4 decimal places for internal classification (reduces boundary collisions)
+        // API output will still round to 1 decimal place for display
+        let rounded_value = (value * 10000.0).round() / 10000.0;
+        let rounded_chroma = (chroma * 10000.0).round() / 10000.0;
         
-        // Create cache key using rounded values
-        let cache_key = (hue.to_string(), format!("{:.1}", rounded_value), format!("{:.1}", rounded_chroma));
+        // Create cache key using 4-decimal precision
+        let cache_key = (hue.to_string(), format!("{:.4}", rounded_value), format!("{:.4}", rounded_chroma));
         
         // Check cache first
         {
@@ -376,6 +333,52 @@ impl ISCC_NBS_Classifier {
         let result = None;
         self.cache_result(cache_key, result.clone());
         Ok(result)
+    }
+    
+    /// Find all ISCC-NBS colors that contain a given point.
+    /// Unlike classify_munsell which returns the first match, this returns all overlapping colors.
+    /// Useful for detecting overlapping polygon definitions.
+    ///
+    /// # Arguments
+    /// * `hue` - Munsell hue string (e.g., "5R", "2.5YR", "N" for neutral)
+    /// * `value` - Munsell value (lightness) from 0.0 to 10.0
+    /// * `chroma` - Munsell chroma (saturation) from 0.0 upwards
+    ///
+    /// # Returns
+    /// Vec of color numbers that contain this point
+    pub fn find_all_colors_at_point(&self, hue: &str, value: f64, chroma: f64) -> Result<Vec<u16>, MunsellError> {
+        // Check for achromatic colors first
+        if self.is_achromatic(hue) {
+            // For achromatic, use the value-based mapping
+            let color_number = if value >= 0.0 && value <= 2.5 {
+                267 // black
+            } else if value > 2.5 && value <= 4.5 {
+                266 // dark gray
+            } else if value > 4.5 && value <= 6.5 {
+                265 // medium gray
+            } else if value > 6.5 && value <= 8.5 {
+                264 // light gray
+            } else if value > 8.5 && value <= 10.0 {
+                263 // white
+            } else {
+                return Ok(vec![]); // Value out of range
+            };
+            
+            // Verify the metadata exists
+            if self.color_metadata.contains_key(&color_number) {
+                return Ok(vec![color_number]);
+            } else {
+                return Ok(vec![]);
+            }
+        }
+        
+        // Round values to 4 decimal places for internal consistency
+        let rounded_value = (value * 10000.0).round() / 10000.0;
+        let rounded_chroma = (chroma * 10000.0).round() / 10000.0;
+        
+        // Use the mechanical wedge system to find ALL colors at this point
+        let colors = self.wedge_system.find_all_colors_at_point(hue, rounded_value, rounded_chroma);
+        Ok(colors)
     }
     
     /// Helper method to cache results with size management

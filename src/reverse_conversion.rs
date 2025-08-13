@@ -307,29 +307,56 @@ pub fn munsell_to_hex_string(munsell_notation: &str) -> Result<String> {
 /// 
 /// Supports formats like:
 /// - "5R 4/14" (standard format)
-/// - "N 5" (neutral colors)
+/// - "N 5", "N5", "N5/", "N 5/", "N5/0", "N 5/0.0" (neutral colors)
 /// - "2.5YR 6/8" (decimal hue)
-fn parse_munsell_notation(notation: &str) -> Result<MunsellSpecification> {
+pub fn parse_munsell_notation(notation: &str) -> Result<MunsellSpecification> {
     let notation = notation.trim();
     
-    // Handle neutral colors (e.g., "N 5")
+    // Handle neutral colors (e.g., "N 5", "N5", "N5/", "N 5/", "N5/0", "N 5/0.0")
     if notation.starts_with('N') {
-        let parts: Vec<&str> = notation.split_whitespace().collect();
-        if parts.len() == 2 {
-            let value = parts[1].parse::<f64>().map_err(|_| {
-                MunsellError::InvalidNotation {
-                    notation: notation.to_string(),
-                    reason: "Invalid neutral value".to_string(),
-                }
-            })?;
+        let value_part = notation.strip_prefix('N').unwrap().trim();
+        
+        // Handle chroma part after slash (should be 0 or 0.0 for neutral colors)
+        let value_str = if let Some(slash_pos) = value_part.find('/') {
+            let (value_part, chroma_part) = value_part.split_at(slash_pos);
+            let chroma_part = chroma_part.strip_prefix('/').unwrap().trim();
             
-            return Ok(MunsellSpecification {
-                hue: 0.0,
-                family: "N".to_string(),
-                value,
-                chroma: 0.0,
-            });
-        }
+            // Verify chroma is 0 or 0.0 (or empty)
+            if !chroma_part.is_empty() {
+                let chroma: f64 = chroma_part.parse().map_err(|_| {
+                    MunsellError::InvalidNotation {
+                        notation: notation.to_string(),
+                        reason: "Invalid neutral chroma".to_string(),
+                    }
+                })?;
+                
+                if chroma != 0.0 {
+                    return Err(MunsellError::InvalidNotation {
+                        notation: notation.to_string(),
+                        reason: "Neutral colors must have zero chroma".to_string(),
+                    });
+                }
+            }
+            
+            value_part.trim()
+        } else {
+            // Remove trailing slash if present (no chroma specified)
+            value_part.strip_suffix('/').unwrap_or(value_part)
+        };
+        
+        let value = value_str.parse::<f64>().map_err(|_| {
+            MunsellError::InvalidNotation {
+                notation: notation.to_string(),
+                reason: "Invalid neutral value".to_string(),
+            }
+        })?;
+        
+        return Ok(MunsellSpecification {
+            hue: 0.0,
+            family: "N".to_string(),
+            value,
+            chroma: 0.0,
+        });
     }
     
     // Handle chromatic colors (e.g., "5R 4/14")

@@ -58,6 +58,7 @@ pub mod python_port_cache;
 pub mod traced_port;
 pub mod mechanical_wedges;
 pub mod integration_test;
+pub mod unified_cache;
 
 // Test modules were moved to their respective implementation files
 // #[cfg(test)]
@@ -68,7 +69,7 @@ pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoin
 pub use error::{MunsellError, Result};
 pub use illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
 pub use iscc::{ISCC_NBS_Classifier, ISCC_NBS_Result};
-pub use mechanical_wedges::{MechanicalWedgeSystem, HueRangeMethod};
+pub use mechanical_wedges::MechanicalWedgeSystem;
 pub use mathematical::{
     MathematicalMunsellConverter, 
     MunsellSpecification, 
@@ -77,6 +78,7 @@ pub use mathematical::{
     ChromaticAdaptation as MathematicalChromaticAdaptation
 };
 pub use reverse_conversion::{ReverseConverter, ColorFormats, CieLab, HslColor, HsvColor, munsell_to_hex_string};
+pub use unified_cache::{UnifiedColorCache, CachedColorResult, normalize_hex_to_rgb, lab_to_rgb};
 
 /// Library version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

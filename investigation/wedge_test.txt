@@ -1,0 +1,13 @@
+🔬 Full ISCC-NBS Coverage Test (0.001 increments)
+==================================================
+
+Test range: Value [0, 10] × Chroma [0, 17] with 0.001 increments
+Excluding boundary values:
+  Values: 0.5, 1.0, 1.5, ..., 9.5, 10.0
+  Chromas: 0.5, 0.7, 1.0, 1.2, 1.5, 2.0, 3.0, ..., 17.0
+
+Valid test points: 9981 values × 16980 chromas = 169477380 per wedge
+Total for 100 wedges: -232131184 points
+
+This will take several minutes. Starting scan...
+

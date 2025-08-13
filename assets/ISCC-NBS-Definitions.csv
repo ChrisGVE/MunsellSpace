@@ -239,8 +239,8 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 43,2.2,moderate reddish brown,reddish brown,moderate,reddish brown,8R,2YR,3,4.5
 43,2.3,moderate reddish brown,reddish brown,moderate,reddish brown,8R,2YR,7,4.5
 43,2.4,moderate reddish brown,reddish brown,moderate,reddish brown,8R,2YR,7,2.5
-43,3.1,moderate reddish brown,reddish brown,moderate,reddish brown,2YR,3YR,2,2.5
-43,3.2,moderate reddish brown,reddish brown,moderate,reddish brown,2YR,3YR,2,4.5
+43,3.1,moderate reddish brown,reddish brown,moderate,reddish brown,2YR,3YR,3,2.5
+43,3.2,moderate reddish brown,reddish brown,moderate,reddish brown,2YR,3YR,3,4.5
 43,3.3,moderate reddish brown,reddish brown,moderate,reddish brown,2YR,3YR,5,4.5
 43,3.4,moderate reddish brown,reddish brown,moderate,reddish brown,2YR,3YR,5,2.5
 44,1.1,dark reddish brown,reddish brown,dark,reddish brown,6R,3YR,1,0
@@ -815,10 +815,14 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 156,1.2,dark greenish gray,green,dark -ish gray,green,4GY,10BG,0.5,4.5
 156,1.3,dark greenish gray,green,dark -ish gray,green,4GY,10BG,1.2,4.5
 156,1.4,dark greenish gray,green,dark -ish gray,green,4GY,10BG,1.2,2.5
-157,1.1,greenish black,green,-ish black,green,8GY,10BG,0.5,0
-157,1.2,greenish black,green,-ish black,green,8GY,10BG,0.5,2
-157,1.3,greenish black,green,-ish black,green,8GY,10BG,1,2
-157,1.4,greenish black,green,-ish black,green,8GY,10BG,1,0
+157,1.1,greenish black,green,-ish black,green,4GY,8GY,0.5,0
+157,1.2,greenish black,green,-ish black,green,4GY,8GY,0.5,1.5
+157,1.3,greenish black,green,-ish black,green,4GY,8GY,1,1.5
+157,1.4,greenish black,green,-ish black,green,4GY,8GY,1,0
+157,2.1,greenish black,green,-ish black,green,8GY,10BG,0.5,0
+157,2.2,greenish black,green,-ish black,green,8GY,10BG,0.5,2
+157,2.3,greenish black,green,-ish black,green,8GY,10BG,1,2
+157,2.4,greenish black,green,-ish black,green,8GY,10BG,1,0
 158,1.1,vivid bluish green,bluish green,vivid,turquoise,9G,10BG,11,0
 158,1.2,vivid bluish green,bluish green,vivid,turquoise,9G,10BG,11,10
 158,1.3,vivid bluish green,bluish green,vivid,turquoise,9G,10BG,50,10
@@ -1069,10 +1073,10 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 201,2.2,dark purplish blue,purplish blue,dark,purplish blue,7PB,9PB,2,2
 201,2.3,dark purplish blue,purplish blue,dark,purplish blue,7PB,9PB,7,2
 201,2.4,dark purplish blue,purplish blue,dark,purplish blue,7PB,9PB,7,0
-202,1.1,very pale purplish blue,purplish blue,very pale,purplish blue,4PB,9PB,3,7.5
-202,1.2,very pale purplish blue,purplish blue,very pale,purplish blue,4PB,9PB,3,10
-202,1.3,very pale purplish blue,purplish blue,very pale,purplish blue,4PB,9PB,5,10
-202,1.4,very pale purplish blue,purplish blue,very pale,purplish blue,4PB,9PB,5,7.5
+202,1.1,very pale purplish blue,purplish blue,very pale,purplish blue,5PB,9PB,3,7.5
+202,1.2,very pale purplish blue,purplish blue,very pale,purplish blue,5PB,9PB,3,10
+202,1.3,very pale purplish blue,purplish blue,very pale,purplish blue,5PB,9PB,5,10
+202,1.4,very pale purplish blue,purplish blue,very pale,purplish blue,5PB,9PB,5,7.5
 203,1.1,pale purplish blue,purplish blue,pale,purplish blue,5PB,9PB,3,4.5
 203,1.2,pale purplish blue,purplish blue,pale,purplish blue,5PB,9PB,3,7.5
 203,1.3,pale purplish blue,purplish blue,pale,purplish blue,5PB,9PB,5,7.5
@@ -1187,8 +1191,8 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 227,1.4,pale purple,purple,pale,purple,9PB,3P,3,5.5
 227,2.1,pale purple,purple,pale,purple,3P,9P,1.5,5.5
 227,2.2,pale purple,purple,pale,purple,3P,9P,1.5,7.5
-227,2.3,pale purple,purple,pale,purple,3P,9P,3,7.5
-227,2.4,pale purple,purple,pale,purple,3P,9P,3,5.5
+227,2.3,pale purple,purple,pale,purple,3P,9P,5,7.5
+227,2.4,pale purple,purple,pale,purple,3P,9P,5,5.5
 227,3.1,pale purple,purple,pale,purple,9P,1R,1.5,5.5
 227,3.2,pale purple,purple,pale,purple,9P,1R,1.5,6.5
 227,3.3,pale purple,purple,pale,purple,9P,1R,3,6.5
@@ -1347,10 +1351,10 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 260,1.2,very dark purplish red,purplish red,very dark,purplish red,3RP,1R,2,2
 260,1.3,very dark purplish red,purplish red,very dark,purplish red,3RP,1R,7,2
 260,1.4,very dark purplish red,purplish red,very dark,purplish red,3RP,1R,7,0
-261,1.1,light grayish purplish red,purplish red,pale,purplish red,3RP,9RP,3,5.5
-261,1.2,light grayish purplish red,purplish red,pale,purplish red,3RP,9RP,3,6.5
-261,1.3,light grayish purplish red,purplish red,pale,purplish red,3RP,9RP,5,6.5
-261,1.4,light grayish purplish red,purplish red,pale,purplish red,3RP,9RP,5,5.5
+261,1.1,light grayish purplish red,purplish red,pale,purplish red,3RP,1R,3,5.5
+261,1.2,light grayish purplish red,purplish red,pale,purplish red,3RP,1R,3,6.5
+261,1.3,light grayish purplish red,purplish red,pale,purplish red,3RP,1R,5,6.5
+261,1.4,light grayish purplish red,purplish red,pale,purplish red,3RP,1R,5,5.5
 262,1.1,grayish purplish red,purplish red,grayish,purplish red,3RP,1R,3,3.5
 262,1.2,grayish purplish red,purplish red,grayish,purplish red,3RP,1R,3,5.5
 262,1.3,grayish purplish red,purplish red,grayish,purplish red,3RP,1R,7,5.5
@@ -1363,10 +1367,10 @@ color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised
 263,2.2,white,white,,white,7YR,9Y,0,10
 263,2.3,white,white,,white,7YR,9Y,0.7,10
 263,2.4,white,white,,white,7YR,9Y,0.7,8.5
-263,3.1,white,white,,white,9Y,9RP,0,8.5
-263,3.2,white,white,,white,9Y,9RP,0,10
-263,3.3,white,white,,white,9Y,9RP,0.5,10
-263,3.4,white,white,,white,9Y,9RP,0.5,8.5
+263,3.1,white,white,,white,9Y,1R,0,8.5
+263,3.2,white,white,,white,9Y,1R,0,10
+263,3.3,white,white,,white,9Y,1R,0.5,10
+263,3.4,white,white,,white,9Y,1R,0.5,8.5
 264,1.1,light gray,gray,light,gray,1R,7YR,0,6.5
 264,1.2,light gray,gray,light,gray,1R,7YR,0,8.5
 264,1.3,light gray,gray,light,gray,1R,7YR,0.5,8.5

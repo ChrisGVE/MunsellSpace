@@ -3,6 +3,7 @@
 
 use crate::error::{MunsellError, Result};
 use crate::python_port::*;
+use crate::python_port_strings::*;
 use crate::types::{MunsellColor, RgbColor};
 
 /// Python-compatible Munsell converter using exact colour-science algorithms
@@ -37,8 +38,8 @@ impl PythonMunsellConverter {
     
     /// Convert Munsell notation to sRGB using Python-compatible algorithm
     pub fn munsell_to_srgb(&self, munsell: &str) -> Result<RgbColor> {
-        // Parse Munsell notation
-        let spec = self.parse_munsell_notation(munsell)?;
+        // Parse Munsell notation using 1:1 ported function
+        let spec = munsell_colour_to_munsell_specification(munsell)?;
         
         // Convert to xyY
         let xyy = munsell_specification_to_xyy(&spec)?;
@@ -165,10 +166,10 @@ impl PythonMunsellConverter {
             return Ok(MunsellColor::new_neutral(value));
         }
         
-        // Convert code to family using Python's mapping
+        // Convert code to family using Python's mapping (1-10 codes)
         let family = match code {
             1 => "B",
-            2 => "BG",
+            2 => "BG", 
             3 => "G",
             4 => "GY",
             5 => "Y",
@@ -190,100 +191,6 @@ impl PythonMunsellConverter {
         };
         
         Ok(MunsellColor::new_chromatic(hue_str, value, chroma))
-    }
-    
-    fn parse_munsell_notation(&self, notation: &str) -> Result<[f64; 4]> {
-        // Simple parser for Munsell notation like "5R 4/14"
-        let notation = notation.trim();
-        
-        // Check for neutral
-        if notation.starts_with('N') {
-            let value_str = notation.trim_start_matches('N').trim();
-            let value: f64 = value_str.parse()
-                .map_err(|_| MunsellError::InvalidNotation {
-                    notation: notation.to_string(),
-                    reason: "Invalid neutral value".to_string(),
-                })?;
-            return Ok([f64::NAN, value, 0.0, f64::NAN]);
-        }
-        
-        // Split by space
-        let parts: Vec<&str> = notation.split_whitespace().collect();
-        if parts.len() != 2 {
-            return Err(MunsellError::InvalidNotation {
-                notation: notation.to_string(),
-                reason: "Expected format: 'HUE VALUE/CHROMA'".to_string(),
-            });
-        }
-        
-        // Parse hue
-        let hue_part = parts[0];
-        let (hue_num, family) = self.parse_hue_notation(hue_part)?;
-        
-        // Parse value/chroma
-        let vc_parts: Vec<&str> = parts[1].split('/').collect();
-        if vc_parts.len() != 2 {
-            return Err(MunsellError::InvalidNotation {
-                notation: notation.to_string(),
-                reason: "Expected VALUE/CHROMA format".to_string(),
-            });
-        }
-        
-        let value: f64 = vc_parts[0].parse()
-            .map_err(|_| MunsellError::InvalidNotation {
-                notation: notation.to_string(),
-                reason: "Invalid value number".to_string(),
-            })?;
-            
-        let chroma: f64 = vc_parts[1].parse()
-            .map_err(|_| MunsellError::InvalidNotation {
-                notation: notation.to_string(),
-                reason: "Invalid chroma number".to_string(),
-            })?;
-        
-        Ok([hue_num, value, chroma, family as f64])
-    }
-    
-    fn parse_hue_notation(&self, hue_str: &str) -> Result<(f64, u8)> {
-        // Find where the letters start
-        let letter_pos = hue_str.find(|c: char| c.is_alphabetic())
-            .ok_or_else(|| MunsellError::InvalidNotation {
-                notation: hue_str.to_string(),
-                reason: "No hue family found".to_string(),
-            })?;
-        
-        let (num_part, family_part) = hue_str.split_at(letter_pos);
-        
-        // Parse hue number
-        let hue_num: f64 = if num_part.is_empty() {
-            5.0  // Default to 5 if no number
-        } else {
-            num_part.parse()
-                .map_err(|_| MunsellError::InvalidNotation {
-                    notation: hue_str.to_string(),
-                    reason: "Invalid hue number".to_string(),
-                })?
-        };
-        
-        // Parse family
-        let code = match family_part {
-            "R" => 0,
-            "YR" => 1,
-            "Y" => 2,
-            "GY" => 3,
-            "G" => 4,
-            "BG" => 5,
-            "B" => 6,
-            "PB" => 7,
-            "P" => 8,
-            "RP" => 9,
-            _ => return Err(MunsellError::InvalidNotation {
-                notation: hue_str.to_string(),
-                reason: format!("Unknown hue family: {}", family_part),
-            }),
-        };
-        
-        Ok((hue_num, code))
     }
 }
 

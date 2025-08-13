@@ -99,31 +99,70 @@ struct PythonConversionResult {
 
 /// Helper function to parse Munsell notation into hue, value, chroma
 fn parse_munsell_notation(notation: &str) -> Option<(String, f64, f64)> {
-    // Handle neutral colors (e.g., "N 5.0/")
-    if notation.starts_with("N ") {
-        if let Some(value_str) = notation.strip_prefix("N ").and_then(|s| s.strip_suffix("/")) {
-            if let Ok(value) = value_str.parse::<f64>() {
-                return Some(("N".to_string(), value, 0.0));
+    let notation = notation.trim();
+    
+    // Handle neutral colors with all formats:
+    // "N3.6", "N 3.6", "N3.6/", "N 3.6/", "N3.6/0", "N 3.6/0", etc.
+    // Also "0N3.6", "0N 3.6", "0.0N3.6", "0.0N 3.6", etc.
+    if notation.contains('N') {
+        // Find the position of 'N'
+        if let Some(n_pos) = notation.find('N') {
+            // Check if what comes before N is numeric or empty
+            let prefix = &notation[..n_pos];
+            if prefix.is_empty() || prefix.chars().all(|c| c.is_ascii_digit() || c == '.') {
+                // This is a neutral color
+                let after_n = &notation[n_pos + 1..].trim();
+                
+                // Parse value and optional chroma
+                let (value_str, chroma_str) = if let Some(slash_pos) = after_n.find('/') {
+                    (&after_n[..slash_pos].trim(), after_n[slash_pos + 1..].trim())
+                } else {
+                    (after_n, "0")
+                };
+                
+                if let Ok(value) = value_str.parse::<f64>() {
+                    let chroma = chroma_str.parse::<f64>().unwrap_or(0.0);
+                    return Some(("N".to_string(), value, chroma));
+                }
             }
         }
     }
     
-    // Parse regular Munsell notation (e.g., "5.2R 4.5/8.3")
-    let parts: Vec<&str> = notation.split(' ').collect();
-    if parts.len() != 2 {
+    // Parse regular chromatic Munsell notation
+    // Try to find where the hue ends and value begins
+    // Hue format: number + letters (e.g., "5R", "2.5YR", "10RP")
+    // Look for the last letter that's part of the hue family
+    
+    let mut hue_end = 0;
+    let mut found_letter = false;
+    for (i, c) in notation.char_indices() {
+        if c.is_ascii_alphabetic() && c != 'N' {
+            found_letter = true;
+            hue_end = i + c.len_utf8();
+        } else if found_letter && (c.is_ascii_digit() || c == '.' || c == '/' || c.is_whitespace()) {
+            break;
+        }
+    }
+    
+    if hue_end == 0 {
         return None;
     }
     
-    let hue = parts[0].to_string();
-    let value_chroma = parts[1];
+    let hue = notation[..hue_end].to_string();
+    let value_chroma = notation[hue_end..].trim();
     
+    // Parse value/chroma part
     let vc_parts: Vec<&str> = value_chroma.split('/').collect();
-    if vc_parts.len() != 2 {
+    if vc_parts.is_empty() {
         return None;
     }
     
-    let value = vc_parts[0].parse::<f64>().ok()?;
-    let chroma = vc_parts[1].parse::<f64>().ok()?;
+    let value = vc_parts[0].trim().parse::<f64>().ok()?;
+    let chroma = if vc_parts.len() > 1 {
+        vc_parts[1].trim().parse::<f64>().ok()?
+    } else {
+        0.0
+    };
     
     Some((hue, value, chroma))
 }
@@ -272,36 +311,34 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut all_test_data = Vec::new();
     
     // Collect all test combinations
-    for (_illuminant, illum_name) in &configurations {
-        // W3 dataset
-        for color in &w3_colors {
-            let rgb = parse_rgb(&color.srgb)?;
-            let id = format!("W3_{}_{}", illum_name, color.srgb.trim());
-            python_requests.push(PythonConversion {
-                id: id.clone(),
-                rgb,
-                illuminant: illum_name.to_string(),
-                // FIX 1: Use correct Python API mapping for XYZ Scaling
-                adaptation: "XYZ Scaling".to_string(),  // Changed from "XYZScaling" to "XYZ Scaling"
-            });
-            
-            // Use the ISCC-NBS color name directly - it's already the correct descriptor
-            let expected_name = color.iscc_nbs_color_name.clone();
-            all_test_data.push((id, rgb, illum_name.to_string(), expected_name, "W3"));
-        }
+    // W3 dataset - only with Illuminant C
+    for color in &w3_colors {
+        let rgb = parse_rgb(&color.srgb)?;
+        let id = format!("W3_C_{}", color.srgb.trim());
+        python_requests.push(PythonConversion {
+            id: id.clone(),
+            rgb,
+            illuminant: "C".to_string(),
+            // FIX 1: Use correct Python API mapping for XYZ Scaling
+            adaptation: "XYZ Scaling".to_string(),  // Changed from "XYZScaling" to "XYZ Scaling"
+        });
         
-        // Centore dataset
-        for color in &centore_colors {
-            let rgb = [color.r, color.g, color.b];
-            let id = format!("Centore_{}_{}", illum_name, color.number);
-            python_requests.push(PythonConversion {
-                id: id.clone(),
-                rgb,
-                illuminant: illum_name.to_string(),
-                adaptation: "XYZ Scaling".to_string(),  // Fixed mapping
-            });
-            all_test_data.push((id, rgb, illum_name.to_string(), color.iscc_nbs_color_name.clone(), "Centore"));
-        }
+        // Use the ISCC-NBS color name directly - it's already the correct descriptor
+        let expected_name = color.iscc_nbs_color_name.clone();
+        all_test_data.push((id, rgb, "C".to_string(), expected_name, "W3"));
+    }
+    
+    // Centore dataset - only with Illuminant D65
+    for color in &centore_colors {
+        let rgb = [color.r, color.g, color.b];
+        let id = format!("Centore_D65_{}", color.number);
+        python_requests.push(PythonConversion {
+            id: id.clone(),
+            rgb,
+            illuminant: "D65".to_string(),
+            adaptation: "XYZ Scaling".to_string(),  // Fixed mapping
+        });
+        all_test_data.push((id, rgb, "D65".to_string(), color.iscc_nbs_color_name.clone(), "Centore"));
     }
     
     println!("🐍 Getting Python Munsell values for {} color/illuminant combinations...", python_requests.len());

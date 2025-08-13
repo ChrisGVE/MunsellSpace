@@ -66,12 +66,42 @@ Special handling for neutral colors using value-based intervals:
 ### 1.6 Boundary Disambiguation Rules
 **Critical for avoiding ambiguity**: Each boundary point belongs to exactly one color.
 
-- **Segment Types**: Only horizontal/vertical segments (90°/270° angles)
-- **Inclusion Rules**:
-  - If `lowest_value == 0`: point ∈ `[0, upper_bound]` (closed interval)
-  - Else: point ∈ `(lower_bound, upper_bound]` (half-open interval)
-- **Implementation**: Use geometry crate for robust point-in-polygon testing
-- **Complex Polygons**: Handle polygons with >4 corners correctly
+#### Segment-Based Inclusion Algorithm
+When a point lies on a polygon boundary, we must determine which polygon owns it:
+
+1. **Find Containing Segments**:
+   - **Horizontal Segment**: Find the horizontal edge at the point's value coordinate
+   - **Vertical Segment**: Find the vertical edge at the point's chroma coordinate
+   - Each segment is defined by its endpoints and lies entirely within the polygon
+
+2. **Extract Segment Bounds**:
+   - For horizontal segment: `(min_chroma, max_chroma)`
+   - For vertical segment: `(min_value, max_value)`
+
+3. **Apply Inclusion Rules**:
+   - **If lower bound = 0**: Use closed interval `[0, upper]`
+   - **If lower bound > 0**: Use half-open interval `(lower, upper]`
+   
+4. **Point Belongs to Polygon If**:
+   - Point satisfies horizontal segment inclusion rule AND
+   - Point satisfies vertical segment inclusion rule
+
+#### Example
+```
+Polygon A: corners at (0,0), (5,0), (5,3), (0,3)
+Polygon B: corners at (5,0), (10,0), (10,3), (5,3)
+
+Point at (5, 2):
+- Polygon A horizontal segment: (0, 5) → point ∈ (0, 5] → included
+- Polygon B horizontal segment: (5, 10) → point ∈ (5, 10] → excluded
+Result: Point belongs to Polygon A only
+```
+
+#### Implementation Notes
+- **Segment Types**: Only horizontal/vertical segments (90°/270° angles in ISCC-NBS)
+- **Tolerance**: Use 1e-10 for floating-point comparisons
+- **Geometry Library**: Use geo crate for robust geometric operations
+- **Complex Polygons**: Algorithm handles polygons with any number of corners
 
 ---
 
