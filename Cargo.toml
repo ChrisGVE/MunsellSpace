@@ -73,12 +73,36 @@ name = "mathematical_convert_rgb"
 path = "src/bin/mathematical_convert_rgb.rs"
 
 [[bin]]
+name = "batch_convert"
+path = "src/bin/batch_convert.rs"
+
+[[bin]]
 name = "comprehensive_dataset_misses"
 path = "investigation/src/comprehensive_dataset_misses.rs"
 
 [[bin]]
 name = "wedge_coverage_test"
 path = "investigation/src/wedge_coverage_test.rs"
+
+[[bin]]
+name = "validate_4007"
+path = "investigation/src/validate_4007.rs"
+
+[[bin]]
+name = "comprehensive_conversion_dataset"
+path = "investigation/src/comprehensive_conversion_dataset.rs"
+
+[[bin]]
+name = "illuminant_method_comparison"
+path = "investigation/src/illuminant_method_comparison.rs"
+
+[[bin]]
+name = "quick_conversion_dataset"
+path = "investigation/src/quick_conversion_dataset.rs"
+
+[[bin]]
+name = "comprehensive_dataset_v3"
+path = "investigation/src/comprehensive_dataset_v3.rs"
 
 [profile.release]
 lto = true
