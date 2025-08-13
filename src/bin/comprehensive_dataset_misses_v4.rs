@@ -2,11 +2,11 @@
 //! 
 //! COMPREHENSIVE FIX VERSION addressing all identified issues:
 //! - Python Error Handling: Exclude Python errors from accuracy calculations
-//! - ISCC-NBS Descriptor Generation: Use proper construct_revised_descriptor() function  
+//! - ISCC-NBS Descriptor Generation: Use revised_descriptor() accessor from classification results  
 //! - Python API Issues: Fix XYZ Scaling mapping and handle validation errors
 //! - Unknown Classifications: Track and investigate why colors return "Unknown"
 //! - Report Structure: Clear separation of datasets with proper accuracy calculation
-//! - Key Fixes: XYZ scaling mapping, construct_revised_descriptor usage, accuracy = matches/(total-errors)
+//! - Key Fixes: XYZ scaling mapping, revised_descriptor() accessor usage, accuracy = matches/(total-errors)
 //! - Distance Calculation: Show shortest distance to correct polygon in Value/Chroma coordinates
 
 use munsellspace::iscc::ISCC_NBS_Classifier as IsccNbsClassifier;
@@ -366,7 +366,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     centore_stats.total_unique_colors = centore_colors.len();
     
     println!("\n🔍 Analyzing conversions with breakthrough mathematical converter...");
-    println!("   Using construct_revised_descriptor() for ISCC-NBS naming");
+    println!("   Using revised_descriptor() accessor for ISCC-NBS naming");
     
     for (id, rgb, illum_name, expected_name, dataset) in all_test_data {
         let illuminant = match illum_name.as_str() {
@@ -387,7 +387,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let rust_spec = converter.srgb_to_munsell(rgb)?;
         let rust_notation = converter.format_munsell_notation(&rust_spec);
         
-        // FIX 3: Use proper ISCC-NBS classification with construct_revised_descriptor logic
+        // Use proper ISCC-NBS classification with revised descriptor
         let rust_classification_result = classifier.classify_munsell(
             &format!("{:.1}{}", rust_spec.hue, rust_spec.family), 
             rust_spec.value, 
@@ -396,12 +396,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         let (rust_iscc, rust_unknown) = match rust_classification_result {
             Ok(Some(result)) => {
-                // Use our single clean API function
-                let descriptor = classifier.construct_color_descriptor(
-                    result.iscc_nbs_modifier().unwrap_or(""),
-                    result.iscc_nbs_color()
-                );
-                (descriptor, false)
+                // Use the revised descriptor that's already constructed
+                (result.revised_descriptor().to_string(), false)
             },
             Ok(None) => ("Unknown".to_string(), true),
             Err(_) => ("Unknown".to_string(), true),
@@ -416,7 +412,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             String::new()
         };
         
-        // Parse Python ISCC-NBS classification with proper construct_revised_descriptor usage
+        // Parse Python ISCC-NBS classification with revised descriptor
         let (python_iscc, python_unknown) = if !python_error {
             if let Some((hue_part, value_chroma)) = python_result.split_once(' ') {
                 if let Some((value_str, chroma_str)) = value_chroma.split_once('/') {
@@ -424,12 +420,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     let chroma = chroma_str.parse::<f64>().unwrap_or(0.0);
                     match classifier.classify_munsell(hue_part, value, chroma) {
                         Ok(Some(result)) => {
-                            // Use our single clean API function
-                            let descriptor = classifier.construct_color_descriptor(
-                                result.iscc_nbs_modifier().unwrap_or(""),
-                                result.iscc_nbs_color()
-                            );
-                            (descriptor, false)
+                            // Use the revised descriptor that's already constructed
+                            (result.revised_descriptor().to_string(), false)
                         },
                         Ok(None) => ("Unknown".to_string(), true),
                         Err(_) => ("Unknown".to_string(), true),
@@ -880,68 +872,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-/// FIX 2: Apply construct_revised_descriptor logic to expected names from W3 dataset
-fn construct_expected_name(modifier: &str, color: &str) -> String {
-    let modifier = modifier.trim();
-    let color = color.trim();
-    
-    // Handle empty or dash modifiers
-    if modifier.is_empty() || modifier == "-" {
-        return color.to_string();
-    }
-    
-    // Handle -ish modifiers with proper transformation
-    if modifier.contains("-ish") {
-        // Apply -ish transformation rules similar to construct_revised_descriptor
-        return apply_ish_transformation_to_expected(color, modifier);
-    }
-    
-    // Basic prefix rule
-    format!("{} {}", modifier, color)
-}
-
-/// Apply -ish transformation rules to expected names (mirrors classifier logic)
-fn apply_ish_transformation_to_expected(color: &str, modifier: &str) -> String {
-    // For expected names like "white pink" with modifier "-ish", 
-    // construct "pinkish white" similar to construct_revised_descriptor
-    if modifier == "-ish" {
-        match color {
-            "brown" => "brownish".to_string(),
-            "blue" => "bluish".to_string(),
-            "red" => "reddish".to_string(), 
-            "green" => "greenish".to_string(),
-            "yellow" => "yellowish".to_string(),
-            "purple" => "purplish".to_string(),
-            "pink" => "pinkish".to_string(),
-            "white" => "whitish".to_string(),
-            "gray" => "grayish".to_string(),
-            "black" => "blackish".to_string(),
-            _ => format!("{}ish", color),
-        }
-    } else if color.contains(' ') {
-        // Handle compound colors like "white pink" with "-ish" modifier
-        let parts: Vec<&str> = color.split_whitespace().collect();
-        if parts.len() == 2 {
-            let base_color = parts[1];  // "pink" from "white pink"
-            let descriptor = parts[0];  // "white" from "white pink" 
-            let ish_color = match base_color {
-                "brown" => "brownish",
-                "blue" => "bluish",
-                "red" => "reddish",
-                "green" => "greenish", 
-                "yellow" => "yellowish",
-                "purple" => "purplish",
-                "pink" => "pinkish",
-                _ => return format!("{}ish {}", base_color, descriptor),
-            };
-            format!("{} {}", ish_color, descriptor)
-        } else {
-            format!("{}ish", color)
-        }
-    } else {
-        format!("{}ish", color)
-    }
-}
 
 fn load_w3_dataset() -> Result<Vec<W3IsccColor>, Box<dyn std::error::Error>> {
     let mut reader = ReaderBuilder::new()
