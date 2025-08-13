@@ -64,17 +64,6 @@ optional = true
 name = "munsellspace"
 path = "src/lib.rs"
 
-[[bin]]
-name = "convert_rgb"
-path = "src/bin/convert_rgb.rs"
-
-[[bin]]
-name = "mathematical_convert_rgb"
-path = "src/bin/mathematical_convert_rgb.rs"
-
-[[bin]]
-name = "batch_convert"
-path = "src/bin/batch_convert.rs"
 
 [[bin]]
 name = "comprehensive_dataset_misses"
