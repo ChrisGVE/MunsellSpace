@@ -59,7 +59,6 @@ pub mod traced_port;
 pub mod mechanical_wedges;
 pub mod integration_test;
 pub mod unified_cache;
-pub mod color_utils;
 
 // Test modules were moved to their respective implementation files
 // #[cfg(test)]
@@ -79,18 +78,9 @@ pub use mathematical::{
     ChromaticAdaptation as MathematicalChromaticAdaptation
 };
 pub use reverse_conversion::{ReverseConverter, ColorFormats, CieLab, HslColor, HsvColor, munsell_to_hex_string};
-pub use unified_cache::{UnifiedColorCache, CachedColorResult, normalize_hex_to_rgb, lab_to_rgb};
-pub use color_utils::{
-    rgb_to_hex, hex_to_rgb,
-    rgb_to_lab, // lab_to_rgb is already exported from unified_cache
-    rgb_to_hsl, hsl_to_rgb,
-    rgb_to_hsv, hsv_to_rgb,
-    hex_to_hsl, hsl_to_hex,
-    hex_to_hsv, hsv_to_hex,
-    lab_to_hsl, hsl_to_lab,
-    lab_to_hsv, hsv_to_lab,
-    lab_to_hex, hex_to_lab,
-};
+pub use unified_cache::{UnifiedColorCache, CachedColorResult};
+// Note: General color conversions (RGB↔Hex↔Lab↔HSL↔HSV) are available via the palette crate
+// We only expose Munsell-specific conversions to avoid duplication
 
 /// Library version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

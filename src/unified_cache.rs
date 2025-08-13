@@ -122,9 +122,9 @@ pub struct CacheStats {
     pub capacity: usize,
 }
 
-/// Normalize hex color string to RGB
+/// Parse hex color string to RGB
 /// Handles formats: #RGB, #RRGGBB, RGB, RRGGBB (case insensitive)
-pub fn normalize_hex_to_rgb(hex: &str) -> Result<[u8; 3], MunsellError> {
+pub fn hex_to_rgb(hex: &str) -> Result<[u8; 3], MunsellError> {
     let hex = hex.trim().trim_start_matches('#').to_uppercase();
     
     let rgb = if hex.len() == 3 {
@@ -166,62 +166,18 @@ pub fn normalize_hex_to_rgb(hex: &str) -> Result<[u8; 3], MunsellError> {
     Ok(rgb)
 }
 
-/// Convert Lab to sRGB [0-255]
+/// Convert Lab to sRGB [0-255] using palette crate
 /// Uses D65 white point
 pub fn lab_to_rgb(lab: [f64; 3]) -> Result<[u8; 3], MunsellError> {
-    // Lab → XYZ → RGB conversion
-    let [l, a, b] = lab;
+    use palette::{Lab, Srgb, white_point::D65, convert::IntoColor};
     
-    // D65 white point
-    const XN: f64 = 0.95047;
-    const YN: f64 = 1.00000;
-    const ZN: f64 = 1.08883;
-    
-    // Lab to XYZ
-    let fy = (l + 16.0) / 116.0;
-    let fx = a / 500.0 + fy;
-    let fz = fy - b / 200.0;
-    
-    let delta = 6.0 / 29.0;
-    let delta_cubed = delta * delta * delta;
-    
-    let x = if fx * fx * fx > delta_cubed {
-        fx * fx * fx
-    } else {
-        (116.0 * fx - 16.0) / 903.3
-    } * XN;
-    
-    let y = if l > 7.9996 {
-        fy * fy * fy
-    } else {
-        l / 903.3
-    } * YN;
-    
-    let z = if fz * fz * fz > delta_cubed {
-        fz * fz * fz
-    } else {
-        (116.0 * fz - 16.0) / 903.3
-    } * ZN;
-    
-    // XYZ to linear RGB (using sRGB matrix)
-    let r_linear =  3.2406 * x - 1.5372 * y - 0.4986 * z;
-    let g_linear = -0.9689 * x + 1.8758 * y + 0.0415 * z;
-    let b_linear =  0.0557 * x - 0.2040 * y + 1.0570 * z;
-    
-    // Apply gamma correction (linear RGB to sRGB)
-    let gamma_correct = |linear: f64| -> u8 {
-        let srgb = if linear <= 0.0031308 {
-            12.92 * linear
-        } else {
-            1.055 * linear.powf(1.0 / 2.4) - 0.055
-        };
-        (srgb * 255.0).round().clamp(0.0, 255.0) as u8
-    };
+    let lab_color = Lab::<D65, f64>::new(lab[0], lab[1], lab[2]);
+    let srgb: Srgb<f64> = lab_color.into_color();
     
     Ok([
-        gamma_correct(r_linear),
-        gamma_correct(g_linear),
-        gamma_correct(b_linear),
+        (srgb.red * 255.0).round().clamp(0.0, 255.0) as u8,
+        (srgb.green * 255.0).round().clamp(0.0, 255.0) as u8,
+        (srgb.blue * 255.0).round().clamp(0.0, 255.0) as u8,
     ])
 }
 
@@ -230,16 +186,16 @@ mod tests {
     use super::*;
     
     #[test]
-    fn test_hex_normalization() {
+    fn test_hex_parsing() {
         // All these should produce the same RGB
-        assert_eq!(normalize_hex_to_rgb("#FF0000").unwrap(), [255, 0, 0]);
-        assert_eq!(normalize_hex_to_rgb("#ff0000").unwrap(), [255, 0, 0]);
-        assert_eq!(normalize_hex_to_rgb("FF0000").unwrap(), [255, 0, 0]);
-        assert_eq!(normalize_hex_to_rgb("ff0000").unwrap(), [255, 0, 0]);
-        assert_eq!(normalize_hex_to_rgb("#F00").unwrap(), [255, 0, 0]);
-        assert_eq!(normalize_hex_to_rgb("#f00").unwrap(), [255, 0, 0]);
-        assert_eq!(normalize_hex_to_rgb("F00").unwrap(), [255, 0, 0]);
-        assert_eq!(normalize_hex_to_rgb("f00").unwrap(), [255, 0, 0]);
+        assert_eq!(hex_to_rgb("#FF0000").unwrap(), [255, 0, 0]);
+        assert_eq!(hex_to_rgb("#ff0000").unwrap(), [255, 0, 0]);
+        assert_eq!(hex_to_rgb("FF0000").unwrap(), [255, 0, 0]);
+        assert_eq!(hex_to_rgb("ff0000").unwrap(), [255, 0, 0]);
+        assert_eq!(hex_to_rgb("#F00").unwrap(), [255, 0, 0]);
+        assert_eq!(hex_to_rgb("#f00").unwrap(), [255, 0, 0]);
+        assert_eq!(hex_to_rgb("F00").unwrap(), [255, 0, 0]);
+        assert_eq!(hex_to_rgb("f00").unwrap(), [255, 0, 0]);
     }
     
     #[test]

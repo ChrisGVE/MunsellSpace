@@ -1,7 +1,8 @@
 /// Test that unified cache properly normalizes different input formats
 /// to ensure cache hits for equivalent colors
 
-use munsellspace::{UnifiedColorCache, CachedColorResult, normalize_hex_to_rgb, lab_to_rgb, MunsellConverter, ISCC_NBS_Classifier};
+use munsellspace::{UnifiedColorCache, CachedColorResult, MunsellConverter, ISCC_NBS_Classifier};
+use munsellspace::unified_cache::{hex_to_rgb, lab_to_rgb};
 use std::sync::Arc;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -23,7 +24,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     ];
     
     for (i, hex) in hex_formats.iter().enumerate() {
-        let rgb = normalize_hex_to_rgb(hex)?;
+        let rgb = hex_to_rgb(hex)?;
         println!("Format {}: {} → RGB {:?}", i + 1, hex, rgb);
         
         // Check if it's in cache
@@ -83,7 +84,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     
     // Now try via hex - should hit cache
-    let rgb_from_hex = normalize_hex_to_rgb(hex_equivalent)?;
+    let rgb_from_hex = hex_to_rgb(hex_equivalent)?;
     println!("Hex normalizes to: {:?}", rgb_from_hex);
     
     if rgb_from_hex == rgb_direct {
