@@ -1,0 +1,268 @@
+color_number,iscc_nbs_color_name,iscc_nbs_formatter,alt_color_name
+1,pink,vivid {0},pink
+2,pink,strong {0},pink
+3,pink,deep {0},pink
+4,pink,light {0},pink
+5,pink,moderate {0},pink
+6,pink,dark {0},pink
+7,pink,pale {0},pink
+8,pink,grayish {0},pink
+9,pink,{1} white,pink
+10,pink,{1} gray,pink
+11,red,vivid {0},red
+12,red,strong {0},red
+13,red,deep {0},red
+14,red,very deep {0},red
+15,red,moderate {0},red
+16,red,dark {0},red
+17,red,very dark {0},red
+18,red,pale {0},red
+19,red,grayish {0},red
+20,red,dark grayish {0},red
+21,red,blackish {0},red
+22,red,{1} gray,red
+23,red,dark {1} gray,red
+24,red,{1} black,red
+25,yellowish pink,vivid {0},yellowish pink
+26,yellowish pink,strong {0},yellowish pink
+27,yellowish pink,deep {0},yellowish pink
+28,yellowish pink,light {0},yellowish pink
+29,yellowish pink,moderate {0},yellowish pink
+30,yellowish pink,dark {0},yellowish pink
+31,yellowish pink,pale {0},yellowish pink
+32,yellowish pink,grayish {0},yellowish pink
+33,pink,brownish {0},pink
+34,reddish orange,vivid {0},reddish orange
+35,reddish orange,strong {0},reddish orange
+36,reddish orange,deep {0},reddish orange
+37,reddish orange,moderate {0},reddish orange
+38,reddish orange,dark {0},reddish orange
+39,reddish orange,grayish {0},reddish orange
+40,reddish brown,strong {0},reddish brown
+41,reddish brown,deep {0},reddish brown
+42,reddish brown,light {0},reddish brown
+43,reddish brown,moderate {0},reddish brown
+44,reddish brown,dark {0},reddish brown
+45,reddish brown,pale {0},reddish brown
+46,reddish brown,grayish {0},reddish brown
+47,reddish brown,dark grayish {0},reddish brown
+48,orange,vivid {0},orange
+49,orange,brilliant {0},orange
+50,orange,strong {0},orange
+51,orange,deep {0},orange
+52,orange,light {0},orange
+53,orange,moderate {0},orange
+54,orange,brownish {0},orange
+55,brown,strong {0},brown
+56,brown,deep {0},brown
+57,brown,light {0},brown
+58,brown,moderate {0},brown
+59,brown,dark {0},brown
+60,brown,pale {0},brown
+61,brown,grayish {0},brown
+62,brown,dark grayish {0},brown
+63,brown,light {1} gray,brown
+64,brown,{1} gray,brown
+65,brown,{1} black,brown
+66,orange yellow,vivid {0},orange yellow
+67,orange yellow,brilliant {0},orange yellow
+68,orange yellow,strong {0},orange yellow
+69,orange yellow,deep {0},orange yellow
+70,orange yellow,light {0},orange yellow
+71,orange yellow,moderate {0},orange yellow
+72,orange yellow,dark {0},orange yellow
+73,orange yellow,pale {0},orange yellow
+74,yellowish brown,strong {0},yellowish brown
+75,yellowish brown,deep {0},yellowish brown
+76,yellowish brown,light {0},yellowish brown
+77,yellowish brown,moderate {0},yellowish brown
+78,yellowish brown,dark {0},yellowish brown
+79,yellowish brown,pale {0},yellowish brown
+80,yellowish brown,grayish {0},yellowish brown
+81,yellowish brown,dark grayish {0},yellowish brown
+82,yellow,vivid {0},yellow
+83,yellow,brilliant {0},yellow
+84,yellow,strong {0},yellow
+85,yellow,deep {0},yellow
+86,yellow,light {0},yellow
+87,yellow,moderate {0},yellow
+88,yellow,dark {0},yellow
+89,yellow,pale {0},yellow
+90,yellow,grayish {0},yellow
+91,yellow,dark grayish {0},yellow
+92,yellow,{1} white,yellow
+93,yellow,{1} gray,yellow
+94,olive brown,light {0},olive brown
+95,olive brown,moderate {0},olive brown
+96,olive brown,dark {0},olive brown
+97,greenish yellow,vivid {0},greenish yellow
+98,greenish yellow,brilliant {0},greenish yellow
+99,greenish yellow,strong {0},greenish yellow
+100,greenish yellow,deep {0},greenish yellow
+101,greenish yellow,light {0},greenish yellow
+102,greenish yellow,moderate {0},greenish yellow
+103,greenish yellow,dark {0},greenish yellow
+104,greenish yellow,pale {0},greenish yellow
+105,greenish yellow,grayish {0},greenish yellow
+106,olive,light {0},olive
+107,olive,moderate {0},olive
+108,olive,dark {0},olive
+109,olive,pale {0},olive
+110,olive,grayish {0},olive
+111,olive,dark grayish {0},olive
+112,olive,light {1} gray,olive
+113,olive,{1} gray,olive
+114,olive,{1} black,olive
+115,yellow green,vivid {0},chartreuse
+116,yellow green,brilliant {0},chartreuse
+117,yellow green,strong {0},chartreuse
+118,yellow green,deep {0},chartreuse
+119,yellow green,light {0},chartreuse
+120,yellow green,moderate {0},chartreuse
+121,yellow green,pale {0},chartreuse
+122,yellow green,grayish {0},chartreuse
+123,olive green,strong {0},olive green
+124,olive green,deep {0},olive green
+125,olive green,moderate {0},olive green
+126,olive green,dark {0},olive green
+127,olive green,grayish {0},olive green
+128,olive green,dark grayish {0},olive green
+129,yellowish green,vivid {0},yellowish green
+130,yellowish green,brilliant {0},yellowish green
+131,yellowish green,strong {0},yellowish green
+132,yellowish green,deep {0},yellowish green
+133,yellowish green,very deep {0},yellowish green
+134,yellowish green,very light {0},yellowish green
+135,yellowish green,light {0},yellowish green
+136,yellowish green,moderate {0},yellowish green
+137,yellowish green,dark {0},yellowish green
+138,yellowish green,very dark {0},yellowish green
+139,green,vivid {0},green
+140,green,brilliant {0},green
+141,green,strong {0},green
+142,green,deep {0},green
+143,green,very light {0},green
+144,green,light {0},green
+145,green,moderate {0},green
+146,green,dark {0},green
+147,green,very dark {0},green
+148,green,very pale {0},green
+149,green,pale {0},green
+150,green,grayish {0},green
+151,green,dark grayish {0},green
+152,green,blackish {0},green
+153,green,{1} white,green
+154,green,light {1} gray,green
+155,green,{1} gray,green
+156,green,dark {1} gray,green
+157,green,{1} black,green
+158,bluish green,vivid {0},turquoise
+159,bluish green,brilliant {0},turquoise
+160,bluish green,strong {0},turquoise
+161,bluish green,deep {0},turquoise
+162,bluish green,very light {0},turquoise
+163,bluish green,light {0},turquoise
+164,bluish green,moderate {0},turquoise
+165,bluish green,dark {0},turquoise
+166,bluish green,very dark {0},turquoise
+167,greenish blue,vivid {0},teal
+168,greenish blue,brilliant {0},teal
+169,greenish blue,strong {0},teal
+170,greenish blue,deep {0},teal
+171,greenish blue,very light {0},teal
+172,greenish blue,light {0},teal
+173,greenish blue,moderate {0},teal
+174,greenish blue,dark {0},teal
+175,greenish blue,very dark {0},teal
+176,blue,vivid {0},blue
+177,blue,brilliant {0},blue
+178,blue,strong {0},blue
+179,blue,deep {0},blue
+180,blue,very light {0},blue
+181,blue,light {0},blue
+182,blue,moderate {0},blue
+183,blue,dark {0},blue
+184,blue,very pale {0},blue
+185,blue,pale {0},blue
+186,blue,grayish {0},blue
+187,blue,dark grayish {0},blue
+188,blue,blackish {0},blue
+189,blue,{1} white,blue
+190,blue,light {1} gray,blue
+191,blue,{1} gray,blue
+192,blue,dark {1} gray,blue
+193,blue,{1} black,blue
+194,purplish blue,vivid {0},purplish blue
+195,purplish blue,brilliant {0},purplish blue
+196,purplish blue,strong {0},purplish blue
+197,purplish blue,deep {0},purplish blue
+198,purplish blue,very light {0},purplish blue
+199,purplish blue,light {0},purplish blue
+200,purplish blue,moderate {0},purplish blue
+201,purplish blue,dark {0},purplish blue
+202,purplish blue,very pale {0},purplish blue
+203,purplish blue,pale {0},purplish blue
+204,purplish blue,grayish {0},purplish blue
+205,violet,vivid {0},violet
+206,violet,brilliant {0},violet
+207,violet,strong {0},violet
+208,violet,deep {0},violet
+209,violet,very light {0},violet
+210,violet,light {0},violet
+211,violet,moderate {0},violet
+212,violet,dark {0},violet
+213,violet,very pale {0},violet
+214,violet,pale {0},violet
+215,violet,grayish {0},violet
+216,purple,vivid {0},purple
+217,purple,brilliant {0},purple
+218,purple,strong {0},purple
+219,purple,deep {0},purple
+220,purple,very deep {0},purple
+221,purple,very light {0},purple
+222,purple,light {0},purple
+223,purple,moderate {0},purple
+224,purple,dark {0},purple
+225,purple,very dark {0},purple
+226,purple,very pale {0},purple
+227,purple,pale {0},purple
+228,purple,grayish {0},purple
+229,purple,dark grayish {0},purple
+230,purple,blackish {0},purple
+231,purple,{1} white,purple
+232,purple,light {1} gray,purple
+233,purple,{1} gray,purple
+234,purple,dark {1} gray,purple
+235,purple,{1} black,purple
+236,reddish purple,vivid {0},reddish purple
+237,reddish purple,strong {0},reddish purple
+238,reddish purple,deep {0},reddish purple
+239,reddish purple,very deep {0},reddish purple
+240,reddish purple,light {0},reddish purple
+241,reddish purple,moderate {0},reddish purple
+242,reddish purple,dark {0},reddish purple
+243,reddish purple,very dark {0},reddish purple
+244,reddish purple,pale {0},reddish purple
+245,reddish purple,grayish {0},reddish purple
+246,purplish pink,brilliant {0},purplish pink
+247,purplish pink,strong {0},purplish pink
+248,purplish pink,deep {0},purplish pink
+249,purplish pink,light {0},purplish pink
+250,purplish pink,moderate {0},purplish pink
+251,purplish pink,dark {0},purplish pink
+252,purplish pink,pale {0},purplish pink
+253,purplish pink,grayish {0},purplish pink
+254,purplish pink,vivid {0},purplish pink
+255,purplish pink,strong {0},purplish pink
+256,purplish red,deep {0},purplish red
+257,purplish red,very deep {0},purplish red
+258,purplish red,moderate {0},purplish red
+259,purplish red,dark {0},purplish red
+260,purplish red,very dark {0},purplish red
+261,purplish red,pale {0},purplish red
+262,purplish red,grayish {0},purplish red
+263,white,{0},white
+264,gray,light {0},gray
+265,gray,medium {0},gray
+266,grey,dark {0},grey
+267,black,{0},black

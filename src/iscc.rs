@@ -92,14 +92,12 @@ impl ISCC_NBS_Result {
 /// Color metadata stored separately from geometry for efficient memory usage
 #[derive(Debug, Clone)]
 pub struct ColorMetadata {
-    /// ISCC-NBS descriptor from CSV 'iscc-nbs-descriptor' column (e.g., "vivid pink")
-    pub iscc_nbs_descriptor: String,
-    /// ISCC-NBS color name from CSV 'iscc-nbs-color' column (e.g., "pink")
+    /// ISCC-NBS color name from CSV 'iscc_nbs_color_name' column (e.g., "pink")
     pub iscc_nbs_color_name: String,
-    /// ISCC-NBS formatter from CSV 'iscc-nbs-formatter' column (e.g., "{0} vivid")
+    /// ISCC-NBS formatter from CSV 'iscc_nbs_formatter' column (e.g., "vivid {0}")
     pub iscc_nbs_formatter: Option<String>,
-    /// Revised color name from CSV 'revised-color' column (e.g., "pink")
-    pub revised_color_name: String,
+    /// Alternative color name from CSV 'alt_color_name' column (e.g., "pink")
+    pub alt_color_name: String,
 }
 
 /// Internal representation of an ISCC-NBS color category with its polygonal region
@@ -129,7 +127,8 @@ pub struct ISCC_NBS_Classifier {
 }
 
 /// Embedded ISCC-NBS data - no external files needed
-const ISCC_NBS_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
+const ISCC_NBS_POLYGON_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
+const ISCC_NBS_COLOR_DATA: &str = include_str!("../assets/ISCC-NBS-Colors.csv");
 
 impl ISCC_NBS_Classifier {
     /// Simple descriptor construction using CSV format strings and -ish dictionary lookup
@@ -274,13 +273,23 @@ impl ISCC_NBS_Classifier {
         
         // Look up the metadata for this neutral color
         if let Some(metadata) = self.color_metadata.get(&color_number) {
+            // Construct the full ISCC-NBS descriptor from formatter + color name
+            let iscc_nbs_descriptor = if let Some(formatter) = &metadata.iscc_nbs_formatter {
+                self.construct_descriptor(formatter, &metadata.iscc_nbs_color_name)
+            } else {
+                metadata.iscc_nbs_color_name.clone()
+            };
+            
+            // Use alt_color_name as the revised color
+            let revised_color = metadata.alt_color_name.clone();
+            
             let result = ISCC_NBS_Result {
-                iscc_nbs_descriptor: metadata.iscc_nbs_descriptor.clone(),
+                iscc_nbs_descriptor,
                 iscc_nbs_color: metadata.iscc_nbs_color_name.clone(),
                 iscc_nbs_formatter: metadata.iscc_nbs_formatter.clone(),
-                revised_color: metadata.revised_color_name.clone(),
-                revised_descriptor: self.construct_revised_descriptor(&metadata.revised_color_name, &metadata.iscc_nbs_formatter),
-                shade: self.extract_shade(&metadata.revised_color_name),
+                revised_color: revised_color.clone(),
+                revised_descriptor: self.construct_revised_descriptor(&revised_color, &metadata.iscc_nbs_formatter),
+                shade: self.extract_shade(&revised_color),
                 iscc_nbs_color_id: color_number,
             };
             Ok(Some(result))
@@ -424,8 +433,13 @@ impl ISCC_NBS_Classifier {
             .find(|polygon| {
                 // Check if this polygon's full descriptor matches the expected one using metadata lookup
                 if let Some(metadata) = self.color_metadata.get(&polygon.color_number) {
-                    // Use the iscc_nbs_descriptor directly from CSV which contains the complete descriptor
-                    metadata.iscc_nbs_descriptor.to_lowercase() == expected_descriptor.to_lowercase()
+                    // Construct the full ISCC-NBS descriptor from formatter + color name
+                    let constructed_descriptor = if let Some(formatter) = &metadata.iscc_nbs_formatter {
+                        self.construct_descriptor(formatter, &metadata.iscc_nbs_color_name)
+                    } else {
+                        metadata.iscc_nbs_color_name.clone()
+                    };
+                    constructed_descriptor.to_lowercase() == expected_descriptor.to_lowercase()
                 } else {
                     false
                 }
@@ -758,17 +772,27 @@ impl ISCC_NBS_Classifier {
     fn create_iscc_result(&self, color: &ISCC_NBS_Color) -> ISCC_NBS_Result {
         // Look up metadata for this color number
         if let Some(metadata) = self.color_metadata.get(&color.color_number) {
-            // Extract shade from revised_color (last word specifically)
-            let shade = self.extract_shade(&metadata.revised_color_name);
+            // Construct the full ISCC-NBS descriptor from formatter + color name
+            let iscc_nbs_descriptor = if let Some(formatter) = &metadata.iscc_nbs_formatter {
+                self.construct_descriptor(formatter, &metadata.iscc_nbs_color_name)
+            } else {
+                metadata.iscc_nbs_color_name.clone()
+            };
             
-            // Construct revised descriptor from revised_color + iscc_nbs_formatter
-            let revised_descriptor = self.construct_revised_descriptor(&metadata.revised_color_name, &metadata.iscc_nbs_formatter);
+            // Use alt_color_name as the revised color (they're the same in the new format)
+            let revised_color = metadata.alt_color_name.clone();
+            
+            // Extract shade from alt_color_name (last word specifically)
+            let shade = self.extract_shade(&metadata.alt_color_name);
+            
+            // Construct revised descriptor from alt_color_name + iscc_nbs_formatter
+            let revised_descriptor = self.construct_revised_descriptor(&metadata.alt_color_name, &metadata.iscc_nbs_formatter);
             
             ISCC_NBS_Result {
-                iscc_nbs_descriptor: metadata.iscc_nbs_descriptor.clone(),
+                iscc_nbs_descriptor,
                 iscc_nbs_color: metadata.iscc_nbs_color_name.clone(),
                 iscc_nbs_formatter: metadata.iscc_nbs_formatter.clone(),
-                revised_color: metadata.revised_color_name.clone(),
+                revised_color,
                 revised_descriptor,
                 shade,
                 iscc_nbs_color_id: color.color_number,
@@ -811,118 +835,145 @@ impl ISCC_NBS_Classifier {
         MunsellError::ReferenceDataError { message: msg.into() }
     }
     
-    /// Load ISCC-NBS data from embedded CSV string
+    /// Load ISCC-NBS data from embedded CSV strings
     fn load_embedded_data() -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
-        Self::parse_csv_data(ISCC_NBS_DATA)
+        let polygons = Self::parse_polygon_csv_data(ISCC_NBS_POLYGON_DATA)?;
+        let color_metadata = Self::parse_color_metadata_csv(ISCC_NBS_COLOR_DATA)?;
+        Ok((polygons, color_metadata))
     }
     
-    /// Load ISCC-NBS data from CSV file (for testing/development)
-    fn load_iscc_data(csv_path: &str) -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
+    /// Load ISCC-NBS data from CSV files (for testing/development)
+    fn load_iscc_data(polygon_csv_path: &str) -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
         use std::fs;
-        let csv_content = fs::read_to_string(csv_path)
-            .map_err(|e| MunsellError::ReferenceDataError { message: format!("Failed to read CSV file: {}", e) })?;
-        Self::parse_csv_data(&csv_content)
+        use std::path::Path;
+        
+        // Read polygon data
+        let polygon_csv_content = fs::read_to_string(polygon_csv_path)
+            .map_err(|e| MunsellError::ReferenceDataError { message: format!("Failed to read polygon CSV file: {}", e) })?;
+        
+        // Derive color metadata file path (same directory, different name)
+        let polygon_path = Path::new(polygon_csv_path);
+        let color_csv_path = polygon_path.parent()
+            .unwrap_or(Path::new("."))
+            .join("ISCC-NBS-Colors.csv");
+            
+        let color_csv_content = fs::read_to_string(&color_csv_path)
+            .map_err(|e| MunsellError::ReferenceDataError { 
+                message: format!("Failed to read color metadata CSV file {}: {}", color_csv_path.display(), e) 
+            })?;
+        
+        let polygons = Self::parse_polygon_csv_data(&polygon_csv_content)?;
+        let color_metadata = Self::parse_color_metadata_csv(&color_csv_content)?;
+        Ok((polygons, color_metadata))
     }
     
-    /// Parse CSV data and convert to polygons with separate metadata lookup table
-    fn parse_csv_data(csv_content: &str) -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
+    /// Parse color metadata CSV data into lookup table
+    fn parse_color_metadata_csv(csv_content: &str) -> Result<HashMap<u16, ColorMetadata>, MunsellError> {
         use csv::Reader;
-        use geo::{LineString, Coord};
         
         let mut reader = Reader::from_reader(csv_content.as_bytes());
-        let mut color_groups: std::collections::HashMap<(u16, u8), Vec<(f64, f64)>> = std::collections::HashMap::new();
-        let mut polygon_metadata: std::collections::HashMap<(u16, u8), (String, String, Option<String>, String, String, String)> = std::collections::HashMap::new();
         let mut color_metadata: HashMap<u16, ColorMetadata> = HashMap::new();
         
-        // Parse CSV data and group points by color_number and polygon group
+        // Parse CSV data: color_number,iscc_nbs_color_name,iscc_nbs_formatter,alt_color_name
         for result in reader.records() {
             let record = result
                 .map_err(|e| MunsellError::ReferenceDataError { message: format!("CSV parsing error: {}", e) })?;
             
-            // Parse CSV columns: color_number,points,iscc-nbs-descriptor,iscc-nbs-color,iscc-nbs-modifier,revised-color,hue1,hue2,chroma,value
             let color_number: u16 = record.get(0)
                 .ok_or_else(|| Self::data_error("Missing color_number".to_string()))?
                 .parse()
                 .map_err(|e| Self::data_error(format!("Invalid color_number: {}", e)))?;
                 
-            let point_id: String = record.get(1)
-                .ok_or_else(|| Self::data_error("Missing point_id".to_string()))?
+            let iscc_nbs_color_name = record.get(1)
+                .ok_or_else(|| Self::data_error("Missing iscc_nbs_color_name".to_string()))?
                 .to_string();
                 
-            // Extract polygon group from point_id (e.g., "1.2" -> group 1)
-            let polygon_group: u8 = point_id.split('.').next()
-                .ok_or_else(|| Self::data_error("Invalid point_id format".to_string()))?
+            let iscc_nbs_formatter = record.get(2)
+                .filter(|s| !s.is_empty())
+                .map(|s| s.to_string());
+                
+            let alt_color_name = record.get(3)
+                .ok_or_else(|| Self::data_error("Missing alt_color_name".to_string()))?
+                .to_string();
+            
+            color_metadata.insert(color_number, ColorMetadata {
+                iscc_nbs_color_name,
+                iscc_nbs_formatter,
+                alt_color_name,
+            });
+        }
+        
+        Ok(color_metadata)
+    }
+    
+    /// Parse polygon CSV data and convert to polygons
+    fn parse_polygon_csv_data(csv_content: &str) -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
+        use csv::Reader;
+        use geo::{LineString, Coord};
+        
+        let mut reader = Reader::from_reader(csv_content.as_bytes());
+        let mut color_groups: std::collections::HashMap<(u16, u8), Vec<(f64, f64)>> = std::collections::HashMap::new();
+        let mut polygon_metadata: std::collections::HashMap<(u16, u8), (String, String)> = std::collections::HashMap::new();
+        
+        // Parse CSV data and group points by color_number and polygon_id
+        for result in reader.records() {
+            let record = result
+                .map_err(|e| MunsellError::ReferenceDataError { message: format!("CSV parsing error: {}", e) })?;
+            
+            // Parse CSV columns: color_number,polygon_id,point_id,hue1,hue2,chroma,value
+            let color_number: u16 = record.get(0)
+                .ok_or_else(|| Self::data_error("Missing color_number".to_string()))?
                 .parse()
-                .map_err(|e| Self::data_error(format!("Invalid polygon_group: {}", e)))?;
+                .map_err(|e| Self::data_error(format!("Invalid color_number: {}", e)))?;
+                
+            let polygon_id: u8 = record.get(1)
+                .ok_or_else(|| Self::data_error("Missing polygon_id".to_string()))?
+                .parse()
+                .map_err(|e| Self::data_error(format!("Invalid polygon_id: {}", e)))?;
+                
+            // Skip point_id (column 2) - not needed for processing
             
-            // Use iscc-nbs-descriptor (column 2) as the descriptor
-            let descriptor = record.get(2)
-                .ok_or_else(|| Self::data_error("Missing iscc-nbs-descriptor".to_string()))?
-                .to_string();
-                
-            let color_name = record.get(3)
-                .ok_or_else(|| Self::data_error("Missing color_name".to_string()))?
-                .to_string();
-                
-            // Use iscc-nbs-formatter (column 4) as the formatter
-            let formatter = record.get(4).filter(|s| !s.is_empty()).map(|s| s.to_string());
-            
-            let revised_color = record.get(5)
-                .ok_or_else(|| Self::data_error("Missing revised_color".to_string()))?
-                .to_string();
-                
-            let hue1 = record.get(6)
+            let hue1 = record.get(3)
                 .ok_or_else(|| Self::data_error("Missing hue1".to_string()))?
                 .to_string();
                 
-            let hue2 = record.get(7)
+            let hue2 = record.get(4)
                 .ok_or_else(|| Self::data_error("Missing hue2".to_string()))?
                 .to_string();
                 
-            let chroma: f64 = record.get(8)
+            let chroma: f64 = record.get(5)
                 .ok_or_else(|| Self::data_error("Missing chroma".to_string()))?
                 .parse()
                 .map_err(|e| Self::data_error(format!("Invalid chroma: {}", e)))?;
                 
-            let value: f64 = record.get(9)
+            let value: f64 = record.get(6)
                 .ok_or_else(|| Self::data_error("Missing value".to_string()))?
                 .parse()
                 .map_err(|e| Self::data_error(format!("Invalid value: {}", e)))?;
             
             // Store point in the appropriate group
-            let key = (color_number, polygon_group);
+            let key = (color_number, polygon_id);
             color_groups.entry(key).or_insert_with(Vec::new).push((value, chroma));
             
-            // Store polygon-specific metadata (same for all points in a group)
+            // Store polygon-specific metadata (hue range)
             if !polygon_metadata.contains_key(&key) {
-                polygon_metadata.insert(key, (descriptor.clone(), color_name.clone(), formatter.clone(), revised_color.clone(), hue1, hue2));
-            }
-            
-            // Store color-level metadata (indexed by color_number only) 
-            if !color_metadata.contains_key(&color_number) {
-                color_metadata.insert(color_number, ColorMetadata {
-                    iscc_nbs_descriptor: descriptor,
-                    iscc_nbs_color_name: color_name,
-                    iscc_nbs_formatter: formatter,
-                    revised_color_name: revised_color,
-                });
+                polygon_metadata.insert(key, (hue1, hue2));
             }
         }
         
         // Convert grouped points to Polygon objects
         let mut colors = Vec::new();
-        for ((color_number, polygon_group), points) in color_groups {
+        for ((color_number, polygon_id), points) in color_groups {
             if points.len() < 3 {
                 return Err(Self::data_error(format!(
-                    "Insufficient points for polygon: color {} group {} has {} points", 
-                    color_number, polygon_group, points.len()
+                    "Insufficient points for polygon: color {} polygon_id {} has {} points", 
+                    color_number, polygon_id, points.len()
                 )));
             }
             
-            let (_descriptor, _color_name, _modifier, _revised_color, hue1, hue2) = 
-                polygon_metadata.get(&(color_number, polygon_group))
-                    .ok_or_else(|| Self::data_error("Missing polygon metadata".to_string()))?
-                    .clone();
+            let (hue1, hue2) = polygon_metadata.get(&(color_number, polygon_id))
+                .ok_or_else(|| Self::data_error("Missing polygon metadata".to_string()))?
+                .clone();
             
             // Create LineString from points (geo requires a closed ring)
             // NOTE: Using consistent coordinate system: x=chroma, y=value (matches mechanical wedge system)
@@ -942,13 +993,13 @@ impl ISCC_NBS_Classifier {
             
             colors.push(ISCC_NBS_Color {
                 color_number,
-                polygon_group,
+                polygon_group: polygon_id,
                 hue_range: (hue1, hue2),
                 polygon,
             });
         }
         
-        Ok((colors, color_metadata))
+        Ok(colors)
     }
     
     /// Organize colors by adjacent Munsell planes for efficient lookup
