@@ -55,9 +55,7 @@ pub mod python_port_lab;
 pub mod python_port_utils;
 pub mod python_port_interpolation;
 pub mod python_port_cache;
-pub mod traced_port;
 pub mod mechanical_wedges;
-pub mod integration_test;
 pub mod unified_cache;
 
 // Test modules were moved to their respective implementation files
