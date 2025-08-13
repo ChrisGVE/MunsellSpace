@@ -2,11 +2,11 @@
 //! 
 //! COMPREHENSIVE FIX VERSION addressing all identified issues:
 //! - Python Error Handling: Exclude Python errors from accuracy calculations
-//! - ISCC-NBS Descriptor Generation: Use revised_descriptor() accessor from classification results  
+//! - ISCC-NBS Descriptor Generation: Use iscc_nbs_descriptor() accessor from classification results  
 //! - Python API Issues: Fix XYZ Scaling mapping and handle validation errors
 //! - Unknown Classifications: Track and investigate why colors return "Unknown"
 //! - Report Structure: Clear separation of datasets with proper accuracy calculation
-//! - Key Fixes: XYZ scaling mapping, revised_descriptor() accessor usage, accuracy = matches/(total-errors)
+//! - Key Fixes: XYZ scaling mapping, iscc_nbs_descriptor() accessor usage, accuracy = matches/(total-errors)
 //! - Distance Calculation: Show shortest distance to correct polygon in Value/Chroma coordinates
 
 use munsellspace::iscc::ISCC_NBS_Classifier as IsccNbsClassifier;
@@ -284,7 +284,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("=======================================================================");
     println!("COMPREHENSIVE FIX VERSION: All identified issues addressed");
     println!("- Python Error Handling: Exclude errors from accuracy calculations");
-    println!("- ISCC-NBS Generation: Use original ISCC-NBS names for consistency"); 
+    println!("- ISCC-NBS Generation: Use ISCC-NBS descriptors for consistency"); 
     println!("- Python API Issues: Fix XYZ Scaling mapping and validation errors");
     println!("- Unknown Classifications: Track and investigate causes");
     println!("- Accuracy Formula: matches / (total - errors)");
@@ -366,7 +366,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     centore_stats.total_unique_colors = centore_colors.len();
     
     println!("\n🔍 Analyzing conversions with breakthrough mathematical converter...");
-    println!("   Using revised_descriptor() accessor for ISCC-NBS naming");
+    println!("   Using iscc_nbs_descriptor() accessor for ISCC-NBS naming");
     
     for (id, rgb, illum_name, expected_name, dataset) in all_test_data {
         let illuminant = match illum_name.as_str() {
@@ -396,8 +396,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         
         let (rust_iscc, rust_unknown) = match rust_classification_result {
             Ok(Some(result)) => {
-                // Use the revised descriptor that's already constructed
-                (result.revised_descriptor().to_string(), false)
+                // Use the ISCC-NBS descriptor instead of revised descriptor
+                (result.iscc_nbs_descriptor().to_string(), false)
             },
             Ok(None) => ("Unknown".to_string(), true),
             Err(_) => ("Unknown".to_string(), true),
@@ -420,8 +420,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     let chroma = chroma_str.parse::<f64>().unwrap_or(0.0);
                     match classifier.classify_munsell(hue_part, value, chroma) {
                         Ok(Some(result)) => {
-                            // Use the revised descriptor that's already constructed
-                            (result.revised_descriptor().to_string(), false)
+                            // Use the ISCC-NBS descriptor instead of revised descriptor
+                            (result.iscc_nbs_descriptor().to_string(), false)
                         },
                         Ok(None) => ("Unknown".to_string(), true),
                         Err(_) => ("Unknown".to_string(), true),
