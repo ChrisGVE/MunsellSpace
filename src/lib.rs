@@ -108,8 +108,8 @@ pub mod mechanical_wedges;
 pub mod unified_cache;
 
 // Test modules were moved to their respective implementation files
-// #[cfg(test)]
-// mod proptest_suite;
+#[cfg(test)]
+mod property_tests;
 
 pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
