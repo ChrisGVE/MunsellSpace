@@ -350,6 +350,7 @@ impl MunsellConverter {
     
     
     /// Validate RGB color values.
+    #[inline]
     fn validate_rgb(&self, _rgb: [u8; 3]) -> Result<()> {
         // RGB values are already constrained to 0-255 by u8 type
         // Additional validation could be added here if needed
@@ -368,11 +369,12 @@ impl MunsellConverter {
             return Ok(MunsellColor::new_neutral(0.0));
         }
         
-        // Step 1: Convert u8 RGB to normalized f64 sRGB
+        // Step 1: Convert u8 RGB to normalized f64 sRGB (avoid intermediate allocation)
+        const INV_255: f64 = 1.0 / 255.0;
         let srgb_norm = [
-            rgb[0] as f64 / 255.0,
-            rgb[1] as f64 / 255.0,
-            rgb[2] as f64 / 255.0,
+            rgb[0] as f64 * INV_255,
+            rgb[1] as f64 * INV_255,
+            rgb[2] as f64 * INV_255,
         ];
 
         // Step 2: Apply gamma correction (sRGB → linear RGB)
@@ -392,34 +394,50 @@ impl MunsellConverter {
     }
     
     /// Apply sRGB gamma correction to convert to linear RGB.
+    #[inline]
     fn srgb_to_linear_rgb(&self, srgb: [f64; 3]) -> [f64; 3] {
-        let mut linear = [0.0; 3];
-        for i in 0..3 {
-            linear[i] = if srgb[i] <= 0.04045 {
-                srgb[i] / 12.92
+        // Unrolled loop for better performance - avoiding bounds checks and improving cache locality
+        const THRESHOLD: f64 = 0.04045;
+        const INV_12_92: f64 = 1.0 / 12.92;
+        const ALPHA: f64 = 0.055;
+        const INV_1_055: f64 = 1.0 / 1.055;
+        const GAMMA: f64 = 2.4;
+        
+        [
+            if srgb[0] <= THRESHOLD {
+                srgb[0] * INV_12_92
             } else {
-                ((srgb[i] + 0.055) / 1.055).powf(2.4)
-            };
-        }
-        linear
+                ((srgb[0] + ALPHA) * INV_1_055).powf(GAMMA)
+            },
+            if srgb[1] <= THRESHOLD {
+                srgb[1] * INV_12_92
+            } else {
+                ((srgb[1] + ALPHA) * INV_1_055).powf(GAMMA)
+            },
+            if srgb[2] <= THRESHOLD {
+                srgb[2] * INV_12_92
+            } else {
+                ((srgb[2] + ALPHA) * INV_1_055).powf(GAMMA)
+            }
+        ]
     }
 
     /// Convert linear RGB to XYZ using sRGB D65 transformation matrix.
+    #[inline]
     fn linear_rgb_to_xyz_d65(&self, linear_rgb: [f64; 3]) -> [f64; 3] {
         // sRGB to XYZ D65 transformation matrix (ITU-R BT.709)
-        let matrix = [
-            [0.4124564, 0.3575761, 0.1804375],
-            [0.2126729, 0.7151522, 0.0721750],
-            [0.0193339, 0.1191920, 0.9503041],
-        ];
-
-        let mut xyz = [0.0; 3];
-        for i in 0..3 {
-            xyz[i] = matrix[i][0] * linear_rgb[0] +
-                     matrix[i][1] * linear_rgb[1] +
-                     matrix[i][2] * linear_rgb[2];
-        }
-        xyz
+        // Unrolled matrix multiplication for better performance
+        const M00: f64 = 0.4124564; const M01: f64 = 0.3575761; const M02: f64 = 0.1804375;
+        const M10: f64 = 0.2126729; const M11: f64 = 0.7151522; const M12: f64 = 0.0721750;
+        const M20: f64 = 0.0193339; const M21: f64 = 0.1191920; const M22: f64 = 0.9503041;
+        
+        let [r, g, b] = linear_rgb;
+        
+        [
+            M00 * r + M01 * g + M02 * b,
+            M10 * r + M11 * g + M12 * b,
+            M20 * r + M21 * g + M22 * b,
+        ]
     }
     
     /// Perform chromatic adaptation from D65 to Illuminant C using Bradford transform.
@@ -468,6 +486,7 @@ impl MunsellConverter {
     }
 
     /// Convert XYZ to xyY color space.
+    #[inline]
     fn xyz_to_xyy(&self, xyz: [f64; 3]) -> [f64; 3] {
         let sum = xyz[0] + xyz[1] + xyz[2];
         if sum == 0.0 {
@@ -510,6 +529,7 @@ impl MunsellConverter {
 
     /// Check if a color is achromatic (near neutral axis).
     /// CRITICAL FIX: Match Python colour-science precision exactly.
+    #[inline]
     fn is_achromatic(&self, x: f64, y: f64) -> bool {
         // D65 white point coordinates (exact values from Python colour-science)
         let d65_white_x = 0.31271;

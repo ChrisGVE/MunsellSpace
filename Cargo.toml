@@ -78,4 +78,8 @@ path = "investigation/src/wedge_coverage_test.rs"
 lto = true
 codegen-units = 1
 panic = "abort"
+opt-level = 3
+overflow-checks = false
+debug = false
+rpath = false
 
