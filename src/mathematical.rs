@@ -845,11 +845,6 @@ impl MathematicalMunsellConverter {
 
     /// Convert CIE xyY to Munsell specification using ASTM D1535 algorithm
     pub fn xyy_to_munsell_specification(&self, xyy: CieXyY) -> Result<MunsellSpecification> {
-        let debug = std::env::var("DEBUG_MUNSELL").is_ok();
-        if debug {
-            eprintln!("\n=== ENTERING xyy_to_munsell_specification ===");
-            eprintln!("Input xyY: x={:.6}, y={:.6}, Y={:.6}", xyy.x, xyy.y, xyy.Y);
-        }
         // EXACT IMPLEMENTATION of Python colour-science _xyY_to_munsell_specification
         // This is the complete dual-loop iterative algorithm for 100% mathematical accuracy
         
@@ -860,14 +855,11 @@ impl MathematicalMunsellConverter {
         const CONVERGENCE_THRESHOLD: f64 = THRESHOLD_INTEGER / 1e4; // 1e-7
         
         // Step 1: Calculate Munsell Value using ASTM D1535 polynomial
-        eprintln!("  Y luminance input: {:.6} (normalized, will be converted to percentage)", xyy.Y);
         let mut value = self.luminance_to_munsell_value(xyy.Y)?;
-        eprintln!("  Munsell Value calculated: {:.6}", value);
         
         // Round if close to integer (Python lines 1070-1071)
         if (value - value.round()).abs() < 1e-10 {
             value = value.round();
-            eprintln!("  Rounded to integer: {}", value);
         }
         
         // Step 2: Get achromatic center for this value (uses Illuminant C)
@@ -883,8 +875,6 @@ impl MathematicalMunsellConverter {
         let y_center = achromatic_xyy.y;
         
         // Calculate rho_input relative to achromatic center (NOT D65!)
-        eprintln!("  Achromatic center: x={:.6}, y={:.6}", x_center, y_center);
-        eprintln!("  ILLUMINANT_C: x={:.6}, y={:.6}", ILLUMINANT_C[0], ILLUMINANT_C[1]);
         let (rho_input, phi_input_rad, _) = cartesian_to_cylindrical(
             xyy.x - x_center,
             xyy.y - y_center,
@@ -893,26 +883,19 @@ impl MathematicalMunsellConverter {
         // CRITICAL: Keep phi_input in original range [-180, 180] like Python!
         // Do NOT normalize to [0, 360) here - it affects convergence
         let phi_input = phi_input_rad.to_degrees();
-        eprintln!("  Polar coords: rho={:.6}, phi={:.6}°", rho_input, phi_input);
         
         // Debug for RGB [238,0,85] specifically
         let is_debug_color = (xyy.x - 0.558939).abs() < 0.0001 && (xyy.y - 0.285274).abs() < 0.0001;
-        if is_debug_color {
-            eprintln!("DEBUG: Testing RGB [238,0,85]");
-        }
         
         // Step 3: Check for achromatic using rho_input (like Python)
         // Also check for pure black (Y ≈ 0)
         if rho_input < THRESHOLD_INTEGER || xyy.Y < 1e-6 {  // 1e-3
-            eprintln!("  ACHROMATIC (rho < {} or Y ≈ 0)", THRESHOLD_INTEGER);
             return Ok(MunsellSpecification {
                 hue: 0.0,
                 family: "N".to_string(),
                 value,
                 chroma: 0.0,
             });
-        } else {
-            eprintln!("  CHROMATIC - continuing with algorithm");
         }
 
         // Step 4: Generate initial guess using direct xyY angle
@@ -920,19 +903,13 @@ impl MathematicalMunsellConverter {
         let mut hue_current = initial_spec.0;
         let mut code_current = initial_spec.1;
         let mut chroma_current = initial_spec.2;  // No additional scaling needed
-        // eprintln!("  Initial guess: hue={:.6}, code={}, chroma={:.6}", hue_current, code_current, chroma_current);
         
         // Note: rho_input and phi_input already calculated above relative to achromatic center
         // Don't recalculate them here!
         
-        // eprintln!("\n  Starting main loop (max {} iterations)...", MAX_OUTER_ITERATIONS);
         
         // Step 4: DUAL-LOOP ITERATIVE ALGORITHM
         for outer_iteration in 0..MAX_OUTER_ITERATIONS {
-            if (outer_iteration < 5 || outer_iteration >= MAX_OUTER_ITERATIONS - 2) && is_debug_color {  // Trace first 5 and last 2 iterations
-                // eprintln!("\n--- Iteration {} ---", outer_iteration);
-                // eprintln!("Current: hue={:.6}, code={}, chroma={:.6}", hue_current, code_current, chroma_current);
-            }
             
             // Check maximum chroma boundaries
             let chroma_maximum = self.maximum_chroma_from_renotation(hue_current, value, code_current)?;
@@ -942,7 +919,6 @@ impl MathematicalMunsellConverter {
             
             // Calculate current xyY from specification
             let (x_current, y_current) = self.munsell_specification_to_xy(hue_current, value, chroma_current, code_current)?;
-            // eprintln!("Current xy: x={:.6}, y={:.6}", x_current, y_current);
             
             // Convert to cylindrical coordinates relative to achromatic center (NOT Illuminant C directly!)
             let (rho_current, phi_current, _) = cartesian_to_cylindrical(
@@ -980,15 +956,12 @@ impl MathematicalMunsellConverter {
             let mut iterations_inner = 0;
             
             // Python's condition: continue while all phi_differences have same sign AND not extrapolating
-            // eprintln!("  Inner hue loop start: phi_input={:.3}°, phi_current={:.3}°, diff={:.3}°", 
-            //          phi_input, phi_current_degrees, phi_current_difference);
             while (phi_differences_data.iter().all(|&d| d >= 0.0) || 
                    phi_differences_data.iter().all(|&d| d <= 0.0)) && 
                   !extrapolate {
                 
                 iterations_inner += 1;
                 if iterations_inner > MAX_INNER_ITERATIONS {
-                    // eprintln!("  Inner hue loop: max iterations reached");
                     break; // Prevent infinite loop
                 }
                 
@@ -1050,12 +1023,9 @@ impl MathematicalMunsellConverter {
                     
                     phi_differences_data.push(phi_inner_difference);
                     hue_angles_differences_data.push(hue_angle_difference_inner);
-                    // eprintln!("    Inner iteration {}: phi_diff={:.3}°, hue_angle_diff={:.3}°", 
-                    //          iterations_inner, phi_inner_difference, hue_angle_difference_inner);
                 }
             }
             
-            // eprintln!("  Inner hue loop end: collected {} points", phi_differences_data.len());
             
             // Extrapolate/interpolate to find where phi_difference = 0
             // SIMPLIFIED: Match Python's simple approach - no stuck detection, no perturbations
@@ -1090,10 +1060,6 @@ impl MathematicalMunsellConverter {
                 hue_angle_new += 360.0;
             }
             let (hue_new, code_new) = hue_angle_to_hue(hue_angle_new);
-            if outer_iteration < 5 && is_debug_color {
-                eprintln!("  Hue refinement: current_angle={:.1}°, diff={:.1}°, new_angle={:.1}° -> hue={:.3}, code={}", 
-                         hue_angle_current, hue_angle_difference_new, hue_angle_new, hue_new, code_new);
-            }
             
             // SIMPLIFIED: Just update hue and code, no stuck detection or perturbations
             // This matches Python's approach which doesn't have any special stuck handling
@@ -1120,16 +1086,8 @@ impl MathematicalMunsellConverter {
             let mut chroma_bounds_data = vec![chroma_current];
             let mut iterations_inner = 0;
             
-            if outer_iteration < 5 && is_debug_color {
-                eprintln!("  Before chroma loop: spec=(hue={:.3}, value={:.3}, chroma={:.3}, code={})",
-                         hue_current, value, chroma_current, code_current);
-                eprintln!("    -> xy=({:.6}, {:.6})", x_current_new, y_current_new);
-                eprintln!("    -> rho={:.6} (relative to center {:.6}, {:.6})", 
-                         rho_current_new, x_center, y_center);
-            }
             
             // Python condition: continue until rho_input is between min and max of rho_bounds
-            // eprintln!("  Inner chroma loop start: rho_input={:.6}, rho_current={:.6}", rho_input, rho_current_new);
             let mut loop_count = 0;
             while loop_count < MAX_INNER_ITERATIONS {
                 let rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
