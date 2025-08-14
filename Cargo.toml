@@ -75,14 +75,6 @@ name = "wedge_coverage_test"
 path = "investigation/src/wedge_coverage_test.rs"
 
 [[bin]]
-name = "wedge_coverage_test_parallel"
-path = "investigation/src/wedge_coverage_test_parallel.rs"
-
-[[bin]]
-name = "wedge_coverage_test_full"
-path = "investigation/src/wedge_coverage_test_full.rs"
-
-[[bin]]
 name = "validate_4007"
 path = "investigation/src/validate_4007.rs"
 
