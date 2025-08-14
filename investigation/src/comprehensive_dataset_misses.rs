@@ -632,9 +632,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 
 fn load_w3_dataset() -> Result<Vec<W3IsccColor>, Box<dyn std::error::Error>> {
+    // Use path relative to workspace root (where Cargo.toml is)
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/data/ISCC_NBS_REFERENCE_DATASET.csv");
     let mut reader = ReaderBuilder::new()
         .has_headers(true)
-        .from_path("tests/data/ISCC_NBS_REFERENCE_DATASET.csv")?;
+        .from_path(path)?;
     
     let mut colors = Vec::new();
     for result in reader.deserialize() {
@@ -645,9 +648,12 @@ fn load_w3_dataset() -> Result<Vec<W3IsccColor>, Box<dyn std::error::Error>> {
 }
 
 fn load_centore_dataset() -> Result<Vec<CentoreIsccColor>, Box<dyn std::error::Error>> {
+    // Use path relative to workspace root (where Cargo.toml is)
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/data/MUNSELL_COLOR_SCIENCE_COMPLETE.csv");
     let mut reader = ReaderBuilder::new()
         .has_headers(true)
-        .from_path("tests/data/MUNSELL_COLOR_SCIENCE_COMPLETE.csv")?;
+        .from_path(path)?;
     
     let mut colors = Vec::new();
     for result in reader.deserialize() {
