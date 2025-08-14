@@ -3,6 +3,7 @@ use crate::error::MunsellError;
 use crate::mechanical_wedges::MechanicalWedgeSystem;
 use geo::Polygon;
 use std::collections::HashMap;
+use std::sync::{Arc, RwLock};
 
 /// Color metadata with on-the-fly descriptor construction
 #[derive(Debug, Clone)]
@@ -71,8 +72,8 @@ pub struct ISCC_NBS_Classifier {
     pub wedge_system: crate::mechanical_wedges::MechanicalWedgeSystem,
     /// Metadata lookup table - stores metadata once per color number instead of duplicating in each wedge
     color_metadata: HashMap<u16, ColorMetadata>,
-    /// Small LRU cache for successive lookups without repeated searches
-    cache: std::cell::RefCell<HashMap<(String, String, String), Option<u16>>>, // (hue, value_str, chroma_str) -> color_number
+    /// Small LRU cache for successive lookups without repeated searches (thread-safe)
+    cache: Arc<RwLock<HashMap<(String, String, String), Option<u16>>>>, // (hue, value_str, chroma_str) -> color_number
     /// Maximum cache size
     cache_max_size: usize,
 }
@@ -93,7 +94,7 @@ impl ISCC_NBS_Classifier {
         Ok(ISCC_NBS_Classifier {
             wedge_system,
             color_metadata,
-            cache: std::cell::RefCell::new(HashMap::new()),
+            cache: Arc::new(RwLock::new(HashMap::new())),
             cache_max_size: 256,
         })
     }
@@ -111,7 +112,7 @@ impl ISCC_NBS_Classifier {
         Ok(ISCC_NBS_Classifier {
             wedge_system,
             color_metadata,
-            cache: std::cell::RefCell::new(HashMap::new()),
+            cache: Arc::new(RwLock::new(HashMap::new())),
             cache_max_size: 256,
         })
     }
@@ -173,7 +174,7 @@ impl ISCC_NBS_Classifier {
 
         // Check cache first
         {
-            let cache = self.cache.borrow();
+            let cache = self.cache.read().unwrap();
             if let Some(&cached_color_number) = cache.get(&cache_key) {
                 return Ok(cached_color_number.and_then(|num| self.build_result(num)));
             }
@@ -248,7 +249,7 @@ impl ISCC_NBS_Classifier {
 
     /// Helper method to cache results with size management
     fn cache_result(&self, key: (String, String, String), result: Option<u16>) {
-        let mut cache = self.cache.borrow_mut();
+        let mut cache = self.cache.write().unwrap();
 
         // Simple cache size management - remove oldest entries if needed
         if cache.len() >= self.cache_max_size {
@@ -757,6 +758,10 @@ pub enum ValidationError {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+    use std::sync::Arc;
+    use std::thread;
+    
     #[test]
     fn test_boundary_disambiguation() {
         // Test that boundary rules prevent ambiguous classification
@@ -766,5 +771,139 @@ mod tests {
     #[test]
     fn test_staircase_classification() {
         // Test that staircase polygons work correctly with rectangles in steps
+    }
+    
+    #[test]
+    fn test_thread_safety_concurrent_classification() {
+        // Test that ISCC_NBS_Classifier can be safely used across multiple threads
+        let classifier = Arc::new(ISCC_NBS_Classifier::new().expect("Failed to create classifier"));
+        let mut handles = vec![];
+        
+        // Test data: various Munsell colors that should classify to different ISCC-NBS colors
+        let test_colors = vec![
+            ("5R", 6.0, 14.0),  // red
+            ("10YR", 7.0, 6.0), // yellow-red
+            ("5Y", 8.0, 12.0),  // yellow
+            ("5G", 5.0, 8.0),   // green
+            ("5B", 4.0, 6.0),   // blue
+            ("5P", 3.0, 10.0),  // purple
+            ("N", 5.0, 0.0),    // neutral gray
+            ("N", 9.0, 0.0),    // light gray
+            ("N", 2.0, 0.0),    // dark gray
+        ];
+        
+        // Spawn multiple threads that perform classification simultaneously
+        for thread_id in 0..8 {
+            let classifier_clone = Arc::clone(&classifier);
+            let test_colors_clone = test_colors.clone();
+            
+            let handle = thread::spawn(move || {
+                let mut results = Vec::new();
+                
+                // Each thread classifies all test colors multiple times
+                for iteration in 0..10 {
+                    for (i, &(hue, value, chroma)) in test_colors_clone.iter().enumerate() {
+                        // Use slightly different values per thread to test cache behavior
+                        let adjusted_value = value + (thread_id as f64 * 0.01) + (iteration as f64 * 0.001);
+                        let adjusted_chroma = if chroma > 0.0 { chroma + (i as f64 * 0.01) } else { 0.0 };
+                        
+                        match classifier_clone.classify_munsell(hue, adjusted_value, adjusted_chroma) {
+                            Ok(Some(metadata)) => {
+                                results.push((hue.to_string(), adjusted_value, adjusted_chroma, metadata.iscc_nbs_color_name.clone()));
+                            }
+                            Ok(None) => {
+                                results.push((hue.to_string(), adjusted_value, adjusted_chroma, "unclassified".to_string()));
+                            }
+                            Err(e) => {
+                                panic!("Classification error in thread {}: {:?}", thread_id, e);
+                            }
+                        }
+                    }
+                }
+                
+                (thread_id, results.len())
+            });
+            handles.push(handle);
+        }
+        
+        // Wait for all threads to complete and collect results
+        let mut total_classifications = 0;
+        for handle in handles {
+            let (thread_id, count) = handle.join().expect("Thread panicked");
+            println!("Thread {} completed {} classifications", thread_id, count);
+            total_classifications += count;
+        }
+        
+        // Verify we got the expected number of classifications
+        let expected_total = 8 * 10 * test_colors.len(); // 8 threads * 10 iterations * 9 colors
+        assert_eq!(total_classifications, expected_total, 
+                   "Expected {} total classifications, got {}", expected_total, total_classifications);
+    }
+    
+    #[test]
+    fn test_thread_safety_cache_behavior() {
+        // Test that the cache works correctly under concurrent access
+        let classifier = Arc::new(ISCC_NBS_Classifier::new().expect("Failed to create classifier"));
+        let mut handles = vec![];
+        
+        // Use the same color repeatedly to ensure cache hits
+        let test_color = ("5R", 6.0, 14.0);
+        
+        for thread_id in 0..4 {
+            let classifier_clone = Arc::clone(&classifier);
+            
+            let handle = thread::spawn(move || {
+                let mut cache_hits = 0;
+                let mut results = Vec::new();
+                
+                // Classify the same color many times to trigger cache usage
+                for _ in 0..50 {
+                    match classifier_clone.classify_munsell(test_color.0, test_color.1, test_color.2) {
+                        Ok(Some(metadata)) => {
+                            results.push(metadata.iscc_nbs_color_name.clone());
+                            cache_hits += 1;
+                        }
+                        Ok(None) => {
+                            // Should not happen for this test color
+                        }
+                        Err(e) => {
+                            panic!("Classification error in thread {}: {:?}", thread_id, e);
+                        }
+                    }
+                }
+                
+                (thread_id, cache_hits, results)
+            });
+            handles.push(handle);
+        }
+        
+        // Collect results from all threads
+        for handle in handles {
+            let (thread_id, cache_hits, results) = handle.join().expect("Thread panicked");
+            println!("Thread {} got {} cache hits", thread_id, cache_hits);
+            
+            // All results should be the same since we're classifying the same color
+            if !results.is_empty() {
+                let first_result = &results[0];
+                for result in &results {
+                    assert_eq!(result, first_result, 
+                              "Thread {} got inconsistent results", thread_id);
+                }
+            }
+        }
+    }
+    
+    #[test]
+    fn test_send_sync_traits() {
+        // Verify that ISCC_NBS_Classifier implements Send + Sync
+        fn assert_send<T: Send>() {}
+        fn assert_sync<T: Sync>() {}
+        
+        assert_send::<ISCC_NBS_Classifier>();
+        assert_sync::<ISCC_NBS_Classifier>();
+        
+        // Also verify Arc<ISCC_NBS_Classifier> is Send + Sync
+        assert_send::<Arc<ISCC_NBS_Classifier>>();
+        assert_sync::<Arc<ISCC_NBS_Classifier>>();
     }
 }
