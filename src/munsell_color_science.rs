@@ -561,14 +561,12 @@ pub fn xyy_from_renotation(spec: &[f64; 4]) -> Result<[f64; 3]> {
 /// Get maximum chroma from renotation data
 /// Exact 1:1 port from Python colour-science
 pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> Result<f64> {
-    eprintln!("DEBUG maximum_chroma_from_renotation ENTRY: hue={:.4}, value={:.4}, code={}", hue, value, code);
     
     use crate::constants::maximum_chromas_data::MAXIMUM_CHROMAS;
     
     // Ideal white, no chroma - but only for values very close to 10
     // For values between 9 and 10, we need to interpolate
     if value >= 9.99 {
-        eprintln!("  Returning 0.0 for value >= 9.99");
         return Ok(0.0);
     }
     
@@ -617,8 +615,6 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> Result<
     if value_plus <= 9.0 {
         // Return minimum of all four limits
         let result = ma_limit_mcw.min(ma_limit_mccw).min(ma_limit_pcw).min(ma_limit_pccw);
-        eprintln!("  value_plus <= 9.0: ma_limit_mcw={:.4}, ma_limit_mccw={:.4}, ma_limit_pcw={:.4}, ma_limit_pccw={:.4}, result={:.4}",
-                  ma_limit_mcw, ma_limit_mccw, ma_limit_pcw, ma_limit_pccw, result);
         Ok(result)
     } else {
         // EXACT 1:1 PORT from Python colour-science:
@@ -636,10 +632,6 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> Result<
         let l9 = luminance_astmd1535(9.0);
         let l10 = luminance_astmd1535(10.0);
         
-        eprintln!("DEBUG maximum_chroma_from_renotation:");
-        eprintln!("  value={:.4}, hue={:.4}", value, hue);
-        eprintln!("  L(value)={:.4}, L(9)={:.4}, L(10)={:.4}", l, l9, l10);
-        eprintln!("  ma_limit_mcw={:.4}, ma_limit_mccw={:.4}", ma_limit_mcw, ma_limit_mccw);
         
         // Linear interpolation from [L9, L10] to [chroma, 0]
         use crate::color_interpolation::LinearInterpolator;
@@ -650,7 +642,6 @@ pub fn maximum_chroma_from_renotation(hue: f64, value: f64, code: u8) -> Result<
         let chroma_ccw = interpolator_ccw.interpolate(l);
         
         let result = chroma_cw.min(chroma_ccw);
-        eprintln!("  chroma_cw={:.4}, chroma_ccw={:.4}, result={:.4}", chroma_cw, chroma_ccw, result);
         
         Ok(result)
     }
@@ -1240,7 +1231,6 @@ pub fn xy_from_renotation_ovoid(spec: &[f64; 4]) -> Result<[f64; 2]> {
 /// Convert CIE xyY to Munsell specification
 /// Exact 1:1 port from Python colour-science _xyY_to_munsell_specification
 pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
-    eprintln!("DEBUG: Entering xyy_to_munsell_specification with xyy=[{:.4}, {:.4}, {:.4}]", xyy[0], xyy[1], xyy[2]);
     
     use crate::color_interpolation::{LinearInterpolator, Extrapolator, ExtrapolationMethod};
     use crate::lab_color_space::{
@@ -1253,14 +1243,12 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     
     // Convert Y to Munsell value
     let value = munsell_value_astmd1535(big_y * 100.0);
-    eprintln!("DEBUG: Y={:.6}, value={:.6}", big_y, value);
     
     let value = if (value - value.round()).abs() < 1e-10 {
         value.round()
     } else {
         value
     };
-    eprintln!("DEBUG: value after rounding={:.6}", value);
     
     // Get xy for the center (grey) at this value
     // Grey specifications should always work
@@ -1293,7 +1281,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     // NOTE: DO NOT scale by (5.0/5.5) - this causes incorrect convergence!
     // The initial_spec[2] from LCHab is already correctly scaled.
     let initial_chroma = initial_spec[2];
-    eprintln!("DEBUG: Initial chroma from LCHab: {:.4}", initial_chroma);
     
     let initial_chroma = if initial_chroma.is_nan() || initial_chroma < 0.1 {
         1.0 // Default to low chroma for edge cases
@@ -1305,7 +1292,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         // Don't artificially limit high-value colors
         initial_chroma
     };
-    eprintln!("DEBUG: Initial chroma after clamping: {:.4}", initial_chroma);
     
     // Ensure initial hue is valid
     let initial_hue = if initial_spec[0].is_nan() {
