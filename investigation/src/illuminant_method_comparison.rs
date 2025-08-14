@@ -4,9 +4,7 @@
 //! illuminant-aware converter across all available illuminants to determine
 //! if illuminant changes produce different and potentially better results.
 
-use munsellspace::mathematical::{MathematicalMunsellConverter as OriginalConverter};
-use munsellspace::mathematical_v2::{MathematicalMunsellConverter as V2Converter, MunsellConfig};
-use munsellspace::illuminants::{Illuminant, ChromaticAdaptationMethod};
+use munsellspace::mathematical::{MathematicalMunsellConverter, Illuminant, ChromaticAdaptation};
 use std::fs::File;
 use std::io::Write;
 use std::collections::HashMap;
@@ -21,12 +19,12 @@ struct TestColor {
     description: String,
 }
 
-/// Conversion result for a specific method and illuminant
+/// Conversion result for a specific illuminant configuration
 #[derive(Debug, Clone)]
 struct ConversionResult {
-    method: String,
-    illuminant: Option<Illuminant>,
+    illuminant: Illuminant,
     illuminant_name: String,
+    adaptation_method: ChromaticAdaptation,
     munsell_hue: f64,
     munsell_family: String,
     munsell_value: f64,
@@ -42,15 +40,15 @@ struct ComparisonResults {
     test_colors: Vec<TestColor>,
     conversion_results: HashMap<String, Vec<ConversionResult>>,
     illuminant_differences: HashMap<String, Vec<(String, String, f64)>>, // color -> (illuminant1, illuminant2, difference_score)
-    method_differences: HashMap<String, Vec<(String, String, f64)>>, // color -> (method1, method2, difference_score)
+    adaptation_differences: HashMap<String, Vec<(String, String, f64)>>, // color -> (adaptation1, adaptation2, difference_score)
     best_configurations: HashMap<String, ConversionResult>, // color -> best result
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🔬 COMPREHENSIVE ILLUMINANT METHOD COMPARISON");
     println!("============================================");
-    println!("Comparing original mathematical converter vs illuminant-aware v2 converter");
-    println!("across all available illuminants to identify optimal configurations.\n");
+    println!("Testing mathematical converter with different illuminants and adaptation methods");
+    println!("to identify optimal configurations for different color types.\n");
     
     // Create test colors covering different characteristics
     let test_colors = create_comprehensive_test_colors();
@@ -69,15 +67,22 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         (Illuminant::E, "E (Equal Energy)"),
     ];
     
+    // Chromatic adaptation methods to test
+    let adaptations = vec![
+        (ChromaticAdaptation::Bradford, "Bradford"),
+        (ChromaticAdaptation::XYZScaling, "XYZ Scaling"),
+        (ChromaticAdaptation::CAT02, "CAT02"),
+    ];
+    
     println!("📊 Test Configuration:");
     println!("  • Colors: {} test colors", test_colors.len());
     println!("  • Illuminants: {} illuminants", illuminants.len());
-    println!("  • Methods: 2 (Original + V2 with illuminants)");
-    println!("  • Total conversions: {}", test_colors.len() * (illuminants.len() + 1));
+    println!("  • Adaptation methods: {} methods", adaptations.len());
+    println!("  • Total conversions: {}", test_colors.len() * illuminants.len() * adaptations.len());
     println!();
     
     // Run comprehensive comparison
-    let results = run_comprehensive_comparison(&test_colors, &illuminants)?;
+    let results = run_comprehensive_comparison(&test_colors, &illuminants, &adaptations)?;
     
     // Generate detailed analysis report
     generate_comparison_report(&results)?;
@@ -211,111 +216,68 @@ fn create_comprehensive_test_colors() -> Vec<TestColor> {
     ]
 }
 
-/// Run comprehensive comparison across all methods and illuminants
+/// Run comprehensive comparison across all illuminants and adaptation methods
 fn run_comprehensive_comparison(
     test_colors: &[TestColor],
     illuminants: &[(Illuminant, &str)],
+    adaptations: &[(ChromaticAdaptation, &str)],
 ) -> Result<ComparisonResults, Box<dyn std::error::Error>> {
     
     let mut conversion_results = HashMap::new();
-    
-    // Create original converter (no illuminant support)
-    let original_converter = OriginalConverter::new()?;
     
     for test_color in test_colors {
         println!("🎨 Testing {} ({})", test_color.name, test_color.hex);
         
         let mut results_for_color = Vec::new();
         
-        // Test original converter
-        print!("  Original Converter: ");
-        match original_converter.srgb_to_munsell(test_color.rgb) {
-            Ok(munsell) => {
-                let notation = format!("{:.1}{} {:.1}/{:.1}", 
-                               munsell.hue, munsell.family, 
-                               munsell.value, munsell.chroma);
-                
-                let result = ConversionResult {
-                    method: "Original".to_string(),
-                    illuminant: None,
-                    illuminant_name: "D65 (Fixed)".to_string(),
-                    munsell_hue: munsell.hue,
-                    munsell_family: munsell.family,
-                    munsell_value: munsell.value,
-                    munsell_chroma: munsell.chroma,
-                    notation: notation.clone(),
-                    success: true,
-                    error: None,
-                };
-                
-                println!("{}", notation);
-                results_for_color.push(result);
-            }
-            Err(e) => {
-                println!("Error: {}", e);
-                results_for_color.push(ConversionResult {
-                    method: "Original".to_string(),
-                    illuminant: None,
-                    illuminant_name: "D65 (Fixed)".to_string(),
-                    munsell_hue: 0.0,
-                    munsell_family: "N".to_string(),
-                    munsell_value: 0.0,
-                    munsell_chroma: 0.0,
-                    notation: "Error".to_string(),
-                    success: false,
-                    error: Some(e.to_string()),
-                });
-            }
-        }
-        
-        // Test V2 converter with each illuminant
+        // Test all combinations of illuminants and adaptation methods
         for (illuminant, illuminant_name) in illuminants {
-            print!("  V2 with {}: ", illuminant_name);
-            
-            let config = MunsellConfig {
-                source_illuminant: Illuminant::D65,  // sRGB standard
-                target_illuminant: *illuminant,
-                adaptation_method: ChromaticAdaptationMethod::Bradford,
-            };
-            
-            let v2_converter = V2Converter::with_config(config)?;
-            
-            match v2_converter.srgb_to_munsell(test_color.rgb) {
-                Ok(munsell) => {
-                    let notation = format!("{:.1}{} {:.1}/{:.1}", 
-                                   munsell.hue, munsell.family, 
-                                   munsell.value, munsell.chroma);
-                    
-                    let result = ConversionResult {
-                        method: "V2".to_string(),
-                        illuminant: Some(*illuminant),
-                        illuminant_name: illuminant_name.to_string(),
-                        munsell_hue: munsell.hue,
-                        munsell_family: munsell.family.clone(),
-                        munsell_value: munsell.value,
-                        munsell_chroma: munsell.chroma,
-                        notation: notation.clone(),
-                        success: true,
-                        error: None,
-                    };
-                    
-                    println!("{}", notation);
-                    results_for_color.push(result);
-                }
-                Err(e) => {
-                    println!("Error: {}", e);
-                    results_for_color.push(ConversionResult {
-                        method: "V2".to_string(),
-                        illuminant: Some(*illuminant),
-                        illuminant_name: illuminant_name.to_string(),
-                        munsell_hue: 0.0,
-                        munsell_family: "N".to_string(),
-                        munsell_value: 0.0,
-                        munsell_chroma: 0.0,
-                        notation: "Error".to_string(),
-                        success: false,
-                        error: Some(e.to_string()),
-                    });
+            for (adaptation, adaptation_name) in adaptations {
+                print!("  {} with {}: ", illuminant_name, adaptation_name);
+                
+                let converter = MathematicalMunsellConverter::with_illuminants(
+                    Illuminant::D65,  // sRGB source
+                    *illuminant,      // target illuminant
+                    *adaptation       // adaptation method
+                )?;
+                
+                match converter.srgb_to_munsell(test_color.rgb) {
+                    Ok(munsell) => {
+                        let notation = format!("{:.1}{} {:.1}/{:.1}", 
+                                       munsell.hue, munsell.family, 
+                                       munsell.value, munsell.chroma);
+                        
+                        let result = ConversionResult {
+                            illuminant: *illuminant,
+                            illuminant_name: illuminant_name.to_string(),
+                            adaptation_method: *adaptation,
+                            munsell_hue: munsell.hue,
+                            munsell_family: munsell.family.clone(),
+                            munsell_value: munsell.value,
+                            munsell_chroma: munsell.chroma,
+                            notation: notation.clone(),
+                            success: true,
+                            error: None,
+                        };
+                        
+                        println!("{}", notation);
+                        results_for_color.push(result);
+                    }
+                    Err(e) => {
+                        println!("Error: {}", e);
+                        results_for_color.push(ConversionResult {
+                            illuminant: *illuminant,
+                            illuminant_name: illuminant_name.to_string(),
+                            adaptation_method: *adaptation,
+                            munsell_hue: 0.0,
+                            munsell_family: "N".to_string(),
+                            munsell_value: 0.0,
+                            munsell_chroma: 0.0,
+                            notation: "Error".to_string(),
+                            success: false,
+                            error: Some(e.to_string()),
+                        });
+                    }
                 }
             }
         }
@@ -325,19 +287,19 @@ fn run_comprehensive_comparison(
     
     // Calculate differences and find best configurations
     let illuminant_differences = calculate_illuminant_differences(&conversion_results);
-    let method_differences = calculate_method_differences(&conversion_results);
+    let adaptation_differences = calculate_adaptation_differences(&conversion_results);
     let best_configurations = find_best_configurations(&conversion_results);
     
     Ok(ComparisonResults {
         test_colors: test_colors.to_vec(),
         conversion_results,
         illuminant_differences,
-        method_differences,
+        adaptation_differences,
         best_configurations,
     })
 }
 
-/// Calculate differences between illuminants for the same method
+/// Calculate differences between illuminants (same adaptation method)
 fn calculate_illuminant_differences(
     results: &HashMap<String, Vec<ConversionResult>>
 ) -> HashMap<String, Vec<(String, String, f64)>> {
@@ -346,31 +308,39 @@ fn calculate_illuminant_differences(
     for (color_hex, color_results) in results {
         let mut color_differences = Vec::new();
         
-        // Compare V2 results across different illuminants
-        let v2_results: Vec<_> = color_results.iter()
-            .filter(|r| r.method == "V2" && r.success)
-            .collect();
+        // Group results by adaptation method, then compare illuminants within each group
+        let mut by_adaptation: HashMap<ChromaticAdaptation, Vec<_>> = HashMap::new();
         
-        for i in 0..v2_results.len() {
-            for j in i+1..v2_results.len() {
-                let result1 = v2_results[i];
-                let result2 = v2_results[j];
-                
-                // Calculate difference score based on hue, value, chroma differences
-                let hue_diff = (result1.munsell_hue - result2.munsell_hue).abs().min(10.0 - (result1.munsell_hue - result2.munsell_hue).abs());
-                let value_diff = (result1.munsell_value - result2.munsell_value).abs();
-                let chroma_diff = (result1.munsell_chroma - result2.munsell_chroma).abs();
-                
-                let family_diff = if result1.munsell_family == result2.munsell_family { 0.0 } else { 2.0 };
-                
-                let total_diff = hue_diff + value_diff + chroma_diff + family_diff;
-                
-                if total_diff > 0.1 { // Only record significant differences
-                    color_differences.push((
-                        result1.illuminant_name.clone(),
-                        result2.illuminant_name.clone(),
-                        total_diff,
-                    ));
+        for result in color_results.iter().filter(|r| r.success) {
+            by_adaptation.entry(result.adaptation_method).or_insert_with(Vec::new).push(result);
+        }
+        
+        // Compare illuminants within each adaptation method
+        for (_, adaptation_results) in by_adaptation {
+            for i in 0..adaptation_results.len() {
+                for j in i+1..adaptation_results.len() {
+                    let result1 = adaptation_results[i];
+                    let result2 = adaptation_results[j];
+                    
+                    // Only compare if different illuminants
+                    if result1.illuminant != result2.illuminant {
+                        // Calculate difference score based on hue, value, chroma differences
+                        let hue_diff = (result1.munsell_hue - result2.munsell_hue).abs().min(10.0 - (result1.munsell_hue - result2.munsell_hue).abs());
+                        let value_diff = (result1.munsell_value - result2.munsell_value).abs();
+                        let chroma_diff = (result1.munsell_chroma - result2.munsell_chroma).abs();
+                        
+                        let family_diff = if result1.munsell_family == result2.munsell_family { 0.0 } else { 2.0 };
+                        
+                        let total_diff = hue_diff + value_diff + chroma_diff + family_diff;
+                        
+                        if total_diff > 0.1 { // Only record significant differences
+                            color_differences.push((
+                                result1.illuminant_name.clone(),
+                                result2.illuminant_name.clone(),
+                                total_diff,
+                            ));
+                        }
+                    }
                 }
             }
         }
@@ -381,8 +351,8 @@ fn calculate_illuminant_differences(
     differences
 }
 
-/// Calculate differences between original and V2 methods
-fn calculate_method_differences(
+/// Calculate differences between adaptation methods (same illuminant)
+fn calculate_adaptation_differences(
     results: &HashMap<String, Vec<ConversionResult>>
 ) -> HashMap<String, Vec<(String, String, f64)>> {
     let mut differences = HashMap::new();
@@ -390,24 +360,39 @@ fn calculate_method_differences(
     for (color_hex, color_results) in results {
         let mut color_differences = Vec::new();
         
-        let original_result = color_results.iter()
-            .find(|r| r.method == "Original" && r.success);
+        // Group results by illuminant, then compare adaptation methods within each group
+        let mut by_illuminant: HashMap<Illuminant, Vec<_>> = HashMap::new();
         
-        if let Some(original) = original_result {
-            for v2_result in color_results.iter().filter(|r| r.method == "V2" && r.success) {
-                let hue_diff = (original.munsell_hue - v2_result.munsell_hue).abs().min(10.0 - (original.munsell_hue - v2_result.munsell_hue).abs());
-                let value_diff = (original.munsell_value - v2_result.munsell_value).abs();
-                let chroma_diff = (original.munsell_chroma - v2_result.munsell_chroma).abs();
-                let family_diff = if original.munsell_family == v2_result.munsell_family { 0.0 } else { 2.0 };
-                
-                let total_diff = hue_diff + value_diff + chroma_diff + family_diff;
-                
-                if total_diff > 0.1 {
-                    color_differences.push((
-                        format!("Original ({})", original.illuminant_name),
-                        format!("V2 ({})", v2_result.illuminant_name),
-                        total_diff,
-                    ));
+        for result in color_results.iter().filter(|r| r.success) {
+            by_illuminant.entry(result.illuminant).or_insert_with(Vec::new).push(result);
+        }
+        
+        // Compare adaptation methods within each illuminant
+        for (_, illuminant_results) in by_illuminant {
+            for i in 0..illuminant_results.len() {
+                for j in i+1..illuminant_results.len() {
+                    let result1 = illuminant_results[i];
+                    let result2 = illuminant_results[j];
+                    
+                    // Only compare if different adaptation methods
+                    if result1.adaptation_method != result2.adaptation_method {
+                        // Calculate difference score based on hue, value, chroma differences
+                        let hue_diff = (result1.munsell_hue - result2.munsell_hue).abs().min(10.0 - (result1.munsell_hue - result2.munsell_hue).abs());
+                        let value_diff = (result1.munsell_value - result2.munsell_value).abs();
+                        let chroma_diff = (result1.munsell_chroma - result2.munsell_chroma).abs();
+                        
+                        let family_diff = if result1.munsell_family == result2.munsell_family { 0.0 } else { 2.0 };
+                        
+                        let total_diff = hue_diff + value_diff + chroma_diff + family_diff;
+                        
+                        if total_diff > 0.1 { // Only record significant differences
+                            color_differences.push((
+                                format!("{:?}", result1.adaptation_method),
+                                format!("{:?}", result2.adaptation_method),
+                                total_diff,
+                            ));
+                        }
+                    }
                 }
             }
         }
@@ -443,11 +428,12 @@ fn generate_comparison_report(results: &ComparisonResults) -> Result<(), Box<dyn
     writeln!(report, "")?;
     writeln!(report, "## Executive Summary")?;
     writeln!(report, "")?;
-    writeln!(report, "This report compares the original mathematical converter with the new")?;
-    writeln!(report, "illuminant-aware mathematical_v2 converter across all available illuminants.")?;
+    writeln!(report, "This report compares the mathematical converter with different illuminants")?;
+    writeln!(report, "and chromatic adaptation methods to identify optimal configurations.")?;
     writeln!(report, "")?;
     writeln!(report, "- **Test Colors**: {}", results.test_colors.len())?;
     writeln!(report, "- **Illuminants Tested**: 10 (D65, C, A, D50, D55, D75, F2, F7, F11, E)")?;
+    writeln!(report, "- **Adaptation Methods**: 3 (Bradford, XYZ Scaling, CAT02)")?;
     writeln!(report, "- **Total Conversions**: {}", results.conversion_results.values().map(|v| v.len()).sum::<usize>())?;
     writeln!(report, "")?;
     
@@ -464,13 +450,13 @@ fn generate_comparison_report(results: &ComparisonResults) -> Result<(), Box<dyn
         writeln!(report, "")?;
         
         if let Some(color_results) = results.conversion_results.get(&test_color.hex) {
-            writeln!(report, "| Method | Illuminant | Munsell Result | Success |")?;
-            writeln!(report, "|--------|------------|----------------|---------|")?;
+            writeln!(report, "| Illuminant | Adaptation | Munsell Result | Success |")?;
+            writeln!(report, "|------------|------------|----------------|---------|")?;
             
             for result in color_results {
                 let status = if result.success { "✅" } else { "❌" };
-                writeln!(report, "| {} | {} | {} | {} |", 
-                        result.method, result.illuminant_name, result.notation, status)?;
+                writeln!(report, "| {} | {:?} | {} | {} |", 
+                        result.illuminant_name, result.adaptation_method, result.notation, status)?;
             }
             writeln!(report, "")?;
             
@@ -485,10 +471,10 @@ fn generate_comparison_report(results: &ComparisonResults) -> Result<(), Box<dyn
                 }
             }
             
-            if let Some(method_diffs) = results.method_differences.get(&test_color.hex) {
-                if !method_diffs.is_empty() {
-                    writeln!(report, "**Method Differences**:")?;
-                    for (method1, method2, diff) in method_diffs {
+            if let Some(adaptation_diffs) = results.adaptation_differences.get(&test_color.hex) {
+                if !adaptation_diffs.is_empty() {
+                    writeln!(report, "**Adaptation Method Differences**:")?;
+                    for (method1, method2, diff) in adaptation_diffs {
                         writeln!(report, "- {} vs {}: Difference score {:.2}", method1, method2, diff)?;
                     }
                     writeln!(report, "")?;
@@ -518,22 +504,22 @@ fn generate_comparison_report(results: &ComparisonResults) -> Result<(), Box<dyn
     writeln!(report, "- **Total illuminant differences detected**: {}", total_illuminant_differences)?;
     
     writeln!(report, "")?;
-    writeln!(report, "### Method Impact Analysis")?;
+    writeln!(report, "### Adaptation Method Impact Analysis")?;
     writeln!(report, "")?;
     
-    let mut colors_with_method_differences = 0;
-    let mut total_method_differences = 0;
+    let mut colors_with_adaptation_differences = 0;
+    let mut total_adaptation_differences = 0;
     
-    for (_, diffs) in &results.method_differences {
+    for (_, diffs) in &results.adaptation_differences {
         if !diffs.is_empty() {
-            colors_with_method_differences += 1;
-            total_method_differences += diffs.len();
+            colors_with_adaptation_differences += 1;
+            total_adaptation_differences += diffs.len();
         }
     }
     
-    writeln!(report, "- **Colors showing method differences**: {}/{}", 
-             colors_with_method_differences, results.test_colors.len())?;
-    writeln!(report, "- **Total method differences detected**: {}", total_method_differences)?;
+    writeln!(report, "- **Colors showing adaptation method differences**: {}/{}", 
+             colors_with_adaptation_differences, results.test_colors.len())?;
+    writeln!(report, "- **Total adaptation method differences detected**: {}", total_adaptation_differences)?;
     
     writeln!(report, "")?;
     writeln!(report, "## Conclusions")?;
@@ -562,12 +548,12 @@ fn display_comparison_summary(results: &ComparisonResults) {
     
     let colors_with_illuminant_diffs = results.illuminant_differences.values()
         .filter(|diffs| !diffs.is_empty()).count();
-    let colors_with_method_diffs = results.method_differences.values()
+    let colors_with_adaptation_diffs = results.adaptation_differences.values()
         .filter(|diffs| !diffs.is_empty()).count();
     
     println!("Colors tested: {}", results.test_colors.len());
     println!("Colors with illuminant differences: {}", colors_with_illuminant_diffs);
-    println!("Colors with method differences: {}", colors_with_method_diffs);
+    println!("Colors with adaptation method differences: {}", colors_with_adaptation_diffs);
     
     if colors_with_illuminant_diffs > 0 {
         println!("\n🎯 KEY FINDING: Illuminant changes DO produce different results!");
@@ -591,7 +577,7 @@ fn display_comparison_summary(results: &ComparisonResults) {
         println!("The V2 converter may be producing similar results across illuminants.");
     }
     
-    if colors_with_method_diffs > 0 {
-        println!("\n🔄 Method differences detected between Original and V2 converters.");
+    if colors_with_adaptation_diffs > 0 {
+        println!("\n🔄 Adaptation method differences detected between Bradford, XYZ Scaling, and CAT02.");
     }
 }

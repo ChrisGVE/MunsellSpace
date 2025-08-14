@@ -18,7 +18,7 @@ const MAX_INNER_ITERATIONS: usize = 16;
 // Standard illuminant white points are now imported from constants module
 
 /// Supported standard illuminants
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Illuminant {
     A,
     C,
@@ -51,7 +51,7 @@ impl Illuminant {
 }
 
 /// Chromatic adaptation method
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum ChromaticAdaptation {
     Bradford,
     XYZScaling,
