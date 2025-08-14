@@ -1268,14 +1268,10 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     
     // Initial guess using Lab color space
     let xyz = xyy_to_xyz(xyy);
-    // eprintln!("TRACE|xyy_to_munsell:XYZ|xyz={:.6},{:.6},{:.6}", xyz[0], xyz[1], xyz[2]);
     // Use illuminant C for Lab conversion  
     let lab = xyz_to_lab(xyz, "C");
-    // eprintln!("TRACE|xyy_to_munsell:LAB|lab={:.6},{:.6},{:.6}", lab[0], lab[1], lab[2]);
     let lchab = lab_to_lchab(lab);
-    // eprintln!("TRACE|xyy_to_munsell:LCHAB|L={:.6},C={:.6},H={:.6}", lchab[0], lchab[1], lchab[2]);
     let initial_spec = lchab_to_munsell_specification(lchab);
-    // eprintln!("TRACE|xyy_to_munsell:INITIAL_SPEC|hue={:.6},value={:.6},chroma={:.6},code={:.0}", initial_spec[0], initial_spec[1], initial_spec[2], initial_spec[3]);
     
     // Ensure initial chroma is valid
     // NOTE: DO NOT scale by (5.0/5.5) - this causes incorrect convergence!
@@ -1319,9 +1315,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     
     while iterations < iterations_maximum {  // Changed from <= to < to prevent 65 iterations
         iterations += 1;
-        if iterations == 1 || iterations % 20 == 0 {
-            eprintln!("Iteration {}/{}", iterations, iterations_maximum);
-        }
         
         // Trace interpolation method
         let _interp_method = interpolation_method_from_renotation_ovoid(
@@ -1330,12 +1323,7 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
             specification_current[2],
             specification_current[3] as u8
         );
-        // eprintln!("TRACE|ITER_{}:INTERP_METHOD|{}", iterations, interp_method.unwrap_or("None"));
         
-        // if iterations % 10 == 0 {
-        //     eprintln!("DEBUG: Iteration {} - spec=[{:.4}, {:.4}, {:.4}, {:.4}]", 
-        //         iterations, specification_current[0], specification_current[1], specification_current[2], specification_current[3]);
-        // }
         
         let hue_current = specification_current[0];
         let chroma_current = specification_current[2];
@@ -1361,7 +1349,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         // Use interpolated version for iterative algorithm
         let xy_current = xy_from_renotation_ovoid_interpolated(&specification_current)?;
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
-        // eprintln!("TRACE|ITER_{}:XY_FROM_RENOT|xy=[{:.6},{:.6}]", iterations, x_current, y_current);
         
         // Convert to polar
         let (_rho_current, phi_current, _) = cartesian_to_cylindrical(
@@ -1478,10 +1465,8 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         if hue_angle_normalized < 0.0 {
             hue_angle_normalized += 360.0;
         }
-        // eprintln!("TRACE|ITER_{}:HUE_ANGLE_NORMALIZE|raw={:.6},normalized={:.6}", iterations, hue_angle_new, hue_angle_normalized);
         
         let (hue_new, code_new) = hue_angle_to_hue(hue_angle_normalized);
-        // eprintln!("TRACE|ITER_{}:HUE_CONVERSION|angle_in={:.6},hue_out={:.6},code_out={}", iterations, hue_angle_normalized, hue_new, code_new);
         
         specification_current = [hue_new, value, chroma_current, code_new as f64];
         
@@ -1489,8 +1474,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         // NOTE: We do NOT check convergence here - that happens after chroma refinement
         let chroma_maximum = maximum_chroma_from_renotation(hue_new, value, code_new)?;
         
-        eprintln!("DEBUG ITER {}: BEFORE chroma={:.4}, max={:.4}, hue={:.4}, value={:.4}, code={}", 
-                 iterations, specification_current[2], chroma_maximum, hue_new, value, code_new);
         
         if specification_current[2] > chroma_maximum {
             specification_current[2] = chroma_maximum;
@@ -1506,15 +1489,11 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         );
         // If we're already at the target rho, no need to refine chroma
         if (rho_current - rho_input).abs() < 1e-10 {
-            eprintln!("DEBUG ITER {}: Skipping chroma refinement, rho already at target", iterations);
             specification_current = [hue_new, value, chroma_current, code_new as f64];
         } else {
-            eprintln!("DEBUG ITER {}: Entering chroma refinement. rho_current={:.6}, rho_input={:.6}, diff={:.9}", 
-                     iterations, rho_current, rho_input, (rho_current - rho_input).abs());
             // Chroma refinement loop
             let mut rho_bounds_data = vec![rho_current];
             let mut chroma_bounds_data = vec![chroma_current];
-            // eprintln!("TRACE|ITER_{}:CHROMA_REFINE_START|rho_current={:.9},rho_input={:.9},chroma_current={:.6}", iterations, rho_current, rho_input, chroma_current);
             
             let iterations_maximum_inner = 16;
             let mut iterations_inner = 0;
@@ -1543,12 +1522,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 } else {
                     chroma_inner
                 };
-                // eprintln!("TRACE|ITER_{}_INNER_{}:CHROMA_CALC|formula=({:.9}/{:.9})^{}*{:.6}={:.6}", 
-                //          iterations, iterations_inner, rho_input, rho_current, iterations_inner, chroma_current, chroma_inner_unclamped);
-                if chroma_inner != chroma_inner_unclamped {
-                    // eprintln!("TRACE|ITER_{}_INNER_{}:CHROMA_CLAMPED|unclamped={:.6},max={:.6},clamped={:.6}", 
-                    //          iterations, iterations_inner, chroma_inner_unclamped, chroma_maximum, chroma_inner);
-                }
                 
                 let spec_inner = [hue_new, value, chroma_inner, code_new as f64];
                 
@@ -1560,13 +1533,10 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 );
                 rho_bounds_data.push(rho_inner);
                 chroma_bounds_data.push(chroma_inner);
-                // eprintln!("TRACE|ITER_{}_INNER_{}:RHO_RESULT|rho_inner={:.9},chroma_inner={:.6}", iterations, iterations_inner, rho_inner, chroma_inner);
                 
                 // Update rho_min and rho_max for next iteration
                 rho_min = *rho_bounds_data.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
                 rho_max = *rho_bounds_data.iter().max_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
-                // eprintln!("TRACE|ITER_{}_INNER_{}:BOUNDS_UPDATE|rho_min={:.9},rho_max={:.9},rho_input={:.9},bracketed={}", 
-                //          iterations, iterations_inner, rho_min, rho_max, rho_input, (rho_min < rho_input && rho_input < rho_max));
             } // End of while loop for chroma refinement
         
             // Check if we actually found valid bounds
@@ -1585,19 +1555,12 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 
                 let interpolator = LinearInterpolator::new(rho_bounds_sorted, chroma_bounds_sorted)?;
                 let chroma_new = interpolator.interpolate(rho_input);
-                // eprintln!("TRACE|ITER_{}:CHROMA_FINAL_INTERP|rho_input={:.9},chroma_new={:.6}", iterations, rho_input, chroma_new);
-                // eprintln!("TRACE|ITER_{}:CHROMA_REFINE_END|final_chroma={:.6}", iterations, chroma_new);
                 
                 specification_current = [hue_new, value, chroma_new, code_new as f64];
-                eprintln!("DEBUG ITER {}: AFTER interpolation chroma_new={:.4}", iterations, chroma_new);
             }
         } // End of chroma refinement else block
         
-        eprintln!("DEBUG ITER {}: FINAL spec=[{:.4}, {:.4}, {:.4}, {}]", 
-                 iterations, specification_current[0], specification_current[1], specification_current[2], specification_current[3] as u8);
         
-        // if iterations <= 3 {
-        // }
         
         // Final convergence check
         // Use interpolated version for iterative algorithm
@@ -1605,14 +1568,12 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
         let (x_current, y_current) = (xy_current[0], xy_current[1]);
         
         let difference = euclidean_distance(&[x, y], &[x_current, y_current]);
-        // eprintln!("TRACE|ITER:CONVERGENCE|xy_target={:.9},{:.9},xy_current={:.9},{:.9},diff={:.12}", x, y, x_current, y_current, difference);
         
         // Check if this is our debug color RGB(34, 17, 119) = #221177 or RGB(221, 238, 238)
         let _is_debug_color = (x - 0.175).abs() < 0.01 && (y - 0.087).abs() < 0.01;
         let _is_grey_debug = (x - 0.30166).abs() < 0.001 && (y - 0.32899).abs() < 0.001;  // RGB(221, 238, 238)
         
         if difference < convergence_threshold {
-        // eprintln!("TRACE|ITER:CONVERGED|diff={:.12},threshold={:.12},converged={}", difference, convergence_threshold, difference < convergence_threshold);
             
             // Handle hue boundary cases to prevent misclassification
             // When hue is very close to 0.0 or 10.0, small floating-point differences
