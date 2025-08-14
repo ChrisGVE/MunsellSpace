@@ -404,9 +404,9 @@ impl ISCC_NBS_Classifier {
                 )));
             }
             
-            // Convert points to geo::Coord format (value, chroma) - note coordinate order
+            // Convert points to geo::Coord format (chroma, value) - match mechanical wedge system
             let mut coords: Vec<Coord<f64>> = polygon_def.points.iter()
-                .map(|p| Coord { x: p.value, y: p.chroma })
+                .map(|p| Coord { x: p.chroma, y: p.value })
                 .collect();
                 
             // Ensure polygon is closed (first point equals last point)

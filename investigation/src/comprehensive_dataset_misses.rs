@@ -647,7 +647,7 @@ fn load_w3_dataset() -> Result<Vec<W3IsccColor>, Box<dyn std::error::Error>> {
 fn load_centore_dataset() -> Result<Vec<CentoreIsccColor>, Box<dyn std::error::Error>> {
     let mut reader = ReaderBuilder::new()
         .has_headers(true)
-        .from_path("iscc_nbs_colors.csv")?;
+        .from_path("tests/data/MUNSELL_COLOR_SCIENCE_COMPLETE.csv")?;
     
     let mut colors = Vec::new();
     for result in reader.deserialize() {

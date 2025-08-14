@@ -1,215 +1,450 @@
 # Comprehensive Conversion Dataset - Mismatches Analysis
 
-## Configuration
-
-- **Illuminants**: C, D65, F7
-- **Adaptations**: XYZScaling, Bradford, CAT02
-- **Converter**: Mathematical v1 (Original) only
-- **Hue Methods**: Method 1 (IncludeStartExcludeEnd), Method 2 (ExcludeStartIncludeEnd)
-- **Python Reference**: colour-science library for ground truth comparison
-
-## W3 ISCC-NBS Dataset (267 colors)
+## W3 Dataset
 
 ### Summary Statistics
 
-| Illuminant | Adaptation | Method 1 Accuracy | Method 2 Accuracy |
-| ---------- | ---------- | ----------------- | ----------------- |
-| C          | XYZScaling | 46.8%             | 53.9%             |
-| C          | Bradford   | 46.4%             | 52.1%             |
-| C          | CAT02      | 45.7%             | 51.3%             |
-| D65        | XYZScaling | 28.1%             | 30.3%             |
-| D65        | Bradford   | 28.1%             | 30.3%             |
-| D65        | CAT02      | 28.1%             | 30.3%             |
-| F7         | XYZScaling | 28.1%             | 30.3%             |
-| F7         | Bradford   | 28.1%             | 30.3%             |
-| F7         | CAT02      | 28.5%             | 30.7%             |
+| Illuminant | Total | Rust Correct | Rust Unknown | Rust Accuracy |
+|------------|-------|--------------|--------------|---------------|
+| C          |   267 |          223 |            0 |         83.5% |
+| D65        |   267 |            0 |            0 |          0.0% |
+| F7         |   267 |            0 |            0 |          0.0% |
 
 ### Detailed Mismatches
 
-**Note**: Statistics shown are commented out pending correction
+#### Color 1: vivid pink
 
-#### 1. Expected: vivid pink
+**Hex:** #FFB5BA
 
-Hex: #FFB5BA
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 0.7R 8.0/6.8 | light pink      |              |
 
-| Illuminant | Adaptation | Munsell      | Py Colour                                                                                           | Method 1             | M1✓ | Method 2             | M2✓ | Boundary |
-| ---------- | ---------- | ------------ | --------------------------------------------------------------------------------------------------- | -------------------- | --- | -------------------- | --- | -------- |
-| C          | XYZScaling | 5.4R 8.0/5.5 | 1.0R 8.0/6.6                                                                                        | light yellowish pink | ❌  | light pink           | ❌  | 0.10     |
-| C          | Bradford   | 5.4R 8.0/5.4 | 1.0R 8.0/6.6                                                                                        | light yellowish pink | ❌  | light pink           | ❌  | 0.10     |
-| C          | CAT02      | 5.4R 8.0/5.4 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | light yellowish pink | ❌  | light pink           | ❌  | 0.10     |
-| D65        | XYZScaling | 7.0R 8.0/5.3 | 4.7R 8.0/6.0                                                                                        | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| D65        | Bradford   | 7.0R 8.0/5.3 | 4.7R 8.0/6.0                                                                                        | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| D65        | CAT02      | 7.0R 8.0/5.3 | 4.7R 8.0/6.0                                                                                        | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| F7         | XYZScaling | 7.0R 8.0/5.3 | 4.8R 8.0/6.0                                                                                        | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| F7         | Bradford   | 7.0R 8.0/5.3 | 4.8R 8.0/6.0                                                                                        | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| F7         | CAT02      | 7.0R 8.0/5.3 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
+#### Color 2: very dark red
 
-#### 2. Expected: strong pink
+**Hex:** #3F1728
 
-Hex: #EA9399
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 1.0R 1.4/4.2 | very dark purplish red |              |
 
-| Illuminant | Adaptation | Munsell      | Py Colour                                                                                           | Method 1                | M1✓ | Method 2                | M2✓ | Boundary |
-| ---------- | ---------- | ------------ | --------------------------------------------------------------------------------------------------- | ----------------------- | --- | ----------------------- | --- | -------- |
-| C          | XYZScaling | 5.6R 6.9/6.8 | 1.6R 6.9/8.0                                                                                        | moderate pink           | ❌  | moderate pink           | ❌  | 0.10     |
-| C          | Bradford   | 5.6R 6.9/6.7 | 1.6R 6.9/8.0                                                                                        | moderate pink           | ❌  | moderate pink           | ❌  | 0.10     |
-| C          | CAT02      | 5.6R 6.9/6.6 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | moderate pink           | ❌  | moderate pink           | ❌  | 0.10     |
-| D65        | XYZScaling | 6.9R 6.9/6.6 | 4.2R 6.9/7.4                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| D65        | Bradford   | 6.9R 6.9/6.6 | 4.2R 6.9/7.4                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| D65        | CAT02      | 6.9R 6.9/6.6 | 4.2R 6.9/7.4                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| F7         | XYZScaling | 6.9R 6.9/6.6 | 4.3R 6.9/7.4                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| F7         | Bradford   | 6.9R 6.9/6.6 | 4.3R 6.9/7.4                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| F7         | CAT02      | 6.9R 6.9/6.6 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
+#### Color 3: light grayish red
 
-#### 3. Expected: deep pink
+**Hex:** #AD8884
 
-Hex: #E4717A
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 5.7R 5.9/3.4 | pale red        |              |
 
-| Illuminant | Adaptation | Munsell      | Py Colour                                                                                           | Method 1            | M1✓ | Method 2            | M2✓ | Boundary |
-| ---------- | ---------- | ------------ | --------------------------------------------------------------------------------------------------- | ------------------- | --- | ------------------- | --- | -------- |
-| C          | XYZScaling | 5.9R 6.0/9.3 | 2.5R 6.0/10.7                                                                                       | deep yellowish pink | ❌  | deep pink           | ✅  | 0.10     |
-| C          | Bradford   | 6.0R 6.0/9.1 | 2.5R 6.0/10.7                                                                                       | deep yellowish pink | ❌  | deep pink           | ✅  | 0.10     |
-| C          | CAT02      | 6.0R 6.0/9.0 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | deep yellowish pink | ❌  | deep pink           | ✅  | 0.10     |
-| D65        | XYZScaling | 6.7R 6.0/9.0 | 4.0R 6.0/10.3                                                                                       | deep yellowish pink | ❌  | deep yellowish pink | ❌  | 0.10     |
-| D65        | Bradford   | 6.7R 6.0/9.0 | 4.0R 6.0/10.3                                                                                       | deep yellowish pink | ❌  | deep yellowish pink | ❌  | 0.10     |
-| D65        | CAT02      | 6.7R 6.0/9.0 | 4.0R 6.0/10.3                                                                                       | deep yellowish pink | ❌  | deep yellowish pink | ❌  | 0.10     |
-| F7         | XYZScaling | 6.8R 6.0/9.0 | 4.0R 6.0/10.3                                                                                       | deep yellowish pink | ❌  | deep yellowish pink | ❌  | 0.10     |
-| F7         | Bradford   | 6.8R 6.0/9.0 | 4.0R 6.0/10.3                                                                                       | deep yellowish pink | ❌  | deep yellowish pink | ❌  | 0.10     |
-| F7         | CAT02      | 6.8R 6.0/9.0 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | deep yellowish pink | ❌  | deep yellowish pink | ❌  | 0.10     |
+#### Color 4: vivid yellowish pink
 
-#### 4. Expected: light pink
+**Hex:** #FFB7A5
 
-Hex: #F9CCCA
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 7.9R 8.0/6.4 | light yellowish pink | (+0.0, +4.6) |
 
-| Illuminant | Adaptation | Munsell       | Py Colour                                                                                           | Method 1             | M1✓ | Method 2             | M2✓ | Boundary |
-| ---------- | ---------- | ------------- | --------------------------------------------------------------------------------------------------- | -------------------- | --- | -------------------- | --- | -------- |
-| C          | XYZScaling | 6.3R 8.5/3.5  | 3.4R 8.5/3.9                                                                                        | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| D65        | XYZScaling | 0.8YR 8.5/3.2 | 0.3YR 8.5/3.2                                                                                       | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| D65        | Bradford   | 0.8YR 8.5/3.2 | 0.3YR 8.5/3.2                                                                                       | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| D65        | CAT02      | 0.8YR 8.5/3.2 | 0.3YR 8.5/3.2                                                                                       | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| F7         | XYZScaling | 0.9YR 8.5/3.2 | 0.3YR 8.5/3.3                                                                                       | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| F7         | Bradford   | 0.9YR 8.5/3.2 | 0.3YR 8.5/3.3                                                                                       | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
-| F7         | CAT02      | 1.0YR 8.5/3.2 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | light yellowish pink | ❌  | light yellowish pink | ❌  | 0.10     |
+#### Color 5: deep yellowish pink
 
-#### 5. Expected: moderate pink
+**Hex:** #E66721
 
-Hex: #DEA5A4
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 0.9YR 5.8/13.8 | vivid reddish orange |              |
 
-| Illuminant | Adaptation | Munsell      | Py Colour                                                                                           | Method 1                | M1✓ | Method 2                | M2✓ | Boundary |
-| ---------- | ---------- | ------------ | --------------------------------------------------------------------------------------------------- | ----------------------- | --- | ----------------------- | --- | -------- |
-| C          | XYZScaling | 6.2R 7.2/4.6 | 3.3R 7.2/5.2                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| C          | Bradford   | 6.4R 7.2/4.5 | 3.3R 7.2/5.2                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| C          | CAT02      | 6.4R 7.2/4.5 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| D65        | XYZScaling | 8.4R 7.2/4.4 | 7.7R 7.2/4.5                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| D65        | Bradford   | 8.4R 7.2/4.4 | 7.7R 7.2/4.5                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| D65        | CAT02      | 8.4R 7.2/4.4 | 7.7R 7.2/4.5                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| F7         | XYZScaling | 8.4R 7.2/4.4 | 7.8R 7.2/4.5                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| F7         | Bradford   | 8.4R 7.2/4.4 | 7.8R 7.2/4.5                                                                                        | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
-| F7         | CAT02      | 8.4R 7.2/4.4 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | moderate yellowish pink | ❌  | moderate yellowish pink | ❌  | 0.10     |
+#### Color 6: light yellowish pink
 
-## Paul Centore Dataset (260 colors)
+**Hex:** #F4C2C2
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 2.1R 8.2/4.6 | light pink      |              |
+
+#### Color 7: moderate yellowish pink
+
+**Hex:** #D9A6A9
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 0.9R 7.2/5.0 | moderate pink   |              |
+
+#### Color 8: light grayish reddish brown
+
+**Hex:** #977F73
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 3.2YR 5.4/2.3 | pale reddish brown |              |
+
+#### Color 9: vivid orange
+
+**Hex:** #F38400
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 4.0YR 6.5/14.0 | strong orange   | (0.0, 0.0)   |
+
+#### Color 10: brilliant orange
+
+**Hex:** #FD943F
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 3.6YR 7.0/12.1 | strong orange   | (+0.5, +0.0) |
+
+#### Color 11: deep brown
+
+**Hex:** #593319
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 5.6YR 2.5/4.7 | moderate brown  | (+0.0, +0.3) |
+
+#### Color 12: light grayish brown
+
+**Hex:** #958070
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 6.5YR 5.4/2.2 | pale brown      |              |
+
+#### Color 13: brownish gray
+
+**Hex:** #5B504F
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 6.9R 3.5/0.8 | dark reddish gray |              |
+
+#### Color 14: vivid orange yellow
+
+**Hex:** #F6A600
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 8.4YR 7.3/12.8 | strong orange yellow | (+0.0, +1.2) |
+
+#### Color 15: deep yellowish brown
+
+**Hex:** #654522
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 8.5YR 3.2/4.6 | dark yellowish brown |              |
+
+#### Color 16: light grayish yellowish brown
+
+**Hex:** #AE9B82
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 9.9YR 6.4/2.4 | pale yellowish brown |              |
+
+#### Color 17: dark olive
+
+**Hex:** #403D21
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 8.8Y 2.5/2.8 | grayish olive   | (+0.0, +0.2) |
+
+#### Color 18: light grayish olive
+
+**Hex:** #8C8767
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 7.7Y 5.5/2.4 | pale olive      |              |
+
+#### Color 19: deep yellow green
+
+**Hex:** #467129
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 7.4GY 4.2/6.8 | moderate olive green | (+0.0, +0.2) |
+
+#### Color 20: strong olive green
+
+**Hex:** #404F00
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 3.7GY 3.1/6.3 | moderate olive green | (+0.0, +0.7) |
+
+#### Color 21: deep olive green
+
+**Hex:** #232F00
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 3.8GY 1.7/4.1 | dark olive green | (+0.0, +2.9) |
+
+#### Color 22: vivid yellowish green
+
+**Hex:** #27A64C
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 1.1G 5.9/10.8 | strong yellowish green | (+0.0, +0.2) |
+
+#### Color 23: very deep yellowish green
+
+**Hex:** #003118
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 1.2G 1.7/4.5 | very dark yellowish green | (+0.0, +2.5) |
+
+#### Color 24: vivid green
+
+**Hex:** #008856
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 3.4G 4.9/8.4 | strong green    |              |
+
+#### Color 25: strong green
+
+**Hex:** #007959
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 6.1G 4.4/7.0 | moderate green  | (0.0, 0.0)   |
+
+#### Color 26: deep green
+
+**Hex:** #00543D
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 5.9G 3.1/5.7 | dark green      | (-0.0, +1.3) |
+
+#### Color 27: vivid bluish green
+
+**Hex:** #008882
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 5.0BG 5.0/6.8 | moderate bluish green | (+0.0, +4.2) |
+
+#### Color 28: strong bluish green
+
+**Hex:** #007A74
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 4.6BG 4.5/6.1 | moderate bluish green | (+0.0, +0.9) |
+
+#### Color 29: deep bluish green
+
+**Hex:** #00443F
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 3.1BG 2.5/4.5 | dark bluish green | (+0.0, +2.5) |
+
+#### Color 30: vivid greenish blue
+
+**Hex:** #0085A1
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 4.8B 5.0/7.3 | strong greenish blue | (+0.0, +3.7) |
+
+#### Color 31: strong greenish blue
+
+**Hex:** #007791
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 4.8B 4.5/6.6 | moderate greenish blue | (+0.0, +0.4) |
+
+#### Color 32: deep greenish blue
+
+**Hex:** #2E8495
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 3.0B 5.0/5.9 | moderate greenish blue | (-1.5, +1.1) |
+
+#### Color 33: vivid blue
+
+**Hex:** #00A1C2
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 5.1B 6.0/8.4 | brilliant greenish blue |              |
+
+#### Color 34: deep blue
+
+**Hex:** #00416A
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 2.1PB 2.6/6.5 | dark blue       | (+0.0, +0.5) |
+
+#### Color 35: bluish white
+
+**Hex:** #E9E9ED
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 9.3PB 9.2/0.8 | purplish white  | (0.0, 0.0)   |
+
+#### Color 36: brilliant purplish blue
+
+**Hex:** #6C79B8
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 7.3PB 5.1/8.9 | light purplish blue |              |
+
+#### Color 37: strong purple
+
+**Hex:** #875692
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 6.4P 4.3/8.9 | moderate purple | (+0.0, +0.1) |
+
+#### Color 38: purplish black
+
+**Hex:** #242124
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 9.4P 1.3/0.4 | black           | (+0.0, +0.1) |
+
+#### Color 39: very deep reddish purple
+
+**Hex:** #54194E
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 10.0P 2.0/8.2 | deep reddish purple | (0.0, 0.0)   |
+
+#### Color 40: brilliant purplish pink
+
+**Hex:** #FFC8D6
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 6.0RP 8.5/5.4 | light purplish pink | (+0.0, +3.6) |
+
+#### Color 41: vivid purplish red
+
+**Hex:** #CE4676
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 7.9RP 4.9/13.4 | vivid purplish pink |              |
+
+#### Color 42: strong purplish red
+
+**Hex:** #B3446C
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 7.5RP 4.4/11.1 | strong purplish pink |              |
+
+#### Color 43: light grayish purplish red
+
+**Hex:** #AF868E
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | 7.9RP 5.9/4.2 | pale purplish red |              |
+
+#### Color 44: dark gray
+
+**Hex:** #555555
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| C          | N 3.6        | dark grey       |              |
+
+## Centore Dataset
 
 ### Summary Statistics
 
-| Illuminant | Adaptation | Method 1 Accuracy | Method 2 Accuracy |
-| ---------- | ---------- | ----------------- | ----------------- |
-| C          | XYZScaling | 51.2%             | 52.3%             |
-| C          | Bradford   | 51.5%             | 53.1%             |
-| C          | CAT02      | 51.9%             | 53.5%             |
-| D65        | XYZScaling | 57.3%             | 61.9%             |
-| D65        | Bradford   | 57.3%             | 61.9%             |
-| D65        | CAT02      | 57.3%             | 61.9%             |
-| F7         | XYZScaling | 58.5%             | 63.1%             |
-| F7         | Bradford   | 58.1%             | 62.7%             |
-| F7         | CAT02      | 58.1%             | 62.7%             |
+| Illuminant | Total | Rust Correct | Rust Unknown | Rust Accuracy |
+|------------|-------|--------------|--------------|---------------|
+| C          |   260 |            0 |            0 |          0.0% |
+| D65        |   260 |          251 |            0 |         96.5% |
+| F7         |   260 |            0 |            0 |          0.0% |
 
 ### Detailed Mismatches
 
-#### 1. Expected: vivid pink
+#### Color 1: light grayish red
 
-Hex: #FD7992
+**Hex:** #B4888D
 
-| Illuminant | Adaptation | Munsell        | Py Colour                                                                                           | Method 1              | M1✓ | Method 2              | M2✓ | Boundary |
-| ---------- | ---------- | -------------- | --------------------------------------------------------------------------------------------------- | --------------------- | --- | --------------------- | --- | -------- |
-| C          | XYZScaling | 6.0RP 6.6/15.9 | 9.9RP 6.6/12.1                                                                                      | strong purplish pink  | ❌  | strong purplish pink  | ❌  | 0.10     |
-| C          | Bradford   | 6.2RP 6.6/15.3 | 9.9RP 6.6/12.1                                                                                      | strong purplish pink  | ❌  | strong purplish pink  | ❌  | 0.10     |
-| C          | CAT02      | 6.2RP 6.6/15.2 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | strong purplish pink  | ❌  | strong purplish pink  | ❌  | 0.10     |
-| D65        | XYZScaling | 5.6R 6.6/9.5   | 1.2R 6.6/11.7                                                                                       | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| D65        | Bradford   | 5.6R 6.6/9.5   | 1.2R 6.6/11.7                                                                                       | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| D65        | CAT02      | 5.6R 6.6/9.5   | 1.2R 6.6/11.7                                                                                       | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| F7         | XYZScaling | 5.6R 6.6/9.5   | 1.2R 6.6/11.7                                                                                       | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| F7         | Bradford   | 5.6R 6.6/9.5   | 1.2R 6.6/11.7                                                                                       | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| F7         | CAT02      | 5.6R 6.6/9.5   | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| D65        | 5.2R 6.0/3.6 | pale red        |              |
 
-#### 2. Expected: strong pink
+#### Color 2: light grayish reddish brown
 
-Hex: #F48FA0
+**Hex:** #9E7F7A
 
-| Illuminant | Adaptation | Munsell        | Py Colour                                                                                           | Method 1              | M1✓ | Method 2              | M2✓ | Boundary |
-| ---------- | ---------- | -------------- | --------------------------------------------------------------------------------------------------- | --------------------- | --- | --------------------- | --- | -------- |
-| C          | XYZScaling | 5.6RP 7.0/12.0 | 9.4RP 7.0/9.5                                                                                       | strong purplish pink  | ❌  | strong purplish pink  | ❌  | 0.10     |
-| C          | Bradford   | 4.9R 7.0/7.3   | 9.4RP 7.0/9.5                                                                                       | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| C          | CAT02      | 4.9R 7.0/7.3   | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| D65        | XYZScaling | 5.6R 7.0/7.3   | 1.4R 7.0/8.9                                                                                        | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| D65        | Bradford   | 5.6R 7.0/7.3   | 1.4R 7.0/8.9                                                                                        | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| D65        | CAT02      | 5.6R 7.0/7.3   | 1.4R 7.0/8.9                                                                                        | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| F7         | XYZScaling | 5.6R 7.0/7.3   | 1.4R 7.0/8.9                                                                                        | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| F7         | Bradford   | 5.6R 7.0/7.3   | 1.4R 7.0/8.9                                                                                        | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
-| F7         | CAT02      | 5.6R 7.0/7.3   | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | strong yellowish pink | ❌  | strong yellowish pink | ❌  | 0.10     |
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| D65        | 3.0YR 5.5/2.4 | pale reddish brown |              |
 
-#### 3. Expected: deep pink
+#### Color 3: light grayish brown
 
-Hex: #E66980
+**Hex:** #997F75
 
-| Illuminant | Adaptation | Munsell      | Py Colour                                                                                           | Method 1            | M1✓ | Method 2  | M2✓ | Boundary |
-| ---------- | ---------- | ------------ | --------------------------------------------------------------------------------------------------- | ------------------- | --- | --------- | --- | -------- |
-| C          | XYZScaling | 5.6R 5.9/9.3 | 0.3R 5.9/11.8                                                                                       | deep yellowish pink | ❌  | deep pink | ✅  | 0.10     |
-| C          | Bradford   | 5.6R 5.9/9.1 | 0.3R 5.9/11.8                                                                                       | deep yellowish pink | ❌  | deep pink | ✅  | 0.10     |
-| C          | CAT02      | 5.6R 5.9/9.0 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | deep yellowish pink | ❌  | deep pink | ✅  | 0.10     |
-| D65        | XYZScaling | 5.7R 5.9/9.2 | 1.6R 5.9/11.3                                                                                       | deep yellowish pink | ❌  | deep pink | ✅  | 0.10     |
-| D65        | Bradford   | 5.7R 5.9/9.2 | 1.6R 5.9/11.3                                                                                       | deep yellowish pink | ❌  | deep pink | ✅  | 0.10     |
-| D65        | CAT02      | 5.7R 5.9/9.2 | 1.6R 5.9/11.3                                                                                       | deep yellowish pink | ❌  | deep pink | ✅  | 0.10     |
-| F7         | XYZScaling | 5.7R 5.9/9.2 | 1.6R 5.9/11.3                                                                                       | deep yellowish pink | ❌  | deep pink | ✅  | 0.10     |
-| F7         | Bradford   | 5.7R 5.9/9.3 | 1.6R 5.9/11.3                                                                                       | deep yellowish pink | ❌  | deep pink | ✅  | 0.10     |
-| F7         | CAT02      | 5.7R 5.9/9.2 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | deep yellowish pink | ❌  | deep pink | ✅  | 0.10     |
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| D65        | 7.3YR 5.4/2.2 | pale brown      |              |
 
-#### 4. Expected: light pink
+#### Color 4: light grayish yellowish brown
 
-Hex: #F8C3CE
+**Hex:** #B49B8D
 
-| Illuminant | Adaptation | Munsell       | Py Colour                                                                                           | Method 1             | M1✓ | Method 2            | M2✓ | Boundary |
-| ---------- | ---------- | ------------- | --------------------------------------------------------------------------------------------------- | -------------------- | --- | ------------------- | --- | -------- |
-| C          | XYZScaling | 4.2RP 8.3/6.0 | 7.2RP 8.3/5.1                                                                                       | light purplish pink  | ❌  | light purplish pink | ❌  | 0.10     |
-| D65        | XYZScaling | 5.9R 8.3/3.6  | 2.4R 8.3/4.2                                                                                        | light yellowish pink | ❌  | light pink          | ✅  | 0.10     |
-| D65        | Bradford   | 5.9R 8.3/3.6  | 2.4R 8.3/4.2                                                                                        | light yellowish pink | ❌  | light pink          | ✅  | 0.10     |
-| D65        | CAT02      | 5.9R 8.3/3.6  | 2.4R 8.3/4.2                                                                                        | light yellowish pink | ❌  | light pink          | ✅  | 0.10     |
-| F7         | XYZScaling | 6.0R 8.3/3.6  | 2.5R 8.3/4.2                                                                                        | light yellowish pink | ❌  | light pink          | ✅  | 0.10     |
-| F7         | Bradford   | 6.0R 8.3/3.6  | 2.5R 8.3/4.2                                                                                        | light yellowish pink | ❌  | light pink          | ✅  | 0.10     |
-| F7         | CAT02      | 6.0R 8.3/3.6  | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | light yellowish pink | ❌  | light pink          | ✅  | 0.10     |
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| D65        | 9.3YR 6.5/2.3 | pale yellowish brown |              |
 
-#### 6. Expected: dark pink
+#### Color 5: light grayish olive
 
-Hex: #C5808A
+**Hex:** #8E856F
 
-| Illuminant | Adaptation | Munsell       | Py Colour                                                                                           | Method 1            | M1✓ | Method 2           | M2✓ | Boundary |
-| ---------- | ---------- | ------------- | --------------------------------------------------------------------------------------------------- | ------------------- | --- | ------------------ | --- | -------- |
-| C          | Bradford   | 6.7RP 6.0/8.0 | 9.8RP 6.0/6.6                                                                                       | dark purplish pink  | ❌  | dark purplish pink | ❌  | 0.10     |
-| C          | CAT02      | 6.7RP 6.0/7.9 | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | dark purplish pink  | ❌  | dark purplish pink | ❌  | 0.10     |
-| D65        | XYZScaling | 6.0R 6.0/5.1  | 2.5R 6.0/6.0                                                                                        | dark yellowish pink | ❌  | dark pink          | ✅  | 0.10     |
-| D65        | Bradford   | 6.0R 6.0/5.1  | 2.5R 6.0/6.0                                                                                        | dark yellowish pink | ❌  | dark pink          | ✅  | 0.10     |
-| D65        | CAT02      | 6.0R 6.0/5.1  | 2.5R 6.0/6.0                                                                                        | dark yellowish pink | ❌  | dark pink          | ✅  | 0.10     |
-| F7         | XYZScaling | 6.0R 6.0/5.1  | 2.6R 6.0/6.0                                                                                        | dark yellowish pink | ❌  | dark pink          | ✅  | 0.10     |
-| F7         | Bradford   | 6.0R 6.0/5.1  | 2.6R 6.0/6.0                                                                                        | dark yellowish pink | ❌  | dark pink          | ✅  | 0.10     |
-| F7         | CAT02      | 6.0R 6.0/5.1  | ERROR: chromatic_adaptation_CMCCAT2000() missing 2 required positional arguments: 'L_A1' and 'L_A2' | dark yellowish pink | ❌  | dark pink          | ✅  | 0.10     |
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| D65        | 8.2Y 5.5/2.2 | pale olive      |              |
 
-## Summary
+#### Color 6: vivid purplish red
 
-### Dataset Characteristics
+**Hex:** #DD2388
 
-- W3 dataset: 267 colors, 208 with mismatches (77.9%)
-- Centore dataset: 260 colors, 161 with mismatches (61.9%)
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| D65        | 6.1RP 4.9/16.5 | vivid purplish pink |              |
 
-### Notes
+#### Color 7: strong purplish red
 
-- Python reference values from colour-science library using same illuminant/adaptation
-- Boundary distance shows minimum distance to the correct ISCC-NBS polygon in Munsell space
-- Statistics corrected to count per-color rather than per-configuration
+**Hex:** #B83773
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| D65        | 6.8RP 4.4/12.0 | strong purplish pink |              |
+
+#### Color 8: light grayish purplish red
+
+**Hex:** #B2879B
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| D65        | 5.5RP 6.0/4.1 | pale purplish red |              |
+
+#### Color 9: dark gray
+
+**Hex:** #585458
+
+| Illuminant | Rust Munsell | Rust descriptor | Dist polygon |
+|------------|--------------|-----------------|--------------|
+| D65        | 2.1Y 3.6/0.1 | dark grey       |              |
+
