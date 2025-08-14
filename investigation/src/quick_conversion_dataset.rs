@@ -3,9 +3,9 @@
 //! Generates COMPREHENSIVE_CONVERSION_DATASET.md with actual results using
 //! the faster mathematical_v2 converter for demonstration.
 
-use munsellspace::mathematical_v2::MathematicalMunsellConverter;
-use munsellspace::illuminants::{Illuminant, ChromaticAdaptationMethod};
-use munsellspace::iscc::IsccNbsClassifier;
+use munsellspace::mathematical::MathematicalMunsellConverter;
+use munsellspace::illuminants::Illuminant;
+use munsellspace::iscc::ISCC_NBS_Classifier as IsccNbsClassifier;
 use std::collections::HashMap;
 use std::fmt::Write;
 use std::fs;
@@ -163,9 +163,7 @@ where
                         munsell.chroma
                     ) {
                         Ok(Some(result)) => {
-                            let actual_name = format!("{} {}", 
-                                result.iscc_nbs_modifier().unwrap_or(""), 
-                                result.iscc_nbs_color());
+                            let actual_name = result.iscc_nbs_descriptor();
                             let matches = actual_name.to_lowercase() == expected_name.to_lowercase();
                             (actual_name, matches)
                         },

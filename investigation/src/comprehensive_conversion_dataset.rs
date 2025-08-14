@@ -6,9 +6,8 @@
 //! - Both ISCC-NBS hue range methods
 //! - Special chromatic adaptation analysis for first 10 colors
 
-use munsellspace::iscc::{IsccNbsClassifier, HueRangeMethod};
-use munsellspace::mathematical::{MathematicalMunsellConverter};
-use munsellspace::mathematical_v2::{MathematicalMunsellConverter as MathematicalMunsellConverterV2, MunsellConfig};
+use munsellspace::iscc::ISCC_NBS_Classifier as IsccNbsClassifier;
+use munsellspace::mathematical::{MathematicalMunsellConverter, Illuminant as MathIlluminant, ChromaticAdaptation as MathChromaticAdaptation};
 use munsellspace::illuminants::{Illuminant, ChromaticAdaptationMethod};
 use std::collections::HashMap;
 use std::fmt::Write;
@@ -92,13 +91,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         (ChromaticAdaptationMethod::XYZScaling, "XYZScaling"),
     ];
     
-    // Initialize classifiers
-    let method1_classifier = IsccNbsClassifier::new_with_hue_range_method(
-        HueRangeMethod::IncludeStartExcludeEnd
-    )?;
-    let method2_classifier = IsccNbsClassifier::new_with_hue_range_method(
-        HueRangeMethod::ExcludeStartIncludeEnd
-    )?;
+    // Initialize classifier
+    let classifier = IsccNbsClassifier::new()?;
     
     // Process both datasets
     println!("\n🧪 Processing W3 ISCC-NBS dataset...");
@@ -106,8 +100,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         &w3_colors,
         &illuminants,
         &adaptation_methods,
-        &method1_classifier,
-        &method2_classifier,
+        &classifier,
     )?;
     
     println!("\n🧪 Processing Paul Centore dataset...");
@@ -115,8 +108,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         &centore_colors,
         &illuminants,
         &adaptation_methods,
-        &method1_classifier,
-        &method2_classifier,
+        &classifier,
     )?;
     
     // Generate comprehensive report
@@ -131,6 +123,32 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("\n✅ Report generated: COMPREHENSIVE_CONVERSION_DATASET.md");
     
     Ok(())
+}
+
+// Helper to convert illuminant types
+fn convert_illuminant(illuminant: Illuminant) -> MathIlluminant {
+    match illuminant {
+        Illuminant::A => MathIlluminant::A,
+        Illuminant::C => MathIlluminant::C,
+        Illuminant::D50 => MathIlluminant::D50,
+        Illuminant::D55 => MathIlluminant::D55,
+        Illuminant::D65 => MathIlluminant::D65,
+        Illuminant::D75 => MathIlluminant::D75,
+        Illuminant::E => MathIlluminant::E,
+        Illuminant::F2 => MathIlluminant::F2,
+        Illuminant::F7 => MathIlluminant::F7,
+        _ => MathIlluminant::D65, // Default fallback
+    }
+}
+
+// Helper to convert chromatic adaptation types
+fn convert_adaptation(method: ChromaticAdaptationMethod) -> MathChromaticAdaptation {
+    match method {
+        ChromaticAdaptationMethod::Bradford => MathChromaticAdaptation::Bradford,
+        ChromaticAdaptationMethod::VonKries => MathChromaticAdaptation::Bradford, // Fallback to Bradford
+        ChromaticAdaptationMethod::CAT02 => MathChromaticAdaptation::CAT02,
+        ChromaticAdaptationMethod::XYZScaling => MathChromaticAdaptation::XYZScaling,
+    }
 }
 
 fn load_w3_dataset() -> Result<Vec<W3IsccColor>, Box<dyn std::error::Error>> {
@@ -165,8 +183,7 @@ fn process_dataset_w3(
     colors: &[W3IsccColor],
     illuminants: &[(Illuminant, &str, &str)],
     adaptation_methods: &[(ChromaticAdaptationMethod, &str)],
-    method1_classifier: &IsccNbsClassifier,
-    method2_classifier: &IsccNbsClassifier,
+    classifier: &IsccNbsClassifier,
 ) -> Result<HashMap<String, HashMap<String, ColorTestResult>>, Box<dyn std::error::Error>> {
     
     let mut all_results = HashMap::new();
@@ -195,19 +212,7 @@ fn process_dataset_w3(
                 &expected_name,
                 *illuminant, 
                 ChromaticAdaptationMethod::Bradford,
-                method1_classifier,
-                method2_classifier,
-            ));
-            
-            // Test v2 (mathematical_v2.rs)
-            let v2_key = format!("{}_v2", illum_code);
-            color_results.insert(v2_key.clone(), test_color_v2(
-                rgb,
-                &expected_name,
-                *illuminant,
-                ChromaticAdaptationMethod::Bradford,
-                method1_classifier,
-                method2_classifier,
+                classifier,
             ));
             
             // For first 10 colors, test all adaptation methods
@@ -220,18 +225,7 @@ fn process_dataset_w3(
                             &expected_name,
                             *illuminant,
                             *adapt_method,
-                            method1_classifier,
-                            method2_classifier,
-                        ));
-                        
-                        let v2_adapt_key = format!("{}_v2_{}", illum_code, adapt_name);
-                        color_results.insert(v2_adapt_key, test_color_v2(
-                            rgb,
-                            &expected_name,
-                            *illuminant,
-                            *adapt_method,
-                            method1_classifier,
-                            method2_classifier,
+                            classifier,
                         ));
                     }
                 }
@@ -252,8 +246,7 @@ fn process_dataset_centore(
     colors: &[CentoreIsccColor],
     illuminants: &[(Illuminant, &str, &str)],
     adaptation_methods: &[(ChromaticAdaptationMethod, &str)],
-    method1_classifier: &IsccNbsClassifier,
-    method2_classifier: &IsccNbsClassifier,
+    classifier: &IsccNbsClassifier,
 ) -> Result<HashMap<String, HashMap<String, ColorTestResult>>, Box<dyn std::error::Error>> {
     
     let mut all_results = HashMap::new();
@@ -274,19 +267,7 @@ fn process_dataset_centore(
                 &expected_name,
                 *illuminant,
                 ChromaticAdaptationMethod::Bradford,
-                method1_classifier,
-                method2_classifier,
-            ));
-            
-            // Test v2 (mathematical_v2.rs)
-            let v2_key = format!("{}_v2", illum_code);
-            color_results.insert(v2_key.clone(), test_color_v2(
-                rgb,
-                &expected_name,
-                *illuminant,
-                ChromaticAdaptationMethod::Bradford,
-                method1_classifier,
-                method2_classifier,
+                classifier,
             ));
             
             // For first 10 colors, test all adaptation methods
@@ -299,18 +280,7 @@ fn process_dataset_centore(
                             &expected_name,
                             *illuminant,
                             *adapt_method,
-                            method1_classifier,
-                            method2_classifier,
-                        ));
-                        
-                        let v2_adapt_key = format!("{}_v2_{}", illum_code, adapt_name);
-                        color_results.insert(v2_adapt_key, test_color_v2(
-                            rgb,
-                            &expected_name,
-                            *illuminant,
-                            *adapt_method,
-                            method1_classifier,
-                            method2_classifier,
+                            classifier,
                         ));
                     }
                 }
@@ -332,14 +302,13 @@ fn test_color_v1(
     expected_name: &str,
     illuminant: Illuminant,
     adaptation: ChromaticAdaptationMethod,
-    method1_classifier: &IsccNbsClassifier,
-    method2_classifier: &IsccNbsClassifier,
+    classifier: &IsccNbsClassifier,
 ) -> ColorTestResult {
     // Use v1 converter (mathematical.rs)
     match MathematicalMunsellConverter::with_illuminants(
-        Illuminant::D65,
-        illuminant,
-        adaptation,
+        convert_illuminant(Illuminant::D65),
+        convert_illuminant(illuminant),
+        convert_adaptation(adaptation),
     ) {
         Ok(converter) => {
             match converter.srgb_to_munsell(rgb) {
@@ -348,50 +317,25 @@ fn test_color_v1(
                         munsell.hue, munsell.family,
                         munsell.value, munsell.chroma);
                     
-                    // Test Method 1
-                    let method1_result = match method1_classifier.classify_munsell(
+                    // Test classification
+                    let iscc_result = match classifier.classify_munsell(
                         &format!("{}{}", munsell.hue, munsell.family),
                         munsell.value,
                         munsell.chroma
                     ) {
                         Ok(Some(result)) => {
-                            // Use modifier and color (not descriptor)
-                            let modifier = result.iscc_nbs_modifier().unwrap_or("");
-                            let color = result.iscc_nbs_color();
-                            if modifier.is_empty() {
-                                color.to_string()
-                            } else {
-                                format!("{} {}", modifier, color)
-                            }
-                        },
-                        _ => "N/A".to_string(),
-                    };
-                    
-                    // Test Method 2
-                    let method2_result = match method2_classifier.classify_munsell(
-                        &format!("{}{}", munsell.hue, munsell.family),
-                        munsell.value,
-                        munsell.chroma
-                    ) {
-                        Ok(Some(result)) => {
-                            // Use modifier and color (not descriptor)
-                            let modifier = result.iscc_nbs_modifier().unwrap_or("");
-                            let color = result.iscc_nbs_color();
-                            if modifier.is_empty() {
-                                color.to_string()
-                            } else {
-                                format!("{} {}", modifier, color)
-                            }
+                            // Use the iscc_nbs_descriptor method
+                            result.iscc_nbs_descriptor()
                         },
                         _ => "N/A".to_string(),
                     };
                     
                     ColorTestResult {
                         munsell_notation: notation,
-                        method1_result: method1_result.clone(),
-                        method1_match: method1_result.to_lowercase() == expected_name.to_lowercase(),
-                        method2_result: method2_result.clone(),
-                        method2_match: method2_result.to_lowercase() == expected_name.to_lowercase(),
+                        method1_result: iscc_result.clone(),
+                        method1_match: iscc_result.to_lowercase() == expected_name.to_lowercase(),
+                        method2_result: "N/A".to_string(), // Not used anymore
+                        method2_match: false, // Not used anymore
                         conversion_success: true,
                     }
                 },
@@ -416,96 +360,6 @@ fn test_color_v1(
     }
 }
 
-fn test_color_v2(
-    rgb: [u8; 3],
-    expected_name: &str,
-    illuminant: Illuminant,
-    adaptation: ChromaticAdaptationMethod,
-    method1_classifier: &IsccNbsClassifier,
-    method2_classifier: &IsccNbsClassifier,
-) -> ColorTestResult {
-    // Use v2 converter (mathematical_v2.rs)
-    let config = MunsellConfig {
-        source_illuminant: Illuminant::D65,
-        target_illuminant: illuminant,
-        adaptation_method: adaptation,
-    };
-    
-    match MathematicalMunsellConverterV2::with_config(config) {
-        Ok(converter) => {
-            match converter.srgb_to_munsell(rgb) {
-                Ok(munsell) => {
-                    let notation = format!("{:.1}{} {:.1}/{:.1}",
-                        munsell.hue, munsell.family,
-                        munsell.value, munsell.chroma);
-                    
-                    // Test Method 1
-                    let method1_result = match method1_classifier.classify_munsell(
-                        &format!("{}{}", munsell.hue, munsell.family),
-                        munsell.value,
-                        munsell.chroma
-                    ) {
-                        Ok(Some(result)) => {
-                            // Use modifier and color (not descriptor)
-                            let modifier = result.iscc_nbs_modifier().unwrap_or("");
-                            let color = result.iscc_nbs_color();
-                            if modifier.is_empty() {
-                                color.to_string()
-                            } else {
-                                format!("{} {}", modifier, color)
-                            }
-                        },
-                        _ => "N/A".to_string(),
-                    };
-                    
-                    // Test Method 2
-                    let method2_result = match method2_classifier.classify_munsell(
-                        &format!("{}{}", munsell.hue, munsell.family),
-                        munsell.value,
-                        munsell.chroma
-                    ) {
-                        Ok(Some(result)) => {
-                            // Use modifier and color (not descriptor)
-                            let modifier = result.iscc_nbs_modifier().unwrap_or("");
-                            let color = result.iscc_nbs_color();
-                            if modifier.is_empty() {
-                                color.to_string()
-                            } else {
-                                format!("{} {}", modifier, color)
-                            }
-                        },
-                        _ => "N/A".to_string(),
-                    };
-                    
-                    ColorTestResult {
-                        munsell_notation: notation,
-                        method1_result: method1_result.clone(),
-                        method1_match: method1_result.to_lowercase() == expected_name.to_lowercase(),
-                        method2_result: method2_result.clone(),
-                        method2_match: method2_result.to_lowercase() == expected_name.to_lowercase(),
-                        conversion_success: true,
-                    }
-                },
-                Err(_) => ColorTestResult {
-                    munsell_notation: "ERROR".to_string(),
-                    method1_result: "N/A".to_string(),
-                    method1_match: false,
-                    method2_result: "N/A".to_string(),
-                    method2_match: false,
-                    conversion_success: false,
-                }
-            }
-        },
-        Err(_) => ColorTestResult {
-            munsell_notation: "ERROR".to_string(),
-            method1_result: "N/A".to_string(),
-            method1_match: false,
-            method2_result: "N/A".to_string(),
-            method2_match: false,
-            conversion_success: false,
-        }
-    }
-}
 
 fn generate_comprehensive_report(
     w3_results: &HashMap<String, HashMap<String, ColorTestResult>>,
