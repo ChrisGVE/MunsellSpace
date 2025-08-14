@@ -43,14 +43,15 @@
 //! use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
 //!
 //! # fn main() -> Result<(), Box<dyn std::error::Error>> {
-//! let mut wedge_system = MechanicalWedgeSystem::new();
+//! let wedge_system = MechanicalWedgeSystem::new();
 //!
 //! // System automatically creates all 100 wedge containers
 //! assert_eq!(wedge_system.wedge_count(), 100);
 //!
 //! // Find which wedge contains a specific hue
-//! let wedge_key = wedge_system.find_wedge_for_hue("5R")?;
-//! println!("5R belongs to wedge: {}", wedge_key);
+//! if let Some(wedge_key) = wedge_system.find_wedge_for_hue("5R") {
+//!     println!("5R belongs to wedge: {}", wedge_key);
+//! }
 //! # Ok(())
 //! # }
 //! ```
@@ -97,14 +98,15 @@ use geo::CoordsIter;
 /// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
 ///
 /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-/// let mut system = MechanicalWedgeSystem::new();
+/// let system = MechanicalWedgeSystem::new();
 ///
 /// // Check total wedge count
 /// assert_eq!(system.wedge_count(), 100);
 ///
 /// // Find wedge for specific hue
-/// let wedge = system.find_wedge_for_hue("5R")?;
-/// println!("5R is in wedge: {}", wedge);
+/// if let Some(wedge) = system.find_wedge_for_hue("5R") {
+///     println!("5R is in wedge: {}", wedge);
+/// }
 /// # Ok(())
 /// # }
 /// ```

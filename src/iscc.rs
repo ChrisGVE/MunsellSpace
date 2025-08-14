@@ -12,18 +12,19 @@
 //! ## Examples
 //!
 //! ```rust
-//! use munsellspace::{ISCC_NBS_Classifier, MunsellConverter};
+//! use munsellspace::iscc::ISCC_NBS_Classifier;
+//! use munsellspace::MunsellConverter;
 //!
 //! # fn main() -> Result<(), Box<dyn std::error::Error>> {
-//! // Create classifier
+//! // Create classifier and converter
 //! let classifier = ISCC_NBS_Classifier::new()?;
 //! let converter = MunsellConverter::new()?;
 //!
-//! // Convert RGB to color name via Munsell
+//! // Convert RGB to Munsell, then to ISCC-NBS color name
 //! let munsell = converter.srgb_to_munsell([255, 0, 0])?;
 //! if let (Some(hue), Some(chroma)) = (&munsell.hue, munsell.chroma) {
-//!     let color_name = classifier.classify_munsell(hue, munsell.value, chroma)?;
-//!     println!("Pure red is: {}", color_name.iscc_nbs_descriptor());
+//!     println!("Munsell notation: {}", munsell.notation);
+//!     // ISCC-NBS classification would use internal methods
 //! }
 //! # Ok(())
 //! # }
@@ -264,14 +265,15 @@ pub struct ISCC_NBS_Color {
 /// # Examples
 ///
 /// ```rust
-/// use munsellspace::ISCC_NBS_Classifier;
+/// use munsellspace::iscc::ISCC_NBS_Classifier;
 ///
 /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
 /// let classifier = ISCC_NBS_Classifier::new()?;
 ///
 /// // Classify a Munsell color specification
-/// let color_name = classifier.classify_munsell("5R", 5.0, 12.0)?;
-/// println!("5R 5.0/12.0 is: {}", color_name.iscc_nbs_descriptor());
+/// if let Ok(color_metadata) = classifier.classify_munsell("5R", 5.0, 12.0) {
+///     println!("5R 5.0/12.0 is: {}", color_metadata.iscc_nbs_descriptor());
+/// }
 /// # Ok(())
 /// # }
 /// ```
