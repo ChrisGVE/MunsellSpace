@@ -202,9 +202,6 @@ mod tests {
             }
         }
         
-        // Print some sample hues to understand the data format
-        eprintln!("Sample hues found: {:?}", &all_hues[..std::cmp::min(10, all_hues.len())]);
-        eprintln!("Hue families extracted: {:?}", hue_families);
         
         // We'll test for commonly present families rather than expecting all 10
         let commonly_present = ["R", "Y", "G", "B", "P"];
@@ -256,10 +253,6 @@ mod tests {
             assert!(y_scaled >= 0.0, "Invalid Y value: {}", y_scaled);
         }
         
-        // Log how many entries exceed y=1.0 for information
-        if invalid_y_count > 0 {
-            eprintln!("Info: {} entries have y chromaticity > 1.0 (max: {})", invalid_y_count, max_y);
-        }
     }
 
     #[test]
