@@ -161,6 +161,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Classify a color by finding its containing wedge and searching within it
+    #[inline]
     pub fn classify_color(&self, hue: &str, value: f64, chroma: f64) -> Option<&ISCC_NBS_Color> {
         // 1. Find the containing wedge for this hue
         let wedge_key = self.find_containing_wedge(hue)?;
@@ -175,49 +176,22 @@ impl MechanicalWedgeSystem {
     
     /// Find which wedge contains the given hue using correct range interpretation
     /// 1R represents [0-1], 2R represents (1-2], ..., 10R represents (9-10]
+    #[inline]
     fn find_containing_wedge(&self, hue: &str) -> Option<String> {
         let (hue_number, hue_family) = self.parse_hue(hue).ok()?;
         
-        // Handle the range interpretation directly without modulo first
-        // to properly handle the 10.0 case
-        let wedge_number = if hue_number == 0.0 || (hue_number > 0.0 && hue_number <= 1.0) {
-            // [0, 1] belongs to 1R
-            1
-        } else if hue_number > 1.0 && hue_number <= 2.0 {
-            // (1, 2] belongs to 2R
-            2
-        } else if hue_number > 2.0 && hue_number <= 3.0 {
-            // (2, 3] belongs to 3R
-            3
-        } else if hue_number > 3.0 && hue_number <= 4.0 {
-            // (3, 4] belongs to 4R
-            4
-        } else if hue_number > 4.0 && hue_number <= 5.0 {
-            // (4, 5] belongs to 5R
-            5
-        } else if hue_number > 5.0 && hue_number <= 6.0 {
-            // (5, 6] belongs to 6R
-            6
-        } else if hue_number > 6.0 && hue_number <= 7.0 {
-            // (6, 7] belongs to 7R
-            7
-        } else if hue_number > 7.0 && hue_number <= 8.0 {
-            // (7, 8] belongs to 8R
-            8
-        } else if hue_number > 8.0 && hue_number <= 9.0 {
-            // (8, 9] belongs to 9R
-            9
-        } else if hue_number > 9.0 && hue_number <= 10.0 {
-            // (9, 10] belongs to 10R
-            10
-        } else {
-            // Handle wraparound for values > 10.0
-            let normalized = hue_number % 10.0;
-            if normalized == 0.0 || normalized <= 1.0 {
-                1
+        // Optimized wedge number calculation - more efficient than chain of if-else
+        let wedge_number = if hue_number <= 0.0 || hue_number > 10.0 {
+            // Handle edge cases and wraparound
+            let normalized = if hue_number <= 0.0 {
+                (hue_number % 10.0 + 10.0) % 10.0
             } else {
-                (normalized.ceil() as u8).min(10)
-            }
+                hue_number % 10.0
+            };
+            if normalized == 0.0 || normalized <= 1.0 { 1 } else { (normalized.ceil() as u8).min(10) }
+        } else {
+            // Normal case: direct ceiling calculation for (0, 10] range
+            (hue_number.ceil() as u8).max(1).min(10)
         };
         
         // Find the corresponding wedge key
@@ -232,6 +206,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Parse Munsell hue notation (e.g., "4.5R", "7YR")
+    #[inline]
     fn parse_hue(&self, hue: &str) -> Result<(f64, String)> {
         let hue = hue.trim();
         
@@ -301,11 +276,22 @@ impl MechanicalWedgeSystem {
     }
     
     /// Get the next family in the sequence
+    #[inline]
     fn get_next_family(&self, family: &str) -> Option<String> {
-        let families = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
-        let pos = families.iter().position(|&f| f == family)?;
-        let next_pos = (pos + 1) % families.len();
-        Some(families[next_pos].to_string())
+        // Use direct string matching for better performance than array search
+        match family {
+            "R" => Some("YR".to_string()),
+            "YR" => Some("Y".to_string()),
+            "Y" => Some("GY".to_string()),
+            "GY" => Some("G".to_string()),
+            "G" => Some("BG".to_string()),
+            "BG" => Some("B".to_string()),
+            "B" => Some("PB".to_string()),
+            "PB" => Some("P".to_string()),
+            "P" => Some("RP".to_string()),
+            "RP" => Some("R".to_string()),
+            _ => None,
+        }
     }
     
     /// Check if a point (value, chroma) is inside a polygon with proper boundary rules
@@ -317,6 +303,7 @@ impl MechanicalWedgeSystem {
     /// - Otherwise: use (lower, upper] (half-open interval)
     /// 
     /// This ensures each boundary point belongs to exactly one polygon.
+    #[inline]
     fn point_in_polygon(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> bool {
         use geo::Contains;
         
@@ -364,6 +351,7 @@ impl MechanicalWedgeSystem {
     
     /// Get the chroma and value ranges of the polygon at the given point
     /// Returns (chroma_range, value_range) where each range is (min, max)
+    #[inline]
     fn get_polygon_ranges_at_point(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> (Option<(f64, f64)>, Option<(f64, f64)>) {
         use geo::Coordinate;
         

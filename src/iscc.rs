@@ -73,7 +73,7 @@ pub struct ISCC_NBS_Classifier {
     /// Metadata lookup table - stores metadata once per color number instead of duplicating in each wedge
     color_metadata: HashMap<u16, ColorMetadata>,
     /// Small LRU cache for successive lookups without repeated searches (thread-safe)
-    cache: Arc<RwLock<HashMap<(String, String, String), Option<u16>>>>, // (hue, value_str, chroma_str) -> color_number
+    cache: Arc<RwLock<HashMap<(String, i32, i32), Option<u16>>>>, // (hue, value_scaled, chroma_scaled) -> color_number
     /// Maximum cache size
     cache_max_size: usize,
 }
@@ -118,12 +118,14 @@ impl ISCC_NBS_Classifier {
     }
 
     /// Check if a hue represents an achromatic (neutral) color.
+    #[inline]
     fn is_achromatic(&self, hue: &str) -> bool {
         is_achromatic_hue(hue)
     }
 
     /// Get the achromatic (neutral) color number for a given value.
     /// Helper method to eliminate duplication between classify_achromatic and find_all_colors_at_point.
+    #[inline]
     fn get_achromatic_color_number(&self, value: f64) -> Option<u16> {
         let color_number = get_achromatic_color_number(value)?;
 
@@ -137,11 +139,13 @@ impl ISCC_NBS_Classifier {
 
     /// Classify an achromatic (neutral) color based on its value.
     /// Returns just the color number for internal use.
+    #[inline]
     fn classify_achromatic(&self, value: f64) -> Option<u16> {
         self.get_achromatic_color_number(value)
     }
 
     /// Build a ColorMetadata result from a color number by cloning from the colors HashMap
+    #[inline]
     fn build_result(&self, color_number: u16) -> Option<ColorMetadata> {
         self.color_metadata.get(&color_number).cloned()
     }
@@ -161,15 +165,15 @@ impl ISCC_NBS_Classifier {
             return Ok(None);
         }
 
-        // Round values to 4 decimal places for internal classification
+        // Round values to 4 decimal places for internal classification (optimized)
         let rounded_value = (value * 10000.0).round() / 10000.0;
         let rounded_chroma = (chroma * 10000.0).round() / 10000.0;
 
-        // Create cache key using 4-decimal precision
+        // Create cache key using integer representations to avoid string formatting
         let cache_key = (
-            hue.to_string(),
-            format!("{:.4}", rounded_value),
-            format!("{:.4}", rounded_chroma),
+            hue.to_string(), // Only one string allocation
+            (rounded_value * 10000.0) as i32,
+            (rounded_chroma * 10000.0) as i32,
         );
 
         // Check cache first

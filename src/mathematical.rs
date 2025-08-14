@@ -80,14 +80,16 @@ mod coordinate_transforms {
 
     /// Convert cartesian [x, y] to polar [rho, phi] coordinates
     /// phi is in radians [-π, π]
+    #[inline]
     pub fn cartesian_to_polar(x: f64, y: f64) -> (f64, f64) {
-        let rho = (x * x + y * y).sqrt();  // hypot
+        let rho = x.hypot(y);  // More efficient than manual sqrt
         let phi = y.atan2(x);              // arctan2 returns [-π, π]
         (rho, phi)
     }
 
     /// Convert polar [rho, phi] to cartesian [x, y] coordinates  
     /// phi should be in radians
+    #[inline]
     pub fn polar_to_cartesian(rho: f64, phi: f64) -> (f64, f64) {
         let x = rho * phi.cos();
         let y = rho * phi.sin();
@@ -96,12 +98,14 @@ mod coordinate_transforms {
 
     /// Convert cartesian [x, y, z] to cylindrical [rho, phi, z] coordinates
     /// Uses cartesian_to_polar for first two coordinates, keeps z unchanged
+    #[inline]
     pub fn cartesian_to_cylindrical(x: f64, y: f64, z: f64) -> (f64, f64, f64) {
         let (rho, phi) = cartesian_to_polar(x, y);
         (rho, phi, z)
     }
 
     /// Convert cylindrical [rho, phi, z] to cartesian [x, y, z] coordinates
+    #[inline]
     pub fn cylindrical_to_cartesian(rho: f64, phi: f64, z: f64) -> (f64, f64, f64) {
         let (x, y) = polar_to_cartesian(rho, phi);
         (x, y, z)
@@ -119,23 +123,21 @@ mod hue_conversions {
 
     /// Convert [hue, code] to ASTM hue angle
     /// Exact implementation from Python colour-science
+    #[inline]
     pub fn hue_to_astm_hue(hue: f64, code: u8) -> f64 {
         // Calculate single_hue following exact Python formula
         // CRITICAL: Use 17.0 as in Python, and handle modulo correctly!
-        let raw = ((17.0 - code as f64) % 10.0 + (hue / 10.0) - 0.5);
-        // Python-style modulo: always returns positive result
-        let single_hue = if raw < 0.0 {
-            (raw % 10.0 + 10.0) % 10.0
-        } else {
-            raw % 10.0
-        };
+        let raw = (17.0 - code as f64) % 10.0 + (hue * 0.1) - 0.5;
+        // Python-style modulo: always returns positive result (optimized)
+        let single_hue = ((raw % 10.0) + 10.0) % 10.0;
         
         // Linear interpolation with exact breakpoints from Python
         linear_interpolate_hue_angle(single_hue)
     }
 
     /// Convert hue angle to [hue, code] pair
-    /// Exact implementation from Python colour-science  
+    /// Exact implementation from Python colour-science
+    #[inline]  
     pub fn hue_angle_to_hue(hue_angle: f64) -> (f64, u8) {
         // Reverse interpolation from angle to single_hue
         let single_hue = reverse_interpolate_hue_angle(hue_angle);
@@ -165,6 +167,7 @@ mod hue_conversions {
 
     /// Linear interpolation for hue angle mapping
     /// Uses exact breakpoints from Python colour-science
+    #[inline]
     fn linear_interpolate_hue_angle(single_hue: f64) -> f64 {
         // Exact breakpoints from Python: [0, 2, 3, 4, 5, 6, 8, 9, 10]
         // Exact angles from Python:     [0, 45, 70, 135, 160, 225, 255, 315, 360]
@@ -185,6 +188,7 @@ mod hue_conversions {
     }
 
     /// Reverse interpolation from hue angle to single_hue
+    #[inline]
     fn reverse_interpolate_hue_angle(hue_angle: f64) -> f64 {
         // Same breakpoints but reversed
         let angles = [0.0, 45.0, 70.0, 135.0, 160.0, 225.0, 255.0, 315.0, 360.0];
