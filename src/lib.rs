@@ -112,6 +112,8 @@ pub mod unified_cache;
 mod property_tests;
 #[cfg(test)]
 mod edge_case_tests;
+#[cfg(test)]
+mod types_tests;
 
 pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};

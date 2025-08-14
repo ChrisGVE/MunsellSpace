@@ -49,6 +49,7 @@ rayon = "1.10"
 approx = "0.5"
 csv = "1.3"
 proptest = "1.0"
+criterion = { version = "0.5", features = ["html_reports"] }
 
 [features]
 default = []
@@ -73,6 +74,10 @@ path = "investigation/src/comprehensive_dataset_misses.rs"
 [[bin]]
 name = "wedge_coverage_test"
 path = "investigation/src/wedge_coverage_test.rs"
+
+[[bench]]
+name = "munsell_conversion_benchmarks"
+harness = false
 
 [profile.release]
 lto = true
