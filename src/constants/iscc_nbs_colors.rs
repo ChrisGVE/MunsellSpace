@@ -287,7 +287,7 @@ pub const ISCC_NBS_COLORS: &[IsccNbsColorEntry] = &[
     IsccNbsColorEntry { color_number: 263, iscc_nbs_color_name: "white", iscc_nbs_formatter: Some("{0}"), alt_color_name: "white", color_shade: "white" },
     IsccNbsColorEntry { color_number: 264, iscc_nbs_color_name: "gray", iscc_nbs_formatter: Some("light {0}"), alt_color_name: "gray", color_shade: "gray" },
     IsccNbsColorEntry { color_number: 265, iscc_nbs_color_name: "gray", iscc_nbs_formatter: Some("medium {0}"), alt_color_name: "gray", color_shade: "gray" },
-    IsccNbsColorEntry { color_number: 266, iscc_nbs_color_name: "grey", iscc_nbs_formatter: Some("dark {0}"), alt_color_name: "grey", color_shade: "gray" },
+    IsccNbsColorEntry { color_number: 266, iscc_nbs_color_name: "gray", iscc_nbs_formatter: Some("dark {0}"), alt_color_name: "gray", color_shade: "gray" },
     IsccNbsColorEntry { color_number: 267, iscc_nbs_color_name: "black", iscc_nbs_formatter: Some("{0}"), alt_color_name: "black", color_shade: "black" },
 ];
 
