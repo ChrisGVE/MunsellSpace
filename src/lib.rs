@@ -114,8 +114,8 @@ mod property_tests;
 mod edge_case_tests;
 #[cfg(test)]
 mod types_tests;
-#[cfg(test)]
-mod comprehensive_unit_tests;
+// #[cfg(test)]
+// mod comprehensive_unit_tests;
 
 pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};

@@ -182,7 +182,7 @@ fn bench_reverse_conversion(c: &mut Criterion) {
                 &munsell_color,
                 |b, munsell_color| {
                     b.iter(|| {
-                        black_box(reverse_converter.munsell_to_srgb(black_box(munsell_color)))
+                        black_box(reverse_converter.munsell_to_srgb(black_box(&munsell_color)))
                     });
                 }
             );
@@ -260,7 +260,7 @@ fn bench_notation_parsing(c: &mut Criterion) {
         group.bench_with_input(
             BenchmarkId::new("from_notation", i),
             notation,
-            |b, &notation| {
+            |b, notation| {
                 b.iter(|| {
                     black_box(MunsellColor::from_notation(black_box(notation)))
                 });

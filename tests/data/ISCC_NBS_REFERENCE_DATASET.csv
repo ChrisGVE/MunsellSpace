@@ -16,7 +16,7 @@ sRGB ,ISCC-NBS Name, modifier ,color
 #ab4e52,moderate red, moderate ,red 
 #722f37,dark red, dark ,red 
 #3f1728,very dark red, very dark ,red 
-#ad8884,light grayish red, pale ,red 
+#ad8884,pale red, pale ,red 
 #905d5d,grayish red, grayish ,red 
 #543d3f,dark grayish red, dark grayish ,red 
 #2e1d21,blackish red, blackish ,red 
@@ -43,7 +43,7 @@ sRGB ,ISCC-NBS Name, modifier ,color
 #a87c6d,light reddish brown, light ,reddish brown 
 #79443b,moderate reddish brown, moderate ,reddish brown 
 #3e1d1e,dark reddish brown, dark ,reddish brown 
-#977f73,light grayish reddish brown, pale ,reddish brown 
+#977f73,pale reddish brown, pale ,reddish brown 
 #674c47,grayish reddish brown, grayish ,reddish brown 
 #43302e,dark grayish reddish brown, dark grayish ,reddish brown 
 #f38400,vivid orange, vivid ,orange 
@@ -58,7 +58,7 @@ sRGB ,ISCC-NBS Name, modifier ,color
 #a67b5b,light brown, light ,brown 
 #6f4e37,moderate brown, moderate ,brown 
 #422518,dark brown, dark ,brown 
-#958070,light grayish brown, pale ,brown 
+#958070,pale brown, pale ,brown 
 #635147,grayish brown, grayish ,brown 
 #3e322c,dark grayish brown, dark grayish ,brown 
 #8e8279,light brownish gray, light -ish gray ,brown 
@@ -77,7 +77,7 @@ sRGB ,ISCC-NBS Name, modifier ,color
 #c19a6b,light yellowish brown, light ,yellowish brown 
 #826644,moderate yellowish brown, moderate ,yellowish brown 
 #4b3621,dark yellowish brown, dark ,yellowish brown 
-#ae9b82,light grayish yellowish brown, pale ,yellowish brown 
+#ae9b82,pale yellowish brown, pale ,yellowish brown 
 #7e6d5a,grayish yellowish brown, grayish ,yellowish brown 
 #483c32,dark grayish yellowish brown, dark grayish ,yellowish brown 
 #f3c300,vivid yellow, vivid ,yellow 
@@ -107,7 +107,7 @@ sRGB ,ISCC-NBS Name, modifier ,color
 #867e36,light olive, light ,olive 
 #665d1e,moderate olive, moderate ,olive 
 #403d21,dark olive, dark ,olive 
-#8c8767,light grayish olive, pale ,olive 
+#8c8767,pale olive, pale ,olive 
 #5b5842,grayish olive, grayish ,olive 
 #363527,dark grayish olive, dark grayish ,olive 
 #8a8776,light olive gray, light -ish gray ,olive 
@@ -259,7 +259,7 @@ sRGB ,ISCC-NBS Name, modifier ,color
 #a8516e,moderate purplish red, moderate ,purplish red 
 #673147,dark purplish red, dark ,purplish red 
 #38152c,very dark purplish red, very dark ,purplish red 
-#af868e,light grayish purplish red, pale ,purplish red 
+#af868e,pale purplish red, pale ,purplish red 
 #915f6d,grayish purplish red, grayish ,purplish red 
 #f2f3f4,white, ,white 
 #b9b8b5,light gray, light ,gray 

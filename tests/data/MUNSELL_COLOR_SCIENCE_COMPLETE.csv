@@ -16,7 +16,7 @@ number,name,r,g,b
 15,"moderate red",177,73,85
 16,"dark red",116,36,52
 17,"very dark red",72,17,39
-18,"light grayish red",180,136,141
+18,"pale red",180,136,141
 19,"grayish red",152,93,98
 20,"dark grayish red",83,56,62
 21,"blackish red",51,33,39
@@ -43,7 +43,7 @@ number,name,r,g,b
 42,"light reddish brown",172,122,115
 43,"moderate reddish brown",125,66,59
 44,"dark reddish brown",70,29,30
-45,"light grayish reddish brown",158,127,122
+45,"pale reddish brown",158,127,122
 46,"grayish reddish brown",108,77,75
 47,"dark grayish reddish brown",67,41,42
 48,"vivid orange",247,118,11
@@ -57,7 +57,7 @@ number,name,r,g,b
 57,"light brown",173,124,99
 58,"moderate brown",114,74,56
 59,"dark brown",68,33,18
-60,"light grayish brown",153,127,117
+60,"pale brown",153,127,117
 61,"grayish brown",103,79,72
 62,"dark grayish brown",62,44,40
 63,"light brownish gray",146,130,129
@@ -75,7 +75,7 @@ number,name,r,g,b
 76,"light yellowish brown",196,154,116
 77,"moderate yellowish brown",136,102,72
 78,"dark yellowish brown",80,52,26
-79,"light grayish yellowish brown",180,155,141
+79,"pale yellowish brown",180,155,141
 80,"grayish yellowish brown",126,105,93
 81,"dark grayish yellowish brown",77,61,51
 82,"vivid yellow",241,191,21
@@ -105,7 +105,7 @@ number,name,r,g,b
 106,"light olive",139,125,46
 107,"moderate olive",100,89,26
 108,"dark olive",53,46,10
-109,"light grayish olive",142,133,111
+109,"pale olive",142,133,111
 110,"grayish olive",93,85,63
 111,"dark grayish olive",53,48,28
 112,"light olive gray",143,135,127
@@ -252,7 +252,7 @@ number,name,r,g,b
 258,"moderate purplish red",171,75,116
 259,"dark purplish red",110,41,76
 260,"very dark purplish red",67,20,50
-261,"light grayish purplish red",178,135,155
+261,"pale purplish red",178,135,155
 262,"grayish purplish red",148,92,115
 263,"white",231,225,233
 264,"light gray",189,183,191
