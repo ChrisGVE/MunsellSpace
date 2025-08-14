@@ -1,3 +1,34 @@
+//! ISCC-NBS Color Name System Implementation
+//!
+//! This module provides implementation of the Inter-Society Color Council - 
+//! National Bureau of Standards (ISCC-NBS) color naming system. It translates
+//! Munsell color specifications into standardized color names.
+//!
+//! The ISCC-NBS system defines 267 color categories, each represented by:
+//! - A numerical identifier (1-267)
+//! - A descriptive name (e.g., "vivid red", "light grayish blue")
+//! - A polygonal region in Munsell color space
+//!
+//! ## Examples
+//!
+//! ```rust
+//! use munsellspace::{ISCC_NBS_Classifier, MunsellConverter};
+//!
+//! # fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! // Create classifier
+//! let classifier = ISCC_NBS_Classifier::new()?;
+//! let converter = MunsellConverter::new()?;
+//!
+//! // Convert RGB to color name via Munsell
+//! let munsell = converter.srgb_to_munsell([255, 0, 0])?;
+//! if let (Some(hue), Some(chroma)) = (&munsell.hue, munsell.chroma) {
+//!     let color_name = classifier.classify_munsell(hue, munsell.value, chroma)?;
+//!     println!("Pure red is: {}", color_name.iscc_nbs_descriptor());
+//! }
+//! # Ok(())
+//! # }
+//! ```
+
 use crate::constants::{get_color_ish, get_achromatic_color_number, is_achromatic_hue, get_color_by_number, color_entry_to_metadata, get_polygon_definitions};
 use crate::error::MunsellError;
 use crate::mechanical_wedges::MechanicalWedgeSystem;
@@ -5,21 +36,81 @@ use geo::Polygon;
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
 
-/// Color metadata with on-the-fly descriptor construction
+/// Color metadata with on-the-fly descriptor construction.
+///
+/// This struct contains the raw data components for ISCC-NBS color descriptions
+/// and provides methods to construct formatted descriptors dynamically.
+///
+/// # Examples
+///
+/// ```rust
+/// use munsellspace::iscc::ColorMetadata;
+///
+/// # fn example() -> Result<(), Box<dyn std::error::Error>> {
+/// // Color metadata would typically be loaded from internal data
+/// let metadata = ColorMetadata {
+///     iscc_nbs_color_name: "red".to_string(),
+///     iscc_nbs_formatter: Some("vivid {0}".to_string()),
+///     alt_color_name: "red".to_string(),
+///     color_shade: "medium".to_string(),
+/// };
+///
+/// // Generate formatted descriptor
+/// let descriptor = metadata.iscc_nbs_descriptor();
+/// println!("Descriptor: {}", descriptor); // "vivid red"
+/// # Ok(())
+/// # }
+/// ```
 #[derive(Debug, Clone)]
 pub struct ColorMetadata {
-    /// ISCC-NBS color name from CSV 'iscc_nbs_color_name' column (e.g., "pink")
+    /// Base color name from ISCC-NBS data (e.g., "red", "blue", "yellow").
+    ///
+    /// This is the core color term that gets formatted with modifiers
+    /// like "vivid", "dark", "light", etc.
     pub iscc_nbs_color_name: String,
-    /// ISCC-NBS formatter from CSV 'iscc_nbs_formatter' column (e.g., "vivid {0}")
+    
+    /// Formatter template with placeholders for dynamic descriptor construction.
+    ///
+    /// Contains templates like "vivid {0}", "light {1}", where:
+    /// - `{0}` is replaced with the base color name
+    /// - `{1}` is replaced with the "-ish" variant (e.g., "reddish")
     pub iscc_nbs_formatter: Option<String>,
-    /// Alternative color name from CSV 'alt_color_name' column (e.g., "pink")
+    
+    /// Alternative color name for variations in nomenclature.
+    ///
+    /// Provides alternative names for the same color concept,
+    /// allowing for different naming conventions or regional preferences.
     pub alt_color_name: String,
-    /// Color shade from CSV 'color_shade' column
+    
+    /// Color shade information describing lightness/darkness characteristics.
+    ///
+    /// Indicates the relative brightness category such as "light", "dark",
+    /// "medium", or other shade descriptors.
     pub color_shade: String,
 }
 
 impl ColorMetadata {
-    /// Construct the ISCC-NBS descriptor on the fly using the internal formatter
+    /// Construct the primary ISCC-NBS descriptor using the formatter and color name.
+    ///
+    /// Applies the formatter template to the primary color name, creating
+    /// standardized ISCC-NBS color descriptions.
+    ///
+    /// # Returns
+    /// Formatted color descriptor string (e.g., "vivid red", "light blue")
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::iscc::ColorMetadata;
+    /// 
+    /// let metadata = ColorMetadata {
+    ///     iscc_nbs_color_name: "red".to_string(),
+    ///     iscc_nbs_formatter: Some("vivid {0}".to_string()),
+    ///     alt_color_name: "red".to_string(),
+    ///     color_shade: "bright".to_string(),
+    /// };
+    /// 
+    /// assert_eq!(metadata.iscc_nbs_descriptor(), "vivid red");
+    /// ```
     pub fn iscc_nbs_descriptor(&self) -> String {
         if let Some(formatter) = &self.iscc_nbs_formatter {
             Self::construct_descriptor(formatter, &self.iscc_nbs_color_name)
@@ -28,7 +119,27 @@ impl ColorMetadata {
         }
     }
 
-    /// Construct the alternative color descriptor on the fly using the internal formatter
+    /// Construct the alternative color descriptor using the formatter and alternative name.
+    ///
+    /// Similar to [`iscc_nbs_descriptor`](Self::iscc_nbs_descriptor) but uses the
+    /// alternative color name, providing variant naming options.
+    ///
+    /// # Returns
+    /// Formatted alternative color descriptor string
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::iscc::ColorMetadata;
+    /// 
+    /// let metadata = ColorMetadata {
+    ///     iscc_nbs_color_name: "red".to_string(),
+    ///     iscc_nbs_formatter: Some("deep {0}".to_string()),
+    ///     alt_color_name: "crimson".to_string(),
+    ///     color_shade: "dark".to_string(),
+    /// };
+    /// 
+    /// assert_eq!(metadata.alt_color_descriptor(), "deep crimson");
+    /// ```
     pub fn alt_color_descriptor(&self) -> String {
         if let Some(formatter) = &self.iscc_nbs_formatter {
             Self::construct_descriptor(formatter, &self.alt_color_name)
@@ -37,12 +148,54 @@ impl ColorMetadata {
         }
     }
 
-    /// Get the shade (loaded from CSV)
+    /// Get the color shade information.
+    ///
+    /// Returns the shade descriptor indicating the relative lightness/darkness
+    /// characteristics of the color.
+    ///
+    /// # Returns
+    /// Reference to the shade descriptor string
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::iscc::ColorMetadata;
+    /// 
+    /// let metadata = ColorMetadata {
+    ///     iscc_nbs_color_name: "blue".to_string(),
+    ///     iscc_nbs_formatter: None,
+    ///     alt_color_name: "blue".to_string(),
+    ///     color_shade: "light".to_string(),
+    /// };
+    /// 
+    /// assert_eq!(metadata.shade(), "light");
+    /// ```
     pub fn shade(&self) -> &str {
         &self.color_shade
     }
 
-    /// Static descriptor construction using CSV format strings and -ish dictionary lookup
+    /// Static descriptor construction using formatter templates and color name lookup.
+    ///
+    /// This method processes formatter templates containing placeholders:
+    /// - `{0}` is replaced with the provided color name
+    /// - `{1}` is replaced with the "-ish" variant (e.g., "red" → "reddish")
+    ///
+    /// # Arguments
+    /// * `formatter` - Template string with `{0}` and/or `{1}` placeholders
+    /// * `color_name` - Base color name to substitute into template
+    ///
+    /// # Returns
+    /// Formatted descriptor with placeholders replaced
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::iscc::ColorMetadata;
+    /// 
+    /// let result = ColorMetadata::construct_descriptor("vivid {0}", "red");
+    /// assert_eq!(result, "vivid red");
+    /// 
+    /// let result = ColorMetadata::construct_descriptor("light {1}", "blue");
+    /// assert_eq!(result, "light bluish");
+    /// ```
     pub fn construct_descriptor(formatter: &str, color_name: &str) -> String {
         let color_name_ish = get_color_ish(color_name);
         
@@ -53,35 +206,128 @@ impl ColorMetadata {
     }
 }
 
-/// Internal representation of an ISCC-NBS color category with its polygonal region
+/// Internal representation of an ISCC-NBS color category with its polygonal region.
+///
+/// Each ISCC-NBS color is defined by a polygon in Munsell value-chroma space,
+/// bounded by specific hue ranges. This struct represents one such color region.
+///
+/// # Fields
+/// - `color_number`: Unique ISCC-NBS identifier (1-267)
+/// - `polygon_group`: Group number for colors with multiple disconnected regions
+/// - `hue_range`: Start and end hues defining the applicable hue range
+/// - `polygon`: Geometric polygon defining the valid value-chroma region
 #[derive(Debug, Clone)]
 pub struct ISCC_NBS_Color {
-    /// Color number from ISCC-NBS standard - used to lookup metadata
+    /// Color number from ISCC-NBS standard (1-267).
+    ///
+    /// This unique identifier corresponds to specific color names
+    /// in the ISCC-NBS system and is used for metadata lookup.
     pub color_number: u16,
-    /// Polygon group number (for colors with multiple regions)
+    
+    /// Polygon group number for colors with multiple disconnected regions.
+    ///
+    /// Some ISCC-NBS colors are defined by multiple separate polygons.
+    /// This field groups polygons belonging to the same color category.
     pub polygon_group: u8,
-    /// Hue range (e.g., "1R", "7R") - will be split into adjacent planes
+    
+    /// Hue range defining the applicable Munsell hue span.
+    ///
+    /// Tuple containing (start_hue, end_hue) such as ("1R", "7R"),
+    /// indicating this color definition applies to hues from 1R through 7R.
     pub hue_range: (String, String),
-    /// Polygon defining the color region in Munsell value-chroma space
+    
+    /// Geometric polygon defining the color region in Munsell value-chroma space.
+    ///
+    /// Points in this polygon represent valid (value, chroma) coordinates
+    /// for this color within the specified hue range.
     pub polygon: Polygon<f64>,
 }
 
-/// ISCC-NBS color naming engine with proper boundary disambiguation and caching
+/// ISCC-NBS color naming engine with deterministic boundary handling and performance caching.
+///
+/// This classifier translates Munsell color specifications into standardized
+/// ISCC-NBS color names using a mechanical wedge system for precise hue-based
+/// categorization and polygon containment testing.
+///
+/// # Architecture
+///
+/// The classifier uses a two-stage approach:
+/// 1. **Hue-based wedge selection**: Determines which hue wedge contains the color
+/// 2. **Polygon containment testing**: Tests if the (value, chroma) point falls
+///    within any color polygons in that wedge
+///
+/// # Thread Safety
+///
+/// This struct is thread-safe and can be shared across multiple threads using
+/// `Arc<T>`. The internal cache uses `RwLock` for concurrent access.
+///
+/// # Examples
+///
+/// ```rust
+/// use munsellspace::ISCC_NBS_Classifier;
+///
+/// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+/// let classifier = ISCC_NBS_Classifier::new()?;
+///
+/// // Classify a Munsell color specification
+/// let color_name = classifier.classify_munsell("5R", 5.0, 12.0)?;
+/// println!("5R 5.0/12.0 is: {}", color_name.iscc_nbs_descriptor());
+/// # Ok(())
+/// # }
+/// ```
 pub struct ISCC_NBS_Classifier {
-    /// Mechanical wedge system for deterministic hue-based classification
+    /// Mechanical wedge system providing deterministic hue-based classification.
+    ///
+    /// Divides the complete Munsell hue circle into 100 wedge containers,
+    /// each containing the relevant color polygons for that hue range.
     pub wedge_system: crate::mechanical_wedges::MechanicalWedgeSystem,
-    /// Metadata lookup table - stores metadata once per color number instead of duplicating in each wedge
+    
+    /// Metadata lookup table mapping color numbers to descriptive information.
+    ///
+    /// Stores color names, formatters, and alternative names indexed by
+    /// ISCC-NBS color number, avoiding duplication across wedges.
     color_metadata: HashMap<u16, ColorMetadata>,
-    /// Small LRU cache for successive lookups without repeated searches (thread-safe)
-    cache: Arc<RwLock<HashMap<(String, i32, i32), Option<u16>>>>, // (hue, value_scaled, chroma_scaled) -> color_number
-    /// Maximum cache size
+    
+    /// Thread-safe LRU cache for performance optimization.
+    ///
+    /// Caches recent classification results using (hue, scaled_value, scaled_chroma)
+    /// as keys, mapped to optional color numbers. Uses scaled integer values
+    /// for reliable floating-point key hashing.
+    cache: Arc<RwLock<HashMap<(String, i32, i32), Option<u16>>>>,
+    
+    /// Maximum number of entries to retain in the cache.
+    ///
+    /// When the cache exceeds this size, older entries are evicted to
+    /// maintain reasonable memory usage.
     cache_max_size: usize,
 }
 
 // Embedded ISCC-NBS polygon data is now in constants module - no CSV loading needed
 
 impl ISCC_NBS_Classifier {
-    /// Create a new ISCC-NBS classifier using embedded data.
+    /// Create a new ISCC-NBS classifier using embedded color data.
+    ///
+    /// Initializes the classifier by loading embedded ISCC-NBS color definitions
+    /// and distributing them into a mechanical wedge system for efficient
+    /// hue-based classification.
+    ///
+    /// # Returns
+    /// Result containing the initialized classifier or an error if data loading fails
+    ///
+    /// # Errors
+    /// Returns [`MunsellError::ReferenceDataError`] if embedded color data
+    /// cannot be loaded or parsed.
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::ISCC_NBS_Classifier;
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = ISCC_NBS_Classifier::new()?;
+    /// println!("Classifier initialized with embedded ISCC-NBS data");
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn new() -> Result<Self, MunsellError> {
         let (colors, color_metadata) = Self::load_embedded_iscc_data()?;
         let mut wedge_system = MechanicalWedgeSystem::new();
