@@ -26,6 +26,7 @@
 //! - **99.98% Accuracy**: Validated against complete reference dataset (4,006/4,007 exact matches)
 //! - **High Performance**: 4,000+ colors/second batch processing
 //! - **Scientific Precision**: Reference data lookup with intelligent interpolation
+//! - **Thread Safety**: Full support for concurrent usage with `Send + Sync` implementations
 //! - **Zero Dependencies**: Pure implementation with minimal external requirements
 //! - **Comprehensive Testing**: Full test suite with accuracy validation
 //!
@@ -38,6 +39,55 @@
 //! - **Chroma**: Saturation from 0 (neutral) to 15+ (vivid)
 //!
 //! Example: `5R 4.0/14.0` = medium red (5R) with medium lightness (4.0) and high saturation (14.0).
+//!
+//! ## Thread Safety
+//!
+//! All public types in MunsellSpace are thread-safe and implement `Send + Sync`. You can
+//! safely share converters across multiple threads using `Arc<T>`:
+//!
+//! ```rust
+//! use munsellspace::{MunsellConverter, ISCC_NBS_Classifier};
+//! use std::sync::Arc;
+//! use std::thread;
+//!
+//! fn main() -> Result<(), Box<dyn std::error::Error>> {
+//!     // Create shared instances
+//!     let converter = Arc::new(MunsellConverter::new()?);
+//!     let classifier = Arc::new(ISCC_NBS_Classifier::new()?);
+//!     
+//!     let mut handles = vec![];
+//!     
+//!     // Spawn multiple threads for concurrent processing
+//!     for thread_id in 0..4 {
+//!         let converter_clone = Arc::clone(&converter);
+//!         let classifier_clone = Arc::clone(&classifier);
+//!         
+//!         let handle = thread::spawn(move || {
+//!             // Each thread can safely use the converters concurrently
+//!             let munsell = converter_clone.srgb_to_munsell([255, 0, 0])?;
+//!             
+//!             if let (Some(hue), Some(chroma)) = (&munsell.hue, munsell.chroma) {
+//!                 let iscc_color = classifier_clone.classify_munsell(hue, munsell.value, chroma)?;
+//!                 println!("Thread {}: {} -> {:?}", thread_id, munsell, iscc_color);
+//!             }
+//!             
+//!             Ok::<(), Box<dyn std::error::Error + Send + Sync>>(())
+//!         });
+//!         
+//!         handles.push(handle);
+//!     }
+//!     
+//!     // Wait for all threads to complete
+//!     for handle in handles {
+//!         handle.join().unwrap()?;
+//!     }
+//!     
+//!     Ok(())
+//! }
+//! ```
+//!
+//! Internal caches use `Arc<RwLock<T>>` for safe concurrent access, allowing multiple
+//! readers or exclusive writers without data races.
 
 pub mod converter;
 pub mod types;
