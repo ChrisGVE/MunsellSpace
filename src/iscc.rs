@@ -252,7 +252,7 @@ impl ISCC_NBS_Classifier {
     }
 
     /// Helper method to cache results with size management
-    fn cache_result(&self, key: (String, String, String), result: Option<u16>) {
+    fn cache_result(&self, key: (String, i32, i32), result: Option<u16>) {
         let mut cache = self.cache.write().unwrap();
 
         // Simple cache size management - remove oldest entries if needed
