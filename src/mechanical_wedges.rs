@@ -1,3 +1,60 @@
+//! Mechanical Wedge System for Deterministic ISCC-NBS Color Classification
+//!
+//! This module implements a deterministic hue-based partitioning system that divides
+//! the Munsell hue circle into 100 wedge containers for efficient color polygon
+//! distribution and lookup.
+//!
+//! # Algorithm Overview
+//!
+//! The mechanical wedge system solves the boundary ambiguity problem in ISCC-NBS
+//! classification by using a deterministic rule: **exclude starting boundary, include ending boundary**.
+//!
+//! ## Hue Sequence
+//!
+//! The system uses the complete Munsell hue sequence:
+//! ```text
+//! [1R, 2R, 3R, ..., 10R, 1YR, 2YR, ..., 10YR, 1Y, ..., 10RP]
+//! ```
+//!
+//! This creates 100 unique hue positions (10 families × 10 steps each).
+//!
+//! ## Wedge Containers
+//!
+//! Each wedge spans from one hue to the next:
+//! - `1R→2R`: Contains colors from >1R to ≤2R
+//! - `2R→3R`: Contains colors from >2R to ≤3R
+//! - `10RP→1R`: Contains colors from >10RP to ≤1R (wraparound)
+//!
+//! ## Example Classification
+//!
+//! For a polygon spanning "8R-2YR":
+//! 1. Find hue positions: 8R=7, 2YR=21
+//! 2. Generate wedge sequence: [9R→10R, 10R→1YR, 1YR→2YR]
+//! 3. Distribute polygon copies to these wedges
+//!
+//! # Thread Safety
+//!
+//! The wedge system can be safely shared across threads using `Arc<T>` as it
+//! provides read-only access to its internal structure after initialization.
+//!
+//! # Examples
+//!
+//! ```rust
+//! use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
+//!
+//! # fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! let mut wedge_system = MechanicalWedgeSystem::new();
+//!
+//! // System automatically creates all 100 wedge containers
+//! assert_eq!(wedge_system.wedge_count(), 100);
+//!
+//! // Find which wedge contains a specific hue
+//! let wedge_key = wedge_system.find_wedge_for_hue("5R")?;
+//! println!("5R belongs to wedge: {}", wedge_key);
+//! # Ok(())
+//! # }
+//! ```
+
 use std::collections::HashMap;
 use crate::{MunsellError, Result};
 use crate::iscc::ISCC_NBS_Color;
@@ -6,20 +63,96 @@ use geo::CoordsIter;
 // Method 2 is the only method used: Excludes starting boundary, includes ending boundary
 // Example: "8R-2YR" -> [9R, 10R, 1YR, 2YR]
 
-/// Mechanical hue wedge distribution system for ISCC-NBS classification
-/// Implements the deterministic approach outlined in ALGO.md
+/// Mechanical hue wedge distribution system for deterministic ISCC-NBS classification.
+///
+/// This system partitions the complete Munsell hue circle into 100 wedge containers,
+/// each responsible for a specific hue range. It implements deterministic boundary
+/// handling to ensure consistent color classification.
+///
+/// # Architecture
+///
+/// The system maintains three key data structures:
+/// - **Wedge containers**: 100 HashMap entries, each containing color polygons for a hue range
+/// - **Hue sequence**: Ordered list of all 100 Munsell hues (1R through 10RP)
+/// - **Position lookup**: Fast mapping from hue strings to sequence positions
+///
+/// # Boundary Rules
+///
+/// Uses "exclude start, include end" rule for deterministic classification:
+/// - Hue exactly at wedge start: belongs to *previous* wedge
+/// - Hue exactly at wedge end: belongs to *current* wedge
+///
+/// This eliminates ambiguity when colors fall exactly on wedge boundaries.
+///
+/// # Performance
+///
+/// - **Initialization**: O(1) - creates empty containers for all 100 wedges
+/// - **Polygon distribution**: O(n×m) where n=polygons, m=average wedges per polygon
+/// - **Hue lookup**: O(1) - HashMap-based position lookup
+/// - **Classification**: O(k) where k=polygons in target wedge
+///
+/// # Examples
+///
+/// ```rust
+/// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
+///
+/// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+/// let mut system = MechanicalWedgeSystem::new();
+///
+/// // Check total wedge count
+/// assert_eq!(system.wedge_count(), 100);
+///
+/// // Find wedge for specific hue
+/// let wedge = system.find_wedge_for_hue("5R")?;
+/// println!("5R is in wedge: {}", wedge);
+/// # Ok(())
+/// # }
+/// ```
 pub struct MechanicalWedgeSystem {
-    /// All 100 wedge containers (e.g., "1R→2R", "2R→3R", etc.)
+    /// Map of wedge identifiers to color polygon containers.
+    ///
+    /// Keys are formatted as "StartHue→EndHue" (e.g., "1R→2R", "10RP→1R").
+    /// Values are vectors containing all ISCC-NBS color polygons that
+    /// overlap with that wedge's hue range.
     wedge_containers: HashMap<String, Vec<ISCC_NBS_Color>>,
-    /// Ordered sequence of all Munsell hue references  
+    
+    /// Complete ordered sequence of Munsell hue references.
+    ///
+    /// Contains all 100 Munsell hues in canonical order:
+    /// [1R, 2R, ..., 10R, 1YR, 2YR, ..., 10YR, 1Y, ..., 10RP]
     hue_sequence: Vec<String>,
-    /// Quick lookup from hue to sequence position
+    
+    /// Fast lookup table mapping hue strings to sequence positions.
+    ///
+    /// Enables O(1) position lookup for hue range calculations
+    /// without linear search through the hue sequence.
     hue_to_position: HashMap<String, usize>,
 }
 
 impl MechanicalWedgeSystem {
-    /// Create new mechanical wedge system with all 100 wedge containers
-    /// Uses the optimal method: excludes starting boundary, includes ending boundary
+    /// Create a new mechanical wedge system with all 100 wedge containers.
+    ///
+    /// Initializes the complete wedge system by:
+    /// 1. Creating the canonical 100-hue Munsell sequence
+    /// 2. Building fast position lookup tables
+    /// 3. Creating empty wedge containers for all hue ranges
+    ///
+    /// Uses the deterministic boundary rule: excludes starting boundary, includes ending boundary.
+    ///
+    /// # Returns
+    /// Fully initialized wedge system ready for polygon distribution
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
+    ///
+    /// let system = MechanicalWedgeSystem::new();
+    /// assert_eq!(system.wedge_count(), 100);
+    /// 
+    /// // System includes all standard Munsell families
+    /// let families = ["R", "YR", "Y", "GY", "G", "BG", "B", "PB", "P", "RP"];
+    /// // Each family has 10 hue steps (1-10), totaling 100 unique hues
+    /// ```
     pub fn new() -> Self {
         let hue_sequence = Self::create_reference_hue_sequence();
         let hue_to_position = Self::create_position_lookup(&hue_sequence);
@@ -68,8 +201,38 @@ impl MechanicalWedgeSystem {
         containers
     }
     
-    /// Distribute a polygon into appropriate wedge containers
-    /// For polygon spanning hue1 to hue2, copies go into all wedges in that range
+    /// Distribute a color polygon into appropriate wedge containers.
+    ///
+    /// Takes an ISCC-NBS color polygon and distributes copies into all wedge
+    /// containers that overlap with the polygon's hue range. This enables
+    /// efficient hue-based color classification.
+    ///
+    /// # Arguments
+    /// * `polygon` - ISCC-NBS color with defined hue range and geometric polygon
+    ///
+    /// # Returns
+    /// Result indicating success or failure of polygon distribution
+    ///
+    /// # Errors
+    /// Returns [`MunsellError::ConversionError`] if:
+    /// - Polygon hue range cannot be parsed
+    /// - Hue values are not found in the standard Munsell sequence
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
+    /// // Note: ISCC_NBS_Color construction requires internal data
+    /// // This example shows the conceptual usage
+    /// 
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let mut system = MechanicalWedgeSystem::new();
+    /// 
+    /// // Polygon distribution happens internally during classifier initialization
+    /// // Each polygon gets copied to all overlapping wedge containers
+    /// assert_eq!(system.wedge_count(), 100);
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn distribute_polygon(&mut self, polygon: ISCC_NBS_Color) -> Result<()> {
         let (start_hue, end_hue) = Self::parse_polygon_hue_range(&polygon)?;
         let wedge_keys = self.find_wedges_in_range(&start_hue, &end_hue)?;
@@ -129,8 +292,37 @@ impl MechanicalWedgeSystem {
         Ok(wedge_keys)
     }
     
-    /// Find all ISCC-NBS colors that contain the given point.
-    /// Returns all overlapping colors, useful for detecting polygon overlaps.
+    /// Find all ISCC-NBS colors that contain the given Munsell point.
+    ///
+    /// Searches for all color polygons that contain the specified (hue, value, chroma)
+    /// coordinate. This is useful for detecting polygon overlaps or finding multiple
+    /// valid color names for a single point.
+    ///
+    /// # Arguments
+    /// * `hue` - Munsell hue string (e.g., "5R", "2.5YR")
+    /// * `value` - Munsell value (0.0-10.0, lightness)
+    /// * `chroma` - Munsell chroma (0.0+, saturation)
+    ///
+    /// # Returns
+    /// Vector of ISCC-NBS color numbers that contain this point, sorted and deduplicated
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let system = MechanicalWedgeSystem::new();
+    ///
+    /// // Find all colors containing this point
+    /// let colors = system.find_all_colors_at_point("5R", 5.0, 12.0);
+    /// println!("Found {} overlapping colors", colors.len());
+    ///
+    /// // Multiple colors may contain the same point due to:
+    /// // - Boundary overlaps between adjacent colors
+    /// // - Colors with multiple disconnected regions
+    /// # Ok(())
+    /// # }
+    /// ```
     pub fn find_all_colors_at_point(&self, hue: &str, value: f64, chroma: f64) -> Vec<u16> {
         // 1. Find the containing wedge for this hue
         let wedge_key = match self.find_containing_wedge(hue) {
@@ -160,7 +352,40 @@ impl MechanicalWedgeSystem {
         matching_colors
     }
     
-    /// Classify a color by finding its containing wedge and searching within it
+    /// Classify a Munsell color by finding the first matching ISCC-NBS color polygon.
+    ///
+    /// Performs efficient two-stage classification:
+    /// 1. **Hue-based wedge selection**: O(1) lookup to find the correct wedge container
+    /// 2. **Polygon containment testing**: O(k) search within the wedge's polygons
+    ///
+    /// Returns the first matching polygon, which is sufficient for most applications.
+    /// For finding all overlapping colors, use [`find_all_colors_at_point`](Self::find_all_colors_at_point).
+    ///
+    /// # Arguments
+    /// * `hue` - Munsell hue string (e.g., "5R", "2.5YR", "10GY")
+    /// * `value` - Munsell value (0.0-10.0, lightness)
+    /// * `chroma` - Munsell chroma (0.0+, saturation)
+    ///
+    /// # Returns
+    /// Reference to the first ISCC-NBS color polygon containing this point, or `None`
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let system = MechanicalWedgeSystem::new();
+    ///
+    /// // Classify a specific Munsell color
+    /// if let Some(color) = system.classify_color("5R", 5.0, 12.0) {
+    ///     println!("Color number: {}", color.color_number);
+    ///     println!("Hue range: {:?}", color.hue_range);
+    /// } else {
+    ///     println!("No ISCC-NBS color found for this point");
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
     #[inline]
     pub fn classify_color(&self, hue: &str, value: f64, chroma: f64) -> Option<&ISCC_NBS_Color> {
         // 1. Find the containing wedge for this hue
@@ -236,7 +461,28 @@ impl MechanicalWedgeSystem {
         Ok((number, family_str.to_string()))
     }
     
-    /// Find which wedge a given hue belongs to
+    /// Find which wedge contains a given hue.
+    ///
+    /// Determines the appropriate wedge container for a Munsell hue by parsing
+    /// the hue notation and applying the mechanical wedge boundary rules.
+    ///
+    /// # Arguments
+    /// * `hue` - Munsell hue string (e.g., "5R", "2.5YR", "10.3GY")
+    ///
+    /// # Returns
+    /// Optional wedge key in format "StartHue→EndHue", or `None` if hue is invalid
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
+    ///
+    /// let system = MechanicalWedgeSystem::new();
+    ///
+    /// // Find wedge for specific hues
+    /// assert_eq!(system.find_wedge_for_hue("1.5R"), Some("1R→2R".to_string()));
+    /// assert_eq!(system.find_wedge_for_hue("5R"), Some("5R→6R".to_string()));
+    /// assert_eq!(system.find_wedge_for_hue("10RP"), Some("10RP→1R".to_string()));
+    /// ```
     pub fn find_wedge_for_hue(&self, hue: &str) -> Option<String> {
         // Parse hue like "5.2R" or "10YR"
         let (hue_num, family) = self.parse_hue(hue).ok()?;
@@ -248,9 +494,49 @@ impl MechanicalWedgeSystem {
         Some(format!("{}→{}", start_ref, end_ref))
     }
     
-    /// Get polygons in a specific wedge
+    /// Get all color polygons in a specific wedge container.
+    ///
+    /// Returns a reference to the vector of ISCC-NBS color polygons stored
+    /// in the specified wedge container.
+    ///
+    /// # Arguments
+    /// * `wedge_key` - Wedge identifier in format "StartHue→EndHue"
+    ///
+    /// # Returns
+    /// Reference to vector of color polygons in the wedge, or `None` if wedge doesn't exist
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
+    ///
+    /// let system = MechanicalWedgeSystem::new();
+    ///
+    /// // Get polygons from a specific wedge
+    /// if let Some(polygons) = system.get_wedge_polygons("5R→6R") {
+    ///     println!("Found {} polygons in 5R→6R wedge", polygons.len());
+    /// }
+    /// ```
     pub fn get_wedge_polygons(&self, wedge_key: &str) -> Option<&Vec<ISCC_NBS_Color>> {
         self.wedge_containers.get(wedge_key)
+    }
+    
+    /// Get the total number of wedge containers.
+    ///
+    /// Returns the total count of wedge containers in the system.
+    /// This should always be 100 for a complete Munsell hue system.
+    ///
+    /// # Returns
+    /// Total number of wedge containers (always 100 for standard Munsell system)
+    ///
+    /// # Examples
+    /// ```rust
+    /// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
+    ///
+    /// let system = MechanicalWedgeSystem::new();
+    /// assert_eq!(system.wedge_count(), 100);
+    /// ```
+    pub fn wedge_count(&self) -> usize {
+        self.wedge_containers.len()
     }
     
     /// Find the reference hues that bracket a given hue value
