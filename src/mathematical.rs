@@ -920,18 +920,18 @@ impl MathematicalMunsellConverter {
         let mut hue_current = initial_spec.0;
         let mut code_current = initial_spec.1;
         let mut chroma_current = initial_spec.2;  // No additional scaling needed
-        eprintln!("  Initial guess: hue={:.6}, code={}, chroma={:.6}", hue_current, code_current, chroma_current);
+        // eprintln!("  Initial guess: hue={:.6}, code={}, chroma={:.6}", hue_current, code_current, chroma_current);
         
         // Note: rho_input and phi_input already calculated above relative to achromatic center
         // Don't recalculate them here!
         
-        eprintln!("\n  Starting main loop (max {} iterations)...", MAX_OUTER_ITERATIONS);
+        // eprintln!("\n  Starting main loop (max {} iterations)...", MAX_OUTER_ITERATIONS);
         
         // Step 4: DUAL-LOOP ITERATIVE ALGORITHM
         for outer_iteration in 0..MAX_OUTER_ITERATIONS {
             if (outer_iteration < 5 || outer_iteration >= MAX_OUTER_ITERATIONS - 2) && is_debug_color {  // Trace first 5 and last 2 iterations
-                eprintln!("\n--- Iteration {} ---", outer_iteration);
-                eprintln!("Current: hue={:.6}, code={}, chroma={:.6}", hue_current, code_current, chroma_current);
+                // eprintln!("\n--- Iteration {} ---", outer_iteration);
+                // eprintln!("Current: hue={:.6}, code={}, chroma={:.6}", hue_current, code_current, chroma_current);
             }
             
             // Check maximum chroma boundaries
@@ -1155,8 +1155,8 @@ impl MathematicalMunsellConverter {
                     let power = iterations_inner as f64;
                     let result = ratio.powf(power) * chroma_current;
                     if outer_iteration == 0 && iterations_inner <= 2 {
-                        eprintln!("    Chroma scaling: rho_input={:.6}, rho_current={:.6}, ratio={:.3}, power={}, chroma_current={:.3} -> chroma_inner={:.3}",
-                                 rho_input, rho_current_new, ratio, power, chroma_current, result);
+                        // eprintln!("    Chroma scaling: rho_input={:.6}, rho_current={:.6}, ratio={:.3}, power={}, chroma_current={:.3} -> chroma_inner={:.3}",
+                        //          rho_input, rho_current_new, ratio, power, chroma_current, result);
                     }
                     result
                 } else {
@@ -1199,15 +1199,15 @@ impl MathematicalMunsellConverter {
                 let sorted_chroma: Vec<f64> = paired.iter().map(|&(_, c)| c).collect();
                 
                 if outer_iteration < 2 {
-                    eprintln!("  Chroma interpolation: rho_input={:.6}", rho_input);
-                    eprintln!("    rho_bounds: {:?}", sorted_rho);
-                    eprintln!("    chroma_bounds: {:?}", sorted_chroma);
+                    // eprintln!("  Chroma interpolation: rho_input={:.6}", rho_input);
+                    // eprintln!("    rho_bounds: {:?}", sorted_rho);
+                    // eprintln!("    chroma_bounds: {:?}", sorted_chroma);
                 }
                 
                 let interpolated = self.linear_interpolate(&sorted_rho, &sorted_chroma, rho_input)?;
                 
                 if outer_iteration < 2 {
-                    eprintln!("    -> interpolated chroma: {:.3}", interpolated);
+                    // eprintln!("    -> interpolated chroma: {:.3}", interpolated);
                 }
                 
                 // Prevent negative chromas - they're physically impossible
@@ -1220,14 +1220,14 @@ impl MathematicalMunsellConverter {
             
             // Step 5: Convergence check
             if outer_iteration < 5 {
-                eprintln!("  Getting xy for: hue={:.3}, value={:.3}, chroma={:.3}, code={}", 
-                         hue_current, value, chroma_current, code_current);
+                // eprintln!("  Getting xy for: hue={:.3}, value={:.3}, chroma={:.3}, code={}", 
+                //          hue_current, value, chroma_current, code_current);
             }
             let (x_final, y_final) = self.munsell_specification_to_xy(hue_current, value, chroma_current, code_current)?;
             let difference = ((xyy.x - x_final).powi(2) + (xyy.y - y_final).powi(2)).sqrt();
             if outer_iteration < 5 {  // Show convergence check for first few iterations
-                eprintln!("Convergence check: target=({:.6}, {:.6}), current=({:.6}, {:.6}), diff={:.8} vs threshold={:.8}", 
-                         xyy.x, xyy.y, x_final, y_final, difference, CONVERGENCE_THRESHOLD);
+                // eprintln!("Convergence check: target=({:.6}, {:.6}), current=({:.6}, {:.6}), diff={:.8} vs threshold={:.8}", 
+                //          xyy.x, xyy.y, x_final, y_final, difference, CONVERGENCE_THRESHOLD);
             }
             
             if difference < CONVERGENCE_THRESHOLD {
