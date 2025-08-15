@@ -1,26 +1,29 @@
 # MunsellSpace 🎨
 
-High-precision **sRGB to Munsell color space conversion** with **99.98% reference accuracy**.
+High-precision **sRGB to Munsell color space conversion** library with **ISCC-NBS color naming system** support.
 
 [![Crates.io](https://img.shields.io/crates/v/munsellspace.svg)](https://crates.io/crates/munsellspace)
-[![PyPI version](https://badge.fury.io/py/munsellspace.svg)](https://badge.fury.io/py/munsellspace)
 [![Documentation](https://docs.rs/munsellspace/badge.svg)](https://docs.rs/munsellspace)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/chrisgve/MunsellSpace/ci.yml?branch=main)](https://github.com/chrisgve/MunsellSpace/actions)
 
-This library provides the most accurate open-source implementation for converting RGB colors to Munsell notation, validated against the complete 4,007-color reference dataset with 99.98% accuracy.
+## Overview
+
+MunsellSpace is a high-performance Rust library for converting sRGB colors to Munsell color notation and ISCC-NBS color names. This implementation is based on the mathematical algorithms from the [Python Colour Science library](https://github.com/colour-science/colour), providing accurate color space transformations with comprehensive thread safety support.
 
 ## ✨ Features
 
-- **99.98% Accuracy**: Validated against complete reference dataset (4,006/4,007 exact matches)
-- **High Performance**: 4,000+ colors/second batch processing
-- **Scientific Precision**: Reference data lookup with intelligent interpolation
-- **Dual APIs**: Both Rust crate and Python package available
-- **Zero Dependencies**: Pure implementation with minimal external requirements
-- **Comprehensive Testing**: Full test suite with accuracy validation
+- **High-Precision Conversion**: Multiple mathematical conversion algorithms with configurable illuminants
+- **ISCC-NBS Classification**: Convert colors to standardized ISCC-NBS color names (267 categories)
+- **Multiple Illuminants**: Support for C, D65, and F7 illuminants with chromatic adaptation
+- **Thread-Safe Architecture**: Full `Send + Sync` support for concurrent processing
+- **Comprehensive API**: Support for RGB, Lab, and hex color input formats
+- **Performance Optimized**: Efficient caching and parallel processing capabilities
+- **Scientific Accuracy**: Based on established color science algorithms and standards
 
 ## 🚀 Quick Start
 
-### Rust
+### Installation
 
 Add to your `Cargo.toml`:
 
@@ -29,82 +32,125 @@ Add to your `Cargo.toml`:
 munsellspace = "1.0"
 ```
 
+### Basic Usage
+
 ```rust
-use munsellspace::MunsellConverter;
+use munsellspace::{MunsellConverter, ISCC_NBS_Classifier};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Create converter for Munsell notation
     let converter = MunsellConverter::new()?;
     
     // Convert RGB to Munsell
     let munsell = converter.srgb_to_munsell([255, 0, 0])?;
     println!("Pure red: {}", munsell); // Output: 7.9R 5.2/20.5
     
+    // Create ISCC-NBS classifier
+    let classifier = ISCC_NBS_Classifier::new()?;
+    
+    // Classify color to ISCC-NBS name
+    let color_name = classifier.classify_rgb([255, 0, 0])?;
+    println!("Color name: {:?}", color_name); // Output: vivid red
+    
     Ok(())
 }
 ```
 
-### Python
+## 📊 Color Systems
 
-Install from PyPI:
-
-```bash
-pip install munsellspace
-```
-
-```python
-import munsellspace
-
-# Create converter
-converter = munsellspace.MunsellConverter()
-
-# Convert RGB to Munsell
-red = converter.srgb_to_munsell([255, 0, 0])
-print(f"Pure red: {red}")  # Output: Pure red: 7.9R 5.2/20.5
-```
-
-## 📊 About Munsell Color Space
+### Munsell Color System
 
 The [Munsell color system](https://en.wikipedia.org/wiki/Munsell_color_system) describes colors using three perceptually uniform dimensions:
 
 - **Hue**: Color family (R, YR, Y, GY, G, BG, B, PB, P, RP)
 - **Value**: Lightness from 0 (black) to 10 (white)
-- **Chroma**: Saturation from 0 (neutral) to 15+ (vivid)
+- **Chroma**: Saturation from 0 (neutral) to variable maximum
 
-**Example**: `5R 4.0/14.0` = medium red (5R) with medium lightness (4.0) and high saturation (14.0).
+**Notation Format**: `HUE VALUE/CHROMA` (e.g., `5R 4.0/14.0`)
 
-## 🔬 Scientific Accuracy
+### ISCC-NBS Color System
 
-The library achieves 99.98% accuracy through:
+The Inter-Society Color Council - National Bureau of Standards (ISCC-NBS) system provides standardized color names for 267 distinct color categories. Each color is defined by:
 
-- **Reference Dataset**: 4,007 scientifically validated sRGB ↔ Munsell mappings
-- **Exact Matching**: Direct lookup for known colors  
-- **Nearest Neighbor**: Euclidean distance matching for unknown colors
-- **Stability Testing**: 100% success rate on 10,000 interpolated colors
-- **Edge Case Handling**: Proper neutral color and gamut boundary handling
+- Numerical identifier (1-267)
+- Descriptive name (e.g., "vivid red", "light grayish blue")
+- Polygonal region in Munsell color space
 
-## 📁 Repository Structure
+## 🔬 Technical Details
 
+### Mathematical Conversion Pipeline
+
+The library implements a sophisticated color conversion pipeline:
+
+1. **sRGB → Linear RGB**: Gamma correction removal
+2. **Linear RGB → XYZ**: Color space transformation (ITU-R BT.709)
+3. **XYZ → xyY**: Chromaticity and luminance separation
+4. **Chromatic Adaptation**: Optional adaptation between illuminants
+5. **xyY → Munsell**: Mathematical transformation to Munsell notation
+6. **Munsell → ISCC-NBS**: Geometric point-in-polygon classification
+
+### Supported Illuminants
+
+- **C**: Traditional daylight (used in original Munsell specifications)
+- **D65**: Standard daylight (sRGB native illuminant)
+- **F7**: Fluorescent light source
+
+### Chromatic Adaptation Methods
+
+- **XYZ Scaling**: Simple von Kries transformation
+- **Bradford**: More sophisticated adaptation matrix
+- **CAT02**: Advanced chromatic adaptation transform
+
+## 🔒 Thread Safety
+
+All public types implement `Send + Sync` for safe concurrent usage:
+
+```rust
+use munsellspace::{MunsellConverter, ISCC_NBS_Classifier};
+use std::sync::Arc;
+use std::thread;
+
+let converter = Arc::new(MunsellConverter::new()?);
+let classifier = Arc::new(ISCC_NBS_Classifier::new()?);
+
+let mut handles = vec![];
+
+for thread_id in 0..4 {
+    let conv = Arc::clone(&converter);
+    let class = Arc::clone(&classifier);
+    
+    let handle = thread::spawn(move || {
+        let munsell = conv.srgb_to_munsell([255, 0, 0])?;
+        let color_name = class.classify_rgb([255, 0, 0])?;
+        println!("Thread {}: {} -> {:?}", thread_id, munsell, color_name);
+        Ok::<(), Box<dyn std::error::Error + Send + Sync>>(())
+    });
+    
+    handles.push(handle);
+}
+
+for handle in handles {
+    handle.join().unwrap()?;
+}
 ```
-MunsellSpace/
-├── src/                    # Rust library source
-│   ├── lib.rs
-│   ├── converter.rs
-│   └── ...
-├── python/                 # Python package
-│   ├── munsellspace/
-│   │   ├── __init__.py
-│   │   ├── converter.py
-│   │   └── types.py
-│   ├── setup.py
-│   └── README.md
-├── data/                   # Reference datasets
-│   ├── srgb-to-munsell.csv
-│   └── reference_dataset.csv
-├── examples/               # Usage examples
-├── tests/                  # Test suites
-└── docs/                   # Documentation
 
-```
+## 📈 Performance
+
+- **Single conversion**: <1ms per color
+- **Batch processing**: 4,000+ colors/second
+- **Memory usage**: <100MB for complete reference dataset
+- **Caching**: Automatic result caching for repeated conversions
+
+## 📚 API Documentation
+
+For detailed API documentation, visit [docs.rs/munsellspace](https://docs.rs/munsellspace).
+
+Key modules:
+- `converter`: Core Munsell conversion functionality
+- `iscc`: ISCC-NBS classification system
+- `types`: Color type definitions and validation
+- `illuminants`: Illuminant definitions and adaptation
+- `mathematical`: Mathematical conversion algorithms
 
 ## 🛠️ Development
 
@@ -115,48 +161,61 @@ MunsellSpace/
 git clone https://github.com/chrisgve/MunsellSpace.git
 cd MunsellSpace
 
-# Build Rust library  
+# Build library
 cargo build --release
-
-# Install Python package in development mode
-cd python
-pip install -e .[dev]
 
 # Run tests
 cargo test
-pytest
+
+# Run benchmarks
+cargo bench
+
+# Generate documentation
+cargo doc --open
 ```
 
-### Running Tests
+### Testing
 
 ```bash
-# Rust tests
+# Run all tests
 cargo test
 
-# Python tests  
-cd python && pytest
+# Run with output
+cargo test -- --nocapture
 
-# Validate against reference dataset
-cargo run --bin validate_reference_dataset data/srgb-to-munsell.csv
+# Run specific test
+cargo test test_name
+
+# Run benchmarks
+cargo bench
 ```
 
-## 📈 Performance
+## 🙏 Acknowledgments & Credits
 
-- **Single conversion**: <1ms per color
-- **Batch processing**: 4,000+ colors/second  
-- **Memory usage**: <100MB for complete reference dataset
-- **Accuracy**: 99.98% exact matches on reference data
+This library builds upon decades of color science research and open-source contributions:
+
+### Core Algorithms
+- **[Python Colour Science](https://github.com/colour-science/colour)**: This implementation is based on the mathematical algorithms from the Python `colour-science` library, specifically the Munsell color notation conversion functions. We are deeply grateful for their comprehensive and well-documented implementation.
+
+### Scientific References
+- **Munsell Renotation Data**: Based on the original Munsell renotation studies (1943) and subsequent refinements
+- **ISCC-NBS Method of Designating Colors**: Kelly, K.L. & Judd, D.B. (1976). Color: Universal Language and Dictionary of Names
+- **CIE Standards**: International Commission on Illumination specifications for color spaces and illuminants
+- **ITU-R BT.709**: International standard for sRGB color space transformation
+
+### Data Sources
+- **Munsell Renotation Dataset**: Original renotation data from the Munsell Color Science Laboratory
+- **ISCC-NBS Definitions**: Color boundary definitions from the National Bureau of Standards
+- **Reference RGB Values**: Validated sRGB to Munsell mappings from multiple sources
+
+### Community
+- The Rust community for excellent tooling and support
+- Contributors to the color science field for their research and publications
+- Open-source maintainers who make scientific computing accessible
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Add tests for new functionality
-5. Run the test suite (`cargo test && cd python && pytest`)
-6. Commit your changes (`git commit -m 'Add amazing feature'`)
-7. Push to the branch (`git push origin feature/amazing-feature`)
-8. Open a Pull Request
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 📄 License
 
@@ -164,18 +223,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Rust Crate**: https://crates.io/crates/munsellspace
-- **Python Package**: https://pypi.org/project/munsellspace/
-- **Documentation**: https://docs.rs/munsellspace
-- **Issue Tracker**: https://github.com/chrisgve/MunsellSpace/issues
-- **Munsell Color System**: https://en.wikipedia.org/wiki/Munsell_color_system
-
-## 🙏 Acknowledgments
-
-- [Munsell Color System](https://munsell.com/) for the foundational color science
-- Reference dataset contributors and validators
-- The Rust and Python communities for excellent tooling
+- **Repository**: [github.com/chrisgve/MunsellSpace](https://github.com/chrisgve/MunsellSpace)
+- **Documentation**: [docs.rs/munsellspace](https://docs.rs/munsellspace)
+- **Issue Tracker**: [GitHub Issues](https://github.com/chrisgve/MunsellSpace/issues)
+- **Python Colour Science**: [colour-science/colour](https://github.com/colour-science/colour)
+- **Munsell Color System**: [munsell.com](https://munsell.com/)
 
 ---
 
-**MunsellSpace** - Precise color space conversion for Rust 🦀 and Python 🐍
+**MunsellSpace** - High-precision color space conversion for Rust 🦀
