@@ -708,7 +708,7 @@ impl MechanicalWedgeSystem {
     
     /// Find the horizontal segment at the given value that contains the chroma point
     /// Returns (min_chroma, max_chroma) of the segment
-    fn find_horizontal_segment_at_point(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> Option<(f64, f64)> {
+    fn _find_horizontal_segment_at_point(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> Option<(f64, f64)> {
         use geo::Coord;
         
         let coords: Vec<Coord<f64>> = polygon.polygon.exterior().coords().cloned().collect();
@@ -735,7 +735,7 @@ impl MechanicalWedgeSystem {
     
     /// Find the vertical segment at the given chroma that contains the value point
     /// Returns (min_value, max_value) of the segment
-    fn find_vertical_segment_at_point(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> Option<(f64, f64)> {
+    fn _find_vertical_segment_at_point(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> Option<(f64, f64)> {
         use geo::Coord;
         
         let coords: Vec<Coord<f64>> = polygon.polygon.exterior().coords().cloned().collect();

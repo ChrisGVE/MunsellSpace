@@ -1,4 +1,4 @@
-use munsellspace::iscc::ISCC_NBS_Classifier;
+use munsellspace::iscc::IsccNbsClassifier;
 use rayon::prelude::*;
 use std::collections::{HashMap, HashSet};
 use std::sync::{Arc, Mutex};
@@ -25,7 +25,7 @@ fn main() {
     println!("Using {} threads for parallel processing", num_threads);
     println!("(Physical + logical cores available)\n");
     
-    let classifier = match ISCC_NBS_Classifier::new() {
+    let _classifier = match IsccNbsClassifier::new() {
         Ok(c) => c,
         Err(e) => {
             eprintln!("Failed to initialize classifier: {}", e);
@@ -106,7 +106,7 @@ fn main() {
         .enumerate()
         .map(|(idx, (family, wedge_num))| {
             // Create a classifier for this thread
-            let classifier = match ISCC_NBS_Classifier::new() {
+            let classifier = match IsccNbsClassifier::new() {
                 Ok(c) => c,
                 Err(e) => {
                     eprintln!("Failed to initialize classifier in thread: {}", e);

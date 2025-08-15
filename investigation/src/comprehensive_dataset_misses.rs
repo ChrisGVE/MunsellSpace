@@ -6,7 +6,7 @@
 //! - Report Structure: Clear separation of datasets with proper accuracy calculation
 //! - Distance Calculation: Show shortest distance to correct polygon in Value/Chroma coordinates
 
-use munsellspace::iscc::ISCC_NBS_Classifier as IsccNbsClassifier;
+use munsellspace::iscc::IsccNbsClassifier;
 use munsellspace::mathematical::{
     MathematicalMunsellConverter,
     Illuminant as MathIlluminant,
@@ -19,7 +19,6 @@ use csv::ReaderBuilder;
 use serde::Deserialize;
 use geo::prelude::*;
 use geo::{Point, LineString, Polygon};
-use geo::Distance;
 
 #[derive(Debug, Deserialize, Clone)]
 struct W3IsccColor {
@@ -199,7 +198,7 @@ fn calculate_polygon_distance(
         // Calculate point-to-line distance
         for coord in line_string.coords() {
             let boundary_point = Point::new(coord.x, coord.y);
-            let dist = test_point.distance(&boundary_point);
+            let dist = test_point.euclidean_distance(&boundary_point);
             
             if dist < min_distance {
                 min_distance = dist;
@@ -230,7 +229,7 @@ fn calculate_polygon_distance(
                 start.y() + t * dy
             );
             
-            let dist = test_point.distance(&projected);
+            let dist = test_point.euclidean_distance(&projected);
             if dist < min_distance {
                 min_distance = dist;
                 closest_point = projected;

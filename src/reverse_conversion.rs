@@ -55,7 +55,7 @@ pub struct ColorFormats {
 /// Reverse conversion engine with Lab intermediate step
 pub struct ReverseConverter {
     /// Mathematical converter for Munsell operations
-    converter: MathematicalMunsellConverter,
+    _converter: MathematicalMunsellConverter,
     /// Python-compatible converter for accurate reverse conversion
     python_converter: PythonMunsellConverter,
 }
@@ -64,15 +64,15 @@ impl ReverseConverter {
     /// Create a new reverse converter with default configuration
     pub fn new() -> Result<Self> {
         Ok(Self {
-            converter: MathematicalMunsellConverter::new()?,
+            _converter: MathematicalMunsellConverter::new()?,
             python_converter: PythonMunsellConverter::new(),
         })
     }
     
     /// Create reverse converter with custom mathematical converter
-    pub fn with_converter(converter: MathematicalMunsellConverter) -> Self {
+    pub fn with_converter(_converter: MathematicalMunsellConverter) -> Self {
         Self { 
-            converter, 
+            _converter, 
             python_converter: PythonMunsellConverter::new(),
         }
     }

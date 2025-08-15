@@ -385,9 +385,9 @@ mod hue_conversions {
     /// Exact implementation from Python colour-science
     pub fn bounding_hues_from_renotation(hue: f64, code: u8) -> ((f64, u8), (f64, u8)) {
         let mut hue_cw: f64;
-        let mut code_cw: u8;
+        let code_cw: u8;
         let mut hue_ccw: f64;
-        let mut code_ccw: u8;
+        let code_ccw: u8;
 
         // Check if hue is exact multiple of 2.5
         if (hue % 2.5 - 0.0).abs() < 1e-10 {
@@ -1166,7 +1166,7 @@ impl MathematicalMunsellConverter {
                 };
                 
                 // Then normalize to [-180, 180] for circular arithmetic
-                let mut hue_angle_difference_inner = if step_mod > 180.0 {
+                let hue_angle_difference_inner = if step_mod > 180.0 {
                     step_mod - 360.0
                 } else {
                     step_mod
@@ -1532,7 +1532,6 @@ impl MathematicalMunsellConverter {
         let last_idx = x_values.len() - 1;
         let distance = (x_values[last_idx] - x_target).abs();
         if distance < best_distance {
-            best_distance = distance;
             best_result = y_values[last_idx];
         }
         
@@ -1708,7 +1707,7 @@ impl MathematicalMunsellConverter {
         for &((ref entry_family, entry_value, entry_chroma), (x, y, _y)) in self.renotation_data {
             // Check if this entry has the same family
             if entry_family.ends_with(&family) {
-                matching_entries.push((entry_family.clone(), entry_value, entry_chroma, x, y));
+                matching_entries.push(((*entry_family).to_string(), entry_value, entry_chroma, x, y));
             }
         }
         
@@ -1969,7 +1968,7 @@ impl MathematicalMunsellConverter {
     }
     
     /// Get Y luminance value from renotation data
-    fn get_y_luminance_from_renotation(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<f64> {
+    fn get_y_luminance_from_renotation(&self, _hue: f64, value: f64, chroma: f64, code: u8) -> Result<f64> {
         let family = hue_conversions::code_to_family(code);
         
         for &((ref entry_family, entry_value, entry_chroma), (_, _, y_luminance)) in self.renotation_data {
@@ -1988,11 +1987,11 @@ impl MathematicalMunsellConverter {
     }
     
     /// Get interpolation method using Python's interpolation_method_from_renotation_ovoid
-    fn get_interpolation_method(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<&'static str> {
+    fn get_interpolation_method(&self, _hue: f64, value: f64, chroma: f64, code: u8) -> Result<&'static str> {
         // This is a complex lookup from interpolation_methods::INTERPOLATION_METHODS
         // For now, implement the key logic patterns from Python
         
-        let family = hue_conversions::code_to_family(code);
+        let _family = hue_conversions::code_to_family(code);
         
         // Most common patterns from the interpolation method table
         if value <= 1.0 || chroma <= 2.0 {
@@ -2033,7 +2032,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Fallback interpolation method
-    fn interpolate_hue_chroma_to_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
+    fn interpolate_hue_chroma_to_xy(&self, _hue: f64, value: f64, _chroma: f64, _code: u8) -> Result<(f64, f64)> {
         // Use the old interpolation method as fallback
         let (_, _, _) = self.interpolate_hue_chroma(0.31006, 0.31616, value)?; // Use illuminant C as dummy
         
