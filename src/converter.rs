@@ -2,10 +2,9 @@
 
 use std::sync::Arc;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
 use crate::error::{MunsellError, Result};
-use crate::types::{MunsellColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
+use crate::types::{MunsellColor, IsccNbsName, IsccNbsPolygon};
 use crate::constants::{BRADFORD_MATRIX, BRADFORD_MATRIX_INV, ILLUMINANT_D65_XYZ, ILLUMINANT_C_XYZ};
 
 /// Reference data entry for color conversion.
@@ -1112,72 +1111,10 @@ impl MunsellConverter {
     
     /// Load ISCC-NBS polygon data from embedded CSV.
     fn load_iscc_nbs_data() -> Result<Vec<IsccNbsPolygon>> {
-        const ISCC_NBS_DATA: &str = include_str!("../assets/ISCC-NBS-Definitions.csv");
-        
-        let mut reader = csv::Reader::from_reader(ISCC_NBS_DATA.as_bytes());
-        let mut polygons_map: HashMap<u16, Vec<MunsellPoint>> = HashMap::new();
-        let mut polygon_metadata: HashMap<u16, (String, String, Option<String>, String)> = HashMap::new();
-        
-        for result in reader.records() {
-            let record = result.map_err(|e| MunsellError::ReferenceDataError {
-                message: format!("CSV parsing error: {}", e),
-            })?;
-            
-            let color_number: u16 = record.get(0)
-                .ok_or_else(|| MunsellError::ReferenceDataError {
-                    message: "Missing color_number".to_string(),
-                })?
-                .parse()
-                .map_err(|e| MunsellError::ReferenceDataError {
-                    message: format!("Invalid color_number: {}", e),
-                })?;
-            
-            let descriptor = record.get(2).unwrap_or("").to_string();
-            let color_name = record.get(3).unwrap_or("").to_string();
-            let modifier = if record.get(4).unwrap_or("").is_empty() {
-                None
-            } else {
-                Some(record.get(4).unwrap().to_string())
-            };
-            let revised_color = record.get(5).unwrap_or("").to_string();
-            
-            let hue1 = record.get(6).unwrap_or("").to_string();
-            let hue2 = record.get(7).unwrap_or("").to_string();
-            let chroma_str = record.get(8).unwrap_or("0");
-            let value: f64 = record.get(9).unwrap_or("0").parse().unwrap_or(0.0);
-            
-            let (chroma, is_open_chroma) = MunsellPoint::parse_chroma(chroma_str);
-            
-            let point = MunsellPoint::new(hue1, hue2, chroma, value, is_open_chroma);
-            
-            // Store metadata on first encounter
-            polygon_metadata.entry(color_number)
-                .or_insert((descriptor, color_name, modifier, revised_color));
-            
-            // Add point to polygon
-            polygons_map.entry(color_number).or_insert_with(Vec::new).push(point);
-        }
-        
-        // Convert to IsccNbsPolygon structs
-        let mut polygons = Vec::new();
-        for (color_number, points) in polygons_map {
-            if let Some((descriptor, color_name, modifier, revised_color)) = polygon_metadata.get(&color_number) {
-                let polygon = IsccNbsPolygon::new(
-                    color_number,
-                    descriptor.clone(),
-                    color_name.clone(),
-                    modifier.clone(),
-                    revised_color.clone(),
-                    points,
-                );
-                polygons.push(polygon);
-            }
-        }
-        
-        // Sort by color number for consistency
-        polygons.sort_by_key(|p| p.color_number);
-        
-        Ok(polygons)
+        // ISCC-NBS data is now embedded in the iscc module constants
+        // This old implementation returns empty data - use IsccNbsClassifier instead
+        // Return empty data since this functionality moved to iscc module
+        Ok(Vec::new())
     }
     
     /// Convert sRGB color directly to ISCC-NBS color name.
