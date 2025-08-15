@@ -4,8 +4,7 @@
 //! lighting conditions, which is critical for color matching in different
 //! environments (e.g., daylight vs. tungsten lighting).
 
-use munsellspace::{Illuminant, ChromaticAdaptationMethod};
-use munsellspace::mathematical_v2::{MathematicalMunsellConverter, MunsellConfig};
+use munsellspace::mathematical::{Illuminant, ChromaticAdaptation, MathematicalMunsellConverter};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Test colors representing different scenarios
@@ -37,13 +36,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("{:-<60}", "");
         
         for (illuminant, condition) in &viewing_conditions {
-            let config = MunsellConfig {
-                source_illuminant: Illuminant::D65,  // sRGB is defined in D65
-                target_illuminant: *illuminant,
-                adaptation_method: ChromaticAdaptationMethod::Bradford,
-            };
-            
-            let converter = MathematicalMunsellConverter::with_config(config)?;
+            let converter = MathematicalMunsellConverter::with_illuminants(
+                Illuminant::D65,  // sRGB is defined in D65
+                *illuminant,
+                ChromaticAdaptation::Bradford
+            )?;
             
             match converter.srgb_to_munsell(*rgb) {
                 Ok(munsell) => {
@@ -72,23 +69,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Testing a beige color RGB{:?} that shifts significantly:\n", rgb);
     
     // Configure for tungsten lighting
-    let tungsten_config = MunsellConfig {
-        source_illuminant: Illuminant::D65,
-        target_illuminant: Illuminant::A,
-        adaptation_method: ChromaticAdaptationMethod::Bradford,
-    };
-    
-    let tungsten_converter = MathematicalMunsellConverter::with_config(tungsten_config)?;
+    let tungsten_converter = MathematicalMunsellConverter::with_illuminants(
+        Illuminant::D65,
+        Illuminant::A,
+        ChromaticAdaptation::Bradford
+    )?;
     let tungsten_munsell = tungsten_converter.srgb_to_munsell(rgb)?;
     
     // Configure for daylight
-    let daylight_config = MunsellConfig {
-        source_illuminant: Illuminant::D65,
-        target_illuminant: Illuminant::D65,
-        adaptation_method: ChromaticAdaptationMethod::Bradford,
-    };
-    
-    let daylight_converter = MathematicalMunsellConverter::with_config(daylight_config)?;
+    let daylight_converter = MathematicalMunsellConverter::new()?;
     let daylight_munsell = daylight_converter.srgb_to_munsell(rgb)?;
     
     println!("Under tungsten light (A):  {:.1}{} {:.1}/{:.1}", 

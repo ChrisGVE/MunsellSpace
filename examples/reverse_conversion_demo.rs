@@ -4,7 +4,7 @@
 //! Munsell → Lab → sRGB/hex/HSL/HSV
 
 use munsellspace::{ReverseConverter, Result};
-use munsellspace::mathematical_v2::MunsellSpecification;
+use munsellspace::mathematical::MunsellSpecification;
 
 fn main() -> Result<()> {
     println!("🎨 MunsellSpace Reverse Conversion Demo");

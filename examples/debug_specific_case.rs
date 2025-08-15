@@ -27,8 +27,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     match result {
         Some(classification) => {
             println!("✅ Classification found: {} {}", 
-                     classification.iscc_nbs_descriptor, 
-                     classification.iscc_nbs_color);
+                     classification.iscc_nbs_descriptor(), 
+                     classification.iscc_nbs_color_name);
         }
         None => {
             println!("❌ No classification found!");
@@ -46,8 +46,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     match rgb_result {
         Some(classification) => {
             println!("✅ RGB classification: {} {}", 
-                     classification.iscc_nbs_descriptor, 
-                     classification.iscc_nbs_color);
+                     classification.iscc_nbs_descriptor(), 
+                     classification.iscc_nbs_color_name);
         }
         None => {
             println!("❌ RGB classification failed!");
