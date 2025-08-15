@@ -871,9 +871,13 @@ impl MathematicalMunsellConverter {
     ///
     /// # Example
     /// ```rust
+    /// use munsellspace::MathematicalMunsellConverter;
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
     /// let converter = MathematicalMunsellConverter::new()?;
     /// let munsell = converter.srgb_to_munsell([255, 0, 0])?;
     /// println!("Red: {}.{} {:.1}/{:.1}", munsell.hue, munsell.family, munsell.value, munsell.chroma);
+    /// # Ok(())
+    /// # }
     /// ```
     pub fn srgb_to_munsell(&self, rgb: [u8; 3]) -> Result<MunsellSpecification> {
         // Step 1: Convert sRGB to xyY using palette crate

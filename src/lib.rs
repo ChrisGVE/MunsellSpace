@@ -64,14 +64,13 @@
 //!         
 //!         let handle = thread::spawn(move || {
 //!             // Each thread can safely use the converters concurrently
-//!             let munsell = converter_clone.srgb_to_munsell([255, 0, 0])?;
+//!             let munsell = converter_clone.srgb_to_munsell([255, 0, 0]).unwrap();
 //!             
 //!             if let (Some(hue), Some(chroma)) = (&munsell.hue, munsell.chroma) {
-//!                 let iscc_color = classifier_clone.classify_munsell(hue, munsell.value, chroma)?;
-//!                 println!("Thread {}: {} -> {:?}", thread_id, munsell, iscc_color);
+//!                 if let Ok(Some(iscc_color)) = classifier_clone.classify_munsell(hue, munsell.value, chroma) {
+//!                     println!("Thread {}: {} -> {:?}", thread_id, munsell, iscc_color);
+//!                 }
 //!             }
-//!             
-//!             Ok::<(), Box<dyn std::error::Error + Send + Sync>>(())
 //!         });
 //!         
 //!         handles.push(handle);
@@ -79,7 +78,7 @@
 //!     
 //!     // Wait for all threads to complete
 //!     for handle in handles {
-//!         handle.join().unwrap()?;
+//!         handle.join().unwrap();
 //!     }
 //!     
 //!     Ok(())

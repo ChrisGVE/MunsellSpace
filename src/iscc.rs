@@ -271,7 +271,7 @@ pub struct ISCC_NBS_Color {
 /// let classifier = ISCC_NBS_Classifier::new()?;
 ///
 /// // Classify a Munsell color specification
-/// if let Ok(color_metadata) = classifier.classify_munsell("5R", 5.0, 12.0) {
+/// if let Ok(Some(color_metadata)) = classifier.classify_munsell("5R", 5.0, 12.0) {
 ///     println!("5R 5.0/12.0 is: {}", color_metadata.iscc_nbs_descriptor());
 /// }
 /// # Ok(())

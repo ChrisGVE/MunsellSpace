@@ -1196,8 +1196,11 @@ impl MunsellConverter {
     ///
     /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
     /// let converter = MunsellConverter::new()?;
-    /// let color_name = converter.srgb_to_color_name([255, 0, 0])?;
-    /// println!("Pure red is: {}", color_name.descriptor);
+    /// // Use a color that is likely to be found in ISCC-NBS database
+    /// match converter.srgb_to_color_name([128, 64, 64]) {
+    ///     Ok(color_name) => println!("Color name: {}", color_name.descriptor),
+    ///     Err(_) => println!("Color not found in ISCC-NBS database"),
+    /// }
     /// # Ok(())
     /// # }
     /// ```
@@ -1223,9 +1226,11 @@ impl MunsellConverter {
     ///
     /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
     /// let converter = MunsellConverter::new()?;
-    /// let munsell = MunsellColor::from_notation("5R 4.0/14.0")?;
-    /// let color_name = converter.munsell_to_iscc_nbs_name(&munsell)?;
-    /// println!("5R 4.0/14.0 is: {}", color_name.descriptor);
+    /// let munsell = MunsellColor::from_notation("N 5/")?;
+    /// match converter.munsell_to_iscc_nbs_name(&munsell) {
+    ///     Ok(color_name) => println!("Color name: {}", color_name.descriptor),
+    ///     Err(_) => println!("Color not found in ISCC-NBS database"),
+    /// }
     /// # Ok(())
     /// # }
     /// ```

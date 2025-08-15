@@ -91,8 +91,9 @@ impl ReverseConverter {
     /// # Examples
     /// ```rust
     /// use munsellspace::reverse_conversion::{ReverseConverter};
-    /// use munsellspace::mathematical_v2::MunsellSpecification;
+    /// use munsellspace::mathematical::MunsellSpecification;
     ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
     /// let converter = ReverseConverter::new()?;
     /// let munsell = MunsellSpecification {
     ///     hue: 5.0,
@@ -104,6 +105,8 @@ impl ReverseConverter {
     /// let colors = converter.munsell_to_all_formats(&munsell)?;
     /// println!("Hex: {}", colors.hex);
     /// println!("HSL: H{:.1}° S{:.1}% L{:.1}%", colors.hsl.h, colors.hsl.s, colors.hsl.l);
+    /// # Ok(())
+    /// # }
     /// ```
     pub fn munsell_to_all_formats(&self, spec: &MunsellSpecification) -> Result<ColorFormats> {
         // Step 1: Munsell → xyY (via Python port for accuracy)
@@ -394,8 +397,12 @@ impl Default for ReverseConverter {
 /// 
 /// # Examples
 /// ```rust
+/// use munsellspace::munsell_to_hex_string;
+/// # fn main() -> Result<(), Box<dyn std::error::Error>> {
 /// let hex = munsell_to_hex_string("5R 4/14")?;
 /// println!("Hex: {}", hex); // e.g., "#C41E3A"
+/// # Ok(())
+/// # }
 /// ```
 pub fn munsell_to_hex_string(munsell_notation: &str) -> Result<String> {
     let spec = parse_munsell_notation(munsell_notation)?;
