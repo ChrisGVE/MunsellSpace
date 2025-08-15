@@ -46,14 +46,14 @@
 //! safely share converters across multiple threads using `Arc<T>`:
 //!
 //! ```rust
-//! use munsellspace::{MunsellConverter, ISCC_NBS_Classifier};
+//! use munsellspace::{MunsellConverter, IsccNbsClassifier};
 //! use std::sync::Arc;
 //! use std::thread;
 //!
 //! fn main() -> Result<(), Box<dyn std::error::Error>> {
 //!     // Create shared instances
 //!     let converter = Arc::new(MunsellConverter::new()?);
-//!     let classifier = Arc::new(ISCC_NBS_Classifier::new()?);
+//!     let classifier = Arc::new(IsccNbsClassifier::new()?);
 //!     
 //!     let mut handles = vec![];
 //!     
@@ -120,7 +120,7 @@ pub use converter::MunsellConverter;
 pub use types::{MunsellColor, RgbColor, IsccNbsName, IsccNbsPolygon, MunsellPoint};
 pub use error::{MunsellError, Result};
 pub use illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod};
-pub use iscc::{ISCC_NBS_Classifier, ColorMetadata};
+pub use iscc::{IsccNbsClassifier, ColorMetadata};
 pub use mechanical_wedges::MechanicalWedgeSystem;
 pub use mathematical::{
     MathematicalMunsellConverter, 

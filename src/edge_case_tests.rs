@@ -7,7 +7,7 @@
 mod edge_case_tests {
     use crate::{MunsellConverter, MunsellColor, RgbColor, MunsellError};
     use crate::mathematical::MathematicalMunsellConverter;
-    use crate::iscc::ISCC_NBS_Classifier;
+    use crate::iscc::IsccNbsClassifier;
 
     /// Test extreme RGB values at color space boundaries
     #[test]
@@ -171,7 +171,7 @@ mod edge_case_tests {
     /// Test ISCC-NBS classification edge cases  
     #[test]
     fn test_iscc_nbs_edge_cases() {
-        let classifier = ISCC_NBS_Classifier::new().unwrap();
+        let classifier = IsccNbsClassifier::new().unwrap();
         
         // Test colors at edge of classification ranges
         let edge_case_colors = [
@@ -229,7 +229,7 @@ mod edge_case_tests {
                     // Should be valid xyY values
                     assert!(xyy.x >= 0.0 && xyy.x <= 1.0, "xyY x out of range: {}", xyy.x);
                     assert!(xyy.y >= 0.0 && xyy.y <= 1.0, "xyY y out of range: {}", xyy.y);
-                    assert!(xyy.Y >= 0.0, "xyY Y negative: {}", xyy.Y);
+                    assert!(xyy.y_luminance >= 0.0, "xyY Y negative: {}", xyy.y_luminance);
                     
                     // Test Munsell conversion
                     let munsell_result = converter.xyy_to_munsell_specification(xyy);
@@ -303,12 +303,12 @@ mod edge_case_tests {
                     // Check for NaN/Inf
                     assert!(xyy.x.is_finite(), "Non-finite x for test_val {}: {}", test_val, xyy.x);
                     assert!(xyy.y.is_finite(), "Non-finite y for test_val {}: {}", test_val, xyy.y);
-                    assert!(xyy.Y.is_finite(), "Non-finite Y for test_val {}: {}", test_val, xyy.Y);
+                    assert!(xyy.y_luminance.is_finite(), "Non-finite Y for test_val {}: {}", test_val, xyy.y_luminance);
                     
                     // Check for reasonable bounds
                     assert!(xyy.x >= 0.0 && xyy.x <= 1.0, "x out of range for test_val {}: {}", test_val, xyy.x);
                     assert!(xyy.y >= 0.0 && xyy.y <= 1.0, "y out of range for test_val {}: {}", test_val, xyy.y);
-                    assert!(xyy.Y >= 0.0, "Y negative for test_val {}: {}", test_val, xyy.Y);
+                    assert!(xyy.y_luminance >= 0.0, "Y negative for test_val {}: {}", test_val, xyy.y_luminance);
                 }
                 Err(e) => {
                     println!("Note: Precision test failed for {}: {}", test_val, e);

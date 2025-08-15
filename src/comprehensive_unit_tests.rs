@@ -248,10 +248,10 @@ mod comprehensive_unit_tests {
                            "{}: x coordinate out of range: {}", description, xyy.x);
                     assert!(xyy.y >= 0.0 && xyy.y <= 1.0, 
                            "{}: y coordinate out of range: {}", description, xyy.y);
-                    assert!(xyy.Y >= 0.0, 
-                           "{}: Y luminance negative: {}", description, xyy.Y);
-                    assert!(xyy.Y.is_finite(), 
-                           "{}: Y luminance not finite: {}", description, xyy.Y);
+                    assert!(xyy.y_luminance >= 0.0, 
+                           "{}: Y luminance negative: {}", description, xyy.y_luminance);
+                    assert!(xyy.y_luminance.is_finite(), 
+                           "{}: Y luminance not finite: {}", description, xyy.y_luminance);
                     
                     // Test Munsell conversion
                     let munsell_result = converter.xyy_to_munsell_specification(xyy);
@@ -299,7 +299,7 @@ mod comprehensive_unit_tests {
 
     #[test]
     fn test_iscc_nbs_comprehensive_coverage() {
-        let classifier = ISCC_NBS_Classifier::new().unwrap();
+        let classifier = IsccNbsClassifier::new().unwrap();
         
         // Test classification of systematic color grid
         let mut classified_colors = HashSet::new();
@@ -352,7 +352,7 @@ mod comprehensive_unit_tests {
 
     #[test]
     fn test_iscc_nbs_edge_case_classifications() {
-        let classifier = ISCC_NBS_Classifier::new().unwrap();
+        let classifier = IsccNbsClassifier::new().unwrap();
         
         // Test specific edge cases that might cause problems
         let edge_cases = [

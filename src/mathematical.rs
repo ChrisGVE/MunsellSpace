@@ -234,11 +234,11 @@ pub struct MunsellSpecification {
 /// let color = CieXyY {
 ///     x: 0.3127,  // D65 illuminant x chromaticity
 ///     y: 0.3290,  // D65 illuminant y chromaticity
-///     Y: 0.5,     // 50% luminance
+///     y_luminance: 0.5,     // 50% luminance
 /// };
 ///
 /// println!("Chromaticity: x={:.4}, y={:.4}", color.x, color.y);
-/// println!("Luminance: Y={:.3}", color.Y);
+/// println!("Luminance: Y={:.3}", color.y_luminance);
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct CieXyY {
@@ -247,7 +247,7 @@ pub struct CieXyY {
     /// Chromaticity y coordinate derived from CIE XYZ
     pub y: f64,
     /// Luminance Y component (identical to Y in CIE XYZ)
-    pub Y: f64,
+    pub y_luminance: f64,
 }
 
 /// Coordinate transformation functions following Python colour-science
@@ -1007,12 +1007,12 @@ impl MathematicalMunsellConverter {
         
         if sum < 1e-15 {
             // Handle black/near-black colors
-            CieXyY { x: 0.0, y: 0.0, Y: xyz[1] }
+            CieXyY { x: 0.0, y: 0.0, y_luminance: xyz[1] }
         } else {
             CieXyY {
                 x: xyz[0] / sum,
                 y: xyz[1] / sum,
-                Y: xyz[1], // Y component is luminance
+                y_luminance: xyz[1], // Y component is luminance
             }
         }
     }
@@ -1033,12 +1033,11 @@ impl MathematicalMunsellConverter {
         
         use coordinate_transforms::*;
         use hue_conversions::*;
-        use interpolation_methods::*;
         
         const CONVERGENCE_THRESHOLD: f64 = THRESHOLD_INTEGER / 1e4; // 1e-7
         
         // Step 1: Calculate Munsell Value using ASTM D1535 polynomial
-        let mut value = self.luminance_to_munsell_value(xyy.Y)?;
+        let mut value = self.luminance_to_munsell_value(xyy.y_luminance)?;
         
         // Round if close to integer (Python lines 1070-1071)
         if (value - value.round()).abs() < 1e-10 {
@@ -1061,18 +1060,18 @@ impl MathematicalMunsellConverter {
         let (rho_input, phi_input_rad, _) = cartesian_to_cylindrical(
             xyy.x - x_center,
             xyy.y - y_center,
-            xyy.Y
+            xyy.y_luminance
         );
         // CRITICAL: Keep phi_input in original range [-180, 180] like Python!
         // Do NOT normalize to [0, 360) here - it affects convergence
         let phi_input = phi_input_rad.to_degrees();
         
         // Debug for RGB [238,0,85] specifically
-        let is_debug_color = (xyy.x - 0.558939).abs() < 0.0001 && (xyy.y - 0.285274).abs() < 0.0001;
+        let _is_debug_color = (xyy.x - 0.558939).abs() < 0.0001 && (xyy.y - 0.285274).abs() < 0.0001;
         
         // Step 3: Check for achromatic using rho_input (like Python)
         // Also check for pure black (Y ≈ 0)
-        if rho_input < THRESHOLD_INTEGER || xyy.Y < 1e-6 {  // 1e-3
+        if rho_input < THRESHOLD_INTEGER || xyy.y_luminance < 1e-6 {  // 1e-3
             return Ok(MunsellSpecification {
                 hue: 0.0,
                 family: "N".to_string(),
@@ -1092,7 +1091,7 @@ impl MathematicalMunsellConverter {
         
         
         // Step 4: DUAL-LOOP ITERATIVE ALGORITHM
-        for outer_iteration in 0..MAX_OUTER_ITERATIONS {
+        for _outer_iteration in 0..MAX_OUTER_ITERATIONS {
             
             // Check maximum chroma boundaries
             let chroma_maximum = self.maximum_chroma_from_renotation(hue_current, value, code_current)?;
@@ -1104,10 +1103,10 @@ impl MathematicalMunsellConverter {
             let (x_current, y_current) = self.munsell_specification_to_xy(hue_current, value, chroma_current, code_current)?;
             
             // Convert to cylindrical coordinates relative to achromatic center (NOT Illuminant C directly!)
-            let (rho_current, phi_current, _) = cartesian_to_cylindrical(
+            let (_rho_current, phi_current, _) = cartesian_to_cylindrical(
                 x_current - x_center, 
                 y_current - y_center, 
-                xyy.Y
+                xyy.y_luminance
             );
             let mut phi_current_degrees = phi_current.to_degrees();
             // Normalize to [0, 360) range
@@ -1191,7 +1190,7 @@ impl MathematicalMunsellConverter {
                     let (_, phi_inner, _) = cartesian_to_cylindrical(
                         x_inner - x_center,
                         y_inner - y_center,
-                        xyy.Y
+                        xyy.y_luminance
                     );
                     let mut phi_inner_degrees = phi_inner.to_degrees();
                     // Normalize to [0, 360) range
@@ -1262,7 +1261,7 @@ impl MathematicalMunsellConverter {
             let (rho_current_new, _, _) = cartesian_to_cylindrical(
                 x_current_new - x_center,
                 y_current_new - y_center,
-                xyy.Y
+                xyy.y_luminance
             );
             
             let mut rho_bounds_data = vec![rho_current_new];
@@ -1305,7 +1304,7 @@ impl MathematicalMunsellConverter {
                 let (rho_inner, _, _) = cartesian_to_cylindrical(
                     x_inner - x_center,
                     y_inner - y_center,
-                    xyy.Y
+                    xyy.y_luminance
                 );
                 
                 rho_bounds_data.push(rho_inner);
@@ -1430,7 +1429,7 @@ impl MathematicalMunsellConverter {
         // Calculate angle directly from xyY relative to Illuminant C
         let dx = xyy.x - ILLUMINANT_C[0];
         let dy = xyy.y - ILLUMINANT_C[1];
-        let (rho, phi_rad, _) = cartesian_to_cylindrical(dx, dy, xyy.Y);
+        let (rho, phi_rad, _) = cartesian_to_cylindrical(dx, dy, xyy.y_luminance);
         let mut phi_deg = phi_rad.to_degrees();
         
         // Ensure angle is in [0, 360) range
@@ -1462,9 +1461,9 @@ impl MathematicalMunsellConverter {
         } else if hab < 90.0 {
             6  // YR: [54°, 90°)
         } else if hab < 126.0 {
-            5  // Y: [90°, 126°)
+            5  // y_luminance: [90°, 126°)
         } else if hab < 162.0 {
-            4  // GY: [126°, 162°)
+            4  // Gy_luminance: [126°, 162°)
         } else if hab < 198.0 {
             3  // G: [162°, 198°)
         } else if hab < 234.0 {
@@ -1566,7 +1565,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Calculate maximum chroma from renotation data
-    fn maximum_chroma_from_renotation(&self, hue: f64, value: f64, code: u8) -> Result<f64> {
+    fn maximum_chroma_from_renotation(&self, _hue: f64, value: f64, code: u8) -> Result<f64> {
         // CRITICAL: Must use actual renotation data to find maximum chroma
         // This is essential for proper convergence!
         
@@ -1685,7 +1684,7 @@ impl MathematicalMunsellConverter {
         
         
         // Try to find exact match first with full hue string
-        for &((ref entry_family, entry_value, entry_chroma), (x, y, _Y)) in self.renotation_data {
+        for &((ref entry_family, entry_value, entry_chroma), (x, y, _y)) in self.renotation_data {
             if *entry_family == hue_str &&
                (entry_value - value).abs() < 0.01 && 
                (entry_chroma - chroma).abs() < 0.01 {
@@ -1706,7 +1705,7 @@ impl MathematicalMunsellConverter {
         // Extract the family part from the hue string (e.g., "7.5R" -> "R")
         let family = hue_str.chars().skip_while(|c| !c.is_alphabetic()).collect::<String>();
         
-        for &((ref entry_family, entry_value, entry_chroma), (x, y, _Y)) in self.renotation_data {
+        for &((ref entry_family, entry_value, entry_chroma), (x, y, _y)) in self.renotation_data {
             // Check if this entry has the same family
             if entry_family.ends_with(&family) {
                 matching_entries.push((entry_family.clone(), entry_value, entry_chroma, x, y));
@@ -1804,7 +1803,6 @@ impl MathematicalMunsellConverter {
     /// Complete Python xy_from_renotation_ovoid algorithm implementation
     /// This is the exact algorithm from colour-science munsell.py lines 2265-2419
     fn xy_from_renotation_ovoid(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
-        use crate::constants::ILLUMINANT_C;
         
         // CRITICAL: Value must be integer for renotation lookup
         // Chroma interpolation is handled below - DO NOT round chroma here!
@@ -2214,7 +2212,7 @@ impl MathematicalMunsellConverter {
             return Ok(CieXyY {
                 x: ILLUMINANT_C[0],
                 y: ILLUMINANT_C[1],
-                Y: y,
+                y_luminance: y,
             });
         }
 
@@ -2321,7 +2319,7 @@ impl MathematicalMunsellConverter {
 
         let mut weighted_x = 0.0;
         let mut weighted_y = 0.0;
-        let mut weighted_Y = 0.0;
+        let mut weighted_y = 0.0;
         let mut total_weight = 0.0;
 
         for neighbor in neighbors {
@@ -2341,7 +2339,7 @@ impl MathematicalMunsellConverter {
             
             weighted_x += x * weight;
             weighted_y += y * weight;
-            weighted_Y += luma * weight;
+            weighted_y += luma * weight;
             total_weight += weight;
         }
 
@@ -2354,7 +2352,7 @@ impl MathematicalMunsellConverter {
         Ok(CieXyY {
             x: weighted_x / total_weight,
             y: weighted_y / total_weight,
-            Y: weighted_Y / total_weight,
+            y_luminance: weighted_y / total_weight,
         })
     }
 
@@ -2416,7 +2414,7 @@ impl MathematicalMunsellConverter {
             return Ok(CieXyY {
                 x: ILLUMINANT_C[0],
                 y: ILLUMINANT_C[1],
-                Y: y,
+                y_luminance: y,
             });
         }
 
@@ -2429,7 +2427,7 @@ impl MathematicalMunsellConverter {
             if entry_hue == &hue_str && 
                (entry_value - spec.value).abs() < 0.1 && 
                (entry_chroma - spec.chroma).abs() < 0.1 {
-                return Ok(CieXyY { x: *x, y: *y, Y: *luma });
+                return Ok(CieXyY { x: *x, y: *y, y_luminance: *luma });
             }
         }
         
@@ -2480,7 +2478,7 @@ mod tests {
         let xyy = converter.srgb_to_xyy([255, 0, 0]).unwrap();
         assert!(xyy.x > 0.6); // Red should have high x chromaticity
         assert!(xyy.y > 0.3 && xyy.y < 0.4); // Reasonable y chromaticity
-        assert!(xyy.Y > 0.2 && xyy.Y < 0.3); // Reasonable luminance
+        assert!(xyy.y_luminance > 0.2 && xyy.y_luminance < 0.3); // Reasonable luminance
     }
 
     #[test]

@@ -1767,8 +1767,6 @@ pub fn munsell_specification_to_xyy(spec: &[f64; 4]) -> Result<[f64; 3]> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
-    use std::fs;
     
     #[test]
     fn test_python_functions_exact_match() {

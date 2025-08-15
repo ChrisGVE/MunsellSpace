@@ -12,12 +12,12 @@
 //! ## Examples
 //!
 //! ```rust
-//! use munsellspace::iscc::ISCC_NBS_Classifier;
+//! use munsellspace::iscc::IsccNbsClassifier;
 //! use munsellspace::MunsellConverter;
 //!
 //! # fn main() -> Result<(), Box<dyn std::error::Error>> {
 //! // Create classifier and converter
-//! let classifier = ISCC_NBS_Classifier::new()?;
+//! let classifier = IsccNbsClassifier::new()?;
 //! let converter = MunsellConverter::new()?;
 //!
 //! // Convert RGB to Munsell, then to ISCC-NBS color name
@@ -218,7 +218,7 @@ impl ColorMetadata {
 /// - `hue_range`: Start and end hues defining the applicable hue range
 /// - `polygon`: Geometric polygon defining the valid value-chroma region
 #[derive(Debug, Clone)]
-pub struct ISCC_NBS_Color {
+pub struct IsccNbsColor {
     /// Color number from ISCC-NBS standard (1-267).
     ///
     /// This unique identifier corresponds to specific color names
@@ -265,10 +265,10 @@ pub struct ISCC_NBS_Color {
 /// # Examples
 ///
 /// ```rust
-/// use munsellspace::iscc::ISCC_NBS_Classifier;
+/// use munsellspace::iscc::IsccNbsClassifier;
 ///
 /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-/// let classifier = ISCC_NBS_Classifier::new()?;
+/// let classifier = IsccNbsClassifier::new()?;
 ///
 /// // Classify a Munsell color specification
 /// if let Ok(Some(color_metadata)) = classifier.classify_munsell("5R", 5.0, 12.0) {
@@ -277,7 +277,7 @@ pub struct ISCC_NBS_Color {
 /// # Ok(())
 /// # }
 /// ```
-pub struct ISCC_NBS_Classifier {
+pub struct IsccNbsClassifier {
     /// Mechanical wedge system providing deterministic hue-based classification.
     ///
     /// Divides the complete Munsell hue circle into 100 wedge containers,
@@ -306,7 +306,7 @@ pub struct ISCC_NBS_Classifier {
 
 // Embedded ISCC-NBS polygon data is now in constants module - no CSV loading needed
 
-impl ISCC_NBS_Classifier {
+impl IsccNbsClassifier {
     /// Create a new ISCC-NBS classifier using embedded color data.
     ///
     /// Initializes the classifier by loading embedded ISCC-NBS color definitions
@@ -322,10 +322,10 @@ impl ISCC_NBS_Classifier {
     ///
     /// # Examples
     /// ```rust
-    /// use munsellspace::ISCC_NBS_Classifier;
+    /// use munsellspace::IsccNbsClassifier;
     ///
     /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /// let classifier = ISCC_NBS_Classifier::new()?;
+    /// let classifier = IsccNbsClassifier::new()?;
     /// println!("Classifier initialized with embedded ISCC-NBS data");
     /// # Ok(())
     /// # }
@@ -339,7 +339,7 @@ impl ISCC_NBS_Classifier {
             wedge_system.distribute_polygon(polygon)?;
         }
 
-        Ok(ISCC_NBS_Classifier {
+        Ok(IsccNbsClassifier {
             wedge_system,
             color_metadata,
             cache: Arc::new(RwLock::new(HashMap::new())),
@@ -357,7 +357,7 @@ impl ISCC_NBS_Classifier {
             wedge_system.distribute_polygon(polygon)?;
         }
 
-        Ok(ISCC_NBS_Classifier {
+        Ok(IsccNbsClassifier {
             wedge_system,
             color_metadata,
             cache: Arc::new(RwLock::new(HashMap::new())),
@@ -519,7 +519,7 @@ impl ISCC_NBS_Classifier {
         &self,
         hue: &str,
         expected_descriptor: &str,
-    ) -> Option<&ISCC_NBS_Color> {
+    ) -> Option<&IsccNbsColor> {
         // Determine which wedge this hue belongs to
         let wedge_key = self.wedge_system.find_wedge_for_hue(hue)?;
 
@@ -642,11 +642,11 @@ impl ISCC_NBS_Classifier {
     }
 
     /// Load ISCC-NBS polygon data from embedded constants (no file I/O required)
-    fn parse_embedded_polygon_data() -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
+    fn parse_embedded_polygon_data() -> Result<Vec<IsccNbsColor>, MunsellError> {
         use geo::{Coord, LineString};
         let mut colors = Vec::new();
         
-        // Convert embedded polygon definitions to ISCC_NBS_Color instances
+        // Convert embedded polygon definitions to IsccNbsColor instances
         for polygon_def in get_polygon_definitions() {
             if polygon_def.points.len() < 3 {
                 return Err(Self::data_error(format!(
@@ -673,7 +673,7 @@ impl ISCC_NBS_Classifier {
             // Create polygon (no holes for ISCC-NBS regions)
             let polygon = geo::Polygon::new(exterior, vec![]);
             
-            colors.push(ISCC_NBS_Color {
+            colors.push(IsccNbsColor {
                 color_number: polygon_def.color_number,
                 polygon_group: polygon_def.polygon_group,
                 hue_range: (polygon_def.hue1.to_string(), polygon_def.hue2.to_string()),
@@ -685,7 +685,7 @@ impl ISCC_NBS_Classifier {
     }
 
     /// Load ISCC-NBS data from embedded constants (no file I/O required)
-    fn load_embedded_iscc_data() -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
+    fn load_embedded_iscc_data() -> Result<(Vec<IsccNbsColor>, HashMap<u16, ColorMetadata>), MunsellError> {
         // Load polygon data from embedded constants
         let polygons = Self::parse_embedded_polygon_data()?;
         
@@ -705,7 +705,7 @@ impl ISCC_NBS_Classifier {
     /// Load ISCC-NBS data from CSV files (for testing/development)
     fn load_iscc_data(
         polygon_csv_path: &str,
-    ) -> Result<(Vec<ISCC_NBS_Color>, HashMap<u16, ColorMetadata>), MunsellError> {
+    ) -> Result<(Vec<IsccNbsColor>, HashMap<u16, ColorMetadata>), MunsellError> {
         use std::fs;
         use std::path::Path;
 
@@ -792,7 +792,7 @@ impl ISCC_NBS_Classifier {
     }
 
     /// Parse polygon CSV data and convert to polygons
-    fn parse_polygon_csv_data(csv_content: &str) -> Result<Vec<ISCC_NBS_Color>, MunsellError> {
+    fn parse_polygon_csv_data(csv_content: &str) -> Result<Vec<IsccNbsColor>, MunsellError> {
         use csv::Reader;
         use geo::{Coord, LineString};
 
@@ -893,7 +893,7 @@ impl ISCC_NBS_Classifier {
             let exterior = LineString::from(coords);
             let polygon = Polygon::new(exterior, vec![]); // No holes in ISCC-NBS polygons
 
-            colors.push(ISCC_NBS_Color {
+            colors.push(IsccNbsColor {
                 color_number,
                 polygon_group: polygon_id,
                 hue_range: (hue1, hue2),
@@ -907,11 +907,11 @@ impl ISCC_NBS_Classifier {
 
 /// Validation functions using geo crate  
 pub mod validation {
-    use super::{ISCC_NBS_Color, ValidationError};
+    use super::{IsccNbsColor, ValidationError};
     use geo::Intersects;
 
     /// Validate ISCC-NBS polygon data for integrity.
-    pub fn validate_polygons(colors: &[ISCC_NBS_Color]) -> Vec<ValidationError> {
+    pub fn validate_polygons(colors: &[IsccNbsColor]) -> Vec<ValidationError> {
         let mut errors = Vec::new();
 
         // Check right angles using geo's geometric operations
@@ -1027,8 +1027,8 @@ mod tests {
     
     #[test]
     fn test_thread_safety_concurrent_classification() {
-        // Test that ISCC_NBS_Classifier can be safely used across multiple threads
-        let classifier = Arc::new(ISCC_NBS_Classifier::new().expect("Failed to create classifier"));
+        // Test that IsccNbsClassifier can be safely used across multiple threads
+        let classifier = Arc::new(IsccNbsClassifier::new().expect("Failed to create classifier"));
         let mut handles = vec![];
         
         // Test data: various Munsell colors that should classify to different ISCC-NBS colors
@@ -1095,7 +1095,7 @@ mod tests {
     #[test]
     fn test_thread_safety_cache_behavior() {
         // Test that the cache works correctly under concurrent access
-        let classifier = Arc::new(ISCC_NBS_Classifier::new().expect("Failed to create classifier"));
+        let classifier = Arc::new(IsccNbsClassifier::new().expect("Failed to create classifier"));
         let mut handles = vec![];
         
         // Use the same color repeatedly to ensure cache hits
@@ -1147,15 +1147,15 @@ mod tests {
     
     #[test]
     fn test_send_sync_traits() {
-        // Verify that ISCC_NBS_Classifier implements Send + Sync
+        // Verify that IsccNbsClassifier implements Send + Sync
         fn assert_send<T: Send>() {}
         fn assert_sync<T: Sync>() {}
         
-        assert_send::<ISCC_NBS_Classifier>();
-        assert_sync::<ISCC_NBS_Classifier>();
+        assert_send::<IsccNbsClassifier>();
+        assert_sync::<IsccNbsClassifier>();
         
-        // Also verify Arc<ISCC_NBS_Classifier> is Send + Sync
-        assert_send::<Arc<ISCC_NBS_Classifier>>();
-        assert_sync::<Arc<ISCC_NBS_Classifier>>();
+        // Also verify Arc<IsccNbsClassifier> is Send + Sync
+        assert_send::<Arc<IsccNbsClassifier>>();
+        assert_sync::<Arc<IsccNbsClassifier>>();
     }
 }

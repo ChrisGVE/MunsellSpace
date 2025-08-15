@@ -112,7 +112,7 @@ impl ReverseConverter {
         // Step 1: Munsell → xyY (via Python port for accuracy)
         let spec_array = self.munsell_spec_to_array(spec)?;
         let xyy_array = munsell_specification_to_xyy(&spec_array)?;
-        let xyy = CieXyY { x: xyy_array[0], y: xyy_array[1], Y: xyy_array[2] };
+        let xyy = CieXyY { x: xyy_array[0], y: xyy_array[1], y_luminance: xyy_array[2] };
         
         // Step 2: xyY → XYZ
         let xyz = self.xyy_to_xyz(&xyy)?;
@@ -146,7 +146,7 @@ impl ReverseConverter {
     pub fn munsell_to_lab(&self, spec: &MunsellSpecification) -> Result<CieLab> {
         let spec_array = self.munsell_spec_to_array(spec)?;
         let xyy_array = munsell_specification_to_xyy(&spec_array)?;
-        let xyy = CieXyY { x: xyy_array[0], y: xyy_array[1], Y: xyy_array[2] };
+        let xyy = CieXyY { x: xyy_array[0], y: xyy_array[1], y_luminance: xyy_array[2] };
         let xyz = self.xyy_to_xyz(&xyy)?;
         self.xyz_to_lab(xyz)
     }
@@ -272,9 +272,9 @@ impl ReverseConverter {
             Ok([0.0, 0.0, 0.0])
         } else {
             Ok([
-                xyy.x * xyy.Y / xyy.y,                    // X
-                xyy.Y,                                    // Y 
-                (1.0 - xyy.x - xyy.y) * xyy.Y / xyy.y,   // Z
+                xyy.x * xyy.y_luminance / xyy.y,                    // X
+                xyy.y_luminance,                                    // Y 
+                (1.0 - xyy.x - xyy.y) * xyy.y_luminance / xyy.y,   // Z
             ])
         }
     }

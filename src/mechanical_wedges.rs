@@ -58,7 +58,7 @@
 
 use std::collections::HashMap;
 use crate::{MunsellError, Result};
-use crate::iscc::ISCC_NBS_Color;
+use crate::iscc::IsccNbsColor;
 use geo::CoordsIter;
 
 // Method 2 is the only method used: Excludes starting boundary, includes ending boundary
@@ -116,7 +116,7 @@ pub struct MechanicalWedgeSystem {
     /// Keys are formatted as "StartHue→EndHue" (e.g., "1R→2R", "10RP→1R").
     /// Values are vectors containing all ISCC-NBS color polygons that
     /// overlap with that wedge's hue range.
-    wedge_containers: HashMap<String, Vec<ISCC_NBS_Color>>,
+    wedge_containers: HashMap<String, Vec<IsccNbsColor>>,
     
     /// Complete ordered sequence of Munsell hue references.
     ///
@@ -190,7 +190,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Create all 100 wedge containers (empty initially)
-    fn create_all_wedge_containers(sequence: &[String]) -> HashMap<String, Vec<ISCC_NBS_Color>> {
+    fn create_all_wedge_containers(sequence: &[String]) -> HashMap<String, Vec<IsccNbsColor>> {
         let mut containers = HashMap::new();
         
         for i in 0..sequence.len() {
@@ -223,7 +223,7 @@ impl MechanicalWedgeSystem {
     /// # Examples
     /// ```rust
     /// use munsellspace::mechanical_wedges::MechanicalWedgeSystem;
-    /// // Note: ISCC_NBS_Color construction requires internal data
+    /// // Note: IsccNbsColor construction requires internal data
     /// // This example shows the conceptual usage
     /// 
     /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -235,7 +235,7 @@ impl MechanicalWedgeSystem {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn distribute_polygon(&mut self, polygon: ISCC_NBS_Color) -> Result<()> {
+    pub fn distribute_polygon(&mut self, polygon: IsccNbsColor) -> Result<()> {
         let (start_hue, end_hue) = Self::parse_polygon_hue_range(&polygon)?;
         let wedge_keys = self.find_wedges_in_range(&start_hue, &end_hue)?;
         
@@ -250,7 +250,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Parse polygon hue range from ISCC-NBS data
-    fn parse_polygon_hue_range(polygon: &ISCC_NBS_Color) -> Result<(String, String)> {
+    fn parse_polygon_hue_range(polygon: &IsccNbsColor) -> Result<(String, String)> {
         // Extract hue range from polygon data (e.g., "5R" to "7YR")
         // This depends on how hue ranges are stored in IsccNbsColor
         // For now, assume they're in a hue_range field
@@ -389,7 +389,7 @@ impl MechanicalWedgeSystem {
     /// # }
     /// ```
     #[inline]
-    pub fn classify_color(&self, hue: &str, value: f64, chroma: f64) -> Option<&ISCC_NBS_Color> {
+    pub fn classify_color(&self, hue: &str, value: f64, chroma: f64) -> Option<&IsccNbsColor> {
         // 1. Find the containing wedge for this hue
         let wedge_key = self.find_containing_wedge(hue)?;
         
@@ -518,7 +518,7 @@ impl MechanicalWedgeSystem {
     ///     println!("Found {} polygons in 5R→6R wedge", polygons.len());
     /// }
     /// ```
-    pub fn get_wedge_polygons(&self, wedge_key: &str) -> Option<&Vec<ISCC_NBS_Color>> {
+    pub fn get_wedge_polygons(&self, wedge_key: &str) -> Option<&Vec<IsccNbsColor>> {
         self.wedge_containers.get(wedge_key)
     }
     
@@ -592,7 +592,7 @@ impl MechanicalWedgeSystem {
     /// 
     /// This ensures each boundary point belongs to exactly one polygon.
     #[inline]
-    fn point_in_polygon(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> bool {
+    fn point_in_polygon(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> bool {
         use geo::Contains;
         
         let point = geo::Point::new(chroma, value); // Note: chroma=x, value=y
@@ -640,10 +640,10 @@ impl MechanicalWedgeSystem {
     /// Get the chroma and value ranges of the polygon at the given point
     /// Returns (chroma_range, value_range) where each range is (min, max)
     #[inline]
-    fn get_polygon_ranges_at_point(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> (Option<(f64, f64)>, Option<(f64, f64)>) {
-        use geo::Coordinate;
+    fn get_polygon_ranges_at_point(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> (Option<(f64, f64)>, Option<(f64, f64)>) {
+        use geo::Coord;
         
-        let coords: Vec<Coordinate<f64>> = polygon.polygon.exterior().coords().cloned().collect();
+        let coords: Vec<Coord<f64>> = polygon.polygon.exterior().coords().cloned().collect();
         
         // Find min/max chroma at this value by checking all horizontal segments and corners
         let mut chroma_min = None::<f64>;
@@ -708,10 +708,10 @@ impl MechanicalWedgeSystem {
     
     /// Find the horizontal segment at the given value that contains the chroma point
     /// Returns (min_chroma, max_chroma) of the segment
-    fn find_horizontal_segment_at_point(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> Option<(f64, f64)> {
-        use geo::Coordinate;
+    fn find_horizontal_segment_at_point(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> Option<(f64, f64)> {
+        use geo::Coord;
         
-        let coords: Vec<Coordinate<f64>> = polygon.polygon.exterior().coords().cloned().collect();
+        let coords: Vec<Coord<f64>> = polygon.polygon.exterior().coords().cloned().collect();
         
         // Find all horizontal segments at this value
         for i in 0..coords.len() - 1 {
@@ -735,10 +735,10 @@ impl MechanicalWedgeSystem {
     
     /// Find the vertical segment at the given chroma that contains the value point
     /// Returns (min_value, max_value) of the segment
-    fn find_vertical_segment_at_point(&self, value: f64, chroma: f64, polygon: &ISCC_NBS_Color) -> Option<(f64, f64)> {
-        use geo::Coordinate;
+    fn find_vertical_segment_at_point(&self, value: f64, chroma: f64, polygon: &IsccNbsColor) -> Option<(f64, f64)> {
+        use geo::Coord;
         
-        let coords: Vec<Coordinate<f64>> = polygon.polygon.exterior().coords().cloned().collect();
+        let coords: Vec<Coord<f64>> = polygon.polygon.exterior().coords().cloned().collect();
         
         // Find all vertical segments at this chroma
         for i in 0..coords.len() - 1 {
@@ -855,7 +855,7 @@ impl MechanicalWedgeSystem {
     }
     
     /// Validate a single wedge container
-    fn validate_single_wedge(&self, _wedge_key: &str, container: &[ISCC_NBS_Color]) -> SingleWedgeValidation {
+    fn validate_single_wedge(&self, _wedge_key: &str, container: &[IsccNbsColor]) -> SingleWedgeValidation {
         let mut validation = SingleWedgeValidation::new();
         
         // Check coverage: should cover chroma 0→50, value 0→10
@@ -872,21 +872,21 @@ impl MechanicalWedgeSystem {
     }
     
     /// Check if wedge container provides complete coverage
-    fn check_wedge_coverage(&self, _container: &[ISCC_NBS_Color]) -> bool {
+    fn check_wedge_coverage(&self, _container: &[IsccNbsColor]) -> bool {
         // TODO: Implement coverage checking using geo crate operations
         // Should verify that union of all polygons covers rectangle [0,50] × [0,10]
         true // Placeholder
     }
     
     /// Detect gaps between polygons in wedge container
-    fn detect_wedge_gaps(&self, _container: &[ISCC_NBS_Color]) -> Vec<String> {
+    fn detect_wedge_gaps(&self, _container: &[IsccNbsColor]) -> Vec<String> {
         // TODO: Implement gap detection using geo crate
         // Look for areas not covered by any polygon
         Vec::new() // Placeholder
     }
     
     /// Detect intersections between polygons in wedge container
-    fn detect_wedge_intersections(&self, _container: &[ISCC_NBS_Color]) -> Vec<String> {
+    fn detect_wedge_intersections(&self, _container: &[IsccNbsColor]) -> Vec<String> {
         // TODO: Implement intersection detection using geo crate
         // Look for overlapping polygon interiors
         Vec::new() // Placeholder

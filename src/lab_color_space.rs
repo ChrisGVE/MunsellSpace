@@ -3,8 +3,8 @@
 
 use crate::constants::{ILLUMINANT_D65_XYZ, ILLUMINANT_C_XYZ};
 
-/// Convert XYZ to Lab color space
-/// Exact 1:1 port from Python colour-science XYZ_to_Lab
+/// Convert Xy_luminanceZ to Lab color space
+/// Exact 1:1 port from Python colour-science Xy_luminanceZ_to_Lab
 /// Using Illuminant C for Munsell compatibility
 pub fn xyz_to_lab(xyz: [f64; 3], illuminant: &str) -> [f64; 3] {
     // Select illuminant white point
@@ -14,7 +14,7 @@ pub fn xyz_to_lab(xyz: [f64; 3], illuminant: &str) -> [f64; 3] {
         _ => (ILLUMINANT_C_XYZ[0], ILLUMINANT_C_XYZ[1], ILLUMINANT_C_XYZ[2]), // Default to C for Munsell
     };
     
-    // Python: X_r, Y_r, Z_r = XYZ / illuminant
+    // Python: X_r, y_luminance_r, Z_r = Xy_luminanceZ / illuminant
     let x_r = xyz[0] / xn;
     let y_r = xyz[1] / yn;
     let z_r = xyz[2] / zn;
@@ -53,8 +53,8 @@ pub fn xyz_to_lab(xyz: [f64; 3], illuminant: &str) -> [f64; 3] {
     [l, a, b]
 }
 
-/// Convert Lab to XYZ color space
-/// Exact 1:1 port from Python colour-science Lab_to_XYZ
+/// Convert Lab to Xy_luminanceZ color space
+/// Exact 1:1 port from Python colour-science Lab_to_Xy_luminanceZ
 pub fn lab_to_xyz(lab: [f64; 3], illuminant: &str) -> [f64; 3] {
     let (xn, yn, zn) = match illuminant {
         "D65" => (ILLUMINANT_D65_XYZ[0], ILLUMINANT_D65_XYZ[1], ILLUMINANT_D65_XYZ[2]),
@@ -188,11 +188,11 @@ fn hue_angle_to_munsell_hue_simple(angle: f64) -> (f64, u8) {
     let (hue, code) = if normalized_angle < 20.0 {
         (normalized_angle / 2.0, 7) // R
     } else if normalized_angle < 60.0 {
-        ((normalized_angle - 20.0) / 4.0, 6) // YR
+        ((normalized_angle - 20.0) / 4.0, 6) // y_luminanceR
     } else if normalized_angle < 100.0 {
-        ((normalized_angle - 60.0) / 4.0, 5) // Y
+        ((normalized_angle - 60.0) / 4.0, 5) // y_luminance
     } else if normalized_angle < 140.0 {
-        ((normalized_angle - 100.0) / 4.0, 4) // GY
+        ((normalized_angle - 100.0) / 4.0, 4) // Gy_luminance
     } else if normalized_angle < 180.0 {
         ((normalized_angle - 140.0) / 4.0, 3) // G
     } else if normalized_angle < 220.0 {
@@ -213,8 +213,8 @@ fn hue_angle_to_munsell_hue_simple(angle: f64) -> (f64, u8) {
     (hue, code)
 }
 
-/// Convert sRGB to XYZ using D65 illuminant
-/// Standard sRGB to XYZ conversion matrix
+/// Convert sRGB to Xy_luminanceZ using D65 illuminant
+/// Standard sRGB to Xy_luminanceZ conversion matrix
 pub fn srgb_to_xyz(rgb: [f64; 3]) -> [f64; 3] {
     // Apply gamma correction (inverse sRGB companding)
     let linear_rgb: Vec<f64> = rgb.iter().map(|&c| {
@@ -225,7 +225,7 @@ pub fn srgb_to_xyz(rgb: [f64; 3]) -> [f64; 3] {
         }
     }).collect();
     
-    // sRGB to XYZ matrix (D65 illuminant)
+    // sRGB to Xy_luminanceZ matrix (D65 illuminant)
     let x = 0.4124564 * linear_rgb[0] + 0.3575761 * linear_rgb[1] + 0.1804375 * linear_rgb[2];
     let y = 0.2126729 * linear_rgb[0] + 0.7151522 * linear_rgb[1] + 0.0721750 * linear_rgb[2];
     let z = 0.0193339 * linear_rgb[0] + 0.1191920 * linear_rgb[1] + 0.9503041 * linear_rgb[2];
@@ -233,8 +233,8 @@ pub fn srgb_to_xyz(rgb: [f64; 3]) -> [f64; 3] {
     [x, y, z]
 }
 
-/// Convert XYZ to xy chromaticity coordinates
-/// Exact 1:1 port from Python colour-science XYZ_to_xy
+/// Convert Xy_luminanceZ to xy chromaticity coordinates
+/// Exact 1:1 port from Python colour-science Xy_luminanceZ_to_xy
 pub fn xyz_to_xy(xyz: [f64; 3]) -> [f64; 2] {
     let sum = xyz[0] + xyz[1] + xyz[2];
     
@@ -246,20 +246,20 @@ pub fn xyz_to_xy(xyz: [f64; 3]) -> [f64; 2] {
     }
 }
 
-/// Convert xyY to XYZ
-/// Exact 1:1 port from Python colour-science xyY_to_XYZ
+/// Convert xyy_luminance to Xy_luminanceZ
+/// Exact 1:1 port from Python colour-science xyy_luminance_to_Xy_luminanceZ
 pub fn xyy_to_xyz(xyy: [f64; 3]) -> [f64; 3] {
     let x = xyy[0];
     let y = xyy[1];
-    let Y = xyy[2];
+    let y_luminance = xyy[2];
     
     if y < 1e-10 {
         // Handle edge case where y is 0
-        [0.0, Y, 0.0]
+        [0.0, y_luminance, 0.0]
     } else {
-        let X = x * Y / y;
-        let Z = (1.0 - x - y) * Y / y;
-        [X, Y, Z]
+        let x_coordinate = x * y_luminance / y;
+        let z_coordinate = (1.0 - x - y) * y_luminance / y;
+        [x_coordinate, y_luminance, z_coordinate]
     }
 }
 
