@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- Comprehensive user documentation including README, CONTRIBUTING, and API guides
-- Proper attribution to Python Colour Science library
+### Changed
+- Ready for production publication to crates.io
+- Merged feature/true-mathematical-conversion branch to main
 
-## [1.1.0] - 2025-01-14
+## [1.1.0] - 2025-01-15
 
 ### Added
 - **ISCC-NBS Color Classification System**: Complete implementation with 267 standardized color names
