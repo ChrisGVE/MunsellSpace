@@ -3,6 +3,7 @@
 High-precision **sRGB to Munsell color space conversion** library with **ISCC-NBS color naming system** support.
 
 [![Crates.io](https://img.shields.io/crates/v/munsellspace.svg)](https://crates.io/crates/munsellspace)
+[![Downloads](https://img.shields.io/crates/d/munsellspace.svg)](https://crates.io/crates/munsellspace)
 [![Documentation](https://docs.rs/munsellspace/badge.svg)](https://docs.rs/munsellspace)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/chrisgve/MunsellSpace/ci.yml?branch=main)](https://github.com/chrisgve/MunsellSpace/actions)
