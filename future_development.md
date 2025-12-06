@@ -20,7 +20,7 @@ This document describes future development to this crate, mostly around the desc
 
 - Compute **signed hue deviation** $\Delta h = \text{wrap_angle}(h-h_0)$ in $[-180^o, 180^o]$.
 - Define **Temperature score $T$** as a normalized projection on the warm-cool axis:
-  - Simple: $T=\Delta h / H_\text{max}$, where $H_\text{max}$ is a family-specific half-span (e.g., the midpoint to the neighboring families).
+  - Simple: $T=\Delta h / H_{\text{max}}$, where $H_\text{max}$ is a family-specific half-span (e.g., the midpoint to the neighboring families).
   - Better: use a **directional dot product** in a*,b* (or J'a'b') onto a unit warm axis vector; sign gives warm/cool, magnitude gives strength
 
 ### 1.4 Modulate by chroma (and lightness)
@@ -93,6 +93,40 @@ When multiple overlays match:
 - Since you support multiple illuminants, do all overlay tests in the adapted, uniform space (e.g., CAM16-UCS under stated viewing conditions), not raw RGB.
 - Document the **default illuminant and surround**; expose them in config.
 
+### 2.7 Extensible overlay catalog
+
+The five examples above (fuchsia, sand, teal, turquoise, chartreuse) are **not exhaustive**. The framework is designed to be extensible. Additional candidate overlays include:
+
+**Pink–Orange spectrum:**
+- **Coral** – pinkish orange, moderate chroma, mid-high lightness
+- **Salmon** – softer pink-orange, lower chroma than coral
+- **Peach** – pale orange-pink, high lightness, low-moderate chroma
+
+**Purple–Pink spectrum:**
+- **Mauve** – grayish purple-pink, low-moderate chroma
+- **Lavender** – light purple with blue bias, high lightness
+- **Lilac** – light purple with pink bias, high lightness
+
+**Yellow–Green–Brown spectrum:**
+- **Olive** – dark yellow-green, low-moderate chroma
+- **Khaki** – yellowish brown-green, moderate lightness
+
+**Dark reds:**
+- **Burgundy** – dark purplish red, low-moderate chroma
+- **Maroon** – dark brownish red
+- **Wine** – dark red with purple bias
+
+**Dark blues:**
+- **Navy** – very dark blue, low-moderate chroma
+- **Midnight** – near-black blue
+
+**Near-white warm tones:**
+- **Cream** – pale warm yellow, very high lightness
+- **Ivory** – pale yellow-white, slightly less saturated than cream
+- **Ecru** – pale warm beige, between cream and tan
+
+New overlays can be added by defining their fuzzy region parameters (hue range, chroma range, lightness range) and membership functions.
+
 ## 3. Integrating temperature with overlays
 
 - Each overlay can **carry a temperature descriptor** derived from 1.
@@ -116,6 +150,207 @@ When multiple overlays match:
 - **Unit tests** on handpicked edge cases that sit near multiple families.
 - **Round-trip tests** across illuminants to verify label stability (or document expected shifts).
 - **Human eval**: small panel ratings for temperature and semantic fit; adjust thresholds.
+
+## 6. Munsell Space Navigation
+
+Convenience functions for navigating and exploring Munsell color space from a given coordinate.
+
+### 6.1 Delta operations (systematic iteration)
+
+Apply arbitrary offsets to any Munsell coordinate:
+
+```
+move(5Y 6/4, Δhue=+5, Δvalue=+2, Δchroma=-2) → 10Y 8/2
+```
+
+**Behavior:**
+- **Hue**: wraps around the 100-step circle (e.g., 10R + 2.5 → 2.5YR)
+- **Value**: clamps at 0–10, or returns `None`/error if result is out of bounds
+- **Chroma**: clamps at 0 and maximum gamut for that hue/value combination
+
+**Use cases:**
+- Programmatic exploration of color space
+- Generating color progressions
+- Interpolation between colors
+
+### 6.2 Sequential hue navigation
+
+The Munsell hue sequence is non-obvious due to the number/letter combination:
+
+```
+... 2.5R → 5R → 7.5R → 10R → 2.5YR → 5YR → 7.5YR → 10YR → 2.5Y → 5Y ...
+```
+
+**Functions:**
+- `next_hue(5R) → 7.5R` – next hue in sequence
+- `prev_hue(2.5YR) → 10R` – previous hue in sequence
+- `hue_at_offset(5R, +3) → 2.5YR` – hue N steps forward/backward
+
+**Implementation:**
+- Encode the canonical hue order (40 hues at 2.5 steps, or 100 at 1.0 steps)
+- Handle wrap-around at the R/RP boundary
+
+**Use cases:**
+- UI navigation (hue wheel stepping)
+- Color picker implementations
+- Systematic hue exploration
+
+### 6.3 Directional neighbors (topology-aware)
+
+Given a coordinate, return the neighboring Munsell color in each direction:
+
+```rust
+neighbors(5Y 6/4) → {
+    hue_plus:    7.5Y 6/4,
+    hue_minus:   2.5Y 6/4,
+    value_plus:  5Y 7/4,
+    value_minus: 5Y 5/4,
+    chroma_plus: 5Y 6/6,
+    chroma_minus: 5Y 6/2,
+}
+```
+
+**Critical consideration: position within polygon**
+
+Munsell space is not a regular grid. The "next color in direction X" depends on the **exact position within the current Munsell polygon**, not just the discrete notation.
+
+```
+Within 5Y 6/4 polygon:
+  - Point near 7.5Y boundary → +hue neighbor is 7.5Y 6/4
+  - Point near 2.5Y boundary → +hue neighbor is still 7.5Y 6/4, but crossing distance differs
+  - Point near high chroma edge → +chroma might hit gamut boundary
+  - Point at chroma extremes → neighbors may vary due to irregular polygon shapes
+```
+
+**Implementation approach:**
+- Input: continuous position in Munsell space (or underlying xyY/Lab coordinate)
+- Output: the Munsell polygon entered when moving in direction D by step S
+- Must account for irregular polygon boundaries at different value/chroma levels
+
+**Configurable step sizes:**
+- Hue: 2.5 (standard) or 5.0 (coarse) or 1.0 (fine)
+- Value: 1.0 (standard) or 0.5 (fine)
+- Chroma: 2.0 (standard) or 1.0 (fine)
+
+**Use cases:**
+- Palette generation tools
+- Accessibility alternatives (find similar but distinguishable colors)
+- Color harmony calculations
+- Interactive color exploration
+
+## 7. Vector Arithmetic in Munsell Space
+
+Munsell space is perceptually uniform by design, making vector operations potentially meaningful for color manipulation.
+
+### 7.1 Coordinate transformation
+
+Convert Munsell cylindrical coordinates to Cartesian for vector math:
+
+```
+Munsell (H, V, C) → Cartesian Munsell (x, y, z):
+  hue_angle = H × 3.6°  // 100 hue steps = 360°
+  x = C × cos(hue_angle)
+  y = C × sin(hue_angle)
+  z = V
+```
+
+Inverse transformation returns to Munsell notation.
+
+### 7.2 Vector operations
+
+| Operation | Formula | Meaning |
+|-----------|---------|---------|
+| Addition | `A + B` | Blend/superposition (may need normalization) |
+| Subtraction | `A - B` | Difference vector (direction from B to A) |
+| Midpoint | `(A + B) / 2` | Perceptual midpoint between two colors |
+| Complement | `-A` (from neutral) | Complementary color (opposite side of neutral) |
+| Scaling | `A × scalar` | Move toward (s<1) or away from (s>1) neutral |
+| Dot product | `A · B` | Similarity measure |
+| Distance | `‖A - B‖` | Perceptual distance (ΔE equivalent in Munsell) |
+| Interpolation | `A + t(B - A)` | Point t% of the way from A to B |
+
+### 7.3 Special considerations
+
+**Hue circularity:**
+- Hue is circular (0° = 360°) – use proper angle arithmetic
+- When interpolating hue, choose the shorter arc unless specified otherwise
+- Handle the discontinuity at R/RP boundary
+
+**Gamut constraints:**
+- Vector results may fall outside sRGB gamut
+- Chroma cannot be negative – clamp or project to valid range
+- Provide options: clamp, project to gamut surface, or return `None`
+
+**Value bounds:**
+- Value must remain in 0–10 range
+- Clamp or return error for out-of-bounds results
+
+### 7.4 Use cases
+
+- **Perceptually smooth interpolation**: generate N colors between A and B
+- **Complementary colors**: find the color opposite to A through neutral
+- **Analogous colors**: find colors at fixed angular offsets from A
+- **Color mixing prediction**: approximate result of mixing pigments
+- **Palette generation**: create harmonious color sets along vectors
+- **Accessibility**: find colors at specific perceptual distances
+
+### 7.5 API sketch
+
+```rust
+impl MunsellColor {
+    fn to_cartesian(&self) -> CartesianMunsell;
+    fn from_cartesian(cart: CartesianMunsell) -> Option<Self>;
+
+    fn add(&self, other: &Self) -> Option<Self>;
+    fn subtract(&self, other: &Self) -> CartesianMunsell;  // always valid as vector
+    fn midpoint(&self, other: &Self) -> Option<Self>;
+    fn interpolate(&self, other: &Self, t: f64) -> Option<Self>;
+    fn complement(&self) -> Option<Self>;
+    fn scale_from_neutral(&self, factor: f64) -> Option<Self>;
+    fn distance(&self, other: &Self) -> f64;
+}
+```
+
+## 8. Centroid Calculations
+
+Compute representative central points for color regions.
+
+### 8.1 ISCC-NBS region centroids
+
+For each of the 267 ISCC-NBS categories, compute:
+- **Geometric centroid** in Munsell space (or xyY/Lab)
+- **sRGB centroid** (the sRGB color closest to the geometric center)
+- **Gamut-constrained centroid** (center of the sRGB-realizable portion)
+
+**Use cases:**
+- Canonical example of each ISCC-NBS category
+- Distance calculations ("how far from typical X is this color?")
+- Default/fallback colors for each category
+
+### 8.2 Semantic overlay centroids
+
+For each semantic overlay (teal, fuchsia, etc.):
+- Compute centroid from exemplar swatches
+- Store covariance matrix for fuzzy membership calculations
+- Update centroids based on user feedback
+
+### 8.3 Munsell polygon centroids
+
+For any Munsell notation (e.g., "5Y 6/4"):
+- Compute the geometric center of the polygon in xyY space
+- Useful for "canonical" representation of discrete Munsell colors
+- Enable distance-from-center calculations for membership confidence
+
+### 8.4 Dynamic centroid queries
+
+```rust
+impl MunsellConverter {
+    fn iscc_nbs_centroid(category: &str) -> Option<MunsellColor>;
+    fn overlay_centroid(overlay: &str) -> Option<MunsellColor>;
+    fn polygon_centroid(notation: &str) -> Option<MunsellColor>;
+    fn distance_from_centroid(&self, color: &MunsellColor, region: &str) -> f64;
+}
+```
 
 ---
 
@@ -220,12 +455,41 @@ Example outputs:
 
 ### 6. Future TODO Items
 
-- [ ] Implement **absolute temperature axis** (warm/cool bias).
-- [ ] Define **semantic overlays** for missing categories (fuchsia, sand, teal, turquoise, chartreuse).
-- [ ] Keep ISCC–NBS intact, add overlays in `alt_color_name`.
-- [ ] Provide both **continuous T score** and categorical labels.
-- [ ] Document illuminant & surround assumptions.
-- [ ] Validate with user feedback (fountain pen ink community).
+**Temperature bias:**
+- [ ] Implement **absolute temperature axis** (warm/cool bias)
+- [ ] Provide both **continuous T score** and categorical labels
+- [ ] Special handling for grays using b* axis
+
+**Semantic overlays:**
+- [ ] Define **core semantic overlays** (fuchsia, sand, teal, turquoise, chartreuse)
+- [ ] Define **extended overlays** (coral, salmon, peach, mauve, lavender, lilac, olive, khaki, burgundy, maroon, wine, navy, midnight, cream, ivory, ecru)
+- [ ] Implement fuzzy membership functions for each overlay
+- [ ] Keep ISCC–NBS intact, add overlays in `alt_color_name`
+- [ ] Support combined descriptors: `[temperature] [overlay] [modifier]`
+
+**Munsell space navigation:**
+- [ ] Implement **delta operations** (move by Δhue, Δvalue, Δchroma)
+- [ ] Implement **sequential hue navigation** (next_hue, prev_hue, hue_at_offset)
+- [ ] Implement **topology-aware directional neighbors** (accounting for position within polygon)
+- [ ] Support configurable step sizes for each dimension
+
+**Vector arithmetic:**
+- [ ] Implement Munsell → Cartesian coordinate transformation
+- [ ] Implement vector operations (add, subtract, midpoint, interpolate, complement, scale, distance)
+- [ ] Handle hue circularity correctly in all operations
+- [ ] Implement gamut constraint options (clamp, project, or return None)
+
+**Centroid calculations:**
+- [ ] Compute and store **ISCC-NBS region centroids**
+- [ ] Compute **semantic overlay centroids** from exemplars
+- [ ] Compute **Munsell polygon centroids**
+- [ ] Implement distance-from-centroid queries
+
+**Calibration and validation:**
+- [ ] Document illuminant & surround assumptions
+- [ ] Unit tests on edge cases near family boundaries
+- [ ] Round-trip tests across illuminants
+- [ ] Validate with user feedback (fountain pen ink community)
 
 ---
 
