@@ -106,6 +106,7 @@ pub mod color_interpolation;
 pub mod mechanical_wedges;
 pub mod unified_cache;
 pub mod semantic_overlay;
+pub mod semantic_overlay_data;
 
 // Test modules were moved to their respective implementation files
 #[cfg(test)]
