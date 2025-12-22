@@ -6,6 +6,32 @@
 //!
 //! The methodology uses convex polyhedra in 3D Munsell space to define color name regions,
 //! with point-in-polyhedron tests for membership determination.
+//!
+//! # Quick Start
+//!
+//! ```rust
+//! use munsellspace::semantic_overlay::{semantic_overlay, matching_overlays, parse_munsell_notation};
+//!
+//! // Parse a Munsell color and find its semantic name
+//! if let Some(spec) = parse_munsell_notation("7.4BG 6.2/3.4") {
+//!     if let Some(name) = semantic_overlay(&spec) {
+//!         println!("This color is: {}", name);  // "aqua"
+//!     }
+//! }
+//! ```
+//!
+//! # Available Functions
+//!
+//! - [`semantic_overlay`]: Get the best matching semantic name for a color
+//! - [`matching_overlays`]: Get all semantic names that match a color
+//! - [`matches_overlay`]: Check if a color matches a specific overlay name
+//! - [`closest_overlay`]: Find the nearest overlay by centroid distance
+//!
+//! # The 20 Non-Basic Color Names
+//!
+//! Centore defined boundaries for these color names:
+//! aqua, beige, coral, fuchsia, gold, lavender, lilac, magenta, mauve, navy,
+//! peach, rose, rust, sand, tan, taupe, teal, turquoise, violet, wine
 
 use std::f64::consts::PI;
 
@@ -730,6 +756,132 @@ pub fn munsell_in_polyhedron(
     point_in_polyhedron(&point, vertices, faces)
 }
 
+// ============================================================================
+// Public API Functions
+// ============================================================================
+
+/// Get the best matching semantic overlay name for a Munsell color.
+///
+/// This function tests the color against all 20 overlay polyhedra and returns
+/// the name of the best match. If multiple overlays match, the one with the
+/// closest centroid is returned.
+///
+/// # Arguments
+/// * `color` - The Munsell color specification to test
+///
+/// # Returns
+/// The overlay name if a match is found, None otherwise.
+///
+/// # Examples
+/// ```
+/// use munsellspace::semantic_overlay::{semantic_overlay, parse_munsell_notation};
+///
+/// // The aqua centroid should match "aqua"
+/// let aqua = parse_munsell_notation("7.4BG 6.2/3.4").unwrap();
+/// assert_eq!(semantic_overlay(&aqua), Some("aqua"));
+/// ```
+pub fn semantic_overlay(color: &MunsellSpec) -> Option<&'static str> {
+    let registry = crate::semantic_overlay_data::get_registry();
+    registry.best_match(color).map(|o| o.name)
+}
+
+/// Get all semantic overlay names that match a Munsell color.
+///
+/// A color can potentially match multiple overlays if it lies in overlapping
+/// regions. This function returns all matching overlay names.
+///
+/// # Arguments
+/// * `color` - The Munsell color specification to test
+///
+/// # Returns
+/// Vector of overlay names that contain the color.
+///
+/// # Examples
+/// ```
+/// use munsellspace::semantic_overlay::{matching_overlays, parse_munsell_notation};
+///
+/// let color = parse_munsell_notation("7.4BG 6.2/3.4").unwrap();
+/// let matches = matching_overlays(&color);
+/// assert!(matches.contains(&"aqua"));
+/// ```
+pub fn matching_overlays(color: &MunsellSpec) -> Vec<&'static str> {
+    let registry = crate::semantic_overlay_data::get_registry();
+    registry.matching_overlays(color)
+        .into_iter()
+        .map(|o| o.name)
+        .collect()
+}
+
+/// Check if a Munsell color matches a specific overlay by name.
+///
+/// # Arguments
+/// * `color` - The Munsell color specification to test
+/// * `overlay_name` - The overlay name to check (case-insensitive)
+///
+/// # Returns
+/// `true` if the color is inside the named overlay's polyhedron.
+///
+/// # Examples
+/// ```
+/// use munsellspace::semantic_overlay::{matches_overlay, parse_munsell_notation};
+///
+/// let color = parse_munsell_notation("7.4BG 6.2/3.4").unwrap();
+/// assert!(matches_overlay(&color, "aqua"));
+/// assert!(matches_overlay(&color, "AQUA")); // Case-insensitive
+/// ```
+pub fn matches_overlay(color: &MunsellSpec, overlay_name: &str) -> bool {
+    let registry = crate::semantic_overlay_data::get_registry();
+    registry.matches(color, overlay_name)
+}
+
+/// Find the closest overlay by centroid distance.
+///
+/// This is useful when a color doesn't match any overlay but you want to
+/// find the nearest semantic name anyway.
+///
+/// # Arguments
+/// * `color` - The Munsell color specification to test
+///
+/// # Returns
+/// Tuple of (overlay_name, distance) for the closest overlay.
+///
+/// # Examples
+/// ```
+/// use munsellspace::semantic_overlay::{closest_overlay, MunsellSpec};
+///
+/// // A neutral gray is not inside any overlay but we can find the closest
+/// let gray = MunsellSpec::neutral(5.0);
+/// if let Some((name, distance)) = closest_overlay(&gray) {
+///     println!("Closest color name: {} (distance: {:.2})", name, distance);
+/// }
+/// ```
+pub fn closest_overlay(color: &MunsellSpec) -> Option<(&'static str, f64)> {
+    let registry = crate::semantic_overlay_data::get_registry();
+    registry.closest_overlay(color).map(|(o, d)| (o.name, d))
+}
+
+/// Get a semantic overlay name from a Munsell notation string.
+///
+/// This is a convenience function that parses the notation and finds the overlay.
+///
+/// # Arguments
+/// * `notation` - Munsell notation string like "5R 4.0/12.0"
+///
+/// # Returns
+/// The overlay name if the notation is valid and matches an overlay.
+///
+/// # Examples
+/// ```
+/// use munsellspace::semantic_overlay::semantic_overlay_from_notation;
+///
+/// assert_eq!(semantic_overlay_from_notation("7.4BG 6.2/3.4"), Some("aqua"));
+/// assert_eq!(semantic_overlay_from_notation("invalid"), None);
+/// ```
+pub fn semantic_overlay_from_notation(notation: &str) -> Option<&'static str> {
+    let spec = parse_munsell_notation(notation)?;
+    semantic_overlay(&spec)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -985,6 +1137,50 @@ mod tests {
 
         assert_eq!(overlay.name, "test");
         assert_eq!(overlay.sample_count, 100);
+    }
+
+    // ========================================================================
+    // Public API Tests
+    // ========================================================================
+
+    #[test]
+    fn test_semantic_overlay_at_centroid() {
+        // Each centroid should match its own overlay
+        assert_eq!(semantic_overlay(&super::centroids::aqua()), Some("aqua"));
+        assert_eq!(semantic_overlay(&super::centroids::navy()), Some("navy"));
+        assert_eq!(semantic_overlay(&super::centroids::beige()), Some("beige"));
+    }
+
+    #[test]
+    fn test_matching_overlays_at_centroid() {
+        let aqua = super::centroids::aqua();
+        let matches = matching_overlays(&aqua);
+        assert!(matches.contains(&"aqua"));
+    }
+
+    #[test]
+    fn test_matches_overlay_function() {
+        let navy = super::centroids::navy();
+        assert!(matches_overlay(&navy, "navy"));
+        assert!(matches_overlay(&navy, "NAVY")); // Case-insensitive
+        assert!(matches_overlay(&navy, "Navy"));
+    }
+
+    #[test]
+    fn test_closest_overlay_function() {
+        // A neutral gray should find some closest overlay
+        let gray = MunsellSpec::neutral(5.0);
+        let result = closest_overlay(&gray);
+        assert!(result.is_some());
+        let (name, distance) = result.unwrap();
+        assert!(!name.is_empty());
+        assert!(distance > 0.0);
+    }
+
+    #[test]
+    fn test_semantic_overlay_from_notation_function() {
+        assert_eq!(semantic_overlay_from_notation("7.4BG 6.2/3.4"), Some("aqua"));
+        assert_eq!(semantic_overlay_from_notation("invalid"), None);
     }
 
     #[test]
