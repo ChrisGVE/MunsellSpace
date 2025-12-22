@@ -293,6 +293,240 @@ pub fn parse_munsell_notation(notation: &str) -> Option<MunsellSpec> {
 }
 
 // ============================================================================
+// Semantic Overlay Data Structures
+// ============================================================================
+
+/// A semantic overlay representing a non-basic color name region.
+///
+/// Based on Centore (2020): Each overlay is defined by a convex polyhedron
+/// in 3D Munsell Cartesian space. The polyhedron encloses all colors that
+/// can be called by this name.
+#[derive(Debug, Clone)]
+pub struct SemanticOverlay {
+    /// The color name (e.g., "aqua", "beige", "coral")
+    pub name: &'static str,
+    /// The polyhedron defining the color region
+    pub polyhedron: ConvexPolyhedron,
+    /// Centroid (focal color) from Centore's Table 1
+    pub centroid: MunsellSpec,
+    /// Number of samples used to define this region in Centore's study
+    pub sample_count: u32,
+}
+
+impl SemanticOverlay {
+    /// Create a new semantic overlay.
+    pub fn new(
+        name: &'static str,
+        vertices: &[(f64, f64, f64)],
+        faces: &[(usize, usize, usize)],
+        centroid: MunsellSpec,
+        sample_count: u32,
+    ) -> Self {
+        Self {
+            name,
+            polyhedron: ConvexPolyhedron::from_arrays(vertices, faces),
+            centroid,
+            sample_count,
+        }
+    }
+
+    /// Test if a Munsell color matches this overlay.
+    pub fn contains(&self, color: &MunsellSpec) -> bool {
+        let point = color.to_cartesian();
+        self.polyhedron.contains_point(&point)
+    }
+
+    /// Test if a Munsell color matches with tolerance.
+    pub fn contains_with_tolerance(&self, color: &MunsellSpec, tolerance: f64) -> bool {
+        let point = color.to_cartesian();
+        self.polyhedron.contains_point_with_tolerance(&point, tolerance)
+    }
+
+    /// Calculate distance from color to centroid.
+    pub fn distance_to_centroid(&self, color: &MunsellSpec) -> f64 {
+        color.distance_from(&self.centroid)
+    }
+
+    /// Get the centroid as a notation string.
+    pub fn centroid_notation(&self) -> String {
+        self.centroid.to_notation()
+    }
+}
+
+/// Registry of all semantic overlays.
+///
+/// This struct holds all 20 non-basic color name overlays from Centore (2020).
+#[derive(Debug, Clone)]
+pub struct SemanticOverlayRegistry {
+    overlays: Vec<SemanticOverlay>,
+}
+
+impl SemanticOverlayRegistry {
+    /// Create a new registry with the given overlays.
+    pub fn new(overlays: Vec<SemanticOverlay>) -> Self {
+        Self { overlays }
+    }
+
+    /// Get all overlays.
+    pub fn all(&self) -> &[SemanticOverlay] {
+        &self.overlays
+    }
+
+    /// Find an overlay by name (case-insensitive).
+    pub fn get(&self, name: &str) -> Option<&SemanticOverlay> {
+        let name_lower = name.to_lowercase();
+        self.overlays.iter().find(|o| o.name.to_lowercase() == name_lower)
+    }
+
+    /// Test if a color matches a specific overlay by name.
+    pub fn matches(&self, color: &MunsellSpec, overlay_name: &str) -> bool {
+        self.get(overlay_name)
+            .map(|o| o.contains(color))
+            .unwrap_or(false)
+    }
+
+    /// Find all overlays that contain the given color.
+    pub fn matching_overlays(&self, color: &MunsellSpec) -> Vec<&SemanticOverlay> {
+        self.overlays
+            .iter()
+            .filter(|o| o.contains(color))
+            .collect()
+    }
+
+    /// Find the best matching overlay for a color.
+    ///
+    /// If the color is inside multiple overlays, returns the one with
+    /// the closest centroid. If the color is not inside any overlay,
+    /// returns None.
+    pub fn best_match(&self, color: &MunsellSpec) -> Option<&SemanticOverlay> {
+        let matches = self.matching_overlays(color);
+        if matches.is_empty() {
+            return None;
+        }
+
+        matches
+            .into_iter()
+            .min_by(|a, b| {
+                let dist_a = a.distance_to_centroid(color);
+                let dist_b = b.distance_to_centroid(color);
+                dist_a.partial_cmp(&dist_b).unwrap_or(std::cmp::Ordering::Equal)
+            })
+    }
+
+    /// Find the closest overlay by centroid distance (even if color is outside).
+    pub fn closest_overlay(&self, color: &MunsellSpec) -> Option<(&SemanticOverlay, f64)> {
+        self.overlays
+            .iter()
+            .map(|o| (o, o.distance_to_centroid(color)))
+            .min_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal))
+    }
+
+    /// Get overlay names.
+    pub fn names(&self) -> Vec<&'static str> {
+        self.overlays.iter().map(|o| o.name).collect()
+    }
+
+    /// Number of overlays in the registry.
+    pub fn len(&self) -> usize {
+        self.overlays.len()
+    }
+
+    /// Check if registry is empty.
+    pub fn is_empty(&self) -> bool {
+        self.overlays.is_empty()
+    }
+}
+
+/// The 20 non-basic color names defined by Centore (2020).
+pub const OVERLAY_NAMES: [&str; 20] = [
+    "aqua", "beige", "coral", "fuchsia", "gold",
+    "lavender", "lilac", "magenta", "mauve", "navy",
+    "peach", "rose", "rust", "sand", "tan",
+    "taupe", "teal", "turquoise", "violet", "wine",
+];
+
+/// Centroid specifications from Centore (2020) Table 1.
+///
+/// These are the focal colors for each semantic overlay.
+pub mod centroids {
+    use super::MunsellSpec;
+
+    /// Parse a Munsell notation to MunsellSpec, panicking on error.
+    fn spec(notation: &str) -> MunsellSpec {
+        super::parse_munsell_notation(notation)
+            .unwrap_or_else(|| panic!("Invalid centroid notation: {}", notation))
+    }
+
+    /// Aqua: 7.4BG 6.2/3.4
+    pub fn aqua() -> MunsellSpec { spec("7.4BG 6.2/3.4") }
+    /// Beige: 6.7YR 6.1/3.4
+    pub fn beige() -> MunsellSpec { spec("6.7YR 6.1/3.4") }
+    /// Coral: 6.5R 5.8/8.3
+    pub fn coral() -> MunsellSpec { spec("6.5R 5.8/8.3") }
+    /// Fuchsia: 4.8RP 4.1/10.3
+    pub fn fuchsia() -> MunsellSpec { spec("4.8RP 4.1/10.3") }
+    /// Gold: 9.8YR 6.4/7.4
+    pub fn gold() -> MunsellSpec { spec("9.8YR 6.4/7.4") }
+    /// Lavender: 5.6P 5.4/4.8
+    pub fn lavender() -> MunsellSpec { spec("5.6P 5.4/4.8") }
+    /// Lilac: 7.8P 5.6/4.8
+    pub fn lilac() -> MunsellSpec { spec("7.8P 5.6/4.8") }
+    /// Magenta: 3.8RP 3.4/9.4
+    pub fn magenta() -> MunsellSpec { spec("3.8RP 3.4/9.4") }
+    /// Mauve: 1.2RP 5.1/3.9
+    pub fn mauve() -> MunsellSpec { spec("1.2RP 5.1/3.9") }
+    /// Navy: 7.3PB 2.1/3.6
+    pub fn navy() -> MunsellSpec { spec("7.3PB 2.1/3.6") }
+    /// Peach: 2.9YR 7.0/5.9
+    pub fn peach() -> MunsellSpec { spec("2.9YR 7.0/5.9") }
+    /// Rose: 0.5R 5.0/7.7
+    pub fn rose() -> MunsellSpec { spec("0.5R 5.0/7.7") }
+    /// Rust: 9.4R 3.9/7.4
+    pub fn rust() -> MunsellSpec { spec("9.4R 3.9/7.4") }
+    /// Sand: 7.6YR 6.3/3.2
+    pub fn sand() -> MunsellSpec { spec("7.6YR 6.3/3.2") }
+    /// Tan: 6.3YR 5.2/4.1
+    pub fn tan() -> MunsellSpec { spec("6.3YR 5.2/4.1") }
+    /// Taupe: 3.2YR 4.7/1.4
+    pub fn taupe() -> MunsellSpec { spec("3.2YR 4.7/1.4") }
+    /// Teal: 1.6B 3.3/4.5
+    pub fn teal() -> MunsellSpec { spec("1.6B 3.3/4.5") }
+    /// Turquoise: 1.6B 5.5/5.9
+    pub fn turquoise() -> MunsellSpec { spec("1.6B 5.5/5.9") }
+    /// Violet: 7.0P 3.8/6.2
+    pub fn violet() -> MunsellSpec { spec("7.0P 3.8/6.2") }
+    /// Wine: 2.7R 3.0/4.9
+    pub fn wine() -> MunsellSpec { spec("2.7R 3.0/4.9") }
+
+    /// Get centroid by name (case-insensitive).
+    pub fn get(name: &str) -> Option<MunsellSpec> {
+        match name.to_lowercase().as_str() {
+            "aqua" => Some(aqua()),
+            "beige" => Some(beige()),
+            "coral" => Some(coral()),
+            "fuchsia" => Some(fuchsia()),
+            "gold" => Some(gold()),
+            "lavender" => Some(lavender()),
+            "lilac" => Some(lilac()),
+            "magenta" => Some(magenta()),
+            "mauve" => Some(mauve()),
+            "navy" => Some(navy()),
+            "peach" => Some(peach()),
+            "rose" => Some(rose()),
+            "rust" => Some(rust()),
+            "sand" => Some(sand()),
+            "tan" => Some(tan()),
+            "taupe" => Some(taupe()),
+            "teal" => Some(teal()),
+            "turquoise" => Some(turquoise()),
+            "violet" => Some(violet()),
+            "wine" => Some(wine()),
+            _ => None,
+        }
+    }
+}
+
+// ============================================================================
 // Point-in-Polyhedron Algorithm
 // ============================================================================
 
@@ -694,6 +928,103 @@ mod tests {
         // A color outside due to wrong value
         let wrong_value = MunsellSpec::new(2.0, 8.0, 7.0); // 5R 8.0/7.0 - z=8 is outside [4,6]
         assert!(!munsell_in_polyhedron(&wrong_value, &vertices, &faces));
+    }
+
+    // ========================================================================
+    // SemanticOverlay Data Structure Tests
+    // ========================================================================
+
+    #[test]
+    fn test_centroid_functions() {
+        // Test all centroids can be retrieved
+        for name in &super::OVERLAY_NAMES {
+            let centroid = super::centroids::get(name);
+            assert!(centroid.is_some(), "Centroid for '{}' should exist", name);
+        }
+
+        // Test specific centroids
+        let aqua = super::centroids::aqua();
+        assert!((aqua.value - 6.2).abs() < 0.01);
+
+        let navy = super::centroids::navy();
+        assert!((navy.value - 2.1).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_centroid_get_case_insensitive() {
+        assert!(super::centroids::get("AQUA").is_some());
+        assert!(super::centroids::get("Aqua").is_some());
+        assert!(super::centroids::get("aqua").is_some());
+        assert!(super::centroids::get("invalid").is_none());
+    }
+
+    #[test]
+    fn test_overlay_names_count() {
+        assert_eq!(super::OVERLAY_NAMES.len(), 20);
+    }
+
+    #[test]
+    fn test_semantic_overlay_creation() {
+        // Create a simple test overlay
+        let vertices = vec![
+            (0.0, 0.0, 0.0),
+            (1.0, 0.0, 0.0),
+            (0.5, 0.866, 0.0),
+            (0.5, 0.289, 0.816),
+        ];
+
+        let faces = vec![
+            (0, 2, 1),
+            (0, 1, 3),
+            (1, 2, 3),
+            (2, 0, 3),
+        ];
+
+        let centroid = MunsellSpec::new(2.0, 5.0, 8.0);
+        let overlay = SemanticOverlay::new("test", &vertices, &faces, centroid, 100);
+
+        assert_eq!(overlay.name, "test");
+        assert_eq!(overlay.sample_count, 100);
+    }
+
+    #[test]
+    fn test_registry_basic_operations() {
+        // Create a simple test registry
+        let vertices = vec![
+            (-1.0, -1.0, -1.0),
+            (1.0, -1.0, -1.0),
+            (1.0, 1.0, -1.0),
+            (-1.0, 1.0, -1.0),
+            (-1.0, -1.0, 1.0),
+            (1.0, -1.0, 1.0),
+            (1.0, 1.0, 1.0),
+            (-1.0, 1.0, 1.0),
+        ];
+
+        let faces = vec![
+            (0, 2, 1), (0, 3, 2),
+            (4, 5, 6), (4, 6, 7),
+            (0, 1, 5), (0, 5, 4),
+            (2, 3, 7), (2, 7, 6),
+            (0, 4, 7), (0, 7, 3),
+            (1, 2, 6), (1, 6, 5),
+        ];
+
+        let overlay1 = SemanticOverlay::new(
+            "test1",
+            &vertices,
+            &faces,
+            MunsellSpec::new(0.0, 0.0, 0.0),
+            50,
+        );
+
+        let registry = SemanticOverlayRegistry::new(vec![overlay1]);
+
+        assert_eq!(registry.len(), 1);
+        assert!(!registry.is_empty());
+        assert!(registry.get("test1").is_some());
+        assert!(registry.get("TEST1").is_some()); // Case insensitive
+        assert!(registry.get("nonexistent").is_none());
     }
 
     // ========================================================================
