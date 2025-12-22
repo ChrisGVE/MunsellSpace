@@ -292,9 +292,413 @@ pub fn parse_munsell_notation(notation: &str) -> Option<MunsellSpec> {
     Some(MunsellSpec::new(hue_number, value, chroma))
 }
 
+// ============================================================================
+// Point-in-Polyhedron Algorithm
+// ============================================================================
+
+/// A triangular face of a polyhedron, defined by vertex indices.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct TriFace {
+    /// Index of first vertex
+    pub v0: usize,
+    /// Index of second vertex
+    pub v1: usize,
+    /// Index of third vertex
+    pub v2: usize,
+}
+
+impl TriFace {
+    /// Create a new triangular face from vertex indices.
+    pub fn new(v0: usize, v1: usize, v2: usize) -> Self {
+        Self { v0, v1, v2 }
+    }
+}
+
+/// Represents a convex polyhedron defined by vertices and triangular faces.
+#[derive(Debug, Clone)]
+pub struct ConvexPolyhedron {
+    /// Vertices as 3D Cartesian coordinates
+    pub vertices: Vec<MunsellCartesian>,
+    /// Triangular faces as vertex indices (counter-clockwise when viewed from outside)
+    pub faces: Vec<TriFace>,
+}
+
+impl ConvexPolyhedron {
+    /// Create a new convex polyhedron.
+    pub fn new(vertices: Vec<MunsellCartesian>, faces: Vec<TriFace>) -> Self {
+        Self { vertices, faces }
+    }
+
+    /// Create from arrays of vertex coordinates and face indices.
+    ///
+    /// # Arguments
+    /// * `vertices` - Array of (x, y, z) coordinate tuples
+    /// * `faces` - Array of (v0, v1, v2) face index tuples
+    pub fn from_arrays(vertices: &[(f64, f64, f64)], faces: &[(usize, usize, usize)]) -> Self {
+        let verts: Vec<MunsellCartesian> = vertices
+            .iter()
+            .map(|(x, y, z)| MunsellCartesian::new(*x, *y, *z))
+            .collect();
+
+        let face_list: Vec<TriFace> = faces
+            .iter()
+            .map(|(v0, v1, v2)| TriFace::new(*v0, *v1, *v2))
+            .collect();
+
+        Self::new(verts, face_list)
+    }
+
+    /// Calculate the centroid (geometric center) of the polyhedron.
+    pub fn centroid(&self) -> MunsellCartesian {
+        if self.vertices.is_empty() {
+            return MunsellCartesian::new(0.0, 0.0, 0.0);
+        }
+
+        let n = self.vertices.len() as f64;
+        let sum_x: f64 = self.vertices.iter().map(|v| v.x).sum();
+        let sum_y: f64 = self.vertices.iter().map(|v| v.y).sum();
+        let sum_z: f64 = self.vertices.iter().map(|v| v.z).sum();
+
+        MunsellCartesian::new(sum_x / n, sum_y / n, sum_z / n)
+    }
+
+    /// Test if a point is inside this convex polyhedron.
+    ///
+    /// Uses the half-space test: for a convex polyhedron, a point is inside
+    /// if and only if it is on the interior side of every face plane.
+    ///
+    /// # Arguments
+    /// * `point` - The point to test
+    ///
+    /// # Returns
+    /// `true` if the point is inside the polyhedron, `false` otherwise.
+    ///
+    /// # Note
+    /// Points exactly on the boundary may return either true or false
+    /// due to floating-point precision.
+    pub fn contains_point(&self, point: &MunsellCartesian) -> bool {
+        if self.faces.is_empty() || self.vertices.len() < 4 {
+            return false;
+        }
+
+        // Calculate centroid to determine which side is "inside"
+        let centroid = self.centroid();
+
+        for face in &self.faces {
+            let v0 = &self.vertices[face.v0];
+            let v1 = &self.vertices[face.v1];
+            let v2 = &self.vertices[face.v2];
+
+            // Calculate face normal using cross product of two edges
+            let edge1 = (v1.x - v0.x, v1.y - v0.y, v1.z - v0.z);
+            let edge2 = (v2.x - v0.x, v2.y - v0.y, v2.z - v0.z);
+
+            let normal = cross_product(edge1, edge2);
+
+            // Calculate plane equation: ax + by + cz + d = 0
+            // where (a, b, c) is the normal
+            let d = -(normal.0 * v0.x + normal.1 * v0.y + normal.2 * v0.z);
+
+            // Calculate signed distance for the test point and centroid
+            let point_side = normal.0 * point.x + normal.1 * point.y + normal.2 * point.z + d;
+            let centroid_side = normal.0 * centroid.x + normal.1 * centroid.y + normal.2 * centroid.z + d;
+
+            // Point must be on the same side as centroid (with small epsilon for boundary)
+            const EPSILON: f64 = 1e-10;
+            if centroid_side > EPSILON {
+                // Centroid is on positive side, point should also be positive or nearly zero
+                if point_side < -EPSILON {
+                    return false;
+                }
+            } else if centroid_side < -EPSILON {
+                // Centroid is on negative side, point should also be negative or nearly zero
+                if point_side > EPSILON {
+                    return false;
+                }
+            }
+            // If centroid is on the plane (shouldn't happen for valid polyhedra), skip this face
+        }
+
+        true
+    }
+
+    /// Test if a point is inside with a tolerance for near-boundary points.
+    ///
+    /// This is useful when testing colors that might be slightly outside
+    /// due to measurement or conversion errors.
+    ///
+    /// # Arguments
+    /// * `point` - The point to test
+    /// * `tolerance` - Distance tolerance (in Munsell Cartesian units)
+    ///
+    /// # Returns
+    /// `true` if the point is inside or within tolerance of the boundary.
+    pub fn contains_point_with_tolerance(&self, point: &MunsellCartesian, tolerance: f64) -> bool {
+        if self.contains_point(point) {
+            return true;
+        }
+
+        // Check if point is within tolerance distance of any vertex
+        for vertex in &self.vertices {
+            if point.distance(vertex) <= tolerance {
+                return true;
+            }
+        }
+
+        false
+    }
+}
+
+/// Calculate cross product of two 3D vectors.
+fn cross_product(a: (f64, f64, f64), b: (f64, f64, f64)) -> (f64, f64, f64) {
+    (
+        a.1 * b.2 - a.2 * b.1,
+        a.2 * b.0 - a.0 * b.2,
+        a.0 * b.1 - a.1 * b.0,
+    )
+}
+
+/// Test if a point is inside a convex polyhedron (standalone function).
+///
+/// This is a convenience wrapper around `ConvexPolyhedron::contains_point`.
+///
+/// # Arguments
+/// * `point` - The test point in Cartesian coordinates
+/// * `vertices` - Polyhedron vertices as (x, y, z) tuples
+/// * `faces` - Triangular faces as (v0, v1, v2) vertex index tuples
+///
+/// # Returns
+/// `true` if the point is inside the polyhedron.
+pub fn point_in_polyhedron(
+    point: &MunsellCartesian,
+    vertices: &[(f64, f64, f64)],
+    faces: &[(usize, usize, usize)],
+) -> bool {
+    let poly = ConvexPolyhedron::from_arrays(vertices, faces);
+    poly.contains_point(point)
+}
+
+/// Test if a Munsell color is inside a polyhedron (convenience function).
+///
+/// # Arguments
+/// * `color` - The Munsell specification to test
+/// * `vertices` - Polyhedron vertices as (x, y, z) tuples
+/// * `faces` - Triangular faces as (v0, v1, v2) vertex index tuples
+///
+/// # Returns
+/// `true` if the color is inside the polyhedron.
+pub fn munsell_in_polyhedron(
+    color: &MunsellSpec,
+    vertices: &[(f64, f64, f64)],
+    faces: &[(usize, usize, usize)],
+) -> bool {
+    let point = color.to_cartesian();
+    point_in_polyhedron(&point, vertices, faces)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // ========================================================================
+    // Point-in-Polyhedron Tests
+    // ========================================================================
+
+    /// Create a unit cube centered at origin for testing.
+    fn unit_cube() -> ConvexPolyhedron {
+        let vertices = vec![
+            (-0.5, -0.5, -0.5),
+            (0.5, -0.5, -0.5),
+            (0.5, 0.5, -0.5),
+            (-0.5, 0.5, -0.5),
+            (-0.5, -0.5, 0.5),
+            (0.5, -0.5, 0.5),
+            (0.5, 0.5, 0.5),
+            (-0.5, 0.5, 0.5),
+        ];
+
+        // Faces defined counter-clockwise when viewed from outside
+        let faces = vec![
+            // Bottom (z = -0.5)
+            (0, 2, 1),
+            (0, 3, 2),
+            // Top (z = 0.5)
+            (4, 5, 6),
+            (4, 6, 7),
+            // Front (y = -0.5)
+            (0, 1, 5),
+            (0, 5, 4),
+            // Back (y = 0.5)
+            (2, 3, 7),
+            (2, 7, 6),
+            // Left (x = -0.5)
+            (0, 4, 7),
+            (0, 7, 3),
+            // Right (x = 0.5)
+            (1, 2, 6),
+            (1, 6, 5),
+        ];
+
+        ConvexPolyhedron::from_arrays(&vertices, &faces)
+    }
+
+    /// Create a tetrahedron for testing.
+    fn tetrahedron() -> ConvexPolyhedron {
+        let vertices = vec![
+            (0.0, 0.0, 0.0),
+            (1.0, 0.0, 0.0),
+            (0.5, 0.866, 0.0),
+            (0.5, 0.289, 0.816),
+        ];
+
+        let faces = vec![
+            (0, 2, 1), // Bottom
+            (0, 1, 3), // Front
+            (1, 2, 3), // Right
+            (2, 0, 3), // Left
+        ];
+
+        ConvexPolyhedron::from_arrays(&vertices, &faces)
+    }
+
+    #[test]
+    fn test_cube_contains_center() {
+        let cube = unit_cube();
+        let center = MunsellCartesian::new(0.0, 0.0, 0.0);
+        assert!(cube.contains_point(&center));
+    }
+
+    #[test]
+    fn test_cube_contains_interior_points() {
+        let cube = unit_cube();
+
+        // Various interior points
+        let points = vec![
+            MunsellCartesian::new(0.1, 0.1, 0.1),
+            MunsellCartesian::new(-0.2, 0.3, -0.1),
+            MunsellCartesian::new(0.4, -0.4, 0.4),
+        ];
+
+        for point in &points {
+            assert!(cube.contains_point(point), "Point {:?} should be inside cube", point);
+        }
+    }
+
+    #[test]
+    fn test_cube_excludes_exterior_points() {
+        let cube = unit_cube();
+
+        // Points clearly outside
+        let points = vec![
+            MunsellCartesian::new(1.0, 0.0, 0.0),
+            MunsellCartesian::new(0.0, 1.0, 0.0),
+            MunsellCartesian::new(0.0, 0.0, 1.0),
+            MunsellCartesian::new(-1.0, -1.0, -1.0),
+        ];
+
+        for point in &points {
+            assert!(!cube.contains_point(point), "Point {:?} should be outside cube", point);
+        }
+    }
+
+    #[test]
+    fn test_tetrahedron_contains_centroid() {
+        let tet = tetrahedron();
+        let centroid = tet.centroid();
+        assert!(tet.contains_point(&centroid));
+    }
+
+    #[test]
+    fn test_tetrahedron_excludes_exterior() {
+        let tet = tetrahedron();
+
+        // Point clearly outside
+        let outside = MunsellCartesian::new(2.0, 2.0, 2.0);
+        assert!(!tet.contains_point(&outside));
+    }
+
+    #[test]
+    fn test_centroid_calculation() {
+        let cube = unit_cube();
+        let centroid = cube.centroid();
+
+        // Cube centered at origin should have centroid at (0, 0, 0)
+        assert!(centroid.x.abs() < 0.001);
+        assert!(centroid.y.abs() < 0.001);
+        assert!(centroid.z.abs() < 0.001);
+    }
+
+    #[test]
+    fn test_point_in_polyhedron_function() {
+        let vertices = vec![
+            (-1.0, -1.0, -1.0),
+            (1.0, -1.0, -1.0),
+            (1.0, 1.0, -1.0),
+            (-1.0, 1.0, -1.0),
+            (-1.0, -1.0, 1.0),
+            (1.0, -1.0, 1.0),
+            (1.0, 1.0, 1.0),
+            (-1.0, 1.0, 1.0),
+        ];
+
+        let faces = vec![
+            (0, 2, 1), (0, 3, 2),
+            (4, 5, 6), (4, 6, 7),
+            (0, 1, 5), (0, 5, 4),
+            (2, 3, 7), (2, 7, 6),
+            (0, 4, 7), (0, 7, 3),
+            (1, 2, 6), (1, 6, 5),
+        ];
+
+        let inside = MunsellCartesian::new(0.0, 0.0, 0.0);
+        let outside = MunsellCartesian::new(5.0, 5.0, 5.0);
+
+        assert!(point_in_polyhedron(&inside, &vertices, &faces));
+        assert!(!point_in_polyhedron(&outside, &vertices, &faces));
+    }
+
+    #[test]
+    fn test_munsell_in_polyhedron() {
+        // Create a simple polyhedron around a known color region (high chroma, mid value)
+        // This cube spans chroma 5-10 (in x-y plane) and value 4-6 (z axis)
+        let vertices = vec![
+            (5.0, 0.0, 4.0),
+            (10.0, 0.0, 4.0),
+            (10.0, 5.0, 4.0),
+            (5.0, 5.0, 4.0),
+            (5.0, 0.0, 6.0),
+            (10.0, 0.0, 6.0),
+            (10.0, 5.0, 6.0),
+            (5.0, 5.0, 6.0),
+        ];
+
+        let faces = vec![
+            (0, 2, 1), (0, 3, 2),
+            (4, 5, 6), (4, 6, 7),
+            (0, 1, 5), (0, 5, 4),
+            (2, 3, 7), (2, 7, 6),
+            (0, 4, 7), (0, 7, 3),
+            (1, 2, 6), (1, 6, 5),
+        ];
+
+        // A color that should be inside (chroma ~7, value 5, positive x,y quadrant)
+        // 5R (hue 2.0) -> theta = 18 degrees, so x = 7*cos(18) ≈ 6.66, y = 7*sin(18) ≈ 2.16
+        let inside_color = MunsellSpec::new(2.0, 5.0, 7.0); // 5R 5.0/7.0
+        assert!(munsell_in_polyhedron(&inside_color, &vertices, &faces));
+
+        // A color that should be outside (low chroma - Cartesian coords near origin)
+        // x = 1*cos(18) ≈ 0.95, y = 1*sin(18) ≈ 0.31 - outside the x range [5,10]
+        let outside_color = MunsellSpec::new(2.0, 5.0, 1.0); // 5R 5.0/1.0
+        assert!(!munsell_in_polyhedron(&outside_color, &vertices, &faces));
+
+        // A color outside due to wrong value
+        let wrong_value = MunsellSpec::new(2.0, 8.0, 7.0); // 5R 8.0/7.0 - z=8 is outside [4,6]
+        assert!(!munsell_in_polyhedron(&wrong_value, &vertices, &faces));
+    }
+
+    // ========================================================================
+    // Coordinate Conversion Tests
+    // ========================================================================
 
     #[test]
     fn test_hue_to_number_basic() {
