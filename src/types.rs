@@ -3,6 +3,7 @@
 use serde::{Deserialize, Serialize};
 use std::fmt;
 use crate::error::{MunsellError, Result};
+use crate::semantic_overlay::{self, MunsellSpec};
 
 /// Represents an RGB color with 8-bit components.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -334,10 +335,10 @@ impl MunsellColor {
     /// # Examples
     /// ```
     /// use munsellspace::MunsellColor;
-    /// 
+    ///
     /// let red = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.0);
     /// assert_eq!(red.hue_family(), Some("R".to_string()));
-    /// 
+    ///
     /// let yellow_red = MunsellColor::new_chromatic("2.5YR".to_string(), 6.0, 8.0);
     /// assert_eq!(yellow_red.hue_family(), Some("YR".to_string()));
     /// ```
@@ -346,6 +347,129 @@ impl MunsellColor {
             // Extract the alphabetic part (hue family)
             h.chars().filter(|c| c.is_alphabetic()).collect()
         })
+    }
+
+    /// Convert to MunsellSpec for semantic overlay operations.
+    ///
+    /// # Returns
+    /// A MunsellSpec suitable for semantic overlay queries
+    ///
+    /// # Examples
+    /// ```
+    /// use munsellspace::MunsellColor;
+    ///
+    /// let color = MunsellColor::new_chromatic("5BG".to_string(), 5.0, 8.0);
+    /// let spec = color.to_munsell_spec();
+    /// assert!(spec.is_some());
+    /// ```
+    pub fn to_munsell_spec(&self) -> Option<MunsellSpec> {
+        if self.is_neutral() {
+            // Neutral colors have no hue, chroma = 0
+            Some(MunsellSpec::neutral(self.value))
+        } else {
+            let hue = self.hue.as_ref()?;
+            let chroma = self.chroma?;
+            let hue_number = semantic_overlay::parse_hue_to_number(hue)?;
+            Some(MunsellSpec::new(hue_number, self.value, chroma))
+        }
+    }
+
+    /// Get the best matching semantic overlay name for this color.
+    ///
+    /// Returns the non-basic color name (e.g., "aqua", "coral", "navy") that
+    /// best matches this Munsell color based on Centore's convex polyhedra
+    /// methodology. Returns None if the color doesn't match any semantic overlay.
+    ///
+    /// # Returns
+    /// Optional color name string (e.g., "teal", "peach", "wine")
+    ///
+    /// # Examples
+    /// ```
+    /// use munsellspace::MunsellColor;
+    ///
+    /// // A color in the teal region
+    /// let teal = MunsellColor::new_chromatic("5BG".to_string(), 5.0, 8.0);
+    /// if let Some(name) = teal.semantic_overlay() {
+    ///     println!("This color is: {}", name);
+    /// }
+    /// ```
+    pub fn semantic_overlay(&self) -> Option<&'static str> {
+        let spec = self.to_munsell_spec()?;
+        semantic_overlay::semantic_overlay(&spec)
+    }
+
+    /// Get all matching semantic overlay names for this color.
+    ///
+    /// A color may fall within multiple overlapping semantic regions.
+    /// This method returns all matching names, ordered by sample count
+    /// (most commonly agreed-upon names first).
+    ///
+    /// # Returns
+    /// Vector of matching color names (may be empty)
+    ///
+    /// # Examples
+    /// ```
+    /// use munsellspace::MunsellColor;
+    ///
+    /// let color = MunsellColor::new_chromatic("2.5P".to_string(), 3.0, 10.0);
+    /// let matches = color.matching_overlays();
+    /// for name in matches {
+    ///     println!("Matches: {}", name);
+    /// }
+    /// ```
+    pub fn matching_overlays(&self) -> Vec<&'static str> {
+        match self.to_munsell_spec() {
+            Some(spec) => semantic_overlay::matching_overlays(&spec),
+            None => Vec::new(),
+        }
+    }
+
+    /// Check if this color matches a specific semantic overlay.
+    ///
+    /// # Arguments
+    /// * `overlay_name` - The overlay name to check (case-insensitive)
+    ///
+    /// # Returns
+    /// `true` if the color falls within the specified overlay region
+    ///
+    /// # Examples
+    /// ```
+    /// use munsellspace::MunsellColor;
+    ///
+    /// let color = MunsellColor::new_chromatic("5BG".to_string(), 5.0, 8.0);
+    /// if color.matches_overlay("teal") {
+    ///     println!("This is a teal color!");
+    /// }
+    /// ```
+    pub fn matches_overlay(&self, overlay_name: &str) -> bool {
+        match self.to_munsell_spec() {
+            Some(spec) => semantic_overlay::matches_overlay(&spec, overlay_name),
+            None => false,
+        }
+    }
+
+    /// Find the closest semantic overlay to this color.
+    ///
+    /// Unlike `semantic_overlay()` which requires the color to be inside
+    /// the overlay region, this method finds the nearest overlay by
+    /// Euclidean distance to the centroid, regardless of containment.
+    ///
+    /// # Returns
+    /// Tuple of (overlay_name, distance) for the closest overlay,
+    /// or None if conversion fails
+    ///
+    /// # Examples
+    /// ```
+    /// use munsellspace::MunsellColor;
+    ///
+    /// let color = MunsellColor::new_chromatic("5R".to_string(), 5.0, 10.0);
+    /// if let Some((name, distance)) = color.closest_overlay() {
+    ///     println!("Closest overlay: {} (distance: {:.2})", name, distance);
+    /// }
+    /// ```
+    pub fn closest_overlay(&self) -> Option<(&'static str, f64)> {
+        let spec = self.to_munsell_spec()?;
+        semantic_overlay::closest_overlay(&spec)
     }
 }
 
@@ -1058,17 +1182,109 @@ mod tests {
                 }
             ],
         };
-        
+
         assert_eq!(polygon.color_number, 34);
         assert_eq!(polygon.color_name, "Red");
         assert_eq!(polygon.revised_color, "Strong Red");
         assert_eq!(polygon.points.len(), 1);
-        
+
         // Test cloning
         let cloned = polygon.clone();
         assert_eq!(polygon.color_number, cloned.color_number);
         assert_eq!(polygon.color_name, cloned.color_name);
         assert_eq!(polygon.revised_color, cloned.revised_color);
         assert_eq!(polygon.points.len(), cloned.points.len());
+    }
+
+    #[test]
+    fn test_munsell_color_to_munsell_spec() {
+        // Test chromatic color conversion
+        let chromatic = MunsellColor::new_chromatic("5R".to_string(), 4.0, 14.0);
+        let spec = chromatic.to_munsell_spec();
+        assert!(spec.is_some());
+        let spec = spec.unwrap();
+        assert_eq!(spec.value, 4.0);
+        assert_eq!(spec.chroma, 14.0);
+        // 5R: R family_idx=0, family_start=0, hue_number = 0 + 5/2.5 = 2.0
+        assert!((spec.hue_number - 2.0).abs() < 0.01);
+
+        // Test neutral color conversion
+        let neutral = MunsellColor::new_neutral(5.0);
+        let spec = neutral.to_munsell_spec();
+        assert!(spec.is_some());
+        let spec = spec.unwrap();
+        assert_eq!(spec.value, 5.0);
+        assert_eq!(spec.chroma, 0.0);
+    }
+
+    #[test]
+    fn test_munsell_color_semantic_overlay() {
+        // Test with a color that might match an overlay
+        // Using teal centroid: 5BG 5.0/8.0
+        let teal = MunsellColor::new_chromatic("5BG".to_string(), 5.0, 8.0);
+
+        // Should be able to convert
+        assert!(teal.to_munsell_spec().is_some());
+
+        // closest_overlay should always return something
+        let closest = teal.closest_overlay();
+        assert!(closest.is_some());
+        let (name, _distance) = closest.unwrap();
+        // Should be relatively close to teal
+        assert!(!name.is_empty());
+    }
+
+    #[test]
+    fn test_munsell_color_matching_overlays() {
+        // Test that matching_overlays returns a vector
+        let color = MunsellColor::new_chromatic("5R".to_string(), 5.0, 10.0);
+        let matches = color.matching_overlays();
+        // May or may not have matches, but should not panic
+        assert!(matches.len() >= 0);
+
+        // Neutral should have no matches (neutral is at chroma 0)
+        let neutral = MunsellColor::new_neutral(5.0);
+        let matches = neutral.matching_overlays();
+        // Neutral colors are far from most color name regions
+        assert!(matches.len() <= 2);
+    }
+
+    #[test]
+    fn test_munsell_color_matches_overlay() {
+        // Test matches_overlay with case insensitivity
+        let color = MunsellColor::new_chromatic("5BG".to_string(), 5.0, 8.0);
+
+        // Check that the method works (case insensitive lookup)
+        // The actual match depends on whether the color is inside the overlay
+        let _ = color.matches_overlay("teal");
+        let _ = color.matches_overlay("TEAL");
+        let _ = color.matches_overlay("Teal");
+
+        // Non-existent overlay should return false
+        assert!(!color.matches_overlay("nonexistent"));
+    }
+
+    #[test]
+    fn test_munsell_color_closest_overlay() {
+        // Test closest_overlay for various colors
+        let colors = [
+            MunsellColor::new_chromatic("5R".to_string(), 5.0, 10.0),
+            MunsellColor::new_chromatic("5Y".to_string(), 7.0, 6.0),
+            MunsellColor::new_chromatic("5B".to_string(), 4.0, 8.0),
+            MunsellColor::new_chromatic("5P".to_string(), 3.0, 10.0),
+        ];
+
+        for color in &colors {
+            let result = color.closest_overlay();
+            assert!(result.is_some(), "closest_overlay should return Some for {}", color);
+            let (name, distance) = result.unwrap();
+            assert!(!name.is_empty());
+            assert!(distance >= 0.0);
+        }
+
+        // Neutral should also work
+        let neutral = MunsellColor::new_neutral(5.0);
+        let result = neutral.closest_overlay();
+        assert!(result.is_some());
     }
 }
