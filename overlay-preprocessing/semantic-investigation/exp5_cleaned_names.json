@@ -1,0 +1,6002 @@
+{
+  "green": {
+    "original": "green",
+    "cleaned": "green",
+    "notes": "none",
+    "count": 314172
+  },
+  "blue": {
+    "original": "blue",
+    "cleaned": "blue",
+    "notes": "none",
+    "count": 288015
+  },
+  "purple": {
+    "original": "purple",
+    "cleaned": "purple",
+    "notes": "none",
+    "count": 249199
+  },
+  "pink": {
+    "original": "pink",
+    "cleaned": "pink",
+    "notes": "none",
+    "count": 131013
+  },
+  "brown": {
+    "original": "brown",
+    "cleaned": "brown",
+    "notes": "none",
+    "count": 75812
+  },
+  "red": {
+    "original": "red",
+    "cleaned": "red",
+    "notes": "none",
+    "count": 69928
+  },
+  "light blue": {
+    "original": "light blue",
+    "cleaned": "light blue",
+    "notes": "none",
+    "count": 58129
+  },
+  "teal": {
+    "original": "teal",
+    "cleaned": "teal",
+    "notes": "none",
+    "count": 57128
+  },
+  "orange": {
+    "original": "orange",
+    "cleaned": "orange",
+    "notes": "none",
+    "count": 52200
+  },
+  "light green": {
+    "original": "light green",
+    "cleaned": "light green",
+    "notes": "none",
+    "count": 49763
+  },
+  "yellow": {
+    "original": "yellow",
+    "cleaned": "yellow",
+    "notes": "none",
+    "count": 44073
+  },
+  "magenta": {
+    "original": "magenta",
+    "cleaned": "magenta",
+    "notes": "none",
+    "count": 43724
+  },
+  "grey": {
+    "original": "grey",
+    "cleaned": "grey",
+    "notes": "none",
+    "count": 36127
+  },
+  "sky blue": {
+    "original": "sky blue",
+    "cleaned": "sky blue",
+    "notes": "none",
+    "count": 34503
+  },
+  "violet": {
+    "original": "violet",
+    "cleaned": "violet",
+    "notes": "none",
+    "count": 32806
+  },
+  "lime green": {
+    "original": "lime green",
+    "cleaned": "lime green",
+    "notes": "none",
+    "count": 31315
+  },
+  "light purple": {
+    "original": "light purple",
+    "cleaned": "light purple",
+    "notes": "none",
+    "count": 29648
+  },
+  "turquoise": {
+    "original": "turquoise",
+    "cleaned": "turquoise",
+    "notes": "none",
+    "count": 26313
+  },
+  "lavender": {
+    "original": "lavender",
+    "cleaned": "lavender",
+    "notes": "none",
+    "count": 25800
+  },
+  "cyan": {
+    "original": "cyan",
+    "cleaned": "cyan",
+    "notes": "none",
+    "count": 24738
+  },
+  "tan": {
+    "original": "tan",
+    "cleaned": "tan",
+    "notes": "none",
+    "count": 23977
+  },
+  "dark green": {
+    "original": "dark green",
+    "cleaned": "dark green",
+    "notes": "none",
+    "count": 23932
+  },
+  "dark blue": {
+    "original": "dark blue",
+    "cleaned": "dark blue",
+    "notes": "none",
+    "count": 23443
+  },
+  "aqua": {
+    "original": "aqua",
+    "cleaned": "aqua",
+    "notes": "none",
+    "count": 23317
+  },
+  "forest green": {
+    "original": "forest green",
+    "cleaned": "forest green",
+    "notes": "none",
+    "count": 19356
+  },
+  "mauve": {
+    "original": "mauve",
+    "cleaned": "mauve",
+    "notes": "none",
+    "count": 19149
+  },
+  "bright green": {
+    "original": "bright green",
+    "cleaned": "bright green",
+    "notes": "none",
+    "count": 18833
+  },
+  "gray": {
+    "original": "gray",
+    "cleaned": "gray",
+    "notes": "none",
+    "count": 18241
+  },
+  "olive": {
+    "original": "olive",
+    "cleaned": "olive",
+    "notes": "none",
+    "count": 17552
+  },
+  "dark purple": {
+    "original": "dark purple",
+    "cleaned": "dark purple",
+    "notes": "none",
+    "count": 16874
+  },
+  "maroon": {
+    "original": "maroon",
+    "cleaned": "maroon",
+    "notes": "none",
+    "count": 16374
+  },
+  "lilac": {
+    "original": "lilac",
+    "cleaned": "lilac",
+    "notes": "none",
+    "count": 15703
+  },
+  "royal blue": {
+    "original": "royal blue",
+    "cleaned": "royal blue",
+    "notes": "none",
+    "count": 15062
+  },
+  "salmon": {
+    "original": "salmon",
+    "cleaned": "salmon",
+    "notes": "none",
+    "count": 14541
+  },
+  "black": {
+    "original": "black",
+    "cleaned": "black",
+    "notes": "none",
+    "count": 14332
+  },
+  "beige": {
+    "original": "beige",
+    "cleaned": "beige",
+    "notes": "none",
+    "count": 14322
+  },
+  "hot pink": {
+    "original": "hot pink",
+    "cleaned": "hot pink",
+    "notes": "none",
+    "count": 14158
+  },
+  "navy blue": {
+    "original": "navy blue",
+    "cleaned": "navy blue",
+    "notes": "none",
+    "count": 13598
+  },
+  "pale green": {
+    "original": "pale green",
+    "cleaned": "pale green",
+    "notes": "none",
+    "count": 13449
+  },
+  "fuschia": {
+    "original": "fuschia",
+    "cleaned": "fuschia",
+    "notes": "none",
+    "count": 13154
+  },
+  "olive green": {
+    "original": "olive green",
+    "cleaned": "olive green",
+    "notes": "none",
+    "count": 12468
+  },
+  "light brown": {
+    "original": "light brown",
+    "cleaned": "light brown",
+    "notes": "none",
+    "count": 12441
+  },
+  "peach": {
+    "original": "peach",
+    "cleaned": "peach",
+    "notes": "none",
+    "count": 12023
+  },
+  "dark pink": {
+    "original": "dark pink",
+    "cleaned": "dark pink",
+    "notes": "none",
+    "count": 11804
+  },
+  "sea green": {
+    "original": "sea green",
+    "cleaned": "sea green",
+    "notes": "none",
+    "count": 11603
+  },
+  "lime": {
+    "original": "lime",
+    "cleaned": "lime",
+    "notes": "none",
+    "count": 11585
+  },
+  "periwinkle": {
+    "original": "periwinkle",
+    "cleaned": "periwinkle",
+    "notes": "none",
+    "count": 11133
+  },
+  "indigo": {
+    "original": "indigo",
+    "cleaned": "indigo",
+    "notes": "none",
+    "count": 10674
+  },
+  "rose": {
+    "original": "rose",
+    "cleaned": "rose",
+    "notes": "none",
+    "count": 8810
+  },
+  "mustard": {
+    "original": "mustard",
+    "cleaned": "mustard",
+    "notes": "none",
+    "count": 8734
+  },
+  "bright blue": {
+    "original": "bright blue",
+    "cleaned": "bright blue",
+    "notes": "none",
+    "count": 8460
+  },
+  "neon green": {
+    "original": "neon green",
+    "cleaned": "neon green",
+    "notes": "none",
+    "count": 8224
+  },
+  "light pink": {
+    "original": "light pink",
+    "cleaned": "light pink",
+    "notes": "none",
+    "count": 8171
+  },
+  "aquamarine": {
+    "original": "aquamarine",
+    "cleaned": "aquamarine",
+    "notes": "none",
+    "count": 7774
+  },
+  "grass green": {
+    "original": "grass green",
+    "cleaned": "grass green",
+    "notes": "none",
+    "count": 7288
+  },
+  "burnt orange": {
+    "original": "burnt orange",
+    "cleaned": "burnt orange",
+    "notes": "none",
+    "count": 7256
+  },
+  "navy": {
+    "original": "navy",
+    "cleaned": "navy",
+    "notes": "none",
+    "count": 7213
+  },
+  "pale blue": {
+    "original": "pale blue",
+    "cleaned": "pale blue",
+    "notes": "none",
+    "count": 7049
+  },
+  "bright purple": {
+    "original": "bright purple",
+    "cleaned": "bright purple",
+    "notes": "none",
+    "count": 6999
+  },
+  "yellow-green": {
+    "original": "yellow-green",
+    "cleaned": "yellow green",
+    "notes": "none",
+    "count": 6883
+  },
+  "yellow green": {
+    "original": "yellow green",
+    "cleaned": "yellow green",
+    "notes": "none",
+    "count": 6815
+  },
+  "dark red": {
+    "original": "dark red",
+    "cleaned": "dark red",
+    "notes": "none",
+    "count": 6618
+  },
+  "mint green": {
+    "original": "mint green",
+    "cleaned": "mint green",
+    "notes": "none",
+    "count": 6584
+  },
+  "baby blue": {
+    "original": "baby blue",
+    "cleaned": "baby blue",
+    "notes": "none",
+    "count": 6437
+  },
+  "gold": {
+    "original": "gold",
+    "cleaned": "gold",
+    "notes": "none",
+    "count": 6265
+  },
+  "plum": {
+    "original": "plum",
+    "cleaned": "plum",
+    "notes": "none",
+    "count": 5950
+  },
+  "blue-green": {
+    "original": "blue-green",
+    "cleaned": "blue green",
+    "notes": "none",
+    "count": 5524
+  },
+  "royal purple": {
+    "original": "royal purple",
+    "cleaned": "royal purple",
+    "notes": "none",
+    "count": 5463
+  },
+  "seafoam green": {
+    "original": "seafoam green",
+    "cleaned": "seafoam green",
+    "notes": "none",
+    "count": 5398
+  },
+  "blue green": {
+    "original": "blue green",
+    "cleaned": "blue green",
+    "notes": "none",
+    "count": 5107
+  },
+  "dark teal": {
+    "original": "dark teal",
+    "cleaned": "dark teal",
+    "notes": "none",
+    "count": 5083
+  },
+  "kelly green": {
+    "original": "kelly green",
+    "cleaned": "kelly green",
+    "notes": "none",
+    "count": 5046
+  },
+  "brick red": {
+    "original": "brick red",
+    "cleaned": "brick red",
+    "notes": "none",
+    "count": 4976
+  },
+  "khaki": {
+    "original": "khaki",
+    "cleaned": "khaki",
+    "notes": "none",
+    "count": 4911
+  },
+  "burgundy": {
+    "original": "burgundy",
+    "cleaned": "burgundy",
+    "notes": "none",
+    "count": 4835
+  },
+  "chartreuse": {
+    "original": "chartreuse",
+    "cleaned": "chartreuse",
+    "notes": "none",
+    "count": 4622
+  },
+  "puke green": {
+    "original": "puke green",
+    "cleaned": "puke green",
+    "notes": "none",
+    "count": 4554
+  },
+  "pea green": {
+    "original": "pea green",
+    "cleaned": "pea green",
+    "notes": "none",
+    "count": 4547
+  },
+  "lavendar": {
+    "original": "lavendar",
+    "cleaned": "lavendar",
+    "notes": "none",
+    "count": 4381
+  },
+  "mint": {
+    "original": "mint",
+    "cleaned": "mint",
+    "notes": "none",
+    "count": 4362
+  },
+  "spring green": {
+    "original": "spring green",
+    "cleaned": "spring green",
+    "notes": "none",
+    "count": 4230
+  },
+  "taupe": {
+    "original": "taupe",
+    "cleaned": "taupe",
+    "notes": "none",
+    "count": 4210
+  },
+  "seafoam": {
+    "original": "seafoam",
+    "cleaned": "seafoam",
+    "notes": "none",
+    "count": 4040
+  },
+  "bright pink": {
+    "original": "bright pink",
+    "cleaned": "bright pink",
+    "notes": "none",
+    "count": 4017
+  },
+  "puce": {
+    "original": "puce",
+    "cleaned": "puce",
+    "notes": "none",
+    "count": 3996
+  },
+  "pastel green": {
+    "original": "pastel green",
+    "cleaned": "pastel green",
+    "notes": "none",
+    "count": 3970
+  },
+  "deep purple": {
+    "original": "deep purple",
+    "cleaned": "deep purple",
+    "notes": "none",
+    "count": 3963
+  },
+  "dark brown": {
+    "original": "dark brown",
+    "cleaned": "dark brown",
+    "notes": "none",
+    "count": 3906
+  },
+  "nigger": {
+    "original": "nigger",
+    "cleaned": "nigger",
+    "notes": "none",
+    "count": 3838
+  },
+  "light orange": {
+    "original": "light orange",
+    "cleaned": "light orange",
+    "notes": "none",
+    "count": 3709
+  },
+  "sand": {
+    "original": "sand",
+    "cleaned": "sand",
+    "notes": "none",
+    "count": 3685
+  },
+  "grey blue": {
+    "original": "grey blue",
+    "cleaned": "grey blue",
+    "notes": "none",
+    "count": 3595
+  },
+  "dark orange": {
+    "original": "dark orange",
+    "cleaned": "dark orange",
+    "notes": "none",
+    "count": 3506
+  },
+  "fuscia": {
+    "original": "fuscia",
+    "cleaned": "fuscia",
+    "notes": "none",
+    "count": 3502
+  },
+  "fuchsia": {
+    "original": "fuchsia",
+    "cleaned": "fuchsia",
+    "notes": "none",
+    "count": 3471
+  },
+  "army green": {
+    "original": "army green",
+    "cleaned": "army green",
+    "notes": "none",
+    "count": 3427
+  },
+  "light teal": {
+    "original": "light teal",
+    "cleaned": "light teal",
+    "notes": "none",
+    "count": 3353
+  },
+  "slate": {
+    "original": "slate",
+    "cleaned": "slate",
+    "notes": "none",
+    "count": 3348
+  },
+  "dark yellow": {
+    "original": "dark yellow",
+    "cleaned": "dark yellow",
+    "notes": "none",
+    "count": 3322
+  },
+  "cerulean": {
+    "original": "cerulean",
+    "cleaned": "cerulean",
+    "notes": "none",
+    "count": 3268
+  },
+  "goldenrod": {
+    "original": "goldenrod",
+    "cleaned": "goldenrod",
+    "notes": "none",
+    "count": 3265
+  },
+  "rust": {
+    "original": "rust",
+    "cleaned": "rust",
+    "notes": "none",
+    "count": 3170
+  },
+  "pale pink": {
+    "original": "pale pink",
+    "cleaned": "pale pink",
+    "notes": "none",
+    "count": 3167
+  },
+  "dark grey": {
+    "original": "dark grey",
+    "cleaned": "dark grey",
+    "notes": "none",
+    "count": 3163
+  },
+  "deep blue": {
+    "original": "deep blue",
+    "cleaned": "deep blue",
+    "notes": "none",
+    "count": 3157
+  },
+  "ochre": {
+    "original": "ochre",
+    "cleaned": "ochre",
+    "notes": "none",
+    "count": 3009
+  },
+  "pale purple": {
+    "original": "pale purple",
+    "cleaned": "pale purple",
+    "notes": "none",
+    "count": 3007
+  },
+  "light red": {
+    "original": "light red",
+    "cleaned": "light red",
+    "notes": "none",
+    "count": 2995
+  },
+  "mustard yellow": {
+    "original": "mustard yellow",
+    "cleaned": "mustard yellow",
+    "notes": "none",
+    "count": 2981
+  },
+  "blue-grey": {
+    "original": "blue-grey",
+    "cleaned": "blue grey",
+    "notes": "none",
+    "count": 2955
+  },
+  "slate blue": {
+    "original": "slate blue",
+    "cleaned": "slate blue",
+    "notes": "none",
+    "count": 2930
+  },
+  "sea foam green": {
+    "original": "sea foam green",
+    "cleaned": "sea foam green",
+    "notes": "none",
+    "count": 2879
+  },
+  "blue grey": {
+    "original": "blue grey",
+    "cleaned": "blue grey",
+    "notes": "none",
+    "count": 2872
+  },
+  "crimson": {
+    "original": "crimson",
+    "cleaned": "crimson",
+    "notes": "none",
+    "count": 2861
+  },
+  "hunter green": {
+    "original": "hunter green",
+    "cleaned": "hunter green",
+    "notes": "none",
+    "count": 2810
+  },
+  "pale yellow": {
+    "original": "pale yellow",
+    "cleaned": "pale yellow",
+    "notes": "none",
+    "count": 2788
+  },
+  "pinkish purple": {
+    "original": "pinkish purple",
+    "cleaned": "pinkish purple",
+    "notes": "none",
+    "count": 2765
+  },
+  "turqoise": {
+    "original": "turqoise",
+    "cleaned": "turqoise",
+    "notes": "none",
+    "count": 2722
+  },
+  "fushia": {
+    "original": "fushia",
+    "cleaned": "fushia",
+    "notes": "none",
+    "count": 2697
+  },
+  "ugly": {
+    "original": "ugly",
+    "cleaned": "ugly",
+    "notes": "none",
+    "count": 2680
+  },
+  "sea blue": {
+    "original": "sea blue",
+    "cleaned": "sea blue",
+    "notes": "none",
+    "count": 2673
+  },
+  "puke": {
+    "original": "puke",
+    "cleaned": "puke",
+    "notes": "none",
+    "count": 2664
+  },
+  "leaf green": {
+    "original": "leaf green",
+    "cleaned": "leaf green",
+    "notes": "none",
+    "count": 2634
+  },
+  "sage": {
+    "original": "sage",
+    "cleaned": "sage",
+    "notes": "none",
+    "count": 2579
+  },
+  "moss green": {
+    "original": "moss green",
+    "cleaned": "moss green",
+    "notes": "none",
+    "count": 2539
+  },
+  "eggplant": {
+    "original": "eggplant",
+    "cleaned": "eggplant",
+    "notes": "none",
+    "count": 2486
+  },
+  "steel blue": {
+    "original": "steel blue",
+    "cleaned": "steel blue",
+    "notes": "none",
+    "count": 2474
+  },
+  "light grey": {
+    "original": "light grey",
+    "cleaned": "light grey",
+    "notes": "none",
+    "count": 2465
+  },
+  "f": {
+    "original": "f",
+    "cleaned": "f",
+    "notes": "none",
+    "count": 2446
+  },
+  "flesh": {
+    "original": "flesh",
+    "cleaned": "flesh",
+    "notes": "none",
+    "count": 2435
+  },
+  "grey green": {
+    "original": "grey green",
+    "cleaned": "grey green",
+    "notes": "none",
+    "count": 2428
+  },
+  "white": {
+    "original": "white",
+    "cleaned": "white",
+    "notes": "none",
+    "count": 2427
+  },
+  "grey-blue": {
+    "original": "grey-blue",
+    "cleaned": "grey blue",
+    "notes": "none",
+    "count": 2424
+  },
+  "a": {
+    "original": "a",
+    "cleaned": "a",
+    "notes": "none",
+    "count": 2420
+  },
+  "light yellow": {
+    "original": "light yellow",
+    "cleaned": "light yellow",
+    "notes": "none",
+    "count": 2335
+  },
+  "brick": {
+    "original": "brick",
+    "cleaned": "brick",
+    "notes": "none",
+    "count": 2317
+  },
+  "blue-purple": {
+    "original": "blue-purple",
+    "cleaned": "blue purple",
+    "notes": "none",
+    "count": 2292
+  },
+  "d": {
+    "original": "d",
+    "cleaned": "d",
+    "notes": "none",
+    "count": 2270
+  },
+  "coral": {
+    "original": "coral",
+    "cleaned": "coral",
+    "notes": "none",
+    "count": 2260
+  },
+  "red-orange": {
+    "original": "red-orange",
+    "cleaned": "red orange",
+    "notes": "none",
+    "count": 2260
+  },
+  "medium blue": {
+    "original": "medium blue",
+    "cleaned": "medium blue",
+    "notes": "none",
+    "count": 2245
+  },
+  "greenish": {
+    "original": "greenish",
+    "cleaned": "greenish",
+    "notes": "none",
+    "count": 2196
+  },
+  "burnt sienna": {
+    "original": "burnt sienna",
+    "cleaned": "burnt sienna",
+    "notes": "none",
+    "count": 2180
+  },
+  "cream": {
+    "original": "cream",
+    "cleaned": "cream",
+    "notes": "none",
+    "count": 2168
+  },
+  "grey-green": {
+    "original": "grey-green",
+    "cleaned": "grey green",
+    "notes": "none",
+    "count": 2166
+  },
+  "reddish brown": {
+    "original": "reddish brown",
+    "cleaned": "reddish brown",
+    "notes": "none",
+    "count": 2153
+  },
+  "ocean blue": {
+    "original": "ocean blue",
+    "cleaned": "ocean blue",
+    "notes": "none",
+    "count": 2126
+  },
+  "light violet": {
+    "original": "light violet",
+    "cleaned": "light violet",
+    "notes": "none",
+    "count": 2078
+  },
+  "dark magenta": {
+    "original": "dark magenta",
+    "cleaned": "dark magenta",
+    "notes": "none",
+    "count": 2061
+  },
+  "dusty rose": {
+    "original": "dusty rose",
+    "cleaned": "dusty rose",
+    "notes": "none",
+    "count": 2051
+  },
+  "bluish purple": {
+    "original": "bluish purple",
+    "cleaned": "bluish purple",
+    "notes": "none",
+    "count": 2028
+  },
+  "blue gray": {
+    "original": "blue gray",
+    "cleaned": "blue gray",
+    "notes": "none",
+    "count": 1988
+  },
+  "cornflower blue": {
+    "original": "cornflower blue",
+    "cleaned": "cornflower blue",
+    "notes": "none",
+    "count": 1970
+  },
+  "yellowish green": {
+    "original": "yellowish green",
+    "cleaned": "yellowish green",
+    "notes": "none",
+    "count": 1965
+  },
+  "midnight blue": {
+    "original": "midnight blue",
+    "cleaned": "midnight blue",
+    "notes": "none",
+    "count": 1958
+  },
+  "red orange": {
+    "original": "red orange",
+    "cleaned": "red orange",
+    "notes": "none",
+    "count": 1936
+  },
+  "purplish blue": {
+    "original": "purplish blue",
+    "cleaned": "purplish blue",
+    "notes": "none",
+    "count": 1927
+  },
+  "grape": {
+    "original": "grape",
+    "cleaned": "grape",
+    "notes": "none",
+    "count": 1907
+  },
+  "blue-gray": {
+    "original": "blue-gray",
+    "cleaned": "blue gray",
+    "notes": "none",
+    "count": 1887
+  },
+  "greenish yellow": {
+    "original": "greenish yellow",
+    "cleaned": "greenish yellow",
+    "notes": "none",
+    "count": 1886
+  },
+  "greyish blue": {
+    "original": "greyish blue",
+    "cleaned": "greyish blue",
+    "notes": "none",
+    "count": 1868
+  },
+  "azure": {
+    "original": "azure",
+    "cleaned": "azure",
+    "notes": "none",
+    "count": 1862
+  },
+  "electric blue": {
+    "original": "electric blue",
+    "cleaned": "electric blue",
+    "notes": "none",
+    "count": 1805
+  },
+  "light olive": {
+    "original": "light olive",
+    "cleaned": "light olive",
+    "notes": "none",
+    "count": 1801
+  },
+  "gray blue": {
+    "original": "gray blue",
+    "cleaned": "gray blue",
+    "notes": "none",
+    "count": 1746
+  },
+  "dark turquoise": {
+    "original": "dark turquoise",
+    "cleaned": "dark turquoise",
+    "notes": "none",
+    "count": 1714
+  },
+  "pinkish red": {
+    "original": "pinkish red",
+    "cleaned": "pinkish red",
+    "notes": "none",
+    "count": 1703
+  },
+  "blue purple": {
+    "original": "blue purple",
+    "cleaned": "blue purple",
+    "notes": "none",
+    "count": 1702
+  },
+  "apple green": {
+    "original": "apple green",
+    "cleaned": "apple green",
+    "notes": "none",
+    "count": 1681
+  },
+  "bright red": {
+    "original": "bright red",
+    "cleaned": "bright red",
+    "notes": "none",
+    "count": 1661
+  },
+  "sea foam": {
+    "original": "sea foam",
+    "cleaned": "sea foam",
+    "notes": "none",
+    "count": 1626
+  },
+  "powder blue": {
+    "original": "powder blue",
+    "cleaned": "powder blue",
+    "notes": "none",
+    "count": 1604
+  },
+  "dull green": {
+    "original": "dull green",
+    "cleaned": "dull green",
+    "notes": "none",
+    "count": 1590
+  },
+  "green-yellow": {
+    "original": "green-yellow",
+    "cleaned": "green yellow",
+    "notes": "none",
+    "count": 1587
+  },
+  "neon purple": {
+    "original": "neon purple",
+    "cleaned": "neon purple",
+    "notes": "none",
+    "count": 1585
+  },
+  "wine": {
+    "original": "wine",
+    "cleaned": "wine",
+    "notes": "none",
+    "count": 1559
+  },
+  "light turquoise": {
+    "original": "light turquoise",
+    "cleaned": "light turquoise",
+    "notes": "none",
+    "count": 1544
+  },
+  "cobalt": {
+    "original": "cobalt",
+    "cleaned": "cobalt",
+    "notes": "none",
+    "count": 1544
+  },
+  "off white": {
+    "original": "off white",
+    "cleaned": "off white",
+    "notes": "none",
+    "count": 1535
+  },
+  "green-blue": {
+    "original": "green-blue",
+    "cleaned": "green blue",
+    "notes": "none",
+    "count": 1523
+  },
+  "dark cyan": {
+    "original": "dark cyan",
+    "cleaned": "dark cyan",
+    "notes": "none",
+    "count": 1503
+  },
+  "olive drab": {
+    "original": "olive drab",
+    "cleaned": "olive drab",
+    "notes": "none",
+    "count": 1488
+  },
+  "dark gray": {
+    "original": "dark gray",
+    "cleaned": "dark gray",
+    "notes": "none",
+    "count": 1459
+  },
+  "skin": {
+    "original": "skin",
+    "cleaned": "skin",
+    "notes": "none",
+    "count": 1442
+  },
+  "dark violet": {
+    "original": "dark violet",
+    "cleaned": "dark violet",
+    "notes": "none",
+    "count": 1436
+  },
+  "light gray": {
+    "original": "light gray",
+    "cleaned": "light gray",
+    "notes": "none",
+    "count": 1426
+  },
+  "purple blue": {
+    "original": "purple blue",
+    "cleaned": "purple blue",
+    "notes": "none",
+    "count": 1423
+  },
+  "pinkish": {
+    "original": "pinkish",
+    "cleaned": "pinkish",
+    "notes": "none",
+    "count": 1420
+  },
+  "burgandy": {
+    "original": "burgandy",
+    "cleaned": "burgandy",
+    "notes": "none",
+    "count": 1404
+  },
+  "dark lavender": {
+    "original": "dark lavender",
+    "cleaned": "dark lavender",
+    "notes": "none",
+    "count": 1397
+  },
+  "forrest green": {
+    "original": "forrest green",
+    "cleaned": "forrest green",
+    "notes": "none",
+    "count": 1381
+  },
+  "sage green": {
+    "original": "sage green",
+    "cleaned": "sage green",
+    "notes": "none",
+    "count": 1369
+  },
+  "greenish blue": {
+    "original": "greenish blue",
+    "cleaned": "greenish blue",
+    "notes": "none",
+    "count": 1366
+  },
+  "vomit": {
+    "original": "vomit",
+    "cleaned": "vomit",
+    "notes": "none",
+    "count": 1348
+  },
+  "green blue": {
+    "original": "green blue",
+    "cleaned": "green blue",
+    "notes": "none",
+    "count": 1334
+  },
+  "bluish green": {
+    "original": "bluish green",
+    "cleaned": "bluish green",
+    "notes": "none",
+    "count": 1333
+  },
+  "penis": {
+    "original": "penis",
+    "cleaned": "penis",
+    "notes": "none",
+    "count": 1325
+  },
+  "s": {
+    "original": "s",
+    "cleaned": "s",
+    "notes": "none",
+    "count": 1315
+  },
+  "pale orange": {
+    "original": "pale orange",
+    "cleaned": "pale orange",
+    "notes": "none",
+    "count": 1312
+  },
+  "pastel purple": {
+    "original": "pastel purple",
+    "cleaned": "pastel purple",
+    "notes": "none",
+    "count": 1309
+  },
+  "aqua blue": {
+    "original": "aqua blue",
+    "cleaned": "aqua blue",
+    "notes": "none",
+    "count": 1308
+  },
+  "grass": {
+    "original": "grass",
+    "cleaned": "grass",
+    "notes": "none",
+    "count": 1297
+  },
+  "moss": {
+    "original": "moss",
+    "cleaned": "moss",
+    "notes": "none",
+    "count": 1292
+  },
+  "deep pink": {
+    "original": "deep pink",
+    "cleaned": "deep pink",
+    "notes": "none",
+    "count": 1281
+  },
+  "pastel blue": {
+    "original": "pastel blue",
+    "cleaned": "pastel blue",
+    "notes": "none",
+    "count": 1272
+  },
+  "dark tan": {
+    "original": "dark tan",
+    "cleaned": "dark tan",
+    "notes": "none",
+    "count": 1267
+  },
+  "gray green": {
+    "original": "gray green",
+    "cleaned": "gray green",
+    "notes": "none",
+    "count": 1261
+  },
+  "blue violet": {
+    "original": "blue violet",
+    "cleaned": "blue violet",
+    "notes": "none",
+    "count": 1253
+  },
+  "terracotta": {
+    "original": "terracotta",
+    "cleaned": "terracotta",
+    "notes": "none",
+    "count": 1252
+  },
+  "gray-green": {
+    "original": "gray-green",
+    "cleaned": "gray green",
+    "notes": "none",
+    "count": 1215
+  },
+  "pink-purple": {
+    "original": "pink-purple",
+    "cleaned": "pink purple",
+    "notes": "none",
+    "count": 1211
+  },
+  "cornflower": {
+    "original": "cornflower",
+    "cleaned": "cornflower",
+    "notes": "none",
+    "count": 1205
+  },
+  "blood red": {
+    "original": "blood red",
+    "cleaned": "blood red",
+    "notes": "none",
+    "count": 1193
+  },
+  "purple-blue": {
+    "original": "purple-blue",
+    "cleaned": "purple blue",
+    "notes": "none",
+    "count": 1191
+  },
+  "green yellow": {
+    "original": "green yellow",
+    "cleaned": "green yellow",
+    "notes": "none",
+    "count": 1185
+  },
+  "orchid": {
+    "original": "orchid",
+    "cleaned": "orchid",
+    "notes": "none",
+    "count": 1181
+  },
+  "greyish green": {
+    "original": "greyish green",
+    "cleaned": "greyish green",
+    "notes": "none",
+    "count": 1174
+  },
+  "aqua green": {
+    "original": "aqua green",
+    "cleaned": "aqua green",
+    "notes": "none",
+    "count": 1163
+  },
+  "sienna": {
+    "original": "sienna",
+    "cleaned": "sienna",
+    "notes": "none",
+    "count": 1161
+  },
+  "g": {
+    "original": "g",
+    "cleaned": "g",
+    "notes": "none",
+    "count": 1147
+  },
+  "scarlet": {
+    "original": "scarlet",
+    "cleaned": "scarlet",
+    "notes": "none",
+    "count": 1146
+  },
+  "red-brown": {
+    "original": "red-brown",
+    "cleaned": "red brown",
+    "notes": "none",
+    "count": 1138
+  },
+  "cobalt blue": {
+    "original": "cobalt blue",
+    "cleaned": "cobalt blue",
+    "notes": "none",
+    "count": 1131
+  },
+  "pine green": {
+    "original": "pine green",
+    "cleaned": "pine green",
+    "notes": "none",
+    "count": 1129
+  },
+  "raspberry": {
+    "original": "raspberry",
+    "cleaned": "raspberry",
+    "notes": "none",
+    "count": 1128
+  },
+  "dark olive": {
+    "original": "dark olive",
+    "cleaned": "dark olive",
+    "notes": "none",
+    "count": 1120
+  },
+  "orange-brown": {
+    "original": "orange-brown",
+    "cleaned": "orange brown",
+    "notes": "none",
+    "count": 1112
+  },
+  "rose pink": {
+    "original": "rose pink",
+    "cleaned": "rose pink",
+    "notes": "none",
+    "count": 1107
+  },
+  "baby pink": {
+    "original": "baby pink",
+    "cleaned": "baby pink",
+    "notes": "none",
+    "count": 1106
+  },
+  "blue-violet": {
+    "original": "blue-violet",
+    "cleaned": "blue violet",
+    "notes": "none",
+    "count": 1091
+  },
+  "neon pink": {
+    "original": "neon pink",
+    "cleaned": "neon pink",
+    "notes": "none",
+    "count": 1091
+  },
+  "pumpkin": {
+    "original": "pumpkin",
+    "cleaned": "pumpkin",
+    "notes": "none",
+    "count": 1088
+  },
+  "chocolate": {
+    "original": "chocolate",
+    "cleaned": "chocolate",
+    "notes": "none",
+    "count": 1084
+  },
+  "charcoal": {
+    "original": "charcoal",
+    "cleaned": "charcoal",
+    "notes": "none",
+    "count": 1077
+  },
+  "salmon pink": {
+    "original": "salmon pink",
+    "cleaned": "salmon pink",
+    "notes": "none",
+    "count": 1074
+  },
+  "grayish blue": {
+    "original": "grayish blue",
+    "cleaned": "grayish blue",
+    "notes": "none",
+    "count": 1068
+  },
+  "red brown": {
+    "original": "red brown",
+    "cleaned": "red brown",
+    "notes": "none",
+    "count": 1059
+  },
+  "greenish brown": {
+    "original": "greenish brown",
+    "cleaned": "greenish brown",
+    "notes": "none",
+    "count": 1057
+  },
+  "greyish purple": {
+    "original": "greyish purple",
+    "cleaned": "greyish purple",
+    "notes": "none",
+    "count": 1055
+  },
+  "brownish green": {
+    "original": "brownish green",
+    "cleaned": "brownish green",
+    "notes": "none",
+    "count": 1051
+  },
+  "tangerine": {
+    "original": "tangerine",
+    "cleaned": "tangerine",
+    "notes": "none",
+    "count": 1043
+  },
+  "gray-blue": {
+    "original": "gray-blue",
+    "cleaned": "gray blue",
+    "notes": "none",
+    "count": 1039
+  },
+  "blueish purple": {
+    "original": "blueish purple",
+    "cleaned": "blueish purple",
+    "notes": "none",
+    "count": 1028
+  },
+  "orange brown": {
+    "original": "orange brown",
+    "cleaned": "orange brown",
+    "notes": "none",
+    "count": 1023
+  },
+  "sky": {
+    "original": "sky",
+    "cleaned": "sky",
+    "notes": "none",
+    "count": 1019
+  },
+  "dirty yellow": {
+    "original": "dirty yellow",
+    "cleaned": "dirty yellow",
+    "notes": "none",
+    "count": 1006
+  },
+  "light cyan": {
+    "original": "light cyan",
+    "cleaned": "light cyan",
+    "notes": "none",
+    "count": 996
+  },
+  "jade": {
+    "original": "jade",
+    "cleaned": "jade",
+    "notes": "none",
+    "count": 995
+  },
+  "yellow-orange": {
+    "original": "yellow-orange",
+    "cleaned": "yellow orange",
+    "notes": "none",
+    "count": 993
+  },
+  "orange red": {
+    "original": "orange red",
+    "cleaned": "orange red",
+    "notes": "none",
+    "count": 989
+  },
+  "deep red": {
+    "original": "deep red",
+    "cleaned": "deep red",
+    "notes": "none",
+    "count": 987
+  },
+  "orange-red": {
+    "original": "orange-red",
+    "cleaned": "orange red",
+    "notes": "none",
+    "count": 983
+  },
+  "reddish purple": {
+    "original": "reddish purple",
+    "cleaned": "reddish purple",
+    "notes": "none",
+    "count": 967
+  },
+  "off-white": {
+    "original": "off-white",
+    "cleaned": "off white",
+    "notes": "none",
+    "count": 966
+  },
+  "ugly green": {
+    "original": "ugly green",
+    "cleaned": "ugly green",
+    "notes": "none",
+    "count": 965
+  },
+  "reddish pink": {
+    "original": "reddish pink",
+    "cleaned": "reddish pink",
+    "notes": "none",
+    "count": 957
+  },
+  "light magenta": {
+    "original": "light magenta",
+    "cleaned": "light magenta",
+    "notes": "none",
+    "count": 953
+  },
+  "emerald": {
+    "original": "emerald",
+    "cleaned": "emerald",
+    "notes": "none",
+    "count": 944
+  },
+  "medium green": {
+    "original": "medium green",
+    "cleaned": "medium green",
+    "notes": "none",
+    "count": 942
+  },
+  "lila": {
+    "original": "lila",
+    "cleaned": "lila",
+    "notes": "none",
+    "count": 937
+  },
+  "pale red": {
+    "original": "pale red",
+    "cleaned": "pale red",
+    "notes": "none",
+    "count": 925
+  },
+  "dull blue": {
+    "original": "dull blue",
+    "cleaned": "dull blue",
+    "notes": "none",
+    "count": 920
+  },
+  "dark aqua": {
+    "original": "dark aqua",
+    "cleaned": "dark aqua",
+    "notes": "none",
+    "count": 919
+  },
+  "purplish pink": {
+    "original": "purplish pink",
+    "cleaned": "purplish pink",
+    "notes": "none",
+    "count": 919
+  },
+  "emerald green": {
+    "original": "emerald green",
+    "cleaned": "emerald green",
+    "notes": "none",
+    "count": 917
+  },
+  "light olive green": {
+    "original": "light olive green",
+    "cleaned": "light olive green",
+    "notes": "none",
+    "count": 916
+  },
+  "yellow orange": {
+    "original": "yellow orange",
+    "cleaned": "yellow orange",
+    "notes": "none",
+    "count": 916
+  },
+  "light aqua": {
+    "original": "light aqua",
+    "cleaned": "light aqua",
+    "notes": "none",
+    "count": 911
+  },
+  "greenish grey": {
+    "original": "greenish grey",
+    "cleaned": "greenish grey",
+    "notes": "none",
+    "count": 906
+  },
+  "purple-pink": {
+    "original": "purple-pink",
+    "cleaned": "purple pink",
+    "notes": "none",
+    "count": 899
+  },
+  "dark beige": {
+    "original": "dark beige",
+    "cleaned": "dark beige",
+    "notes": "none",
+    "count": 896
+  },
+  "dark rose": {
+    "original": "dark rose",
+    "cleaned": "dark rose",
+    "notes": "none",
+    "count": 885
+  },
+  "dusty pink": {
+    "original": "dusty pink",
+    "cleaned": "dusty pink",
+    "notes": "none",
+    "count": 884
+  },
+  "dark salmon": {
+    "original": "dark salmon",
+    "cleaned": "dark salmon",
+    "notes": "none",
+    "count": 880
+  },
+  "brownish orange": {
+    "original": "brownish orange",
+    "cleaned": "brownish orange",
+    "notes": "none",
+    "count": 880
+  },
+  "pinky purple": {
+    "original": "pinky purple",
+    "cleaned": "pinky purple",
+    "notes": "none",
+    "count": 871
+  },
+  "blueish": {
+    "original": "blueish",
+    "cleaned": "blueish",
+    "notes": "none",
+    "count": 866
+  },
+  "pink purple": {
+    "original": "pink purple",
+    "cleaned": "pink purple",
+    "notes": "none",
+    "count": 861
+  },
+  "clay": {
+    "original": "clay",
+    "cleaned": "clay",
+    "notes": "none",
+    "count": 859
+  },
+  "pale brown": {
+    "original": "pale brown",
+    "cleaned": "pale brown",
+    "notes": "none",
+    "count": 858
+  },
+  "brownish": {
+    "original": "brownish",
+    "cleaned": "brownish",
+    "notes": "none",
+    "count": 850
+  },
+  "faded green": {
+    "original": "faded green",
+    "cleaned": "faded green",
+    "notes": "none",
+    "count": 850
+  },
+  "burnt umber": {
+    "original": "burnt umber",
+    "cleaned": "burnt umber",
+    "notes": "none",
+    "count": 845
+  },
+  "purple pink": {
+    "original": "purple pink",
+    "cleaned": "purple pink",
+    "notes": "none",
+    "count": 841
+  },
+  "turquiose": {
+    "original": "turquiose",
+    "cleaned": "turquiose",
+    "notes": "none",
+    "count": 836
+  },
+  "yellow-brown": {
+    "original": "yellow-brown",
+    "cleaned": "yellow brown",
+    "notes": "none",
+    "count": 833
+  },
+  "ice blue": {
+    "original": "ice blue",
+    "cleaned": "ice blue",
+    "notes": "none",
+    "count": 832
+  },
+  "vomit green": {
+    "original": "vomit green",
+    "cleaned": "vomit green",
+    "notes": "none",
+    "count": 829
+  },
+  "cadet blue": {
+    "original": "cadet blue",
+    "cleaned": "cadet blue",
+    "notes": "none",
+    "count": 828
+  },
+  "aubergine": {
+    "original": "aubergine",
+    "cleaned": "aubergine",
+    "notes": "none",
+    "count": 827
+  },
+  "camo green": {
+    "original": "camo green",
+    "cleaned": "camo green",
+    "notes": "none",
+    "count": 824
+  },
+  "brownish red": {
+    "original": "brownish red",
+    "cleaned": "brownish red",
+    "notes": "none",
+    "count": 822
+  },
+  "mud": {
+    "original": "mud",
+    "cleaned": "mud",
+    "notes": "none",
+    "count": 820
+  },
+  "1": {
+    "original": "1",
+    "cleaned": "1",
+    "notes": "none",
+    "count": 815
+  },
+  "turqouise": {
+    "original": "turqouise",
+    "cleaned": "turqouise",
+    "notes": "none",
+    "count": 810
+  },
+  "blueish green": {
+    "original": "blueish green",
+    "cleaned": "blueish green",
+    "notes": "none",
+    "count": 798
+  },
+  "dull pink": {
+    "original": "dull pink",
+    "cleaned": "dull pink",
+    "notes": "none",
+    "count": 796
+  },
+  "neon blue": {
+    "original": "neon blue",
+    "cleaned": "neon blue",
+    "notes": "none",
+    "count": 795
+  },
+  "deep green": {
+    "original": "deep green",
+    "cleaned": "deep green",
+    "notes": "none",
+    "count": 793
+  },
+  "dirty green": {
+    "original": "dirty green",
+    "cleaned": "dirty green",
+    "notes": "none",
+    "count": 787
+  },
+  "grey purple": {
+    "original": "grey purple",
+    "cleaned": "grey purple",
+    "notes": "none",
+    "count": 787
+  },
+  "mahogany": {
+    "original": "mahogany",
+    "cleaned": "mahogany",
+    "notes": "none",
+    "count": 786
+  },
+  "dark sky blue": {
+    "original": "dark sky blue",
+    "cleaned": "dark sky blue",
+    "notes": "none",
+    "count": 785
+  },
+  "evergreen": {
+    "original": "evergreen",
+    "cleaned": "evergreen",
+    "notes": "none",
+    "count": 784
+  },
+  "reddish orange": {
+    "original": "reddish orange",
+    "cleaned": "reddish orange",
+    "notes": "none",
+    "count": 778
+  },
+  "dark mauve": {
+    "original": "dark mauve",
+    "cleaned": "dark mauve",
+    "notes": "none",
+    "count": 773
+  },
+  "dull purple": {
+    "original": "dull purple",
+    "cleaned": "dull purple",
+    "notes": "none",
+    "count": 773
+  },
+  "pastel pink": {
+    "original": "pastel pink",
+    "cleaned": "pastel pink",
+    "notes": "none",
+    "count": 768
+  },
+  "wine red": {
+    "original": "wine red",
+    "cleaned": "wine red",
+    "notes": "none",
+    "count": 762
+  },
+  "very light blue": {
+    "original": "very light blue",
+    "cleaned": "very light blue",
+    "notes": "none",
+    "count": 757
+  },
+  "poop": {
+    "original": "poop",
+    "cleaned": "poop",
+    "notes": "none",
+    "count": 755
+  },
+  "very light green": {
+    "original": "very light green",
+    "cleaned": "very light green",
+    "notes": "none",
+    "count": 752
+  },
+  "turquise": {
+    "original": "turquise",
+    "cleaned": "turquise",
+    "notes": "none",
+    "count": 744
+  },
+  "lavander": {
+    "original": "lavander",
+    "cleaned": "lavander",
+    "notes": "none",
+    "count": 736
+  },
+  "electric green": {
+    "original": "electric green",
+    "cleaned": "electric green",
+    "notes": "none",
+    "count": 733
+  },
+  "dusty blue": {
+    "original": "dusty blue",
+    "cleaned": "dusty blue",
+    "notes": "none",
+    "count": 732
+  },
+  "light tan": {
+    "original": "light tan",
+    "cleaned": "light tan",
+    "notes": "none",
+    "count": 729
+  },
+  "jungle green": {
+    "original": "jungle green",
+    "cleaned": "jungle green",
+    "notes": "none",
+    "count": 727
+  },
+  "denim": {
+    "original": "denim",
+    "cleaned": "denim",
+    "notes": "none",
+    "count": 721
+  },
+  "chocolate brown": {
+    "original": "chocolate brown",
+    "cleaned": "chocolate brown",
+    "notes": "none",
+    "count": 710
+  },
+  "yellow brown": {
+    "original": "yellow brown",
+    "cleaned": "yellow brown",
+    "notes": "none",
+    "count": 707
+  },
+  "?": {
+    "original": "?",
+    "cleaned": "?",
+    "notes": "strip_leading:?;strip_trailing:?",
+    "count": 697
+  },
+  "h": {
+    "original": "h",
+    "cleaned": "h",
+    "notes": "none",
+    "count": 697
+  },
+  "light lavender": {
+    "original": "light lavender",
+    "cleaned": "light lavender",
+    "notes": "none",
+    "count": 696
+  },
+  "grayish green": {
+    "original": "grayish green",
+    "cleaned": "grayish green",
+    "notes": "none",
+    "count": 696
+  },
+  "chartruse": {
+    "original": "chartruse",
+    "cleaned": "chartruse",
+    "notes": "none",
+    "count": 692
+  },
+  "green-grey": {
+    "original": "green-grey",
+    "cleaned": "green grey",
+    "notes": "none",
+    "count": 692
+  },
+  "avocado": {
+    "original": "avocado",
+    "cleaned": "avocado",
+    "notes": "none",
+    "count": 688
+  },
+  "teal green": {
+    "original": "teal green",
+    "cleaned": "teal green",
+    "notes": "none",
+    "count": 687
+  },
+  "umber": {
+    "original": "umber",
+    "cleaned": "umber",
+    "notes": "none",
+    "count": 684
+  },
+  "perriwinkle": {
+    "original": "perriwinkle",
+    "cleaned": "perriwinkle",
+    "notes": "none",
+    "count": 684
+  },
+  "dark peach": {
+    "original": "dark peach",
+    "cleaned": "dark peach",
+    "notes": "none",
+    "count": 682
+  },
+  "marine blue": {
+    "original": "marine blue",
+    "cleaned": "marine blue",
+    "notes": "none",
+    "count": 679
+  },
+  "eggshell": {
+    "original": "eggshell",
+    "cleaned": "eggshell",
+    "notes": "none",
+    "count": 679
+  },
+  "lighter blue": {
+    "original": "lighter blue",
+    "cleaned": "lighter blue",
+    "notes": "none",
+    "count": 674
+  },
+  "dusty purple": {
+    "original": "dusty purple",
+    "cleaned": "dusty purple",
+    "notes": "none",
+    "count": 670
+  },
+  "golden yellow": {
+    "original": "golden yellow",
+    "cleaned": "golden yellow",
+    "notes": "none",
+    "count": 669
+  },
+  "ultramarine": {
+    "original": "ultramarine",
+    "cleaned": "ultramarine",
+    "notes": "none",
+    "count": 667
+  },
+  "yello": {
+    "original": "yello",
+    "cleaned": "yello",
+    "notes": "none",
+    "count": 667
+  },
+  "robins egg blue": {
+    "original": "robins egg blue",
+    "cleaned": "robins egg blue",
+    "notes": "none",
+    "count": 666
+  },
+  "green-brown": {
+    "original": "green-brown",
+    "cleaned": "green brown",
+    "notes": "none",
+    "count": 665
+  },
+  "slate grey": {
+    "original": "slate grey",
+    "cleaned": "slate grey",
+    "notes": "none",
+    "count": 665
+  },
+  "terra cotta": {
+    "original": "terra cotta",
+    "cleaned": "terra cotta",
+    "notes": "none",
+    "count": 660
+  },
+  "bright yellow": {
+    "original": "bright yellow",
+    "cleaned": "bright yellow",
+    "notes": "none",
+    "count": 655
+  },
+  "bluegreen": {
+    "original": "bluegreen",
+    "cleaned": "bluegreen",
+    "notes": "none",
+    "count": 654
+  },
+  "dark lilac": {
+    "original": "dark lilac",
+    "cleaned": "dark lilac",
+    "notes": "none",
+    "count": 652
+  },
+  "lighter green": {
+    "original": "lighter green",
+    "cleaned": "lighter green",
+    "notes": "none",
+    "count": 647
+  },
+  "dark periwinkle": {
+    "original": "dark periwinkle",
+    "cleaned": "dark periwinkle",
+    "notes": "none",
+    "count": 646
+  },
+  "greenish gray": {
+    "original": "greenish gray",
+    "cleaned": "greenish gray",
+    "notes": "none",
+    "count": 645
+  },
+  "true blue": {
+    "original": "true blue",
+    "cleaned": "true blue",
+    "notes": "none",
+    "count": 644
+  },
+  "pruple": {
+    "original": "pruple",
+    "cleaned": "pruple",
+    "notes": "none",
+    "count": 643
+  },
+  "josh": {
+    "original": "josh",
+    "cleaned": "josh",
+    "notes": "none",
+    "count": 642
+  },
+  "blurple": {
+    "original": "blurple",
+    "cleaned": "blurple",
+    "notes": "none",
+    "count": 640
+  },
+  "reddish": {
+    "original": "reddish",
+    "cleaned": "reddish",
+    "notes": "none",
+    "count": 636
+  },
+  "periwinkle blue": {
+    "original": "periwinkle blue",
+    "cleaned": "periwinkle blue",
+    "notes": "none",
+    "count": 632
+  },
+  "barney purple": {
+    "original": "barney purple",
+    "cleaned": "barney purple",
+    "notes": "none",
+    "count": 626
+  },
+  "bluish grey": {
+    "original": "bluish grey",
+    "cleaned": "bluish grey",
+    "notes": "none",
+    "count": 623
+  },
+  "puke yellow": {
+    "original": "puke yellow",
+    "cleaned": "puke yellow",
+    "notes": "none",
+    "count": 623
+  },
+  "acid green": {
+    "original": "acid green",
+    "cleaned": "acid green",
+    "notes": "none",
+    "count": 621
+  },
+  "pale violet": {
+    "original": "pale violet",
+    "cleaned": "pale violet",
+    "notes": "none",
+    "count": 621
+  },
+  "purplish": {
+    "original": "purplish",
+    "cleaned": "purplish",
+    "notes": "none",
+    "count": 620
+  },
+  "light maroon": {
+    "original": "light maroon",
+    "cleaned": "light maroon",
+    "notes": "none",
+    "count": 618
+  },
+  "forest": {
+    "original": "forest",
+    "cleaned": "forest",
+    "notes": "none",
+    "count": 616
+  },
+  "light sky blue": {
+    "original": "light sky blue",
+    "cleaned": "light sky blue",
+    "notes": "none",
+    "count": 608
+  },
+  "bright teal": {
+    "original": "bright teal",
+    "cleaned": "bright teal",
+    "notes": "none",
+    "count": 607
+  },
+  "pea soup": {
+    "original": "pea soup",
+    "cleaned": "pea soup",
+    "notes": "none",
+    "count": 607
+  },
+  "grayish purple": {
+    "original": "grayish purple",
+    "cleaned": "grayish purple",
+    "notes": "none",
+    "count": 606
+  },
+  "your mom": {
+    "original": "your mom",
+    "cleaned": "your mom",
+    "notes": "none",
+    "count": 606
+  },
+  "cerise": {
+    "original": "cerise",
+    "cleaned": "cerise",
+    "notes": "none",
+    "count": 599
+  },
+  "gross": {
+    "original": "gross",
+    "cleaned": "gross",
+    "notes": "none",
+    "count": 598
+  },
+  "brownish yellow": {
+    "original": "brownish yellow",
+    "cleaned": "brownish yellow",
+    "notes": "none",
+    "count": 597
+  },
+  "grey-brown": {
+    "original": "grey-brown",
+    "cleaned": "grey brown",
+    "notes": "none",
+    "count": 590
+  },
+  "green brown": {
+    "original": "green brown",
+    "cleaned": "green brown",
+    "notes": "none",
+    "count": 588
+  },
+  "violet blue": {
+    "original": "violet blue",
+    "cleaned": "violet blue",
+    "notes": "none",
+    "count": 586
+  },
+  "fluorescent green": {
+    "original": "fluorescent green",
+    "cleaned": "fluorescent green",
+    "notes": "none",
+    "count": 583
+  },
+  "electric purple": {
+    "original": "electric purple",
+    "cleaned": "electric purple",
+    "notes": "none",
+    "count": 583
+  },
+  "shit": {
+    "original": "shit",
+    "cleaned": "shit",
+    "notes": "none",
+    "count": 581
+  },
+  "green grey": {
+    "original": "green grey",
+    "cleaned": "green grey",
+    "notes": "none",
+    "count": 572
+  },
+  "faded purple": {
+    "original": "faded purple",
+    "cleaned": "faded purple",
+    "notes": "none",
+    "count": 570
+  },
+  "darker green": {
+    "original": "darker green",
+    "cleaned": "darker green",
+    "notes": "none",
+    "count": 566
+  },
+  "dark olive green": {
+    "original": "dark olive green",
+    "cleaned": "dark olive green",
+    "notes": "none",
+    "count": 562
+  },
+  "light blue-green": {
+    "original": "light blue-green",
+    "cleaned": "light blue green",
+    "notes": "none",
+    "count": 559
+  },
+  "light forest green": {
+    "original": "light forest green",
+    "cleaned": "light forest green",
+    "notes": "none",
+    "count": 559
+  },
+  "khaki green": {
+    "original": "khaki green",
+    "cleaned": "khaki green",
+    "notes": "none",
+    "count": 557
+  },
+  "soft green": {
+    "original": "soft green",
+    "cleaned": "soft green",
+    "notes": "none",
+    "count": 556
+  },
+  "bordeaux": {
+    "original": "bordeaux",
+    "cleaned": "bordeaux",
+    "notes": "none",
+    "count": 547
+  },
+  "apricot": {
+    "original": "apricot",
+    "cleaned": "apricot",
+    "notes": "none",
+    "count": 546
+  },
+  "red violet": {
+    "original": "red violet",
+    "cleaned": "red violet",
+    "notes": "none",
+    "count": 545
+  },
+  "grey brown": {
+    "original": "grey brown",
+    "cleaned": "grey brown",
+    "notes": "none",
+    "count": 544
+  },
+  "purple grey": {
+    "original": "purple grey",
+    "cleaned": "purple grey",
+    "notes": "none",
+    "count": 543
+  },
+  "darker blue": {
+    "original": "darker blue",
+    "cleaned": "darker blue",
+    "notes": "none",
+    "count": 542
+  },
+  "burnt red": {
+    "original": "burnt red",
+    "cleaned": "burnt red",
+    "notes": "none",
+    "count": 540
+  },
+  "pale lavender": {
+    "original": "pale lavender",
+    "cleaned": "pale lavender",
+    "notes": "none",
+    "count": 539
+  },
+  "steel": {
+    "original": "steel",
+    "cleaned": "steel",
+    "notes": "none",
+    "count": 539
+  },
+  "lemon": {
+    "original": "lemon",
+    "cleaned": "lemon",
+    "notes": "none",
+    "count": 536
+  },
+  "hot purple": {
+    "original": "hot purple",
+    "cleaned": "hot purple",
+    "notes": "none",
+    "count": 536
+  },
+  "blush": {
+    "original": "blush",
+    "cleaned": "blush",
+    "notes": "none",
+    "count": 535
+  },
+  "faded blue": {
+    "original": "faded blue",
+    "cleaned": "faded blue",
+    "notes": "none",
+    "count": 534
+  },
+  "dull orange": {
+    "original": "dull orange",
+    "cleaned": "dull orange",
+    "notes": "none",
+    "count": 534
+  },
+  "light blue green": {
+    "original": "light blue green",
+    "cleaned": "light blue green",
+    "notes": "none",
+    "count": 533
+  },
+  "muddy green": {
+    "original": "muddy green",
+    "cleaned": "muddy green",
+    "notes": "none",
+    "count": 531
+  },
+  "snot green": {
+    "original": "snot green",
+    "cleaned": "snot green",
+    "notes": "none",
+    "count": 529
+  },
+  "light mauve": {
+    "original": "light mauve",
+    "cleaned": "light mauve",
+    "notes": "none",
+    "count": 526
+  },
+  "violett": {
+    "original": "violett",
+    "cleaned": "violett",
+    "notes": "none",
+    "count": 526
+  },
+  "yellowish brown": {
+    "original": "yellowish brown",
+    "cleaned": "yellowish brown",
+    "notes": "none",
+    "count": 524
+  },
+  "teal blue": {
+    "original": "teal blue",
+    "cleaned": "teal blue",
+    "notes": "none",
+    "count": 524
+  },
+  "marigold": {
+    "original": "marigold",
+    "cleaned": "marigold",
+    "notes": "none",
+    "count": 522
+  },
+  "pistachio": {
+    "original": "pistachio",
+    "cleaned": "pistachio",
+    "notes": "none",
+    "count": 518
+  },
+  "grey-purple": {
+    "original": "grey-purple",
+    "cleaned": "grey purple",
+    "notes": "none",
+    "count": 515
+  },
+  "light indigo": {
+    "original": "light indigo",
+    "cleaned": "light indigo",
+    "notes": "none",
+    "count": 515
+  },
+  "bright orange": {
+    "original": "bright orange",
+    "cleaned": "bright orange",
+    "notes": "none",
+    "count": 514
+  },
+  "ocean": {
+    "original": "ocean",
+    "cleaned": "ocean",
+    "notes": "none",
+    "count": 513
+  },
+  "swamp green": {
+    "original": "swamp green",
+    "cleaned": "swamp green",
+    "notes": "none",
+    "count": 512
+  },
+  "light lime green": {
+    "original": "light lime green",
+    "cleaned": "light lime green",
+    "notes": "none",
+    "count": 512
+  },
+  "lightish blue": {
+    "original": "lightish blue",
+    "cleaned": "lightish blue",
+    "notes": "none",
+    "count": 511
+  },
+  "drab green": {
+    "original": "drab green",
+    "cleaned": "drab green",
+    "notes": "none",
+    "count": 509
+  },
+  "purpley blue": {
+    "original": "purpley blue",
+    "cleaned": "purpley blue",
+    "notes": "none",
+    "count": 507
+  },
+  "aids": {
+    "original": "aids",
+    "cleaned": "aids",
+    "notes": "none",
+    "count": 504
+  },
+  "dusky pink": {
+    "original": "dusky pink",
+    "cleaned": "dusky pink",
+    "notes": "none",
+    "count": 503
+  },
+  "medium purple": {
+    "original": "medium purple",
+    "cleaned": "medium purple",
+    "notes": "none",
+    "count": 502
+  },
+  "v": {
+    "original": "v",
+    "cleaned": "v",
+    "notes": "none",
+    "count": 502
+  },
+  "dark blue-green": {
+    "original": "dark blue-green",
+    "cleaned": "dark blue green",
+    "notes": "none",
+    "count": 501
+  },
+  "yellowish": {
+    "original": "yellowish",
+    "cleaned": "yellowish",
+    "notes": "none",
+    "count": 499
+  },
+  "purple-grey": {
+    "original": "purple-grey",
+    "cleaned": "purple grey",
+    "notes": "none",
+    "count": 499
+  },
+  "denim blue": {
+    "original": "denim blue",
+    "cleaned": "denim blue",
+    "notes": "none",
+    "count": 499
+  },
+  "dark maroon": {
+    "original": "dark maroon",
+    "cleaned": "dark maroon",
+    "notes": "none",
+    "count": 496
+  },
+  "muave": {
+    "original": "muave",
+    "cleaned": "muave",
+    "notes": "none",
+    "count": 489
+  },
+  "brown green": {
+    "original": "brown green",
+    "cleaned": "brown green",
+    "notes": "none",
+    "count": 487
+  },
+  "watermelon": {
+    "original": "watermelon",
+    "cleaned": "watermelon",
+    "notes": "none",
+    "count": 487
+  },
+  "dull yellow": {
+    "original": "dull yellow",
+    "cleaned": "dull yellow",
+    "notes": "none",
+    "count": 486
+  },
+  "dark forest green": {
+    "original": "dark forest green",
+    "cleaned": "dark forest green",
+    "notes": "none",
+    "count": 483
+  },
+  "red-purple": {
+    "original": "red-purple",
+    "cleaned": "red purple",
+    "notes": "none",
+    "count": 480
+  },
+  "bluish gray": {
+    "original": "bluish gray",
+    "cleaned": "bluish gray",
+    "notes": "none",
+    "count": 479
+  },
+  "w": {
+    "original": "w",
+    "cleaned": "w",
+    "notes": "none",
+    "count": 478
+  },
+  "barbie pink": {
+    "original": "barbie pink",
+    "cleaned": "barbie pink",
+    "notes": "none",
+    "count": 477
+  },
+  "gree": {
+    "original": "gree",
+    "cleaned": "gree",
+    "notes": "none",
+    "count": 476
+  },
+  "dark lime green": {
+    "original": "dark lime green",
+    "cleaned": "dark lime green",
+    "notes": "none",
+    "count": 475
+  },
+  "fuchia": {
+    "original": "fuchia",
+    "cleaned": "fuchia",
+    "notes": "none",
+    "count": 475
+  },
+  "pea soup green": {
+    "original": "pea soup green",
+    "cleaned": "pea soup green",
+    "notes": "none",
+    "count": 474
+  },
+  "fusia": {
+    "original": "fusia",
+    "cleaned": "fusia",
+    "notes": "none",
+    "count": 471
+  },
+  "green-gray": {
+    "original": "green-gray",
+    "cleaned": "green gray",
+    "notes": "none",
+    "count": 470
+  },
+  "e": {
+    "original": "e",
+    "cleaned": "e",
+    "notes": "none",
+    "count": 469
+  },
+  "brown-green": {
+    "original": "brown-green",
+    "cleaned": "brown green",
+    "notes": "none",
+    "count": 468
+  },
+  "red-violet": {
+    "original": "red-violet",
+    "cleaned": "red violet",
+    "notes": "none",
+    "count": 461
+  },
+  "mid blue": {
+    "original": "mid blue",
+    "cleaned": "mid blue",
+    "notes": "none",
+    "count": 461
+  },
+  "prussian blue": {
+    "original": "prussian blue",
+    "cleaned": "prussian blue",
+    "notes": "none",
+    "count": 460
+  },
+  "k": {
+    "original": "k",
+    "cleaned": "k",
+    "notes": "none",
+    "count": 458
+  },
+  "turquois": {
+    "original": "turquois",
+    "cleaned": "turquois",
+    "notes": "none",
+    "count": 457
+  },
+  "bright violet": {
+    "original": "bright violet",
+    "cleaned": "bright violet",
+    "notes": "none",
+    "count": 457
+  },
+  "bronze": {
+    "original": "bronze",
+    "cleaned": "bronze",
+    "notes": "none",
+    "count": 456
+  },
+  "dark mustard": {
+    "original": "dark mustard",
+    "cleaned": "dark mustard",
+    "notes": "none",
+    "count": 456
+  },
+  "blu": {
+    "original": "blu",
+    "cleaned": "blu",
+    "notes": "none",
+    "count": 455
+  },
+  "dirt": {
+    "original": "dirt",
+    "cleaned": "dirt",
+    "notes": "none",
+    "count": 453
+  },
+  "military green": {
+    "original": "military green",
+    "cleaned": "military green",
+    "notes": "none",
+    "count": 453
+  },
+  "very dark green": {
+    "original": "very dark green",
+    "cleaned": "very dark green",
+    "notes": "none",
+    "count": 453
+  },
+  "pine": {
+    "original": "pine",
+    "cleaned": "pine",
+    "notes": "none",
+    "count": 451
+  },
+  "bubblegum pink": {
+    "original": "bubblegum pink",
+    "cleaned": "bubblegum pink",
+    "notes": "none",
+    "count": 451
+  },
+  "lemon yellow": {
+    "original": "lemon yellow",
+    "cleaned": "lemon yellow",
+    "notes": "none",
+    "count": 450
+  },
+  "bright turquoise": {
+    "original": "bright turquoise",
+    "cleaned": "bright turquoise",
+    "notes": "none",
+    "count": 449
+  },
+  "gren": {
+    "original": "gren",
+    "cleaned": "gren",
+    "notes": "none",
+    "count": 448
+  },
+  "cerulean blue": {
+    "original": "cerulean blue",
+    "cleaned": "cerulean blue",
+    "notes": "none",
+    "count": 447
+  },
+  "pale teal": {
+    "original": "pale teal",
+    "cleaned": "pale teal",
+    "notes": "none",
+    "count": 447
+  },
+  "slate green": {
+    "original": "slate green",
+    "cleaned": "slate green",
+    "notes": "none",
+    "count": 443
+  },
+  "yellowy green": {
+    "original": "yellowy green",
+    "cleaned": "yellowy green",
+    "notes": "none",
+    "count": 443
+  },
+  "green gray": {
+    "original": "green gray",
+    "cleaned": "green gray",
+    "notes": "none",
+    "count": 442
+  },
+  "dull red": {
+    "original": "dull red",
+    "cleaned": "dull red",
+    "notes": "none",
+    "count": 442
+  },
+  "dark gold": {
+    "original": "dark gold",
+    "cleaned": "dark gold",
+    "notes": "none",
+    "count": 440
+  },
+  "pinky red": {
+    "original": "pinky red",
+    "cleaned": "pinky red",
+    "notes": "none",
+    "count": 440
+  },
+  "puple": {
+    "original": "puple",
+    "cleaned": "puple",
+    "notes": "none",
+    "count": 434
+  },
+  "darkish blue": {
+    "original": "darkish blue",
+    "cleaned": "darkish blue",
+    "notes": "none",
+    "count": 431
+  },
+  "dirty pink": {
+    "original": "dirty pink",
+    "cleaned": "dirty pink",
+    "notes": "none",
+    "count": 430
+  },
+  "bluish": {
+    "original": "bluish",
+    "cleaned": "bluish",
+    "notes": "none",
+    "count": 428
+  },
+  "dark blue green": {
+    "original": "dark blue green",
+    "cleaned": "dark blue green",
+    "notes": "none",
+    "count": 426
+  },
+  "hospital green": {
+    "original": "hospital green",
+    "cleaned": "hospital green",
+    "notes": "none",
+    "count": 425
+  },
+  "steel grey": {
+    "original": "steel grey",
+    "cleaned": "steel grey",
+    "notes": "none",
+    "count": 422
+  },
+  "soft blue": {
+    "original": "soft blue",
+    "cleaned": "soft blue",
+    "notes": "none",
+    "count": 421
+  },
+  "red-pink": {
+    "original": "red-pink",
+    "cleaned": "red pink",
+    "notes": "none",
+    "count": 419
+  },
+  "red purple": {
+    "original": "red purple",
+    "cleaned": "red purple",
+    "notes": "none",
+    "count": 416
+  },
+  "purply blue": {
+    "original": "purply blue",
+    "cleaned": "purply blue",
+    "notes": "none",
+    "count": 415
+  },
+  "slate gray": {
+    "original": "slate gray",
+    "cleaned": "slate gray",
+    "notes": "none",
+    "count": 415
+  },
+  "vermillion": {
+    "original": "vermillion",
+    "cleaned": "vermillion",
+    "notes": "none",
+    "count": 413
+  },
+  "dusky rose": {
+    "original": "dusky rose",
+    "cleaned": "dusky rose",
+    "notes": "none",
+    "count": 411
+  },
+  "russet": {
+    "original": "russet",
+    "cleaned": "russet",
+    "notes": "none",
+    "count": 410
+  },
+  "easter green": {
+    "original": "easter green",
+    "cleaned": "easter green",
+    "notes": "none",
+    "count": 405
+  },
+  "gray purple": {
+    "original": "gray purple",
+    "cleaned": "gray purple",
+    "notes": "none",
+    "count": 404
+  },
+  "melon": {
+    "original": "melon",
+    "cleaned": "melon",
+    "notes": "none",
+    "count": 403
+  },
+  "lighter purple": {
+    "original": "lighter purple",
+    "cleaned": "lighter purple",
+    "notes": "none",
+    "count": 403
+  },
+  "purpleish blue": {
+    "original": "purpleish blue",
+    "cleaned": "purpleish blue",
+    "notes": "none",
+    "count": 402
+  },
+  "red pink": {
+    "original": "red pink",
+    "cleaned": "red pink",
+    "notes": "none",
+    "count": 401
+  },
+  "sickly green": {
+    "original": "sickly green",
+    "cleaned": "sickly green",
+    "notes": "none",
+    "count": 398
+  },
+  "greyish brown": {
+    "original": "greyish brown",
+    "cleaned": "greyish brown",
+    "notes": "none",
+    "count": 397
+  },
+  "shit brown": {
+    "original": "shit brown",
+    "cleaned": "shit brown",
+    "notes": "none",
+    "count": 396
+  },
+  "golden brown": {
+    "original": "golden brown",
+    "cleaned": "golden brown",
+    "notes": "none",
+    "count": 396
+  },
+  "cranberry": {
+    "original": "cranberry",
+    "cleaned": "cranberry",
+    "notes": "none",
+    "count": 394
+  },
+  "amber": {
+    "original": "amber",
+    "cleaned": "amber",
+    "notes": "none",
+    "count": 392
+  },
+  "marine": {
+    "original": "marine",
+    "cleaned": "marine",
+    "notes": "none",
+    "count": 392
+  },
+  "aqua marine": {
+    "original": "aqua marine",
+    "cleaned": "aqua marine",
+    "notes": "none",
+    "count": 391
+  },
+  "gay": {
+    "original": "gay",
+    "cleaned": "gay",
+    "notes": "none",
+    "count": 390
+  },
+  "purpleish": {
+    "original": "purpleish",
+    "cleaned": "purpleish",
+    "notes": "none",
+    "count": 389
+  },
+  "chartruese": {
+    "original": "chartruese",
+    "cleaned": "chartruese",
+    "notes": "none",
+    "count": 389
+  },
+  "silver": {
+    "original": "silver",
+    "cleaned": "silver",
+    "notes": "none",
+    "count": 388
+  },
+  "r": {
+    "original": "r",
+    "cleaned": "r",
+    "notes": "none",
+    "count": 387
+  },
+  "bright magenta": {
+    "original": "bright magenta",
+    "cleaned": "bright magenta",
+    "notes": "none",
+    "count": 385
+  },
+  "redish": {
+    "original": "redish",
+    "cleaned": "redish",
+    "notes": "none",
+    "count": 384
+  },
+  "brown orange": {
+    "original": "brown orange",
+    "cleaned": "brown orange",
+    "notes": "none",
+    "count": 383
+  },
+  "brown-orange": {
+    "original": "brown-orange",
+    "cleaned": "brown orange",
+    "notes": "none",
+    "count": 383
+  },
+  "seagreen": {
+    "original": "seagreen",
+    "cleaned": "seagreen",
+    "notes": "none",
+    "count": 382
+  },
+  "ecru": {
+    "original": "ecru",
+    "cleaned": "ecru",
+    "notes": "none",
+    "count": 380
+  },
+  "darkish green": {
+    "original": "darkish green",
+    "cleaned": "darkish green",
+    "notes": "none",
+    "count": 377
+  },
+  "fucsia": {
+    "original": "fucsia",
+    "cleaned": "fucsia",
+    "notes": "none",
+    "count": 375
+  },
+  "jade green": {
+    "original": "jade green",
+    "cleaned": "jade green",
+    "notes": "none",
+    "count": 375
+  },
+  "greyish pink": {
+    "original": "greyish pink",
+    "cleaned": "greyish pink",
+    "notes": "none",
+    "count": 374
+  },
+  "robin egg blue": {
+    "original": "robin egg blue",
+    "cleaned": "robin egg blue",
+    "notes": "none",
+    "count": 374
+  },
+  "pale turquoise": {
+    "original": "pale turquoise",
+    "cleaned": "pale turquoise",
+    "notes": "none",
+    "count": 374
+  },
+  "dark sea green": {
+    "original": "dark sea green",
+    "cleaned": "dark sea green",
+    "notes": "none",
+    "count": 374
+  },
+  "blueish grey": {
+    "original": "blueish grey",
+    "cleaned": "blueish grey",
+    "notes": "none",
+    "count": 373
+  },
+  "sepia": {
+    "original": "sepia",
+    "cleaned": "sepia",
+    "notes": "none",
+    "count": 370
+  },
+  "asdf": {
+    "original": "asdf",
+    "cleaned": "asdf",
+    "notes": "none",
+    "count": 370
+  },
+  "lightblue": {
+    "original": "lightblue",
+    "cleaned": "lightblue",
+    "notes": "none",
+    "count": 369
+  },
+  "fuck": {
+    "original": "fuck",
+    "cleaned": "fuck",
+    "notes": "none",
+    "count": 368
+  },
+  "bluey purple": {
+    "original": "bluey purple",
+    "cleaned": "bluey purple",
+    "notes": "none",
+    "count": 367
+  },
+  "burnt yellow": {
+    "original": "burnt yellow",
+    "cleaned": "burnt yellow",
+    "notes": "none",
+    "count": 365
+  },
+  "pastel yellow": {
+    "original": "pastel yellow",
+    "cleaned": "pastel yellow",
+    "notes": "none",
+    "count": 365
+  },
+  "camel": {
+    "original": "camel",
+    "cleaned": "camel",
+    "notes": "none",
+    "count": 364
+  },
+  "mocha": {
+    "original": "mocha",
+    "cleaned": "mocha",
+    "notes": "none",
+    "count": 363
+  },
+  "darker purple": {
+    "original": "darker purple",
+    "cleaned": "darker purple",
+    "notes": "none",
+    "count": 362
+  },
+  "canary yellow": {
+    "original": "canary yellow",
+    "cleaned": "canary yellow",
+    "notes": "none",
+    "count": 362
+  },
+  "coffee": {
+    "original": "coffee",
+    "cleaned": "coffee",
+    "notes": "none",
+    "count": 361
+  },
+  "purplish grey": {
+    "original": "purplish grey",
+    "cleaned": "purplish grey",
+    "notes": "none",
+    "count": 361
+  },
+  "faded red": {
+    "original": "faded red",
+    "cleaned": "faded red",
+    "notes": "none",
+    "count": 359
+  },
+  "cherry red": {
+    "original": "cherry red",
+    "cleaned": "cherry red",
+    "notes": "none",
+    "count": 358
+  },
+  "fucia": {
+    "original": "fucia",
+    "cleaned": "fucia",
+    "notes": "none",
+    "count": 357
+  },
+  "light sea green": {
+    "original": "light sea green",
+    "cleaned": "light sea green",
+    "notes": "none",
+    "count": 356
+  },
+  "minty green": {
+    "original": "minty green",
+    "cleaned": "minty green",
+    "notes": "none",
+    "count": 354
+  },
+  "celery": {
+    "original": "celery",
+    "cleaned": "celery",
+    "notes": "none",
+    "count": 352
+  },
+  "orangey brown": {
+    "original": "orangey brown",
+    "cleaned": "orangey brown",
+    "notes": "none",
+    "count": 349
+  },
+  "ocre": {
+    "original": "ocre",
+    "cleaned": "ocre",
+    "notes": "none",
+    "count": 347
+  },
+  "dusty green": {
+    "original": "dusty green",
+    "cleaned": "dusty green",
+    "notes": "none",
+    "count": 346
+  },
+  "carolina blue": {
+    "original": "carolina blue",
+    "cleaned": "carolina blue",
+    "notes": "none",
+    "count": 344
+  },
+  "barney": {
+    "original": "barney",
+    "cleaned": "barney",
+    "notes": "none",
+    "count": 344
+  },
+  "brownish grey": {
+    "original": "brownish grey",
+    "cleaned": "brownish grey",
+    "notes": "none",
+    "count": 343
+  },
+  "soft pink": {
+    "original": "soft pink",
+    "cleaned": "soft pink",
+    "notes": "none",
+    "count": 343
+  },
+  "celadon": {
+    "original": "celadon",
+    "cleaned": "celadon",
+    "notes": "none",
+    "count": 343
+  },
+  "redish brown": {
+    "original": "redish brown",
+    "cleaned": "redish brown",
+    "notes": "none",
+    "count": 342
+  },
+  "purple gray": {
+    "original": "purple gray",
+    "cleaned": "purple gray",
+    "notes": "none",
+    "count": 341
+  },
+  "dark fuschia": {
+    "original": "dark fuschia",
+    "cleaned": "dark fuschia",
+    "notes": "none",
+    "count": 341
+  },
+  "bright light blue": {
+    "original": "bright light blue",
+    "cleaned": "bright light blue",
+    "notes": "none",
+    "count": 341
+  },
+  "ocean green": {
+    "original": "ocean green",
+    "cleaned": "ocean green",
+    "notes": "none",
+    "count": 340
+  },
+  "orange-yellow": {
+    "original": "orange-yellow",
+    "cleaned": "orange yellow",
+    "notes": "none",
+    "count": 340
+  },
+  "sandstone": {
+    "original": "sandstone",
+    "cleaned": "sandstone",
+    "notes": "none",
+    "count": 340
+  },
+  "british racing green": {
+    "original": "british racing green",
+    "cleaned": "british racing green",
+    "notes": "none",
+    "count": 340
+  },
+  "maize": {
+    "original": "maize",
+    "cleaned": "maize",
+    "notes": "none",
+    "count": 338
+  },
+  "tope": {
+    "original": "tope",
+    "cleaned": "tope",
+    "notes": "none",
+    "count": 338
+  },
+  "j": {
+    "original": "j",
+    "cleaned": "j",
+    "notes": "none",
+    "count": 338
+  },
+  "faded pink": {
+    "original": "faded pink",
+    "cleaned": "faded pink",
+    "notes": "none",
+    "count": 337
+  },
+  "primary blue": {
+    "original": "primary blue",
+    "cleaned": "primary blue",
+    "notes": "none",
+    "count": 336
+  },
+  "adobe": {
+    "original": "adobe",
+    "cleaned": "adobe",
+    "notes": "none",
+    "count": 336
+  },
+  "mulberry": {
+    "original": "mulberry",
+    "cleaned": "mulberry",
+    "notes": "none",
+    "count": 335
+  },
+  "mud brown": {
+    "original": "mud brown",
+    "cleaned": "mud brown",
+    "notes": "none",
+    "count": 334
+  },
+  "torquoise": {
+    "original": "torquoise",
+    "cleaned": "torquoise",
+    "notes": "none",
+    "count": 332
+  },
+  "muted green": {
+    "original": "muted green",
+    "cleaned": "muted green",
+    "notes": "none",
+    "count": 332
+  },
+  "shocking pink": {
+    "original": "shocking pink",
+    "cleaned": "shocking pink",
+    "notes": "none",
+    "count": 331
+  },
+  "light lime": {
+    "original": "light lime",
+    "cleaned": "light lime",
+    "notes": "none",
+    "count": 328
+  },
+  "mustard green": {
+    "original": "mustard green",
+    "cleaned": "mustard green",
+    "notes": "none",
+    "count": 328
+  },
+  "kaki": {
+    "original": "kaki",
+    "cleaned": "kaki",
+    "notes": "none",
+    "count": 327
+  },
+  "bright sky blue": {
+    "original": "bright sky blue",
+    "cleaned": "bright sky blue",
+    "notes": "none",
+    "count": 326
+  },
+  "bright lavender": {
+    "original": "bright lavender",
+    "cleaned": "bright lavender",
+    "notes": "none",
+    "count": 326
+  },
+  "bright aqua": {
+    "original": "bright aqua",
+    "cleaned": "bright aqua",
+    "notes": "none",
+    "count": 325
+  },
+  "orange yellow": {
+    "original": "orange yellow",
+    "cleaned": "orange yellow",
+    "notes": "none",
+    "count": 322
+  },
+  "dark khaki": {
+    "original": "dark khaki",
+    "cleaned": "dark khaki",
+    "notes": "none",
+    "count": 320
+  },
+  "pink red": {
+    "original": "pink red",
+    "cleaned": "pink red",
+    "notes": "none",
+    "count": 320
+  },
+  "bright lime green": {
+    "original": "bright lime green",
+    "cleaned": "bright lime green",
+    "notes": "none",
+    "count": 320
+  },
+  "yuck": {
+    "original": "yuck",
+    "cleaned": "yuck",
+    "notes": "none",
+    "count": 319
+  },
+  "bottle green": {
+    "original": "bottle green",
+    "cleaned": "bottle green",
+    "notes": "none",
+    "count": 318
+  },
+  "light navy blue": {
+    "original": "light navy blue",
+    "cleaned": "light navy blue",
+    "notes": "none",
+    "count": 318
+  },
+  "poop brown": {
+    "original": "poop brown",
+    "cleaned": "poop brown",
+    "notes": "none",
+    "count": 317
+  },
+  "ivory": {
+    "original": "ivory",
+    "cleaned": "ivory",
+    "notes": "none",
+    "count": 317
+  },
+  "barf": {
+    "original": "barf",
+    "cleaned": "barf",
+    "notes": "none",
+    "count": 315
+  },
+  "dark lime": {
+    "original": "dark lime",
+    "cleaned": "dark lime",
+    "notes": "none",
+    "count": 315
+  },
+  "strawberry": {
+    "original": "strawberry",
+    "cleaned": "strawberry",
+    "notes": "none",
+    "count": 315
+  },
+  "pink-red": {
+    "original": "pink-red",
+    "cleaned": "pink red",
+    "notes": "none",
+    "count": 314
+  },
+  "kermit green": {
+    "original": "kermit green",
+    "cleaned": "kermit green",
+    "notes": "none",
+    "count": 314
+  },
+  "light navy": {
+    "original": "light navy",
+    "cleaned": "light navy",
+    "notes": "none",
+    "count": 314
+  },
+  "copper": {
+    "original": "copper",
+    "cleaned": "copper",
+    "notes": "none",
+    "count": 312
+  },
+  "dunno": {
+    "original": "dunno",
+    "cleaned": "dunno",
+    "notes": "none",
+    "count": 312
+  },
+  "very light purple": {
+    "original": "very light purple",
+    "cleaned": "very light purple",
+    "notes": "none",
+    "count": 311
+  },
+  "french blue": {
+    "original": "french blue",
+    "cleaned": "french blue",
+    "notes": "none",
+    "count": 311
+  },
+  "purple-gray": {
+    "original": "purple-gray",
+    "cleaned": "purple gray",
+    "notes": "none",
+    "count": 310
+  },
+  "light lilac": {
+    "original": "light lilac",
+    "cleaned": "light lilac",
+    "notes": "none",
+    "count": 310
+  },
+  "medium brown": {
+    "original": "medium brown",
+    "cleaned": "medium brown",
+    "notes": "none",
+    "count": 309
+  },
+  "yellow ochre": {
+    "original": "yellow ochre",
+    "cleaned": "yellow ochre",
+    "notes": "none",
+    "count": 308
+  },
+  "olive brown": {
+    "original": "olive brown",
+    "cleaned": "olive brown",
+    "notes": "none",
+    "count": 308
+  },
+  "very dark blue": {
+    "original": "very dark blue",
+    "cleaned": "very dark blue",
+    "notes": "none",
+    "count": 307
+  },
+  "auburn": {
+    "original": "auburn",
+    "cleaned": "auburn",
+    "notes": "none",
+    "count": 303
+  },
+  "pale olive": {
+    "original": "pale olive",
+    "cleaned": "pale olive",
+    "notes": "none",
+    "count": 302
+  },
+  "deep sky blue": {
+    "original": "deep sky blue",
+    "cleaned": "deep sky blue",
+    "notes": "none",
+    "count": 300
+  },
+  "boring": {
+    "original": "boring",
+    "cleaned": "boring",
+    "notes": "none",
+    "count": 300
+  },
+  "pinkish brown": {
+    "original": "pinkish brown",
+    "cleaned": "pinkish brown",
+    "notes": "none",
+    "count": 298
+  },
+  "poo brown": {
+    "original": "poo brown",
+    "cleaned": "poo brown",
+    "notes": "none",
+    "count": 297
+  },
+  "lightish green": {
+    "original": "lightish green",
+    "cleaned": "lightish green",
+    "notes": "none",
+    "count": 297
+  },
+  "l": {
+    "original": "l",
+    "cleaned": "l",
+    "notes": "none",
+    "count": 296
+  },
+  "pumpkin orange": {
+    "original": "pumpkin orange",
+    "cleaned": "pumpkin orange",
+    "notes": "none",
+    "count": 294
+  },
+  "berry": {
+    "original": "berry",
+    "cleaned": "berry",
+    "notes": "none",
+    "count": 294
+  },
+  "marroon": {
+    "original": "marroon",
+    "cleaned": "marroon",
+    "notes": "none",
+    "count": 294
+  },
+  "fusha": {
+    "original": "fusha",
+    "cleaned": "fusha",
+    "notes": "none",
+    "count": 293
+  },
+  "dirt brown": {
+    "original": "dirt brown",
+    "cleaned": "dirt brown",
+    "notes": "none",
+    "count": 292
+  },
+  "irish green": {
+    "original": "irish green",
+    "cleaned": "irish green",
+    "notes": "none",
+    "count": 292
+  },
+  "b": {
+    "original": "b",
+    "cleaned": "b",
+    "notes": "none",
+    "count": 291
+  },
+  "df": {
+    "original": "df",
+    "cleaned": "df",
+    "notes": "none",
+    "count": 290
+  },
+  "murky green": {
+    "original": "murky green",
+    "cleaned": "murky green",
+    "notes": "none",
+    "count": 288
+  },
+  "slime green": {
+    "original": "slime green",
+    "cleaned": "slime green",
+    "notes": "none",
+    "count": 288
+  },
+  "fuscha": {
+    "original": "fuscha",
+    "cleaned": "fuscha",
+    "notes": "none",
+    "count": 286
+  },
+  "skyblue": {
+    "original": "skyblue",
+    "cleaned": "skyblue",
+    "notes": "none",
+    "count": 284
+  },
+  "easter purple": {
+    "original": "easter purple",
+    "cleaned": "easter purple",
+    "notes": "none",
+    "count": 282
+  },
+  "dusky blue": {
+    "original": "dusky blue",
+    "cleaned": "dusky blue",
+    "notes": "none",
+    "count": 282
+  },
+  "poo": {
+    "original": "poo",
+    "cleaned": "poo",
+    "notes": "none",
+    "count": 282
+  },
+  "snot": {
+    "original": "snot",
+    "cleaned": "snot",
+    "notes": "none",
+    "count": 282
+  },
+  "pale lilac": {
+    "original": "pale lilac",
+    "cleaned": "pale lilac",
+    "notes": "none",
+    "count": 282
+  },
+  "bluey green": {
+    "original": "bluey green",
+    "cleaned": "bluey green",
+    "notes": "none",
+    "count": 281
+  },
+  "wheat": {
+    "original": "wheat",
+    "cleaned": "wheat",
+    "notes": "none",
+    "count": 280
+  },
+  "very dark purple": {
+    "original": "very dark purple",
+    "cleaned": "very dark purple",
+    "notes": "none",
+    "count": 280
+  },
+  "purpl": {
+    "original": "purpl",
+    "cleaned": "purpl",
+    "notes": "none",
+    "count": 279
+  },
+  "drab": {
+    "original": "drab",
+    "cleaned": "drab",
+    "notes": "none",
+    "count": 279
+  },
+  "t": {
+    "original": "t",
+    "cleaned": "t",
+    "notes": "none",
+    "count": 279
+  },
+  "brownish purple": {
+    "original": "brownish purple",
+    "cleaned": "brownish purple",
+    "notes": "none",
+    "count": 278
+  },
+  "greeny blue": {
+    "original": "greeny blue",
+    "cleaned": "greeny blue",
+    "notes": "none",
+    "count": 277
+  },
+  "gray-purple": {
+    "original": "gray-purple",
+    "cleaned": "gray purple",
+    "notes": "none",
+    "count": 276
+  },
+  "pink/purple": {
+    "original": "pink/purple",
+    "cleaned": "pink/purple",
+    "notes": "none",
+    "count": 276
+  },
+  "dirty orange": {
+    "original": "dirty orange",
+    "cleaned": "dirty orange",
+    "notes": "none",
+    "count": 276
+  },
+  "biege": {
+    "original": "biege",
+    "cleaned": "biege",
+    "notes": "none",
+    "count": 276
+  },
+  "light plum": {
+    "original": "light plum",
+    "cleaned": "light plum",
+    "notes": "none",
+    "count": 276
+  },
+  "avacado": {
+    "original": "avacado",
+    "cleaned": "avacado",
+    "notes": "none",
+    "count": 276
+  },
+  "flourescent green": {
+    "original": "flourescent green",
+    "cleaned": "flourescent green",
+    "notes": "none",
+    "count": 275
+  },
+  "orangey red": {
+    "original": "orangey red",
+    "cleaned": "orangey red",
+    "notes": "none",
+    "count": 275
+  },
+  "fire engine red": {
+    "original": "fire engine red",
+    "cleaned": "fire engine red",
+    "notes": "none",
+    "count": 275
+  },
+  "rust red": {
+    "original": "rust red",
+    "cleaned": "rust red",
+    "notes": "none",
+    "count": 274
+  },
+  "off green": {
+    "original": "off green",
+    "cleaned": "off green",
+    "notes": "none",
+    "count": 273
+  },
+  "pinkish grey": {
+    "original": "pinkish grey",
+    "cleaned": "pinkish grey",
+    "notes": "none",
+    "count": 272
+  },
+  "rouge": {
+    "original": "rouge",
+    "cleaned": "rouge",
+    "notes": "none",
+    "count": 271
+  },
+  "ocher": {
+    "original": "ocher",
+    "cleaned": "ocher",
+    "notes": "none",
+    "count": 271
+  },
+  "shamrock green": {
+    "original": "shamrock green",
+    "cleaned": "shamrock green",
+    "notes": "none",
+    "count": 270
+  },
+  "light yellow green": {
+    "original": "light yellow green",
+    "cleaned": "light yellow green",
+    "notes": "none",
+    "count": 270
+  },
+  "light rose": {
+    "original": "light rose",
+    "cleaned": "light rose",
+    "notes": "none",
+    "count": 270
+  },
+  "soft purple": {
+    "original": "soft purple",
+    "cleaned": "soft purple",
+    "notes": "none",
+    "count": 269
+  },
+  "bleu": {
+    "original": "bleu",
+    "cleaned": "bleu",
+    "notes": "none",
+    "count": 269
+  },
+  "pinkish-purple": {
+    "original": "pinkish-purple",
+    "cleaned": "pinkish purple",
+    "notes": "none",
+    "count": 268
+  },
+  "dusky purple": {
+    "original": "dusky purple",
+    "cleaned": "dusky purple",
+    "notes": "none",
+    "count": 268
+  },
+  "everlasting cocksucker": {
+    "original": "everlasting cocksucker",
+    "cleaned": "everlasting cocksucker",
+    "notes": "none",
+    "count": 268
+  },
+  "ew": {
+    "original": "ew",
+    "cleaned": "ew",
+    "notes": "none",
+    "count": 267
+  },
+  "light salmon": {
+    "original": "light salmon",
+    "cleaned": "light salmon",
+    "notes": "none",
+    "count": 266
+  },
+  "violet-blue": {
+    "original": "violet-blue",
+    "cleaned": "violet blue",
+    "notes": "none",
+    "count": 265
+  },
+  "redish pink": {
+    "original": "redish pink",
+    "cleaned": "redish pink",
+    "notes": "none",
+    "count": 265
+  },
+  "purpley pink": {
+    "original": "purpley pink",
+    "cleaned": "purpley pink",
+    "notes": "none",
+    "count": 264
+  },
+  "baby poop": {
+    "original": "baby poop",
+    "cleaned": "baby poop",
+    "notes": "none",
+    "count": 264
+  },
+  "brown red": {
+    "original": "brown red",
+    "cleaned": "brown red",
+    "notes": "none",
+    "count": 264
+  },
+  "grey pink": {
+    "original": "grey pink",
+    "cleaned": "grey pink",
+    "notes": "none",
+    "count": 264
+  },
+  "mossy green": {
+    "original": "mossy green",
+    "cleaned": "mossy green",
+    "notes": "none",
+    "count": 263
+  },
+  "dark navy blue": {
+    "original": "dark navy blue",
+    "cleaned": "dark navy blue",
+    "notes": "none",
+    "count": 263
+  },
+  "dark navy": {
+    "original": "dark navy",
+    "cleaned": "dark navy",
+    "notes": "none",
+    "count": 263
+  },
+  "medium grey": {
+    "original": "medium grey",
+    "cleaned": "medium grey",
+    "notes": "none",
+    "count": 263
+  },
+  "blue/purple": {
+    "original": "blue/purple",
+    "cleaned": "blue/purple",
+    "notes": "none",
+    "count": 262
+  },
+  "purplish red": {
+    "original": "purplish red",
+    "cleaned": "purplish red",
+    "notes": "none",
+    "count": 261
+  },
+  "midnight": {
+    "original": "midnight",
+    "cleaned": "midnight",
+    "notes": "none",
+    "count": 261
+  },
+  "nude": {
+    "original": "nude",
+    "cleaned": "nude",
+    "notes": "none",
+    "count": 261
+  },
+  "tree green": {
+    "original": "tree green",
+    "cleaned": "tree green",
+    "notes": "none",
+    "count": 260
+  },
+  "light yellow-green": {
+    "original": "light yellow-green",
+    "cleaned": "light yellow green",
+    "notes": "none",
+    "count": 260
+  },
+  "dark indigo": {
+    "original": "dark indigo",
+    "cleaned": "dark indigo",
+    "notes": "none",
+    "count": 260
+  },
+  "blue!": {
+    "original": "blue!",
+    "cleaned": "blue",
+    "notes": "strip_trailing:!",
+    "count": 260
+  },
+  "orangish brown": {
+    "original": "orangish brown",
+    "cleaned": "orangish brown",
+    "notes": "none",
+    "count": 260
+  },
+  "mid green": {
+    "original": "mid green",
+    "cleaned": "mid green",
+    "notes": "none",
+    "count": 260
+  },
+  "deep violet": {
+    "original": "deep violet",
+    "cleaned": "deep violet",
+    "notes": "none",
+    "count": 259
+  },
+  "cherry": {
+    "original": "cherry",
+    "cleaned": "cherry",
+    "notes": "none",
+    "count": 258
+  },
+  "sandy brown": {
+    "original": "sandy brown",
+    "cleaned": "sandy brown",
+    "notes": "none",
+    "count": 258
+  },
+  "golden": {
+    "original": "golden",
+    "cleaned": "golden",
+    "notes": "none",
+    "count": 257
+  },
+  "ugly yellow": {
+    "original": "ugly yellow",
+    "cleaned": "ugly yellow",
+    "notes": "none",
+    "count": 257
+  },
+  "dark mint green": {
+    "original": "dark mint green",
+    "cleaned": "dark mint green",
+    "notes": "none",
+    "count": 256
+  },
+  "blood": {
+    "original": "blood",
+    "cleaned": "blood",
+    "notes": "none",
+    "count": 255
+  },
+  "muted blue": {
+    "original": "muted blue",
+    "cleaned": "muted blue",
+    "notes": "none",
+    "count": 255
+  },
+  "warm grey": {
+    "original": "warm grey",
+    "cleaned": "warm grey",
+    "notes": "none",
+    "count": 255
+  },
+  "greeny yellow": {
+    "original": "greeny yellow",
+    "cleaned": "greeny yellow",
+    "notes": "none",
+    "count": 254
+  },
+  "gunmetal": {
+    "original": "gunmetal",
+    "cleaned": "gunmetal",
+    "notes": "none",
+    "count": 252
+  },
+  "gray-brown": {
+    "original": "gray-brown",
+    "cleaned": "gray brown",
+    "notes": "none",
+    "count": 252
+  },
+  "amethyst": {
+    "original": "amethyst",
+    "cleaned": "amethyst",
+    "notes": "none",
+    "count": 252
+  },
+  "blue/green": {
+    "original": "blue/green",
+    "cleaned": "blue/green",
+    "notes": "none",
+    "count": 250
+  },
+  "orangish red": {
+    "original": "orangish red",
+    "cleaned": "orangish red",
+    "notes": "none",
+    "count": 250
+  },
+  "purply pink": {
+    "original": "purply pink",
+    "cleaned": "purply pink",
+    "notes": "none",
+    "count": 249
+  },
+  "light grey blue": {
+    "original": "light grey blue",
+    "cleaned": "light grey blue",
+    "notes": "none",
+    "count": 249
+  },
+  "butter yellow": {
+    "original": "butter yellow",
+    "cleaned": "butter yellow",
+    "notes": "none",
+    "count": 249
+  },
+  "deep magenta": {
+    "original": "deep magenta",
+    "cleaned": "deep magenta",
+    "notes": "none",
+    "count": 249
+  },
+  "asparagus": {
+    "original": "asparagus",
+    "cleaned": "asparagus",
+    "notes": "none",
+    "count": 249
+  },
+  "burgendy": {
+    "original": "burgendy",
+    "cleaned": "burgendy",
+    "notes": "none",
+    "count": 249
+  },
+  "pale lime": {
+    "original": "pale lime",
+    "cleaned": "pale lime",
+    "notes": "none",
+    "count": 248
+  },
+  "x": {
+    "original": "x",
+    "cleaned": "x",
+    "notes": "none",
+    "count": 248
+  },
+  "pea": {
+    "original": "pea",
+    "cleaned": "pea",
+    "notes": "none",
+    "count": 248
+  },
+  "heliotrope": {
+    "original": "heliotrope",
+    "cleaned": "heliotrope",
+    "notes": "none",
+    "count": 247
+  },
+  "blueberry": {
+    "original": "blueberry",
+    "cleaned": "blueberry",
+    "notes": "none",
+    "count": 246
+  },
+  "sick green": {
+    "original": "sick green",
+    "cleaned": "sick green",
+    "notes": "none",
+    "count": 245
+  },
+  "skin tone": {
+    "original": "skin tone",
+    "cleaned": "skin tone",
+    "notes": "none",
+    "count": 245
+  },
+  "marron": {
+    "original": "marron",
+    "cleaned": "marron",
+    "notes": "none",
+    "count": 245
+  },
+  "greenish teal": {
+    "original": "greenish teal",
+    "cleaned": "greenish teal",
+    "notes": "none",
+    "count": 245
+  },
+  "purplish gray": {
+    "original": "purplish gray",
+    "cleaned": "purplish gray",
+    "notes": "none",
+    "count": 245
+  },
+  "caramel": {
+    "original": "caramel",
+    "cleaned": "caramel",
+    "notes": "none",
+    "count": 244
+  },
+  "light beige": {
+    "original": "light beige",
+    "cleaned": "light beige",
+    "notes": "none",
+    "count": 244
+  },
+  "fluro green": {
+    "original": "fluro green",
+    "cleaned": "fluro green",
+    "notes": "none",
+    "count": 243
+  },
+  "pale grey": {
+    "original": "pale grey",
+    "cleaned": "pale grey",
+    "notes": "none",
+    "count": 242
+  },
+  "lightgreen": {
+    "original": "lightgreen",
+    "cleaned": "lightgreen",
+    "notes": "none",
+    "count": 242
+  },
+  "grassy green": {
+    "original": "grassy green",
+    "cleaned": "grassy green",
+    "notes": "none",
+    "count": 241
+  },
+  "pale aqua": {
+    "original": "pale aqua",
+    "cleaned": "pale aqua",
+    "notes": "none",
+    "count": 241
+  },
+  "turquoise blue": {
+    "original": "turquoise blue",
+    "cleaned": "turquoise blue",
+    "notes": "none",
+    "count": 241
+  },
+  "purple-red": {
+    "original": "purple-red",
+    "cleaned": "purple red",
+    "notes": "none",
+    "count": 240
+  },
+  "brown-red": {
+    "original": "brown-red",
+    "cleaned": "brown red",
+    "notes": "none",
+    "count": 240
+  },
+  "stone": {
+    "original": "stone",
+    "cleaned": "stone",
+    "notes": "none",
+    "count": 239
+  },
+  "magneta": {
+    "original": "magneta",
+    "cleaned": "magneta",
+    "notes": "none",
+    "count": 239
+  },
+  "milk chocolate": {
+    "original": "milk chocolate",
+    "cleaned": "milk chocolate",
+    "notes": "none",
+    "count": 239
+  },
+  "greenish-yellow": {
+    "original": "greenish-yellow",
+    "cleaned": "greenish yellow",
+    "notes": "none",
+    "count": 238
+  },
+  "ble": {
+    "original": "ble",
+    "cleaned": "ble",
+    "notes": "none",
+    "count": 238
+  },
+  "purple red": {
+    "original": "purple red",
+    "cleaned": "purple red",
+    "notes": "none",
+    "count": 237
+  },
+  "rose red": {
+    "original": "rose red",
+    "cleaned": "rose red",
+    "notes": "none",
+    "count": 236
+  },
+  "idk": {
+    "original": "idk",
+    "cleaned": "idk",
+    "notes": "none",
+    "count": 236
+  },
+  "pale lime green": {
+    "original": "pale lime green",
+    "cleaned": "pale lime green",
+    "notes": "none",
+    "count": 235
+  },
+  "turquoise green": {
+    "original": "turquoise green",
+    "cleaned": "turquoise green",
+    "notes": "none",
+    "count": 235
+  },
+  "bluish-purple": {
+    "original": "bluish-purple",
+    "cleaned": "bluish purple",
+    "notes": "none",
+    "count": 234
+  },
+  "earth": {
+    "original": "earth",
+    "cleaned": "earth",
+    "notes": "none",
+    "count": 234
+  },
+  "rusty orange": {
+    "original": "rusty orange",
+    "cleaned": "rusty orange",
+    "notes": "none",
+    "count": 233
+  },
+  "y": {
+    "original": "y",
+    "cleaned": "y",
+    "notes": "none",
+    "count": 233
+  },
+  "pale rose": {
+    "original": "pale rose",
+    "cleaned": "pale rose",
+    "notes": "none",
+    "count": 232
+  },
+  "light peach": {
+    "original": "light peach",
+    "cleaned": "light peach",
+    "notes": "none",
+    "count": 232
+  },
+  "i": {
+    "original": "i",
+    "cleaned": "i",
+    "notes": "none",
+    "count": 232
+  },
+  "no idea": {
+    "original": "no idea",
+    "cleaned": "no idea",
+    "notes": "none",
+    "count": 230
+  },
+  "deep orange": {
+    "original": "deep orange",
+    "cleaned": "deep orange",
+    "notes": "none",
+    "count": 229
+  },
+  "fawn": {
+    "original": "fawn",
+    "cleaned": "fawn",
+    "notes": "none",
+    "count": 229
+  },
+  "carnation pink": {
+    "original": "carnation pink",
+    "cleaned": "carnation pink",
+    "notes": "none",
+    "count": 229
+  },
+  "grayish brown": {
+    "original": "grayish brown",
+    "cleaned": "grayish brown",
+    "notes": "none",
+    "count": 228
+  },
+  "shamrock": {
+    "original": "shamrock",
+    "cleaned": "shamrock",
+    "notes": "none",
+    "count": 228
+  },
+  "chestnut": {
+    "original": "chestnut",
+    "cleaned": "chestnut",
+    "notes": "none",
+    "count": 227
+  },
+  "steel gray": {
+    "original": "steel gray",
+    "cleaned": "steel gray",
+    "notes": "none",
+    "count": 227
+  },
+  "skin color": {
+    "original": "skin color",
+    "cleaned": "skin color",
+    "notes": "none",
+    "count": 227
+  },
+  "buff": {
+    "original": "buff",
+    "cleaned": "buff",
+    "notes": "none",
+    "count": 227
+  },
+  "redish purple": {
+    "original": "redish purple",
+    "cleaned": "redish purple",
+    "notes": "none",
+    "count": 226
+  },
+  "dicks": {
+    "original": "dicks",
+    "cleaned": "dicks",
+    "notes": "none",
+    "count": 226
+  },
+  "gray brown": {
+    "original": "gray brown",
+    "cleaned": "gray brown",
+    "notes": "none",
+    "count": 225
+  },
+  "ultramarine blue": {
+    "original": "ultramarine blue",
+    "cleaned": "ultramarine blue",
+    "notes": "none",
+    "count": 225
+  },
+  "u": {
+    "original": "u",
+    "cleaned": "u",
+    "notes": "none",
+    "count": 225
+  },
+  "reddish-brown": {
+    "original": "reddish-brown",
+    "cleaned": "reddish brown",
+    "notes": "none",
+    "count": 224
+  },
+  "darker pink": {
+    "original": "darker pink",
+    "cleaned": "darker pink",
+    "notes": "none",
+    "count": 224
+  },
+  "electric pink": {
+    "original": "electric pink",
+    "cleaned": "electric pink",
+    "notes": "none",
+    "count": 223
+  },
+  "tomato": {
+    "original": "tomato",
+    "cleaned": "tomato",
+    "notes": "none",
+    "count": 223
+  },
+  "greeen": {
+    "original": "greeen",
+    "cleaned": "greeen",
+    "notes": "none",
+    "count": 222
+  },
+  "flesh pink": {
+    "original": "flesh pink",
+    "cleaned": "flesh pink",
+    "notes": "none",
+    "count": 222
+  },
+  "iris": {
+    "original": "iris",
+    "cleaned": "iris",
+    "notes": "none",
+    "count": 222
+  },
+  "sd": {
+    "original": "sd",
+    "cleaned": "sd",
+    "notes": "none",
+    "count": 221
+  },
+  "sea": {
+    "original": "sea",
+    "cleaned": "sea",
+    "notes": "none",
+    "count": 220
+  },
+  "muted purple": {
+    "original": "muted purple",
+    "cleaned": "muted purple",
+    "notes": "none",
+    "count": 219
+  },
+  "sdf": {
+    "original": "sdf",
+    "cleaned": "sdf",
+    "notes": "none",
+    "count": 219
+  },
+  "light urple": {
+    "original": "light urple",
+    "cleaned": "light urple",
+    "notes": "none",
+    "count": 218
+  },
+  "dark mint": {
+    "original": "dark mint",
+    "cleaned": "dark mint",
+    "notes": "none",
+    "count": 218
+  },
+  "m": {
+    "original": "m",
+    "cleaned": "m",
+    "notes": "none",
+    "count": 218
+  },
+  "perrywinkle": {
+    "original": "perrywinkle",
+    "cleaned": "perrywinkle",
+    "notes": "none",
+    "count": 217
+  },
+  "sea-green": {
+    "original": "sea-green",
+    "cleaned": "sea green",
+    "notes": "none",
+    "count": 217
+  },
+  "light-blue": {
+    "original": "light-blue",
+    "cleaned": "light blue",
+    "notes": "none",
+    "count": 216
+  },
+  "ugly pink": {
+    "original": "ugly pink",
+    "cleaned": "ugly pink",
+    "notes": "none",
+    "count": 216
+  },
+  "pear": {
+    "original": "pear",
+    "cleaned": "pear",
+    "notes": "none",
+    "count": 215
+  },
+  "kiwi": {
+    "original": "kiwi",
+    "cleaned": "kiwi",
+    "notes": "none",
+    "count": 215
+  },
+  "muddy brown": {
+    "original": "muddy brown",
+    "cleaned": "muddy brown",
+    "notes": "none",
+    "count": 215
+  },
+  "neon yellow": {
+    "original": "neon yellow",
+    "cleaned": "neon yellow",
+    "notes": "none",
+    "count": 213
+  },
+  "purple!": {
+    "original": "purple!",
+    "cleaned": "purple",
+    "notes": "strip_trailing:!",
+    "count": 213
+  },
+  "bright light green": {
+    "original": "bright light green",
+    "cleaned": "bright light green",
+    "notes": "none",
+    "count": 213
+  },
+  "brown-grey": {
+    "original": "brown-grey",
+    "cleaned": "brown grey",
+    "notes": "none",
+    "count": 213
+  },
+  "greyish": {
+    "original": "greyish",
+    "cleaned": "greyish",
+    "notes": "none",
+    "count": 213
+  },
+  "eric is faggot": {
+    "original": "eric is faggot",
+    "cleaned": "eric is faggot",
+    "notes": "none",
+    "count": 213
+  },
+  "banana": {
+    "original": "banana",
+    "cleaned": "banana",
+    "notes": "none",
+    "count": 212
+  },
+  "verde": {
+    "original": "verde",
+    "cleaned": "verde",
+    "notes": "none",
+    "count": 212
+  },
+  "apple": {
+    "original": "apple",
+    "cleaned": "apple",
+    "notes": "none",
+    "count": 212
+  },
+  "yellow/green": {
+    "original": "yellow/green",
+    "cleaned": "yellow/green",
+    "notes": "none",
+    "count": 211
+  },
+  "peacock blue": {
+    "original": "peacock blue",
+    "cleaned": "peacock blue",
+    "notes": "none",
+    "count": 211
+  },
+  "no": {
+    "original": "no",
+    "cleaned": "no",
+    "notes": "none",
+    "count": 211
+  },
+  "greenish tan": {
+    "original": "greenish tan",
+    "cleaned": "greenish tan",
+    "notes": "none",
+    "count": 210
+  },
+  "dark lavendar": {
+    "original": "dark lavendar",
+    "cleaned": "dark lavendar",
+    "notes": "none",
+    "count": 210
+  },
+  "hot green": {
+    "original": "hot green",
+    "cleaned": "hot green",
+    "notes": "none",
+    "count": 210
+  },
+  "sandy": {
+    "original": "sandy",
+    "cleaned": "sandy",
+    "notes": "none",
+    "count": 209
+  },
+  "seaweed": {
+    "original": "seaweed",
+    "cleaned": "seaweed",
+    "notes": "none",
+    "count": 209
+  },
+  "dark plum": {
+    "original": "dark plum",
+    "cleaned": "dark plum",
+    "notes": "none",
+    "count": 207
+  },
+  "blueish gray": {
+    "original": "blueish gray",
+    "cleaned": "blueish gray",
+    "notes": "none",
+    "count": 207
+  },
+  "light burgundy": {
+    "original": "light burgundy",
+    "cleaned": "light burgundy",
+    "notes": "none",
+    "count": 206
+  },
+  "sea-foam green": {
+    "original": "sea-foam green",
+    "cleaned": "sea foam green",
+    "notes": "none",
+    "count": 206
+  },
+  "navy green": {
+    "original": "navy green",
+    "cleaned": "navy green",
+    "notes": "none",
+    "count": 206
+  },
+  "sky-blue": {
+    "original": "sky-blue",
+    "cleaned": "sky blue",
+    "notes": "none",
+    "count": 206
+  },
+  "avocado green": {
+    "original": "avocado green",
+    "cleaned": "avocado green",
+    "notes": "none",
+    "count": 206
+  },
+  "pastel orange": {
+    "original": "pastel orange",
+    "cleaned": "pastel orange",
+    "notes": "none",
+    "count": 206
+  },
+  "fucshia": {
+    "original": "fucshia",
+    "cleaned": "fucshia",
+    "notes": "none",
+    "count": 205
+  },
+  "midnight purple": {
+    "original": "midnight purple",
+    "cleaned": "midnight purple",
+    "notes": "none",
+    "count": 205
+  },
+  "light fuschia": {
+    "original": "light fuschia",
+    "cleaned": "light fuschia",
+    "notes": "none",
+    "count": 205
+  },
+  "wisteria": {
+    "original": "wisteria",
+    "cleaned": "wisteria",
+    "notes": "none",
+    "count": 204
+  },
+  "leafy green": {
+    "original": "leafy green",
+    "cleaned": "leafy green",
+    "notes": "none",
+    "count": 204
+  },
+  "frog green": {
+    "original": "frog green",
+    "cleaned": "frog green",
+    "notes": "none",
+    "count": 203
+  },
+  "green apple": {
+    "original": "green apple",
+    "cleaned": "green apple",
+    "notes": "none",
+    "count": 203
+  },
+  "vivid green": {
+    "original": "vivid green",
+    "cleaned": "vivid green",
+    "notes": "none",
+    "count": 203
+  },
+  "dirty blue": {
+    "original": "dirty blue",
+    "cleaned": "dirty blue",
+    "notes": "none",
+    "count": 202
+  },
+  "medium gray": {
+    "original": "medium gray",
+    "cleaned": "medium gray",
+    "notes": "none",
+    "count": 202
+  },
+  "tealish": {
+    "original": "tealish",
+    "cleaned": "tealish",
+    "notes": "none",
+    "count": 202
+  },
+  "baby poop green": {
+    "original": "baby poop green",
+    "cleaned": "baby poop green",
+    "notes": "none",
+    "count": 201
+  },
+  "pinkish orange": {
+    "original": "pinkish orange",
+    "cleaned": "pinkish orange",
+    "notes": "none",
+    "count": 201
+  },
+  "bright lilac": {
+    "original": "bright lilac",
+    "cleaned": "bright lilac",
+    "notes": "none",
+    "count": 200
+  },
+  "n": {
+    "original": "n",
+    "cleaned": "n",
+    "notes": "none",
+    "count": 200
+  },
+  "spearmint": {
+    "original": "spearmint",
+    "cleaned": "spearmint",
+    "notes": "none",
+    "count": 199
+  },
+  "bright lime": {
+    "original": "bright lime",
+    "cleaned": "bright lime",
+    "notes": "none",
+    "count": 199
+  },
+  "yellowish orange": {
+    "original": "yellowish orange",
+    "cleaned": "yellowish orange",
+    "notes": "none",
+    "count": 199
+  },
+  "grape purple": {
+    "original": "grape purple",
+    "cleaned": "grape purple",
+    "notes": "none",
+    "count": 199
+  },
+  "green!": {
+    "original": "green!",
+    "cleaned": "green",
+    "notes": "strip_trailing:!",
+    "count": 199
+  },
+  "pinky-purple": {
+    "original": "pinky-purple",
+    "cleaned": "pinky purple",
+    "notes": "none",
+    "count": 198
+  },
+  "tomato red": {
+    "original": "tomato red",
+    "cleaned": "tomato red",
+    "notes": "none",
+    "count": 198
+  },
+  "greem": {
+    "original": "greem",
+    "cleaned": "greem",
+    "notes": "none",
+    "count": 198
+  },
+  "mustard brown": {
+    "original": "mustard brown",
+    "cleaned": "mustard brown",
+    "notes": "none",
+    "count": 198
+  },
+  "pink!": {
+    "original": "pink!",
+    "cleaned": "pink",
+    "notes": "strip_trailing:!",
+    "count": 197
+  },
+  "key lime": {
+    "original": "key lime",
+    "cleaned": "key lime",
+    "notes": "none",
+    "count": 197
+  },
+  "grayish pink": {
+    "original": "grayish pink",
+    "cleaned": "grayish pink",
+    "notes": "none",
+    "count": 197
+  },
+  "heather": {
+    "original": "heather",
+    "cleaned": "heather",
+    "notes": "none",
+    "count": 196
+  },
+  "dark seafoam": {
+    "original": "dark seafoam",
+    "cleaned": "dark seafoam",
+    "notes": "none",
+    "count": 196
+  },
+  "dusk": {
+    "original": "dusk",
+    "cleaned": "dusk",
+    "notes": "none",
+    "count": 196
+  },
+  "mango": {
+    "original": "mango",
+    "cleaned": "mango",
+    "notes": "none",
+    "count": 195
+  },
+  "faded orange": {
+    "original": "faded orange",
+    "cleaned": "faded orange",
+    "notes": "none",
+    "count": 194
+  },
+  "light-green": {
+    "original": "light-green",
+    "cleaned": "light green",
+    "notes": "none",
+    "count": 194
+  },
+  "bubblegum": {
+    "original": "bubblegum",
+    "cleaned": "bubblegum",
+    "notes": "none",
+    "count": 194
+  },
+  "pale cyan": {
+    "original": "pale cyan",
+    "cleaned": "pale cyan",
+    "notes": "none",
+    "count": 194
+  },
+  "petrol": {
+    "original": "petrol",
+    "cleaned": "petrol",
+    "notes": "none",
+    "count": 194
+  },
+  "turtle green": {
+    "original": "turtle green",
+    "cleaned": "turtle green",
+    "notes": "none",
+    "count": 194
+  },
+  "dull brown": {
+    "original": "dull brown",
+    "cleaned": "dull brown",
+    "notes": "none",
+    "count": 193
+  },
+  "merlot": {
+    "original": "merlot",
+    "cleaned": "merlot",
+    "notes": "none",
+    "count": 193
+  },
+  "weird green": {
+    "original": "weird green",
+    "cleaned": "weird green",
+    "notes": "none",
+    "count": 193
+  },
+  "cool blue": {
+    "original": "cool blue",
+    "cleaned": "cool blue",
+    "notes": "none",
+    "count": 193
+  },
+  "purpleish pink": {
+    "original": "purpleish pink",
+    "cleaned": "purpleish pink",
+    "notes": "none",
+    "count": 193
+  },
+  "deep teal": {
+    "original": "deep teal",
+    "cleaned": "deep teal",
+    "notes": "none",
+    "count": 193
+  },
+  "night blue": {
+    "original": "night blue",
+    "cleaned": "night blue",
+    "notes": "none",
+    "count": 192
+  },
+  "lemon green": {
+    "original": "lemon green",
+    "cleaned": "lemon green",
+    "notes": "none",
+    "count": 192
+  },
+  "purplr": {
+    "original": "purplr",
+    "cleaned": "purplr",
+    "notes": "none",
+    "count": 192
+  },
+  "spam": {
+    "original": "spam",
+    "cleaned": "spam",
+    "notes": "none",
+    "count": 192
+  },
+  "2": {
+    "original": "2",
+    "cleaned": "2",
+    "notes": "none",
+    "count": 191
+  },
+  "almost black": {
+    "original": "almost black",
+    "cleaned": "almost black",
+    "notes": "none",
+    "count": 190
+  },
+  "fern green": {
+    "original": "fern green",
+    "cleaned": "fern green",
+    "notes": "none",
+    "count": 190
+  },
+  "dark seafoam green": {
+    "original": "dark seafoam green",
+    "cleaned": "dark seafoam green",
+    "notes": "none",
+    "count": 190
+  },
+  "rust orange": {
+    "original": "rust orange",
+    "cleaned": "rust orange",
+    "notes": "none",
+    "count": 190
+  },
+  "vomit yellow": {
+    "original": "vomit yellow",
+    "cleaned": "vomit yellow",
+    "notes": "none",
+    "count": 189
+  },
+  "blue.": {
+    "original": "blue.",
+    "cleaned": "blue",
+    "notes": "strip_trailing:.",
+    "count": 189
+  },
+  "light sage": {
+    "original": "light sage",
+    "cleaned": "light sage",
+    "notes": "none",
+    "count": 188
+  },
+  "rosa": {
+    "original": "rosa",
+    "cleaned": "rosa",
+    "notes": "none",
+    "count": 188
+  },
+  "medium pink": {
+    "original": "medium pink",
+    "cleaned": "medium pink",
+    "notes": "none",
+    "count": 188
+  },
+  "brownish gray": {
+    "original": "brownish gray",
+    "cleaned": "brownish gray",
+    "notes": "none",
+    "count": 187
+  },
+  "lime yellow": {
+    "original": "lime yellow",
+    "cleaned": "lime yellow",
+    "notes": "none",
+    "count": 187
+  },
+  "cool green": {
+    "original": "cool green",
+    "cleaned": "cool green",
+    "notes": "none",
+    "count": 186
+  },
+  ".": {
+    "original": ".",
+    "cleaned": ".",
+    "notes": "strip_leading:.;strip_trailing:.",
+    "count": 186
+  },
+  "purplish brown": {
+    "original": "purplish brown",
+    "cleaned": "purplish brown",
+    "notes": "none",
+    "count": 185
+  },
+  "skin pink": {
+    "original": "skin pink",
+    "cleaned": "skin pink",
+    "notes": "none",
+    "count": 185
+  },
+  "hot magenta": {
+    "original": "hot magenta",
+    "cleaned": "hot magenta",
+    "notes": "none",
+    "count": 185
+  },
+  "baby shit green": {
+    "original": "baby shit green",
+    "cleaned": "baby shit green",
+    "notes": "none",
+    "count": 185
+  },
+  "green.": {
+    "original": "green.",
+    "cleaned": "green",
+    "notes": "strip_trailing:.",
+    "count": 184
+  },
+  "yellowgreen": {
+    "original": "yellowgreen",
+    "cleaned": "yellowgreen",
+    "notes": "none",
+    "count": 183
+  },
+  "majenta": {
+    "original": "majenta",
+    "cleaned": "majenta",
+    "notes": "none",
+    "count": 183
+  },
+  "dark turqoise": {
+    "original": "dark turqoise",
+    "cleaned": "dark turqoise",
+    "notes": "none",
+    "count": 183
+  },
+  "baby green": {
+    "original": "baby green",
+    "cleaned": "baby green",
+    "notes": "none",
+    "count": 182
+  },
+  "viridian": {
+    "original": "viridian",
+    "cleaned": "viridian",
+    "notes": "none",
+    "count": 182
+  },
+  "dark aquamarine": {
+    "original": "dark aquamarine",
+    "cleaned": "dark aquamarine",
+    "notes": "none",
+    "count": 182
+  },
+  "seaweed green": {
+    "original": "seaweed green",
+    "cleaned": "seaweed green",
+    "notes": "none",
+    "count": 182
+  },
+  "baby poo": {
+    "original": "baby poo",
+    "cleaned": "baby poo",
+    "notes": "none",
+    "count": 181
+  },
+  "vibrant green": {
+    "original": "vibrant green",
+    "cleaned": "vibrant green",
+    "notes": "none",
+    "count": 181
+  },
+  "bile": {
+    "original": "bile",
+    "cleaned": "bile",
+    "notes": "none",
+    "count": 181
+  },
+  "blue-ish": {
+    "original": "blue-ish",
+    "cleaned": "blue ish",
+    "notes": "none",
+    "count": 180
+  },
+  "blue/grey": {
+    "original": "blue/grey",
+    "cleaned": "blue/grey",
+    "notes": "none",
+    "count": 180
+  },
+  "ugly purple": {
+    "original": "ugly purple",
+    "cleaned": "ugly purple",
+    "notes": "none",
+    "count": 180
+  },
+  "purpley": {
+    "original": "purpley",
+    "cleaned": "purpley",
+    "notes": "none",
+    "count": 180
+  },
+  "eggshell blue": {
+    "original": "eggshell blue",
+    "cleaned": "eggshell blue",
+    "notes": "none",
+    "count": 180
+  },
+  "grey-pink": {
+    "original": "grey-pink",
+    "cleaned": "grey pink",
+    "notes": "none",
+    "count": 180
+  },
+  "dark grey blue": {
+    "original": "dark grey blue",
+    "cleaned": "dark grey blue",
+    "notes": "none",
+    "count": 179
+  },
+  "very pale green": {
+    "original": "very pale green",
+    "cleaned": "very pale green",
+    "notes": "none",
+    "count": 179
+  },
+  "puke brown": {
+    "original": "puke brown",
+    "cleaned": "puke brown",
+    "notes": "none",
+    "count": 179
+  },
+  "bright olive": {
+    "original": "bright olive",
+    "cleaned": "bright olive",
+    "notes": "none",
+    "count": 179
+  },
+  "diarrhea": {
+    "original": "diarrhea",
+    "cleaned": "diarrhea",
+    "notes": "none",
+    "count": 179
+  },
+  "rick astley": {
+    "original": "rick astley",
+    "cleaned": "rick astley",
+    "notes": "none",
+    "count": 179
+  },
+  "purple-ish": {
+    "original": "purple-ish",
+    "cleaned": "purple ish",
+    "notes": "none",
+    "count": 178
+  },
+  "light aquamarine": {
+    "original": "light aquamarine",
+    "cleaned": "light aquamarine",
+    "notes": "none",
+    "count": 178
+  },
+  "greyblue": {
+    "original": "greyblue",
+    "cleaned": "greyblue",
+    "notes": "none",
+    "count": 177
+  },
+  "pale sky blue": {
+    "original": "pale sky blue",
+    "cleaned": "pale sky blue",
+    "notes": "none",
+    "count": 177
+  },
+  "barf green": {
+    "original": "barf green",
+    "cleaned": "barf green",
+    "notes": "none",
+    "count": 177
+  },
+  "greeny brown": {
+    "original": "greeny brown",
+    "cleaned": "greeny brown",
+    "notes": "none",
+    "count": 177
+  },
+  "lime-green": {
+    "original": "lime-green",
+    "cleaned": "lime green",
+    "notes": "none",
+    "count": 177
+  },
+  "pure blue": {
+    "original": "pure blue",
+    "cleaned": "pure blue",
+    "notes": "none",
+    "count": 177
+  },
+  "muddy yellow": {
+    "original": "muddy yellow",
+    "cleaned": "muddy yellow",
+    "notes": "none",
+    "count": 177
+  },
+  "faded yellow": {
+    "original": "faded yellow",
+    "cleaned": "faded yellow",
+    "notes": "none",
+    "count": 176
+  },
+  "light grass green": {
+    "original": "light grass green",
+    "cleaned": "light grass green",
+    "notes": "none",
+    "count": 176
+  },
+  "q": {
+    "original": "q",
+    "cleaned": "q",
+    "notes": "none",
+    "count": 176
+  },
+  "brownish pink": {
+    "original": "brownish pink",
+    "cleaned": "brownish pink",
+    "notes": "none",
+    "count": 175
+  },
+  "azul": {
+    "original": "azul",
+    "cleaned": "azul",
+    "notes": "none",
+    "count": 175
+  },
+  "kahki": {
+    "original": "kahki",
+    "cleaned": "kahki",
+    "notes": "none",
+    "count": 175
+  },
+  "vibrant purple": {
+    "original": "vibrant purple",
+    "cleaned": "vibrant purple",
+    "notes": "none",
+    "count": 175
+  },
+  "sandy yellow": {
+    "original": "sandy yellow",
+    "cleaned": "sandy yellow",
+    "notes": "none",
+    "count": 175
+  },
+  "bryan": {
+    "original": "bryan",
+    "cleaned": "bryan",
+    "notes": "none",
+    "count": 175
+  },
+  "purple-brown": {
+    "original": "purple-brown",
+    "cleaned": "purple brown",
+    "notes": "none",
+    "count": 174
+  },
+  "very light pink": {
+    "original": "very light pink",
+    "cleaned": "very light pink",
+    "notes": "none",
+    "count": 174
+  },
+  "light mustard": {
+    "original": "light mustard",
+    "cleaned": "light mustard",
+    "notes": "none",
+    "count": 174
+  },
+  "purple/pink": {
+    "original": "purple/pink",
+    "cleaned": "purple/pink",
+    "notes": "none",
+    "count": 174
+  },
+  "skin colour": {
+    "original": "skin colour",
+    "cleaned": "skin colour",
+    "notes": "none",
+    "count": 173
+  },
+  "light periwinkle": {
+    "original": "light periwinkle",
+    "cleaned": "light periwinkle",
+    "notes": "none",
+    "count": 173
+  },
+  "dodger blue": {
+    "original": "dodger blue",
+    "cleaned": "dodger blue",
+    "notes": "none",
+    "count": 173
+  },
+  "brown yellow": {
+    "original": "brown yellow",
+    "cleaned": "brown yellow",
+    "notes": "none",
+    "count": 172
+  },
+  "lemon lime": {
+    "original": "lemon lime",
+    "cleaned": "lemon lime",
+    "notes": "none",
+    "count": 172
+  },
+  "purplish-blue": {
+    "original": "purplish-blue",
+    "cleaned": "purplish blue",
+    "notes": "none",
+    "count": 172
+  },
+  "deep rose": {
+    "original": "deep rose",
+    "cleaned": "deep rose",
+    "notes": "none",
+    "count": 172
+  },
+  "grey/blue": {
+    "original": "grey/blue",
+    "cleaned": "grey/blue",
+    "notes": "none",
+    "count": 172
+  },
+  "teal?": {
+    "original": "teal?",
+    "cleaned": "teal",
+    "notes": "strip_trailing:?",
+    "count": 172
+  },
+  "twilight blue": {
+    "original": "twilight blue",
+    "cleaned": "twilight blue",
+    "notes": "none",
+    "count": 171
+  },
+  "pale": {
+    "original": "pale",
+    "cleaned": "pale",
+    "notes": "none",
+    "count": 171
+  },
+  "leaf": {
+    "original": "leaf",
+    "cleaned": "leaf",
+    "notes": "none",
+    "count": 171
+  },
+  "violet red": {
+    "original": "violet red",
+    "cleaned": "violet red",
+    "notes": "none",
+    "count": 171
+  },
+  "sunshine yellow": {
+    "original": "sunshine yellow",
+    "cleaned": "sunshine yellow",
+    "notes": "none",
+    "count": 171
+  },
+  "dusty red": {
+    "original": "dusty red",
+    "cleaned": "dusty red",
+    "notes": "none",
+    "count": 171
+  },
+  "carnation": {
+    "original": "carnation",
+    "cleaned": "carnation",
+    "notes": "none",
+    "count": 171
+  },
+  "dark yellow-green": {
+    "original": "dark yellow-green",
+    "cleaned": "dark yellow green",
+    "notes": "none",
+    "count": 170
+  },
+  "blah": {
+    "original": "blah",
+    "cleaned": "blah",
+    "notes": "none",
+    "count": 170
+  },
+  "light blue grey": {
+    "original": "light blue grey",
+    "cleaned": "light blue grey",
+    "notes": "none",
+    "count": 170
+  },
+  "royal": {
+    "original": "royal",
+    "cleaned": "royal",
+    "notes": "none",
+    "count": 170
+  },
+  "bright cyan": {
+    "original": "bright cyan",
+    "cleaned": "bright cyan",
+    "notes": "none",
+    "count": 169
+  },
+  "putty": {
+    "original": "putty",
+    "cleaned": "putty",
+    "notes": "none",
+    "count": 169
+  },
+  "water blue": {
+    "original": "water blue",
+    "cleaned": "water blue",
+    "notes": "none",
+    "count": 169
+  },
+  "banana yellow": {
+    "original": "banana yellow",
+    "cleaned": "banana yellow",
+    "notes": "none",
+    "count": 169
+  },
+  "rusty red": {
+    "original": "rusty red",
+    "cleaned": "rusty red",
+    "notes": "none",
+    "count": 168
+  },
+  "lavender blue": {
+    "original": "lavender blue",
+    "cleaned": "lavender blue",
+    "notes": "none",
+    "count": 168
+  },
+  "fushcia": {
+    "original": "fushcia",
+    "cleaned": "fushcia",
+    "notes": "none",
+    "count": 168
+  },
+  "c": {
+    "original": "c",
+    "cleaned": "c",
+    "notes": "none",
+    "count": 167
+  },
+  "brick orange": {
+    "original": "brick orange",
+    "cleaned": "brick orange",
+    "notes": "none",
+    "count": 167
+  },
+  "light mint green": {
+    "original": "light mint green",
+    "cleaned": "light mint green",
+    "notes": "none",
+    "count": 167
+  },
+  "caucasian": {
+    "original": "caucasian",
+    "cleaned": "caucasian",
+    "notes": "none",
+    "count": 166
+  },
+  "dusty orange": {
+    "original": "dusty orange",
+    "cleaned": "dusty orange",
+    "notes": "none",
+    "count": 166
+  },
+  "velvet": {
+    "original": "velvet",
+    "cleaned": "velvet",
+    "notes": "none",
+    "count": 166
+  },
+  "darkblue": {
+    "original": "darkblue",
+    "cleaned": "darkblue",
+    "notes": "none",
+    "count": 166
+  },
+  "brown grey": {
+    "original": "brown grey",
+    "cleaned": "brown grey",
+    "notes": "none",
+    "count": 165
+  },
+  "bubble gum pink": {
+    "original": "bubble gum pink",
+    "cleaned": "bubble gum pink",
+    "notes": "none",
+    "count": 165
+  },
+  "warm gray": {
+    "original": "warm gray",
+    "cleaned": "warm gray",
+    "notes": "none",
+    "count": 164
+  },
+  "yellowy brown": {
+    "original": "yellowy brown",
+    "cleaned": "yellowy brown",
+    "notes": "none",
+    "count": 164
+  },
+  "purple brown": {
+    "original": "purple brown",
+    "cleaned": "purple brown",
+    "notes": "none",
+    "count": 164
+  },
+  "lightish red": {
+    "original": "lightish red",
+    "cleaned": "lightish red",
+    "notes": "none",
+    "count": 164
+  },
+  "lipstick red": {
+    "original": "lipstick red",
+    "cleaned": "lipstick red",
+    "notes": "none",
+    "count": 164
+  },
+  "orang": {
+    "original": "orang",
+    "cleaned": "orang",
+    "notes": "none",
+    "count": 164
+  },
+  "lightish purple": {
+    "original": "lightish purple",
+    "cleaned": "lightish purple",
+    "notes": "none",
+    "count": 163
+  },
+  "saffron": {
+    "original": "saffron",
+    "cleaned": "saffron",
+    "notes": "none",
+    "count": 163
+  },
+  "highlighter green": {
+    "original": "highlighter green",
+    "cleaned": "highlighter green",
+    "notes": "none",
+    "count": 163
+  },
+  "greenish cyan": {
+    "original": "greenish cyan",
+    "cleaned": "greenish cyan",
+    "notes": "none",
+    "count": 162
+  },
+  "dick": {
+    "original": "dick",
+    "cleaned": "dick",
+    "notes": "none",
+    "count": 162
+  },
+  "orangy brown": {
+    "original": "orangy brown",
+    "cleaned": "orangy brown",
+    "notes": "none",
+    "count": 162
+  },
+  "pretty": {
+    "original": "pretty",
+    "cleaned": "pretty",
+    "notes": "none",
+    "count": 162
+  },
+  "duck egg blue": {
+    "original": "duck egg blue",
+    "cleaned": "duck egg blue",
+    "notes": "none",
+    "count": 161
+  },
+  "vivid blue": {
+    "original": "vivid blue",
+    "cleaned": "vivid blue",
+    "notes": "none",
+    "count": 160
+  },
+  "blue-ish purple": {
+    "original": "blue-ish purple",
+    "cleaned": "blue ish purple",
+    "notes": "none",
+    "count": 160
+  },
+  "camouflage green": {
+    "original": "camouflage green",
+    "cleaned": "camouflage green",
+    "notes": "none",
+    "count": 160
+  },
+  "butter": {
+    "original": "butter",
+    "cleaned": "butter",
+    "notes": "none",
+    "count": 160
+  },
+  "purple/blue": {
+    "original": "purple/blue",
+    "cleaned": "purple/blue",
+    "notes": "none",
+    "count": 160
+  },
+  "dark sand": {
+    "original": "dark sand",
+    "cleaned": "dark sand",
+    "notes": "none",
+    "count": 160
+  },
+  "blush pink": {
+    "original": "blush pink",
+    "cleaned": "blush pink",
+    "notes": "none",
+    "count": 160
+  },
+  "pale olive green": {
+    "original": "pale olive green",
+    "cleaned": "pale olive green",
+    "notes": "none",
+    "count": 159
+  },
+  "sunflower": {
+    "original": "sunflower",
+    "cleaned": "sunflower",
+    "notes": "none",
+    "count": 159
+  },
+  "off yellow": {
+    "original": "off yellow",
+    "cleaned": "off yellow",
+    "notes": "none",
+    "count": 159
+  },
+  "orangish": {
+    "original": "orangish",
+    "cleaned": "orangish",
+    "notes": "none",
+    "count": 159
+  },
+  "bluegrey": {
+    "original": "bluegrey",
+    "cleaned": "bluegrey",
+    "notes": "none",
+    "count": 159
+  },
+  "redish orange": {
+    "original": "redish orange",
+    "cleaned": "redish orange",
+    "notes": "none",
+    "count": 159
+  },
+  "claret": {
+    "original": "claret",
+    "cleaned": "claret",
+    "notes": "none",
+    "count": 158
+  },
+  "mud green": {
+    "original": "mud green",
+    "cleaned": "mud green",
+    "notes": "none",
+    "count": 158
+  },
+  "purple-ish blue": {
+    "original": "purple-ish blue",
+    "cleaned": "purple ish blue",
+    "notes": "none",
+    "count": 158
+  },
+  "old pink": {
+    "original": "old pink",
+    "cleaned": "old pink",
+    "notes": "none",
+    "count": 158
+  },
+  "algae green": {
+    "original": "algae green",
+    "cleaned": "algae green",
+    "notes": "none",
+    "count": 158
+  },
+  "dried blood": {
+    "original": "dried blood",
+    "cleaned": "dried blood",
+    "notes": "none",
+    "count": 158
+  },
+  "reddy brown": {
+    "original": "reddy brown",
+    "cleaned": "reddy brown",
+    "notes": "none",
+    "count": 158
+  },
+  "megan": {
+    "original": "megan",
+    "cleaned": "megan",
+    "notes": "none",
+    "count": 158
+  },
+  "bue": {
+    "original": "bue",
+    "cleaned": "bue",
+    "notes": "none",
+    "count": 157
+  },
+  "ice": {
+    "original": "ice",
+    "cleaned": "ice",
+    "notes": "none",
+    "count": 157
+  },
+  "flesh tone": {
+    "original": "flesh tone",
+    "cleaned": "flesh tone",
+    "notes": "none",
+    "count": 157
+  },
+  "warm brown": {
+    "original": "warm brown",
+    "cleaned": "warm brown",
+    "notes": "none",
+    "count": 157
+  },
+  "tan brown": {
+    "original": "tan brown",
+    "cleaned": "tan brown",
+    "notes": "none",
+    "count": 156
+  },
+  "pin": {
+    "original": "pin",
+    "cleaned": "pin",
+    "notes": "none",
+    "count": 156
+  },
+  "twilight": {
+    "original": "twilight",
+    "cleaned": "twilight",
+    "notes": "none",
+    "count": 156
+  },
+  "vibrant blue": {
+    "original": "vibrant blue",
+    "cleaned": "vibrant blue",
+    "notes": "none",
+    "count": 156
+  },
+  "shit green": {
+    "original": "shit green",
+    "cleaned": "shit green",
+    "notes": "none",
+    "count": 155
+  },
+  "greenish turquoise": {
+    "original": "greenish turquoise",
+    "cleaned": "greenish turquoise",
+    "notes": "none",
+    "count": 155
+  },
+  "pastel red": {
+    "original": "pastel red",
+    "cleaned": "pastel red",
+    "notes": "none",
+    "count": 155
+  },
+  "lawn green": {
+    "original": "lawn green",
+    "cleaned": "lawn green",
+    "notes": "none",
+    "count": 155
+  },
+  "sap green": {
+    "original": "sap green",
+    "cleaned": "sap green",
+    "notes": "none",
+    "count": 155
+  },
+  "lipstick": {
+    "original": "lipstick",
+    "cleaned": "lipstick",
+    "notes": "none",
+    "count": 154
+  },
+  "warm blue": {
+    "original": "warm blue",
+    "cleaned": "warm blue",
+    "notes": "none",
+    "count": 154
+  },
+  "weird": {
+    "original": "weird",
+    "cleaned": "weird",
+    "notes": "none",
+    "count": 154
+  },
+  "darkish red": {
+    "original": "darkish red",
+    "cleaned": "darkish red",
+    "notes": "none",
+    "count": 154
+  },
+  "torquise": {
+    "original": "torquise",
+    "cleaned": "torquise",
+    "notes": "none",
+    "count": 154
+  },
+  "o": {
+    "original": "o",
+    "cleaned": "o",
+    "notes": "none",
+    "count": 154
+  },
+  "dark": {
+    "original": "dark",
+    "cleaned": "dark",
+    "notes": "none",
+    "count": 153
+  },
+  "puse": {
+    "original": "puse",
+    "cleaned": "puse",
+    "notes": "none",
+    "count": 153
+  },
+  "cock": {
+    "original": "cock",
+    "cleaned": "cock",
+    "notes": "none",
+    "count": 153
+  },
+  "dark coral": {
+    "original": "dark coral",
+    "cleaned": "dark coral",
+    "notes": "none",
+    "count": 152
+  },
+  "poop green": {
+    "original": "poop green",
+    "cleaned": "poop green",
+    "notes": "none",
+    "count": 152
+  },
+  "flat blue": {
+    "original": "flat blue",
+    "cleaned": "flat blue",
+    "notes": "none",
+    "count": 152
+  },
+  "deep lavender": {
+    "original": "deep lavender",
+    "cleaned": "deep lavender",
+    "notes": "none",
+    "count": 152
+  },
+  "dark blue-grey": {
+    "original": "dark blue-grey",
+    "cleaned": "dark blue grey",
+    "notes": "none",
+    "count": 152
+  },
+  "light greenish blue": {
+    "original": "light greenish blue",
+    "cleaned": "light greenish blue",
+    "notes": "none",
+    "count": 152
+  },
+  "pale mauve": {
+    "original": "pale mauve",
+    "cleaned": "pale mauve",
+    "notes": "none",
+    "count": 152
+  },
+  "dark fuchsia": {
+    "original": "dark fuchsia",
+    "cleaned": "dark fuchsia",
+    "notes": "none",
+    "count": 152
+  }
+}
