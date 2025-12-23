@@ -1,0 +1,842 @@
+{
+  "aqua": {
+    "munsell": "21.2 6.8/4.1",
+    "hue_number": 21.2,
+    "value": 6.8,
+    "chroma": 4.1,
+    "cartesian": [
+      -4.03,
+      -0.77,
+      6.8
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "beige": {
+    "munsell": "2.0 7.1/3.1",
+    "hue_number": 2.0,
+    "value": 7.1,
+    "chroma": 3.1,
+    "cartesian": [
+      2.95,
+      0.96,
+      7.1
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "coral": {
+    "munsell": "3.6 5.8/9.9",
+    "hue_number": 3.6,
+    "value": 5.8,
+    "chroma": 9.9,
+    "cartesian": [
+      8.36,
+      5.3,
+      5.8
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "fuchsia": {
+    "munsell": "37.5 4.6/11.1",
+    "hue_number": 37.5,
+    "value": 4.6,
+    "chroma": 11.1,
+    "cartesian": [
+      10.26,
+      -4.25,
+      4.6
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "gold": {
+    "munsell": "9.7 6.5/7.7",
+    "hue_number": 9.7,
+    "value": 6.5,
+    "chroma": 7.7,
+    "cartesian": [
+      0.36,
+      7.69,
+      6.5
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "lavender": {
+    "munsell": "31.7 6.9/5.1",
+    "hue_number": 31.7,
+    "value": 6.9,
+    "chroma": 5.1,
+    "cartesian": [
+      1.35,
+      -4.92,
+      6.9
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "lilac": {
+    "munsell": "33.6 6.7/5.6",
+    "hue_number": 33.6,
+    "value": 6.7,
+    "chroma": 5.6,
+    "cartesian": [
+      3.0,
+      -4.73,
+      6.7
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "magenta": {
+    "munsell": "36.9 4.9/11.1",
+    "hue_number": 36.9,
+    "value": 4.9,
+    "chroma": 11.1,
+    "cartesian": [
+      9.81,
+      -5.19,
+      4.9
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "mauve": {
+    "munsell": "35.0 5.6/5.7",
+    "hue_number": 35.0,
+    "value": 5.6,
+    "chroma": 5.7,
+    "cartesian": [
+      4.03,
+      -4.03,
+      5.6
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "navy": {
+    "munsell": "26.0 2.5/5.7",
+    "hue_number": 26.0,
+    "value": 2.5,
+    "chroma": 5.7,
+    "cartesian": [
+      -3.35,
+      -4.61,
+      2.5
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "peach": {
+    "munsell": "4.0 7.5/6.1",
+    "hue_number": 4.0,
+    "value": 7.5,
+    "chroma": 6.1,
+    "cartesian": [
+      4.94,
+      3.59,
+      7.5
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "rose": {
+    "munsell": "38.5 5.3/8.0",
+    "hue_number": 38.5,
+    "value": 5.3,
+    "chroma": 8.0,
+    "cartesian": [
+      7.78,
+      -1.87,
+      5.3
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "rust": {
+    "munsell": "5.5 4.0/8.2",
+    "hue_number": 5.5,
+    "value": 4.0,
+    "chroma": 8.2,
+    "cartesian": [
+      5.33,
+      6.24,
+      4.0
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "sand": {
+    "munsell": "8.5 6.8/4.2",
+    "hue_number": 8.5,
+    "value": 6.8,
+    "chroma": 4.2,
+    "cartesian": [
+      0.98,
+      4.08,
+      6.8
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "tan": {
+    "munsell": "6.5 6.0/4.5",
+    "hue_number": 6.5,
+    "value": 6.0,
+    "chroma": 4.5,
+    "cartesian": [
+      2.35,
+      3.84,
+      6.0
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "taupe": {
+    "munsell": "7.5 5.2/2.8",
+    "hue_number": 7.5,
+    "value": 5.2,
+    "chroma": 2.8,
+    "cartesian": [
+      1.07,
+      2.59,
+      5.2
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "teal": {
+    "munsell": "21.5 4.5/6.5",
+    "hue_number": 21.5,
+    "value": 4.5,
+    "chroma": 6.5,
+    "cartesian": [
+      -6.32,
+      -1.52,
+      4.5
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "turquoise": {
+    "munsell": "19.5 6.5/7.5",
+    "hue_number": 19.5,
+    "value": 6.5,
+    "chroma": 7.5,
+    "cartesian": [
+      -7.48,
+      0.59,
+      6.5
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "violet": {
+    "munsell": "32.5 4.5/9.5",
+    "hue_number": 32.5,
+    "value": 4.5,
+    "chroma": 9.5,
+    "cartesian": [
+      3.64,
+      -8.78,
+      4.5
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "wine": {
+    "munsell": "38.0 3.5/7.5",
+    "hue_number": 38.0,
+    "value": 3.5,
+    "chroma": 7.5,
+    "cartesian": [
+      7.13,
+      -2.32,
+      3.5
+    ],
+    "source": "centore",
+    "confidence": 1.0,
+    "sample_count": "~800",
+    "hex_representative": null
+  },
+  "lime": {
+    "munsell": "12.5 8.7/9.9",
+    "hue_number": 12.5,
+    "value": 8.7,
+    "chroma": 9.9,
+    "cartesian": [
+      -3.84,
+      9.09,
+      8.72
+    ],
+    "source": "xkcd",
+    "confidence": 0.9581069189431258,
+    "sample_count": 48726,
+    "hex_representative": "#83de41"
+  },
+  "sky": {
+    "munsell": "24.5 8.3/8.0",
+    "hue_number": 24.5,
+    "value": 8.3,
+    "chroma": 8.0,
+    "cartesian": [
+      -6.1,
+      -5.15,
+      8.32
+    ],
+    "source": "xkcd",
+    "confidence": 0.8967413451184223,
+    "sample_count": 40421,
+    "hex_representative": "#5ba7d4"
+  },
+  "cyan": {
+    "munsell": "21.7 7.7/8.5",
+    "hue_number": 21.7,
+    "value": 7.7,
+    "chroma": 8.5,
+    "cartesian": [
+      -8.22,
+      -2.23,
+      7.73
+    ],
+    "source": "xkcd",
+    "confidence": 0.9370954169843226,
+    "sample_count": 28995,
+    "hex_representative": "#4dc4bf"
+  },
+  "sea": {
+    "munsell": "19.6 7.4/7.9",
+    "hue_number": 19.6,
+    "value": 7.4,
+    "chroma": 7.9,
+    "cartesian": [
+      -7.93,
+      0.45,
+      7.43
+    ],
+    "source": "xkcd",
+    "confidence": 0.8428424096549088,
+    "sample_count": 22156,
+    "hex_representative": "#51bd97"
+  },
+  "forest": {
+    "munsell": "15.2 4.8/7.2",
+    "hue_number": 15.2,
+    "value": 4.8,
+    "chroma": 7.2,
+    "cartesian": [
+      -5.21,
+      4.95,
+      4.77
+    ],
+    "source": "xkcd",
+    "confidence": 0.9339781126409374,
+    "sample_count": 21822,
+    "hex_representative": "#3c793b"
+  },
+  "maroon": {
+    "munsell": "0.3 5.4/9.3",
+    "hue_number": 0.3,
+    "value": 5.4,
+    "chroma": 9.3,
+    "cartesian": [
+      9.32,
+      0.45,
+      5.37
+    ],
+    "source": "xkcd",
+    "confidence": 0.9536897626899732,
+    "sample_count": 18492,
+    "hex_representative": "#882d44"
+  },
+  "salmon": {
+    "munsell": "2.4 8.6/7.5",
+    "hue_number": 2.4,
+    "value": 8.6,
+    "chroma": 7.5,
+    "cartesian": [
+      7.01,
+      2.77,
+      8.59
+    ],
+    "source": "xkcd",
+    "confidence": 0.9538039163191513,
+    "sample_count": 17964,
+    "hex_representative": "#db6c65"
+  },
+  "fuschia": {
+    "munsell": "37.2 7.9/10.5",
+    "hue_number": 37.2,
+    "value": 7.9,
+    "chroma": 10.5,
+    "cartesian": [
+      9.5,
+      -4.42,
+      7.92
+    ],
+    "source": "xkcd",
+    "confidence": 0.9444591326389096,
+    "sample_count": 14331,
+    "hex_representative": "#ca329f"
+  },
+  "mustard": {
+    "munsell": "8.0 7.4/10.7",
+    "hue_number": 8.0,
+    "value": 7.4,
+    "chroma": 10.7,
+    "cartesian": [
+      3.26,
+      10.17,
+      7.43
+    ],
+    "source": "xkcd",
+    "confidence": 0.8923459216222375,
+    "sample_count": 13974,
+    "hex_representative": "#bdaf2c"
+  },
+  "periwinkle": {
+    "munsell": "29.5 8.2/6.2",
+    "hue_number": 29.5,
+    "value": 8.2,
+    "chroma": 6.2,
+    "cartesian": [
+      -0.5,
+      -6.13,
+      8.21
+    ],
+    "source": "xkcd",
+    "confidence": 0.8262316372358933,
+    "sample_count": 13160,
+    "hex_representative": "#8075d1"
+  },
+  "mint": {
+    "munsell": "17.2 8.6/6.8",
+    "hue_number": 17.2,
+    "value": 8.6,
+    "chroma": 6.8,
+    "cartesian": [
+      -6.22,
+      2.87,
+      8.6
+    ],
+    "source": "xkcd",
+    "confidence": 0.9635100851503202,
+    "sample_count": 12685,
+    "hex_representative": "#70db8e"
+  },
+  "indigo": {
+    "munsell": "30.0 6.5/8.7",
+    "hue_number": 30.0,
+    "value": 6.5,
+    "chroma": 8.7,
+    "cartesian": [
+      0.06,
+      -8.71,
+      6.53
+    ],
+    "source": "xkcd",
+    "confidence": 0.9655983589087811,
+    "sample_count": 12290,
+    "hex_representative": "#543ea6"
+  },
+  "seafoam": {
+    "munsell": "18.6 8.4/7.9",
+    "hue_number": 18.6,
+    "value": 8.4,
+    "chroma": 7.9,
+    "cartesian": [
+      -7.73,
+      1.73,
+      8.38
+    ],
+    "source": "xkcd",
+    "confidence": 0.9060406428279368,
+    "sample_count": 10668,
+    "hex_representative": "#5cd597"
+  },
+  "grass": {
+    "munsell": "13.3 7.4/9.2",
+    "hue_number": 13.3,
+    "value": 7.4,
+    "chroma": 9.2,
+    "cartesian": [
+      -4.55,
+      8.05,
+      7.41
+    ],
+    "source": "xkcd",
+    "confidence": 0.9693668707341476,
+    "sample_count": 10142,
+    "hex_representative": "#66bc40"
+  },
+  "aquamarine": {
+    "munsell": "20.7 7.4/8.5",
+    "hue_number": 20.7,
+    "value": 7.4,
+    "chroma": 8.5,
+    "cartesian": [
+      -8.44,
+      -0.89,
+      7.44
+    ],
+    "source": "xkcd",
+    "confidence": 0.8899382169603852,
+    "sample_count": 8518,
+    "hex_representative": "#4abda6"
+  },
+  "brick": {
+    "munsell": "2.9 6.7/8.9",
+    "hue_number": 2.9,
+    "value": 6.7,
+    "chroma": 8.9,
+    "cartesian": [
+      7.99,
+      3.94,
+      6.71
+    ],
+    "source": "xkcd",
+    "confidence": 0.8673037631060331,
+    "sample_count": 8248,
+    "hex_representative": "#ab4d3e"
+  },
+  "plum": {
+    "munsell": "36.7 5.0/7.9",
+    "hue_number": 36.7,
+    "value": 5.0,
+    "chroma": 7.9,
+    "cartesian": [
+      6.8,
+      -3.91,
+      5.03
+    ],
+    "source": "xkcd",
+    "confidence": 0.8936590797646289,
+    "sample_count": 7092,
+    "hex_representative": "#803871"
+  },
+  "pea": {
+    "munsell": "10.8 7.3/9.3",
+    "hue_number": 10.8,
+    "value": 7.3,
+    "chroma": 9.3,
+    "cartesian": [
+      -1.21,
+      9.2,
+      7.27
+    ],
+    "source": "xkcd",
+    "confidence": 0.9645375640114584,
+    "sample_count": 6697,
+    "hex_representative": "#91b93e"
+  },
+  "khaki": {
+    "munsell": "9.1 6.3/6.8",
+    "hue_number": 9.1,
+    "value": 6.3,
+    "chroma": 6.8,
+    "cartesian": [
+      0.97,
+      6.76,
+      6.27
+    ],
+    "source": "xkcd",
+    "confidence": 0.9769274885583524,
+    "sample_count": 6359,
+    "hex_representative": "#9aa051"
+  },
+  "foam": {
+    "munsell": "18.5 8.3/7.7",
+    "hue_number": 18.5,
+    "value": 8.3,
+    "chroma": 7.7,
+    "cartesian": [
+      -7.52,
+      1.76,
+      8.31
+    ],
+    "source": "xkcd",
+    "confidence": 0.9550464420686103,
+    "sample_count": 5372,
+    "hex_representative": "#5ed397"
+  },
+  "burgundy": {
+    "munsell": "0.4 5.4/9.3",
+    "hue_number": 0.4,
+    "value": 5.4,
+    "chroma": 9.3,
+    "cartesian": [
+      9.26,
+      0.55,
+      5.41
+    ],
+    "source": "xkcd",
+    "confidence": 0.9523990358729304,
+    "sample_count": 5359,
+    "hex_representative": "#8a2e44"
+  },
+  "lavendar": {
+    "munsell": "33.0 8.0/5.7",
+    "hue_number": 33.0,
+    "value": 8.0,
+    "chroma": 5.7,
+    "cartesian": [
+      2.58,
+      -5.09,
+      8.02
+    ],
+    "source": "xkcd",
+    "confidence": 0.8966048836270518,
+    "sample_count": 5177,
+    "hex_representative": "#af79cc"
+  },
+  "sage": {
+    "munsell": "13.4 6.8/4.3",
+    "hue_number": 13.4,
+    "value": 6.8,
+    "chroma": 4.3,
+    "cartesian": [
+      -2.21,
+      3.72,
+      6.81
+    ],
+    "source": "xkcd",
+    "confidence": 0.7289262259320897,
+    "sample_count": 4663,
+    "hex_representative": "#87ad77"
+  },
+  "moss": {
+    "munsell": "12.7 6.0/7.3",
+    "hue_number": 12.7,
+    "value": 6.0,
+    "chroma": 7.3,
+    "cartesian": [
+      -2.99,
+      6.63,
+      5.96
+    ],
+    "source": "xkcd",
+    "confidence": 0.9299402173913045,
+    "sample_count": 4339,
+    "hex_representative": "#689849"
+  },
+  "army": {
+    "munsell": "10.7 5.3/7.3",
+    "hue_number": 10.7,
+    "value": 5.3,
+    "chroma": 7.3,
+    "cartesian": [
+      -0.85,
+      7.22,
+      5.31
+    ],
+    "source": "xkcd",
+    "confidence": 0.9925524885583524,
+    "sample_count": 3923,
+    "hex_representative": "#718741"
+  },
+  "ochre": {
+    "munsell": "6.3 7.0/10.0",
+    "hue_number": 6.3,
+    "value": 7.0,
+    "chroma": 10.0,
+    "cartesian": [
+      5.43,
+      8.37,
+      6.97
+    ],
+    "source": "xkcd",
+    "confidence": 0.9677015568813337,
+    "sample_count": 3879,
+    "hex_representative": "#b18533"
+  },
+  "flesh": {
+    "munsell": "4.4 8.5/5.5",
+    "hue_number": 4.4,
+    "value": 8.5,
+    "chroma": 5.5,
+    "cartesian": [
+      4.21,
+      3.46,
+      8.52
+    ],
+    "source": "xkcd",
+    "confidence": 0.9168932573187091,
+    "sample_count": 3435,
+    "hex_representative": "#d9a284"
+  },
+  "turqoise": {
+    "munsell": "20.6 7.5/8.6",
+    "hue_number": 20.6,
+    "value": 7.5,
+    "chroma": 8.6,
+    "cartesian": [
+      -8.58,
+      -0.79,
+      7.53
+    ],
+    "source": "xkcd",
+    "confidence": 0.9167325574238434,
+    "sample_count": 3269,
+    "hex_representative": "#49c0a6"
+  },
+  "leaf": {
+    "munsell": "12.6 6.8/9.1",
+    "hue_number": 12.6,
+    "value": 6.8,
+    "chroma": 9.1,
+    "cartesian": [
+      -3.65,
+      8.29,
+      6.84
+    ],
+    "source": "xkcd",
+    "confidence": 0.801813080495356,
+    "sample_count": 3245,
+    "hex_representative": "#6bae3d"
+  },
+  "skin": {
+    "munsell": "4.8 8.7/5.6",
+    "hue_number": 4.8,
+    "value": 8.7,
+    "chroma": 5.6,
+    "cartesian": [
+      4.09,
+      3.78,
+      8.71
+    ],
+    "source": "xkcd",
+    "confidence": 0.9334408763663281,
+    "sample_count": 2784,
+    "hex_representative": "#deaa85"
+  },
+  "golden": {
+    "munsell": "7.1 8.2/10.9",
+    "hue_number": 7.1,
+    "value": 8.2,
+    "chroma": 10.9,
+    "cartesian": [
+      4.73,
+      9.78,
+      8.16
+    ],
+    "source": "xkcd",
+    "confidence": 0.9244591326389096,
+    "sample_count": 1837,
+    "hex_representative": "#d0aa2e"
+  },
+  "lemon": {
+    "munsell": "10.3 8.9/9.6",
+    "hue_number": 10.3,
+    "value": 8.9,
+    "chroma": 9.6,
+    "cartesian": [
+      -0.42,
+      9.59,
+      8.94
+    ],
+    "source": "xkcd",
+    "confidence": 0.9536385281385281,
+    "sample_count": 1669,
+    "hex_representative": "#bee447"
+  },
+  "orangey": {
+    "munsell": "5.1 8.5/10.4",
+    "hue_number": 5.1,
+    "value": 8.5,
+    "chroma": 10.4,
+    "cartesian": [
+      7.24,
+      7.44,
+      8.53
+    ],
+    "source": "xkcd",
+    "confidence": 0.9061257993055761,
+    "sample_count": 1296,
+    "hex_representative": "#d98238"
+  },
+  "yello": {
+    "munsell": "8.4 8.2/10.4",
+    "hue_number": 8.4,
+    "value": 8.2,
+    "chroma": 10.4,
+    "cartesian": [
+      2.56,
+      10.1,
+      8.25
+    ],
+    "source": "xkcd",
+    "confidence": 0.9426593614718616,
+    "sample_count": 907,
+    "hex_representative": "#d2cc35"
+  },
+  "gree": {
+    "munsell": "14.7 7.3/7.7",
+    "hue_number": 14.7,
+    "value": 7.3,
+    "chroma": 7.7,
+    "cartesian": [
+      -5.24,
+      5.71,
+      7.28
+    ],
+    "source": "xkcd",
+    "confidence": 0.7102867647058824,
+    "sample_count": 839,
+    "hex_representative": "#5cb952"
+  },
+  "windows": {
+    "munsell": "22.8 6.1/9.0",
+    "hue_number": 22.8,
+    "value": 6.1,
+    "chroma": 9.0,
+    "cartesian": [
+      -8.14,
+      -3.79,
+      6.06
+    ],
+    "source": "xkcd",
+    "confidence": 0.9523990358729304,
+    "sample_count": 446,
+    "hex_representative": "#378e9a"
+  }
+}

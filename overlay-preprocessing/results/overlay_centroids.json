@@ -1,0 +1,602 @@
+{
+  "aqua": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 21.2,
+      "value": 6.8,
+      "chroma": 4.1
+    },
+    "cartesian": {
+      "x": -4.03,
+      "y": -0.77,
+      "z": 6.8
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "beige": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 2.0,
+      "value": 7.1,
+      "chroma": 3.1
+    },
+    "cartesian": {
+      "x": 2.95,
+      "y": 0.96,
+      "z": 7.1
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "coral": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 3.6,
+      "value": 5.8,
+      "chroma": 9.9
+    },
+    "cartesian": {
+      "x": 8.36,
+      "y": 5.3,
+      "z": 5.8
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "fuchsia": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 37.5,
+      "value": 4.6,
+      "chroma": 11.1
+    },
+    "cartesian": {
+      "x": 10.26,
+      "y": -4.25,
+      "z": 4.6
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "gold": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 9.7,
+      "value": 6.5,
+      "chroma": 7.7
+    },
+    "cartesian": {
+      "x": 0.36,
+      "y": 7.69,
+      "z": 6.5
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "lavender": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 31.7,
+      "value": 6.9,
+      "chroma": 5.1
+    },
+    "cartesian": {
+      "x": 1.35,
+      "y": -4.92,
+      "z": 6.9
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "lilac": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 33.6,
+      "value": 6.7,
+      "chroma": 5.6
+    },
+    "cartesian": {
+      "x": 3.0,
+      "y": -4.73,
+      "z": 6.7
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "magenta": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 36.9,
+      "value": 4.9,
+      "chroma": 11.1
+    },
+    "cartesian": {
+      "x": 9.81,
+      "y": -5.19,
+      "z": 4.9
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "mauve": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 35.0,
+      "value": 5.6,
+      "chroma": 5.7
+    },
+    "cartesian": {
+      "x": 4.03,
+      "y": -4.03,
+      "z": 5.6
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "navy": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 26.0,
+      "value": 2.5,
+      "chroma": 5.7
+    },
+    "cartesian": {
+      "x": -3.35,
+      "y": -4.61,
+      "z": 2.5
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "peach": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 4.0,
+      "value": 7.5,
+      "chroma": 6.1
+    },
+    "cartesian": {
+      "x": 4.94,
+      "y": 3.59,
+      "z": 7.5
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "rose": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 38.5,
+      "value": 5.3,
+      "chroma": 8.0
+    },
+    "cartesian": {
+      "x": 7.78,
+      "y": -1.87,
+      "z": 5.3
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "rust": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 5.5,
+      "value": 4.0,
+      "chroma": 8.2
+    },
+    "cartesian": {
+      "x": 5.33,
+      "y": 6.24,
+      "z": 4.0
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "sand": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 8.5,
+      "value": 6.8,
+      "chroma": 4.2
+    },
+    "cartesian": {
+      "x": 0.98,
+      "y": 4.08,
+      "z": 6.8
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "tan": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 6.5,
+      "value": 6.0,
+      "chroma": 4.5
+    },
+    "cartesian": {
+      "x": 2.35,
+      "y": 3.84,
+      "z": 6.0
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "taupe": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 7.5,
+      "value": 5.2,
+      "chroma": 2.8
+    },
+    "cartesian": {
+      "x": 1.07,
+      "y": 2.59,
+      "z": 5.2
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "teal": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 21.5,
+      "value": 4.5,
+      "chroma": 6.5
+    },
+    "cartesian": {
+      "x": -6.32,
+      "y": -1.52,
+      "z": 4.5
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "turquoise": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 19.5,
+      "value": 6.5,
+      "chroma": 7.5
+    },
+    "cartesian": {
+      "x": -7.48,
+      "y": 0.59,
+      "z": 6.5
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "violet": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 32.5,
+      "value": 4.5,
+      "chroma": 9.5
+    },
+    "cartesian": {
+      "x": 3.64,
+      "y": -8.78,
+      "z": 4.5
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "wine": {
+    "source": "centore",
+    "munsell": {
+      "hue_number": 38.0,
+      "value": 3.5,
+      "chroma": 7.5
+    },
+    "cartesian": {
+      "x": 7.13,
+      "y": -2.32,
+      "z": 3.5
+    },
+    "sample_count": "~800 CAUS samples"
+  },
+  "lime": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 12.5,
+      "value": 8.7,
+      "chroma": 9.9
+    },
+    "cartesian": {
+      "x": -3.84,
+      "y": 9.09,
+      "z": 8.72
+    },
+    "sample_count": 48726,
+    "hex_representative": "#83de41",
+    "ml_confidence": 0.9581069189431258
+  },
+  "sky": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 24.5,
+      "value": 8.3,
+      "chroma": 8.0
+    },
+    "cartesian": {
+      "x": -6.1,
+      "y": -5.15,
+      "z": 8.32
+    },
+    "sample_count": 40421,
+    "hex_representative": "#5ba7d4",
+    "ml_confidence": 0.8967413451184223
+  },
+  "cyan": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 21.7,
+      "value": 7.7,
+      "chroma": 8.5
+    },
+    "cartesian": {
+      "x": -8.22,
+      "y": -2.23,
+      "z": 7.73
+    },
+    "sample_count": 28995,
+    "hex_representative": "#4dc4bf",
+    "ml_confidence": 0.9370954169843226
+  },
+  "sea": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 19.6,
+      "value": 7.4,
+      "chroma": 7.9
+    },
+    "cartesian": {
+      "x": -7.93,
+      "y": 0.45,
+      "z": 7.43
+    },
+    "sample_count": 22156,
+    "hex_representative": "#51bd97",
+    "ml_confidence": 0.8428424096549088
+  },
+  "forest": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 15.2,
+      "value": 4.8,
+      "chroma": 7.2
+    },
+    "cartesian": {
+      "x": -5.21,
+      "y": 4.95,
+      "z": 4.77
+    },
+    "sample_count": 21822,
+    "hex_representative": "#3c793b",
+    "ml_confidence": 0.9339781126409374
+  },
+  "maroon": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 0.3,
+      "value": 5.4,
+      "chroma": 9.3
+    },
+    "cartesian": {
+      "x": 9.32,
+      "y": 0.45,
+      "z": 5.37
+    },
+    "sample_count": 18492,
+    "hex_representative": "#882d44",
+    "ml_confidence": 0.9536897626899732
+  },
+  "salmon": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 2.4,
+      "value": 8.6,
+      "chroma": 7.5
+    },
+    "cartesian": {
+      "x": 7.01,
+      "y": 2.77,
+      "z": 8.59
+    },
+    "sample_count": 17964,
+    "hex_representative": "#db6c65",
+    "ml_confidence": 0.9538039163191513
+  },
+  "fuschia": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 37.2,
+      "value": 7.9,
+      "chroma": 10.5
+    },
+    "cartesian": {
+      "x": 9.5,
+      "y": -4.42,
+      "z": 7.92
+    },
+    "sample_count": 14331,
+    "hex_representative": "#ca329f",
+    "ml_confidence": 0.9444591326389096
+  },
+  "mustard": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 8.0,
+      "value": 7.4,
+      "chroma": 10.7
+    },
+    "cartesian": {
+      "x": 3.26,
+      "y": 10.17,
+      "z": 7.43
+    },
+    "sample_count": 13974,
+    "hex_representative": "#bdaf2c",
+    "ml_confidence": 0.8923459216222375
+  },
+  "periwinkle": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 29.5,
+      "value": 8.2,
+      "chroma": 6.2
+    },
+    "cartesian": {
+      "x": -0.5,
+      "y": -6.13,
+      "z": 8.21
+    },
+    "sample_count": 13160,
+    "hex_representative": "#8075d1",
+    "ml_confidence": 0.8262316372358933
+  },
+  "mint": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 17.2,
+      "value": 8.6,
+      "chroma": 6.8
+    },
+    "cartesian": {
+      "x": -6.22,
+      "y": 2.87,
+      "z": 8.6
+    },
+    "sample_count": 12685,
+    "hex_representative": "#70db8e",
+    "ml_confidence": 0.9635100851503202
+  },
+  "indigo": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 30.0,
+      "value": 6.5,
+      "chroma": 8.7
+    },
+    "cartesian": {
+      "x": 0.06,
+      "y": -8.71,
+      "z": 6.53
+    },
+    "sample_count": 12290,
+    "hex_representative": "#543ea6",
+    "ml_confidence": 0.9655983589087811
+  },
+  "seafoam": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 18.6,
+      "value": 8.4,
+      "chroma": 7.9
+    },
+    "cartesian": {
+      "x": -7.73,
+      "y": 1.73,
+      "z": 8.38
+    },
+    "sample_count": 10668,
+    "hex_representative": "#5cd597",
+    "ml_confidence": 0.9060406428279368
+  },
+  "grass": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 13.3,
+      "value": 7.4,
+      "chroma": 9.2
+    },
+    "cartesian": {
+      "x": -4.55,
+      "y": 8.05,
+      "z": 7.41
+    },
+    "sample_count": 10142,
+    "hex_representative": "#66bc40",
+    "ml_confidence": 0.9693668707341476
+  },
+  "aquamarine": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 20.7,
+      "value": 7.4,
+      "chroma": 8.5
+    },
+    "cartesian": {
+      "x": -8.44,
+      "y": -0.89,
+      "z": 7.44
+    },
+    "sample_count": 8518,
+    "hex_representative": "#4abda6",
+    "ml_confidence": 0.8899382169603852
+  },
+  "brick": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 2.9,
+      "value": 6.7,
+      "chroma": 8.9
+    },
+    "cartesian": {
+      "x": 7.99,
+      "y": 3.94,
+      "z": 6.71
+    },
+    "sample_count": 8248,
+    "hex_representative": "#ab4d3e",
+    "ml_confidence": 0.8673037631060331
+  },
+  "plum": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 36.7,
+      "value": 5.0,
+      "chroma": 7.9
+    },
+    "cartesian": {
+      "x": 6.8,
+      "y": -3.91,
+      "z": 5.03
+    },
+    "sample_count": 7092,
+    "hex_representative": "#803871",
+    "ml_confidence": 0.8936590797646289
+  },
+  "pea": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 10.8,
+      "value": 7.3,
+      "chroma": 9.3
+    },
+    "cartesian": {
+      "x": -1.21,
+      "y": 9.2,
+      "z": 7.27
+    },
+    "sample_count": 6697,
+    "hex_representative": "#91b93e",
+    "ml_confidence": 0.9645375640114584
+  },
+  "khaki": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 9.1,
+      "value": 6.3,
+      "chroma": 6.8
+    },
+    "cartesian": {
+      "x": 0.97,
+      "y": 6.76,
+      "z": 6.27
+    },
+    "sample_count": 6359,
+    "hex_representative": "#9aa051",
+    "ml_confidence": 0.9769274885583524
+  },
+  "foam": {
+    "source": "xkcd",
+    "munsell": {
+      "hue_number": 18.5,
+      "value": 8.3,
+      "chroma": 7.7
+    },
+    "cartesian": {
+      "x": -7.52,
+      "y": 1.76,
+      "z": 8.31
+    },
+    "sample_count": 5372,
+    "hex_representative": "#5ed397",
+    "ml_confidence": 0.9550464420686103
+  }
+}

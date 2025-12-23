@@ -1,7 +1,7 @@
 //! ISCC-NBS color constants and metadata
 //! 
 //! This module contains embedded ISCC-NBS color metadata, eliminating the need
-//! for runtime CSV loading. Data converted from assets/ISCC-NBS-Colors.csv.
+//! for runtime CSV loading. Data converted from assets/iscc-nbs/ISCC-NBS-Colors.csv.
 
 use std::collections::HashMap;
 

@@ -164,4 +164,9 @@ node_modules/
 jaic_v25_03.pdf
 PolyhedronFilesJustNames/
 tmp/
-PolyhedronFilesJustNames/
+PolyhedronFiles/
+
+# Large data files (download separately)
+assets/xkcd/mainsurvey_sqldump.txt
+assets/xkcd/satfaces_sqldump.txt
+assets/xkcd/colorsurvey.tar.gz
