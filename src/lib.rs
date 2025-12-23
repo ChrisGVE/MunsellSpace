@@ -135,7 +135,7 @@ pub use reverse_conversion::{ReverseConverter, ColorFormats, CieLab, HslColor, H
 pub use unified_cache::{UnifiedColorCache, CachedColorResult};
 pub use semantic_overlay::{
     MunsellSpec, MunsellCartesian, SemanticOverlay, SemanticOverlayRegistry,
-    semantic_overlay, matching_overlays, matches_overlay, closest_overlay,
+    semantic_overlay, matching_overlays, matching_overlays_ranked, matches_overlay, closest_overlay,
     parse_hue_to_number, hue_number_to_string, parse_munsell_notation,
 };
 pub use semantic_overlay_data::{create_overlay_registry, get_registry};

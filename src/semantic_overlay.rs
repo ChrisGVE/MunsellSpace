@@ -24,6 +24,7 @@
 //!
 //! - [`semantic_overlay`]: Get the best matching semantic name for a color
 //! - [`matching_overlays`]: Get all semantic names that match a color
+//! - [`matching_overlays_ranked`]: Get all matches ranked by centroid distance (confidence)
 //! - [`matches_overlay`]: Check if a color matches a specific overlay name
 //! - [`closest_overlay`]: Find the nearest overlay by centroid distance
 //!
@@ -439,6 +440,43 @@ impl SemanticOverlayRegistry {
             })
     }
 
+    /// Find all overlays that contain the given color, ranked by centroid distance.
+    ///
+    /// Returns overlays sorted by distance from the color to each overlay's centroid,
+    /// with the closest (most confident match) first. This follows Centore's guidance
+    /// that colors near a centroid can be assigned that name with more confidence.
+    ///
+    /// # Arguments
+    /// * `color` - The Munsell color specification to test
+    ///
+    /// # Returns
+    /// Vector of tuples (overlay_reference, distance) sorted by ascending distance.
+    /// Empty if no overlays contain the color.
+    ///
+    /// # Example
+    /// ```
+    /// use munsellspace::semantic_overlay_data::get_registry;
+    /// use munsellspace::semantic_overlay::parse_munsell_notation;
+    ///
+    /// let registry = get_registry();
+    /// let color = parse_munsell_notation("6.7YR 6.1/3.4").unwrap();
+    /// let ranked = registry.matching_overlays_ranked(&color);
+    /// for (overlay, distance) in ranked {
+    ///     println!("{}: distance {:.2}", overlay.name, distance);
+    /// }
+    /// ```
+    pub fn matching_overlays_ranked(&self, color: &MunsellSpec) -> Vec<(&SemanticOverlay, f64)> {
+        let mut matches: Vec<(&SemanticOverlay, f64)> = self
+            .overlays
+            .iter()
+            .filter(|o| o.contains(color))
+            .map(|o| (o, o.distance_to_centroid(color)))
+            .collect();
+
+        matches.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal));
+        matches
+    }
+
     /// Find the closest overlay by centroid distance (even if color is outside).
     pub fn closest_overlay(&self, color: &MunsellSpec) -> Option<(&SemanticOverlay, f64)> {
         self.overlays
@@ -809,6 +847,40 @@ pub fn matching_overlays(color: &MunsellSpec) -> Vec<&'static str> {
     registry.matching_overlays(color)
         .into_iter()
         .map(|o| o.name)
+        .collect()
+}
+
+/// Get all matching overlay names ranked by distance to centroid.
+///
+/// Returns overlay names sorted by how close the color is to each overlay's
+/// centroid. The first match is the most confident (closest to centroid).
+/// This follows Centore's guidance that "if the sample is near the polyhedron's
+/// centroid, the name can be assigned with considerably more confidence."
+///
+/// # Arguments
+/// * `color` - The Munsell color specification to test
+///
+/// # Returns
+/// Vector of tuples (overlay_name, distance) sorted by ascending distance.
+/// Empty if no overlays contain the color.
+///
+/// # Examples
+/// ```
+/// use munsellspace::semantic_overlay::{matching_overlays_ranked, parse_munsell_notation};
+///
+/// // The beige centroid may be inside multiple overlapping overlays
+/// let color = parse_munsell_notation("6.7YR 6.1/3.4").unwrap();
+/// let ranked = matching_overlays_ranked(&color);
+/// if !ranked.is_empty() {
+///     let (best_name, distance) = ranked[0];
+///     println!("Best match: {} (distance: {:.2})", best_name, distance);
+/// }
+/// ```
+pub fn matching_overlays_ranked(color: &MunsellSpec) -> Vec<(&'static str, f64)> {
+    let registry = crate::semantic_overlay_data::get_registry();
+    registry.matching_overlays_ranked(color)
+        .into_iter()
+        .map(|(o, d)| (o.name, d))
         .collect()
 }
 
@@ -1383,5 +1455,78 @@ mod tests {
         // Navy: 7.3PB 2.1/3.6
         let navy = parse_munsell_notation("7.3PB 2.1/3.6").unwrap();
         assert!((navy.value - 2.1).abs() < 0.001);
+    }
+
+    // ========================================================================
+    // Ranked Overlay Matching Tests
+    // ========================================================================
+
+    #[test]
+    fn test_matching_overlays_ranked_single_match() {
+        // Navy centroid should match navy with distance 0
+        let navy = super::centroids::navy();
+        let ranked = matching_overlays_ranked(&navy);
+
+        assert!(!ranked.is_empty(), "Navy centroid should match at least navy");
+        assert_eq!(ranked[0].0, "navy", "Best match should be navy");
+        assert!(ranked[0].1 < 0.001, "Distance to own centroid should be ~0");
+    }
+
+    #[test]
+    fn test_matching_overlays_ranked_is_sorted() {
+        // Pick a point that might be in multiple overlays (based on overlap analysis)
+        // The beige centroid is known to be inside multiple overlays
+        let beige = super::centroids::beige();
+        let ranked = matching_overlays_ranked(&beige);
+
+        if ranked.len() > 1 {
+            // Verify distances are in ascending order
+            for i in 1..ranked.len() {
+                assert!(
+                    ranked[i].1 >= ranked[i-1].1,
+                    "Ranked overlays should be sorted by distance: {} (dist {}) should not come after {} (dist {})",
+                    ranked[i].0, ranked[i].1,
+                    ranked[i-1].0, ranked[i-1].1
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn test_matching_overlays_ranked_empty_for_gray() {
+        // Neutral gray should not match any overlays
+        let gray = MunsellSpec::neutral(5.0);
+        let ranked = matching_overlays_ranked(&gray);
+        assert!(ranked.is_empty(), "Neutral gray should not match any overlays");
+    }
+
+    #[test]
+    fn test_matching_overlays_ranked_public_api() {
+        // Test the public API function
+        let aqua = super::centroids::aqua();
+        let ranked = super::matching_overlays_ranked(&aqua);
+
+        assert!(!ranked.is_empty());
+        let (name, distance) = ranked[0];
+        assert_eq!(name, "aqua");
+        assert!(distance < 0.001);
+    }
+
+    #[test]
+    fn test_matching_overlays_ranked_consistency_with_best_match() {
+        // The first ranked match should always be the same as best_match
+        for name in &super::OVERLAY_NAMES {
+            let centroid = super::centroids::get(name).unwrap();
+            let ranked = matching_overlays_ranked(&centroid);
+            let best = semantic_overlay(&centroid);
+
+            if !ranked.is_empty() && best.is_some() {
+                assert_eq!(
+                    ranked[0].0, best.unwrap(),
+                    "First ranked should equal best_match for {}",
+                    name
+                );
+            }
+        }
     }
 }

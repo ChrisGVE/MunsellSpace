@@ -273,4 +273,88 @@ mod tests {
         let navy = registry.get("navy").unwrap();
         assert!(registry.matches(&navy.centroid, "navy"));
     }
+
+    #[test]
+    fn test_known_centroid_overlaps() {
+        // Per Centore (2020): "Since many polyhedra overlap, multiple colour names
+        // can sometimes be assigned to the same sample. This feature mirrors human usage."
+        //
+        // This test documents the known overlapping centroids (centroids that fall
+        // inside another overlay's polyhedron). These overlaps are EXPECTED and
+        // intentional per the research methodology.
+
+        let registry = get_registry();
+        let mut centroid_overlap_count = 0;
+
+        for overlay in registry.all() {
+            let matches = registry.matching_overlays(&overlay.centroid);
+            let other_matches: Vec<_> = matches.iter()
+                .filter(|m| m.name != overlay.name)
+                .collect();
+
+            if !other_matches.is_empty() {
+                centroid_overlap_count += 1;
+            }
+        }
+
+        // Document: there are overlapping centroids (this is expected per Centore)
+        // As of initial implementation, 15 centroids overlap with other polyhedra
+        assert!(
+            centroid_overlap_count >= 10,
+            "Expected significant centroid overlaps per Centore methodology, found {}",
+            centroid_overlap_count
+        );
+    }
+
+    #[test]
+    fn test_overlapping_regions_handled_by_distance() {
+        // When a color falls in multiple overlays, matching_overlays_ranked() should
+        // return them sorted by distance to centroid (most confident match first).
+        //
+        // Known heavily overlapping region: beige/sand/tan/rose area in YR hues
+
+        let registry = get_registry();
+
+        // Beige centroid is known to be inside multiple overlays
+        let beige = registry.get("beige").unwrap();
+        let ranked = registry.matching_overlays_ranked(&beige.centroid);
+
+        // Verify beige matches itself first (distance 0)
+        assert!(!ranked.is_empty(), "Beige centroid should match at least beige");
+        assert_eq!(ranked[0].0.name, "beige", "Beige should be best match for its own centroid");
+        assert!(ranked[0].1 < 0.001, "Distance to own centroid should be ~0");
+
+        // If there are multiple matches, verify they're sorted
+        if ranked.len() > 1 {
+            for i in 1..ranked.len() {
+                assert!(
+                    ranked[i].1 >= ranked[i-1].1,
+                    "Overlaps should be sorted by centroid distance"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn test_non_overlapping_regions_exist() {
+        // Some overlays have unique regions with no overlap (e.g., navy, teal)
+        // This ensures we haven't accidentally made everything overlap
+
+        let registry = get_registry();
+        let mut non_overlapping_count = 0;
+
+        for overlay in registry.all() {
+            let matches = registry.matching_overlays(&overlay.centroid);
+            if matches.len() == 1 {
+                non_overlapping_count += 1;
+            }
+        }
+
+        // At least some centroids should be uniquely inside their own overlay
+        assert!(
+            non_overlapping_count >= 3,
+            "Expected some non-overlapping centroids, found {}",
+            non_overlapping_count
+        );
+    }
 }
