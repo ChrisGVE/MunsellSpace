@@ -158,4 +158,10 @@ node_modules/
 
 # Task files
 # tasks.json
-# tasks/ 
+# tasks/
+
+# Research papers (local reference only)
+jaic_v25_03.pdf
+PolyhedronFilesJustNames/
+tmp/
+PolyhedronFilesJustNames/
