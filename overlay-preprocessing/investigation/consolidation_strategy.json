@@ -1,0 +1,57 @@
+{
+  "summary": {
+    "colors_evaluated": 1369,
+    "min_samples": 100,
+    "best_strategy": "centroid_weighted",
+    "high_variance_colors": 1258
+  },
+  "strategy_performance": {
+    "simple_mean": {
+      "mean_distance": 62.99207418204801,
+      "std_distance": 18.153879559356916,
+      "n_colors": 1369
+    },
+    "median": {
+      "mean_distance": 62.97105294144013,
+      "std_distance": 18.174848280693315,
+      "n_colors": 1369
+    },
+    "trimmed_mean": {
+      "mean_distance": 62.91185048611535,
+      "std_distance": 18.161902762943143,
+      "n_colors": 1369
+    },
+    "mode_region": {
+      "mean_distance": 75.24405229718273,
+      "std_distance": 28.04250484932595,
+      "n_colors": 1369
+    },
+    "centroid_weighted": {
+      "mean_distance": 62.8187211962946,
+      "std_distance": 18.14615431486259,
+      "n_colors": 1369
+    }
+  },
+  "rankings": [
+    [
+      "centroid_weighted",
+      62.8187211962946
+    ],
+    [
+      "trimmed_mean",
+      62.91185048611535
+    ],
+    [
+      "median",
+      62.97105294144013
+    ],
+    [
+      "simple_mean",
+      62.99207418204801
+    ],
+    [
+      "mode_region",
+      75.24405229718273
+    ]
+  ]
+}
