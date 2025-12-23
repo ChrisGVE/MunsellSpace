@@ -11,6 +11,7 @@ pub mod iscc_nbs_colors;
 pub mod iscc_nbs_polygons;
 pub mod illuminants;
 pub mod chromatic_adaptation;
+pub mod centore_polyhedra;
 
 // Re-export all constants from the submodules
 pub use munsell_renotation_dataset::MUNSELL_RENOTATION_DATA;
@@ -21,6 +22,7 @@ pub use iscc_nbs_colors::{ISCC_NBS_COLORS, IsccNbsColorEntry, get_color_by_numbe
 pub use iscc_nbs_polygons::{PolygonDefinition, PolygonPoint, get_polygon_definitions};
 pub use illuminants::*;
 pub use chromatic_adaptation::*;
+pub use centore_polyhedra::{get_polyhedron_data, get_sample_count, CENTORE_SAMPLE_COUNTS};
 
 
 /// Magnesium oxide reflectance factor
