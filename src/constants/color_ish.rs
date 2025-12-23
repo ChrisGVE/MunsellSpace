@@ -28,11 +28,11 @@ pub const COLOR_TO_ISH_MAPPINGS: &[(&str, &str)] = &[
 /// so they typically stay unchanged or use a hyphenated form.
 pub const OVERLAY_TO_ISH_MAPPINGS: &[(&str, &str)] = &[
     // Colors with natural -ish forms
-    ("gold", "goldish"),
+    ("gold", "golden"),       // "golden" is more natural than "goldish"
     ("peach", "peachy"),      // "peachy" is more natural than "peachish"
     ("rose", "rosy"),         // "rosy" is more natural than "roseish"
     ("rust", "rusty"),        // "rusty" is more natural than "rustish"
-    ("violet", "violetish"),
+    ("violet", "violet"),     // violet is already a base color, no -ish needed
 
     // Colors that stay unchanged (no natural -ish form in English)
     ("aqua", "aqua"),
@@ -45,7 +45,7 @@ pub const OVERLAY_TO_ISH_MAPPINGS: &[(&str, &str)] = &[
     ("mauve", "mauve"),
     ("navy", "navy"),
     ("sand", "sandy"),        // "sandy" is more natural
-    ("tan", "tannish"),
+    ("tan", "tan"),           // "tan" alone works better than "tannish"
     ("taupe", "taupe"),
     ("teal", "teal"),
     ("turquoise", "turquoise"),
@@ -168,12 +168,12 @@ mod tests {
     #[test]
     fn test_overlay_ish_mappings() {
         // Colors with natural -ish forms
-        assert_eq!(get_color_ish("gold"), "goldish");
+        assert_eq!(get_color_ish("gold"), "golden");  // "golden" is more natural
         assert_eq!(get_color_ish("peach"), "peachy");
         assert_eq!(get_color_ish("rose"), "rosy");
         assert_eq!(get_color_ish("rust"), "rusty");
         assert_eq!(get_color_ish("sand"), "sandy");
-        assert_eq!(get_color_ish("tan"), "tannish");
+        assert_eq!(get_color_ish("tan"), "tan");  // "tan" alone is better than "tannish"
     }
 
     #[test]
