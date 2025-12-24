@@ -35,7 +35,8 @@ class ColorNamePipeline:
     SIMILARITY_THRESHOLD = 0.35
 
     # Minimum sample count for XKCD quality filtering
-    MIN_SAMPLE_COUNT = 10
+    # Set to 0 to disable (semantic validation is sufficient)
+    MIN_SAMPLE_COUNT = 0
 
     # Maximum words for a valid color name (filters sentences)
     MAX_WORDS = 6

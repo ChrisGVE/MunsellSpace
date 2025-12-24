@@ -1,24 +1,16 @@
 {
   "total_names": 175844,
   "total_responses": 3393725,
-  "valid_names": 7339,
-  "valid_responses": 3130822,
-  "invalid_names": 168505,
-  "invalid_responses": 262903,
+  "valid_names": 145042,
+  "valid_responses": 3336229,
+  "invalid_names": 30802,
+  "invalid_responses": 57496,
   "filter_reasons": {
-    "low_sample_count:5": 1993,
-    "low_sample_count:2": 14448,
-    "low_sample_count:1": 108409,
-    "low_sample_count:3": 5782,
-    "low_sample_count:4": 3118,
-    "low_sample_count:8": 835,
     "low_similarity:0.319": 171,
     "too_long:7_words": 3011,
     "low_similarity:0.321": 184,
     "low_similarity:0.318": 180,
-    "low_sample_count:6": 1413,
     "low_similarity:0.313": 139,
-    "low_sample_count:7": 1092,
     "low_similarity:0.000": 5314,
     "low_similarity:0.223": 40,
     "low_similarity:0.342": 198,
@@ -28,7 +20,6 @@
     "low_similarity:0.279": 94,
     "low_similarity:0.311": 155,
     "too_long:8_words": 1665,
-    "low_sample_count:9": 613,
     "too_long:11_words": 470,
     "low_similarity:0.269": 89,
     "low_similarity:0.325": 201,
@@ -308,8 +299,8 @@
   },
   "preprocessing_changes_count": 15089,
   "valid_similarity_stats": {
-    "mean": 0.795019596689224,
-    "min": 0.35013312101364136,
+    "mean": 0.6802631517983504,
+    "min": 0.35000529885292053,
     "max": 1.000000238418579
   }
 }
