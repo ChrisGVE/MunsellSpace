@@ -107,6 +107,7 @@ pub mod mechanical_wedges;
 pub mod unified_cache;
 pub mod semantic_overlay;
 pub mod semantic_overlay_data;
+pub mod screen_correction;
 
 // Test modules were moved to their respective implementation files
 #[cfg(test)]
@@ -139,6 +140,7 @@ pub use semantic_overlay::{
     parse_hue_to_number, hue_number_to_string, parse_munsell_notation,
 };
 pub use semantic_overlay_data::{create_overlay_registry, get_registry};
+pub use screen_correction::{ScreenCorrector, correct_screen_color, predict_hue_correction};
 // Note: General color conversions (RGB↔Hex↔Lab↔HSL↔HSV) are available via the palette crate
 // We only expose Munsell-specific conversions to avoid duplication
 
