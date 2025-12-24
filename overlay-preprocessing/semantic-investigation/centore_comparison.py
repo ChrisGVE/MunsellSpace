@@ -291,7 +291,10 @@ class CentoreComparisonAnalyzer:
             chromas.append(m['chroma'])
 
             # For circular mean of hue
-            hue_rad = m['hue_num'] * math.pi / 180.0
+            # Note: hue_num from Rust is in 0-40 Munsell scale, convert to radians
+            # 0-40 maps to 0-360 degrees, so multiply by 9 to get degrees, then convert
+            hue_degrees = m['hue_num'] * 9.0  # 40 -> 360
+            hue_rad = hue_degrees * math.pi / 180.0
             hue_sins.append(math.sin(hue_rad))
             hue_coss.append(math.cos(hue_rad))
 
@@ -313,15 +316,17 @@ class CentoreComparisonAnalyzer:
 
         return MunsellCoord(hue_str, mean_hue, mean_value, mean_chroma)
 
-    def _hue_num_to_str(self, hue_num: float) -> str:
-        """Convert hue number (0-360) to Munsell hue string."""
-        # Each family spans 36 degrees
+    def _hue_num_to_str(self, hue_degrees: float) -> str:
+        """Convert hue degrees (0-360) to Munsell hue string."""
+        # Each family spans 36 degrees, 10 families total
         families = ['R', 'YR', 'Y', 'GY', 'G', 'BG', 'B', 'PB', 'P', 'RP']
 
-        # Shift so R is centered at 0
-        shifted = (hue_num + 18) % 360  # R family centered at 0
-        family_idx = int(shifted / 36) % 10
-        within_family = (shifted % 36) / 36.0 * 10.0
+        # Normalize to 0-360
+        hue_degrees = hue_degrees % 360
+
+        # Each family spans 36 degrees
+        family_idx = int(hue_degrees / 36) % 10
+        within_family = (hue_degrees % 36) / 36.0 * 10.0
 
         return f"{within_family:.1f}{families[family_idx]}"
 
