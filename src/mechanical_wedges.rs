@@ -820,7 +820,7 @@ impl MechanicalWedgeSystem {
                 let coord_count = color.polygon.exterior().coords_count();
                 let coord_points: Vec<_> = color.polygon.exterior().coords().collect();
                 
-                let test_point = geo::Point::new(chroma, value);
+                let _test_point = geo::Point::new(chroma, value);
                 let result = self.point_in_polygon(value, chroma, color);
                 
                 let debug_info = format!(

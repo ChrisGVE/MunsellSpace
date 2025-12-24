@@ -18,9 +18,10 @@ use std::fs;
 use csv::ReaderBuilder;
 use serde::Deserialize;
 use geo::prelude::*;
-use geo::{Point, LineString, Polygon};
+use geo::{Point, LineString, Polygon, Euclidean};
 
 #[derive(Debug, Deserialize, Clone)]
+#[allow(dead_code)]
 struct W3IsccColor {
     #[serde(rename = "sRGB ")]
     srgb: String,
@@ -43,6 +44,7 @@ struct CentoreIsccColor {
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 struct TestResult {
     rgb: [u8; 3],
     illuminant: String,
@@ -198,7 +200,7 @@ fn calculate_polygon_distance(
         // Calculate point-to-line distance
         for coord in line_string.coords() {
             let boundary_point = Point::new(coord.x, coord.y);
-            let dist = test_point.euclidean_distance(&boundary_point);
+            let dist = Euclidean.distance(&test_point, &boundary_point);
             
             if dist < min_distance {
                 min_distance = dist;
@@ -229,7 +231,7 @@ fn calculate_polygon_distance(
                 start.y() + t * dy
             );
             
-            let dist = test_point.euclidean_distance(&projected);
+            let dist = Euclidean.distance(&test_point, &projected);
             if dist < min_distance {
                 min_distance = dist;
                 closest_point = projected;

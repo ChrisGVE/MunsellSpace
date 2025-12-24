@@ -1516,7 +1516,6 @@ pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
                 }
                 
                 let chroma_inner = ((rho_input / rho_current).powf(iterations_inner as f64)) * chroma_current;
-                let chroma_inner_unclamped = chroma_inner;
                 let chroma_inner = if chroma_inner > chroma_maximum {
                     chroma_maximum
                 } else {

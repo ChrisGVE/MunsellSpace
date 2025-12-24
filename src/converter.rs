@@ -16,11 +16,12 @@ struct ReferenceEntry {
 
 /// Phase 2: Enhanced reference point for spatial interpolation
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 struct MunsellReferencePoint {
     rgb: [u8; 3],
     xyy: [f64; 3],
     hue: f64,
-    value: f64, 
+    value: f64,
     chroma: f64,
     notation: String,
 }
@@ -441,6 +442,7 @@ impl MunsellConverter {
     
     /// Perform chromatic adaptation from D65 to Illuminant C using Bradford transform.
     /// This is CRITICAL for accurate Munsell conversion as reference data uses Illuminant C.
+    #[allow(dead_code)]
     fn chromatic_adaptation_d65_to_c(&self, xyz_d65: [f64; 3]) -> [f64; 3] {
         // Illuminant white points from centralized constants
         let illuminant_d65 = ILLUMINANT_D65_XYZ;
@@ -497,6 +499,7 @@ impl MunsellConverter {
     }
 
     /// Convert xyY to Munsell using scientific algorithms.
+    #[allow(dead_code)]
     fn xyy_to_munsell(&self, xyy: [f64; 3]) -> Result<MunsellColor> {
         let [x, y, big_y] = xyy;
 

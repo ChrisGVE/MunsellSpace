@@ -10,6 +10,7 @@ use crate::error::{MunsellError, Result};
 
 // Critical constants from Python colour-science
 const THRESHOLD_INTEGER: f64 = 1e-3;  // Python's achromatic threshold
+#[allow(dead_code)]
 const TOLERANCE_ABSOLUTE_DEFAULT: f64 = 1e-8;
 const MAX_OUTER_ITERATIONS: usize = 64;
 const MAX_INNER_ITERATIONS: usize = 16;
@@ -281,6 +282,7 @@ mod coordinate_transforms {
 
     /// Convert cylindrical [rho, phi, z] to cartesian [x, y, z] coordinates
     #[inline]
+    #[allow(dead_code)]
     pub fn cylindrical_to_cartesian(rho: f64, phi: f64, z: f64) -> (f64, f64, f64) {
         let (x, y) = polar_to_cartesian(rho, phi);
         (x, y, z)
@@ -291,6 +293,7 @@ mod coordinate_transforms {
 mod hue_conversions {
 
     /// Hue family codes as used in Python colour-science
+    #[allow(dead_code)]
     const HUE_FAMILY_CODES: [(u8, &str); 10] = [
         (1, "BG"), (2, "G"), (3, "GY"), (4, "Y"), (5, "YR"),
         (6, "R"), (7, "RP"), (8, "P"), (9, "PB"), (10, "B")
@@ -467,6 +470,7 @@ mod hue_conversions {
 
     /// Convert family name to code number
     /// FIXED: Python's MUNSELL_HUE_LETTER_CODES dictionary
+    #[allow(dead_code)]
     pub fn family_to_code(family: &str) -> u8 {
         match family {
             "B" => 1,
@@ -497,6 +501,7 @@ mod hue_conversions {
 
 /// Interpolation method selection logic
 /// MASSIVE empirical lookup table from Python colour-science
+#[allow(dead_code)]
 mod interpolation_methods {
     use super::hue_conversions::*;
 
@@ -1451,6 +1456,7 @@ impl MathematicalMunsellConverter {
     
     /// Exact implementation of Python LCHab_to_munsell_specification function
     /// This is the exact algorithm from colour-science munsell.py lines 2422-2480
+    #[allow(dead_code)]
     fn lchab_to_munsell_specification(&self, _l: f64, _c: f64, hab: f64) -> (f64, u8) {
         // FIXED: Correct code assignment based on Python's actual behavior
         // Python uses 36° segments with different boundaries than we had
@@ -2020,18 +2026,21 @@ impl MathematicalMunsellConverter {
     }
 
     /// Linear interpolation between hue boundaries (LEGACY - now uses xy_from_renotation_ovoid)
+    #[allow(dead_code)]
     fn linear_interpolate_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
         // Use the complete Python algorithm instead
         self.xy_from_renotation_ovoid(hue, value, chroma, code)
     }
 
     /// Radial interpolation in cylindrical coordinates (LEGACY - now uses xy_from_renotation_ovoid)
+    #[allow(dead_code)]
     fn radial_interpolate_xy(&self, hue: f64, value: f64, chroma: f64, code: u8) -> Result<(f64, f64)> {
         // Use the complete Python algorithm instead
         self.xy_from_renotation_ovoid(hue, value, chroma, code)
     }
 
     /// Fallback interpolation method
+    #[allow(dead_code)]
     fn interpolate_hue_chroma_to_xy(&self, _hue: f64, value: f64, _chroma: f64, _code: u8) -> Result<(f64, f64)> {
         // Use the old interpolation method as fallback
         let (_, _, _) = self.interpolate_hue_chroma(0.31006, 0.31616, value)?; // Use illuminant C as dummy
@@ -2101,6 +2110,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Check if color is achromatic (neutral) based on chromaticity distance from Illuminant D65
+    #[allow(dead_code)]
     fn is_achromatic_d65(&self, x: f64, y: f64) -> bool {
         // Special case: if x=0 and y=0, this typically means Y=0 (pure black) 
         // and chromaticity is undefined - treat as achromatic
@@ -2116,6 +2126,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Check if color is achromatic (neutral) based on chromaticity distance from Illuminant C
+    #[allow(dead_code)]
     fn is_achromatic(&self, x: f64, y: f64) -> bool {
         // Special case: if x=0 and y=0, this typically means Y=0 (pure black) 
         // and chromaticity is undefined - treat as achromatic
@@ -2130,9 +2141,10 @@ impl MathematicalMunsellConverter {
     }
 
     /// Interpolate hue and chroma from Munsell Renotation dataset using advanced algorithm
-    /// 
+    ///
     /// This implements the iterative convergence algorithm from Python colour-science
     /// to achieve 100% mathematical accuracy.
+    #[allow(dead_code)]
     fn interpolate_hue_chroma(&self, x: f64, y: f64, luma: f64) -> Result<(f64, String, f64)> {
         // Implementation following Python colour-science _xyY_to_munsell_specification
         
@@ -2171,6 +2183,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Find nearest neighbor in renotation data as initial guess
+    #[allow(dead_code)]
     fn find_nearest_neighbor(&self, x: f64, y: f64, luma: f64) -> Result<(f64, String, f64)> {
         let mut best_distance = f64::INFINITY;
         let mut best_match: Option<&'static ((&'static str, f64, f64), (f64, f64, f64))> = None;
@@ -2204,6 +2217,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Advanced interpolation from Munsell specification to xyY using radial basis functions
+    #[allow(dead_code)]
     fn munsell_specification_to_xyy_interpolated(&self, spec: &MunsellSpecification) -> Result<CieXyY> {
         // Handle neutral colors
         if spec.family == "N" {
@@ -2232,6 +2246,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Find neighboring points for advanced interpolation
+    #[allow(dead_code)]
     fn find_interpolation_neighbors(&self, target_hue: &str, target_value: f64, target_chroma: f64) -> Vec<&'static ((&'static str, f64, f64), (f64, f64, f64))> {
         let mut neighbors = Vec::new();
         
@@ -2274,6 +2289,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Check if two hue families match (same letters)
+    #[allow(dead_code)]
     fn hue_families_match(&self, hue1: &str, hue2: &str) -> bool {
         let family1 = hue1.chars().filter(|c| c.is_alphabetic()).collect::<String>();
         let family2 = hue2.chars().filter(|c| c.is_alphabetic()).collect::<String>();
@@ -2281,6 +2297,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Calculate angular distance between two hue strings
+    #[allow(dead_code)]
     fn calculate_hue_distance(&self, hue1: &str, hue2: &str) -> f64 {
         // This is a simplified hue distance calculation
         // In practice, this would need to handle the cylindrical hue space properly
@@ -2299,6 +2316,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Convert hue notation to angle (simplified)
+    #[allow(dead_code)]
     fn hue_to_angle(&self, hue: f64, family: &str) -> f64 {
         let base_angle = match family {
             "R" => 0.0, "YR" => 36.0, "Y" => 72.0, "GY" => 108.0, "G" => 144.0,
@@ -2309,6 +2327,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Radial basis function interpolation
+    #[allow(dead_code)]
     fn radial_basis_interpolation(&self, neighbors: &[&'static ((&'static str, f64, f64), (f64, f64, f64))], target_value: f64, target_chroma: f64) -> Result<CieXyY> {
         if neighbors.is_empty() {
             return Err(MunsellError::InterpolationError {
@@ -2317,7 +2336,6 @@ impl MathematicalMunsellConverter {
         }
 
         let mut weighted_x = 0.0;
-        let mut weighted_y = 0.0;
         let mut weighted_y = 0.0;
         let mut total_weight = 0.0;
 
@@ -2356,7 +2374,7 @@ impl MathematicalMunsellConverter {
     }
 
     /// Refine Munsell specification using gradient estimation
-    fn refine_munsell_specification(&self, spec: &MunsellSpecification, target_x: f64, target_y: f64, error_x: f64, error_y: f64) -> Result<MunsellSpecification> {
+    fn refine_munsell_specification(&self, spec: &MunsellSpecification, _target_x: f64, _target_y: f64, error_x: f64, error_y: f64) -> Result<MunsellSpecification> {
         // Gradient-based refinement (simplified)
         let step_size = 0.1;
         
