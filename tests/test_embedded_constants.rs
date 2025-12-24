@@ -1,11 +1,11 @@
 //! Integration test for embedded ISCC-NBS constants
 
-use munsellspace::ISCC_NBS_Classifier;
+use munsellspace::IsccNbsClassifier;
 
 #[test]
 fn test_embedded_iscc_constants_integration() {
     // Create classifier using embedded data (no file I/O)
-    let classifier = ISCC_NBS_Classifier::new()
+    let classifier = IsccNbsClassifier::new()
         .expect("Should be able to create ISCC-NBS classifier with embedded data");
     
     // Test Munsell color classification
@@ -36,7 +36,7 @@ fn test_embedded_iscc_constants_integration() {
 
 #[test] 
 fn test_embedded_rgb_classification() {
-    let classifier = ISCC_NBS_Classifier::new()
+    let classifier = IsccNbsClassifier::new()
         .expect("Should be able to create ISCC-NBS classifier with embedded data");
     
     // Test RGB red
@@ -53,7 +53,7 @@ fn test_embedded_rgb_classification() {
 
 #[test]
 fn test_embedded_hex_classification() {
-    let classifier = ISCC_NBS_Classifier::new()
+    let classifier = IsccNbsClassifier::new()
         .expect("Should be able to create ISCC-NBS classifier with embedded data");
     
     // Test hex colors

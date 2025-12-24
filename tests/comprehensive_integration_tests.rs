@@ -10,7 +10,7 @@ use std::collections::HashMap;
 #[test]
 fn test_complete_conversion_pipeline() {
     let converter = MunsellConverter::new().expect("Failed to create converter");
-    let classifier = ISCC_NBS_Classifier::new().expect("Failed to create classifier");
+    let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
     
     // Test realistic color conversion scenarios
     let test_scenarios = [
@@ -77,7 +77,7 @@ fn test_complete_conversion_pipeline() {
 #[test]
 fn test_batch_processing_integration() {
     let converter = MunsellConverter::new().expect("Failed to create converter");
-    let classifier = ISCC_NBS_Classifier::new().expect("Failed to create classifier");
+    let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
     
     // Generate a diverse set of RGB colors
     let test_colors: Vec<[u8; 3]> = (0..100)
@@ -118,7 +118,7 @@ fn test_comprehensive_thread_safety() {
     use std::thread;
     
     let converter = Arc::new(MunsellConverter::new().expect("Failed to create converter"));
-    let classifier = Arc::new(ISCC_NBS_Classifier::new().expect("Failed to create classifier"));
+    let classifier = Arc::new(IsccNbsClassifier::new().expect("Failed to create classifier"));
     
     let test_colors = vec![
         [255, 0, 0], [0, 255, 0], [0, 0, 255], [255, 255, 0],
@@ -190,7 +190,7 @@ fn test_comprehensive_thread_safety() {
 #[test] 
 fn test_error_handling_integration() {
     let converter = MunsellConverter::new().expect("Failed to create converter");
-    let classifier = ISCC_NBS_Classifier::new().expect("Failed to create classifier");
+    let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
     
     // Test parsing errors propagate correctly
     let invalid_notation_tests = [
@@ -257,7 +257,7 @@ fn test_error_handling_integration() {
 fn test_comprehensive_api_surface() {
     // Test all major entry points work
     let converter = MunsellConverter::new().expect("MunsellConverter should initialize");
-    let classifier = ISCC_NBS_Classifier::new().expect("ISCC_NBS_Classifier should initialize");
+    let classifier = IsccNbsClassifier::new().expect("IsccNbsClassifier should initialize");
     let reverse_converter = ReverseConverter::new().expect("ReverseConverter should initialize");
     let cache = UnifiedColorCache::new();
     
