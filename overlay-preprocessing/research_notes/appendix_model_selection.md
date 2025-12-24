@@ -345,7 +345,69 @@ The Fourier model degrades gracefully:
 
 ---
 
-## 8. References
+## 8. Hypothesis Testing
+
+To further validate the model selection, we conducted formal hypothesis tests using
+permutation methods and bootstrap resampling (avoiding scipy dependency).
+
+### 8.1 Tests Conducted
+
+| Test | Null Hypothesis | Statistic | p-value | Decision |
+|------|-----------------|-----------|---------|----------|
+| 1 | Mean hue bias = 0 | t = 0.68 | 0.50 | Fail to reject |
+| 2 | Hue bias is uniform | R² = 0.53 | <0.001 | **Reject H₀** |
+| 3 | Fourier 4 = Global Linear | F = 38.3 | <0.001 | **Reject H₀** |
+| 4 | Fourier 4 = Fourier 3 | F = 8.1 | 0.10 | Fail to reject |
+| 5 | Model captures only noise | MAE = 2.49° | <0.001 | **Reject H₀** |
+| 6 | Paired errors are equal | W = 19 | <0.001 | **Reject H₀** |
+
+### 8.2 Interpretation
+
+**Test 1 (Mean bias = 0)**: We fail to reject that the overall mean bias is zero.
+This is expected and correct—cool colors shift cooler (~-40°) while warm colors shift
+warmer (~+30°), so the biases cancel out on average. The key insight is that the bias
+is **non-uniform**, not zero everywhere.
+
+**Test 2 (Bias is uniform)**: We strongly reject uniformity (p<0.001). The Fourier 1
+model explains 53.4% of variance, while shuffled data explains only 1%. This confirms
+that hue bias varies systematically across the color wheel.
+
+**Test 3 (Fourier 4 vs Linear)**: We strongly reject that Fourier 4 equals linear
+(p<0.001). The hue-dependent terms reduce SSE by 93.9%, and MAE improves from 11.2°
+to 2.5°.
+
+**Test 4 (Fourier 4 vs Fourier 3)**: We fail to reject at α=0.05 (p=0.10). The 4th
+harmonic provides 44.6% SSE reduction but is marginally significant. However:
+- The p-value (0.10) is close to the threshold
+- Cross-validation showed Fourier 4 has lower generalization error (7.41° vs 8.01°)
+- The F-test measures training fit, not generalization
+
+We retain Fourier 4 based on **cross-validation evidence** taking precedence over
+the marginal F-test result.
+
+**Test 5 (Model vs Noise)**: We strongly reject that the model captures only noise
+(p<0.001). The observed MAE (2.49°) is far below the 5th percentile of the null
+distribution (5.26°), confirming the model captures real signal.
+
+**Test 6 (Paired Improvement)**: We strongly reject that errors are equal (p<0.001).
+Fourier 4 improves 26 of 29 categories. The Wilcoxon signed-rank test and sign test
+both confirm systematic improvement.
+
+### 8.3 Summary
+
+The hypothesis tests confirm:
+1. ✓ Hue bias is non-uniform (justifies hue-dependent correction)
+2. ✓ Fourier models significantly outperform global linear
+3. ✓ The model captures real signal, not noise
+4. ✓ Fourier 4 provides systematic paired improvement
+
+The marginal F-test for Fourier 4 vs Fourier 3 (p=0.10) suggests Fourier 3 may be
+acceptable for applications prioritizing simplicity. However, Fourier 4's superior
+cross-validation performance justifies its selection as the primary model.
+
+---
+
+## 9. References
 
 - Munsell Renotation Data for color space geometry
 - Berlin & Kay (1969) for color category structure
