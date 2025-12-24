@@ -4,8 +4,9 @@ Robust Color Name Processing Pipeline
 
 Based on semantic investigation findings, this pipeline:
 1. Preprocesses names (strips noise, decodes hex)
-2. Filters using SBERT semantic similarity
-3. Groups similar names for consolidation
+2. Validates against master vocabulary (33K+ names from 6 sources)
+3. Uses SBERT semantic similarity for unknown names
+4. Groups similar names for consolidation
 
 Usage:
     pipeline = ColorNamePipeline()
@@ -13,10 +14,11 @@ Usage:
     # Returns: {'valid': True, 'cleaned': 'fedex purple', 'similarity': 0.594, ...}
 """
 
+import csv
 import re
 import json
 from pathlib import Path
-from typing import Optional, Dict, List, Tuple
+from typing import Optional, Dict, List, Tuple, Set
 import numpy as np
 
 
@@ -24,9 +26,9 @@ class ColorNamePipeline:
     """
     Pipeline for validating and processing color names.
 
-    Uses SBERT semantic similarity to determine if a name
-    has color meaning, without making incorrect string-matching
-    assumptions.
+    Uses a two-tier validation approach:
+    1. Direct lookup in master vocabulary (33K+ names from 6 authoritative sources)
+    2. SBERT semantic similarity for names not in vocabulary
     """
 
     # Similarity threshold - names below this are filtered
@@ -38,63 +40,128 @@ class ColorNamePipeline:
     # Maximum words for a valid color name (filters sentences)
     MAX_WORDS = 6
 
-    def __init__(self, load_model: bool = True):
+    # Paths
+    VOCAB_DIR = Path(__file__).parent.parent / "color-vocabularies"
+    CACHE_DIR = Path(__file__).parent
+
+    def __init__(self, load_model: bool = True, use_cache: bool = True):
         """
         Initialize the pipeline.
 
         Args:
-            load_model: If True, loads SBERT model (slower but enables
-                        similarity computation). If False, uses cached
-                        results only.
+            load_model: If True, loads SBERT model for similarity computation
+            use_cache: If True, uses cached similarities when available
         """
         self.model = None
-        self.vocab = None
-        self.vocab_embeddings = None
+        self.master_vocab: Set[str] = set()
+        self.core_vocab: List[str] = []
+        self.core_embeddings = None
         self._cached_similarities = None
 
+        # Load master vocabulary (always)
+        self._load_master_vocabulary()
+
+        # Load SBERT model or cache
         if load_model:
             self._load_model()
-        else:
+        elif use_cache:
             self._load_cached_similarities()
 
+    def _load_master_vocabulary(self):
+        """Load the master vocabulary from CSV."""
+        vocab_path = self.VOCAB_DIR / "master_vocabulary.csv"
+
+        if not vocab_path.exists():
+            print(f"Warning: Master vocabulary not found at {vocab_path}")
+            print("Run collect_vocabularies.py first")
+            return
+
+        with open(vocab_path, newline='', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            next(reader)  # Skip header
+            for row in reader:
+                if row:
+                    self.master_vocab.add(row[0].lower().strip())
+
+        print(f"Loaded master vocabulary: {len(self.master_vocab):,} names")
+
     def _load_model(self):
-        """Load SBERT model and color vocabulary."""
+        """Load SBERT model and build core vocabulary embeddings."""
         try:
             from sentence_transformers import SentenceTransformer
             print("Loading SBERT model...")
             self.model = SentenceTransformer("all-MiniLM-L6-v2")
-            self._build_vocabulary()
+            self._build_core_vocabulary()
             print("Model loaded successfully")
         except ImportError:
             print("Warning: sentence-transformers not available, using cached results")
             self._load_cached_similarities()
 
-    def _build_vocabulary(self):
-        """Build color vocabulary for similarity comparison."""
-        from common import BASIC_COLORS
+    def _build_core_vocabulary(self):
+        """
+        Build a core vocabulary for SBERT similarity.
 
-        vocab = set()
-        vocab.update(BASIC_COLORS)
+        Uses a representative subset of ~2000 terms covering:
+        - Basic color names
+        - Modified colors (light/dark/etc.)
+        - Compound colors
+        - Common specific colors from sources
+        """
+        core = set()
 
-        # Add modified colors
-        for modifier in ['light', 'dark', 'bright', 'pale', 'deep', 'vivid',
-                         'soft', 'muted', 'dusty', 'pastel']:
-            for color in list(BASIC_COLORS)[:20]:
-                vocab.add(f"{modifier} {color}")
+        # Basic colors
+        basic = {
+            'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'brown',
+            'black', 'white', 'gray', 'grey', 'cyan', 'magenta', 'violet', 'indigo',
+            'teal', 'turquoise', 'maroon', 'navy', 'olive', 'lime', 'aqua', 'coral',
+            'salmon', 'crimson', 'scarlet', 'burgundy', 'fuchsia', 'lavender',
+            'lilac', 'mauve', 'beige', 'tan', 'cream', 'ivory', 'gold', 'silver',
+            'bronze', 'copper', 'rose', 'peach', 'apricot', 'amber', 'ochre',
+            'sienna', 'umber', 'khaki', 'chartreuse', 'mint', 'sage', 'forest',
+            'emerald', 'jade', 'azure', 'cobalt', 'cerulean', 'sapphire', 'plum',
+            'grape', 'wine', 'rust', 'terracotta', 'taupe', 'charcoal', 'slate',
+            'periwinkle', 'mocha', 'camel', 'mustard', 'mahogany', 'vermilion',
+            'carnation', 'tangerine', 'lemon', 'goldenrod', 'saffron', 'pistachio',
+            'avocado', 'seafoam', 'denim', 'cornflower', 'wisteria', 'amethyst',
+            'orchid', 'heather', 'mulberry', 'eggplant', 'raspberry', 'strawberry',
+            'blush', 'brick', 'cinnamon', 'caramel', 'chocolate', 'coffee', 'espresso',
+            'walnut', 'chestnut', 'hazelnut', 'almond', 'sand', 'wheat', 'oatmeal',
+            'stone', 'pewter', 'steel', 'ash', 'smoke', 'fog', 'mist', 'cloud',
+            'snow', 'pearl', 'bone', 'sky', 'sea', 'grass', 'leaf', 'moss'
+        }
+        core.update(basic)
 
-        # Add compound colors
-        for c1 in ['blue', 'green', 'red', 'yellow', 'purple', 'orange']:
-            for c2 in ['blue', 'green', 'red', 'yellow', 'purple', 'orange']:
+        # Modifiers
+        modifiers = ['light', 'dark', 'bright', 'pale', 'deep', 'vivid', 'dull',
+                     'muted', 'pastel', 'neon', 'dusty', 'dirty', 'soft', 'rich',
+                     'royal', 'baby', 'hot', 'cool', 'warm', 'electric', 'burnt']
+
+        # Add modified versions of basic colors
+        for mod in modifiers:
+            for color in list(basic)[:30]:  # Top 30 basic colors
+                core.add(f"{mod} {color}")
+
+        # Compound colors
+        primaries = ['blue', 'green', 'red', 'yellow', 'purple', 'orange', 'pink', 'brown']
+        for c1 in primaries:
+            for c2 in primaries:
                 if c1 != c2:
-                    vocab.add(f"{c1}ish {c2}")
-                    vocab.add(f"{c1} {c2}")
+                    core.add(f"{c1}ish {c2}")
+                    core.add(f"{c1} {c2}")
+                    core.add(f"{c1}y {c2}")
 
-        self.vocab = sorted(vocab)
-        self.vocab_embeddings = self.model.encode(self.vocab)
+        # Add high-frequency names from master vocabulary
+        # (Sample from vocabulary to cover more semantic space)
+        vocab_sample = list(self.master_vocab)[:1000]  # First 1000 (alphabetically sorted)
+        core.update(vocab_sample)
+
+        self.core_vocab = sorted(core)
+        print(f"Building core vocabulary embeddings ({len(self.core_vocab):,} terms)...")
+        self.core_embeddings = self.model.encode(self.core_vocab, show_progress_bar=True)
 
     def _load_cached_similarities(self):
         """Load pre-computed similarities from experiment results."""
-        cache_path = Path(__file__).parent / "exp1_sbert_full_results.json"
+        cache_path = self.CACHE_DIR / "exp1_sbert_full_results.json"
         if cache_path.exists():
             with open(cache_path) as f:
                 data = json.load(f)
@@ -124,9 +191,10 @@ class ColorNamePipeline:
         if name != original.lower():
             info['steps'].append('lowercase')
 
-        # Step 3: Strip leading/trailing noise
-        stripped = re.sub(r'^[^\w\s]+', '', name)
-        stripped = re.sub(r'[^\w\s]+$', '', stripped)
+        # Step 3: Strip leading/trailing noise (preserve balanced parentheses)
+        # Only strip truly noisy punctuation, not parentheses which may contain transliterations
+        stripped = re.sub(r'^[!?.,;:*#@&%^~`]+', '', name)
+        stripped = re.sub(r'[!?.,;:*#@&%^~`]+$', '', stripped)
         if stripped != name:
             info['steps'].append(f'strip_noise:{name}→{stripped}')
             name = stripped
@@ -182,6 +250,10 @@ class ColorNamePipeline:
         else:
             return "gray"
 
+    def is_in_vocabulary(self, name: str) -> bool:
+        """Check if name is in the master vocabulary."""
+        return name.lower().strip() in self.master_vocab
+
     def compute_similarity(self, name: str) -> Tuple[float, str]:
         """
         Compute semantic similarity to color vocabulary.
@@ -189,18 +261,24 @@ class ColorNamePipeline:
         Returns:
             Tuple of (similarity_score, best_matching_color)
         """
-        # Check cache first
-        if self._cached_similarities and name.lower() in self._cached_similarities:
-            cached = self._cached_similarities[name.lower()]
+        name_lower = name.lower().strip()
+
+        # Tier 1: Direct vocabulary lookup
+        if name_lower in self.master_vocab:
+            return 1.0, name_lower
+
+        # Tier 2: Check cache
+        if self._cached_similarities and name_lower in self._cached_similarities:
+            cached = self._cached_similarities[name_lower]
             return cached['similarity'], cached['best_match']
 
-        # Compute if model available
-        if self.model is not None:
+        # Tier 3: Compute with SBERT
+        if self.model is not None and self.core_embeddings is not None:
             from sklearn.metrics.pairwise import cosine_similarity
             embedding = self.model.encode([name])
-            sims = cosine_similarity(embedding, self.vocab_embeddings)[0]
+            sims = cosine_similarity(embedding, self.core_embeddings)[0]
             best_idx = np.argmax(sims)
-            return float(sims[best_idx]), self.vocab[best_idx]
+            return float(sims[best_idx]), self.core_vocab[best_idx]
 
         # No way to compute
         return 0.0, "unknown"
@@ -230,10 +308,11 @@ class ColorNamePipeline:
             info['checks'].append('pure_punctuation')
             return False, info
 
-        # Check 4: Semantic similarity
+        # Check 4: Vocabulary lookup or semantic similarity
         similarity, best_match = self.compute_similarity(name)
         info['similarity'] = similarity
         info['best_match'] = best_match
+        info['in_vocabulary'] = similarity == 1.0
 
         if similarity < self.SIMILARITY_THRESHOLD:
             info['checks'].append(f'low_similarity:{similarity:.3f}')
@@ -259,6 +338,7 @@ class ColorNamePipeline:
             'cleaned': None,
             'similarity': 0.0,
             'best_match': None,
+            'in_vocabulary': False,
             'reason': None
         }
 
@@ -272,6 +352,7 @@ class ColorNamePipeline:
         result['valid'] = is_valid
         result['similarity'] = validation_info.get('similarity', 0.0)
         result['best_match'] = validation_info.get('best_match')
+        result['in_vocabulary'] = validation_info.get('in_vocabulary', False)
 
         if not is_valid:
             result['reason'] = validation_info['checks'][-1]
@@ -294,11 +375,16 @@ class ColorNamePipeline:
 def main():
     """Demo the pipeline."""
     print("=" * 70)
-    print("Color Name Pipeline Demo")
+    print("Color Name Pipeline Demo (with Master Vocabulary)")
     print("=" * 70)
 
-    # Test cases from the problematic mappings
+    # Test cases including previously problematic ones
     test_cases = [
+        # Previously problematic (should now work)
+        "periwinkle",          # Was filtered, now in vocabulary
+        "mocha",               # Was filtered, now in vocabulary
+        "camel",               # Was filtered, now in vocabulary
+        # Edge cases
         "!!! green",
         "!!! purple",
         "#0000FF",
@@ -308,24 +394,29 @@ def main():
         "fedex purple",
         "warm lavender",
         "army grey",
+        # Should be filtered
         "this test is probably measuring how long people take",
         "asdfgh",
         "123456",
         "???",
+        # Should pass
         "light blue",
         "sky blue",
         "forest green",
+        "海老茶 (ebicha)",     # Japanese color name (in vocabulary)
     ]
 
-    pipeline = ColorNamePipeline(load_model=False)  # Use cached for demo
+    # Use cached mode for demo (faster)
+    pipeline = ColorNamePipeline(load_model=False, use_cache=True)
 
     print("\nProcessing test cases:\n")
     for name in test_cases:
         result = pipeline.process(name)
         status = "VALID" if result['valid'] else "INVALID"
+        vocab_tag = " [in vocab]" if result['in_vocabulary'] else ""
         print(f"'{name}'")
         print(f"  → cleaned: '{result['cleaned']}'")
-        print(f"  → {status} (sim={result['similarity']:.3f}, match='{result['best_match']}')")
+        print(f"  → {status} (sim={result['similarity']:.3f}, match='{result['best_match']}'){vocab_tag}")
         if result['reason']:
             print(f"  → reason: {result['reason']}")
         print()
