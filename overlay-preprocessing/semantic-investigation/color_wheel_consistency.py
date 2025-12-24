@@ -17,7 +17,7 @@ import json
 import colorsys
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Union
 from collections import defaultdict
 import numpy as np
 
@@ -199,12 +199,33 @@ class ColorWheelConsistencyChecker:
 
     def __init__(self):
         self.vocab_dir = Path(__file__).parent.parent / "color-vocabularies"
+        self.investigation_dir = Path(__file__).parent.parent / "investigation"
         self.color_coordinates: Dict[str, str] = {}  # name -> hex
         self._load_color_coordinates()
 
+    def _rgb_to_hex(self, rgb: List[int]) -> str:
+        """Convert RGB list to hex string."""
+        return f"#{rgb[0]:02x}{rgb[1]:02x}{rgb[2]:02x}"
+
     def _load_color_coordinates(self):
-        """Load color coordinates from vocabulary CSVs."""
-        # Priority order: XKCD, colorhexa, wikipedia, meodai, color-name.com
+        """Load color coordinates from all available sources."""
+        # First, load the complete XKCD coordinates cache (175K names with RGB)
+        xkcd_cache_path = self.investigation_dir / "xkcd_coordinates_cache.json"
+        if xkcd_cache_path.exists():
+            with open(xkcd_cache_path) as f:
+                xkcd_data = json.load(f)
+            for name, rgb_list in xkcd_data.items():
+                name_lower = name.lower().strip()
+                if name_lower not in self.color_coordinates and rgb_list:
+                    # Take the first (or most common) RGB value
+                    if isinstance(rgb_list[0], list):
+                        rgb = rgb_list[0]
+                    else:
+                        rgb = rgb_list
+                    self.color_coordinates[name_lower] = self._rgb_to_hex(rgb)
+            print(f"  Loaded {len(self.color_coordinates):,} from XKCD coordinates cache")
+
+        # Then add from vocabulary CSVs (for non-XKCD names)
         sources = [
             'xkcd_colors.csv',
             'colorhexa_colors.csv',
@@ -213,6 +234,7 @@ class ColorWheelConsistencyChecker:
             'color_name_com_colors.csv',
         ]
 
+        csv_count = 0
         for source in sources:
             path = self.vocab_dir / source
             if not path.exists():
@@ -225,11 +247,13 @@ class ColorWheelConsistencyChecker:
                     if len(row) >= 2:
                         name = row[0].lower().strip()
                         coords = row[1].strip()
-                        # Only store if not already present (priority order)
+                        # Only store if not already present (XKCD cache has priority)
                         if name not in self.color_coordinates:
                             self.color_coordinates[name] = coords
+                            csv_count += 1
 
-        print(f"Loaded {len(self.color_coordinates):,} color coordinates")
+        print(f"  Added {csv_count:,} from vocabulary CSVs")
+        print(f"  Total: {len(self.color_coordinates):,} color coordinates")
 
     def hex_to_rgb(self, hex_color: str) -> Tuple[int, int, int]:
         """Convert hex color to RGB tuple."""
