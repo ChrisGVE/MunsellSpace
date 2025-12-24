@@ -84,6 +84,7 @@ Between Crowdsourced RGB and Spectrophotometer-Measured Munsell Colors"**
 - `appendix_a_data_pipeline.md` - Complete pipeline architecture
 - `appendix_b_statistics.md` - Detailed statistical analysis
 - `appendix_c_code_samples.md` - Key implementation code
+- `appendix_model_selection.md` - Model selection rationale and overfitting analysis
 
 ### Data Files Reference
 - `data_files_reference.md` - Location and purpose of all data files
