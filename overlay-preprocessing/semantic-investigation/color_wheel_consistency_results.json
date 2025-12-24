@@ -1,0 +1,1053 @@
+{
+  "total": 2227,
+  "consistent": 2018,
+  "inconsistent": 209,
+  "unknown": 4987,
+  "by_reason": {
+    "hue_match": 1238,
+    "compound_match": 44,
+    "brown_family_match": 180,
+    "neutral_match": 58,
+    "hue_mismatch": 152,
+    "no_base_color": 462,
+    "low_saturation_hue_unreliable": 36,
+    "neutral_has_saturation": 41,
+    "brown_hue_mismatch": 16
+  },
+  "inconsistent_samples": [
+    {
+      "name": "pea green",
+      "hex": "#8eab12",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 71.4,
+      "hue_diff": 48.6,
+      "saturation": 0.81,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "snot green",
+      "hex": "#9dc100",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 71.2,
+      "hue_diff": 48.8,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "puke green",
+      "hex": "#9aae07",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 67.2,
+      "hue_diff": 52.8,
+      "saturation": 0.923,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "murky green",
+      "hex": "#6c7a0e",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 67.8,
+      "hue_diff": 52.2,
+      "saturation": 0.794,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "baby poop green",
+      "hex": "#8f9805",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 63.7,
+      "hue_diff": 56.3,
+      "saturation": 0.936,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "sick green",
+      "hex": "#9db92c",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 71.9,
+      "hue_diff": 48.1,
+      "saturation": 0.616,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "sickly green",
+      "hex": "#94b21c",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 72.0,
+      "hue_diff": 48.0,
+      "saturation": 0.728,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "pale blue",
+      "hex": "#d0fefe",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 180.0,
+      "hue_diff": 60.0,
+      "saturation": 0.958,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "brownish purple",
+      "hex": "#76424e",
+      "base_color": "purple",
+      "expected_hue": 280,
+      "actual_hue": 346.2,
+      "hue_diff": 66.2,
+      "saturation": 0.283,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "reddish purple",
+      "hex": "#910951",
+      "base_color": "purple",
+      "expected_hue": 280,
+      "actual_hue": 328.2,
+      "hue_diff": 48.2,
+      "saturation": 0.883,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "swamp green",
+      "hex": "#748500",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 67.7,
+      "hue_diff": 52.3,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "almost black",
+      "hex": "#070d0d",
+      "base_color": "black",
+      "expected_hue": 0,
+      "actual_hue": 180.0,
+      "hue_diff": null,
+      "saturation": 0.3,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "off white",
+      "hex": "#ffffe4",
+      "base_color": "white",
+      "expected_hue": 0,
+      "actual_hue": 60.0,
+      "hue_diff": null,
+      "saturation": 1.0,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "shit green",
+      "hex": "#758000",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 65.2,
+      "hue_diff": 54.8,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "plume",
+      "hex": "#A5CFD5",
+      "base_color": "plum",
+      "expected_hue": 290,
+      "actual_hue": 187.5,
+      "hue_diff": 102.5,
+      "saturation": 0.364,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "stormcloud",
+      "hex": "#008080",
+      "base_color": "cloud",
+      "expected_hue": 0,
+      "actual_hue": 180.0,
+      "hue_diff": null,
+      "saturation": 1.0,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "bluegreen",
+      "hex": "#017a79",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 179.5,
+      "hue_diff": 59.5,
+      "saturation": 0.984,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "cool white",
+      "hex": "#DAE6E2",
+      "base_color": "white",
+      "expected_hue": 0,
+      "actual_hue": 160.0,
+      "hue_diff": null,
+      "saturation": 0.194,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "pale grey",
+      "hex": "#fdfdfe",
+      "base_color": "grey",
+      "expected_hue": 0,
+      "actual_hue": 240.0,
+      "hue_diff": null,
+      "saturation": 0.333,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "vomit green",
+      "hex": "#89a203",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 69.4,
+      "hue_diff": 50.6,
+      "saturation": 0.964,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "purplish brown",
+      "hex": "#6b4247",
+      "base_color": "brown",
+      "expected_hue": 25.0,
+      "actual_hue": 352.7,
+      "hue_diff": 307.7,
+      "saturation": 0.237,
+      "reason": "brown_hue_mismatch"
+    },
+    {
+      "name": "brownish grey",
+      "hex": "#86775f",
+      "base_color": "grey",
+      "expected_hue": 0,
+      "actual_hue": 36.9,
+      "hue_diff": null,
+      "saturation": 0.17,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "ugly green",
+      "hex": "#7a9703",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 71.8,
+      "hue_diff": 48.2,
+      "saturation": 0.961,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "really light blue",
+      "hex": "#d4ffff",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 180.0,
+      "hue_diff": 60.0,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "steel gray",
+      "hex": "#262335",
+      "base_color": "gray",
+      "expected_hue": 0,
+      "actual_hue": 250.0,
+      "hue_diff": null,
+      "saturation": 0.205,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "aquamarine blue",
+      "hex": "#71D9E2",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 184.8,
+      "hue_diff": 55.2,
+      "saturation": 0.661,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "neon blue",
+      "hex": "#04d9ff",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 189.1,
+      "hue_diff": 50.9,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "greenish tan",
+      "hex": "#bccb7a",
+      "base_color": "tan",
+      "expected_hue": 40.0,
+      "actual_hue": 71.1,
+      "hue_diff": 16.1,
+      "saturation": 0.438,
+      "reason": "brown_hue_mismatch"
+    },
+    {
+      "name": "cold blue",
+      "hex": "#88DDDD",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 180.0,
+      "hue_diff": 60.0,
+      "saturation": 0.556,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "brown green",
+      "hex": "#706c11",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 57.5,
+      "hue_diff": 62.5,
+      "saturation": 0.736,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "graphite",
+      "hex": "#383428",
+      "base_color": "graphite",
+      "expected_hue": 0,
+      "actual_hue": 45.0,
+      "hue_diff": null,
+      "saturation": 0.167,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "ice blue",
+      "hex": "#d7fffe",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 178.5,
+      "hue_diff": 61.5,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "blue/green",
+      "hex": "#0f9b8e",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 174.4,
+      "hue_diff": 54.4,
+      "saturation": 0.824,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "pearl",
+      "hex": "#EAE0C8",
+      "base_color": "pearl",
+      "expected_hue": 0,
+      "actual_hue": 42.4,
+      "hue_diff": null,
+      "saturation": 0.447,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "pinkish grey",
+      "hex": "#c8aca9",
+      "base_color": "grey",
+      "expected_hue": 0,
+      "actual_hue": 5.8,
+      "hue_diff": null,
+      "saturation": 0.22,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "poop green",
+      "hex": "#6f7c00",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 66.3,
+      "hue_diff": 53.7,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "very light blue",
+      "hex": "#d5ffff",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 180.0,
+      "hue_diff": 60.0,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "gunmetal green",
+      "hex": "#777648",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 58.7,
+      "hue_diff": 61.3,
+      "saturation": 0.246,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "muddy green",
+      "hex": "#657432",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 73.6,
+      "hue_diff": 46.4,
+      "saturation": 0.398,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "purple brown",
+      "hex": "#673a3f",
+      "base_color": "brown",
+      "expected_hue": 25.0,
+      "actual_hue": 353.3,
+      "hue_diff": 308.3,
+      "saturation": 0.28,
+      "reason": "brown_hue_mismatch"
+    },
+    {
+      "name": "eggshell white",
+      "hex": "#F3E4DC",
+      "base_color": "white",
+      "expected_hue": 0,
+      "actual_hue": 20.9,
+      "hue_diff": null,
+      "saturation": 0.489,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "ash",
+      "hex": "#BEBAA7",
+      "base_color": "ash",
+      "expected_hue": 0,
+      "actual_hue": 49.6,
+      "hue_diff": null,
+      "saturation": 0.15,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "midnight green",
+      "hex": "#004953",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 187.2,
+      "hue_diff": 67.2,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "brownish green",
+      "hex": "#6a6e09",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 62.4,
+      "hue_diff": 57.6,
+      "saturation": 0.849,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "pale mint",
+      "hex": "#AAC2A1",
+      "base_color": "mint",
+      "expected_hue": 150,
+      "actual_hue": 103.6,
+      "hue_diff": 46.4,
+      "saturation": 0.213,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "robin egg blue",
+      "hex": "#8af1fe",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 186.7,
+      "hue_diff": 53.3,
+      "saturation": 0.983,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "barf green",
+      "hex": "#94ac02",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 68.5,
+      "hue_diff": 51.5,
+      "saturation": 0.977,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "broken white",
+      "hex": "#EEEBE3",
+      "base_color": "white",
+      "expected_hue": 0,
+      "actual_hue": 43.6,
+      "hue_diff": null,
+      "saturation": 0.244,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "greeny grey",
+      "hex": "#7ea07a",
+      "base_color": "grey",
+      "expected_hue": 0,
+      "actual_hue": 113.7,
+      "hue_diff": null,
+      "saturation": 0.167,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "mud green",
+      "hex": "#606602",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 63.6,
+      "hue_diff": 56.4,
+      "saturation": 0.962,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "cucumber",
+      "hex": "#006400",
+      "base_color": "umber",
+      "expected_hue": 32.5,
+      "actual_hue": 120.0,
+      "hue_diff": 75.0,
+      "saturation": 1.0,
+      "reason": "brown_hue_mismatch"
+    },
+    {
+      "name": "cloud",
+      "hex": "#E4F0EF",
+      "base_color": "cloud",
+      "expected_hue": 0,
+      "actual_hue": 175.0,
+      "hue_diff": null,
+      "saturation": 0.286,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "grapefruit",
+      "hex": "#fd5956",
+      "base_color": "grape",
+      "expected_hue": 280,
+      "actual_hue": 1.1,
+      "hue_diff": 81.1,
+      "saturation": 0.977,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "dusky green",
+      "hex": "#7A705B",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 40.6,
+      "hue_diff": 79.4,
+      "saturation": 0.146,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "baby puke green",
+      "hex": "#b6c406",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 64.4,
+      "hue_diff": 55.6,
+      "saturation": 0.941,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "dull magenta",
+      "hex": "#8D4856",
+      "base_color": "magenta",
+      "expected_hue": 300,
+      "actual_hue": 347.8,
+      "hue_diff": 47.8,
+      "saturation": 0.324,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "bondi blue",
+      "hex": "#0095B6",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 190.9,
+      "hue_diff": 49.1,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "duck egg blue",
+      "hex": "#c3fbf4",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 172.5,
+      "hue_diff": 67.5,
+      "saturation": 0.875,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "pea soup green",
+      "hex": "#94a617",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 67.6,
+      "hue_diff": 52.4,
+      "saturation": 0.757,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "really light green",
+      "hex": "#E9EADB",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 64.0,
+      "hue_diff": 56.0,
+      "saturation": 0.263,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "greenish grey",
+      "hex": "#96ae8d",
+      "base_color": "grey",
+      "expected_hue": 0,
+      "actual_hue": 103.6,
+      "hue_diff": null,
+      "saturation": 0.169,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "squash",
+      "hex": "#f2ab15",
+      "base_color": "ash",
+      "expected_hue": 0,
+      "actual_hue": 40.7,
+      "hue_diff": null,
+      "saturation": 0.895,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "golf green",
+      "hex": "#009B75",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 165.3,
+      "hue_diff": 45.3,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "marine green",
+      "hex": "#40A48E",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 166.8,
+      "hue_diff": 46.8,
+      "saturation": 0.439,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "rose brown",
+      "hex": "#BC8E8F",
+      "base_color": "brown",
+      "expected_hue": 25.0,
+      "actual_hue": 358.7,
+      "hue_diff": 313.7,
+      "saturation": 0.256,
+      "reason": "brown_hue_mismatch"
+    },
+    {
+      "name": "icky green",
+      "hex": "#8fae22",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 73.3,
+      "hue_diff": 46.7,
+      "saturation": 0.673,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "frost blue",
+      "hex": "#5D9AA6",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 189.9,
+      "hue_diff": 50.1,
+      "saturation": 0.291,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "lush green",
+      "hex": "#BBEE00",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 72.9,
+      "hue_diff": 47.1,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "gross green",
+      "hex": "#a0bf16",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 71.0,
+      "hue_diff": 49.0,
+      "saturation": 0.793,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "caribbean blue",
+      "hex": "#1AC1DD",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 188.6,
+      "hue_diff": 51.4,
+      "saturation": 0.789,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "aquatic green",
+      "hex": "#49999A",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 180.7,
+      "hue_diff": 60.7,
+      "saturation": 0.357,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "tyrian purple",
+      "hex": "#66023C",
+      "base_color": "purple",
+      "expected_hue": 280,
+      "actual_hue": 325.2,
+      "hue_diff": 45.2,
+      "saturation": 0.962,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "baby shit green",
+      "hex": "#889717",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 67.0,
+      "hue_diff": 53.0,
+      "saturation": 0.736,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "plant green",
+      "hex": "#777A44",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 63.3,
+      "hue_diff": 56.7,
+      "saturation": 0.284,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "reddish grey",
+      "hex": "#997570",
+      "base_color": "grey",
+      "expected_hue": 0,
+      "actual_hue": 7.3,
+      "hue_diff": null,
+      "saturation": 0.167,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "green/yellow",
+      "hex": "#b5ce08",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 67.6,
+      "hue_diff": 52.4,
+      "saturation": 0.925,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "antique green",
+      "hex": "#2C6E62",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 169.1,
+      "hue_diff": 49.1,
+      "saturation": 0.429,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "light light blue",
+      "hex": "#cafffb",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 175.5,
+      "hue_diff": 64.5,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "peppermint",
+      "hex": "#D7E7D0",
+      "base_color": "mint",
+      "expected_hue": 150,
+      "actual_hue": 101.7,
+      "hue_diff": 48.3,
+      "saturation": 0.324,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "faint green",
+      "hex": "#A58B2C",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 47.1,
+      "hue_diff": 72.9,
+      "saturation": 0.579,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "brown grey",
+      "hex": "#8d8468",
+      "base_color": "grey",
+      "expected_hue": 0,
+      "actual_hue": 45.4,
+      "hue_diff": null,
+      "saturation": 0.151,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "bluey grey",
+      "hex": "#89a0b0",
+      "base_color": "grey",
+      "expected_hue": 0,
+      "actual_hue": 204.6,
+      "hue_diff": null,
+      "saturation": 0.198,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "browny green",
+      "hex": "#6f6c0a",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 58.2,
+      "hue_diff": 61.8,
+      "saturation": 0.835,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "eggshell blue",
+      "hex": "#c4fff7",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 171.9,
+      "hue_diff": 68.1,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "sandpaper",
+      "hex": "#D7B1A5",
+      "base_color": "sand",
+      "expected_hue": 47.5,
+      "actual_hue": 14.4,
+      "hue_diff": 20.6,
+      "saturation": 0.385,
+      "reason": "brown_hue_mismatch"
+    },
+    {
+      "name": "sunny green",
+      "hex": "#C5CD40",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 63.4,
+      "hue_diff": 56.6,
+      "saturation": 0.585,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "bright light blue",
+      "hex": "#26f7fd",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 181.7,
+      "hue_diff": 58.3,
+      "saturation": 0.982,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "snow",
+      "hex": "#FFFAFA",
+      "base_color": "snow",
+      "expected_hue": 0,
+      "actual_hue": 0.0,
+      "hue_diff": null,
+      "saturation": 1.0,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "booger green",
+      "hex": "#96b403",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 70.2,
+      "hue_diff": 49.8,
+      "saturation": 0.967,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "tiffany blue",
+      "hex": "#7bf2da",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 167.9,
+      "hue_diff": 72.1,
+      "saturation": 0.821,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "aquatic blue",
+      "hex": "#12DBF1",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 185.9,
+      "hue_diff": 54.1,
+      "saturation": 0.888,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "celery green",
+      "hex": "#C5CC7B",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 65.2,
+      "hue_diff": 54.8,
+      "saturation": 0.443,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "green tea",
+      "hex": "#B5B68F",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 61.5,
+      "hue_diff": 58.5,
+      "saturation": 0.211,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "middle blue",
+      "hex": "#7ED4E6",
+      "base_color": "blue",
+      "expected_hue": 240,
+      "actual_hue": 190.4,
+      "hue_diff": 49.6,
+      "saturation": 0.675,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "spinach green",
+      "hex": "#909B4C",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 68.4,
+      "hue_diff": 51.6,
+      "saturation": 0.342,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "peacock green",
+      "hex": "#006A50",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 165.3,
+      "hue_diff": 45.3,
+      "saturation": 1.0,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "wood green",
+      "hex": "#A78C59",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 39.2,
+      "hue_diff": 80.8,
+      "saturation": 0.307,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "dead grass",
+      "hex": "#E4DC8A",
+      "base_color": "grass",
+      "expected_hue": 100,
+      "actual_hue": 54.7,
+      "hue_diff": 45.3,
+      "saturation": 0.625,
+      "reason": "hue_mismatch"
+    },
+    {
+      "name": "yellowish grey",
+      "hex": "#EDEEDA",
+      "base_color": "grey",
+      "expected_hue": 0,
+      "actual_hue": 63.0,
+      "hue_diff": null,
+      "saturation": 0.37,
+      "reason": "neutral_has_saturation"
+    },
+    {
+      "name": "ivy green",
+      "hex": "#585442",
+      "base_color": "green",
+      "expected_hue": 120,
+      "actual_hue": 49.1,
+      "hue_diff": 70.9,
+      "saturation": 0.143,
+      "reason": "hue_mismatch"
+    }
+  ],
+  "unknown_samples": [
+    "wedgwood blue",
+    "agua",
+    "pinkle",
+    "purpink",
+    "bluish gray",
+    "goldish green",
+    "green-blue-green",
+    "yellow-brown",
+    "greyish light blue",
+    "turqoiuse",
+    "darkish gray",
+    "green drab",
+    "chalky blue",
+    "dark blue-green",
+    "skin",
+    "dark blue-gray",
+    "lavendar",
+    "barney the dinosaur purple",
+    "dolphin blue",
+    "sea gray"
+  ],
+  "statistics": {
+    "mean_hue_diff": 21.9,
+    "median_hue_diff": 14.2,
+    "std_hue_diff": 28.7,
+    "max_hue_diff": 321.5,
+    "percentiles": {
+      "50": 14.2,
+      "75": 31.5,
+      "90": 49.1,
+      "95": 60.0
+    }
+  }
+}
