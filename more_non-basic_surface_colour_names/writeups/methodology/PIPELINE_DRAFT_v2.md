@@ -48,6 +48,38 @@ According to user knowledge of the paper, Centore applied two filtering steps:
 
 **Action Item**: Document exact filtering criteria from paper for potential reuse.
 
+### Sourcing Raw CAUS Data
+
+**Goal**: Obtain the unprocessed raw CAUS data to:
+1. Understand and replicate Centore's filtering process
+2. Find the excluded fluorescent colors for analysis
+3. Enable true methodology replication
+
+**Potential Sources**:
+
+1. **Contact Paul Centore directly**
+   - Author of the original paper
+   - May have retained the raw CAUS data used in his analysis
+   - Contact via his website: munsellcolourscienceforpainters.com
+
+2. **Hagley Museum and Library Archives**
+   - URL: https://findingaids.hagley.org/repositories/3/resources/939
+   - Contains CAUS historical records (1915-2003)
+   - Includes "color determination files" with spectrophotometric data (1940-1968)
+   - Physical access only (Wilmington, Delaware)
+   - Contact: askhagley@hagley.org or 302-658-2400
+
+3. **Color Association of the United States**
+   - Current organization: colorassociation.com
+   - May have digitized archives or can provide access
+   - The 9,261 fabric samples may still be available
+
+**Research Questions for Raw Data**:
+- What are the exact filtering criteria for fluorescent exclusion?
+- Which specific samples were excluded for color consistency?
+- What spectrophotometer was used and under what illuminant?
+- Can we obtain the full dataset of excluded samples?
+
 ---
 
 ## Data Sources
