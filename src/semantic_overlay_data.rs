@@ -393,4 +393,109 @@ mod tests {
             non_overlapping_count
         );
     }
+
+    #[test]
+    fn test_all_30_colors_in_registry() {
+        let registry = get_registry();
+
+        // All 30 colors should be in the registry
+        let all_colors = [
+            // Non-basic
+            "aqua", "beige", "coral", "fuchsia", "gold", "lavender", "lilac",
+            "magenta", "mauve", "navy", "peach", "rose", "rust", "sand", "tan",
+            "taupe", "teal", "turquoise", "violet", "wine",
+            // Basic
+            "blue", "brown", "gray", "green", "orange", "pink", "purple", "red",
+            "white", "yellow",
+        ];
+
+        for name in &all_colors {
+            assert!(
+                registry.get(name).is_some(),
+                "Registry should contain '{}'", name
+            );
+        }
+    }
+
+    #[test]
+    fn test_basic_colors_have_larger_sample_counts() {
+        // Basic colors generally have more samples than non-basic colors
+        // (because they are more commonly used color names)
+        let registry = get_registry();
+
+        let basic_total: u32 = ["blue", "brown", "gray", "green", "orange",
+                               "pink", "purple", "red", "white", "yellow"]
+            .iter()
+            .map(|name| registry.get(name).unwrap().sample_count)
+            .sum();
+
+        let non_basic_total: u32 = ["aqua", "beige", "coral", "fuchsia", "gold",
+                                    "lavender", "lilac", "magenta", "mauve", "navy",
+                                    "peach", "rose", "rust", "sand", "tan",
+                                    "taupe", "teal", "turquoise", "violet", "wine"]
+            .iter()
+            .map(|name| registry.get(name).unwrap().sample_count)
+            .sum();
+
+        // Basic colors have 6396 samples total, non-basic have 2865
+        assert!(
+            basic_total > non_basic_total,
+            "Basic colors ({}) should have more samples than non-basic ({})",
+            basic_total, non_basic_total
+        );
+    }
+
+    #[test]
+    fn test_public_api_functions() {
+        use crate::semantic_overlay::{
+            semantic_overlay, matching_overlays, matching_overlays_ranked,
+            matches_overlay, closest_overlay,
+        };
+
+        // Test with aqua centroid (known to be inside aqua)
+        let aqua = centroids::aqua();
+
+        // semantic_overlay should return Some("aqua")
+        assert_eq!(semantic_overlay(&aqua), Some("aqua"));
+
+        // matching_overlays should include "aqua"
+        let matches = matching_overlays(&aqua);
+        assert!(matches.iter().any(|name| *name == "aqua"));
+
+        // matching_overlays_ranked first result should be aqua
+        let ranked = matching_overlays_ranked(&aqua);
+        assert_eq!(ranked[0].0, "aqua");
+
+        // matches_overlay should return true for "aqua"
+        assert!(matches_overlay(&aqua, "aqua"));
+
+        // closest_overlay should return (name, distance)
+        let (closest_name, _distance) = closest_overlay(&aqua).unwrap();
+        assert_eq!(closest_name, "aqua");
+    }
+
+    #[test]
+    fn test_grey_alias_works() {
+        // "grey" should be accepted as an alias for "gray"
+        let gray_centroid = centroids::get("gray").unwrap();
+        let grey_centroid = centroids::get("grey").unwrap();
+
+        // Should be the same centroid
+        assert_eq!(gray_centroid.hue_number, grey_centroid.hue_number);
+        assert!((gray_centroid.value - grey_centroid.value).abs() < 0.001);
+        assert!((gray_centroid.chroma - grey_centroid.chroma).abs() < 0.001);
+    }
+
+    #[test]
+    fn test_total_sample_count() {
+        // Total samples across all 30 colors should match expected
+        let registry = get_registry();
+
+        let total: u32 = registry.all().iter()
+            .map(|o| o.sample_count)
+            .sum();
+
+        // Non-basic: 2865, Basic: 6396, Total: 9261
+        assert_eq!(total, 9261, "Total sample count should be 9261");
+    }
 }
