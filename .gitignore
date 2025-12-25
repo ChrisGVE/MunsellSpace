@@ -160,8 +160,9 @@ node_modules/
 # tasks.json
 # tasks/
 
-# Research papers (local reference only)
+# Research papers (local reference only, not tracked)
 jaic_v25_03.pdf
+more_non-basic_surface_colour_names/literature/*.pdf
 PolyhedronFilesJustNames/
 tmp/
 PolyhedronFiles/
