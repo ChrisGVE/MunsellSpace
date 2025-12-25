@@ -1,0 +1,347 @@
+# Product Requirements Document
+# Reorganize Color Research Project: more_non-basic_surface_colour_names
+
+## Document Information
+- **Date**: 2025-12-24
+- **Version**: 1.1.0
+- **Context**: reorganize-color-research
+- **Author**: Claude Code / Chris G.
+
+---
+
+## 1. Executive Summary
+
+This PRD defines the reorganization of all color research files related to extending Centore's paper "Beige, aqua, fuchsia, etc.: Definitions for some non-basic colour names" into a single, well-structured folder `more_non-basic_surface_colour_names/`.
+
+The project has accumulated 120+ files across multiple directories during iterative development. This reorganization establishes a clean, logical structure for continued research and eventual academic paper publication.
+
+---
+
+## 2. Background and Current State
+
+### 2.1 Current File Distribution
+
+Files are currently scattered across:
+- **Root level**: jaic_v25_03.pdf, CONVERSION_ANALYSIS_SUMMARY.md, find_munsell_references.md
+- **overlay-preprocessing/**: 120+ files (scripts, results, investigations)
+- **PolyhedronFiles/**: Centore's full polyhedron data (30 files)
+- **PolyhedronFilesJustNames/**: Centore's name-only polyhedron data (30 files)
+- **scripts/**: Color extraction scripts (3 files)
+- **literature/**: REFERENCES.md
+- **research_notes/**: Article structure files (13 files)
+- **tmp/**: convex-sets-and-their-applications.pdf
+
+### 2.2 Work Completed
+
+- Phase 1-6: Data investigation pipeline (tasks 19-26) - DONE
+- Semantic overlay implementation (tasks 3-9) - DONE
+- Convex hull construction (task 28) - DONE
+- ML experiments for color classification - DONE
+- Centore comparison and bias analysis - DONE
+- Fourier harmonic correction model - DONE
+
+### 2.3 Research Questions Addressed
+
+1. Entity name matching across datasets
+2. Calibration bias between Centore (spectrophotometer) and XKCD (crowdsourced)
+3. Outlier-robust convex hull construction
+4. Hue-dependent bias correction using Fourier harmonics
+
+---
+
+## 3. Target Folder Structure
+
+```
+more_non-basic_surface_colour_names/
+├── archives/                          # Historical files being replaced
+│   ├── scripts/                       # Original scripts (unmodified)
+│   └── [dated files]                  # Old analysis results
+├── datasets/
+│   ├── centore/
+│   │   ├── PolyhedronFiles/          # Full polyhedron data
+│   │   └── PolyhedronFilesJustNames/ # Name-only data
+│   ├── xkcd/                          # XKCD survey data
+│   └── collected/                     # Aggregated vocabularies
+├── literature/
+│   └── jaic_v25_03.pdf               # Centore's paper
+├── scripts/                           # Active Python scripts (uv environment)
+│   ├── pyproject.toml                # uv project config
+│   └── [consolidated scripts]
+├── writeups/
+│   ├── methodology/
+│   │   └── pipeline.md               # End-to-end pipeline documentation
+│   ├── research_notes/               # Dated findings (YYYYMMDD_HHMM_{name}.md)
+│   ├── references/
+│   │   ├── reference_collection.md   # All references collected
+│   │   └── active_references.md      # References actively used
+│   ├── results/                       # Experiment results and summaries
+│   └── drafts/                        # Academic paper drafts
+├── memory/                            # Claude context preservation
+└── inventory.md                       # Complete folder documentation
+```
+
+---
+
+## 4. Technical Requirements
+
+### 4.1 Phase 1: Create Folder Structure
+
+**Tasks**:
+- Create `more_non-basic_surface_colour_names/` directory
+- Create all subdirectories per structure above
+- Create placeholder files where needed
+
+**Dependencies**: None
+
+### 4.2 Phase 2: Archive Historical Files
+
+**Tasks**:
+- Move/copy all existing .md analysis files to `archives/`
+- Prefix undated files with creation timestamp (YYYYMMDD-HHMM)
+- Move all existing scripts to `archives/scripts/` without modification
+- Document what each archived file contained
+
+**File Identification**:
+Files to archive from overlay-preprocessing/:
+- investigation/*.md (6 files)
+- semantic-investigation/*.md (5 files)
+- research_notes/*.md (13 files)
+- METHODOLOGY.md, SCRIPTS_INVENTORY.md
+
+Files to archive from root:
+- CONVERSION_ANALYSIS_SUMMARY.md
+- find_munsell_references.md
+
+**Dependencies**: Phase 1
+
+### 4.3 Phase 3: Organize Datasets
+
+**Tasks**:
+- Move PolyhedronFiles/ to datasets/centore/
+- Move PolyhedronFilesJustNames/ to datasets/centore/
+- Move color-vocabularies/*.csv to datasets/collected/
+- Create datasets/xkcd/ for XKCD survey data
+- Document each dataset source and license
+
+**Dependencies**: Phase 1
+
+### 4.4 Phase 4: Organize Literature
+
+**Tasks**:
+- Move jaic_v25_03.pdf to literature/
+- Move tmp/convex-sets-and-their-applications.pdf to literature/
+- Create literature/README.md with citations
+- Ensure no copyright violations
+
+**Dependencies**: Phase 1
+
+### 4.5 Phase 5: Consolidate Python Environment
+
+**Tasks**:
+- Create scripts/pyproject.toml with uv configuration
+- Merge dependencies from overlay-preprocessing/pyproject.toml
+- Consolidate scripts from:
+  - overlay-preprocessing/*.py (root level)
+  - overlay-preprocessing/color-vocabularies/*.py
+  - overlay-preprocessing/investigation/*.py
+  - overlay-preprocessing/semantic-investigation/*.py
+  - scripts/*.py
+- Ensure all scripts run with single `uv` environment
+- Remove .venv from final structure (recreate via uv)
+
+**Dependencies**: Phase 2, Phase 3
+
+### 4.6 Phase 6: Create Writeups Structure
+
+**Tasks**:
+- Create writeups/methodology/pipeline.md documenting full pipeline
+- Move relevant research_notes/*.md to writeups/research_notes/ with dates
+- Create writeups/references/reference_collection.md
+- Create writeups/references/active_references.md
+- Move experiment results to writeups/results/
+- Create writeups/drafts/ for academic paper work
+
+**Key Methodology Documents**:
+- DATA_PIPELINE_RATIONALE.md
+- POLYHEDRON_METHODOLOGY.md
+- Investigation phase reports
+
+**Dependencies**: Phase 2
+
+### 4.7 Phase 7: Create Inventory and Memory
+
+**Tasks**:
+- Create inventory.md documenting all folders and their contents
+- Create memory/README.md explaining purpose
+- Create memory/current_context.md for context preservation
+
+**Dependencies**: All previous phases
+
+---
+
+## 5. Agent Assignments
+
+### 5.1 Folder Structure Agent (general-purpose)
+- Create directory structure
+- Create placeholder files
+- Verify structure matches specification
+
+### 5.2 File Migration Agent (general-purpose)
+- Move files to appropriate locations
+- Rename with timestamps where needed
+- Verify no data loss
+
+### 5.3 Python Environment Agent (python-pro)
+- Consolidate pyproject.toml
+- Merge dependencies
+- Verify all scripts execute
+- Clean up redundant environments
+
+### 5.4 Documentation Agent (technical-writer)
+- Create inventory.md
+- Write methodology documentation
+- Create reference collection
+- Document dataset sources
+
+### 5.5 QA Agent (qa-expert)
+- Verify complete file migration
+- Check no files were lost
+- Validate Python environment
+- Test script execution
+
+---
+
+## 6. Success Criteria
+
+### 6.1 Structure
+- [ ] All folders created per specification
+- [ ] inventory.md complete and accurate
+- [ ] No orphaned files in old locations
+
+### 6.2 Code
+- [ ] Single uv environment in scripts/
+- [ ] All Python scripts execute without error
+- [ ] Dependencies fully specified in pyproject.toml
+
+### 6.3 Documentation
+- [ ] pipeline.md documents end-to-end process
+- [ ] All references collected and categorized
+- [ ] Research notes dated and organized
+
+### 6.4 Archives
+- [ ] All historical files preserved in archives/
+- [ ] Original scripts unmodified in archives/scripts/
+- [ ] Timestamps added to undated files
+
+---
+
+## 7. Files to Migrate
+
+### 7.1 From overlay-preprocessing/ (120+ files)
+
+**Root Scripts** (move to scripts/):
+- a_priori_extraction.py
+- a_posteriori_extraction.py
+- ml_classification.py
+- generate_final_results.py
+
+**color-vocabularies/** (move to scripts/ and datasets/):
+- *.py → scripts/
+- *.csv → datasets/collected/
+
+**investigation/** (move to scripts/ and archives/):
+- *.py → scripts/
+- *.json → writeups/results/
+- *.md → archives/ or writeups/research_notes/
+
+**semantic-investigation/** (move to scripts/ and writeups/):
+- *.py → scripts/
+- *.json → writeups/results/
+- *.md → writeups/methodology/ or writeups/research_notes/
+- *.png → writeups/results/
+- *.pt → writeups/results/
+
+**results/** (move to writeups/results/):
+- All files
+
+**research_notes/** (move to writeups/research_notes/):
+- All .md files with date prefixes
+
+### 7.2 From Root Level
+
+**To literature/**:
+- jaic_v25_03.pdf
+
+**To datasets/centore/**:
+- PolyhedronFiles/
+- PolyhedronFilesJustNames/
+
+**To archives/**:
+- CONVERSION_ANALYSIS_SUMMARY.md
+- find_munsell_references.md
+
+### 7.3 From tmp/
+
+**To literature/**:
+- convex-sets-and-their-applications.pdf
+
+### 7.4 From scripts/
+
+**To scripts/**:
+- extract_color_words.py
+- extract_xkcd_colors.py
+- classify_color_words.py
+
+---
+
+## 8. Non-Goals
+
+- **Do not delete original files until verified**: Keep originals until migration complete
+- **Do not modify script logic**: Only organize, don't refactor
+- **Do not regenerate results**: Use existing analysis outputs
+- **Do not change MunsellSpace library code**: This is organization only
+
+---
+
+## 9. Dependencies
+
+### 9.1 External
+- Python 3.11+
+- uv package manager
+
+### 9.2 Internal
+- Existing overlay-preprocessing/ pyproject.toml
+- All Python scripts must be tested after migration
+
+---
+
+## 10. Risks and Mitigations
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| File loss during migration | High | Keep originals until verification |
+| Broken Python imports | Medium | Test all scripts post-migration |
+| Missing dependencies | Medium | Verify uv.lock is complete |
+| Broken relative paths | Medium | Update path references in scripts |
+
+---
+
+## 11. Timeline
+
+| Phase | Description | Dependencies |
+|-------|-------------|--------------|
+| 1 | Create folder structure | None |
+| 2 | Archive historical files | Phase 1 |
+| 3 | Organize datasets | Phase 1 |
+| 4 | Organize literature | Phase 1 |
+| 5 | Consolidate Python environment | Phases 2, 3 |
+| 6 | Create writeups structure | Phase 2 |
+| 7 | Create inventory and memory | All previous |
+
+---
+
+## Document History
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2025-12-24 | Claude Code | Initial PRD |

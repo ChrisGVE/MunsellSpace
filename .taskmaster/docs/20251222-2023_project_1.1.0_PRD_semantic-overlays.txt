@@ -1,0 +1,525 @@
+<context>
+# Overview
+
+This PRD defines the implementation of semantic color overlays for the MunsellSpace library, based on the empirical research of Paul Centore (2020). Semantic overlays provide artist-recognized color names (fuchsia, teal, coral, etc.) that extend beyond the ISCC-NBS categorical system.
+
+**Problem:** ISCC-NBS provides 267 standardized color descriptors, but lacks common artistic and design terms like "teal", "coral", "mauve", etc. Users working in design, art, and ink communities need these familiar terms.
+
+**Solution:** Implement Centore's convex polyhedron methodology for semantic color naming. Each color name is defined as a convex polyhedron in Munsell space (Hue, Value, Chroma). Colors inside a polyhedron match that name; colors outside do not. Boundaries are implicitly fuzzy. Overlays are additive - they complement ISCC-NBS rather than replace it.
+
+**Primary Reference:**
+Centore, P. (2020). "Beige, aqua, fuchsia, etc.: Definitions for some non-basic surface colour names."
+Journal of the International Colour Association, Vol. 25, pp. 24-54.
+
+**Target Users:**
+- Fountain pen ink enthusiasts seeking familiar color descriptions
+- Designers wanting industry-standard color terminology
+- Artists using perceptual color naming
+- Any application needing semantic color labels beyond ISCC-NBS
+
+# Core Features
+
+## 1. Semantic Overlay Engine (Centore Method)
+- Define color names as convex polyhedra in 3D Munsell space
+- Point-in-polyhedron test determines if a color matches an overlay
+- Polyhedron centroid provides focal/representative color for each name
+- Populate `alt_color_name` field with best-matching semantic overlay
+
+## 2. Complete Overlay Catalog (20 Non-Basic Names)
+All 20 non-basic color names from Centore's research:
+
+| Name | Centroid (Munsell) | Samples |
+|------|-------------------|---------|
+| Aqua | 7.4BG 6.2/3.4 | 119 |
+| Beige | 6.7YR 6.1/3.4 | 277 |
+| Coral | 6.5R 5.8/8.3 | 215 |
+| Fuchsia | 4.8RP 4.1/10.3 | 46 |
+| Gold | 9.8YR 6.4/7.4 | 362 |
+| Lavender | 5.6P 5.4/4.8 | 47 |
+| Lilac | 7.8P 5.6/4.8 | 78 |
+| Magenta | 3.8RP 3.4/9.4 | 25 |
+| Mauve | 1.2RP 5.1/3.9 | 181 |
+| Navy | 7.3PB 2.1/3.6 | 100 |
+| Peach | 2.9YR 7.0/5.9 | 102 |
+| Rose | 0.5R 5.0/7.7 | 467 |
+| Rust | 9.4R 3.9/7.4 | 93 |
+| Sand | 7.6YR 6.3/3.2 | 123 |
+| Tan | 6.3YR 5.2/4.1 | 129 |
+| Taupe | 3.2YR 4.7/1.4 | 76 |
+| Teal | 1.6B 3.3/4.5 | 43 |
+| Turquoise | 1.6B 5.5/5.9 | 121 |
+| Violet | 7.0P 3.8/6.2 | 178 |
+| Wine | 2.7R 3.0/4.9 | 83 |
+
+## 3. Overlay Query API
+- Query which overlays match a given color (point-in-polyhedron)
+- Get distance from polyhedron centroid for confidence scoring
+- Find focal color (centroid) for any overlay name
+- List all available semantic overlays
+
+# User Experience
+
+## User Personas
+
+**Ink Enthusiast (Primary)**
+- Describes ink colors using terms like "teal", "coral", "burgundy"
+- Wants familiar names alongside technical ISCC-NBS descriptors
+- Values consistency and predictability in naming
+
+**Designer/Artist**
+- Uses semantic color terms in professional communication
+- Needs color names that match industry expectations
+- May query "is this color considered teal?"
+
+## Key User Flows
+
+**Flow 1: Color Conversion with Overlay**
+```
+Input: RGB(0, 128, 128)
+Output:
+  - munsell: "5BG 5/6"
+  - iscc_nbs: "moderate bluish green"
+  - alt_color_name: "teal"  // NEW: semantic overlay
+```
+
+**Flow 2: Check Overlay Membership**
+```
+Input: "Does this color match 'coral'?"
+Output: true/false (point-in-polyhedron test)
+```
+
+**Flow 3: Find Overlay Focal Color**
+```
+Input: "Give me the centroid of 'navy'"
+Output: MunsellColor { hue: "7.3PB", value: 2.1, chroma: 3.6 }
+```
+
+**Flow 4: List Matching Overlays**
+```
+Input: Color in red-purple region
+Output: ["rose", "coral", "fuchsia"]  // All polyhedra containing this point
+```
+
+## API Experience
+
+Overlays integrate seamlessly with existing API:
+- `MunsellColor.semantic_overlay()` returns best-matching overlay name
+- `MunsellColor.matches_overlay("teal")` returns bool
+- `MunsellColor.matching_overlays()` returns all matching overlay names
+- `get_overlay_centroid("navy")` returns focal MunsellColor
+</context>
+<PRD>
+# Technical Architecture
+
+## Methodology: Centore's Convex Polyhedra
+
+Centore (2020) analyzed ~16,000 named physical samples from the Color Association of the United States (CAUS) to derive empirical definitions for 20 non-basic color names. Key methodology:
+
+1. **Data Collection**: Reflectance spectra of named fabric samples converted to Munsell coordinates
+2. **Convex Hull Construction**: Plot all samples for a name in 3D Munsell space, compute convex hull
+3. **Inner Hull (Outlier Removal)**: Discard hull vertices, recompute hull on remaining points
+4. **Centroid Calculation**: Geometric centroid of polyhedron = focal color for that name
+5. **Boundary Fuzziness**: Polyhedron boundaries are implicitly approximate
+
+**Key Insight**: Colors inside the polyhedron match the name; colors outside do not. Boundaries are inherently fuzzy - colors near the boundary may or may not be considered that name by different observers.
+
+## System Components
+
+### 1. Munsell Cartesian Coordinates
+
+Convert Munsell cylindrical (H, V, C) to Cartesian (x, y, z) for polyhedron math:
+
+```rust
+// Hue angle: 0° at 0R, counterclockwise through YR, Y, GY, G, BG, B, PB, P, RP
+// 40 hues at 2.5° steps = 360°, so multiply hue_number by 9°
+fn munsell_to_cartesian(hue: f64, value: f64, chroma: f64) -> (f64, f64, f64) {
+    let theta = hue * 9.0 * PI / 180.0;  // hue_number 0-40 -> radians
+    let x = chroma * theta.cos();
+    let y = chroma * theta.sin();
+    let z = value;
+    (x, y, z)
+}
+```
+
+### 2. SemanticOverlay Struct
+
+```rust
+pub struct SemanticOverlay {
+    /// Name of the overlay (e.g., "teal", "coral")
+    pub name: &'static str,
+
+    /// Polyhedron vertices in Cartesian Munsell coordinates
+    pub vertices: &'static [(f64, f64, f64)],
+
+    /// Triangular faces as vertex indices
+    pub faces: &'static [(usize, usize, usize)],
+
+    /// Centroid in Munsell notation (focal color)
+    pub centroid: MunsellSpec,
+
+    /// Number of original CAUS samples (for reference)
+    pub sample_count: u32,
+}
+
+pub struct MunsellSpec {
+    pub hue: f64,       // 0-40 (hue number)
+    pub hue_letter: &'static str,  // "R", "YR", "Y", etc.
+    pub value: f64,     // 0-10
+    pub chroma: f64,    // 0+
+}
+```
+
+### 3. Point-in-Polyhedron Test
+
+Use ray casting algorithm for 3D point-in-polyhedron:
+
+```rust
+impl SemanticOverlay {
+    /// Test if a Munsell color is inside this overlay's polyhedron
+    pub fn contains(&self, color: &MunsellColor) -> bool {
+        let point = color.to_cartesian();
+        point_in_polyhedron(point, &self.vertices, &self.faces)
+    }
+
+    /// Distance from color to centroid (lower = more typical)
+    pub fn distance_from_centroid(&self, color: &MunsellColor) -> f64 {
+        let point = color.to_cartesian();
+        let centroid = self.centroid.to_cartesian();
+        euclidean_distance(point, centroid)
+    }
+}
+```
+
+### 4. Overlay Registry
+
+```rust
+/// All 20 semantic overlays from Centore (2020)
+pub static SEMANTIC_OVERLAYS: &[SemanticOverlay] = &[
+    OVERLAY_AQUA,
+    OVERLAY_BEIGE,
+    OVERLAY_CORAL,
+    OVERLAY_FUCHSIA,
+    OVERLAY_GOLD,
+    OVERLAY_LAVENDER,
+    OVERLAY_LILAC,
+    OVERLAY_MAGENTA,
+    OVERLAY_MAUVE,
+    OVERLAY_NAVY,
+    OVERLAY_PEACH,
+    OVERLAY_ROSE,
+    OVERLAY_RUST,
+    OVERLAY_SAND,
+    OVERLAY_TAN,
+    OVERLAY_TAUPE,
+    OVERLAY_TEAL,
+    OVERLAY_TURQUOISE,
+    OVERLAY_VIOLET,
+    OVERLAY_WINE,
+];
+```
+
+## Data Models
+
+### Polyhedron Data Format
+
+Centore provides polyhedron data in accompanying files (PolyhedronFiles.zip). Each file contains:
+- Centroid in Munsell and Cartesian coordinates
+- Polyhedron vertices in Munsell and Cartesian coordinates
+- Triangular faces as vertex index triples
+- Original sample names and Munsell specs
+
+We will encode this data as static Rust constants.
+
+### Centroid Data (from Centore Table 1)
+
+```rust
+// All centroids in Munsell notation: Hue Value/Chroma
+const CENTROIDS: &[(&str, &str)] = &[
+    ("aqua",      "7.4BG 6.2/3.4"),
+    ("beige",     "6.7YR 6.1/3.4"),
+    ("coral",     "6.5R 5.8/8.3"),
+    ("fuchsia",   "4.8RP 4.1/10.3"),
+    ("gold",      "9.8YR 6.4/7.4"),
+    ("lavender",  "5.6P 5.4/4.8"),
+    ("lilac",     "7.8P 5.6/4.8"),
+    ("magenta",   "3.8RP 3.4/9.4"),
+    ("mauve",     "1.2RP 5.1/3.9"),
+    ("navy",      "7.3PB 2.1/3.6"),
+    ("peach",     "2.9YR 7.0/5.9"),
+    ("rose",      "0.5R 5.0/7.7"),
+    ("rust",      "9.4R 3.9/7.4"),
+    ("sand",      "7.6YR 6.3/3.2"),
+    ("tan",       "6.3YR 5.2/4.1"),
+    ("taupe",     "3.2YR 4.7/1.4"),
+    ("teal",      "1.6B 3.3/4.5"),
+    ("turquoise", "1.6B 5.5/5.9"),
+    ("violet",    "7.0P 3.8/6.2"),
+    ("wine",      "2.7R 3.0/4.9"),
+];
+```
+
+## APIs and Integrations
+
+### Public API Additions
+
+```rust
+// On MunsellColor
+impl MunsellColor {
+    /// Get best matching semantic overlay name (if any)
+    /// Returns the overlay whose centroid is closest if multiple match
+    pub fn semantic_overlay(&self) -> Option<&'static str>;
+
+    /// Check if this color is inside a specific overlay's polyhedron
+    pub fn matches_overlay(&self, name: &str) -> bool;
+
+    /// Get all overlays whose polyhedra contain this color
+    pub fn matching_overlays(&self) -> Vec<&'static str>;
+
+    /// Convert to Cartesian coordinates for polyhedron math
+    pub fn to_cartesian(&self) -> (f64, f64, f64);
+}
+
+// Standalone functions
+pub fn list_semantic_overlays() -> &'static [&'static str];
+pub fn get_overlay(name: &str) -> Option<&'static SemanticOverlay>;
+pub fn get_overlay_centroid(name: &str) -> Option<MunsellColor>;
+```
+
+### Python Bindings
+
+```python
+import munsellspace
+
+color = munsellspace.from_rgb(0, 128, 128)
+print(color.semantic_overlay())      # "teal" or None
+print(color.matches_overlay("teal")) # True/False
+print(color.matching_overlays())     # ["teal", "aqua"]
+
+# Get focal color for an overlay
+teal_centroid = munsellspace.get_overlay_centroid("teal")
+print(teal_centroid)  # "1.6B 3.3/4.5"
+```
+
+## Infrastructure Requirements
+
+- No external dependencies required
+- Polyhedron data encoded as static Rust constants
+- Point-in-polyhedron algorithm: ~100 lines of geometry code
+- No runtime data files needed
+
+# Development Roadmap
+
+## Phase 1: Core Infrastructure (MVP)
+
+### 1.1 Munsell Cartesian Coordinate System
+- Implement conversion from Munsell (H,V,C) to Cartesian (x,y,z)
+- Implement inverse conversion
+- Handle hue angle calculations correctly (40 steps = 360°)
+- Unit tests for coordinate conversions
+
+### 1.2 Point-in-Polyhedron Algorithm
+- Implement ray-casting algorithm for 3D point-in-polyhedron test
+- Handle edge cases (point on face, point on edge, point on vertex)
+- Unit tests with simple polyhedra (cube, tetrahedron)
+
+### 1.3 SemanticOverlay Data Structure
+- Define SemanticOverlay struct with vertices, faces, centroid
+- Define MunsellSpec struct for centroid storage
+- Implement distance-from-centroid calculation
+
+### 1.4 Encode Centore's Polyhedron Data
+- Parse PolyhedronFiles.zip data for all 20 overlays
+- Encode as static Rust constants
+- Verify data integrity with centroid calculations
+
+### 1.5 Core Matching Logic
+- Implement `contains()` method on SemanticOverlay
+- Implement overlay registry lookup
+- Implement best-match selection (closest centroid among matches)
+
+### 1.6 MunsellColor Integration
+- Add `semantic_overlay()` method
+- Add `matches_overlay()` method
+- Add `matching_overlays()` method
+- Integrate with existing `alt_color_name` field
+
+### 1.7 Testing & Validation
+- Unit tests for each overlay using known colors
+- Test centroids are inside their own polyhedra
+- Test boundary behavior (colors just inside/outside)
+- Validate against Centore's sample data
+
+## Phase 2: API Completion
+
+### 2.1 Standalone Functions
+- `list_semantic_overlays()`
+- `get_overlay(name)`
+- `get_overlay_centroid(name)`
+
+### 2.2 Python Bindings
+- Expose all semantic overlay methods via PyO3
+- Add overlay query functions
+- Update documentation
+
+### 2.3 Documentation
+- Document all public APIs with examples
+- Add semantic overlays section to README
+- Reference Centore (2020) properly
+
+## Phase 3: Advanced Features (Future)
+
+### 3.1 Distance-Based Confidence
+- Return distance from centroid as "confidence" metric
+- Colors near centroid = high confidence
+- Colors near boundary = low confidence
+
+### 3.2 Overlap Analysis
+- Identify which polyhedra overlap
+- Document expected overlaps (e.g., coral/rose/peach)
+
+### 3.3 Visualization Support
+- Export polyhedra as mesh data for 3D visualization
+- Generate 2D projections (hue-chroma, value-chroma planes)
+
+# Logical Dependency Chain
+
+## Foundation Layer (Must Build First)
+
+1. **Munsell Cartesian conversion** - Required for all polyhedron math
+2. **Point-in-polyhedron algorithm** - Core geometric primitive
+3. **SemanticOverlay struct** - Data structure for overlay definitions
+
+## Data Layer
+
+4. **Parse Centore's polyhedron files** - Extract vertex/face data
+5. **Encode as Rust constants** - Static overlay definitions
+6. **Centroid data** - Store focal colors for each overlay
+
+## Core Logic Layer
+
+7. **contains() method** - Point-in-polyhedron per overlay
+8. **Overlay registry** - Lookup overlays by name
+9. **Best-match selection** - Choose among multiple matches
+
+## Integration Layer
+
+10. **MunsellColor methods** - semantic_overlay(), matches_overlay(), etc.
+11. **Standalone functions** - list/get/query overlays
+12. **Python bindings** - PyO3 wrappers
+
+## Validation Layer
+
+13. **Unit tests** - Coordinate conversion, point-in-polyhedron
+14. **Integration tests** - End-to-end overlay assignment
+15. **Reference validation** - Compare against Centore's data
+
+# Risks and Mitigations
+
+## Technical Challenges
+
+### Risk: Point-in-polyhedron edge cases
+- **Issue:** Colors exactly on faces/edges/vertices may give inconsistent results
+- **Mitigation:**
+  - Use robust geometric predicates with epsilon tolerance
+  - Document that boundary behavior is inherently fuzzy
+  - Test extensively with boundary cases
+
+### Risk: Hue wrap-around at R/RP boundary
+- **Issue:** Munsell hue is circular; polyhedra spanning R (0°) need special handling
+- **Mitigation:**
+  - Check which overlays span the discontinuity (wine, rose, rust)
+  - May need to test in two coordinate systems or unwrap hue
+  - Unit tests specifically for wrap-around overlays
+
+### Risk: Multiple overlapping polyhedra
+- **Issue:** A color may be inside multiple polyhedra (e.g., coral and rose)
+- **Mitigation:**
+  - This is expected behavior per Centore: "multiple colour names can sometimes be assigned"
+  - Use distance-to-centroid as tie-breaker for `semantic_overlay()`
+  - Provide `matching_overlays()` to return all matches
+
+### Risk: Polyhedron data accuracy
+- **Issue:** Transcription errors when encoding Centore's data
+- **Mitigation:**
+  - Automated parsing of polyhedron files
+  - Verify each centroid is inside its polyhedron
+  - Cross-check vertex counts against paper
+
+## MVP Definition
+
+**Minimum Viable Product:**
+- All 20 semantic overlays encoded
+- Point-in-polyhedron testing working
+- `semantic_overlay()` method on MunsellColor
+- `matches_overlay()` method on MunsellColor
+- Basic unit tests passing
+
+**NOT in MVP:**
+- Python bindings (Phase 2)
+- Distance-based confidence scoring (Phase 3)
+- Visualization support (Phase 3)
+
+# Appendix
+
+## Reference: Centore (2020) Summary
+
+**Title:** "Beige, aqua, fuchsia, etc.: Definitions for some non-basic surface colour names"
+
+**Journal:** Journal of the International Colour Association, Vol. 25, pp. 24-54
+
+**Key Contributions:**
+1. First three-dimensional definitions for non-basic color names
+2. Based on ~16,000 named physical samples (CAUS data)
+3. Convex polyhedra in Munsell space define each name
+4. Centroid of polyhedron = focal color
+5. Accompanying data files with vertex/face specifications
+
+**20 Non-Basic Names Defined:**
+aqua, beige, coral, fuchsia, gold, lavender, lilac, magenta, mauve, navy,
+peach, rose, rust, sand, tan, taupe, teal, turquoise, violet, wine
+
+**Methodology:**
+1. Find all CAUS samples with name or variant (e.g., "beige", "rose beige")
+2. Plot in 3D Munsell space (Cartesian coordinates)
+3. Compute convex hull of sample cloud
+4. Discard hull vertices (outliers), recompute hull = "inner convex hull"
+5. Inner hull defines the polyhedron for that name
+6. Centroid (filled solid) gives focal color
+
+## Munsell Hue Number Reference
+
+| Hue | Number | Angle |
+|-----|--------|-------|
+| 0R (=10RP) | 0 | 0° |
+| 2.5R | 1 | 9° |
+| 5R | 2 | 18° |
+| 7.5R | 3 | 27° |
+| 10R (=0YR) | 4 | 36° |
+| 2.5YR | 5 | 45° |
+| ... | ... | ... |
+| 5Y | 10 | 90° |
+| 5G | 18 | 162° |
+| 5B | 26 | 234° |
+| 5P | 34 | 306° |
+| 5RP | 38 | 342° |
+
+Formula: `hue_angle = hue_number * 9°`
+
+## Existing Codebase References
+
+- `src/types.rs` - MunsellColor struct with `alt_color_name` field
+- `src/iscc_nbs.rs` - ISCC-NBS category implementation (similar pattern)
+- `src/converter.rs` - Main conversion logic
+- `tests/data/srgb-to-munsell.csv` - Validation dataset
+
+## Data Files Required
+
+Centore's polyhedron data is available from:
+- Author's website: https://www.munsellcolourscienceforpainters.com/ColourSciencePapers/
+- Journal supplementary materials: PolyhedronFiles.zip
+
+Each file contains:
+- Vertex list in Munsell and Cartesian coordinates
+- Face list as vertex index triples
+- Original CAUS sample names and coordinates
+</PRD>

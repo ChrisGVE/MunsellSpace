@@ -1,0 +1,43 @@
+{
+  "aic_bic": {
+    "best_aic": "Fourier 5",
+    "best_aicc": "Fourier 4",
+    "best_bic": "Fourier 5"
+  },
+  "f_tests": [
+    {
+      "comparison": "Global \u2192 Fourier 1",
+      "p_value": 0.0,
+      "significant": true
+    },
+    {
+      "comparison": "Fourier 1 \u2192 Fourier 2",
+      "p_value": 0.0,
+      "significant": true
+    },
+    {
+      "comparison": "Fourier 2 \u2192 Fourier 3",
+      "p_value": 0.0089,
+      "significant": true
+    },
+    {
+      "comparison": "Fourier 3 \u2192 Fourier 4",
+      "p_value": 0.0147,
+      "significant": true
+    },
+    {
+      "comparison": "Fourier 4 \u2192 Fourier 5",
+      "p_value": 0.1996,
+      "significant": false
+    },
+    {
+      "comparison": "Fourier 5 \u2192 Fourier 6",
+      "p_value": 0.6672,
+      "significant": false
+    }
+  ],
+  "non_improving_overlays": [
+    "wine",
+    "rose"
+  ]
+}

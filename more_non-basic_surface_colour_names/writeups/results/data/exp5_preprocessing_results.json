@@ -1,0 +1,21 @@
+{
+  "total_names": 175844,
+  "cleaning_stats": {
+    "hex_converted": 3561,
+    "noise_stripped": 16333,
+    "unchanged": 155950,
+    "empty_after_clean": 167
+  },
+  "sample_comparisons": {
+    "raw_mean_similarity": 0.6413036584854126,
+    "clean_mean_similarity": 0.7968598008155823,
+    "mean_improvement": 0.15555618703365326,
+    "improved_count": 75
+  },
+  "recommendations": {
+    "apply_preprocessing": true,
+    "hex_conversion": true,
+    "noise_stripping": true,
+    "rationale": "Preprocessing improves semantic similarity scores for noisy names without affecting clean names."
+  }
+}

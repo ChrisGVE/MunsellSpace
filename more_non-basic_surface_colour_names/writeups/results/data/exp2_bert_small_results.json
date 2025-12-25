@@ -1,0 +1,904 @@
+{
+  "test_results": {
+    "valid_descriptive": {
+      "items": [
+        {
+          "name": "light blue",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "light",
+            "blue"
+          ],
+          "matching": [
+            "light",
+            "blue"
+          ]
+        },
+        {
+          "name": "dark green",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "dark",
+            "green"
+          ],
+          "matching": [
+            "dark",
+            "green"
+          ]
+        },
+        {
+          "name": "pale yellow",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "pale",
+            "yellow"
+          ],
+          "matching": [
+            "pale",
+            "yellow"
+          ]
+        },
+        {
+          "name": "bright red",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "bright",
+            "red"
+          ],
+          "matching": [
+            "bright",
+            "red"
+          ]
+        },
+        {
+          "name": "deep purple",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "deep",
+            "purple"
+          ],
+          "matching": [
+            "deep",
+            "purple"
+          ]
+        },
+        {
+          "name": "soft pink",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "soft",
+            "pink"
+          ],
+          "matching": [
+            "soft",
+            "pink"
+          ]
+        },
+        {
+          "name": "muted orange",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "muted",
+            "orange"
+          ],
+          "matching": [
+            "muted",
+            "orange"
+          ]
+        },
+        {
+          "name": "vivid cyan",
+          "overlap": 3,
+          "ratio": 1.0,
+          "tokens": [
+            "vivid",
+            "cy",
+            "##an"
+          ],
+          "matching": [
+            "vivid",
+            "cy",
+            "##an"
+          ]
+        },
+        {
+          "name": "dusty rose",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "dusty",
+            "rose"
+          ],
+          "matching": [
+            "dusty",
+            "rose"
+          ]
+        },
+        {
+          "name": "pastel lavender",
+          "overlap": 3,
+          "ratio": 1.0,
+          "tokens": [
+            "paste",
+            "##l",
+            "lavender"
+          ],
+          "matching": [
+            "paste",
+            "##l",
+            "lavender"
+          ]
+        },
+        {
+          "name": "neon green",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "neon",
+            "green"
+          ],
+          "matching": [
+            "neon",
+            "green"
+          ]
+        },
+        {
+          "name": "baby blue",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "baby",
+            "blue"
+          ],
+          "matching": [
+            "baby",
+            "blue"
+          ]
+        }
+      ],
+      "mean_ratio": 1.0,
+      "min_ratio": 1.0,
+      "max_ratio": 1.0
+    },
+    "valid_metaphor": {
+      "items": [
+        {
+          "name": "sky blue",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "sky",
+            "blue"
+          ],
+          "matching": [
+            "sky",
+            "blue"
+          ]
+        },
+        {
+          "name": "grass green",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "grass",
+            "green"
+          ],
+          "matching": [
+            "green"
+          ]
+        },
+        {
+          "name": "lemon yellow",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "lemon",
+            "yellow"
+          ],
+          "matching": [
+            "yellow"
+          ]
+        },
+        {
+          "name": "cherry red",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "cherry",
+            "red"
+          ],
+          "matching": [
+            "red"
+          ]
+        },
+        {
+          "name": "forest green",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "forest",
+            "green"
+          ],
+          "matching": [
+            "forest",
+            "green"
+          ]
+        },
+        {
+          "name": "ocean blue",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "ocean",
+            "blue"
+          ],
+          "matching": [
+            "blue"
+          ]
+        },
+        {
+          "name": "sunset orange",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "sunset",
+            "orange"
+          ],
+          "matching": [
+            "orange"
+          ]
+        },
+        {
+          "name": "midnight blue",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "midnight",
+            "blue"
+          ],
+          "matching": [
+            "midnight",
+            "blue"
+          ]
+        },
+        {
+          "name": "rose pink",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "rose",
+            "pink"
+          ],
+          "matching": [
+            "rose",
+            "pink"
+          ]
+        },
+        {
+          "name": "chocolate brown",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "chocolate",
+            "brown"
+          ],
+          "matching": [
+            "brown"
+          ]
+        },
+        {
+          "name": "cream white",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "cream",
+            "white"
+          ],
+          "matching": [
+            "cream",
+            "white"
+          ]
+        },
+        {
+          "name": "coal black",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "coal",
+            "black"
+          ],
+          "matching": [
+            "black"
+          ]
+        }
+      ],
+      "mean_ratio": 0.7083333333333334,
+      "min_ratio": 0.5,
+      "max_ratio": 1.0
+    },
+    "valid_artistic": {
+      "items": [
+        {
+          "name": "fedex purple",
+          "overlap": 1,
+          "ratio": 0.3333333333333333,
+          "tokens": [
+            "fed",
+            "##ex",
+            "purple"
+          ],
+          "matching": [
+            "purple"
+          ]
+        },
+        {
+          "name": "tiffany blue",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "tiffany",
+            "blue"
+          ],
+          "matching": [
+            "blue"
+          ]
+        },
+        {
+          "name": "klein blue",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "klein",
+            "blue"
+          ],
+          "matching": [
+            "blue"
+          ]
+        },
+        {
+          "name": "barbie pink",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "barbie",
+            "pink"
+          ],
+          "matching": [
+            "pink"
+          ]
+        },
+        {
+          "name": "coke red",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "coke",
+            "red"
+          ],
+          "matching": [
+            "red"
+          ]
+        },
+        {
+          "name": "starbucks green",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "starbucks",
+            "green"
+          ],
+          "matching": [
+            "green"
+          ]
+        },
+        {
+          "name": "ikea blue",
+          "overlap": 2,
+          "ratio": 0.6666666666666666,
+          "tokens": [
+            "ike",
+            "##a",
+            "blue"
+          ],
+          "matching": [
+            "##a",
+            "blue"
+          ]
+        },
+        {
+          "name": "ferrari red",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "ferrari",
+            "red"
+          ],
+          "matching": [
+            "red"
+          ]
+        }
+      ],
+      "mean_ratio": 0.5,
+      "min_ratio": 0.3333333333333333,
+      "max_ratio": 0.6666666666666666
+    },
+    "valid_compound": {
+      "items": [
+        {
+          "name": "bluish green",
+          "overlap": 3,
+          "ratio": 1.0,
+          "tokens": [
+            "blu",
+            "##ish",
+            "green"
+          ],
+          "matching": [
+            "blu",
+            "##ish",
+            "green"
+          ]
+        },
+        {
+          "name": "greenish blue",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "greenish",
+            "blue"
+          ],
+          "matching": [
+            "blue"
+          ]
+        },
+        {
+          "name": "reddish orange",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "reddish",
+            "orange"
+          ],
+          "matching": [
+            "reddish",
+            "orange"
+          ]
+        },
+        {
+          "name": "yellowish green",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "yellowish",
+            "green"
+          ],
+          "matching": [
+            "yellowish",
+            "green"
+          ]
+        },
+        {
+          "name": "blue green",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "blue",
+            "green"
+          ],
+          "matching": [
+            "blue",
+            "green"
+          ]
+        },
+        {
+          "name": "red orange",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "red",
+            "orange"
+          ],
+          "matching": [
+            "red",
+            "orange"
+          ]
+        },
+        {
+          "name": "yellow green",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "yellow",
+            "green"
+          ],
+          "matching": [
+            "yellow",
+            "green"
+          ]
+        },
+        {
+          "name": "blue violet",
+          "overlap": 2,
+          "ratio": 1.0,
+          "tokens": [
+            "blue",
+            "violet"
+          ],
+          "matching": [
+            "blue",
+            "violet"
+          ]
+        },
+        {
+          "name": "purplish pink",
+          "overlap": 1,
+          "ratio": 0.25,
+          "tokens": [
+            "pu",
+            "##rp",
+            "##lish",
+            "pink"
+          ],
+          "matching": [
+            "pink"
+          ]
+        },
+        {
+          "name": "orangey red",
+          "overlap": 2,
+          "ratio": 0.6666666666666666,
+          "tokens": [
+            "orange",
+            "##y",
+            "red"
+          ],
+          "matching": [
+            "orange",
+            "red"
+          ]
+        },
+        {
+          "name": "brownish yellow",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "brownish",
+            "yellow"
+          ],
+          "matching": [
+            "yellow"
+          ]
+        }
+      ],
+      "mean_ratio": 0.8106060606060606,
+      "min_ratio": 0.25,
+      "max_ratio": 1.0
+    },
+    "invalid_no_color": {
+      "items": [
+        {
+          "name": "john",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "john"
+          ],
+          "matching": []
+        },
+        {
+          "name": "hello",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "hello"
+          ],
+          "matching": []
+        },
+        {
+          "name": "computer",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "computer"
+          ],
+          "matching": []
+        },
+        {
+          "name": "table",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "table"
+          ],
+          "matching": []
+        },
+        {
+          "name": "running",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "running"
+          ],
+          "matching": []
+        },
+        {
+          "name": "happy",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "happy"
+          ],
+          "matching": []
+        },
+        {
+          "name": "asdfgh",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "as",
+            "##df",
+            "##gh"
+          ],
+          "matching": []
+        },
+        {
+          "name": "qwerty",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "q",
+            "##wer",
+            "##ty"
+          ],
+          "matching": []
+        },
+        {
+          "name": "abcdef",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "abc",
+            "##de",
+            "##f"
+          ],
+          "matching": []
+        },
+        {
+          "name": "testing",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "testing"
+          ],
+          "matching": []
+        },
+        {
+          "name": "sample",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "sample"
+          ],
+          "matching": []
+        }
+      ],
+      "mean_ratio": 0.0,
+      "min_ratio": 0.0,
+      "max_ratio": 0.0
+    },
+    "invalid_noise": {
+      "items": [
+        {
+          "name": "!!!",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "!",
+            "!",
+            "!"
+          ],
+          "matching": []
+        },
+        {
+          "name": "???",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "?",
+            "?",
+            "?"
+          ],
+          "matching": []
+        },
+        {
+          "name": "...",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            ".",
+            ".",
+            "."
+          ],
+          "matching": []
+        },
+        {
+          "name": "---",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "-",
+            "-",
+            "-"
+          ],
+          "matching": []
+        },
+        {
+          "name": "lol",
+          "overlap": 1,
+          "ratio": 0.5,
+          "tokens": [
+            "lo",
+            "##l"
+          ],
+          "matching": [
+            "##l"
+          ]
+        },
+        {
+          "name": "wtf",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "w",
+            "##tf"
+          ],
+          "matching": []
+        },
+        {
+          "name": "idk",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "id",
+            "##k"
+          ],
+          "matching": []
+        },
+        {
+          "name": "123",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "123"
+          ],
+          "matching": []
+        },
+        {
+          "name": "456",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "45",
+            "##6"
+          ],
+          "matching": []
+        },
+        {
+          "name": "aaa",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "aaa"
+          ],
+          "matching": []
+        },
+        {
+          "name": "bbb",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "bb",
+            "##b"
+          ],
+          "matching": []
+        },
+        {
+          "name": "xxx",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "xx",
+            "##x"
+          ],
+          "matching": []
+        },
+        {
+          "name": "yyy",
+          "overlap": 0,
+          "ratio": 0.0,
+          "tokens": [
+            "y",
+            "##y",
+            "##y"
+          ],
+          "matching": []
+        }
+      ],
+      "mean_ratio": 0.038461538461538464,
+      "min_ratio": 0.0,
+      "max_ratio": 0.5
+    }
+  },
+  "variant_analysis": {
+    "gray/grey": {
+      "gray": [
+        "gray"
+      ],
+      "grey": [
+        "grey"
+      ],
+      "same_tokens": false,
+      "token_overlap": 0.0
+    },
+    "color/colour": {
+      "color": [
+        "color"
+      ],
+      "colour": [
+        "colour"
+      ],
+      "same_tokens": false,
+      "token_overlap": 0.0
+    },
+    "fuchsia/fuschia": {
+      "fuchsia": [
+        "fu",
+        "##chs",
+        "##ia"
+      ],
+      "fuschia": [
+        "fu",
+        "##sch",
+        "##ia"
+      ],
+      "same_tokens": false,
+      "token_overlap": 0.5
+    },
+    "turquoise/turqoise": {
+      "turquoise": [
+        "turquoise"
+      ],
+      "turqoise": [
+        "tu",
+        "##r",
+        "##q",
+        "##oise"
+      ],
+      "same_tokens": false,
+      "token_overlap": 0.0
+    },
+    "lavender/lavendar": {
+      "lavender": [
+        "lavender"
+      ],
+      "lavendar": [
+        "la",
+        "##ven",
+        "##dar"
+      ],
+      "same_tokens": false,
+      "token_overlap": 0.0
+    }
+  },
+  "threshold_analysis": {
+    "best_threshold": 0.0,
+    "best_f1": 1.0
+  }
+}

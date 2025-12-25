@@ -1,0 +1,32 @@
+{
+  "preprocessing": {
+    "1_strip_noise": "Remove leading/trailing special characters (!!! \u2192 '', ## \u2192 '')",
+    "2_normalize_case": "Lowercase all names",
+    "3_normalize_whitespace": "Collapse multiple spaces, trim",
+    "4_decode_hex": "Convert valid hex codes (#0000FF \u2192 blue approximation)",
+    "5_normalize_quotes": "Standardize apostrophes and quotes"
+  },
+  "semantic_filtering": {
+    "method": "SBERT Semantic Similarity",
+    "model": "all-MiniLM-L6-v2",
+    "threshold": 0.35,
+    "rationale": "Based on analysis:\n- Threshold 0.35 excludes obvious spam/noise\n- Keeps ~85% of names\n- Low similarity names are clearly not colors\n- Autoencoder approach flawed (doesn't understand non-ASCII)"
+  },
+  "validation": {
+    "keep_if": [
+      "SBERT similarity >= 0.35 to color vocabulary",
+      "Name contains recognizable color word (secondary check)",
+      "Sample count >= 10 (for XKCD data quality)"
+    ],
+    "filter_if": [
+      "SBERT similarity < 0.35",
+      "Name is pure numbers",
+      "Name is pure punctuation",
+      "Name is a question or sentence (> 5 words)"
+    ]
+  },
+  "grouping": {
+    "method": "SBERT clustering",
+    "rationale": "Group names with high cosine similarity (> 0.95)\nThis catches: grey/gray, colour/color, light blue/lightblue"
+  }
+}

@@ -1,0 +1,325 @@
+# Product Requirements Document
+# Second Cleanup Pass: Complete Migration and Consolidation
+
+## Document Information
+- **Date**: 2025-12-25
+- **Version**: 1.1.0
+- **Context**: cleanup-pass-2
+- **Author**: Claude Code / Chris G.
+
+---
+
+## 1. Executive Summary
+
+The first cleanup pass created the folder structure and copied files, but:
+1. Did not use `git mv` for tracked files (history not preserved)
+2. Left original files in place (overlay-preprocessing/ still has 82 tracked files)
+3. Included PDFs in repo (should be .md citations only)
+4. Did not consolidate Python scripts under unified uv environment
+
+This second pass completes the migration properly.
+
+---
+
+## 2. Current State Analysis
+
+### 2.1 Files Requiring `git mv`
+
+**overlay-preprocessing/** (82 tracked files):
+- 6 root files (METHODOLOGY.md, *.py, excluded_colors.txt)
+- 27 investigation/ files (.py, .json, .md)
+- 30 semantic-investigation/ files
+- 12 research_notes/ files
+- 7 results/ files
+
+**Root level tracked**:
+- `literature/REFERENCES.md` (1 file)
+
+### 2.2 Untracked Files to Move/Delete
+
+**Root level**:
+- `jaic_v25_03.pdf` - KEEP (already in .gitignore, local reference)
+- `PolyhedronFiles/` (32 files) - Already copied, DELETE originals
+- `PolyhedronFilesJustNames/` (31 files) - Already copied, DELETE originals
+- `scripts/` (3 files) - Move to consolidated scripts/
+- `tmp/` - Sort contents to proper locations, keep folder empty (scratchpad)
+
+**overlay-preprocessing/**:
+- `.venv/` (~26,500 files) - DELETE entirely
+- `pyproject.toml` - Move to consolidated scripts/
+- `uv.lock` - Regenerate in new location
+- `color-vocabularies/*.csv` - Already copied, verify and delete originals
+- Untracked result files (.json, .png, .pt) - Move or delete
+
+### 2.3 Files in New Location That Need Fixing
+
+**more_non-basic_surface_colour_names/literature/**:
+- `jaic_v25_03.pdf` - KEEP locally, add to .gitignore, create SOURCES.md
+- `convex-sets-and-their-applications.pdf` - KEEP locally, add to .gitignore
+- `README.md` - Keep and update to become SOURCES.md
+
+**more_non-basic_surface_colour_names/datasets/**:
+- `centore/` - Keep and track (essential, small)
+- `collected/` - Keep and track (scraped data with source docs)
+- `xkcd/` - DELETE folder, data lives in `assets/xkcd/`
+
+---
+
+## 3. Target End State
+
+After this cleanup:
+
+```
+more_non-basic_surface_colour_names/
+├── archives/              # Historical files (already done)
+├── datasets/
+│   ├── centore/           # Keep (Centore polyhedra)
+│   ├── collected/         # Scraped vocabularies with source docs
+│   └── SOURCES.md         # Document all data sources
+├── literature/
+│   └── SOURCES.md         # Citations with URLs (no PDFs)
+├── memory/                # Context preservation (already done)
+├── scripts/
+│   ├── pyproject.toml     # Unified uv configuration
+│   ├── src/               # Organized Python modules
+│   └── README.md          # Script documentation
+├── writeups/              # Documentation (already done)
+└── inventory.md           # Updated inventory
+```
+
+**Deleted folders**:
+- `overlay-preprocessing/` - Completely removed
+- `PolyhedronFiles/` (root) - Removed (data in datasets/centore/)
+- `PolyhedronFilesJustNames/` (root) - Removed (data in datasets/centore/)
+- `scripts/` (root) - Removed (consolidated)
+- `literature/` (root) - Removed after git mv
+
+**Kept but untracked (via .gitignore)**:
+- `jaic_v25_03.pdf` (root) - Local reference
+- `tmp/` (root) - Empty scratchpad
+- `more_non-basic_surface_colour_names/literature/*.pdf` - Local references
+
+---
+
+## 4. Technical Requirements
+
+### 4.1 Phase 1: Fix Literature (PDFs Stay Local, Not Tracked)
+
+**Principle**: PDFs stay in folder but are NOT tracked in git (via .gitignore).
+
+**Tasks**:
+1. Create `literature/SOURCES.md` with proper citations and URLs
+2. Update `.gitignore` to exclude `more_non-basic_surface_colour_names/literature/*.pdf`
+3. Keep PDFs in place for local reference
+4. Verify PDFs are not tracked with `git status`
+
+**Literature Sources to Document**:
+```markdown
+## Centore (2020)
+- Title: "Beige, aqua, fuchsia, etc.: Definitions for some non-basic surface colour names"
+- Journal: JAIC Vol. 25, pp. 24-54
+- URL: https://www.munsellcolourscienceforpainters.com/ColourSciencePapers/BeigeAquaFuchsiaEtc.pdf
+- Downloaded: 2024-08-09
+
+## Lay (2007)
+- Title: "Convex Sets and Their Applications"
+- Publisher: Dover Publications
+- ISBN: 978-0486458038
+- Note: Book, no direct download
+```
+
+### 4.2 Phase 2: Fix Datasets (Local Files, Proper Tracking)
+
+**Principle**: Scraped/derived datasets stay and are tracked. Downloaded datasets stay but are NOT tracked (via .gitignore). All sources documented.
+
+**Tasks**:
+1. Remove `datasets/xkcd/` folder (data already exists in `assets/xkcd/`)
+2. Create `datasets/SOURCES.md` documenting all data sources with URLs and dates
+3. Update `.gitignore` if any downloaded files need exclusion
+4. For each scraped dataset, verify source documentation exists
+
+**Dataset Classification**:
+
+| Dataset | Type | Git Tracked | Action |
+|---------|------|-------------|--------|
+| `centore/PolyhedronFiles/` | Essential reference | Yes | Keep, document source |
+| `centore/PolyhedronFilesJustNames/` | Essential reference | Yes | Keep, document source |
+| `collected/centore_colors.csv` | Derived from above | Yes | Keep |
+| `collected/xkcd_colors.csv` | Derived from assets/xkcd | Yes | Keep (small, derived) |
+| `collected/meodai_colors.csv` | Scraped (GitHub API) | Yes | Keep with source doc |
+| `collected/colorhexa_colors.csv` | Scraped (web) | Yes | Keep with source doc |
+| `collected/color_name_com_colors.csv` | Scraped (web) | Yes | Keep with source doc |
+| `collected/wikipedia_colors.csv` | Scraped (web) | Yes | Keep with source doc |
+| `collected/master_vocabulary.csv` | Derived/merged | Yes | Keep |
+
+### 4.3 Phase 3: Git Move Tracked Files
+
+**IMPORTANT**: Use `git mv` to preserve history.
+
+**Tasks**:
+1. Move `literature/REFERENCES.md` → `more_non-basic_surface_colour_names/writeups/references/REFERENCES.md`
+2. For each tracked file in `overlay-preprocessing/`:
+   - Determine destination (scripts/, archives/, or delete)
+   - Use `git mv source destination`
+   - Update imports if moving to scripts/
+
+**Destination Mapping**:
+
+| Source Pattern | Destination |
+|----------------|-------------|
+| `overlay-preprocessing/*.py` | `scripts/src/` |
+| `overlay-preprocessing/*.md` | `archives/` (already copied) → `git rm` |
+| `overlay-preprocessing/investigation/*.py` | `scripts/src/investigation/` |
+| `overlay-preprocessing/investigation/*.md` | Already in archives → `git rm` |
+| `overlay-preprocessing/investigation/*.json` | Keep if needed, else `git rm` |
+| `overlay-preprocessing/semantic-investigation/*.py` | `scripts/src/semantic/` |
+| `overlay-preprocessing/research_notes/*.md` | Already in archives → `git rm` |
+| `overlay-preprocessing/results/*` | Move to `writeups/results/data/` |
+
+### 4.4 Phase 4: Consolidate Python Environment
+
+**Tasks**:
+1. Create `scripts/pyproject.toml` with all dependencies
+2. Merge dependencies from `overlay-preprocessing/pyproject.toml`
+3. Organize scripts into logical modules:
+   ```
+   scripts/
+   ├── pyproject.toml
+   ├── README.md
+   └── src/
+       ├── __init__.py
+       ├── common.py           # Shared utilities
+       ├── extraction/         # Color extraction scripts
+       ├── investigation/      # Phase 1-6 investigation
+       ├── semantic/           # Semantic analysis
+       └── visualization/      # Plotting scripts
+   ```
+4. Update all import statements
+5. Test that scripts run with `uv run`
+6. Delete `overlay-preprocessing/.venv/`
+
+### 4.5 Phase 5: Clean Up Root Level
+
+**Principle**: Root-level research files stay but are already in .gitignore. tmp/ is a scratchpad - empty it by sorting files into proper locations.
+
+**Tasks**:
+1. Delete `PolyhedronFiles/` (already copied to datasets/centore/)
+2. Delete `PolyhedronFilesJustNames/` (already copied)
+3. Delete `scripts/` folder (consolidated into new location)
+4. Sort `tmp/` contents: move useful files to proper locations, delete rest, keep folder empty
+5. Keep `jaic_v25_03.pdf` (already in .gitignore)
+6. Verify no orphaned files remain (except intentionally untracked ones)
+
+### 4.6 Phase 6: Remove overlay-preprocessing
+
+**Tasks**:
+1. Verify all tracked files have been git mv'd or git rm'd
+2. `git status` should show overlay-preprocessing clean
+3. `rm -rf overlay-preprocessing/` to remove untracked files (.venv, etc.)
+4. Commit: "chore: remove overlay-preprocessing after migration"
+
+### 4.7 Phase 7: Update Documentation
+
+**Tasks**:
+1. Update `inventory.md` with new structure
+2. Update `.gitignore` if needed
+3. Verify all source documentation (.md files) are complete
+4. Test that scripts work from new location
+
+---
+
+## 5. Git Operations Summary
+
+### Files to `git mv`
+```bash
+# Example pattern (actual list in implementation)
+git mv overlay-preprocessing/investigation/phase1_data_inventory.py scripts/src/investigation/
+git mv literature/REFERENCES.md more_non-basic_surface_colour_names/writeups/references/
+```
+
+### Files to `git rm`
+```bash
+# Files already copied to archives, now remove from git
+git rm overlay-preprocessing/METHODOLOGY.md
+git rm overlay-preprocessing/investigation/*.md
+git rm overlay-preprocessing/research_notes/*.md
+# etc.
+```
+
+### Untracked files to delete/handle
+```bash
+rm -rf overlay-preprocessing/.venv
+rm -rf PolyhedronFiles PolyhedronFilesJustNames
+rm -rf scripts  # root level (after consolidation)
+rm -rf more_non-basic_surface_colour_names/datasets/xkcd
+
+# Keep but ensure untracked:
+# - jaic_v25_03.pdf (already in .gitignore)
+# - tmp/ (already in .gitignore, just empty it)
+# - more_non-basic_surface_colour_names/literature/*.pdf (add to .gitignore)
+```
+
+---
+
+## 6. Success Criteria
+
+### 6.1 Repository Cleanliness
+- [ ] PDFs exist locally but are in .gitignore (not tracked)
+- [ ] Scraped datasets tracked with source documentation
+- [ ] `overlay-preprocessing/` completely removed
+- [ ] Root level Polyhedron folders removed
+- [ ] Git history preserved for tracked files (used git mv)
+- [ ] tmp/ exists but is empty (scratchpad ready for use)
+
+### 6.2 Script Consolidation
+- [ ] Single `pyproject.toml` in `scripts/`
+- [ ] All scripts organized in `scripts/src/`
+- [ ] Scripts run with `uv run` from scripts/
+- [ ] No broken imports
+
+### 6.3 Documentation
+- [ ] `literature/SOURCES.md` has all citations with URLs
+- [ ] `datasets/SOURCES.md` documents all data sources
+- [ ] Each scraped dataset has source/date documentation
+- [ ] `inventory.md` updated and accurate
+
+---
+
+## 7. Risks and Mitigations
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| Lost git history | Medium | Use `git mv`, not regular mv |
+| Broken imports | Medium | Test scripts after moving |
+| Missing data | High | Verify all needed data present before deleting |
+| Deleted wrong files | High | Stage changes, review before commit |
+
+---
+
+## 8. Phase Dependencies
+
+```
+Phase 1 (Literature) ──┬── Phase 5 (Root cleanup)
+Phase 2 (Datasets) ────┤
+Phase 3 (Git move) ────┼── Phase 6 (Remove overlay-preprocessing)
+Phase 4 (Python env) ──┘         │
+                                 │
+                      Phase 7 (Documentation)
+```
+
+---
+
+## 9. Non-Goals
+
+- **Do not refactor script logic**: Only organize, don't change functionality
+- **Do not regenerate results**: Use existing outputs
+- **Do not design new pipeline yet**: That's the next task after cleanup
+- **Do not modify MunsellSpace library**: This is organization only
+
+---
+
+## Document History
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2025-12-25 | Claude Code | Initial PRD |

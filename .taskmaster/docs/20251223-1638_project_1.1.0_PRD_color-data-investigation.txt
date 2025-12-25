@@ -1,0 +1,344 @@
+# Product Requirements Document
+# Color Data Investigation: Entity Matching, Calibration, and Consolidation
+
+## Document Information
+- **Date**: 2025-12-23
+- **Version**: 1.1.0
+- **Context**: color-data-investigation
+- **Author**: Claude Code / Chris G.
+
+---
+
+## 1. Executive Summary
+
+This PRD defines a rigorous investigation into combining color naming data from two sources:
+1. **Centore Dataset**: ~16,000 CAUS fabric samples measured with spectrophotometers
+2. **XKCD Dataset**: ~3.4M crowdsourced responses from uncalibrated monitors
+
+The goal is to create a clean, consolidated Level 3 color dictionary that maps individual color names to Munsell coordinates, while understanding and documenting the uncertainties involved.
+
+---
+
+## 2. Background and Motivation
+
+### 2.1 The Three-Level Color Hierarchy
+
+| Level | Description | Source | Approximate Count |
+|-------|-------------|--------|-------------------|
+| 1 | Basic categories | ISCC-NBS | 12-30 |
+| 2 | Semantic overlays | Centore + XKCD | 40-60 |
+| 3 | Individual color names | Centore + XKCD | ~187,000 unique |
+
+Level 1 and Level 2 are implemented. This investigation addresses Level 3.
+
+### 2.2 Data Quality Challenges
+
+1. **Entity Name Matching**: Same color concept with different spellings
+   - Spelling variants: gray/grey, fuchsia/fuschia
+   - Typos: lavendar, turqoise, bule
+   - Compound variations: "Blue America" vs "Blue American" vs "Blue Amrican"
+
+2. **Calibration Discrepancy**: Two fundamentally different measurement methods
+   - Centore: Physical samples, spectrophotometer, controlled illumination
+   - XKCD: Screen colors, uncalibrated monitors, varying viewing conditions
+
+3. **Duplicate Handling**: Same name appearing with different coordinates
+   - Within dataset: Multiple XKCD responses for "salmon"
+   - Across datasets: Centore "salmon" vs XKCD "salmon"
+
+### 2.3 Research Questions
+
+**RQ1**: How do we normalize color names across spelling variants and typos?
+
+**RQ2**: Is there systematic bias between Centore and XKCD coordinate data?
+
+**RQ3**: If bias exists, can we derive a correction transformation?
+
+**RQ4**: What is the optimal consolidation strategy for duplicate entries?
+
+---
+
+## 3. Scope
+
+### 3.1 In Scope
+
+- Entity name matching methodology comparison
+- Statistical analysis of Centore vs XKCD coordinate differences
+- Bias detection and characterization
+- Consolidation strategy evaluation
+- Documentation of methodology, results, and uncertainties
+- Reproducible analysis pipeline
+
+### 3.2 Out of Scope
+
+- Implementing corrections (document suggestions only)
+- Modifying the MunsellSpace library code
+- Creating new semantic overlays from consolidated data
+- Offensive term filtering (deferred to final step)
+
+### 3.3 Deliverables
+
+1. **Methodology Documentation**: Detailed description of each approach evaluated
+2. **Analysis Results**: Quantitative findings at each step
+3. **Uncertainty Assessment**: Known limitations and their potential impact
+4. **Recommendations**: Suggestions for reducing/removing uncertainties
+5. **Reproducible Pipeline**: Scripts that can regenerate all results
+
+---
+
+## 4. Technical Requirements
+
+### 4.1 Phase 1: Data Inventory and Exploration
+
+**Objective**: Understand the raw data before any transformations.
+
+**Tasks**:
+- Inventory all unique color names in both datasets
+- Analyze name length, character distribution, word count
+- Identify obvious categories: single words, compounds, phrases
+- Document data quality observations
+
+**Methodologies to Compare**:
+- Simple tokenization vs NLP-based parsing
+- Character n-gram analysis for typo detection
+
+**Deliverables**:
+- `data_inventory.json`: Raw statistics
+- `data_exploration.md`: Observations and findings
+
+### 4.2 Phase 2: Entity Name Matching
+
+**Objective**: Normalize color names to canonical forms.
+
+**Sub-phases**:
+
+#### 4.2.1 Spelling Variant Detection
+
+**Tasks**:
+- Identify known spelling variants (gray/grey, color/colour)
+- Build variant mapping dictionary
+- Measure impact on unique name count
+
+**Methodologies to Compare**:
+1. **Rule-based**: Predefined substitution rules
+2. **Phonetic**: Soundex, Metaphone algorithms
+3. **Edit distance**: Levenshtein with threshold
+
+#### 4.2.2 Typo Detection and Correction
+
+**Tasks**:
+- Identify candidate typos (low-frequency variants of high-frequency names)
+- Evaluate correction accuracy
+- Measure false positive rate (valid rare names incorrectly "corrected")
+
+**Methodologies to Compare**:
+1. **Frequency-based**: Rare variants of common names are typos
+2. **Edit distance**: Names within N edits of common names
+3. **Contextual**: Word embeddings or language models
+4. **Hybrid**: Combination approaches
+
+#### 4.2.3 Compound Name Normalization
+
+**Tasks**:
+- Standardize word order: "dark blue" vs "blue dark"
+- Handle hyphenation: "blue-green" vs "blue green" vs "bluegreen"
+- Normalize modifiers: "very dark" vs "really dark"
+
+**Methodologies to Compare**:
+1. **Lexical sorting**: Alphabetize components
+2. **Semantic ordering**: Modifier-then-color convention
+3. **Frequency-based**: Most common form wins
+
+**Deliverables**:
+- `name_matching_methods.md`: Comparison of approaches
+- `canonical_names.json`: Mapping from variants to canonical forms
+- `matching_uncertainty.md`: False positive/negative analysis
+
+### 4.3 Phase 3: Pre-Consolidation Analysis
+
+**Objective**: Analyze coordinate distributions before merging duplicates.
+
+**Tasks**:
+- For each canonical name, compute coordinate statistics (mean, std, range)
+- Identify names with high coordinate variance (potential issues)
+- Compare within-dataset vs across-dataset variance
+- Document outlier detection methodology
+
+**Methodologies to Compare**:
+1. **Parametric**: Assume normal distribution, use z-scores
+2. **Non-parametric**: IQR-based outlier detection
+3. **Robust statistics**: Median absolute deviation
+
+**Deliverables**:
+- `coordinate_distributions.json`: Per-name statistics
+- `high_variance_names.csv`: Names requiring attention
+- `preconsolidation_analysis.md`: Findings and observations
+
+### 4.4 Phase 4: Calibration Analysis
+
+**Objective**: Detect and characterize systematic bias between Centore and XKCD.
+
+**Approach**: Use the 20 shared overlay colors as calibration reference points.
+
+**Tasks**:
+- Extract Centore coordinates for 20 overlays (from polyhedra centroids)
+- Compute XKCD aggregate coordinates for same 20 colors
+- Analyze differences: magnitude, direction, consistency
+- Test for systematic vs random differences
+- If systematic, characterize the transformation
+
+**Methodologies to Compare**:
+1. **Point-wise comparison**: Direct centroid difference vectors
+2. **Statistical tests**: Paired t-test, Wilcoxon signed-rank
+3. **Regression analysis**: Fit linear transformation model
+4. **Procrustes analysis**: Optimal rotation/scaling alignment
+
+**Analysis Dimensions**:
+- Hue shift: Consistent rotation in hue angle?
+- Chroma scaling: Systematic saturation difference?
+- Value offset: Brightness bias?
+
+**Deliverables**:
+- `calibration_comparison.json`: Raw comparison data
+- `bias_analysis.md`: Statistical findings
+- `transformation_candidates.md`: Potential correction models
+- `calibration_uncertainty.md`: Confidence intervals, limitations
+
+### 4.5 Phase 5: Consolidation Strategy Evaluation
+
+**Objective**: Determine optimal method for merging duplicate entries.
+
+**Tasks**:
+- Evaluate different merging strategies
+- Measure impact on coordinate accuracy
+- Document trade-offs
+
+**Methodologies to Compare**:
+1. **Simple mean**: Average all coordinates
+2. **Weighted mean**: Weight by response count or confidence
+3. **Median**: Robust to outliers
+4. **Mode-based**: Most common coordinate region
+5. **Source-prioritized**: Prefer Centore over XKCD
+
+**Evaluation Criteria**:
+- Consistency with known reference colors
+- Robustness to outliers
+- Preservation of legitimate variation
+
+**Deliverables**:
+- `consolidation_methods.md`: Strategy comparison
+- `consolidation_evaluation.json`: Quantitative results
+- `recommended_strategy.md`: Justified recommendation
+
+### 4.6 Phase 6: Synthesis and Recommendations
+
+**Objective**: Synthesize findings into actionable recommendations.
+
+**Tasks**:
+- Summarize findings from each phase
+- Quantify overall uncertainty in final dataset
+- Propose uncertainty reduction strategies (without implementing)
+- Document reproducibility requirements
+
+**Deliverables**:
+- `investigation_summary.md`: Executive summary of findings
+- `uncertainty_budget.md`: Breakdown of uncertainty sources
+- `recommendations.md`: Prioritized action items
+- `reproducibility_guide.md`: How to regenerate all results
+
+---
+
+## 5. Success Criteria
+
+### 5.1 Completeness
+- All phases executed with documented results
+- Multiple methodologies compared at each decision point
+- Uncertainties quantified where possible
+
+### 5.2 Reproducibility
+- All analysis scripts committed to repository
+- Clear documentation of data dependencies
+- Results regenerable from raw data
+
+### 5.3 Scientific Rigor
+- No unsupported assumptions
+- Limitations explicitly acknowledged
+- Alternative interpretations considered
+
+---
+
+## 6. Non-Goals
+
+- **Do not implement corrections**: Document recommendations only
+- **Do not modify library code**: This is a data investigation
+- **Do not filter offensive terms yet**: They contain valid color perception data
+- **Do not create new overlays**: That's a separate task after this investigation
+
+---
+
+## 7. Dependencies
+
+### 7.1 Data Dependencies
+- `assets/xkcd/mainsurvey_sqldump.txt`: Raw XKCD data (~295MB, download required)
+- `overlay-preprocessing/results/`: Existing analysis results
+- Centore polyhedra data: Embedded in `src/constants/centore_polyhedra.rs`
+
+### 7.2 Tool Dependencies
+- Python 3.x with numpy, scipy, scikit-learn
+- Optional: NLTK or similar for NLP approaches
+
+---
+
+## 8. Timeline and Phases
+
+| Phase | Description | Dependencies |
+|-------|-------------|--------------|
+| 1 | Data Inventory | None |
+| 2 | Entity Name Matching | Phase 1 |
+| 3 | Pre-Consolidation Analysis | Phase 2 |
+| 4 | Calibration Analysis | Phase 2, Phase 3 |
+| 5 | Consolidation Strategy | Phase 3, Phase 4 |
+| 6 | Synthesis | All previous |
+
+---
+
+## 9. Risks and Mitigations
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| XKCD data too noisy for calibration | High | Use robust statistics, document uncertainty |
+| Entity matching introduces errors | Medium | Evaluate multiple methods, measure precision/recall |
+| No systematic bias found | Low | Document null result, proceed without correction |
+| Insufficient overlap for calibration | Medium | Expand to include basic colors if needed |
+
+---
+
+## 10. Appendices
+
+### A. Known Spelling Variants (Initial List)
+- gray / grey
+- color / colour
+- fuchsia / fuschia / fushia
+- turquoise / turqoise / tourquoise
+- lavender / lavendar / lavander
+- chartreuse / chartruese
+- burgundy / burgandy
+- magenta / megenta
+
+### B. Known Compound Patterns
+- [modifier] [color]: "dark blue", "light green"
+- [color] [color]: "blue green", "yellow orange"
+- [object] [color]: "sky blue", "forest green"
+- [color] [object]: "blue sky" (rare but exists)
+
+### C. The 20 Shared Overlay Colors
+aqua, beige, coral, fuchsia, gold, lavender, lilac, magenta, mauve, navy,
+peach, rose, rust, sand, tan, taupe, teal, turquoise, violet, wine
+
+---
+
+## Document History
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2025-12-23 | Claude Code | Initial PRD |

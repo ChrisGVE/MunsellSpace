@@ -1,0 +1,126 @@
+{
+  "optimal_model": "Fourier 1",
+  "model_selection": {
+    "optimal_cv_mae": 14.145108717818184,
+    "optimal_cv_weighted_mae": 13.821315310867698,
+    "optimal_train_cv_ratio": 1.1918280129568166,
+    "n_params": 3,
+    "dof": 17,
+    "all_models": [
+      {
+        "name": "Global Linear",
+        "n_params": 1,
+        "train_mae": 69.67374191056074,
+        "cv_mae": 77.0638929944312,
+        "cv_weighted_mae": 77.86249581482414,
+        "train_cv_ratio": 1.1060679515872294,
+        "is_overfit": false
+      },
+      {
+        "name": "Piecewise 4",
+        "n_params": 4,
+        "train_mae": 16.92673152202206,
+        "cv_mae": 19.653541525917,
+        "cv_weighted_mae": 18.595467010288452,
+        "train_cv_ratio": 1.1610948930304292,
+        "is_overfit": false
+      },
+      {
+        "name": "Piecewise 6",
+        "n_params": 6,
+        "train_mae": 11.832504479992888,
+        "cv_mae": 20.58782062799859,
+        "cv_weighted_mae": 19.372653946924913,
+        "train_cv_ratio": 1.7399376998174576,
+        "is_overfit": true
+      },
+      {
+        "name": "Piecewise 12",
+        "n_params": 12,
+        "train_mae": 4.686040586965974,
+        "cv_mae": 20.884765996183646,
+        "cv_weighted_mae": 21.596971200746886,
+        "train_cv_ratio": 4.456804333763935,
+        "is_overfit": true
+      },
+      {
+        "name": "Fourier 1",
+        "n_params": 3,
+        "train_mae": 11.868414371907118,
+        "cv_mae": 14.145108717818184,
+        "cv_weighted_mae": 13.821315310867698,
+        "train_cv_ratio": 1.1918280129568166,
+        "is_overfit": false
+      },
+      {
+        "name": "Fourier 2",
+        "n_params": 5,
+        "train_mae": 3.4027531845577093,
+        "cv_mae": 5.140906773966558,
+        "cv_weighted_mae": 5.58163413143989,
+        "train_cv_ratio": 1.510808011964222,
+        "is_overfit": true
+      },
+      {
+        "name": "Fourier 3",
+        "n_params": 7,
+        "train_mae": 2.4399443445082936,
+        "cv_mae": 4.7134742625824195,
+        "cv_weighted_mae": 4.095370098121659,
+        "train_cv_ratio": 1.9317958105033317,
+        "is_overfit": true
+      },
+      {
+        "name": "Fourier 4",
+        "n_params": 9,
+        "train_mae": 1.4855214108572203,
+        "cv_mae": 3.9073229768027047,
+        "cv_weighted_mae": 3.64691904843054,
+        "train_cv_ratio": 2.6302703873840385,
+        "is_overfit": true
+      },
+      {
+        "name": "Fourier 5",
+        "n_params": 11,
+        "train_mae": 1.1816959701207974,
+        "cv_mae": 3.0757237853294255,
+        "cv_weighted_mae": 2.8870582628987376,
+        "train_cv_ratio": 2.6028046664278746,
+        "is_overfit": true
+      },
+      {
+        "name": "Fourier 6",
+        "n_params": 13,
+        "train_mae": 1.0623605295130172,
+        "cv_mae": 29.17178625177086,
+        "cv_weighted_mae": 40.06603321367645,
+        "train_cv_ratio": 27.45940332058752,
+        "is_overfit": true
+      }
+    ]
+  },
+  "hypothesis_tests": {
+    "test1_p": 0.0703,
+    "test2_p": 0.0,
+    "test3_p": 0.0,
+    "sse_reduction": 97.0041976462259,
+    "test4_p": 0.0,
+    "test5_p": 0.00020122528076171875,
+    "n_improved": 18.0
+  },
+  "correction_validation": {
+    "original_mae": 68.60487472816742,
+    "corrected_mae": 11.868414371907122,
+    "improvement": 56.736460356260295,
+    "improvement_pct": 82.700333731483,
+    "p_value": 0.0,
+    "cohens_d": 1.69438314146231,
+    "n_improved": 18
+  },
+  "loocv_validation": {
+    "loocv_original_mae": 68.60487472816742,
+    "loocv_corrected_mae": 14.145108717818186,
+    "loocv_improvement": 54.45976601034923,
+    "loocv_n_improved": 18
+  }
+}

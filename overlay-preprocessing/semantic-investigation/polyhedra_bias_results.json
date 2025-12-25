@@ -1,0 +1,887 @@
+{
+  "summary": {
+    "centore_polyhedra": 30,
+    "xkcd_polyhedra": 20,
+    "matching_categories": 20,
+    "methodology": "Inner Convex Hull (Centore JAIC 2020)"
+  },
+  "aggregate_bias": {
+    "hue_diff": {
+      "mean": -1.788,
+      "std": 23.001,
+      "min": -53.67,
+      "max": 34.98,
+      "median": -1.91
+    },
+    "value_diff": {
+      "mean": 0.829,
+      "std": 0.761,
+      "min": -0.36,
+      "max": 2.8,
+      "median": 0.76
+    },
+    "chroma_diff": {
+      "mean": 2.54,
+      "std": 2.169,
+      "min": -2.12,
+      "max": 7.22,
+      "median": 2.5
+    },
+    "euclidean_distance": {
+      "mean": 3.759,
+      "std": 1.526,
+      "min": 1.1,
+      "max": 7.39,
+      "median": 3.418
+    },
+    "volume_ratio": {
+      "mean": 86.791,
+      "std": 203.335,
+      "min": 2.88,
+      "max": 901.53,
+      "median": 19.71
+    }
+  },
+  "comparisons": {
+    "aqua": {
+      "centore": {
+        "sample_count": 119,
+        "vertex_count": 28,
+        "volume": 45.52,
+        "centroid": [
+          -3.01,
+          -1.52,
+          6.18
+        ]
+      },
+      "xkcd": {
+        "sample_count": 889,
+        "vertex_count": 47,
+        "volume": 784.97,
+        "centroid": [
+          -5.82,
+          -0.617,
+          6.881
+        ]
+      },
+      "bias": {
+        "delta_x": -2.81,
+        "delta_y": 0.903,
+        "delta_z": 0.701,
+        "euclidean_distance": 3.034,
+        "hue_diff": -20.74,
+        "value_diff": 0.7,
+        "chroma_diff": 2.48,
+        "volume_ratio": 17.24,
+        "centore_munsell": {
+          "hue": 206.8,
+          "value": 6.18,
+          "chroma": 3.37
+        },
+        "xkcd_munsell": {
+          "hue": 186.1,
+          "value": 6.88,
+          "chroma": 5.85
+        }
+      }
+    },
+    "beige": {
+      "centore": {
+        "sample_count": 277,
+        "vertex_count": 32,
+        "volume": 22.76,
+        "centroid": [
+          1.7,
+          2.94,
+          6.15
+        ]
+      },
+      "xkcd": {
+        "sample_count": 755,
+        "vertex_count": 44,
+        "volume": 683.53,
+        "centroid": [
+          0.457,
+          5.121,
+          7.225
+        ]
+      },
+      "bias": {
+        "delta_x": -1.243,
+        "delta_y": 2.181,
+        "delta_z": 1.075,
+        "euclidean_distance": 2.731,
+        "hue_diff": 24.93,
+        "value_diff": 1.08,
+        "chroma_diff": 1.75,
+        "volume_ratio": 30.03,
+        "centore_munsell": {
+          "hue": 60.0,
+          "value": 6.15,
+          "chroma": 3.4
+        },
+        "xkcd_munsell": {
+          "hue": 84.9,
+          "value": 7.23,
+          "chroma": 5.14
+        }
+      }
+    },
+    "coral": {
+      "centore": {
+        "sample_count": 215,
+        "vertex_count": 34,
+        "volume": 129.52,
+        "centroid": [
+          7.59,
+          3.3,
+          5.84
+        ]
+      },
+      "xkcd": {
+        "sample_count": 156,
+        "vertex_count": 26,
+        "volume": 828.75,
+        "centroid": [
+          5.132,
+          3.394,
+          6.138
+        ]
+      },
+      "bias": {
+        "delta_x": -2.458,
+        "delta_y": 0.094,
+        "delta_z": 0.298,
+        "euclidean_distance": 2.478,
+        "hue_diff": 9.98,
+        "value_diff": 0.3,
+        "chroma_diff": -2.12,
+        "volume_ratio": 6.4,
+        "centore_munsell": {
+          "hue": 23.5,
+          "value": 5.84,
+          "chroma": 8.28
+        },
+        "xkcd_munsell": {
+          "hue": 33.5,
+          "value": 6.14,
+          "chroma": 6.15
+        }
+      }
+    },
+    "fuchsia": {
+      "centore": {
+        "sample_count": 46,
+        "vertex_count": 18,
+        "volume": 29.2,
+        "centroid": [
+          9.77,
+          -3.33,
+          4.09
+        ]
+      },
+      "xkcd": {
+        "sample_count": 160,
+        "vertex_count": 32,
+        "volume": 700.9,
+        "centroid": [
+          11.644,
+          -6.081,
+          5.144
+        ]
+      },
+      "bias": {
+        "delta_x": 1.874,
+        "delta_y": -2.751,
+        "delta_z": 1.054,
+        "euclidean_distance": 3.491,
+        "hue_diff": -8.75,
+        "value_diff": 1.05,
+        "chroma_diff": 2.81,
+        "volume_ratio": 24.0,
+        "centore_munsell": {
+          "hue": 341.2,
+          "value": 4.09,
+          "chroma": 10.32
+        },
+        "xkcd_munsell": {
+          "hue": 332.4,
+          "value": 5.14,
+          "chroma": 13.14
+        }
+      }
+    },
+    "gold": {
+      "centore": {
+        "sample_count": 362,
+        "vertex_count": 47,
+        "volume": 114.08,
+        "centroid": [
+          2.36,
+          6.96,
+          6.39
+        ]
+      },
+      "xkcd": {
+        "sample_count": 575,
+        "vertex_count": 39,
+        "volume": 328.93,
+        "centroid": [
+          -0.516,
+          8.369,
+          6.787
+        ]
+      },
+      "bias": {
+        "delta_x": -2.876,
+        "delta_y": 1.409,
+        "delta_z": 0.397,
+        "euclidean_distance": 3.227,
+        "hue_diff": 22.26,
+        "value_diff": 0.4,
+        "chroma_diff": 1.04,
+        "volume_ratio": 2.88,
+        "centore_munsell": {
+          "hue": 71.3,
+          "value": 6.39,
+          "chroma": 7.35
+        },
+        "xkcd_munsell": {
+          "hue": 93.5,
+          "value": 6.79,
+          "chroma": 8.38
+        }
+      }
+    },
+    "lavender": {
+      "centore": {
+        "sample_count": 47,
+        "vertex_count": 15,
+        "volume": 31.16,
+        "centroid": [
+          2.96,
+          -3.77,
+          5.37
+        ]
+      },
+      "xkcd": {
+        "sample_count": 815,
+        "vertex_count": 41,
+        "volume": 1078.59,
+        "centroid": [
+          6.756,
+          -7.183,
+          5.741
+        ]
+      },
+      "bias": {
+        "delta_x": 3.796,
+        "delta_y": -3.413,
+        "delta_z": 0.371,
+        "euclidean_distance": 5.119,
+        "hue_diff": 5.11,
+        "value_diff": 0.37,
+        "chroma_diff": 5.07,
+        "volume_ratio": 34.61,
+        "centore_munsell": {
+          "hue": 308.1,
+          "value": 5.37,
+          "chroma": 4.79
+        },
+        "xkcd_munsell": {
+          "hue": 313.2,
+          "value": 5.74,
+          "chroma": 9.86
+        }
+      }
+    },
+    "lilac": {
+      "centore": {
+        "sample_count": 78,
+        "vertex_count": 20,
+        "volume": 49.77,
+        "centroid": [
+          3.47,
+          -3.36,
+          5.61
+        ]
+      },
+      "xkcd": {
+        "sample_count": 527,
+        "vertex_count": 48,
+        "volume": 1104.21,
+        "centroid": [
+          6.781,
+          -9.957,
+          5.25
+        ]
+      },
+      "bias": {
+        "delta_x": 3.311,
+        "delta_y": -6.597,
+        "delta_z": -0.36,
+        "euclidean_distance": 7.39,
+        "hue_diff": -11.67,
+        "value_diff": -0.36,
+        "chroma_diff": 7.22,
+        "volume_ratio": 22.18,
+        "centore_munsell": {
+          "hue": 315.9,
+          "value": 5.61,
+          "chroma": 4.83
+        },
+        "xkcd_munsell": {
+          "hue": 304.3,
+          "value": 5.25,
+          "chroma": 12.05
+        }
+      }
+    },
+    "magenta": {
+      "centore": {
+        "sample_count": 25,
+        "vertex_count": 7,
+        "volume": 2.01,
+        "centroid": [
+          8.69,
+          -3.55,
+          3.37
+        ]
+      },
+      "xkcd": {
+        "sample_count": 1099,
+        "vertex_count": 60,
+        "volume": 1808.7,
+        "centroid": [
+          11.436,
+          -6.535,
+          5.005
+        ]
+      },
+      "bias": {
+        "delta_x": 2.746,
+        "delta_y": -2.985,
+        "delta_z": 1.635,
+        "euclidean_distance": 4.373,
+        "hue_diff": -7.52,
+        "value_diff": 1.64,
+        "chroma_diff": 3.78,
+        "volume_ratio": 901.53,
+        "centore_munsell": {
+          "hue": 337.8,
+          "value": 3.37,
+          "chroma": 9.39
+        },
+        "xkcd_munsell": {
+          "hue": 330.3,
+          "value": 5.01,
+          "chroma": 13.17
+        }
+      }
+    },
+    "mauve": {
+      "centore": {
+        "sample_count": 181,
+        "vertex_count": 44,
+        "volume": 120.02,
+        "centroid": [
+          3.28,
+          -2.02,
+          5.15
+        ]
+      },
+      "xkcd": {
+        "sample_count": 590,
+        "vertex_count": 47,
+        "volume": 1794.74,
+        "centroid": [
+          7.262,
+          -3.93,
+          5.162
+        ]
+      },
+      "bias": {
+        "delta_x": 3.982,
+        "delta_y": -1.91,
+        "delta_z": 0.012,
+        "euclidean_distance": 4.417,
+        "hue_diff": 3.2,
+        "value_diff": 0.01,
+        "chroma_diff": 4.41,
+        "volume_ratio": 14.95,
+        "centore_munsell": {
+          "hue": 328.4,
+          "value": 5.15,
+          "chroma": 3.85
+        },
+        "xkcd_munsell": {
+          "hue": 331.6,
+          "value": 5.16,
+          "chroma": 8.26
+        }
+      }
+    },
+    "navy": {
+      "centore": {
+        "sample_count": 100,
+        "vertex_count": 24,
+        "volume": 2.92,
+        "centroid": [
+          0.51,
+          -3.57,
+          2.11
+        ]
+      },
+      "xkcd": {
+        "sample_count": 610,
+        "vertex_count": 46,
+        "volume": 771.22,
+        "centroid": [
+          -1.18,
+          -6.014,
+          2.928
+        ]
+      },
+      "bias": {
+        "delta_x": -1.69,
+        "delta_y": -2.444,
+        "delta_z": 0.818,
+        "euclidean_distance": 3.082,
+        "hue_diff": -19.23,
+        "value_diff": 0.82,
+        "chroma_diff": 2.52,
+        "volume_ratio": 264.42,
+        "centore_munsell": {
+          "hue": 278.1,
+          "value": 2.11,
+          "chroma": 3.61
+        },
+        "xkcd_munsell": {
+          "hue": 258.9,
+          "value": 2.93,
+          "chroma": 6.13
+        }
+      }
+    },
+    "peach": {
+      "centore": {
+        "sample_count": 102,
+        "vertex_count": 28,
+        "volume": 30.21,
+        "centroid": [
+          4.04,
+          4.24,
+          7.03
+        ]
+      },
+      "xkcd": {
+        "sample_count": 529,
+        "vertex_count": 37,
+        "volume": 448.14,
+        "centroid": [
+          4.682,
+          5.126,
+          6.914
+        ]
+      },
+      "bias": {
+        "delta_x": 0.642,
+        "delta_y": 0.886,
+        "delta_z": -0.116,
+        "euclidean_distance": 1.1,
+        "hue_diff": 1.21,
+        "value_diff": -0.12,
+        "chroma_diff": 1.09,
+        "volume_ratio": 14.83,
+        "centore_munsell": {
+          "hue": 46.4,
+          "value": 7.03,
+          "chroma": 5.86
+        },
+        "xkcd_munsell": {
+          "hue": 47.6,
+          "value": 6.91,
+          "chroma": 6.94
+        }
+      }
+    },
+    "rose": {
+      "centore": {
+        "sample_count": 467,
+        "vertex_count": 51,
+        "volume": 366.4,
+        "centroid": [
+          7.69,
+          0.23,
+          4.99
+        ]
+      },
+      "xkcd": {
+        "sample_count": 785,
+        "vertex_count": 43,
+        "volume": 1239.06,
+        "centroid": [
+          8.659,
+          -1.825,
+          6.033
+        ]
+      },
+      "bias": {
+        "delta_x": 0.969,
+        "delta_y": -2.055,
+        "delta_z": 1.043,
+        "euclidean_distance": 2.5,
+        "hue_diff": -13.62,
+        "value_diff": 1.04,
+        "chroma_diff": 1.16,
+        "volume_ratio": 3.38,
+        "centore_munsell": {
+          "hue": 1.7,
+          "value": 4.99,
+          "chroma": 7.69
+        },
+        "xkcd_munsell": {
+          "hue": 348.1,
+          "value": 6.03,
+          "chroma": 8.85
+        }
+      }
+    },
+    "rust": {
+      "centore": {
+        "sample_count": 93,
+        "vertex_count": 24,
+        "volume": 28.79,
+        "centroid": [
+          6.11,
+          4.11,
+          3.95
+        ]
+      },
+      "xkcd": {
+        "sample_count": 182,
+        "vertex_count": 28,
+        "volume": 323.01,
+        "centroid": [
+          6.817,
+          5.423,
+          4.489
+        ]
+      },
+      "bias": {
+        "delta_x": 0.707,
+        "delta_y": 1.313,
+        "delta_z": 0.539,
+        "euclidean_distance": 1.585,
+        "hue_diff": 4.57,
+        "value_diff": 0.54,
+        "chroma_diff": 1.35,
+        "volume_ratio": 11.22,
+        "centore_munsell": {
+          "hue": 33.9,
+          "value": 3.95,
+          "chroma": 7.36
+        },
+        "xkcd_munsell": {
+          "hue": 38.5,
+          "value": 4.49,
+          "chroma": 8.71
+        }
+      }
+    },
+    "sand": {
+      "centore": {
+        "sample_count": 123,
+        "vertex_count": 24,
+        "volume": 19.12,
+        "centroid": [
+          1.43,
+          2.85,
+          6.26
+        ]
+      },
+      "xkcd": {
+        "sample_count": 315,
+        "vertex_count": 37,
+        "volume": 426.14,
+        "centroid": [
+          -0.076,
+          6.198,
+          7.119
+        ]
+      },
+      "bias": {
+        "delta_x": -1.506,
+        "delta_y": 3.348,
+        "delta_z": 0.859,
+        "euclidean_distance": 3.771,
+        "hue_diff": 27.35,
+        "value_diff": 0.86,
+        "chroma_diff": 3.01,
+        "volume_ratio": 22.28,
+        "centore_munsell": {
+          "hue": 63.4,
+          "value": 6.26,
+          "chroma": 3.19
+        },
+        "xkcd_munsell": {
+          "hue": 90.7,
+          "value": 7.12,
+          "chroma": 6.2
+        }
+      }
+    },
+    "tan": {
+      "centore": {
+        "sample_count": 129,
+        "vertex_count": 27,
+        "volume": 22.71,
+        "centroid": [
+          2.11,
+          3.47,
+          5.23
+        ]
+      },
+      "xkcd": {
+        "sample_count": 1140,
+        "vertex_count": 54,
+        "volume": 922.3,
+        "centroid": [
+          0.658,
+          6.421,
+          6.859
+        ]
+      },
+      "bias": {
+        "delta_x": -1.452,
+        "delta_y": 2.951,
+        "delta_z": 1.629,
+        "euclidean_distance": 3.671,
+        "hue_diff": 25.45,
+        "value_diff": 1.63,
+        "chroma_diff": 2.39,
+        "volume_ratio": 40.6,
+        "centore_munsell": {
+          "hue": 58.7,
+          "value": 5.23,
+          "chroma": 4.06
+        },
+        "xkcd_munsell": {
+          "hue": 84.1,
+          "value": 6.86,
+          "chroma": 6.46
+        }
+      }
+    },
+    "taupe": {
+      "centore": {
+        "sample_count": 76,
+        "vertex_count": 23,
+        "volume": 4.9,
+        "centroid": [
+          0.95,
+          1.05,
+          4.68
+        ]
+      },
+      "xkcd": {
+        "sample_count": 196,
+        "vertex_count": 33,
+        "volume": 453.52,
+        "centroid": [
+          0.502,
+          3.993,
+          6.206
+        ]
+      },
+      "bias": {
+        "delta_x": -0.448,
+        "delta_y": 2.943,
+        "delta_z": 1.526,
+        "euclidean_distance": 3.345,
+        "hue_diff": 34.98,
+        "value_diff": 1.53,
+        "chroma_diff": 2.61,
+        "volume_ratio": 92.51,
+        "centore_munsell": {
+          "hue": 47.9,
+          "value": 4.68,
+          "chroma": 1.42
+        },
+        "xkcd_munsell": {
+          "hue": 82.8,
+          "value": 6.21,
+          "chroma": 4.02
+        }
+      }
+    },
+    "teal": {
+      "centore": {
+        "sample_count": 43,
+        "vertex_count": 15,
+        "volume": 7.62,
+        "centroid": [
+          -3.38,
+          -3.01,
+          3.32
+        ]
+      },
+      "xkcd": {
+        "sample_count": 1642,
+        "vertex_count": 48,
+        "volume": 1489.97,
+        "centroid": [
+          -4.002,
+          0.85,
+          6.117
+        ]
+      },
+      "bias": {
+        "delta_x": -0.622,
+        "delta_y": 3.86,
+        "delta_z": 2.797,
+        "euclidean_distance": 4.807,
+        "hue_diff": -53.67,
+        "value_diff": 2.8,
+        "chroma_diff": -0.44,
+        "volume_ratio": 195.62,
+        "centore_munsell": {
+          "hue": 221.7,
+          "value": 3.32,
+          "chroma": 4.53
+        },
+        "xkcd_munsell": {
+          "hue": 168.0,
+          "value": 6.12,
+          "chroma": 4.09
+        }
+      }
+    },
+    "turquoise": {
+      "centore": {
+        "sample_count": 121,
+        "vertex_count": 26,
+        "volume": 85.46,
+        "centroid": [
+          -4.41,
+          -3.94,
+          5.45
+        ]
+      },
+      "xkcd": {
+        "sample_count": 857,
+        "vertex_count": 35,
+        "volume": 842.24,
+        "centroid": [
+          -7.119,
+          0.299,
+          7.154
+        ]
+      },
+      "bias": {
+        "delta_x": -2.709,
+        "delta_y": 4.239,
+        "delta_z": 1.704,
+        "euclidean_distance": 5.312,
+        "hue_diff": -44.19,
+        "value_diff": 1.7,
+        "chroma_diff": 1.21,
+        "volume_ratio": 9.86,
+        "centore_munsell": {
+          "hue": 221.8,
+          "value": 5.45,
+          "chroma": 5.91
+        },
+        "xkcd_munsell": {
+          "hue": 177.6,
+          "value": 7.15,
+          "chroma": 7.13
+        }
+      }
+    },
+    "violet": {
+      "centore": {
+        "sample_count": 178,
+        "vertex_count": 31,
+        "volume": 170.22,
+        "centroid": [
+          4.22,
+          -4.49,
+          3.8
+        ]
+      },
+      "xkcd": {
+        "sample_count": 1567,
+        "vertex_count": 54,
+        "volume": 2156.09,
+        "centroid": [
+          7.752,
+          -9.854,
+          3.894
+        ]
+      },
+      "bias": {
+        "delta_x": 3.532,
+        "delta_y": -5.364,
+        "delta_z": 0.094,
+        "euclidean_distance": 6.423,
+        "hue_diff": -5.03,
+        "value_diff": 0.09,
+        "chroma_diff": 6.38,
+        "volume_ratio": 12.67,
+        "centore_munsell": {
+          "hue": 313.2,
+          "value": 3.8,
+          "chroma": 6.16
+        },
+        "xkcd_munsell": {
+          "hue": 308.2,
+          "value": 3.89,
+          "chroma": 12.54
+        }
+      }
+    },
+    "wine": {
+      "centore": {
+        "sample_count": 83,
+        "vertex_count": 21,
+        "volume": 33.71,
+        "centroid": [
+          4.78,
+          0.82,
+          2.98
+        ]
+      },
+      "xkcd": {
+        "sample_count": 270,
+        "vertex_count": 33,
+        "volume": 492.7,
+        "centroid": [
+          7.934,
+          -0.09,
+          3.467
+        ]
+      },
+      "bias": {
+        "delta_x": 3.154,
+        "delta_y": -0.91,
+        "delta_z": 0.487,
+        "euclidean_distance": 3.318,
+        "hue_diff": -10.39,
+        "value_diff": 0.49,
+        "chroma_diff": 3.08,
+        "volume_ratio": 14.62,
+        "centore_munsell": {
+          "hue": 9.7,
+          "value": 2.98,
+          "chroma": 4.85
+        },
+        "xkcd_munsell": {
+          "hue": 359.3,
+          "value": 3.47,
+          "chroma": 7.93
+        }
+      }
+    }
+  }
+}

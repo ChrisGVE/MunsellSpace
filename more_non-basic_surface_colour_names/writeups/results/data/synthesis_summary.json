@@ -1,0 +1,24 @@
+{
+  "recommendation": "centroid_weighted",
+  "source_priority": [
+    "centore",
+    "xkcd"
+  ],
+  "minimum_samples": 100,
+  "bias_corrections": {
+    "hue_shift": 19.3,
+    "chroma_shift": -1.58,
+    "value_shift": 0.0
+  },
+  "artifacts": {
+    "canonical_mappings": "canonical_names.json",
+    "typo_corrections": "typo_corrections.json",
+    "xkcd_coordinates": "xkcd_coordinates_cache.json"
+  },
+  "confidence_levels": {
+    "centore": "high",
+    "xkcd_n_gte_1000": "medium-high",
+    "xkcd_n_100_to_1000": "medium",
+    "xkcd_n_lt_100": "exclude"
+  }
+}

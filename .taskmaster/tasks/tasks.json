@@ -3,9 +3,464 @@
     "version": "1.0.0",
     "created": "2025-01-15T22:40:00Z"
   },
-  "tags": {
-    "master": {
-      "tasks": []
+  "dev": {
+    "tasks": [
+      {
+        "id": "1",
+        "title": "Review future development roadmap",
+        "description": "Review the future_development.md document to evaluate and prioritize planned features for MunsellSpace library expansion.",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [],
+        "details": "Review the documented future development features and assess:\n\n1. **Temperature bias** - warm/cool axis implementation\n2. **Semantic overlays** - core (fuchsia, sand, teal, turquoise, chartreuse) and extended catalog\n3. **Munsell space navigation** - delta operations, sequential hue navigation, topology-aware neighbors\n4. **Vector arithmetic** - Cartesian transformation, vector operations, gamut constraints\n5. **Centroid calculations** - ISCC-NBS, overlay, and polygon centroids\n\nFor each feature area, determine:\n- Priority (high/medium/low)\n- Complexity estimate\n- Dependencies between features\n- Which features to include in first implementation phase\n- Any features that should be deferred or removed",
+        "testStrategy": "Document review and decision matrix creation",
+        "createdAt": "2025-12-06T19:45:00.000Z",
+        "updatedAt": "2025-12-06T19:45:00.000Z",
+        "subtasks": []
+      },
+      {
+        "id": "2",
+        "title": "Create PRD for future development implementation",
+        "description": "Create a Product Requirements Document for implementing the prioritized features from the future development roadmap.",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "details": "Based on the review of future_development.md, create a comprehensive PRD that includes:\n\n1. **Scope definition** - which features are in scope for this development phase\n2. **User stories** - how users will interact with new features\n3. **Technical requirements** - API design, data structures, algorithms\n4. **Acceptance criteria** - specific measurable outcomes for each feature\n5. **Test strategy** - unit tests, integration tests, validation datasets\n6. **Dependencies** - external libraries, reference implementations\n7. **Non-goals** - explicitly state what is out of scope\n\nStore the PRD in `.taskmaster/docs/` following the naming convention:\n`YYYYMMDD-HHMM_project_{version}_PRD_{context}.txt`\n\nThis PRD will be parsed by task-master to generate implementation tasks.",
+        "testStrategy": "PRD completeness review and task-master parse validation",
+        "createdAt": "2025-12-06T19:45:00.000Z",
+        "updatedAt": "2025-12-06T19:45:00.000Z",
+        "subtasks": []
+      },
+      {
+        "id": "3",
+        "title": "Implement Munsell Cartesian coordinate conversions",
+        "description": "Implement conversion functions between Munsell cylindrical (H,V,C) and Cartesian (x,y,z) coordinates for polyhedron math. Hue angle: 40 steps = 360 degrees, so hue_number * 9 = degrees.",
+        "details": "Based on Centore (2020) methodology:\n- Convert Munsell hue to angle: theta = hue_number * 9 * PI / 180\n- x = chroma * cos(theta)\n- y = chroma * sin(theta) \n- z = value\n- Implement inverse conversion\n- Handle hue wrap-around at R/RP boundary\n- Unit tests for conversions",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-22T19:51:36.222Z"
+      },
+      {
+        "id": "4",
+        "title": "Implement point-in-polyhedron algorithm",
+        "description": "Implement ray-casting algorithm for 3D point-in-polyhedron test. This is the core geometric primitive for semantic overlay matching.",
+        "details": "Requirements:\n- Ray-casting algorithm for convex polyhedra\n- Handle edge cases (point on face, edge, vertex) with epsilon tolerance\n- Input: point (x,y,z), vertices array, faces array (triangles as vertex indices)\n- Output: bool (inside/outside)\n- Unit tests with simple polyhedra (cube, tetrahedron)\n- Consider using robust geometric predicates",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [
+          "3"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-22T19:53:51.265Z"
+      },
+      {
+        "id": "5",
+        "title": "Define SemanticOverlay data structures",
+        "description": "Create the SemanticOverlay struct and related types to hold polyhedron data for semantic color names.",
+        "details": "Structs needed:\n- SemanticOverlay: name, vertices, faces, centroid, sample_count\n- MunsellSpec: hue (0-40), hue_letter, value, chroma\n- Implement distance_from_centroid() method\n- Implement to_cartesian() for MunsellSpec\n- Place in new src/semantic_overlay.rs module",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [
+          "3"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-22T19:56:04.260Z"
+      },
+      {
+        "id": "6",
+        "title": "Encode Centore polyhedron data for 20 semantic overlays",
+        "description": "Encode the polyhedron vertex and face data from Centore's PolyhedronFiles.zip for all 20 non-basic color names as static Rust data.",
+        "details": "Create src/semantic_overlay_data.rs with static arrays for all 20 overlays:\naqua, beige, coral, fuchsia, gold, lavender, lilac, magenta, mauve, navy, peach, rose, rust, sand, tan, taupe, teal, turquoise, violet, wine.\n\nFor each overlay include:\n- Vertex array [(x, y, z), ...]\n- Face array [(v0, v1, v2), ...] as triangle indices\n- Centroid from Centore Table 1\n- Sample count from Centore paper\n\nNote: Polyhedron data needs to be extracted from Centore's PolyhedronFiles.zip or reconstructed from the paper's methodology.",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [
+          "5"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-22T19:58:06.244Z"
+      },
+      {
+        "id": "7",
+        "title": "Implement core semantic overlay matching logic",
+        "description": "Implement the matching_overlays() function that tests a Munsell color against all 20 semantic overlay polyhedra and returns matching names.",
+        "details": "Implement:\n- matching_overlays(color: &MunsellColor) -> Vec<&'static str>\n- semantic_overlay(color: &MunsellColor) -> Option<&'static str> (returns closest by centroid if multiple match)\n- matches_overlay(color: &MunsellColor, name: &str) -> bool\n- closest_overlay(color: &MunsellColor) -> Option<(&'static str, f64)> (by centroid distance)\n\nAlgorithm:\n1. Convert color to Cartesian coordinates\n2. Test against each polyhedron using point-in-polyhedron\n3. Return all matching overlay names\n4. For single result, prefer closest centroid",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [
+          "4",
+          "6"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-22T20:00:38.743Z"
+      },
+      {
+        "id": "8",
+        "title": "Integrate semantic overlays with MunsellColor",
+        "description": "Add semantic overlay methods to MunsellColor struct and populate alt_color_name field automatically.",
+        "details": "Integration points:\n- Add semantic_overlay() method to MunsellColor\n- Add matching_overlays() method to MunsellColor  \n- Update conversion pipeline to populate alt_color_name field\n- Ensure backward compatibility (alt_color_name remains optional)\n- Document new API in rustdoc",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [
+          "7"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-22T20:05:03.021Z"
+      },
+      {
+        "id": "9",
+        "title": "Comprehensive testing for semantic overlays",
+        "description": "Create comprehensive test suite validating semantic overlay functionality against Centore paper's focal colors and sample data.",
+        "details": "Tests to implement:\n1. Centroid colors from Table 1 should match their own overlay\n2. Test colors significantly outside all polyhedra return no match\n3. Test boundary cases near polyhedron edges\n4. Verify all 20 overlays have valid polyhedra (non-degenerate)\n5. Integration test: RGB -> Munsell -> semantic_overlay pipeline\n6. Performance benchmark for overlay matching",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [
+          "8"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-22T20:09:13.951Z"
+      },
+      {
+        "id": "10",
+        "title": "Add Python bindings for semantic overlays",
+        "description": "Expose semantic overlay functionality through PyO3 Python bindings.",
+        "details": "Python API to expose:\n- munsellspace.semantic_overlay(munsell_str) -> Optional[str]\n- munsellspace.matching_overlays(munsell_str) -> List[str]\n- munsellspace.matches_overlay(munsell_str, name) -> bool\n- Update MunsellColor Python class with overlay methods\n- Add Python tests for overlay functionality\n- Update Python documentation",
+        "testStrategy": "",
+        "status": "deferred",
+        "dependencies": [
+          "9"
+        ],
+        "priority": "medium",
+        "subtasks": [],
+        "updatedAt": "2025-12-22T20:10:37.666Z"
+      },
+      {
+        "id": "11",
+        "title": "Reorganize assets folder structure",
+        "description": "Re-organize logically the folder `assets`, including the Centore's datasets. Group related files together and establish a clear organizational structure.",
+        "details": "Current assets folder contents need logical reorganization:\n\n1. **Centore datasets** - Group all Centore-related files:\n   - Polyhedron files (vertices, faces)\n   - Sample color data\n   - Centroid reference data\n\n2. **XKCD color survey** - Group XKCD data:\n   - xkcd_color_survey.txt (949 colors summary)\n   - xkcd_color_survey/ folder with SQL dump\n\n3. **ISCC-NBS data** - Reference color classification data\n\n4. **Create README.md** in assets folder documenting:\n   - Data sources and licenses\n   - File format descriptions\n   - How to use each dataset\n\nMaintain backward compatibility with any code that references current paths.",
+        "testStrategy": "Verify all existing code paths still work after reorganization. Run cargo test to ensure no broken file references.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T14:46:35.273Z"
+      },
+      {
+        "id": "12",
+        "title": "Check paper licensing and create literature folder",
+        "description": "Check if we can include public papers in our repo. If yes, create a literature folder and include a copy of all articles we have used so far for the semantic overlay implementation.",
+        "details": "Papers used in development:\n\n1. **Centore (2020)** - \"An Algorithm to Find ISCC–NBS Colour Categories in the Munsell Space\" - Core reference for polyhedron methodology\n\n2. **XKCD Color Survey (2010)** - Randall Munroe's color naming survey - CC0 Public Domain\n\n3. **ASTM D1535** - Standard for Munsell color notation (may not be redistributable)\n\nFor each paper:\n- Check license/copyright status\n- If redistributable: create `literature/` folder and include PDF\n- If not redistributable: create `literature/REFERENCES.md` with full citations and links\n- Include any supplementary data files that are redistributable\n\nNote: Many academic papers are NOT redistributable even if freely accessible. Prefer linking over copying unless explicitly permitted.",
+        "testStrategy": "Verify copyright compliance for each included document. Check journal policies for redistribution rights.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T14:50:13.723Z"
+      },
+      {
+        "id": "13",
+        "title": "Create overlay-preprocessing folder with extraction code",
+        "description": "Create a folder overlay-preprocessing with the code for the a priori, a posteriori, and ML classification methods for extracting color words from XKCD data.",
+        "details": "Move and organize preprocessing scripts:\n\n1. **A Priori Method** (scripts/extract_xkcd_colors.py)\n   - Pattern matching against predefined overlay names\n   - 32 overlay patterns, found 210 candidates\n   - Limitation: only captured 16% of responses\n\n2. **A Posteriori Method** (scripts/extract_color_words.py)\n   - Word tokenization from all color names\n   - Hue variance classification: <40° = color word, >60° = modifier\n   - Found 84 color words, 66 modifiers, 13 ambiguous\n\n3. **ML Classification** (scripts/classify_color_words.py)\n   - Random Forest classifier\n   - 83.33% cross-validation accuracy\n   - Feature importance: hue_std (0.480), val_std (0.149)\n   - Found 40 high-confidence new overlay candidates\n\nNote on Bayesian: The a posteriori method uses statistical inference from data without prior assumptions about which words are colors - this is more frequentist than Bayesian. A true Bayesian approach would incorporate prior beliefs about word-color associations.",
+        "testStrategy": "Ensure all scripts run successfully with correct dependencies. Verify output file generation.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T14:50:13.923Z"
+      },
+      {
+        "id": "14",
+        "title": "Document preprocessing methodologies",
+        "description": "Document in a .md file the methodologies, their pros and cons, and our results for the color word extraction approaches.",
+        "details": "Create overlay-preprocessing/METHODOLOGY.md documenting:\n\n## A Priori Method\n- Approach: Pattern matching against predefined color names\n- Pros: High precision for known colors, fast\n- Cons: Introduces selection bias, misses unknown color terms\n- Results: 210 candidates, 16% response coverage\n\n## A Posteriori Method  \n- Approach: Tokenize all names, classify by hue variance\n- Pros: Unbiased discovery, data-driven\n- Cons: Threshold sensitivity (40°/60° boundaries)\n- Results: 84 color words, 66 modifiers, 13 ambiguous\n\n## ML Classification\n- Approach: Random Forest on numeric features\n- Pros: Handles edge cases, learns non-linear relationships\n- Cons: Requires labeled training data\n- Results: 83.33% accuracy, 40 high-confidence candidates\n- Key finding: hue_std is most important feature (48%)\n\n## Comparison\n- Agreement: 75 COLOR, 62 MODIFIER\n- Disagreements: ~10-15 words\n- Recommendation: Use ensemble approach",
+        "testStrategy": "Review documentation for completeness and accuracy against actual results.",
+        "status": "done",
+        "dependencies": [
+          "13"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T14:50:14.129Z"
+      },
+      {
+        "id": "15",
+        "title": "Generate final overlay preprocessing results",
+        "description": "Generate the final results: dataset by overlay colors, the derived centroids/polyhedron coordinates for new overlay candidates.",
+        "details": "Generate final output files:\n\n1. **overlay_colors_dataset.csv** - Complete dataset with:\n   - Color word/overlay name\n   - Source (Centore, XKCD, both)\n   - Response count (from XKCD)\n   - Mean RGB\n   - Munsell notation\n   - Cartesian coordinates (x, y, z)\n   - Classification confidence (from ML)\n\n2. **overlay_centroids.json** - Centroid coordinates:\n   - Existing Centore 20 overlays\n   - New high-confidence candidates\n   - Hue number, value, chroma\n   - Cartesian (x, y, z)\n\n3. **candidate_polyhedra/** - For new overlays:\n   - Convex hull vertices from XKCD samples\n   - Face indices\n   - Bounding box\n\n4. **excluded_colors.txt** - Colors filtered out:\n   - Low confidence\n   - Insufficient samples\n   - Offensive terms (puke, etc.)",
+        "testStrategy": "Verify all output files are valid JSON/CSV. Cross-check centroid calculations against source data.",
+        "status": "done",
+        "dependencies": [
+          "13",
+          "14"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T14:51:59.098Z"
+      },
+      {
+        "id": "16",
+        "title": "Test contradictions between new overlays and ISCC-NBS",
+        "description": "Test for any contradiction between the polyhedron coordinates and the canonical ISCC-NBS color classification system.",
+        "details": "Contradiction testing:\n\n1. **Name vs Coordinate Consistency**\n   - For each overlay candidate, check if Munsell coordinates fall within expected ISCC-NBS region\n   - Example: \"blue\" candidate should have hue in B/PB range, not R/YR\n\n2. **Overlap Detection**\n   - Check if new overlay polyhedra overlap with existing Centore 20\n   - Document acceptable vs problematic overlaps\n\n3. **ISCC-NBS Boundary Alignment**\n   - Verify new overlays respect ISCC-NBS basic category boundaries\n   - Flag overlays that span multiple basic categories\n\n4. **Output Report**\n   - List all detected contradictions\n   - Classify severity (error, warning, info)\n   - Recommend resolution (remove, adjust, accept)\n\nReference: Use existing ISCC-NBS polygon data in the library for boundary testing.",
+        "testStrategy": "Run contradiction detection on all candidates. Manual review of flagged items.",
+        "status": "done",
+        "dependencies": [
+          "15"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T14:51:59.229Z"
+      },
+      {
+        "id": "17",
+        "title": "Create combined color name dictionary",
+        "description": "Prepare a dictionary with color names and Munsell coordinates: a combination between Centore's dataset and XKCD's dataset.",
+        "details": "Combined dictionary requirements:\n\n1. **Data Sources**\n   - Centore's 20 semantic overlays (curated, high quality)\n   - XKCD validated color words (data-driven, high volume)\n\n2. **Dictionary Format** (JSON):\n   ```json\n   {\n     \"color_name\": {\n       \"munsell\": \"5R 4/14\",\n       \"hue_number\": 5.0,\n       \"value\": 4.0,\n       \"chroma\": 14.0,\n       \"cartesian\": [x, y, z],\n       \"source\": \"centore|xkcd|both\",\n       \"confidence\": 0.95,\n       \"sample_count\": 1234,\n       \"hex_representative\": \"#FF0000\"\n     }\n   }\n   ```\n\n3. **Conflict Resolution**\n   - When both sources have same color: use weighted average by sample count\n   - Prefer Centore for existing 20 overlays\n   - Document any significant discrepancies\n\n4. **Filtering**\n   - Exclude offensive terms\n   - Minimum confidence threshold\n   - Minimum sample count threshold",
+        "testStrategy": "Validate JSON structure. Check for duplicate entries. Verify coordinate calculations.",
+        "status": "done",
+        "dependencies": [
+          "15",
+          "16"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T14:51:59.346Z"
+      },
+      {
+        "id": "18",
+        "title": "Filter offensive color names from dataset",
+        "description": "Remove 'puke' and other potentially offensive color names from the overlay candidates. We don't want to disgust our users.",
+        "details": "Create exclusion list for offensive/inappropriate color names:\n\n1. **Known exclusions**:\n   - puke (user explicitly requested removal)\n   - vomit, barf (similar)\n   - Any profanity-based color names\n   - Racially insensitive terms\n\n2. **Review process**:\n   - Generate list of all candidate color names\n   - Flag potentially offensive terms\n   - Document exclusion rationale\n\n3. **Implementation**:\n   - Create excluded_colors.txt with one term per line\n   - Add filtering step to preprocessing pipeline\n   - Log excluded colors with reason\n\n4. **Output**:\n   - Clean dataset without offensive terms\n   - Audit log of removed items",
+        "testStrategy": "Review exclusion list for completeness. Verify no offensive terms in final output.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T14:50:14.320Z"
+      },
+      {
+        "id": "19",
+        "title": "Phase 1: Data Inventory and Exploration",
+        "description": "Understand the raw color naming data before any transformations. Inventory all unique color names in both Centore and XKCD datasets.",
+        "details": "Tasks:\n- Inventory all unique color names in both datasets\n- Analyze name length, character distribution, word count\n- Identify obvious categories: single words, compounds, phrases\n- Document data quality observations\n\nMethodologies to Compare:\n- Simple tokenization vs NLP-based parsing\n- Character n-gram analysis for typo detection\n\nDeliverables:\n- data_inventory.json: Raw statistics\n- data_exploration.md: Observations and findings\n\nDocument methodology, results, uncertainty considerations, and suggestions to reduce uncertainty (but do not act on suggestions yet).",
+        "testStrategy": "Verify inventory counts match raw data. Cross-check sample entries manually.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T15:42:19.354Z"
+      },
+      {
+        "id": "20",
+        "title": "Phase 2.1: Spelling Variant Detection",
+        "description": "Identify and map known spelling variants (gray/grey, fuchsia/fuschia, etc.) to canonical forms.",
+        "details": "Tasks:\n- Identify known spelling variants (gray/grey, color/colour)\n- Build variant mapping dictionary\n- Measure impact on unique name count\n\nMethodologies to Compare:\n1. Rule-based: Predefined substitution rules\n2. Phonetic: Soundex, Metaphone algorithms\n3. Edit distance: Levenshtein with threshold\n\nEvaluate each method's pros/cons based on actual results, not theory.\n\nDeliverables:\n- spelling_variants.json: Mapping dictionary\n- spelling_methods_comparison.md: Method evaluation with results",
+        "testStrategy": "Measure precision/recall on known variant pairs. Count false positives.",
+        "status": "done",
+        "dependencies": [
+          "19"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T18:59:30.142Z"
+      },
+      {
+        "id": "21",
+        "title": "Phase 2.2: Typo Detection and Correction",
+        "description": "Identify and correct typos in color names (lavendar→lavender, turqoise→turquoise).",
+        "details": "Tasks:\n- Identify candidate typos (low-frequency variants of high-frequency names)\n- Evaluate correction accuracy\n- Measure false positive rate (valid rare names incorrectly \"corrected\")\n\nMethodologies to Compare:\n1. Frequency-based: Rare variants of common names are typos\n2. Edit distance: Names within N edits of common names\n3. Contextual: Word embeddings or language models\n4. Hybrid: Combination approaches\n\nCritical: Distinguish between typos and legitimate rare color names.\n\nDeliverables:\n- typo_corrections.json: Correction mapping\n- typo_methods_comparison.md: Method evaluation\n- false_positive_analysis.md: Analysis of incorrectly flagged names",
+        "testStrategy": "Manual review of correction candidates. Measure false positive rate.",
+        "status": "done",
+        "dependencies": [
+          "19",
+          "20"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T18:59:30.262Z"
+      },
+      {
+        "id": "22",
+        "title": "Phase 2.3: Compound Name Normalization",
+        "description": "Standardize compound color names (word order, hyphenation, modifier handling).",
+        "details": "Tasks:\n- Standardize word order: \"dark blue\" vs \"blue dark\"\n- Handle hyphenation: \"blue-green\" vs \"blue green\" vs \"bluegreen\"\n- Normalize modifiers: \"very dark\" vs \"really dark\"\n\nMethodologies to Compare:\n1. Lexical sorting: Alphabetize components\n2. Semantic ordering: Modifier-then-color convention\n3. Frequency-based: Most common form wins\n\nConsider: Some variations may be intentionally different colors.\n\nDeliverables:\n- compound_normalization.json: Normalization rules\n- compound_methods_comparison.md: Method evaluation\n- canonical_names.json: Final mapping from all variants to canonical forms",
+        "testStrategy": "Verify normalization preserves semantic distinctions where appropriate.",
+        "status": "done",
+        "dependencies": [
+          "20",
+          "21"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T18:59:30.452Z"
+      },
+      {
+        "id": "23",
+        "title": "Phase 3: Pre-Consolidation Coordinate Analysis",
+        "description": "Analyze coordinate distributions for each canonical name before merging duplicates.",
+        "details": "Tasks:\n- For each canonical name, compute coordinate statistics (mean, std, range)\n- Identify names with high coordinate variance (potential issues)\n- Compare within-dataset vs across-dataset variance\n- Document outlier detection methodology\n\nMethodologies to Compare:\n1. Parametric: Assume normal distribution, use z-scores\n2. Non-parametric: IQR-based outlier detection\n3. Robust statistics: Median absolute deviation\n\nThis analysis informs both calibration and consolidation strategies.\n\nDeliverables:\n- coordinate_distributions.json: Per-name statistics\n- high_variance_names.csv: Names requiring attention\n- preconsolidation_analysis.md: Findings and observations",
+        "testStrategy": "Verify statistics against manual spot-checks. Cross-validate outlier detection.",
+        "status": "done",
+        "dependencies": [
+          "22"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T18:59:30.631Z"
+      },
+      {
+        "id": "24",
+        "title": "Phase 4: Calibration Analysis (Centore vs XKCD)",
+        "description": "Detect and characterize systematic bias between Centore (spectrophotometer) and XKCD (monitors) using 20 shared overlay colors.",
+        "details": "Use the 20 shared overlay colors as calibration reference points.\n\nTasks:\n- Extract Centore coordinates for 20 overlays (from polyhedra centroids)\n- Compute XKCD aggregate coordinates for same 20 colors\n- Analyze differences: magnitude, direction, consistency\n- Test for systematic vs random differences\n- If systematic, characterize the transformation\n\nMethodologies to Compare:\n1. Point-wise comparison: Direct centroid difference vectors\n2. Statistical tests: Paired t-test, Wilcoxon signed-rank\n3. Regression analysis: Fit linear transformation model\n4. Procrustes analysis: Optimal rotation/scaling alignment\n\nAnalysis Dimensions:\n- Hue shift: Consistent rotation in hue angle?\n- Chroma scaling: Systematic saturation difference?\n- Value offset: Brightness bias?\n\nDeliverables:\n- calibration_comparison.json: Raw comparison data\n- bias_analysis.md: Statistical findings\n- transformation_candidates.md: Potential correction models (do not implement)\n- calibration_uncertainty.md: Confidence intervals, limitations",
+        "testStrategy": "Statistical significance tests. Confidence interval analysis.",
+        "status": "done",
+        "dependencies": [
+          "22",
+          "23"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T18:59:30.794Z"
+      },
+      {
+        "id": "25",
+        "title": "Phase 5: Consolidation Strategy Evaluation",
+        "description": "Determine optimal method for merging duplicate color name entries into single coordinates.",
+        "details": "Tasks:\n- Evaluate different merging strategies\n- Measure impact on coordinate accuracy\n- Document trade-offs\n\nMethodologies to Compare:\n1. Simple mean: Average all coordinates\n2. Weighted mean: Weight by response count or confidence\n3. Median: Robust to outliers\n4. Mode-based: Most common coordinate region\n5. Source-prioritized: Prefer Centore over XKCD\n\nEvaluation Criteria:\n- Consistency with known reference colors\n- Robustness to outliers\n- Preservation of legitimate variation\n\nDeliverables:\n- consolidation_methods.md: Strategy comparison with actual results\n- consolidation_evaluation.json: Quantitative results\n- recommended_strategy.md: Justified recommendation (do not implement)",
+        "testStrategy": "Compare consolidated coordinates against known reference colors.",
+        "status": "done",
+        "dependencies": [
+          "23",
+          "24"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T18:59:30.944Z"
+      },
+      {
+        "id": "26",
+        "title": "Phase 6: Synthesis and Recommendations",
+        "description": "Synthesize findings from all phases into actionable recommendations and document the complete reproducible pipeline.",
+        "details": "Tasks:\n- Summarize findings from each phase\n- Quantify overall uncertainty in final dataset\n- Propose uncertainty reduction strategies (without implementing)\n- Document reproducibility requirements\n\nDeliverables:\n- investigation_summary.md: Executive summary of findings\n- uncertainty_budget.md: Breakdown of uncertainty sources and magnitudes\n- recommendations.md: Prioritized action items for future work\n- reproducibility_guide.md: How to regenerate all results\n\nThis document serves as the blueprint for any future implementation work.",
+        "testStrategy": "Verify all deliverables are complete and internally consistent.",
+        "status": "done",
+        "dependencies": [
+          "24",
+          "25"
+        ],
+        "priority": "high",
+        "subtasks": [],
+        "updatedAt": "2025-12-23T18:59:31.077Z"
+      },
+      {
+        "id": "27",
+        "title": "Refactor polyhedron geometry to use geo crate",
+        "description": "Replace manual cross-product and half-space calculations in semantic_overlay.rs with the geo crate that's already a dependency. Lower priority optimization.",
+        "details": "",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "low",
+        "subtasks": []
+      },
+      {
+        "id": "28",
+        "title": "Implement Lay (2007) outlier-robust convex hull construction",
+        "description": "Implement the outlier elimination methodology from Lay SR (2007) \"Convex Sets and Their Applications\" for constructing polyhedra from XKCD color samples, matching Centore's methodology.",
+        "details": "",
+        "testStrategy": "",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Obtain and document Centore's exact methodology from JAIC 2020 paper",
+            "description": "Get Centore's paper \"Beige, Aqua, Fuchsia, etc.\" from JAIC Vol.25 2020 and document the exact outlier elimination and convex hull construction algorithm. Note reference to Lay (2007).",
+            "details": "",
+            "status": "done",
+            "dependencies": [],
+            "parentTaskId": 28,
+            "updatedAt": "2025-12-24T19:45:49.795Z",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "Implement convex hull peeling algorithm in Python",
+            "description": "Implement iterative convex hull peeling using scipy.spatial.ConvexHull. Algorithm: compute hull, remove boundary points, repeat until volume stabilizes or k iterations. Based on Lay (2007) and arXiv:2410.04544.",
+            "details": "",
+            "status": "done",
+            "dependencies": [
+              "28.1"
+            ],
+            "parentTaskId": 28,
+            "parentId": "undefined",
+            "updatedAt": "2025-12-24T20:04:46.122Z"
+          },
+          {
+            "id": 3,
+            "title": "Apply peeling algorithm to XKCD samples for each overlay",
+            "description": "For each of 20 semantic overlays: convert XKCD samples to Munsell Cartesian, apply outlier-robust convex hull construction, output polyhedra vertices and faces.",
+            "details": "",
+            "status": "done",
+            "dependencies": [
+              "28.2"
+            ],
+            "parentTaskId": 28,
+            "parentId": "undefined",
+            "updatedAt": "2025-12-24T20:08:14.912Z"
+          },
+          {
+            "id": 4,
+            "title": "Validate methodology against Centore's polyhedra",
+            "description": "Cross-validate our algorithm: apply same peeling method to Centore's CAUS data (if available) or compare geometric properties (volume, vertex count, centroid) to ensure methodology matches.",
+            "details": "",
+            "status": "done",
+            "dependencies": [
+              "28.3"
+            ],
+            "parentTaskId": 28,
+            "parentId": "undefined",
+            "updatedAt": "2025-12-24T20:06:37.620Z"
+          },
+          {
+            "id": 5,
+            "title": "Integrate XKCD polyhedra into bias analysis pipeline",
+            "description": "Update semantic-investigation pipeline to use our constructed XKCD polyhedra for proper apples-to-apples comparison with Centore's polyhedra. This enables valid generalization of Centore's methodology.",
+            "details": "",
+            "status": "done",
+            "dependencies": [
+              "28.4"
+            ],
+            "parentTaskId": 28,
+            "parentId": "undefined",
+            "updatedAt": "2025-12-24T20:12:02.484Z"
+          }
+        ],
+        "updatedAt": "2025-12-24T20:12:02.484Z"
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2025-12-24T20:12:02.485Z",
+      "taskCount": 28,
+      "completedCount": 24,
+      "tags": [
+        "dev"
+      ]
     }
   }
 }
