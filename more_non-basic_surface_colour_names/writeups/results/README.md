@@ -1,8 +1,10 @@
 # Results Directory Index
 
-This directory contains pointers to all experimental results, analysis outputs, and visualizations generated during the color research project.
+This directory contains all experimental results, analysis outputs, and documentation for the color research project.
 
-**Note**: Actual result files are stored in `/Users/chris/dev/projects/libraries/MunsellSpace/overlay-preprocessing/semantic-investigation/`
+**Result files are now stored in**: `writeups/results/data/`
+
+**Scripts to regenerate results**: `scripts/src/semantic/`
 
 ---
 
@@ -219,7 +221,13 @@ These files document experiments that were explored but not used in final pipeli
 ### Primary Location
 All result files are stored in:
 ```
-/Users/chris/dev/projects/libraries/MunsellSpace/overlay-preprocessing/semantic-investigation/
+more_non-basic_surface_colour_names/writeups/results/data/
+```
+
+### Scripts Location
+Scripts that generate these results are in:
+```
+more_non-basic_surface_colour_names/scripts/src/semantic/
 ```
 
 ### Organized by Phase
@@ -256,7 +264,7 @@ All result files are stored in:
 
 **View summary statistics**:
 ```bash
-cd /Users/chris/dev/projects/libraries/MunsellSpace/overlay-preprocessing/semantic-investigation
+cd more_non-basic_surface_colour_names/writeups/results/data
 
 # Phase 2 summary
 jq '.summary' full_scale_validation_summary.json
@@ -402,31 +410,31 @@ print(f"Model CV MAE: {model['performance']['cv_mae']}°")
 ### Complete Pipeline Execution
 
 ```bash
-cd /Users/chris/dev/projects/libraries/MunsellSpace/overlay-preprocessing/semantic-investigation
+cd more_non-basic_surface_colour_names/scripts
 
 # Phase 2: Semantic validation (produces validated_color_names.json)
-python full_scale_validation.py
+uv run python src/semantic/full_scale_validation.py
 
 # Phase 2: Color wheel consistency (annotates validated_color_names.json)
-python color_wheel_consistency.py
+uv run python src/semantic/color_wheel_consistency.py
 
 # Phase 3: RGB to Munsell (produces munsell_conversions.json)
-python rgb_to_munsell_conversion.py
+uv run python src/semantic/rgb_to_munsell_conversion.py
 
 # Phase 4: Calibration analysis (produces centore_comparison_results.json)
-python centore_comparison.py
-python polyhedra_bias_analysis.py
+uv run python src/semantic/centore_comparison.py
+uv run python src/semantic/polyhedra_bias_analysis.py
 
 # Phase 6: Convex hulls (produces convex_hull_results.json)
-python build_convex_hulls.py
+uv run python src/semantic/build_convex_hulls.py
 
 # Phase 7: Correction model (produces fourier_correction_model.json)
-python fit_fourier_correction.py
-python extended_model_analysis.py
+uv run python src/semantic/fit_fourier_correction.py
+uv run python src/semantic/extended_model_analysis.py
 
 # Visualizations
-python visualize_hue_bias.py
-python visualize_correction_model.py
+uv run python src/semantic/visualize_hue_bias.py
+uv run python src/semantic/visualize_correction_model.py
 ```
 
 **Total execution time**: ~15 minutes (with caching)
@@ -464,12 +472,12 @@ python visualize_correction_model.py
 
 **Archival location** (if backing up):
 - Cloud: Store in project backup
-- Local: Keep in `overlay-preprocessing/semantic-investigation/`
+- Local: Keep in `more_non-basic_surface_colour_names/writeups/results/data/`
 
 **Recommended backup**:
 ```bash
 # Create tarball of all results
-cd /Users/chris/dev/projects/libraries/MunsellSpace/overlay-preprocessing/semantic-investigation
+cd more_non-basic_surface_colour_names/writeups/results/data
 tar -czf color_research_results_$(date +%Y%m%d).tar.gz \
   validated_color_names.json \
   munsell_conversions.json \
@@ -481,6 +489,6 @@ tar -czf color_research_results_$(date +%Y%m%d).tar.gz \
 
 ---
 
-**Document version**: 1.0
-**Last updated**: 2024-12-24
+**Document version**: 2.0
+**Last updated**: 2025-12-25
 **Maintained by**: MunsellSpace Color Research Project

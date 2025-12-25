@@ -2,9 +2,9 @@
 
 This document provides a complete inventory of the `more_non-basic_surface_colour_names/` folder, which contains all research files related to extending Centore's paper "Beige, aqua, fuchsia, etc.: Definitions for some non-basic colour names."
 
-**Last updated**: 2024-12-24
-**Total files**: 150
-**Total directories**: 19
+**Last updated**: 2025-12-25
+**Total files**: ~226
+**Total directories**: ~25
 
 ---
 
@@ -12,11 +12,11 @@ This document provides a complete inventory of the `more_non-basic_surface_colou
 
 ```
 more_non-basic_surface_colour_names/
-├── archives/              # Historical files being replaced
-├── datasets/              # All color data sources
-├── literature/            # Academic papers and references
+├── archives/              # Historical files and archived scripts
+├── datasets/              # All color data sources (tracked)
+├── literature/            # Academic papers (PDFs local only, not tracked)
 ├── memory/                # Claude context preservation
-├── scripts/               # Active Python scripts (future consolidation)
+├── scripts/               # Active Python scripts (unified uv environment)
 ├── writeups/              # Documentation and paper drafts
 └── inventory.md           # This file
 ```
@@ -26,8 +26,6 @@ more_non-basic_surface_colour_names/
 ## 1. Archives (`archives/`)
 
 Contains historical analysis files and original scripts, preserved for reference.
-
-**Total files**: 57 (15 .md files + 42 scripts)
 
 ### 1.1 Analysis Documents (15 files)
 
@@ -51,91 +49,52 @@ Contains historical analysis files and original scripts, preserved for reference
 
 ### 1.2 Article Drafts (`archives/article_drafts/`, 13 files)
 
-Research notes that became the foundation for the academic paper:
+Research notes that became the foundation for the academic paper.
 
-| File | Description |
-|------|-------------|
-| `20251224-1509_00_ARTICLE_STRUCTURE.md` | Paper outline |
-| `20251224-1448_01_introduction.md` | Introduction draft |
-| `20251224-1449_02_related_work.md` | Related work section |
-| `20251224-1443_03_data_sources.md` | Data sources documentation |
-| `20251224-1444_04_methodology.md` | Methodology section |
-| `20251224-1440_05_failed_approaches.md` | What didn't work |
-| `20251224-1445_06_results.md` | Results section |
-| `20251224-1441_07_key_findings.md` | Key findings summary |
-| `20251224-1446_08_discussion.md` | Discussion section |
-| `20251224-1447_09_future_work.md` | Future work ideas |
-| `20251224-1448_10_conclusion.md` | Conclusion draft |
-| `20251224-1520_appendix_model_selection.md` | Model selection appendix |
-| `20251224-1526_AIC_SUBMISSION_REQUIREMENTS.md` | Journal submission requirements |
-
-### 1.3 Scripts Archive (`archives/scripts/`, 42 files)
+### 1.3 Scripts Archive (`archives/scripts/`, ~42 files)
 
 Original Python scripts from overlay-preprocessing. See `archives/scripts/INVENTORY.md` for detailed descriptions.
-
-**Categories**:
-- **Core pipeline**: `a_priori_extraction.py`, `a_posteriori_extraction.py`, `ml_classification.py`, `generate_final_results.py`
-- **Experiments 1-5**: `exp1_sbert_similarity.py`, `exp2_bert_tokens.py`, `exp3_autoencoder.py`, `exp4_hybrid.py`, `exp5_spelling_preprocess.py`
-- **Investigation phases**: `phase1_data_inventory.py` through `phase6_synthesis.py`
-- **Semantic analysis**: `full_scale_validation.py`, `centore_comparison.py`, `build_convex_hulls.py`
-- **Bias correction**: `fit_fourier_correction.py`, `extended_model_analysis.py`, `visualize_hue_bias.py`
-- **Vocabularies**: `collect_vocabularies.py`, `collect_color_name_com.py`
-- **Utilities**: `common.py`, `run_experiments.py`, `analyze_results.py`
 
 ---
 
 ## 2. Datasets (`datasets/`)
 
-All color data sources organized by origin.
+All color data sources organized by origin. **All tracked in git.**
 
-**Total files**: 69 (60 Centore + 7 CSV + 1 README)
+### 2.1 Centore Data (`datasets/centore/`, 60 files)
 
-### 2.1 Centore Data (`datasets/centore/`)
+- `PolyhedronFiles/` - Full polyhedron data for 30 color categories
+- `PolyhedronFilesJustNames/` - Simplified name-only versions
 
-#### PolyhedronFiles/ (30 files)
-Complete polyhedron data for 30 color categories from Centore (2020).
-Contains vertices, faces, and centroid data in Munsell space.
-
-**Colors**: aqua, beige, blue, brown, coral, fuchsia, gold, gray, green, lavender, lilac, magenta, mauve, navy, orange, peach, pink, purple, red, rose, rust, sand, tan, taupe, teal, turquoise, violet, white, wine, yellow
-
-**Format**: Text files with Munsell coordinates (Hue, Value, Chroma)
-
-#### PolyhedronFilesJustNames/ (30 files)
-Name-only versions of polyhedron files (without coordinate data).
-
-**Source**: Centore, P. (2020) "Beige, aqua, fuchsia, etc." - JAIC Vol. 25, pp. 24-54
+**Source:** Centore, P. (2020) "Beige, aqua, fuchsia, etc." - JAIC Vol. 25, pp. 24-54
 
 ### 2.2 Collected Vocabularies (`datasets/collected/`, 7 files)
 
-| File | Description | Records |
-|------|-------------|---------|
+| File | Source | Records |
+|------|--------|---------|
 | `centore_colors.csv` | 30 Centore color categories | 30 |
-| `xkcd_colors.csv` | XKCD survey color names | 954 |
+| `xkcd_colors.csv` | XKCD survey color names | 949 |
 | `meodai_colors.csv` | Meodai color names collection | ~33,000 |
-| `colorhexa_colors.csv` | ColorHexa web database | Variable |
-| `color_name_com_colors.csv` | color-name.com user colors | Variable |
-| `wikipedia_colors.csv` | Wikipedia list of colors | ~1,500 |
-| `master_vocabulary.csv` | Merged reference vocabulary | ~35,000 |
+| `colorhexa_colors.csv` | ColorHexa web database | ~1,400 |
+| `color_name_com_colors.csv` | color-name.com user colors | ~1,300 |
+| `wikipedia_colors.csv` | Wikipedia list of colors | ~900 |
+| `master_vocabulary.csv` | Merged reference vocabulary | ~33,000 |
 
-### 2.3 XKCD Data (`datasets/xkcd/`)
+### 2.3 Source Documentation
 
-**Status**: Placeholder for XKCD survey SQL dump
-**Required file**: `mainsurvey_sqldump.txt` (~295 MB)
-**Download**: https://xkcd.com/color/rgb.txt (954 most common) or full dump
+- `datasets/SOURCES.md` - Complete documentation with URLs and collection dates
 
 ---
 
 ## 3. Literature (`literature/`)
 
-Academic papers and reference materials.
+Academic papers and reference materials. **PDFs stored locally but NOT tracked in git.**
 
-**Total files**: 3 (2 PDFs + 1 README)
-
-| File | Citation | Description |
-|------|----------|-------------|
-| `jaic_v25_03.pdf` | Centore (2020) | Primary methodology paper |
-| `convex-sets-and-their-applications.pdf` | Lay (2007) | Convex hull theory reference |
-| `README.md` | - | Literature citations and licenses |
+| File | Citation | Tracked |
+|------|----------|---------|
+| `jaic_v25_03.pdf` | Centore (2020) | No (.gitignore) |
+| `convex-sets-and-their-applications.pdf` | Lay (2007) | No (.gitignore) |
+| `SOURCES.md` | Citations with download URLs | Yes |
 
 ---
 
@@ -143,35 +102,40 @@ Academic papers and reference materials.
 
 Context preservation for Claude sessions.
 
-**Total files**: 3
-
 | File | Description |
 |------|-------------|
 | `README.md` | Instructions for context preservation |
-| `20251224-2240_context_project-state.md` | Current project state snapshot |
-| `critical_decisions.md` | 7 key decisions with rationale |
-
-**Key decisions documented**:
-1. SBERT vs BERT for semantic validation
-2. 0.35 similarity threshold selection
-3. Fourier 4 over higher-order models
-4. Inner convex hull methodology
-5. Circular statistics for hue
-6. Leave-one-out cross-validation
-7. Annotation vs filtering for consistency
+| `20251224-2240_context_project-state.md` | Project state snapshot |
+| `20251225-0930_context_project-goals.md` | Project goals and constraints |
+| `critical_decisions.md` | Key decisions with rationale |
 
 ---
 
 ## 5. Scripts (`scripts/`)
 
-**Status**: Empty - reserved for future consolidated Python environment
+Consolidated Python environment with all analysis scripts.
 
-**Planned contents**:
-- Consolidated `pyproject.toml` with uv
-- Merged scripts from `archives/scripts/`
-- Single virtual environment
+```
+scripts/
+├── pyproject.toml       # Unified uv configuration
+├── README.md            # Script documentation
+└── src/
+    ├── __init__.py
+    ├── a_posteriori_extraction.py
+    ├── a_priori_extraction.py
+    ├── generate_final_results.py
+    ├── ml_classification.py
+    ├── excluded_colors.txt
+    ├── investigation/   # Phase 1-6 investigation scripts
+    └── semantic/        # Semantic analysis scripts
+```
 
-**Migration pending**: Scripts currently in `archives/scripts/` will be consolidated here with updated import paths.
+**Usage:**
+```bash
+cd more_non-basic_surface_colour_names/scripts
+uv sync
+uv run python src/semantic/centore_comparison.py
+```
 
 ---
 
@@ -179,110 +143,40 @@ Context preservation for Claude sessions.
 
 Documentation, references, and paper drafts.
 
-**Total files**: 5
+### 6.1 Methodology (`writeups/methodology/`)
 
-### 6.1 Methodology (`writeups/methodology/`, 1 file)
+| File | Description |
+|------|-------------|
+| `pipeline.md` | Complete 7-phase data pipeline documentation (~25 KB) |
 
-| File | Size | Description |
-|------|------|-------------|
-| `pipeline.md` | ~25 KB | Complete 7-phase data pipeline documentation |
+### 6.2 References (`writeups/references/`)
 
-**Contents**:
-- Phase 1: Data Collection
-- Phase 2: Entity Matching & Normalization
-- Phase 3: Coordinate Analysis
-- Phase 4: Calibration Analysis
-- Phase 5: Consolidation Strategy
-- Phase 6: Convex Hull Construction
-- Phase 7: Bias Correction (Fourier Model)
-- Algorithms, formulas, code examples
-- References and appendices
+| File | Description |
+|------|-------------|
+| `REFERENCES.md` | Original references file |
+| `reference_collection.md` | Comprehensive bibliography |
+| `active_references.md` | Only references actually used |
 
-### 6.2 References (`writeups/references/`, 2 files)
+### 6.3 Results (`writeups/results/`)
 
-| File | Size | Description |
-|------|------|-------------|
-| `reference_collection.md` | ~15 KB | Comprehensive bibliography |
-| `active_references.md` | ~10 KB | Only references actually used |
+| File | Description |
+|------|-------------|
+| `README.md` | Index of all result files |
+| `data/` | Migrated result files (JSON, CSV) |
 
-**Reference count**: 8 primary references actively cited
+**Result files in `data/`:**
+- Phase 2: `validated_color_names.json`, `color_wheel_consistency_results.json`
+- Phase 3: Conversion results
+- Phase 4: `calibration_analysis.json`, `centore_comparison_results.json`
+- Phase 5: `consolidation_strategy.json`
+- Phase 6: `convex_hull_results.json`
+- Various experiment results
 
-### 6.3 Results (`writeups/results/`, 1 file)
+### 6.4 Drafts (`writeups/drafts/`)
 
-| File | Size | Description |
-|------|------|-------------|
-| `README.md` | ~13 KB | Index of all result files |
-
-**Documented results** (in overlay-preprocessing/semantic-investigation/):
-- Phase 2: `validated_color_names.json` (137,878 names)
-- Phase 3: `munsell_conversions.json` (133,359 colors)
-- Phase 4: `centore_comparison_results.json`, `hue_bias_analysis.json`
-- Phase 6: `convex_hull_results.json` (30 polyhedra)
-- Phase 7: `fourier_correction_model.json`
-
-### 6.4 Research Notes (`writeups/research_notes/`)
-
-**Status**: Empty - placeholder for dated research findings
-
-**Naming convention**: `YYYYMMDD_HHMM_{name}.md`
-
-### 6.5 Drafts (`writeups/drafts/`, 1 file)
-
-| File | Size | Description |
-|------|------|-------------|
-| `README.md` | ~15 KB | Academic paper outline and planning |
-
-**Contents**:
-- Working title and alternatives
-- Target venues (JAIC, Color Research & Application)
-- Complete paper structure (6 sections)
-- Planned figures and tables
-- Writing guidelines
-
----
-
-## File Statistics
-
-### By Type
-
-| Type | Count | Size |
-|------|-------|------|
-| Python scripts | 42 | ~250 KB |
-| Markdown (.md) | 38 | ~180 KB |
-| CSV data | 7 | ~5 MB |
-| PDF documents | 2 | ~15 MB |
-| Text data | 60 | ~500 KB |
-| **Total** | **150** | **~21 MB** |
-
-### By Directory
-
-| Directory | Files | Subdirs | Description |
-|-----------|-------|---------|-------------|
-| `archives/` | 57 | 2 | Historical files |
-| `datasets/` | 69 | 4 | Color data |
-| `literature/` | 3 | 0 | Papers |
-| `memory/` | 3 | 0 | Context |
-| `scripts/` | 0 | 0 | Future consolidated scripts |
-| `writeups/` | 5 | 5 | Documentation |
-| **Total** | **150** | **19** | |
-
----
-
-## Key Result Files (External)
-
-Result files are stored in `overlay-preprocessing/semantic-investigation/` (not migrated to avoid duplication).
-
-| File | Size | Description |
-|------|------|-------------|
-| `validated_color_names.json` | 25 MB | 137,878 validated XKCD names |
-| `munsell_conversions.json` | 48 MB | 133,359 RGB→Munsell conversions |
-| `centore_comparison_results.json` | 27 KB | 30 category bias analysis |
-| `convex_hull_results.json` | 11 KB | 30 constructed polyhedra |
-| `fourier_correction_model.json` | 3.4 KB | Fourier 4 correction coefficients |
-| `hue_bias_analysis.png` | ~200 KB | Bias visualization |
-| `correction_model_visualization.png` | ~180 KB | Fourier model plot |
-
-**Total external results**: ~73 MB
+| File | Description |
+|------|-------------|
+| `README.md` | Academic paper outline and planning |
 
 ---
 
@@ -297,39 +191,34 @@ Result files are stored in `overlay-preprocessing/semantic-investigation/` (not 
 ### Finding Data
 - **Centore polyhedra?** → `datasets/centore/PolyhedronFiles/`
 - **Color vocabularies?** → `datasets/collected/`
-- **XKCD raw data?** → `datasets/xkcd/` (download required)
+- **XKCD raw data?** → `assets/xkcd/` (separate, not in this folder)
 
 ### Finding Scripts
-- **Original scripts?** → `archives/scripts/`
-- **Script descriptions?** → `archives/scripts/INVENTORY.md`
+- **Active scripts?** → `scripts/src/`
+- **Archived scripts?** → `archives/scripts/`
 
 ### Finding Context
 - **Key decisions?** → `memory/critical_decisions.md`
-- **Project state?** → `memory/20251224-2240_context_project-state.md`
+- **Project goals?** → `memory/20251225-0930_context_project-goals.md`
 
 ---
 
-## Maintenance
+## Migration Summary (2025-12-25)
 
-### Adding New Files
-1. Follow naming conventions (YYYYMMDD-HHMM prefix for dated files)
-2. Update this inventory
-3. Add to appropriate subdirectory
-4. Update `memory/` if significant decision
+The second cleanup pass completed the following:
 
-### Reorganization Rules
-1. Never delete files without archiving first
-2. Preserve original timestamps in filenames
-3. Update cross-references in documentation
-4. Test any script moves for import path issues
+1. **Literature**: PDFs kept locally but not tracked (via .gitignore)
+2. **Datasets**: All tracked with SOURCES.md documentation
+3. **Scripts**: Consolidated under unified uv environment in `scripts/`
+4. **overlay-preprocessing/**: Completely removed
+5. **Root duplicates**: Removed (PolyhedronFiles/, scripts/, literature/)
+6. **tmp/**: Emptied (scratchpad ready for use)
 
-### Version Control
-- This folder is NOT fully version-controlled (large result files)
-- Scripts and documentation ARE version-controlled
-- Use `.gitignore` for generated results
+All tracked files were migrated using `git mv` to preserve history.
 
 ---
 
-**Document version**: 1.0
+**Document version**: 2.0
 **Created**: 2024-12-24
+**Updated**: 2025-12-25
 **Maintained by**: MunsellSpace Color Research Project
