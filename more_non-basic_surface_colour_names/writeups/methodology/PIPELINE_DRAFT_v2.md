@@ -580,6 +580,74 @@ From `writeups/methodology/centore_inner_hull.md`:
 
 ---
 
+## Appendix: Script Inventory
+
+### Location
+
+All scripts are in `scripts/src/`.
+
+### Reusable Core Components
+
+These functions from `track_a_full_verification.py` are validated against Centore's methodology and **safe for reuse** in Track C:
+
+| Component | Function | Description |
+|-----------|----------|-------------|
+| `MunsellCoord` | dataclass | Munsell coordinate with chromatic and neutral support |
+| `parse_munsell()` | function | Parse Munsell notation including neutral colors (N{value}) |
+| `MunsellCoord.to_cartesian()` | method | Convert to Centore's Cartesian: x=C×cos(H×π/50), y=C×sin(H×π/50), z=V |
+| `compute_inner_hull()` | function | Single-layer peeling algorithm (scipy ConvexHull) |
+| `compute_filled_solid_centroid()` | function | Tetrahedron decomposition for filled-solid centroid |
+
+**Important**: These functions have been validated against all 30 Centore polyhedra with 100% concordance. They implement the exact methodology from Centore (2020) JAIC paper.
+
+### Track A Scripts
+
+| Script | Purpose | Status |
+|--------|---------|--------|
+| `track_a_full_verification.py` | Comprehensive verification (V, E, F, coordinates, centroid) | ✅ Production |
+| `track_a_verification.py` | Centroid-only verification (deprecated by full version) | ⚠️ Superseded |
+
+### Diagnosis Scripts (One-Off)
+
+| Script | Purpose | Status |
+|--------|---------|--------|
+| `diagnose_white.py` | Initial diagnosis of white vertex discrepancy | 📋 Investigation |
+| `diagnose_white_detailed.py` | Deep analysis confirming neutral color parsing issue | 📋 Investigation |
+
+These scripts documented the investigation process and are kept for reference only.
+
+### Legacy Scripts (Pre-Track A)
+
+These scripts exist from earlier work and have **not been validated** against Centore's methodology:
+
+| Script | Purpose | Status |
+|--------|---------|--------|
+| `a_priori_extraction.py` | Pattern matching for color words | ⚠️ Unvalidated |
+| `a_posteriori_extraction.py` | Hue variance analysis | ⚠️ Unvalidated |
+| `ml_classification.py` | Random Forest classification | ⚠️ Unvalidated |
+| `generate_final_results.py` | Results generation | ⚠️ Unvalidated |
+
+**Warning**: Do not use legacy scripts without first validating their methodology against Track A results.
+
+### Recommended Refactoring for Track C
+
+Before proceeding to Track C, consider extracting the reusable core components into a shared module:
+
+```
+scripts/src/
+├── core/
+│   ├── __init__.py
+│   ├── munsell.py          # MunsellCoord, parse_munsell()
+│   ├── geometry.py         # compute_inner_hull(), compute_filled_solid_centroid()
+│   └── centore_parser.py   # parse_polyhedron_file()
+├── track_a/
+│   └── verification.py     # Track A specific code
+└── track_c/
+    └── (future extension scripts)
+```
+
+---
+
 ## Next Steps
 
 1. ~~**Track A Phase 0**: Parse Centore polyhedra, verify interpretation~~ ✅ COMPLETED
