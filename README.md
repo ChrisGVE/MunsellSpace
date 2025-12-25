@@ -197,6 +197,7 @@ This library builds upon decades of color science research and open-source contr
 
 ### Core Algorithms
 - **[Python Colour Science](https://github.com/colour-science/colour)**: This implementation is based on the mathematical algorithms from the Python `colour-science` library, specifically the Munsell color notation conversion functions. We are deeply grateful for their comprehensive and well-documented implementation.
+- **[Paul Centore's Munsell Research](http://www.munsellcolorscienceforpainters.com/)**: This library incorporates methodology from Dr. Paul Centore's work on sRGB-to-Munsell conversion, including his chromatic adaptation techniques and validation datasets.
 
 ### Scientific References
 - **Munsell Renotation Data**: Based on the original Munsell renotation studies (1943) and subsequent refinements
@@ -206,7 +207,7 @@ This library builds upon decades of color science research and open-source contr
 
 ### Data Sources
 - **Munsell Renotation Dataset**: Original renotation data from the Munsell Color Science Laboratory
-- **ISCC-NBS Definitions**: Color boundary definitions from the National Bureau of Standards
+- **[ISCC-NBS Definitions](https://iscc.org/)**: The 267 color categories and Munsell-space boundaries are derived from the Inter-Society Color Council (ISCC) and National Bureau of Standards (NBS) publications
 - **Reference RGB Values**: Validated sRGB to Munsell mappings from multiple sources
 
 ### Community
