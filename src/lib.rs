@@ -27,7 +27,7 @@
 //! - **High Performance**: 4,000+ colors/second batch processing
 //! - **Scientific Precision**: Reference data lookup with intelligent interpolation
 //! - **Thread Safety**: Full support for concurrent usage with `Send + Sync` implementations
-//! - **Zero Dependencies**: Pure implementation with minimal external requirements
+//! - **Semantic Color Names**: 30 color name overlays from Centore (2020) research
 //! - **Comprehensive Testing**: Full test suite with accuracy validation
 //!
 //! ## About Munsell Color Space
@@ -87,6 +87,41 @@
 //!
 //! Internal caches use `Arc<RwLock<T>>` for safe concurrent access, allowing multiple
 //! readers or exclusive writers without data races.
+//!
+//! ## Semantic Color Names (v1.2.0+)
+//!
+//! MunsellSpace includes 30 semantic color name overlays derived from Paul Centore's
+//! 2020 research paper "Beige, aqua, fuchsia, etc.: Definitions for some non-basic
+//! surface colour names" (JAIC, 25, 24-54). These overlays define convex polyhedra
+//! in Munsell space for each color name, allowing you to determine which color names
+//! apply to any given Munsell color.
+//!
+//! ```rust
+//! use munsellspace::{MunsellSpec, semantic_overlay, matching_overlays, get_registry};
+//!
+//! fn main() {
+//!     // Parse a Munsell color and find matching color names
+//!     let color = MunsellSpec::new(7.4, 6.2, 3.4); // Near aqua centroid
+//!
+//!     // Get the best-matching color name
+//!     if let Some(name) = semantic_overlay(&color) {
+//!         println!("Best match: {}", name);  // "aqua"
+//!     }
+//!
+//!     // Get all matching color names (colors can match multiple names)
+//!     let matches = matching_overlays(&color);
+//!     println!("All matches: {:?}", matches);
+//!
+//!     // Access the complete registry for advanced use
+//!     let registry = get_registry();
+//!     println!("Registry has {} overlays", registry.len()); // 30
+//! }
+//! ```
+//!
+//! **Available color names (30 total):**
+//! - **Non-basic (20)**: aqua, beige, coral, fuchsia, gold, lavender, lilac, magenta,
+//!   mauve, navy, peach, rose, rust, sand, tan, taupe, teal, turquoise, violet, wine
+//! - **Basic (10)**: blue, brown, gray, green, orange, pink, purple, red, white, yellow
 
 pub mod converter;
 pub mod types;
