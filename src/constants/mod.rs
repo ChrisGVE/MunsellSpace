@@ -11,6 +11,7 @@ pub mod iscc_nbs_colors;
 pub mod iscc_nbs_polygons;
 pub mod illuminants;
 pub mod chromatic_adaptation;
+pub mod centore_polyhedra;
 
 // Re-export all constants from the submodules
 pub use munsell_renotation_dataset::MUNSELL_RENOTATION_DATA;

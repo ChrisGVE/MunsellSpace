@@ -105,6 +105,8 @@ pub mod color_math_utils;
 pub mod color_interpolation;
 pub mod mechanical_wedges;
 pub mod unified_cache;
+pub mod semantic_overlay;
+pub mod semantic_overlay_data;
 
 // Test modules were moved to their respective implementation files
 #[cfg(test)]
@@ -131,6 +133,12 @@ pub use mathematical::{
 };
 pub use reverse_conversion::{ReverseConverter, ColorFormats, CieLab, HslColor, HsvColor, munsell_to_hex_string};
 pub use unified_cache::{UnifiedColorCache, CachedColorResult};
+pub use semantic_overlay::{
+    MunsellSpec, MunsellCartesian, SemanticOverlay, SemanticOverlayRegistry,
+    semantic_overlay, matching_overlays, matching_overlays_ranked, matches_overlay, closest_overlay,
+    parse_hue_to_number, hue_number_to_string, parse_munsell_notation,
+};
+pub use semantic_overlay_data::{create_overlay_registry, get_registry};
 // Note: General color conversions (RGB↔Hex↔Lab↔HSL↔HSV) are available via the palette crate
 // We only expose Munsell-specific conversions to avoid duplication
 
