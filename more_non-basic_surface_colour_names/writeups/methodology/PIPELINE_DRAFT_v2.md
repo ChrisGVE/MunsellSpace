@@ -440,7 +440,14 @@ When a user names a screen color, they perceive it as brighter and more saturate
 - XKCD samples for each new category
 - Validated methodology from Track A
 
-**Method**: Centore's inner convex hull (JAIC 2020)
+**Method**: Use `build_polyhedron.py` (or `core/` module programmatically)
+
+```bash
+# For each new category:
+python build_polyhedron.py --input category_samples.txt --name "turquoise" --output turquoise.json
+```
+
+The builder implements Centore's inner convex hull methodology (JAIC 2020):
 1. Collect samples matching category name
 2. Convert to Cartesian coordinates (Centore's formula)
 3. Compute outer convex hull
@@ -448,9 +455,9 @@ When a user names a screen color, they perceive it as brighter and more saturate
 5. Compute inner convex hull
 6. Calculate filled-solid centroid
 
-**Minimum Samples**: Use Centore's minimum as threshold
+**Minimum Samples**: Use Centore's minimum as threshold (25 samples)
 
-**Output**: Polyhedra for new categories
+**Output**: Polyhedra for new categories in JSON format
 
 ---
 
@@ -582,23 +589,72 @@ From `writeups/methodology/centore_inner_hull.md`:
 
 ## Appendix: Script Inventory
 
-### Location
+### Directory Structure
 
-All scripts are in `scripts/src/`.
+```
+scripts/src/
+├── core/                          # Validated reusable components (2025-12-25)
+│   ├── __init__.py               # Package exports
+│   ├── munsell.py                # MunsellCoord, parse_munsell()
+│   └── geometry.py               # compute_inner_hull(), compute_filled_solid_centroid()
+├── build_polyhedron.py           # Standalone polyhedron builder
+├── track_a_verification.py       # Centroid-only verification (superseded)
+├── track_a_full_verification.py  # Comprehensive verification
+├── diagnose_white.py             # Investigation script
+└── diagnose_white_detailed.py    # Investigation script
+```
 
-### Reusable Core Components
+### Core Module (`core/`)
 
-These functions from `track_a_full_verification.py` are validated against Centore's methodology and **safe for reuse** in Track C:
+The core module contains validated, reusable components for Centore's methodology. All functions have been validated against all 30 Centore polyhedra with 100% concordance.
 
-| Component | Function | Description |
-|-----------|----------|-------------|
-| `MunsellCoord` | dataclass | Munsell coordinate with chromatic and neutral support |
-| `parse_munsell()` | function | Parse Munsell notation including neutral colors (N{value}) |
-| `MunsellCoord.to_cartesian()` | method | Convert to Centore's Cartesian: x=C×cos(H×π/50), y=C×sin(H×π/50), z=V |
-| `compute_inner_hull()` | function | Single-layer peeling algorithm (scipy ConvexHull) |
-| `compute_filled_solid_centroid()` | function | Tetrahedron decomposition for filled-solid centroid |
+**Import:**
+```python
+from core import MunsellCoord, parse_munsell, compute_inner_hull, compute_filled_solid_centroid
+```
 
-**Important**: These functions have been validated against all 30 Centore polyhedra with 100% concordance. They implement the exact methodology from Centore (2020) JAIC paper.
+| Module | Component | Description |
+|--------|-----------|-------------|
+| `munsell.py` | `MunsellCoord` | Dataclass for Munsell coordinates (chromatic and neutral) |
+| `munsell.py` | `parse_munsell()` | Parse Munsell notation including neutral colors (N{value}) |
+| `munsell.py` | `parse_munsell_from_line()` | Extract Munsell notation from mixed text lines |
+| `munsell.py` | `MunsellCoord.to_cartesian()` | Convert to Centore's Cartesian: x=C×cos(H×π/50), y=C×sin(H×π/50), z=V |
+| `geometry.py` | `compute_inner_hull()` | Single-layer peeling algorithm (scipy ConvexHull) |
+| `geometry.py` | `compute_filled_solid_centroid()` | Tetrahedron decomposition for filled-solid centroid |
+| `geometry.py` | `euler_edges()` | Compute edges from V + F - 2 formula |
+
+### Standalone Builder (`build_polyhedron.py`)
+
+Constructs colour name polyhedra from Munsell samples using Centore's validated methodology.
+
+**CLI Usage:**
+```bash
+python build_polyhedron.py --input samples.txt --name "beige" --output polyhedron.json
+```
+
+**Programmatic Usage:**
+```python
+from build_polyhedron import build_polyhedron
+from core.munsell import parse_munsell
+
+samples = [parse_munsell("5R 4/14"), parse_munsell("7.5R 5/12"), ...]
+poly = build_polyhedron(samples, "red")
+print(poly.to_dict())
+```
+
+**Output Format:**
+```json
+{
+  "colour_name": "beige",
+  "num_samples": 150,
+  "num_vertices": 32,
+  "num_edges": 90,
+  "num_faces": 60,
+  "vertices": [[x, y, z], ...],
+  "faces": [[i, j, k], ...],
+  "centroid": [x, y, z]
+}
+```
 
 ### Track A Scripts
 
@@ -616,35 +672,19 @@ These functions from `track_a_full_verification.py` are validated against Centor
 
 These scripts documented the investigation process and are kept for reference only.
 
-### Legacy Scripts (Pre-Track A)
+### Archived Scripts
 
-These scripts exist from earlier work and have **not been validated** against Centore's methodology:
+Legacy scripts that have not been validated against Centore's methodology have been moved to `archives/scripts/` with appropriate suffixes:
 
-| Script | Purpose | Status |
-|--------|---------|--------|
-| `a_priori_extraction.py` | Pattern matching for color words | ⚠️ Unvalidated |
-| `a_posteriori_extraction.py` | Hue variance analysis | ⚠️ Unvalidated |
-| `ml_classification.py` | Random Forest classification | ⚠️ Unvalidated |
-| `generate_final_results.py` | Results generation | ⚠️ Unvalidated |
+| Original Script | Archive Location | Reason |
+|-----------------|------------------|--------|
+| `a_priori_extraction.py` | `archives/scripts/a_priori_extraction_LEGACY.py` | Unvalidated |
+| `a_posteriori_extraction.py` | `archives/scripts/a_posteriori_extraction_LEGACY.py` | Unvalidated |
+| `ml_classification.py` | `archives/scripts/ml_classification_LEGACY.py` | Unvalidated |
+| `generate_final_results.py` | `archives/scripts/generate_final_results_LEGACY.py` | Unvalidated |
+| `semantic/build_convex_hulls.py` | `archives/scripts/build_convex_hulls_DEPRECATED.py` | Uses wrong hue encoding (0-360° instead of 0-100 scale) |
 
-**Warning**: Do not use legacy scripts without first validating their methodology against Track A results.
-
-### Recommended Refactoring for Track C
-
-Before proceeding to Track C, consider extracting the reusable core components into a shared module:
-
-```
-scripts/src/
-├── core/
-│   ├── __init__.py
-│   ├── munsell.py          # MunsellCoord, parse_munsell()
-│   ├── geometry.py         # compute_inner_hull(), compute_filled_solid_centroid()
-│   └── centore_parser.py   # parse_polyhedron_file()
-├── track_a/
-│   └── verification.py     # Track A specific code
-└── track_c/
-    └── (future extension scripts)
-```
+**Warning**: Do not use archived scripts. Use the `core/` module and `build_polyhedron.py` instead.
 
 ---
 
@@ -658,6 +698,7 @@ scripts/src/
 
 ---
 
-**Document Status**: Draft v2.2 - Track A complete with 100% verification
+**Document Status**: Draft v2.3 - Core module extracted, separation of concerns established
 **Author**: Claude Code
 **Date**: 2025-12-25
+**Last Updated**: 2025-12-25 (module structure and archived scripts)
