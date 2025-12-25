@@ -30,6 +30,28 @@ We are deeply grateful to the Colour Science team for their:
 - Chromatic adaptation matrices (Bradford, CAT02)
 - Illuminant specifications (C, D65, F7)
 
+### Paul Centore's Munsell Color Science Research
+
+This library incorporates methodology and algorithms developed by **Paul Centore, PhD**, whose work on sRGB-to-Munsell conversion has been invaluable to the color science community.
+
+**Key Contributions Used:**
+- Mathematical framework for sRGB to Munsell conversion
+- Chromatic adaptation techniques between illuminants C and D65
+- Validation datasets and conversion tables
+
+**Publications:**
+1. Centore, P. (2012). "An Open-Source Inversion Algorithm for the Munsell Renotation"
+   - *Color Research & Application*, 37(6), 455-464
+
+2. Centore, P. (2013). "Conversions Between the Munsell and sRGB Colour Systems"
+   - Available at: http://www.munsellcolorscienceforpainters.com/
+
+**Resources:**
+- Website: http://www.munsellcolorscienceforpainters.com/
+- Conversion tables and supplementary materials freely provided
+
+We are grateful to Dr. Centore for making his research and tools openly available to the color science community.
+
 ## Scientific References
 
 ### Munsell Color System
@@ -46,16 +68,24 @@ We are deeply grateful to the Colour Science team for their:
 
 ### ISCC-NBS Color System
 
+This library implements the ISCC-NBS (Inter-Society Color Council - National Bureau of Standards) color naming system, which provides standardized color names for 267 distinct color categories.
+
 1. **ISCC-NBS Method of Designating Colors**
    - Kelly, Kenneth L. & Judd, Deane B. (1976)
    - *Color: Universal Language and Dictionary of Names*
    - National Bureau of Standards Special Publication 440
    - U.S. Government Printing Office, Washington, D.C.
 
-2. **Inter-Society Color Council**
-   - Original color boundary definitions
-   - Standardized color naming system
-   - https://iscc.org/
+2. **Inter-Society Color Council (ISCC)**
+   - The ISCC developed the original color category definitions and boundary specifications
+   - The 267 color categories and their Munsell-space boundaries are derived from ISCC publications
+   - Website: https://iscc.org/
+
+3. **National Bureau of Standards (now NIST)**
+   - Collaborated with ISCC on the standardization effort
+   - Published the definitive reference documentation
+
+We acknowledge the ISCC and NBS for their foundational work in creating a systematic approach to color naming that remains authoritative today.
 
 ### Color Space Standards
 
