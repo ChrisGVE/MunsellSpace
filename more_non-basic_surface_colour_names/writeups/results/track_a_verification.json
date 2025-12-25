@@ -1,0 +1,696 @@
+{
+  "description": "Track A Verification: Centroid computation comparison",
+  "method": "Inner convex hull via single-layer peeling, filled-solid centroid via tetrahedron decomposition",
+  "results": [
+    {
+      "color": "aqua",
+      "num_samples": 119,
+      "num_published_vertices": 28,
+      "published_centroid": [
+        -3.01,
+        -1.52,
+        6.18
+      ],
+      "computed_simple_centroid": [
+        -2.726895462098139,
+        -1.3561173897287515,
+        6.316785714285714
+      ],
+      "computed_proper_centroid": [
+        -3.0122983824335496,
+        -1.519654285898927,
+        6.179821891818379
+      ],
+      "simple_error": 0.35456455119286373,
+      "proper_error": 0.0023310518172901203,
+      "from_published_vertices_error": 0.0033339363546954757
+    },
+    {
+      "color": "beige",
+      "num_samples": 277,
+      "num_published_vertices": 32,
+      "published_centroid": [
+        1.7,
+        2.94,
+        6.15
+      ],
+      "computed_simple_centroid": [
+        1.5153907050143303,
+        2.818184237672245,
+        6.140937500000001
+      ],
+      "computed_proper_centroid": [
+        1.6990305418594884,
+        2.9405911245693437,
+        6.146889951863168
+      ],
+      "simple_error": 0.2213635034346179,
+      "proper_error": 0.003310842303115985,
+      "from_published_vertices_error": 0.0039378136682879355
+    },
+    {
+      "color": "blue",
+      "num_samples": 1673,
+      "num_published_vertices": 66,
+      "published_centroid": [
+        -1.28,
+        -4.46,
+        4.69
+      ],
+      "computed_simple_centroid": [
+        -0.9983061627085528,
+        -4.936066546470201,
+        4.847575757575758
+      ],
+      "computed_proper_centroid": [
+        -1.2786603785144168,
+        -4.462099569502688,
+        4.685423122546354
+      ],
+      "simple_error": 0.5751703173944377,
+      "proper_error": 0.0052106223281824645,
+      "from_published_vertices_error": 0.005058896844731486
+    },
+    {
+      "color": "brown",
+      "num_samples": 536,
+      "num_published_vertices": 33,
+      "published_centroid": [
+        2.56,
+        2.67,
+        3.95
+      ],
+      "computed_simple_centroid": [
+        2.4881566806654525,
+        2.384740378659754,
+        3.4778787878787876
+      ],
+      "computed_proper_centroid": [
+        2.5601050488355916,
+        2.6735410303828715,
+        3.9536848321353797
+      ],
+      "simple_error": 0.5562669799970058,
+      "proper_error": 0.005111547641977354,
+      "from_published_vertices_error": 0.004863576234399005
+    },
+    {
+      "color": "coral",
+      "num_samples": 215,
+      "num_published_vertices": 34,
+      "published_centroid": [
+        7.59,
+        3.3,
+        5.84
+      ],
+      "computed_simple_centroid": [
+        7.700904659507567,
+        3.6463872069964447,
+        5.986176470588235
+      ],
+      "computed_proper_centroid": [
+        7.590426049343233,
+        3.3040294243674677,
+        5.844692431289075
+      ],
+      "simple_error": 0.3919840573606543,
+      "proper_error": 0.006199733073181795,
+      "from_published_vertices_error": 0.006603481551099078
+    },
+    {
+      "color": "fuchsia",
+      "num_samples": 46,
+      "num_published_vertices": 18,
+      "published_centroid": [
+        9.77,
+        -3.33,
+        4.09
+      ],
+      "computed_simple_centroid": [
+        10.25031233968841,
+        -3.16781908472618,
+        3.847777777777778
+      ],
+      "computed_proper_centroid": [
+        9.774648157802739,
+        -3.3293877319461584,
+        4.091370583508907
+      ],
+      "simple_error": 0.5618489101834054,
+      "proper_error": 0.004884541153865992,
+      "from_published_vertices_error": 0.004111032975549564
+    },
+    {
+      "color": "gold",
+      "num_samples": 362,
+      "num_published_vertices": 47,
+      "published_centroid": [
+        2.36,
+        6.96,
+        6.39
+      ],
+      "computed_simple_centroid": [
+        2.2084942625418424,
+        7.350252605709419,
+        6.541063829787236
+      ],
+      "computed_proper_centroid": [
+        2.3641700109420123,
+        6.960850680184671,
+        6.388246319396127
+      ],
+      "simple_error": 0.4450520929236467,
+      "proper_error": 0.004603047218256031,
+      "from_published_vertices_error": 0.005136748198085945
+    },
+    {
+      "color": "gray",
+      "num_samples": 482,
+      "num_published_vertices": 39,
+      "published_centroid": [
+        0.43,
+        -0.33,
+        5.25
+      ],
+      "computed_simple_centroid": [
+        0.4135082844532052,
+        -0.335618725361361,
+        5.167948717948719
+      ],
+      "computed_proper_centroid": [
+        0.43344141873518593,
+        -0.3311450034714906,
+        5.251258343286637
+      ],
+      "simple_error": 0.08388062733803105,
+      "proper_error": 0.0038389873257982433,
+      "from_published_vertices_error": 0.00472424542462132
+    },
+    {
+      "color": "green",
+      "num_samples": 1296,
+      "num_published_vertices": 66,
+      "published_centroid": [
+        -4.17,
+        2.28,
+        5.33
+      ],
+      "computed_simple_centroid": [
+        -3.5252265725493364,
+        1.8561698206276729,
+        4.986969696969697
+      ],
+      "computed_proper_centroid": [
+        -4.167191357504999,
+        2.2762974942815624,
+        5.325217267852891
+      ],
+      "simple_error": 0.8444137507705073,
+      "proper_error": 0.0066686991273243,
+      "from_published_vertices_error": 0.005681741491507238
+    },
+    {
+      "color": "lavender",
+      "num_samples": 47,
+      "num_published_vertices": 15,
+      "published_centroid": [
+        2.96,
+        -3.77,
+        5.37
+      ],
+      "computed_simple_centroid": [
+        2.9071002748843338,
+        -3.3014732504689794,
+        5.502
+      ],
+      "computed_proper_centroid": [
+        2.9607994751531392,
+        -3.765430355999292,
+        5.3695221115724845
+      ],
+      "simple_error": 0.4896322047653898,
+      "proper_error": 0.004663602058800287,
+      "from_published_vertices_error": 0.004480050087399616
+    },
+    {
+      "color": "lilac",
+      "num_samples": 78,
+      "num_published_vertices": 20,
+      "published_centroid": [
+        3.47,
+        -3.36,
+        5.61
+      ],
+      "computed_simple_centroid": [
+        3.131768957333218,
+        -2.9796992696778974,
+        5.761000000000001
+      ],
+      "computed_proper_centroid": [
+        3.4697933359724313,
+        -3.3610311591442503,
+        5.609586850356998
+      ],
+      "simple_error": 0.5308765239742508,
+      "proper_error": 0.0011299078849954843,
+      "from_published_vertices_error": 0.0009618738472848177
+    },
+    {
+      "color": "magenta",
+      "num_samples": 25,
+      "num_published_vertices": 7,
+      "published_centroid": [
+        8.69,
+        -3.55,
+        3.37
+      ],
+      "computed_simple_centroid": [
+        8.800888089100669,
+        -3.570247212466058,
+        3.332857142857143
+      ],
+      "computed_proper_centroid": [
+        8.691770599347052,
+        -3.552748932367002,
+        3.373269429456106
+      ],
+      "simple_error": 0.11868323282493747,
+      "proper_error": 0.004623939897380502,
+      "from_published_vertices_error": 0.004718754324896517
+    },
+    {
+      "color": "mauve",
+      "num_samples": 181,
+      "num_published_vertices": 44,
+      "published_centroid": [
+        3.28,
+        -2.02,
+        5.15
+      ],
+      "computed_simple_centroid": [
+        2.98244688658661,
+        -1.9683192957973619,
+        5.213181818181818
+      ],
+      "computed_proper_centroid": [
+        3.2754527185277382,
+        -2.0243978826788402,
+        5.148756775797161
+      ],
+      "simple_error": 0.3085460948345361,
+      "proper_error": 0.0064470727670269965,
+      "from_published_vertices_error": 0.0068483819219787205
+    },
+    {
+      "color": "navy",
+      "num_samples": 100,
+      "num_published_vertices": 24,
+      "published_centroid": [
+        0.51,
+        -3.57,
+        2.11
+      ],
+      "computed_simple_centroid": [
+        0.4494955162882393,
+        -2.9831969695945033,
+        1.9291666666666665
+      ],
+      "computed_proper_centroid": [
+        0.5116888352526381,
+        -3.571744467781256,
+        2.1116120600934063
+      ],
+      "simple_error": 0.6170083334013774,
+      "proper_error": 0.0029144587996998922,
+      "from_published_vertices_error": 0.0011746620425229202
+    },
+    {
+      "color": "orange",
+      "num_samples": 378,
+      "num_published_vertices": 46,
+      "published_centroid": [
+        6.27,
+        6.27,
+        5.69
+      ],
+      "computed_simple_centroid": [
+        7.313187599530101,
+        7.305575265820175,
+        6.080434782608696
+      ],
+      "computed_proper_centroid": [
+        6.266086564665409,
+        6.269908006536652,
+        5.693175874375092
+      ],
+      "simple_error": 1.5208865238611993,
+      "proper_error": 0.005040795270756967,
+      "from_published_vertices_error": 0.005623369363394902
+    },
+    {
+      "color": "peach",
+      "num_samples": 102,
+      "num_published_vertices": 28,
+      "published_centroid": [
+        4.04,
+        4.24,
+        7.03
+      ],
+      "computed_simple_centroid": [
+        3.723038417897154,
+        4.1760659116691565,
+        7.314285714285716
+      ],
+      "computed_proper_centroid": [
+        4.03843301844127,
+        4.240306255698121,
+        7.030900974715599
+      ],
+      "simple_error": 0.43054683778512975,
+      "proper_error": 0.0018332973561805434,
+      "from_published_vertices_error": 0.003493361980882982
+    },
+    {
+      "color": "pink",
+      "num_samples": 594,
+      "num_published_vertices": 55,
+      "published_centroid": [
+        7.87,
+        0.35,
+        5.76
+      ],
+      "computed_simple_centroid": [
+        7.222183275289286,
+        0.3350293711495976,
+        6.0707272727272725
+      ],
+      "computed_proper_centroid": [
+        7.870925381243571,
+        0.3470098302287832,
+        5.761568825873585
+      ],
+      "simple_error": 0.7186390377370427,
+      "proper_error": 0.0035012369711691364,
+      "from_published_vertices_error": 0.003829836046476944
+    },
+    {
+      "color": "purple",
+      "num_samples": 226,
+      "num_published_vertices": 45,
+      "published_centroid": [
+        4.36,
+        -4.75,
+        3.53
+      ],
+      "computed_simple_centroid": [
+        3.604259432661284,
+        -5.420862410982897,
+        2.98
+      ],
+      "computed_proper_centroid": [
+        4.356315679560451,
+        -4.751574792172604,
+        3.5295288837042356
+      ],
+      "simple_error": 1.1505216988789173,
+      "proper_error": 0.004034369597881395,
+      "from_published_vertices_error": 0.0037623609708265014
+    },
+    {
+      "color": "red",
+      "num_samples": 662,
+      "num_published_vertices": 39,
+      "published_centroid": [
+        8.51,
+        2.34,
+        3.79
+      ],
+      "computed_simple_centroid": [
+        9.112575340363247,
+        3.0008904661416276,
+        3.890769230769231
+      ],
+      "computed_proper_centroid": [
+        8.507578289190116,
+        2.337983196050941,
+        3.7872848903995977
+      ],
+      "simple_error": 0.9000153814911183,
+      "proper_error": 0.004159807875112007,
+      "from_published_vertices_error": 0.00293259979727844
+    },
+    {
+      "color": "rose",
+      "num_samples": 467,
+      "num_published_vertices": 51,
+      "published_centroid": [
+        7.69,
+        0.23,
+        4.99
+      ],
+      "computed_simple_centroid": [
+        7.761371706138806,
+        0.19041828590867355,
+        4.977254901960784
+      ],
+      "computed_proper_centroid": [
+        7.685929876894615,
+        0.22796402963180645,
+        4.992389451492565
+      ],
+      "simple_error": 0.08260187680434826,
+      "proper_error": 0.005140092982473438,
+      "from_published_vertices_error": 0.004393555776430895
+    },
+    {
+      "color": "rust",
+      "num_samples": 93,
+      "num_published_vertices": 24,
+      "published_centroid": [
+        6.11,
+        4.11,
+        3.95
+      ],
+      "computed_simple_centroid": [
+        5.927926006454874,
+        3.8205548021006988,
+        3.5591666666666666
+      ],
+      "computed_proper_centroid": [
+        6.113033399642553,
+        4.107935028537467,
+        3.9472308262925186
+      ],
+      "simple_error": 0.5193073811885223,
+      "proper_error": 0.004597166905249969,
+      "from_published_vertices_error": 0.00425931167741785
+    },
+    {
+      "color": "sand",
+      "num_samples": 123,
+      "num_published_vertices": 24,
+      "published_centroid": [
+        1.43,
+        2.85,
+        6.26
+      ],
+      "computed_simple_centroid": [
+        1.2060315084687803,
+        2.680717842863135,
+        6.522083333333335
+      ],
+      "computed_proper_centroid": [
+        1.4326284282776782,
+        2.854294433255183,
+        6.262000900392643
+      ],
+      "simple_error": 0.3840651084579179,
+      "proper_error": 0.005417969598973372,
+      "from_published_vertices_error": 0.004070775445759991
+    },
+    {
+      "color": "tan",
+      "num_samples": 129,
+      "num_published_vertices": 27,
+      "published_centroid": [
+        2.11,
+        3.47,
+        5.23
+      ],
+      "computed_simple_centroid": [
+        2.015082695840396,
+        3.403398771561263,
+        5.185185185185184
+      ],
+      "computed_proper_centroid": [
+        2.114385774624796,
+        3.4736604646906755,
+        5.231187379001829
+      ],
+      "simple_error": 0.12431164822880386,
+      "proper_error": 0.005834714192243568,
+      "from_published_vertices_error": 0.0077413963884083135
+    },
+    {
+      "color": "taupe",
+      "num_samples": 76,
+      "num_published_vertices": 23,
+      "published_centroid": [
+        0.95,
+        1.05,
+        4.68
+      ],
+      "computed_simple_centroid": [
+        0.8809810758353681,
+        0.8766044804853352,
+        4.309565217391304
+      ],
+      "computed_proper_centroid": [
+        0.9526963739547442,
+        1.0468503217659635,
+        4.684800572631254
+      ],
+      "simple_error": 0.4147909669302783,
+      "proper_error": 0.00634321709148681,
+      "from_published_vertices_error": 0.004897361029292772
+    },
+    {
+      "color": "teal",
+      "num_samples": 43,
+      "num_published_vertices": 15,
+      "published_centroid": [
+        -3.38,
+        -3.01,
+        3.32
+      ],
+      "computed_simple_centroid": [
+        -3.3191415464994685,
+        -2.8541730272531507,
+        3.254
+      ],
+      "computed_proper_centroid": [
+        -3.384976762744153,
+        -3.0081147441644465,
+        3.3202072975050227
+      ],
+      "simple_error": 0.1798382517650891,
+      "proper_error": 0.005325911117608751,
+      "from_published_vertices_error": 0.006936957029924474
+    },
+    {
+      "color": "turquoise",
+      "num_samples": 121,
+      "num_published_vertices": 26,
+      "published_centroid": [
+        -4.41,
+        -3.94,
+        5.45
+      ],
+      "computed_simple_centroid": [
+        -4.132352750679853,
+        -3.783185327631929,
+        5.4557692307692305
+      ],
+      "computed_proper_centroid": [
+        -4.411929536355285,
+        -3.9438675027155257,
+        5.45095098666136
+      ],
+      "simple_error": 0.3189233772375705,
+      "proper_error": 0.004425501489215753,
+      "from_published_vertices_error": 0.003312594173438147
+    },
+    {
+      "color": "violet",
+      "num_samples": 178,
+      "num_published_vertices": 31,
+      "published_centroid": [
+        4.22,
+        -4.49,
+        3.8
+      ],
+      "computed_simple_centroid": [
+        4.330485435340277,
+        -4.982507237279512,
+        3.656129032258064
+      ],
+      "computed_proper_centroid": [
+        4.219547128692635,
+        -4.490718770278776,
+        3.7975559928254237
+      ],
+      "simple_error": 0.524851660523265,
+      "proper_error": 0.0025874493626090148,
+      "from_published_vertices_error": 0.002573222257055186
+    },
+    {
+      "color": "white",
+      "num_samples": 151,
+      "num_published_vertices": 24,
+      "published_centroid": [
+        0.37,
+        1.98,
+        8.01
+      ],
+      "computed_simple_centroid": [
+        0.22136725879673194,
+        1.6689177251406062,
+        8.276521739130436
+      ],
+      "computed_proper_centroid": [
+        0.3674622168967351,
+        1.9971174823874602,
+        8.005253151639668
+      ],
+      "simple_error": 0.43577254493417233,
+      "proper_error": 0.017943832247327113,
+      "from_published_vertices_error": 0.0029543659936348762
+    },
+    {
+      "color": "wine",
+      "num_samples": 83,
+      "num_published_vertices": 21,
+      "published_centroid": [
+        4.78,
+        0.82,
+        2.98
+      ],
+      "computed_simple_centroid": [
+        5.107830855681651,
+        0.8420503546326518,
+        2.400000000000001
+      ],
+      "computed_proper_centroid": [
+        4.784569815972687,
+        0.8171374261412506,
+        2.9762004891882015
+      ],
+      "simple_error": 0.6666027963310595,
+      "proper_error": 0.006596501309784776,
+      "from_published_vertices_error": 0.007653220637901166
+    },
+    {
+      "color": "yellow",
+      "num_samples": 394,
+      "num_published_vertices": 35,
+      "published_centroid": [
+        1.18,
+        7.9,
+        7.44
+      ],
+      "computed_simple_centroid": [
+        0.5657883702322941,
+        7.9308870623263,
+        7.835714285714285
+      ],
+      "computed_proper_centroid": [
+        1.1791241141875524,
+        7.896383467122269,
+        7.439885468170946
+      ],
+      "simple_error": 0.7313000291805114,
+      "proper_error": 0.0037228488489361522,
+      "from_published_vertices_error": 0.003444262736136419
+    }
+  ]
+}
