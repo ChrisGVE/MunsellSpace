@@ -1,0 +1,645 @@
+Colour name:	gray
+Number of CAUS samples:	485
+Centroid in Munsell coordinates:	9.62P 5.25/0.55
+Centroid in Cartesian coordinates:	 0.43	-0.33	5.25
+Polyhedron vertices in Munsell coordinates:
+0.37R 2.68/1.04
+3.16R 4.78/2.49
+4.35R 4.29/2.13
+7.10R 2.80/1.10
+7.32R 2.09/0.60
+9.42R 5.78/2.46
+0.15YR 3.12/1.27
+1.25YR 7.11/2.14
+1.85YR 6.08/2.46
+9.63YR 5.38/2.64
+0.80Y 8.52/1.93
+1.40Y 7.32/3.21
+3.75Y 2.26/1.00
+7.62Y 8.52/0.55
+0.65GY 7.11/1.68
+1.56GY 4.03/1.43
+3.25GY 8.36/0.76
+3.55GY 8.46/0.20
+3.73GY 8.36/0.73
+6.75GY 4.21/1.16
+7.46GY 5.39/1.33
+3.08B 7.07/1.27
+4.36B 3.77/1.21
+8.96B 7.75/1.29
+9.25B 5.49/3.22
+9.52B 2.65/1.01
+2.64PB 2.10/0.76
+3.29PB 8.01/0.64
+4.53PB 5.21/3.85
+4.83PB 6.69/2.29
+5.20PB 3.17/2.22
+7.00PB 3.77/3.10
+7.61PB 4.77/4.04
+7.78PB 6.16/2.80
+0.14P 3.10/2.70
+0.68P 3.47/3.08
+1.10P 1.99/0.49
+8.02P 4.46/2.90
+4.82RP 5.27/2.44
+Polyhedron vertices in Cartesian coordinates:
+1.04	0.02	2.68
+2.44	0.49	4.78
+2.05	0.57	4.29
+0.99	0.47	2.80
+0.54	0.27	2.09
+2.04	1.37	5.78
+1.02	0.76	3.12
+1.63	1.39	7.11
+1.81	1.67	6.08
+0.87	2.49	5.38
+0.50	1.86	8.52
+0.72	3.13	7.32
+0.08	1.00	2.26
+-0.09	0.54	8.52
+-0.58	1.58	7.11
+-0.57	1.31	4.03
+-0.38	0.66	8.36
+-0.10	0.17	8.46
+-0.38	0.62	8.36
+-0.78	0.86	4.21
+-0.94	0.94	5.39
+-0.86	-0.93	7.07
+-0.75	-0.95	3.77
+-0.48	-1.20	7.75
+-1.14	-3.01	5.49
+-0.34	-0.95	2.65
+-0.11	-0.75	2.10
+-0.07	-0.64	8.01
+-0.11	-3.85	5.21
+-0.02	-2.29	6.69
+0.03	-2.22	3.17
+0.39	-3.08	3.77
+0.66	-3.99	4.77
+0.49	-2.76	6.16
+0.86	-2.56	3.10
+1.08	-2.89	3.47
+0.18	-0.45	1.99
+2.12	-1.98	4.46
+2.31	-0.78	5.27
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+21	22	25
+13	10	12
+35	33	36
+8	6	2
+6	10	2
+10	6	12
+8	11	12
+11	8	18
+22	24	25
+33	38	36
+1	38	2
+38	35	36
+35	38	1
+15	22	21
+11	15	12
+15	11	17
+13	27	37
+27	35	37
+35	27	31
+31	27	25
+20	21	25
+23	20	25
+20	27	13
+5	13	37
+35	5	37
+5	35	1
+5	1	2
+13	7	10
+32	35	31
+35	32	33
+9	8	12
+6	9	12
+9	6	8
+14	11	18
+11	14	17
+24	29	25
+32	29	33
+29	31	25
+29	32	31
+34	38	33
+29	34	33
+19	24	22
+15	19	22
+19	15	17
+24	19	18
+19	14	18
+14	19	17
+39	8	2
+38	39	2
+34	39	38
+8	39	18
+26	23	25
+27	26	25
+26	20	23
+20	26	27
+16	13	12
+16	20	13
+20	16	21
+15	16	12
+16	15	21
+10	3	2
+7	3	10
+5	4	13
+4	7	13
+4	3	7
+4	5	2
+3	4	2
+28	24	18
+28	34	24
+39	28	18
+28	39	34
+30	29	24
+34	30	24
+30	34	29
+Samples, with Munsell coordinates, from CAUS data:
+Stonebridge Grey	N3.07
+Dusk Grey	N7.13
+Turning Gray	N7.23
+Bird Grey	0.21R 6.43/1.41
+Greymetal	0.27R 4.04/1.48
+Dobbs Ferry Grey	0.37R 2.68/1.04
+Grey Dawn	0.42R 4.89/0.88
+Nickel Grey	0.56R 4.67/0.58
+Custom grey	0.66R 3.61/0.83
+Quartz Grey	0.98R 3.86/2.66
+Nocturne Grey	0.99R 3.36/0.94
+Cartridge Grey	1.62R 3.31/0.36
+Aero Grey	1.64R 4.71/1.37
+Nebular Grey	2.12R 5.18/0.66
+Greydove	2.79R 6.29/1.34
+Grey Sky	3.03R 6.61/1.03
+Rose Grey	3.16R 4.78/2.49
+Earl Grey	3.34R 5.66/0.36
+Colonial Grey	3.39R 6.28/0.79
+Taupe Grey	3.49R 4.28/1.27
+Dover Grey	3.58R 4.16/0.38
+Metallic Grey	3.66R 5.55/1.16
+Gray Earth	3.76R 4.73/0.71
+Monaco Grey	4.28R 4.16/1.07
+Tailleur Grey	4.35R 4.29/2.13
+Mayfair Grey	4.43R 3.34/0.82
+Aerial Grey	4.74R 5.59/1.42
+Gray Heather	4.92R 5.92/1.12
+Fresco Gray	5.29R 5.98/0.52
+Towngrey	5.99R 5.13/0.89
+Elephant Gray	6.28R 3.38/1.39
+Grey Dawn	6.39R 5.26/0.62
+Cannes Grey	6.43R 5.90/1.07
+Chantilly Grey	6.46R 5.40/1.55
+Night Gray	6.50R 1.86/0.31
+Nugrey	6.53R 5.38/0.55
+Estuary Gray	6.77R 5.03/1.18
+Dark Reddish Gray	6.84R 3.37/1.25
+Autumn Grey	6.88R 5.72/0.93
+London Gray	6.91R 5.70/2.08
+Bomber Grey	7.03R 4.74/0.55
+Colony Gray	7.05R 4.40/2.01
+THunder Grey	7.10R 2.80/1.10
+Carbon Grey	7.32R 2.09/0.60
+Reddish Gray	7.35R 4.97/1.39
+Dove Grey	7.41R 3.86/0.92
+Eagle Grey	7.87R 4.43/0.32
+Cord Grey	8.07R 4.84/0.95
+Reddish Gray	8.17R 5.14/0.66
+Stroller Grey	8.35R 3.29/0.97
+Greyslate	8.36R 2.86/0.48
+Mole Grey	8.62R 3.06/0.54
+Cruiser Grey	8.62R 3.45/0.47
+Bayberry Gray	8.99R 4.86/0.29
+Shadow Grey	9.14R 6.87/1.74
+Summer Grey	9.37R 5.63/1.41
+Trotteur Grey	9.42R 5.78/2.46
+Gunpowder Grey	9.44R 2.10/0.27
+Oxide Gray	9.55R 3.45/0.35
+Graycloud	9.56R 4.90/0.85
+Eagle Grey	9.57R 4.62/0.86
+oxford gray	9.75R 6.14/1.32
+Good Customs Gray	0.15YR 3.12/1.27
+Fuchao Grey	0.31YR 6.57/0.77
+Pottery Grey	1.01YR 5.20/0.70
+Gray Carbon	1.05YR 2.63/0.38
+Cloud Grey	1.05YR 5.44/0.80
+Steel Grey	1.08YR 4.87/0.48
+Casino Grey	1.25YR 7.11/2.14
+Willlow Grey	1.41YR 5.53/1.65
+Back-Pack Gray	1.50YR 4.43/0.47
+Paddock Grey	1.84YR 5.40/0.81
+Seine Grey	1.85YR 6.08/2.46
+Airway Grey	2.00YR 5.27/0.82
+Sky Grey	2.00YR 6.17/0.63
+Boulevard Gray	2.21YR 4.58/0.22
+Flight Grey	2.45YR 5.78/3.05
+Pursuit Grey	2.45YR 5.87/1.90
+Traditional Grey	2.52YR 6.08/0.73
+Chickadee Grey	2.56YR 3.93/0.77
+Cloud Grey	2.63YR 5.50/0.87
+Marine Grey	2.71YR 5.08/0.49
+Crystal Grey	3.03YR 6.21/1.07
+Gray Opal	3.10YR 5.67/0.25
+Brownish Gray	3.11YR 3.25/0.47
+Grey Earth	3.46YR 5.19/0.79
+Opaline Grey	3.46YR 6.55/1.50
+Norfold grey	3.54YR 5.11/0.98
+Gray Quartz	3.59YR 4.87/1.70
+First Cause Gray	3.63YR 1.84/1.17
+Chateau Grey	3.69YR 5.03/1.01
+Bassoon Grey	3.85YR 2.91/0.43
+Haze Grey	4.00YR 6.07/0.78
+Fleet Grey	4.47YR 3.34/0.76
+Taupe Grey	4.53YR 4.62/1.05
+Cloud Grey	4.56YR 6.14/0.83
+Medium Grey	4.59YR 4.83/1.85
+Torpedo Grey	4.60YR 2.27/0.35
+Platinum Grey	4.63YR 6.10/1.25
+Cosmos grey	4.77YR 6.48/0.36
+Algonian Grey	4.80YR 5.43/1.16
+Sylvan Gray	4.83YR 6.10/0.46
+Steamgrey	4.84YR 5.82/1.24
+Fairyland Gray	4.96YR 6.44/0.20
+Gray Pepper	5.08YR 4.07/0.84
+Positive Gray	5.13YR 3.29/1.14
+Cloud Grey	5.16YR 5.52/0.47
+Riviera Grey	5.17YR 6.27/0.80
+Smoke Gray	5.36YR 4.13/0.81
+Ascot Grey	5.48YR 6.70/0.49
+Pink Grey	5.52YR 6.42/1.47
+Pigeon Gray	5.56YR 4.54/0.65
+Piano Grey	5.57YR 3.73/1.13
+Graychalk	5.66YR 5.18/0.47
+Greywing	5.68YR 5.60/0.60
+Gray Steel	5.71YR 7.24/0.61
+Platinum Grey	5.76YR 5.99/0.66
+Beech Grey	5.84YR 6.58/1.25
+Dew Grey	5.91YR 6.62/1.10
+Greyhaze	5.95YR 6.14/1.24
+Frost Grey	5.96YR 5.16/0.87
+Light Brownish Gray	5.97YR 5.55/0.91
+Marble Gray	5.98YR 5.71/1.02
+Gungrey	6.17YR 2.59/0.74
+Burlingham Grey	6.18YR 5.17/1.02
+Light Brownish Gray	6.22YR 5.88/0.88
+Dawn Gray	6.27YR 5.65/1.48
+Avenue Grey	6.32YR 3.99/0.64
+Grey Mauve	6.38YR 3.57/0.51
+Graybirch	6.45YR 4.82/0.54
+Who's-In-My-Shadow Gray	6.55YR 5.24/0.44
+French Grey	6.81YR 6.69/0.63
+Quiet Gray	6.85YR 7.56/1.09
+Sky Grey	6.97YR 5.80/0.93
+Greymist	7.07YR 5.03/1.13
+Antique Gray	7.37YR 5.11/1.18
+Flotilla Grey	7.43YR 5.80/1.37
+Spire Gray	7.44YR 5.68/0.61
+Graphite Gray	7.45YR 4.78/0.33
+Putty Grey	7.45YR 5.37/1.55
+Chalk Grey	7.71YR 6.75/0.76
+Stone Grey	7.74YR 3.85/0.71
+Tapestry Gray	7.94YR 4.87/1.31
+Pumice Gray	7.97YR 5.03/0.45
+Gray Pearl	7.99YR 5.56/0.24
+Porcelain Grey	8.02YR 6.04/0.86
+Putty Gray	8.07YR 6.97/0.84
+Pontneuf Grey	8.11YR 6.67/1.69
+Lido Grey	8.17YR 5.83/1.15
+Sea Gull Gray	8.18YR 4.62/2.65
+Grey Clay	8.20YR 5.26/0.73
+Moon Grey	8.21YR 6.74/0.92
+Gray Shadow	8.24YR 6.52/0.72
+Conch Grey	8.37YR 7.15/2.12
+Grey Cloud	8.41YR 7.06/1.70
+Haze Grey	8.49YR 6.91/0.61
+Highland Grey	8.91YR 5.01/0.24
+Castle Grey	8.96YR 4.71/1.15
+Greygull	8.99YR 5.11/1.13
+Vapor Grey	9.21YR 6.16/0.84
+Flight Grey	9.53YR 6.07/0.80
+Boulder Gray	9.57YR 6.85/1.40
+Puccini's Gray`	9.61YR 4.42/1.96
+Castor Gray	9.62YR 5.47/1.45
+Clear Gray	9.63YR 5.38/2.64
+Cloud Grey	9.71YR 5.72/0.71
+pebble gray	9.72YR 7.21/0.06
+Oyster Grey	9.75YR 7.72/0.71
+Moonlit Grey	9.78YR 6.26/1.00
+Chateau Gray	9.86YR 6.72/0.44
+Clay Gray	9.90YR 4.03/1.87
+Nickel Gray	9.99YR 6.73/0.80
+Pinkish Gray	0.12Y 6.75/0.81
+Ashwood Grey	0.16Y 5.64/1.73
+Pearl Grey	0.24Y 7.44/1.01
+Pearl Grey	0.26Y 6.31/1.20
+Dream Gray	0.30Y 6.47/0.53
+Pilgrim Grey	0.30Y 6.78/0.32
+Oyster Grey	0.53Y 7.21/1.08
+Light Brownish Gray	0.58Y 6.33/0.81
+Moonbeam Gray	0.64Y 8.13/1.37
+Silver Grey	0.66Y 6.89/0.89
+Rope Gray	0.66Y 7.96/2.13
+Winter Grey	0.68Y 5.91/1.72
+Ska Grey	0.76Y 6.15/0.50
+Daybreak Grey	0.77Y 5.70/1.01
+Rope Gray	0.80Y 8.52/1.93
+Cloud Grey	0.81Y 6.31/0.87
+Glace Gray	0.86Y 7.68/0.41
+Seagrey	1.00Y 4.53/0.67
+Tinted Grey	1.03Y 7.27/0.33
+sandpiper gray	1.05Y 6.28/1.82
+Foundation Grey	1.15Y 8.01/1.28
+Radar Grey	1.21Y 5.14/0.75
+Striped Gray	1.23Y 6.33/1.52
+Chickadee Grey	1.26Y 3.51/0.34
+Abbey Gray	1.39Y 6.38/0.71
+Mauve Gray	1.40Y 7.32/3.21
+Smoked Glass Gray	1.63Y 7.15/1.35
+Polar Gray	1.64Y 6.50/1.21
+kamakura grey	1.74Y 3.28/0.29
+Light Brownish Gray	1.75Y 5.77/0.58
+Pearl Grey	1.75Y 6.35/1.14
+Paducah Grey	1.84Y 7.70/0.53
+Yellowish Gray	2.01Y 7.34/0.98
+Camp Gray	2.11Y 4.38/1.35
+Ice Gray	2.27Y 7.09/0.68
+Light Brownish Gray	2.29Y 6.10/1.06
+Lichen Grey	2.32Y 5.64/1.83
+Glamour Gray	2.55Y 3.54/0.98
+Stonehenge Grey	2.58Y 6.97/0.83
+Gray Gull	2.60Y 6.16/1.08
+Phantom Gray	2.61Y 7.51/1.04
+Sports Grey	2.63Y 6.06/0.35
+Frosted Gray	2.65Y 8.14/0.85
+Misted Gray	2.70Y 6.83/1.14
+Salem Grey	2.73Y 4.01/0.56
+Corona Gray	2.78Y 7.65/0.25
+Moon Mist Gray	2.88Y 7.69/0.99
+Cement Mixer Grey	2.99Y 6.53/1.01
+Seafoam Gray	3.13Y 4.56/1.73
+Wilmar Grey	3.42Y 6.33/0.51
+Spring Grey	3.57Y 4.89/0.75
+Desk-to-dinner Grey	3.63Y 6.43/1.37
+Driftwood Grey	3.67Y 5.72/1.75
+Kirk Gray	3.70Y 5.04/0.70
+Donatello's Grey	3.75Y 2.26/1.00
+Seafoam Grey	3.83Y 6.30/0.47
+Gray Stone	4.09Y 4.33/0.62
+Cruise Grey	4.23Y 6.17/0.33
+Positive Grey	4.25Y 6.48/1.58
+Grey Diamond	4.26Y 7.66/0.08
+Yellowish Gray	4.33Y 8.90/3.71
+Marble Gray	4.34Y 4.82/0.39
+Drizzle Gray	4.35Y 5.77/1.13
+Light Grey	4.55Y 7.43/0.99
+Grey Green	4.63Y 3.21/0.87
+Olive Grey	5.00Y 2.40/1.30
+Barrister Gray	5.41Y 4.56/0.70
+Convincing Gray	5.50Y 3.59/0.44
+Turtledove Grey	5.72Y 5.43/0.82
+Diffusion Gray	5.80Y 5.06/1.26
+Willow Gray	6.28Y 7.60/0.92
+Grey Charteuse	6.75Y 5.93/2.95
+Stable Gray	6.80Y 6.47/3.13
+zwizzle gray	6.98Y 7.65/0.36
+Discus Gray	7.13Y 5.99/0.32
+Crystal Gray	7.62Y 7.56/0.48
+Fog Gray	7.62Y 8.52/0.55
+Light Olive Gray	7.68Y 5.88/1.58
+Gray Sand	7.76Y 7.65/0.56
+Oyster Gray	8.11Y 7.00/0.98
+Skyscraper Grey	8.34Y 6.28/0.92
+Chrome Gray	8.47Y 6.31/0.20
+Distant Gray	9.98Y 6.74/0.40
+Foam Grey	0.17GY 6.18/0.72
+Light Grey	0.60GY 6.61/0.40
+Yellowish Gray	0.65GY 7.11/1.68
+Grey Stone	0.90GY 6.98/0.47
+Lichen Grey	1.35GY 6.68/0.91
+Olive Grey	1.56GY 4.03/1.43
+Olive Gray	1.69GY 3.79/0.85
+Crystalline Gray	2.01GY 7.42/0.32
+Chatham Gray	3.02GY 9.28/1.23
+Sprinkle of Grey	3.18GY 7.34/0.49
+Gray Crystal	3.25GY 8.36/0.76
+Tech Gray	3.55GY 8.46/0.20
+Grey Crystal	3.73GY 8.36/0.73
+Green Grey	3.76GY 6.58/0.96
+Silent Gray	3.77GY 4.94/0.15
+Negative Grey	3.87GY 5.84/0.86
+Media Grey	3.88GY 4.32/0.19
+Lustre Gray	4.55GY 5.70/0.08
+Canter Gray	5.15GY 7.01/0.47
+Dark Gray	5.48GY 3.20/0.20
+Sandpiper Gray	6.07GY 7.05/0.15
+Thread Gray	6.75GY 4.21/1.16
+Cadet Grey	7.00GY 4.53/0.22
+Soothing Gray	7.46GY 5.39/1.33
+Graystone	7.71GY 5.57/0.36
+pearl grey	8.57GY 7.60/0.17
+Shingle Gray	8.82GY 6.38/0.35
+Whisper Gray	9.42GY 6.58/0.51
+Light Greenish Gray	1.24G 7.44/1.35
+Gray Taupe	5.26G 2.79/0.24
+Greened Gray	7.97G 5.56/1.69
+Steamship Gray	1.06BG 3.64/2.04
+Grey Moon	3.73BG 7.43/0.58
+Counterpoint Grey	4.07BG 6.08/0.44
+Pumice Gray	4.23BG 6.79/0.40
+Pearly Gray	5.75BG 6.53/0.10
+Gallant Gray	6.95BG 5.07/0.34
+Gammon Gray	8.09BG 6.32/0.61
+dale grey	1.34B 6.84/1.11
+Light Bluish Gray	3.08B 7.07/1.27
+Dark Bluish Gray	4.36B 3.77/1.21
+Light Bluish Gray	4.45B 6.80/0.68
+Dark Gray	4.82B 4.06/0.32
+Rock Gray	5.57B 4.02/0.77
+Cliff Gray	6.44B 3.92/0.43
+rockport grey	6.70B 6.56/2.64
+Pebble Grey	6.99B 3.59/0.87
+Pumped Gray	7.04B 3.58/1.16
+Tranquil Grey	7.44B 7.38/0.75
+Providence Grey	7.97B 7.79/1.55
+gray-cfully	8.04B 7.40/0.44
+Castle Gray	8.18B 5.00/0.40
+Monastery Grey	8.78B 4.51/0.60
+Scone Grey	8.96B 7.75/1.29
+Heraldic Gray	9.23B 2.13/0.74
+Humidity's Gray	9.25B 5.49/3.22
+Steel Grey	9.26B 5.35/1.02
+Fridge Grey	9.39B 4.63/0.75
+London Fog Gray	9.52B 2.65/1.01
+Reddish Gray	9.62B 2.30/2.64
+Argon Gray	9.68B 5.22/0.72
+Urban Gray	9.97B 4.06/1.03
+Weathervale Grey	0.07PB 5.11/1.96
+Blue Grey	0.81PB 4.80/4.54
+shibui gray	0.88PB 5.90/0.56
+Rockport Grey	1.28PB 6.37/2.44
+Cloudy Gray	1.30PB 4.45/0.60
+Bluish Gray	1.59PB 4.77/1.12
+Gray	1.73PB 4.13/0.73
+Dusk Gray	1.99PB 6.81/0.60
+Hampton Grey	2.10PB 4.60/0.90
+Granite Grey	2.19PB 4.67/1.08
+Cinder Grey	2.21PB 4.00/0.15
+Igloo Grey	2.31PB 6.44/0.48
+Bluish Gray	2.58PB 6.01/1.20
+Granite Gray	2.64PB 2.10/0.76
+Pilgrim Gray	2.68PB 2.83/0.84
+pearl gray	2.81PB 6.40/1.64
+Grey Mist	2.89PB 5.46/1.35
+Seagull Grey	3.29PB 8.01/0.64
+Luna Gray	3.31PB 3.48/1.06
+Mystic Gray	3.42PB 3.33/0.36
+flagstone gray	3.64PB 4.46/1.43
+Blued Gray	3.64PB 4.70/1.46
+Zinc Grey	4.06PB 3.19/0.61
+Grayblu	4.18PB 3.57/1.29
+Ascot Grey	4.22PB 7.32/1.39
+Attraction Gray	4.37PB 2.45/0.28
+Evening Gray	4.39PB 4.60/0.97
+Deconstructivist Gray	4.41PB 2.72/1.04
+slate grey	4.53PB 5.21/3.85
+Arctic Grey	4.54PB 5.32/1.38
+Plus Gray	4.78PB 4.85/1.68
+Mist Gray	4.83PB 6.69/2.29
+Flintlock Grey	5.20PB 3.17/2.22
+Light Gray	5.49PB 6.56/0.27
+Terribly-wearable Grey	5.57PB 2.63/1.24
+Midnight Gray	5.59PB 3.03/1.16
+Coal Gray	5.64PB 2.59/0.46
+Portland Grey	5.65PB 4.41/0.88
+Churchstone Grey	5.73PB 3.07/1.34
+Fog Gray	5.82PB 2.21/0.42
+Building Gray	5.90PB 2.85/1.42
+Thunder Grey	5.98PB 3.36/1.48
+Ellington's Gray	6.07PB 3.75/0.50
+Ebony Gray	6.10PB 3.08/1.10
+Cliff Gray	6.13PB 5.04/0.94
+Fog Gray	6.18PB 4.25/0.65
+Light Grey	6.19PB 7.21/1.01
+Executive Grey	6.25PB 2.83/0.77
+Thoughtful Gray	6.56PB 4.71/2.51
+braque grey	6.73PB 2.95/0.75
+Grey Blue	6.82PB 3.46/2.20
+Mural Gray	6.89PB 4.35/4.50
+Ash Gray	7.00PB 3.77/3.10
+Night-Guard Gray	7.33PB 2.91/0.44
+Ethereal Gray	7.44PB 2.58/2.22
+Sumi Gray	7.50PB 3.43/0.35
+Bumped Blue-Gray	7.61PB 4.77/4.04
+Sunspot Gray	7.78PB 6.16/2.80
+Enamel Gray	7.84PB 3.39/0.84
+Graphite Grey	7.85PB 2.23/0.52
+Snakeskin Grey	7.88PB 6.52/1.72
+Tartan Gray	7.99PB 2.92/0.38
+SMoke Gray	8.11PB 2.95/1.17
+Moonstone Gray	8.20PB 5.28/0.76
+Waldorf Grey	8.38PB 2.94/0.70
+fog gray	8.46PB 4.30/0.42
+Ticket-Stub Gray	8.56PB 3.63/0.36
+Grayblu	8.59PB 4.99/1.08
+Dark Gray	8.71PB 3.71/0.36
+Greek Revival Grey	8.91PB 3.34/0.56
+Lead Gray	8.99PB 5.99/0.34
+Shale Gray	9.02PB 3.42/1.51
+Rocky Gray	9.06PB 6.07/1.07
+Licorice Gray	9.51PB 2.53/0.34
+Copen Grey	9.56PB 4.04/0.97
+Light Gray	9.58PB 7.13/0.23
+Stonehenge Grey	9.82PB 3.68/0.38
+Urban Grey	9.84PB 4.42/0.93
+Purple Grey	0.14P 3.10/2.70
+Groggle Gray	0.17P 2.38/0.58
+Basalt Gray	0.36P 3.38/0.64
+Lavender Grey	0.68P 3.47/3.08
+Pearl Gray	0.71P 7.24/0.33
+Leadgrey	0.75P 3.26/1.19
+Squadron Grey	0.92P 3.16/0.54
+Grey Purple	0.97P 3.35/3.46
+Charcoal Gray	1.06P 2.45/1.06
+Charcoal Gray	1.10P 1.99/0.49
+Dior's Gray	1.18P 3.06/0.15
+Horizon Grey	1.22P 5.09/1.00
+mauve grey	1.27P 6.38/3.05
+Mineral Gray	1.74P 3.83/0.36
+Dark Grey	1.84P 3.58/1.24
+Stone Gray	2.06P 4.55/0.40
+Countertop Gray	2.19P 4.62/0.53
+Gray Flint	2.41P 3.76/0.59
+Armor Grey	2.75P 5.36/0.78
+Violet-Gray	3.80P 6.90/0.84
+Midnight Grey	3.81P 3.10/0.44
+Overall gray	4.24P 5.28/4.22
+Pencil Grey	4.29P 3.24/0.74
+Dusky Gray	4.38P 3.24/1.18
+Forge Steel Grey	4.67P 4.28/1.37
+Concord Gray	5.41P 5.17/1.48
+Pewter Grey	5.65P 3.15/0.74
+Light Purplish Gray	5.84P 6.96/0.93
+Dusky Gray	6.76P 3.90/0.61
+Civility's Gray	7.46P 3.23/0.15
+Puritan Grey	7.76P 4.97/0.84
+Mauved Gray	8.02P 4.46/2.90
+Twilight Gray	8.13P 4.46/0.71
+River Gray	8.58P 3.22/0.66
+Harmonic Progression Gray	8.62P 3.45/1.46
+Palisade Gray	8.84P 2.78/0.10
+Greysmoke	9.11P 3.69/0.42
+Gray Tile	9.25P 5.05/0.92
+Maltese Grey	9.39P 4.11/0.77
+Grey Dawn	9.44P 4.53/0.47
+Shadow Gray	9.73P 4.15/0.11
+Moonrise Gray	9.97P 6.81/0.19
+www.gray	0.07RP 3.40/0.27
+Norse Grey	0.11RP 3.52/0.29
+Cruise Grey	0.54RP 5.86/0.78
+Nugrey	0.56RP 5.74/0.47
+Artillery Grey	0.65RP 3.21/0.70
+Maltese Grey	1.02RP 3.39/0.69
+Gray Twilite	1.12RP 4.46/0.93
+seagull gray	1.40RP 5.55/1.14
+Thunder Gray	1.44RP 2.43/0.39
+Gunmetal Gray	2.44RP 3.94/0.67
+Maritime Grey	2.51RP 4.87/1.62
+A Certain Gray	2.54RP 5.35/1.02
+Gray Pearl	2.56RP 3.02/0.57
+Urban Gray	2.57RP 4.55/0.75
+Platinum Gray	2.58RP 6.00/0.82
+Vapor Gray	2.88RP 6.77/0.54
+Woodgrey	3.25RP 3.76/0.29
+Slate Grey	3.27RP 2.71/0.47
+Cobweb Gray	3.28RP 3.32/0.91
+Melody Gray	3.67RP 5.56/1.28
+Diplomat Gray	3.74RP 2.30/0.27
+Glider Grey	3.92RP 4.86/0.68
+Chromium Gray	4.23RP 5.17/0.37
+Aluminium Gray	4.49RP 4.28/0.30
+Gothic Gray	4.62RP 1.86/0.58
+Clipper Grey	4.67RP 4.24/0.22
+Grey Grape	4.82RP 5.27/2.44
+Geometric Gray	4.83RP 3.81/0.80
+Reddish Gray	5.97RP 4.88/1.39
+WIng Grey	6.38RP 4.09/0.58
+Light Purplish Gray	6.71RP 2.33/1.98
+Frosty Gray	7.19RP 6.09/0.60
+Grey Plum	7.22RP 3.58/2.89
+Metal Grey	7.22RP 3.88/0.97
+Lead Gray	7.28RP 3.40/0.83
+Custom Grey	7.42RP 3.35/0.89
+Pilot Grey	7.42RP 5.04/1.62
+Clay Grey	7.77RP 4.65/0.74
+earl gray	8.12RP 7.65/1.97
+Rainy Day Gray	8.23RP 3.99/0.17
+Vendome Grey	8.30RP 4.94/0.83
+Mayfair Grey	8.39RP 3.21/0.66
+Towngrey	8.47RP 5.58/0.95
+Stonybrook Gray	8.69RP 5.70/0.49
+Grey Dawn	9.28RP 4.74/0.98
+Norse Grey	9.30RP 3.99/1.24
+Air Grey	9.66RP 5.05/0.39
+Promenade Gray	9.80RP 4.42/1.06

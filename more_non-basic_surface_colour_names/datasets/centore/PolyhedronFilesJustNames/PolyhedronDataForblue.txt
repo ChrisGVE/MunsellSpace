@@ -1,0 +1,1941 @@
+Colour name:	blue
+Number of CAUS samples:	1673
+Centroid in Munsell coordinates:	0.56PB 4.69/4.64
+Centroid in Cartesian coordinates:	-1.28	-4.46	4.69
+Polyhedron vertices in Munsell coordinates:
+1.15Y 7.29/0.91
+2.88Y 7.93/0.67
+1.01G 8.18/0.51
+1.61G 6.18/1.65
+5.12G 5.19/2.32
+5.14G 8.42/2.24
+5.67G 3.58/1.89
+8.36G 3.39/2.21
+9.29G 6.47/3.04
+2.92BG 8.19/3.87
+4.45BG 8.01/4.58
+5.04BG 2.21/2.14
+5.85BG 4.54/7.40
+7.14BG 7.12/6.21
+7.72BG 2.29/3.94
+7.82BG 4.32/8.38
+8.42BG 6.28/7.52
+9.04BG 6.43/7.70
+9.37BG 7.78/5.53
+0.10B 7.62/5.98
+2.28B 6.97/7.66
+3.17B 7.41/6.27
+3.64B 6.23/8.14
+5.14B 5.62/8.55
+6.00B 3.82/8.36
+6.03B 4.44/8.81
+6.25B 3.02/7.32
+7.47B 8.01/3.37
+8.77B 8.35/1.78
+8.82B 5.43/9.05
+1.47PB 8.35/1.18
+2.68PB 6.68/7.11
+3.44PB 3.38/10.63
+3.76PB 3.90/11.23
+4.56PB 7.23/5.63
+5.36PB 4.70/11.13
+6.14PB 7.63/4.36
+6.16PB 1.28/4.61
+6.22PB 4.26/11.64
+6.54PB 5.36/9.68
+6.59PB 8.12/0.74
+6.73PB 2.64/11.26
+6.93PB 1.15/1.17
+6.94PB 3.23/12.92
+7.10PB 2.20/10.42
+7.11PB 1.97/9.34
+7.23PB 1.09/2.38
+7.50PB 3.11/12.34
+7.78PB 2.32/11.17
+8.04PB 1.28/5.43
+8.29PB 2.12/10.63
+8.42PB 7.63/2.91
+8.78PB 5.12/8.66
+8.82PB 2.54/11.23
+8.89PB 1.85/8.57
+8.89PB 2.74/11.09
+9.68PB 2.28/10.21
+0.00P 1.50/4.93
+1.02P 4.57/7.61
+1.12P 5.00/6.89
+1.17P 1.16/1.02
+1.64P 2.04/6.34
+7.50P 5.37/3.81
+7.96P 6.67/2.13
+9.04P 6.47/2.09
+0.01RP 2.28/0.73
+Polyhedron vertices in Cartesian coordinates:
+0.22	0.88	7.29
+0.09	0.66	7.93
+-0.43	0.27	8.18
+-1.43	0.83	6.18
+-2.21	0.70	5.19
+-2.14	0.67	8.42
+-1.82	0.51	3.58
+-2.20	0.23	3.39
+-3.04	0.14	6.47
+-3.81	-0.71	8.19
+-4.40	-1.26	8.01
+-2.03	-0.67	2.21
+-6.91	-2.66	4.54
+-5.60	-2.69	7.12
+-3.49	-1.84	2.29
+-7.39	-3.95	4.32
+-6.49	-3.80	6.28
+-6.49	-4.14	6.43
+-4.60	-3.07	7.78
+-4.82	-3.55	7.62
+-5.49	-5.34	6.97
+-4.24	-4.62	7.41
+-5.33	-6.15	6.23
+-4.96	-6.96	5.62
+-4.48	-7.06	3.82
+-4.71	-7.45	4.44
+-3.82	-6.24	3.02
+-1.54	-3.00	8.01
+-0.68	-1.65	8.35
+-3.43	-8.38	5.43
+-0.26	-1.15	8.35
+-1.03	-7.03	6.68
+-1.04	-10.58	3.38
+-0.87	-11.20	3.90
+-0.16	-5.63	7.23
+0.25	-11.13	4.70
+0.31	-4.35	7.63
+0.34	-4.60	1.28
+0.89	-11.61	4.26
+0.94	-9.63	5.36
+0.07	-0.74	8.12
+1.22	-11.19	2.64
+0.14	-1.16	1.15
+1.57	-12.82	3.23
+1.37	-10.33	2.20
+1.23	-9.26	1.97
+0.33	-2.36	1.09
+1.93	-12.19	3.11
+1.94	-11.00	2.32
+1.03	-5.33	1.28
+2.18	-10.40	2.12
+0.62	-2.84	7.63
+2.04	-8.42	5.12
+2.67	-10.91	2.54
+2.07	-8.32	1.85
+2.68	-10.76	2.74
+2.96	-9.77	2.28
+1.52	-4.69	1.50
+2.81	-7.07	4.57
+2.58	-6.39	5.00
+0.39	-0.94	1.16
+2.57	-5.80	2.04
+2.69	-2.69	5.37
+1.55	-1.46	6.67
+1.61	-1.33	6.47
+0.59	-0.43	2.28
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+7	66	1
+66	63	1
+15	13	16
+50	55	57
+50	38	46
+15	38	47
+38	50	47
+61	66	7
+66	61	63
+5	9	13
+13	17	16
+55	51	57
+51	50	46
+51	55	50
+51	54	57
+54	51	49
+45	51	46
+51	45	49
+43	15	47
+61	43	47
+12	61	7
+12	13	15
+43	12	15
+12	43	61
+50	58	47
+58	61	47
+58	50	57
+44	54	49
+36	44	34
+45	44	49
+63	65	1
+4	7	1
+4	5	7
+54	56	57
+8	12	7
+12	8	13
+5	8	7
+8	5	13
+61	62	63
+58	62	61
+63	62	57
+62	58	57
+53	40	37
+40	35	37
+40	36	32
+35	40	32
+44	40	53
+44	33	34
+52	64	63
+64	52	41
+64	65	63
+2	64	41
+65	2	1
+64	2	65
+28	29	37
+35	28	37
+6	2	3
+9	6	13
+6	9	5
+4	6	5
+6	4	1
+2	6	1
+20	14	11
+14	13	11
+14	17	13
+19	20	11
+28	19	29
+59	56	53
+56	59	57
+59	63	57
+48	44	53
+56	48	53
+44	48	54
+48	56	54
+39	44	36
+40	39	36
+39	40	44
+42	44	45
+33	42	45
+42	33	44
+31	6	3
+6	31	29
+29	31	37
+31	2	41
+2	31	3
+52	31	41
+31	52	37
+10	19	11
+19	10	29
+10	6	29
+13	10	11
+6	10	13
+22	19	28
+22	28	35
+19	22	20
+22	35	32
+22	21	20
+21	22	32
+36	21	32
+26	25	16
+33	26	34
+25	26	33
+60	59	53
+60	53	37
+52	60	37
+60	52	63
+59	60	63
+25	27	16
+27	15	16
+27	38	15
+38	27	46
+27	45	46
+27	33	45
+27	25	33
+17	18	16
+18	23	16
+18	21	23
+14	18	17
+18	14	20
+21	18	20
+26	24	34
+23	24	16
+24	26	16
+24	30	34
+30	36	34
+30	24	23
+30	21	36
+21	30	23
+Samples, with Munsell coordinates, from CAUS data:
+Dusty Blue	5.81R 6.63/0.40
+Dragee Blue	3.28YR 6.98/1.03
+Bluedawn	1.15Y 7.29/0.91
+Crystal Blue	2.88Y 7.93/0.67
+Whitecap Blue	4.90Y 6.99/0.16
+Raindrop Blue	6.37Y 6.44/0.31
+Pastille Blue	7.40Y 7.67/1.27
+Winter Blue	0.11GY 7.45/0.43
+Jewel Blue	3.81GY 8.79/0.83
+Bluewater	9.27GY 7.32/0.94
+Acapulco Blue	1.01G 8.18/0.51
+Seahorse Blue/Green	1.13G 7.88/2.87
+Oslo Blue	1.61G 6.18/1.65
+Blue Cloud	1.80G 5.59/0.90
+Misty Morn' Blue	1.86G 5.88/0.65
+Luminous Blue	2.73G 7.51/0.33
+Elizabeth Blue	4.14G 7.28/1.31
+cambridge blue	4.37G 7.73/0.75
+Club Blue	4.42G 6.05/1.40
+Bluewater	4.62G 7.21/0.76
+Asian Blue	4.64G 2.68/1.66
+Blue Spruce	5.12G 5.19/2.32
+Blueberry	5.14G 8.42/2.24
+Mollusk Blue	5.33G 7.42/0.56
+Blue Spruce	5.67G 3.58/1.89
+Lounge Lizard Blue	6.06G 7.42/1.19
+Magnetic Blue	6.59G 6.42/1.84
+Ophelia Blue	8.36G 3.39/2.21
+Blader Blue	8.50G 8.16/4.11
+Schiap Blue	9.29G 6.47/3.04
+Under-the-line Blue	9.33G 6.97/0.21
+Very Dark Greenish Blue	0.18BG 2.04/3.62
+Frosty Blue	0.41BG 6.55/0.73
+Blue Jade	0.42BG 4.43/7.05
+Elf Blue	0.58BG 7.74/5.20
+Sultry Blue	0.60BG 6.05/0.77
+Sagebrush Blue	1.31BG 5.57/2.27
+Lake Blue	1.45BG 4.67/1.70
+Robin's Nest Blue	2.92BG 8.19/3.87
+Rigi Blue	3.05BG 3.54/2.03
+Solvent Blue	3.16BG 7.10/0.98
+Glass Blue	3.39BG 7.55/1.55
+Beautiful Blue	3.95BG 8.23/1.60
+Centering Blue	4.12BG 5.62/1.12
+Plastic Blue	4.15BG 7.12/1.93
+Tropic Blue	4.35BG 6.19/1.76
+Plastic Hose Blue	4.45BG 8.01/4.58
+Bulb Blue	4.59BG 6.75/0.67
+Glace Blue	4.63BG 6.63/1.41
+Star Bright Blue	4.68BG 7.39/1.55
+Aquablue	4.96BG 7.63/1.10
+Blue Moss	5.04BG 2.21/2.14
+Baltic Sea Blue	5.29BG 6.11/1.14
+Bonnie Blue	5.29BG 7.26/4.22
+Robot Blue	5.59BG 5.69/7.81
+Dreamy Blue	5.71BG 6.83/0.61
+Lichen Blue	5.81BG 4.68/1.73
+Peacock Blue	5.85BG 4.54/7.40
+May Mist Blue	6.19BG 7.45/1.65
+Cloud Blue	6.22BG 7.80/4.85
+Umbrella Blue	6.52BG 5.07/2.95
+Foam Blue	6.61BG 5.51/1.93
+Data Base Blue	6.76BG 7.74/4.53
+lampin blue	6.90BG 5.02/7.43
+Saltwater Blue	6.90BG 6.00/0.97
+Sky Blue	7.06BG 5.84/2.23
+Outing Blue	7.13BG 6.01/2.23
+Danish Blue	7.13BG 6.41/2.36
+In-Another-World Blue	7.14BG 7.12/6.21
+Rhythm Blue	7.22BG 5.51/4.65
+Light Purplish Blue	7.23BG 7.13/2.48
+Shalimar Blue	7.24BG 7.83/2.33
+Tinted Blue	7.25BG 7.82/1.78
+Leonardo Blue	7.34BG 5.03/6.10
+Blue	7.47BG 6.63/4.22
+Piano Blue	7.61BG 8.05/2.77
+Blue Teal	7.72BG 2.29/3.94
+Labrador Blue	7.82BG 4.32/8.38
+Sock Blue	7.82BG 5.66/0.94
+Capetown Blue	8.13BG 5.59/7.58
+Border Blue	8.24BG 6.43/4.60
+Moonwalk Blue	8.27BG 5.10/8.65
+Blue Tourmaline	8.34BG 5.95/2.62
+Baltic Blue	8.36BG 4.74/1.44
+Freshwater Blue	8.36BG 5.87/2.54
+Sailing Blue	8.42BG 6.28/7.52
+Double-Twist Blue	8.50BG 5.27/4.94
+Mallard Blue	8.56BG 3.83/3.53
+Caribbean Blue	8.60BG 5.71/2.16
+Dinosaur Blue	8.66BG 5.82/7.68
+Pagoda Blue	8.69BG 3.88/3.15
+Blue Ocean	8.71BG 5.58/4.23
+Lovebird Blue	8.79BG 4.31/3.12
+Greened Blue	8.83BG 4.15/8.80
+Blue Ice	8.83BG 4.64/1.27
+Birds Egg Blue	8.84BG 5.95/2.34
+Spruce Blue	8.90BG 3.65/2.27
+Caress Blue	8.91BG 6.37/1.77
+Lullaby Blue	9.00BG 6.92/2.09
+Lagoon Blue	9.04BG 6.43/7.70
+Picasso Blue	9.11BG 5.01/7.85
+Navajo Blue	9.12BG 4.83/6.51
+Neon Tetra Blue	9.23BG 7.52/4.00
+Wild Duck Blue	9.24BG 4.80/6.01
+Seacoast Blue	9.26BG 5.50/3.31
+New Life Blue	9.30BG 5.86/7.69
+Outer-Space Blue	9.37BG 7.78/5.53
+Blue Jade	9.41BG 3.69/6.40
+Blue Crystal	9.52BG 5.42/2.12
+baltic blue	9.59BG 4.76/4.21
+Dark Greenish Blue	9.60BG 3.23/3.23
+Surf Blue	9.61BG 5.32/2.71
+Cocky Coq Blue	9.64BG 6.19/5.12
+Blue River	9.66BG 3.90/3.05
+Mallard Blue	9.66BG 4.27/5.47
+Light Greenish Blue	9.70BG 6.29/3.89
+Cast Iron Blue	9.92BG 3.58/4.01
+Dark Greenish Blue	9.99BG 3.71/4.37
+Chinoiserie Blue	10.00BG 5.87/8.87
+Deep Greenish Blue	0.03B 5.23/5.57
+Blair's Blue	0.06B 7.72/2.79
+Cotton Candy Blue	0.10B 7.62/5.98
+Blue Pacific	0.29B 4.26/3.95
+Blue Jewel	0.33B 5.84/2.86
+Optical Blue	0.43B 5.67/7.29
+Blue Crystal	0.56B 4.74/1.81
+River Blue	0.72B 3.61/2.92
+Inca Blue	0.75B 3.44/4.17
+Rigi Blue	0.78B 4.69/2.45
+Bijou Blue	0.99B 6.53/3.39
+Electrode Blue	1.05B 3.13/5.08
+Latitude Blue	1.07B 7.63/1.82
+Bahama Blue	1.10B 4.81/3.32
+Seacastle Blue	1.30B 5.98/0.99
+Arabian Blue	1.30B 6.44/4.47
+Hilton Head Blue	1.34B 5.04/5.50
+Cameo Blue	1.35B 6.31/0.92
+Ocean Blue	1.44B 5.96/7.42
+Dark Greenish Blue	1.49B 2.47/4.48
+Pale Blue	1.56B 6.63/2.83
+Lake Blue	1.61B 5.79/2.29
+Blue Wave	1.71B 4.13/3.52
+Blue Turq	1.73B 7.81/8.23
+Tide Blue	1.74B 3.80/2.67
+Mirage Blue	1.75B 4.44/6.67
+Butterfly Blue	1.79B 4.24/5.60
+Orient Blue	1.81B 4.01/4.15
+Cooley Dam Blue	1.83B 7.71/1.92
+Balmy Blue	1.92B 5.98/7.06
+Porcelain Blue	2.06B 6.07/4.91
+Seabreeze Blue	2.18B 3.85/2.50
+Daybreak Blue	2.18B 7.24/0.73
+Great Grotto Blue	2.27B 3.65/7.37
+Blue Streak	2.28B 6.97/7.66
+Panama Blue	2.29B 4.07/6.15
+Champlain Blue	2.29B 7.33/6.57
+Star Bright Blue	2.37B 6.05/6.80
+Gulf Blue	2.38B 4.32/2.08
+rollerblade blue	2.38B 5.30/7.88
+Seafoam Blue	2.41B 5.58/3.06
+Barnacle Blue	2.59B 6.59/1.06
+Blader Blue	2.61B 4.75/8.05
+Malachite Blue	2.63B 3.33/5.03
+Fairweather Blue	2.67B 7.92/2.92
+Happy Heaven Blue	2.69B 6.74/4.08
+Humingbird Blue	2.77B 5.71/2.32
+Dragonfly Blue	2.82B 2.66/2.42
+Blue Duck	2.82B 3.70/4.61
+Baby Bluette	2.89B 6.69/2.65
+Blue Teal	2.92B 2.93/3.27
+Tropez Blue	2.92B 6.41/2.00
+Hobbs Blue	2.98B 4.66/4.24
+Angelina Blue	3.01B 6.96/2.52
+Rocky Blue	3.02B 2.40/1.99
+Monet Blue	3.02B 6.73/7.02
+Casino Blue	3.05B 3.88/6.10
+Sympathy Blue	3.17B 7.41/6.27
+Delovely Blue	3.18B 7.01/4.31
+Curacao Blue	3.19B 7.69/4.96
+juneau blue	3.28B 5.82/2.94
+Malaysia Blue	3.29B 3.76/5.94
+Strong Greenish Blue	3.29B 4.06/6.59
+Sicilian Blue	3.42B 5.31/1.36
+Blue Sonnet	3.44B 5.44/1.34
+Electric Blue	3.48B 5.43/7.64
+Pacific Blue	3.53B 4.61/3.25
+Mediterranean Blue	3.55B 3.51/3.11
+Blue Amulet	3.62B 4.64/4.65
+Blue	3.62B 6.70/2.55
+Fragrance Blue	3.64B 6.16/0.86
+Splash Blue	3.64B 6.23/8.14
+Grotto Blue	3.66B 4.89/3.57
+Caribbee Blue	3.80B 3.35/6.01
+Seaside Blue	3.83B 5.91/2.51
+Blue Magic	3.85B 4.51/6.06
+Bookbag Blue	3.90B 6.10/8.19
+Magnifique Blue	3.91B 4.68/8.20
+Seascape Blue	3.93B 5.93/1.78
+Feather Blue	3.96B 4.75/3.49
+Surfin Blue	3.98B 6.05/7.13
+Blue	4.00B 7.03/5.82
+Glory Blue	4.02B 7.36/1.55
+Soldier Blue	4.09B 6.13/4.63
+Galactic Blue	4.10B 7.01/2.19
+Celestial Blue	4.12B 6.40/1.97
+Minorca Blue	4.13B 3.87/3.13
+Royally Blue	4.15B 3.53/5.52
+Jungle Blue	4.24B 3.38/6.31
+Blue Spruce	4.37B 3.43/4.44
+Patio Blue	4.38B 3.72/2.70
+Boot Blue	4.41B 5.17/2.51
+Deepsea Blue	4.44B 3.79/6.02
+Petal Blue	4.45B 6.16/1.27
+June Blue	4.48B 6.25/4.84
+Petunia Blue	4.51B 7.84/2.13
+cairo blue	4.54B 7.20/3.70
+Shore Blue	4.55B 4.12/2.92
+Gentleman's Blue	4.58B 4.50/1.81
+Azusa Blue	4.73B 6.01/3.50
+Plastic Blue	4.74B 5.70/2.18
+Jelly-Jar Blue	4.75B 6.69/6.83
+Midnight Blue	4.79B 1.73/2.10
+Polynesia Blue	4.82B 5.33/7.93
+Blue	4.88B 6.93/2.52
+Cove Blue	4.89B 6.94/2.98
+Serenade Blue	4.94B 4.54/5.21
+blue chalk	4.95B 2.54/1.42
+Linda Blue	4.95B 3.56/6.96
+Buddha Blue	4.95B 5.76/4.12
+Duck Blue	4.96B 5.51/7.81
+Puritan Blue	5.02B 5.75/1.83
+French Blue	5.12B 4.42/1.24
+Ski-Slope Blue	5.13B 3.18/3.48
+Napoli Blue	5.14B 5.62/8.55
+Fresno Blue	5.17B 5.35/3.17
+Scattering Blue	5.18B 3.58/6.12
+Persian Blue	5.20B 3.55/5.35
+Deep Greenish Blue	5.24B 5.00/4.98
+Blue River	5.26B 4.49/3.29
+Blue Pearl	5.45B 6.10/0.95
+Icing Blue	5.50B 5.66/2.09
+Swing Blue	5.51B 4.44/6.94
+Vivid Blue	5.51B 5.67/7.97
+bright blue	5.54B 7.26/3.69
+Lyric Blue	5.56B 6.08/3.75
+Borealis Blue	5.58B 5.86/3.74
+Battery Blue	5.62B 3.19/4.01
+Mediterranean Blue	5.68B 4.25/8.11
+Jungle Blue	5.69B 4.21/4.51
+Corot's Blue	5.73B 2.56/3.60
+Deepsea Blue	5.77B 3.44/6.74
+Common Denominator Blue	5.81B 4.87/2.00
+Teal Blue	5.82B 2.08/3.18
+Seaway Blue	5.82B 2.92/2.82
+Electric Blue	5.84B 2.53/7.31
+Grid Blue	5.84B 4.13/6.41
+Petal Blue	5.94B 5.33/2.08
+Blue Cedar	5.95B 3.40/3.33
+Canal Blue	5.97B 2.23/1.55
+Bengali Blue	6.00B 3.82/8.36
+Blue	6.03B 4.44/8.81
+Sachet Blue	6.04B 6.74/3.02
+Boulevard Blue	6.05B 4.07/0.66
+Largo Blue	6.10B 6.31/2.02
+RObin's Egg Blue	6.12B 6.24/4.10
+Blue Stream	6.14B 3.78/4.48
+South Sea Blue	6.16B 3.79/1.64
+Pond Blue	6.21B 3.98/4.32
+Seabird Blue	6.21B 4.05/7.23
+Gaiety Blue	6.25B 3.02/7.32
+Iceland Blue	6.25B 5.00/1.16
+Ceylon Blue	6.29B 2.47/4.16
+Blue Lagoon	6.30B 4.23/2.56
+Blue Crane	6.39B 4.33/7.96
+Hawaii Blue	6.48B 3.91/3.87
+Star Blue	6.53B 5.17/3.16
+Bellita Blue	6.53B 6.82/2.87
+Mary Cassatt Blue	6.57B 7.31/5.22
+Blue Sapphire	6.69B 4.16/8.16
+MIlky Way Blue	6.69B 6.17/1.18
+Deep Purplish Blue	6.71B 3.86/3.38
+Galaxy Blue	6.75B 6.06/5.22
+blue bone	6.79B 7.97/1.92
+Blue Fog	6.84B 1.67/1.52
+Love Blue	6.85B 6.46/2.17
+Stormy Blue	6.86B 5.02/0.45
+Canadian Blue	6.89B 4.52/6.84
+Pale Blue	6.94B 6.48/1.54
+Eventide Blue	6.96B 2.79/4.61
+Sunlight Blue	7.01B 5.61/3.33
+Sevres Blue	7.04B 5.20/1.57
+Reverie Blue	7.04B 6.71/1.77
+Vista Blue	7.05B 4.69/1.89
+Amazon Blue	7.10B 3.80/6.18
+Chatka Blue	7.11B 4.05/4.96
+Watercolor Blue	7.12B 5.66/4.06
+Cold Front Blue	7.16B 6.93/6.74
+Twing Blue	7.18B 3.19/6.08
+Bird's Egg Blue	7.24B 6.01/2.90
+Anglia Blue	7.28B 6.56/3.42
+Alaska Blue	7.30B 5.52/2.52
+Dalmation Blue	7.33B 3.77/6.39
+Blue Gentian	7.33B 6.28/1.52
+Drake Blue	7.38B 3.65/4.94
+Needlepoint Blue	7.38B 4.73/3.00
+Florida Blue	7.41B 5.62/2.76
+Seaside Blue	7.47B 8.01/3.37
+Seaspray Blue	7.49B 4.66/3.84
+Blue Sky	7.49B 6.00/3.62
+Hazen Blue	7.52B 5.87/3.62
+Dragonfly Blue	7.55B 3.43/6.01
+Gem Blue	7.56B 3.75/6.36
+Sweet Dream Blue	7.56B 6.46/3.33
+Surf Blue	7.62B 7.78/3.58
+Blue Metal	7.63B 4.93/1.78
+Skater's Blue	7.64B 4.54/2.77
+Translucent Blue	7.71B 7.76/1.53
+Electric Blue	7.73B 2.60/3.32
+Argol Blue	7.77B 5.19/3.75
+Lancelot Blue	7.80B 3.10/5.56
+Peacock Blue	7.80B 3.84/8.06
+E-Mail Blue	7.81B 6.32/7.30
+Candy Blue	7.83B 5.94/1.55
+Hockey Blue	7.84B 2.70/5.11
+Ski Blue	7.88B 3.00/4.78
+Cloudy Blue	7.93B 4.75/2.37
+Chalk Blue	7.93B 7.42/1.26
+Pollock Blue	7.96B 3.63/7.81
+Flash Blue	7.97B 3.78/5.40
+Blue Daisy	7.99B 6.56/1.49
+Galway Blue	8.00B 6.32/2.97
+Undersea Blue	8.05B 2.30/2.62
+Tudor Blue	8.07B 3.59/6.52
+Scarab Blue	8.08B 5.16/4.88
+Pheasant Blue	8.11B 2.80/4.67
+Tunis Blue	8.12B 2.20/2.67
+Super Star Blue	8.12B 6.33/4.96
+Blue Duckling	8.13B 2.64/4.00
+Brilliant Greenish Blue	8.14B 6.29/6.80
+Cuba Blue	8.15B 4.53/5.41
+Skylark Blue	8.15B 5.26/5.22
+Blue	8.15B 6.90/6.63
+China Blue	8.16B 3.38/4.42
+Cadillac Blue	8.18B 7.45/2.41
+Mystique Blue	8.19B 5.26/4.62
+helsinki blue	8.23B 6.35/4.21
+Blue	8.29B 7.44/3.06
+Duck Blue	8.30B 3.39/3.90
+Time Keeper Blue	8.33B 4.97/6.16
+Spiritual Blue	8.40B 5.30/2.93
+Opera Blue	8.44B 6.88/1.79
+Glacier Blue	8.45B 3.83/2.56
+Vibra Blue	8.45B 5.48/7.05
+Staccato Blue	8.46B 3.13/6.24
+Strong Greenish Blue	8.66B 4.09/8.03
+Lapis Blue	8.66B 4.85/8.74
+pretty blue	8.66B 7.25/5.20
+Bitsy Blue	8.68B 6.62/2.58
+Sweater Blue	8.69B 6.07/8.18
+Chic Blue	8.73B 3.94/8.34
+Blue Heron	8.74B 3.07/5.61
+blue nantes	8.77B 8.35/1.78
+Grayish Blue	8.78B 3.64/3.51
+Gallant Blue	8.80B 5.73/4.56
+Very Light Greenish Blue	8.81B 7.75/5.69
+St. Regis Blue	8.82B 2.97/7.42
+Bel Air Blue	8.82B 5.43/9.05
+Montego Bay Blue	8.83B 5.67/8.08
+Wonder Woman Blue	8.85B 5.74/7.49
+Super Hero Blue	8.86B 5.61/6.57
+Blue	8.88B 4.21/6.20
+Aquarelle Blue	8.89B 5.61/2.38
+bering blue	8.94B 5.91/5.23
+Ocean Blue	8.96B 5.15/2.49
+Blue Petrol	8.97B 2.48/4.71
+Blue Parrot	9.00B 4.91/3.72
+Shrinking Blue	9.00B 5.64/3.05
+Winter Blue	9.01B 2.95/4.90
+Duckwing Blue	9.05B 3.32/5.67
+Tideway Blue	9.09B 4.69/3.34
+Viking Blue	9.10B 4.28/6.72
+Sky-dive Blue	9.12B 5.16/2.99
+Wind Surf Blue	9.14B 4.23/8.03
+Horizon Blue	9.16B 3.83/4.92
+Paris Blue	9.17B 3.82/5.48
+Blueprint	9.21B 5.73/3.72
+Tweal Blue	9.27B 2.67/5.77
+Iridescent Blue	9.27B 4.83/9.00
+Dorset Blue	9.32B 5.73/3.93
+Blue Blaze	9.36B 4.05/5.48
+Strolling Blue	9.42B 4.91/2.91
+Madison Blue	9.42B 5.01/1.72
+Cool Blue	9.48B 5.40/8.28
+Azure Blue	9.49B 6.66/5.96
+marco polo blue	9.51B 6.32/7.22
+Eurythmics Blue	9.52B 4.07/8.16
+Blue Chalk	9.52B 5.48/3.44
+Aegean Blue	9.52B 6.34/4.16
+La Hoya Blue	9.53B 5.34/2.51
+Astra Blue	9.54B 6.09/3.63
+Moonbeam Blue	9.54B 6.12/3.92
+Blue Peacock	9.59B 2.43/3.59
+Oboe Blue	9.60B 2.54/3.94
+Plumage Blue	9.60B 4.03/5.26
+Blue Lily	9.60B 5.97/1.34
+Pale Blue	9.62B 7.33/3.41
+Cross-Country Blue	9.63B 4.26/7.66
+spruce blue	9.67B 3.65/3.61
+Parakeet Blue	9.67B 3.90/4.78
+Deep Blue	9.70B 2.69/5.71
+Rhythm Blue	9.71B 3.11/4.39
+Betty B Blue	9.71B 5.46/7.77
+Haiti Blue	9.72B 3.61/5.30
+Celebrity Blue	9.72B 4.15/8.66
+Boxing Blue	9.73B 3.65/9.11
+Vivid Greenish Blue	9.76B 5.12/5.96
+Empress Blue	9.77B 5.76/8.34
+Ocerseas Blue	9.79B 2.60/2.36
+river mole blue	9.79B 5.17/8.54
+Mallard Blue	9.80B 3.19/3.81
+Surprise Blue	9.82B 3.37/6.22
+Genoa Blue	9.82B 3.85/3.72
+Dark Blue	9.86B 3.03/2.49
+Bluegleam	9.87B 2.45/5.72
+Bluemist	9.87B 4.52/2.49
+Lightning Sky Blue	9.87B 5.33/8.65
+For Sure Blue	9.91B 2.89/2.29
+Victorian Blue	9.91B 3.91/5.39
+Gentle Blue	9.92B 6.56/0.61
+Arno Blue	9.94B 4.45/4.37
+Blue Mallard	9.95B 2.80/5.45
+Electric Blue	9.96B 3.55/6.01
+Starless Blue	9.99B 1.60/1.52
+Bella Bluette	0.02PB 6.60/3.18
+Tasmanian Blue	0.04PB 5.10/2.02
+Harbor Blue	0.05PB 3.87/2.83
+Rio Blue	0.05PB 4.68/7.86
+Moon Gleam Blue	0.06PB 6.19/3.86
+Varsity Blue	0.08PB 4.04/7.59
+Mountain-Crest Blue	0.08PB 7.65/3.56
+Trail Blue	0.11PB 2.43/4.28
+Curacao Blue	0.14PB 5.50/7.32
+Albatross Blue	0.15PB 7.94/1.09
+Cracked Ice Blue	0.17PB 4.80/8.15
+La Tour Blue	0.18PB 5.54/3.57
+Equator Blue	0.19PB 4.21/7.71
+Deepwater Blue	0.21PB 2.08/3.36
+Bonito Blue	0.21PB 3.90/7.37
+Cameo Blue	0.21PB 5.50/3.31
+Duckling Blue	0.22PB 3.10/1.34
+Frosted Blue	0.23PB 5.51/4.37
+Peacock Blue	0.26PB 4.33/4.72
+Delphi Blue	0.26PB 5.17/4.99
+Digital Blue	0.27PB 5.40/8.61
+Brilliant Blue	0.28PB 3.66/7.54
+Glace Blue	0.28PB 7.83/2.25
+Dresden Blue	0.31PB 6.20/3.65
+Moor Blue	0.33PB 6.04/1.61
+Harmony Blue	0.34PB 3.44/4.04
+Fairy Tale Blue	0.34PB 3.80/6.88
+Teal Blue	0.35PB 2.32/3.76
+Yeah-Baby Blue	0.35PB 3.52/7.39
+Fog Blue	0.37PB 3.62/2.73
+Laser Blue	0.37PB 4.88/7.91
+Ocean Blue	0.38PB 3.84/3.06
+Convoy Blue	0.39PB 2.46/2.51
+Dancing Blue	0.39PB 3.84/9.04
+Aviation Blue	0.40PB 3.72/1.89
+Internet Blue	0.40PB 4.22/7.76
+Radio Blue	0.41PB 2.09/1.99
+Opal Blue	0.41PB 6.34/4.61
+Shensi Blue	0.44PB 6.10/1.43
+Strechin Blue	0.45PB 4.29/8.94
+Icy Blue	0.45PB 6.75/4.37
+Bayeux Blue	0.49PB 3.95/5.80
+Kingfisher Blue	0.57PB 2.54/3.49
+Vivid Greenish Blue	0.57PB 5.48/5.78
+Requiem Blue	0.58PB 1.52/1.03
+Slate Blue	0.58PB 5.56/2.82
+Snorkling Blue	0.59PB 2.84/5.82
+Placid Blue	0.59PB 6.73/2.59
+Bluewing	0.63PB 3.17/3.47
+Nattier Blue	0.63PB 5.25/5.29
+Florentina Blue	0.64PB 3.45/5.82
+Old Sailor Blue	0.65PB 3.00/2.85
+Whirling Blue	0.69PB 4.45/9.05
+Waltz Blue	0.69PB 5.82/2.91
+Lichtenstein Blue	0.70PB 5.19/9.07
+Nautical Blue	0.71PB 2.58/2.69
+Ace Blue	0.72PB 4.92/1.99
+Atomic Blue	0.72PB 7.19/3.26
+Nimbus Blue	0.75PB 7.23/3.05
+blue plate	0.79PB 3.00/6.89
+Symphony Blue	0.81PB 4.22/8.41
+Blue Grey	0.81PB 4.80/4.54
+Ventura Blue	0.82PB 5.88/4.90
+Happy Blue	0.84PB 5.43/4.70
+Peace Blue	0.88PB 3.89/6.94
+Powder Blue	0.93PB 6.22/2.14
+Lulu Blue	0.94PB 5.59/4.74
+Glacier Blue	0.94PB 7.28/3.69
+Bird Blue	0.96PB 2.68/4.10
+Celeste Blue	0.96PB 6.15/5.06
+Blue Corn	0.97PB 3.89/4.12
+Pottery Blue	0.99PB 4.16/3.43
+Frosted Blue	1.01PB 5.21/2.22
+Magnet Blue	1.02PB 2.22/4.31
+beijing blue	1.02PB 4.12/4.29
+Brilliant Blue	1.02PB 5.26/9.29
+Aura Blue	1.02PB 5.72/1.42
+Blue Meteor	1.03PB 2.61/2.70
+Bluebell	1.06PB 5.56/5.32
+media blue	1.09PB 3.90/8.84
+Light Blue	1.09PB 5.78/5.59
+Rifle Blue	1.10PB 3.79/3.25
+Blue Shadow	1.11PB 4.50/2.28
+Rightful Blue	1.12PB 3.40/3.45
+Blueberry	1.12PB 7.09/4.51
+Mariner Blue	1.15PB 5.92/5.34
+Mt Vernon Blue	1.16PB 3.35/6.78
+Jay Blue	1.17PB 4.37/7.65
+Dresden Blue	1.18PB 5.77/6.36
+Flow Blue	1.19PB 3.91/1.32
+Prism Blue	1.20PB 3.58/9.15
+Fantasy Blue	1.24PB 6.14/4.56
+Blue Scarab	1.25PB 4.07/6.12
+Minuet Blue	1.27PB 6.54/1.76
+Planet Blue	1.28PB 2.29/3.59
+Mist Blue	1.34PB 6.04/2.31
+Grayish Blue	1.35PB 3.91/4.46
+Chintz Blue	1.35PB 4.03/6.34
+Mignon Blue	1.36PB 6.41/2.21
+Stone Blue	1.40PB 3.40/3.38
+Watteau Blue	1.40PB 5.25/2.61
+French Blue	1.42PB 4.31/3.09
+Media Blue	1.43PB 3.68/9.02
+Deep Sea Blue	1.45PB 3.49/2.76
+Empire Blue	1.45PB 4.80/5.12
+Blue Hawaii	1.45PB 5.55/7.97
+Tinge of Blue	1.47PB 8.35/1.18
+Biarritz Blue	1.49PB 4.37/7.53
+Sparks Blue	1.49PB 5.43/8.29
+Festive Blue	1.51PB 5.83/4.88
+Meteor Blue	1.51PB 7.45/3.58
+Snowy Blue	1.54PB 6.02/4.17
+Mandela blue	1.55PB 4.20/8.39
+Regina Blue	1.55PB 4.52/8.38
+Horizon Blue	1.56PB 5.85/1.71
+Backed-up Blue	1.59PB 4.79/4.82
+Typhoon Blue	1.63PB 2.86/2.55
+Boyish Blue	1.63PB 4.46/2.62
+Hero Blue	1.63PB 4.94/3.25
+Blue Mallard	1.64PB 2.57/4.74
+Translucent Blue	1.64PB 6.64/5.26
+Blue Fox	1.65PB 5.81/3.79
+Ionian Blue	1.67PB 2.77/2.50
+Riding Blue	1.68PB 3.29/5.36
+Blue	1.68PB 8.00/2.77
+Venetian Blue	1.69PB 5.80/6.10
+Blue Heaven	1.71PB 4.39/5.13
+Masquerade Blue	1.72PB 5.12/5.83
+Daytona Blue	1.73PB 3.90/3.69
+Blue	1.73PB 4.63/8.05
+Majolica Blue	1.78PB 2.54/4.26
+Pleasant Blue	1.79PB 3.64/4.46
+Yukon Blue	1.79PB 3.68/4.57
+Corinth Blue	1.81PB 4.56/7.03
+Altitude Blue	1.83PB 5.45/1.62
+Sissy Blue	1.85PB 4.82/5.28
+Logic Blue	1.86PB 5.94/8.17
+Blue	1.87PB 8.26/1.46
+Nightingale Blue	1.88PB 2.63/2.38
+Blossom Blue	1.88PB 5.10/3.23
+Tiffany Blue	1.88PB 5.85/12.84
+Quartz Blue	1.89PB 3.15/5.40
+Vibrant Blue	1.89PB 3.95/9.52
+Sapphirine Blue	1.92PB 3.94/5.97
+Clipper Blue	1.92PB 4.24/5.41
+Daphne Blue	1.93PB 4.20/4.49
+Brioni Blue	1.95PB 3.98/7.82
+Atlantico Blue	1.96PB 3.22/8.14
+Finesse Blue	1.98PB 6.57/3.89
+Bonnie Blue	2.00PB 5.74/4.46
+blue topaz	2.01PB 2.63/2.32
+Rafting Blue	2.04PB 4.35/5.90
+Sparta Blue	2.06PB 5.23/9.58
+Cloud Blue	2.06PB 7.90/2.68
+Chin-Chin Blue	2.07PB 4.62/7.55
+California Blue	2.08PB 4.94/4.19
+Cookie-jar Blue	2.08PB 5.12/7.35
+Dolce Blue	2.09PB 4.24/5.88
+Bonella Blue	2.10PB 5.23/6.65
+Herringbone Blue	2.11PB 4.71/1.73
+Dress Blue	2.12PB 2.41/3.88
+Adventurously Blue	2.13PB 4.20/8.95
+Moderate Blue	2.14PB 4.17/5.12
+Moderate Blue	2.14PB 4.55/5.43
+Skyline Blue	2.14PB 6.87/3.50
+Blue Tile	2.15PB 5.82/3.14
+Calm Seas Blue	2.15PB 6.89/4.75
+Beekman Blue	2.17PB 5.31/3.09
+Deepwater Blue	2.18PB 2.35/2.31
+Newport Blue	2.18PB 7.61/2.58
+Pound Blue	2.19PB 3.64/2.84
+French Blue	2.20PB 4.36/2.54
+Blue Sky	2.22PB 4.62/4.02
+Baltic Blue	2.23PB 4.12/9.78
+Resort Blue	2.23PB 4.61/4.98
+Polka Blue	2.25PB 4.60/8.48
+MP3.Blue	2.26PB 2.10/4.00
+Beach Blue	2.26PB 5.90/7.33
+Portsmouth Blue	2.27PB 3.75/7.69
+Atlas Blue	2.28PB 4.88/6.82
+Bay Blue	2.28PB 7.40/0.91
+Whale Blue	2.29PB 2.14/3.29
+Waverly Blue	2.30PB 3.02/6.26
+Enamel Blue	2.30PB 5.15/3.53
+Bountiful Blue	2.30PB 6.65/2.48
+Sitka Blue	2.33PB 7.17/5.61
+Boeing Blue	2.34PB 4.40/2.46
+Blue Frost	2.34PB 6.98/3.96
+Bluebell	2.36PB 3.70/6.54
+Strong Blue	2.36PB 4.33/9.77
+Bystander Blue	2.36PB 6.96/2.96
+Tile Blue	2.37PB 4.65/2.30
+Voyage Blue	2.37PB 6.42/2.56
+Seamist Blue	2.42PB 1.98/2.77
+Oriental Blue	2.42PB 4.03/6.55
+Columbia Blue	2.44PB 5.03/3.42
+spinning blue	2.45PB 3.79/3.27
+Celeste Blue	2.45PB 5.75/5.15
+Palisades Blue	2.46PB 6.14/6.96
+Thistle Blue	2.48PB 4.84/1.35
+Oriental Blue	2.49PB 3.92/8.85
+Flight Blue	2.50PB 4.14/7.35
+Buglebead Blue	2.52PB 7.26/0.81
+Steel Blue	2.53PB 3.20/3.26
+Japan Blue	2.55PB 3.43/4.59
+Bogota Blue	2.56PB 2.74/5.53
+Blue Channel	2.56PB 2.77/6.61
+Bambi Blue	2.56PB 5.80/6.34
+french blue	2.57PB 5.26/4.52
+Beach Blue	2.59PB 3.73/7.02
+kyoto blue	2.60PB 7.19/4.68
+Chateau Blue	2.61PB 3.43/3.09
+Beta FIsh Blue	2.61PB 6.88/5.31
+Sweetheart Blue	2.62PB 6.68/2.28
+Bluejay	2.63PB 2.27/5.72
+Boardwalk Blue	2.64PB 5.56/2.89
+Party Blue	2.66PB 5.27/9.16
+Canard Blue	2.67PB 2.32/2.58
+Contempo Blue	2.68PB 3.59/7.65
+Andorra Blue	2.68PB 6.68/7.11
+Strong Blue	2.73PB 3.93/9.85
+anvik blue	2.75PB 4.21/5.48
+Cadet Blue	2.76PB 3.65/2.97
+blue light	2.76PB 7.19/4.85
+Watering Can Blue	2.77PB 3.90/9.22
+Jolie Blue	2.77PB 5.32/7.08
+Polar Blue	2.78PB 4.66/2.56
+Tuscan Blue	2.78PB 5.57/2.79
+Beach Blue	2.80PB 3.02/6.63
+Fairfax Blue	2.80PB 3.98/7.48
+Belmont Blue	2.81PB 2.95/5.94
+Bivouac Blue	2.81PB 3.23/3.40
+Swinging Blue	2.81PB 3.24/7.05
+Chin-Chin Blue	2.81PB 5.03/5.46
+Ice Cube Blue	2.83PB 6.62/3.24
+Blue Fresco	2.85PB 6.16/4.50
+Tourmaline Blue	2.86PB 4.43/3.23
+Willie Blue	2.86PB 6.10/5.70
+Bold Blue	2.87PB 4.06/10.64
+Blue China	2.87PB 4.44/5.92
+sky blue	2.87PB 8.07/2.62
+Monad Blue	2.88PB 3.87/8.79
+Bluebell	2.89PB 3.32/6.80
+Noble Blue	2.90PB 4.13/7.29
+Rapture Blue	2.91PB 4.82/3.63
+Millom Blue	2.94PB 4.53/6.16
+Damask Blue	2.97PB 4.16/3.46
+Blue Allure	2.98PB 4.24/6.79
+North Pole Blue	2.99PB 2.82/2.83
+Colonial Blue	3.02PB 3.78/3.03
+Sampler Blue	3.02PB 4.72/5.38
+Dijon Blue	3.03PB 3.11/5.32
+Antique Blue	3.03PB 3.12/3.85
+Moon Blue	3.04PB 3.63/2.63
+Byrd Blue	3.04PB 5.76/2.64
+cobalt blue	3.04PB 5.96/7.81
+Chin-Chin Blue	3.08PB 4.56/5.06
+Coronado Blue	3.08PB 4.74/6.64
+Petunia Blue	3.08PB 5.77/6.05
+Byrd Blue	3.10PB 4.58/2.13
+Luchan Blue	3.11PB 4.75/3.42
+Bluewater	3.11PB 4.88/6.07
+Bravo Blue	3.13PB 4.14/6.97
+Blue Potato	3.14PB 3.21/4.50
+Tidal Blue	3.14PB 3.81/5.73
+Lassie Blue	3.17PB 4.18/3.10
+Hero Blue	3.17PB 5.30/1.96
+Festive Blue	3.19PB 4.09/6.76
+Deepriver Blue	3.19PB 4.58/4.40
+Steel Blue	3.19PB 4.68/7.31
+Rondo Blue	3.19PB 5.73/7.27
+Sunniblue	3.21PB 5.24/3.33
+Newport Blue	3.22PB 6.55/6.17
+Copen Blue	3.23PB 5.54/7.02
+Tapestry Blue	3.24PB 3.52/7.07
+Smoke Blue	3.24PB 4.49/1.81
+Angelus Blue	3.25PB 4.87/5.24
+Barbados Blue	3.25PB 5.61/4.44
+Pebble Blue	3.27PB 3.42/3.19
+Voyager Blue	3.29PB 2.09/4.59
+Icicle Blue	3.31PB 4.64/1.45
+Hybrid Blue	3.31PB 5.09/7.49
+Blue	3.32PB 8.26/2.42
+Bismark Blue	3.33PB 3.80/7.50
+Blue Crayon	3.34PB 5.87/1.06
+El Prado Blue	3.34PB 7.19/4.23
+Primitive Blue	3.35PB 3.40/1.93
+Heritage Blue	3.35PB 4.78/5.07
+Chin-Chin Blue	3.35PB 5.98/5.15
+Patrol Blue	3.36PB 6.07/4.53
+Smokey Blue	3.36PB 6.14/1.40
+Pale Blue	3.37PB 7.04/2.77
+Brinker Blue	3.39PB 4.21/7.64
+China Blue	3.39PB 5.12/4.02
+Blue	3.39PB 7.80/2.28
+Bimini Blue	3.40PB 5.33/5.58
+Maltese Blue	3.41PB 3.18/2.17
+Natchez Blue	3.41PB 3.59/3.47
+Skyway Blue	3.41PB 5.15/3.34
+Frost Blue	3.42PB 3.31/5.27
+Bobbin Blue	3.42PB 4.20/4.74
+super blue	3.44PB 3.38/10.63
+Frontier Blue	3.44PB 5.96/3.54
+Tranquilizer Blue	3.46PB 3.26/3.10
+Southern Blue	3.46PB 4.56/3.93
+Norse Blue	3.47PB 2.83/7.24
+Delphia Blue	3.50PB 5.09/7.07
+Wind-up Blue	3.50PB 6.79/5.12
+Koben Blue	3.51PB 4.27/6.37
+Silver Blue	3.51PB 5.42/2.00
+Petite Blue	3.52PB 5.84/5.95
+Razzle Blue	3.53PB 5.00/9.95
+Arctic Blue	3.55PB 5.01/3.53
+Peasant Blue	3.58PB 3.81/6.38
+Torino Blue	3.60PB 3.22/3.75
+Safety Blue	3.61PB 3.17/1.94
+Cumulus Blue	3.61PB 6.14/5.44
+Honeymoon Blue	3.62PB 5.47/2.92
+Boxy Blue	3.63PB 4.01/5.59
+Blued Gray	3.64PB 4.70/1.46
+Holland Blue	3.65PB 2.56/3.45
+Blue Lotus	3.66PB 6.17/5.60
+Splash of Blue	3.67PB 7.30/2.87
+Champion Blue	3.68PB 3.23/7.07
+Beatle's Blue	3.72PB 5.17/6.41
+Havana Blue	3.75PB 4.43/5.14
+William Blue	3.75PB 5.37/4.59
+Dynasty Blue	3.76PB 3.90/11.23
+Blue Horizon	3.77PB 3.62/2.72
+China Blue	3.77PB 4.74/3.95
+Balmoral Blue	3.78PB 2.98/6.30
+Totally Soldier Blue	3.78PB 3.41/7.73
+Blue Paradise	3.79PB 5.90/3.94
+Lichtenstein Blue	3.80PB 4.57/8.90
+Candle Blue	3.81PB 4.90/5.24
+Solita Blue	3.81PB 5.50/7.72
+Docker Blue	3.82PB 3.91/3.10
+Bluetooth	3.83PB 3.39/5.78
+Regatta Blue	3.83PB 4.47/9.54
+Blue Frappe	3.84PB 6.64/2.91
+In-Pluto Blue	3.85PB 4.33/3.22
+Peacock Blue	3.86PB 3.97/8.06
+Metropole Blue	3.88PB 2.79/7.07
+Flemish Blue	3.89PB 4.03/6.53
+Pondscum Blue	3.91PB 2.56/4.85
+Pacific Blue	3.93PB 4.16/6.67
+Kindness Blue	3.94PB 5.37/6.78
+Fiesta Blue	3.96PB 3.61/3.76
+Blue Porcelain	3.98PB 4.93/7.40
+Mt. Vernon Blue	4.01PB 4.03/3.12
+Barbary Blue	4.03PB 3.77/5.40
+air force blue	4.05PB 4.57/7.29
+Blue Haze	4.06PB 6.92/2.44
+Aerial Blue	4.08PB 1.53/1.37
+Alpine Blue	4.08PB 4.19/5.62
+Smoky Blue	4.09PB 4.01/3.49
+vancouver blue	4.09PB 4.86/3.88
+Blue Wisp	4.10PB 5.48/3.68
+Flemish Blue	4.11PB 3.82/5.68
+Mineral Blue	4.12PB 2.08/3.83
+Blue	4.12PB 3.92/4.90
+Blue Verve	4.14PB 3.35/8.56
+Peking Blue	4.14PB 4.74/5.53
+Naive Blue	4.14PB 6.32/1.84
+Dunkin Blue	4.15PB 3.32/6.75
+Sundeck Blue	4.16PB 3.69/5.83
+Curlin Blue	4.18PB 2.32/2.33
+Nanking Blue	4.18PB 3.58/6.30
+Santa Barbara Blue	4.18PB 3.62/4.40
+like blue	4.18PB 3.96/10.82
+Orbit Blue	4.18PB 4.72/5.82
+Romanesque Blue	4.19PB 3.78/7.46
+Peking Blue	4.19PB 4.13/6.36
+Lupine Blue	4.20PB 6.36/3.56
+Winter Night Blue	4.23PB 2.63/1.81
+Japan Blue	4.23PB 3.39/3.73
+Pineafore Blue	4.23PB 4.37/5.64
+Quiet Blue	4.23PB 5.51/1.83
+Blue Ore	4.24PB 3.75/2.84
+Click Blue	4.26PB 3.19/5.65
+Aurora Blue	4.29PB 2.97/7.35
+Bay Blue	4.29PB 3.62/4.80
+Touraine Blue	4.31PB 2.50/3.26
+Breton Blue	4.31PB 4.69/3.75
+Steel Blue	4.33PB 4.67/5.23
+Milano Blue	4.34PB 4.18/4.21
+Vermeer's Blue	4.34PB 4.81/7.02
+Zephyer Blue	4.35PB 6.88/3.38
+Canton Blue	4.36PB 3.02/3.25
+Lavender Blue	4.36PB 5.82/7.13
+Starstruck Blue	4.37PB 3.64/8.65
+Indelible Blue	4.38PB 2.28/3.63
+Viking Blue	4.38PB 2.31/1.86
+Charlie Parker's Blue	4.39PB 2.35/2.78
+Cloister Blue	4.39PB 3.25/7.32
+Belgian Blue	4.39PB 3.62/3.76
+Imperial Blue	4.39PB 4.04/8.72
+Degas Blue	4.39PB 5.23/2.08
+Rustic Blue	4.42PB 2.93/3.36
+Triumph Blue	4.42PB 3.53/6.27
+Indigo Blue	4.45PB 2.32/3.91
+Blue Lotus	4.46PB 5.11/2.98
+Arcady Blue	4.47PB 4.56/4.81
+French Blue	4.48PB 5.06/2.96
+Peking Blue	4.49PB 3.69/5.47
+Blithe Blue	4.49PB 6.69/3.22
+Flemish Blue	4.51PB 3.08/4.59
+Saturn Blue	4.51PB 7.08/4.17
+Dutch Tile Blue	4.52PB 4.15/6.50
+Pale Purplish Blue	4.53PB 3.64/6.88
+Carioca Blue	4.53PB 4.44/7.68
+Aero Blue	4.55PB 2.80/3.62
+Coolblue	4.55PB 4.46/2.67
+Milano Blue	4.56PB 3.82/4.50
+China Doll Blue	4.56PB 7.23/5.63
+sahara blue	4.57PB 5.45/5.95
+Invincible Blue	4.58PB 2.92/4.29
+Pale Blue	4.59PB 6.41/3.49
+Glowing Blue	4.60PB 3.03/6.79
+Glaze Blue	4.61PB 4.60/4.07
+arctic blue	4.63PB 3.74/4.72
+Sateen Blue	4.63PB 6.72/3.58
+Casino Blue	4.64PB 4.85/5.65
+Bluenote	4.66PB 4.00/7.51
+Ocean Blue	4.66PB 5.84/7.48
+Swiss Blue	4.67PB 3.53/2.37
+Bermuda Blue	4.67PB 3.69/6.96
+Barbizon Blue	4.68PB 2.10/4.69
+Celestial Blue	4.68PB 4.06/3.96
+Just-Looking Blue	4.69PB 2.92/1.77
+Recycling-Bag Blue	4.71PB 2.98/2.65
+Sportling Blue	4.71PB 3.75/6.83
+Enamel Blue	4.73PB 2.09/5.59
+Tempest Blue	4.73PB 2.09/5.62
+Minuet Blue	4.74PB 6.75/0.86
+Chelsea Blue	4.75PB 3.18/4.41
+Pencil Blue	4.76PB 2.85/7.78
+Smoke Blue	4.77PB 3.05/2.41
+Torino Blue	4.78PB 1.86/4.87
+Fidelity Blue	4.78PB 3.39/6.01
+Acadia Blue	4.80PB 4.32/4.46
+Alpine Blue	4.80PB 4.66/5.41
+fairbanks blue	4.82PB 5.97/6.46
+Sunset Blue	4.84PB 3.32/4.73
+Border Blue	4.85PB 2.81/3.17
+Dark Grayish Blue	4.86PB 3.99/3.15
+Blue Sunset	4.87PB 3.00/2.77
+Chalk Blue	4.87PB 5.70/4.03
+Square Blue	4.88PB 1.98/9.29
+Blue Clipper	4.88PB 2.25/5.84
+Canton Blue	4.88PB 3.21/4.66
+Sunshine Blue	4.88PB 4.82/3.35
+Symphony Blue	4.89PB 5.18/4.78
+Millet Blue	4.90PB 3.50/4.94
+Flying Blue	4.93PB 2.87/3.58
+Blue Devil	4.93PB 2.88/3.50
+Blue Eyes	4.93PB 5.78/4.29
+Mallow Blue	4.94PB 1.65/1.79
+Blue Cobalt	4.94PB 2.67/7.44
+Lacquer Blue	4.94PB 3.00/3.67
+Kingdom Blue	4.94PB 3.15/5.59
+Snowboard Blue	4.94PB 7.09/5.58
+Buccaneer Blue	4.95PB 3.77/12.46
+newport blue	4.96PB 3.30/4.79
+Milanese Blue	4.96PB 3.57/5.00
+Indian Corn Blue	4.96PB 3.99/6.65
+Milano Blue	4.96PB 4.08/3.72
+Tea Cup Blue	4.97PB 3.34/8.88
+Twilight Blue	4.97PB 3.59/4.21
+Bright Glory Blue	4.99PB 4.27/8.62
+Lake Blue	5PB 0.88/2
+Michelangelo's Blue	5.01PB 3.35/1.88
+Pigeon Blue	5.02PB 3.35/2.73
+Viennese Blue	5.02PB 3.69/6.38
+Seaman Blue	5.03PB 4.84/5.62
+Ink Blue	5.04PB 1.82/2.54
+Scenic Blue	5.04PB 3.39/7.39
+Medieval Blue	5.07PB 2.56/4.89
+FLying Blue	5.07PB 2.91/4.62
+Australian Blue	5.07PB 3.11/5.77
+Grayish Purplish Blue	5.09PB 2.91/3.46
+Blue Lightning	5.10PB 4.25/8.84
+Breton Blue	5.10PB 5.72/3.77
+Deep Blue	5.11PB 2.90/8.21
+Sanborn's Blue	5.11PB 6.64/5.44
+Cafe Blue	5.12PB 3.50/2.73
+Crusader Blue	5.13PB 2.87/3.98
+David Blue	5.13PB 3.82/4.96
+Slate Blue	5.14PB 2.82/3.23
+Plymouth Blue	5.14PB 3.66/4.06
+Storming Blue	5.14PB 5.22/6.75
+Bakelite Blue	5.15PB 3.50/9.68
+Basque Blue	5.16PB 4.51/4.85
+Aquarius Blue	5.16PB 5.13/7.66
+Blue Hyacinth	5.17PB 4.68/5.70
+Magnet Blue	5.17PB 5.65/4.86
+Blissful Blue	5.18PB 2.20/2.47
+Cheops Blue	5.18PB 4.67/3.56
+Cloud-burst Blue	5.18PB 4.86/3.95
+Blue Platinum	5.19PB 4.79/2.76
+Blue Aster	5.20PB 5.78/5.17
+Balkan Blue	5.23PB 2.43/7.55
+Eskimo Blue	5.23PB 2.77/4.88
+Lisboa Blue	5.23PB 4.23/9.56
+Blue	5.23PB 4.73/8.68
+Regiment Blue	5.24PB 1.81/3.11
+Celtic Blue	5.25PB 3.91/8.38
+Viennese Blue	5.26PB 2.07/4.11
+Shadow Blue	5.26PB 2.51/3.02
+Trailblazer Blue	5.27PB 2.34/2.52
+Night Snow Blue	5.28PB 5.64/7.85
+Urban Blue	5.29PB 2.33/3.48
+Century 21 Blue	5.29PB 2.74/6.91
+Blue Bounce	5.29PB 3.90/9.38
+Starlit Blue	5.29PB 5.47/3.11
+Drowsy Blue	5.30PB 3.41/2.85
+Bluebeard 1	5.30PB 5.40/3.55
+Gallant Blue	5.32PB 2.84/3.69
+Muted Blue	5.32PB 4.58/3.65
+Bluemist	5.32PB 5.34/3.74
+Funky Blue	5.33PB 4.26/9.20
+Flame Blue	5.34PB 4.10/6.01
+Blue Frosting	5.34PB 4.44/7.69
+Ceramic Blue	5.35PB 2.70/2.94
+Colonial Blue	5.36PB 4.70/11.13
+Canaan Blue	5.37PB 2.30/3.31
+Duchess Blue	5.37PB 3.58/9.22
+Continental Blue	5.38PB 1.73/0.86
+Washed Blue	5.38PB 4.43/4.89
+Strong Blue	5.40PB 3.68/8.56
+go-to-blue	5.40PB 4.61/7.64
+Monterey Blue	5.41PB 4.38/5.07
+Heavenly Blue	5.41PB 5.34/4.61
+Ship's Blue	5.43PB 2.13/4.82
+Pursuit Blue	5.44PB 3.05/4.19
+Soldier Blue	5.45PB 2.31/4.02
+Soiree Blue	5.45PB 2.57/6.18
+Samoa Blue	5.45PB 4.33/8.70
+Lucerne Blue	5.46PB 5.52/4.48
+Blue Twilight	5.47PB 2.85/6.83
+Olympian Blue	5.47PB 3.25/7.44
+Grid-Pattern Blue	5.47PB 3.53/4.64
+Dusky Blue	5.48PB 2.39/3.04
+Marble Vein Blue	5.49PB 1.78/1.33
+Icy Blue	5.50PB 5.13/4.41
+Bonbon Blue	5.50PB 5.77/3.81
+Allied Blue	5.52PB 2.99/4.64
+blue wave	5.52PB 6.33/2.36
+Mystic Blue	5.53PB 4.22/2.55
+Old Orleans Blue	5.54PB 2.40/7.01
+Mighty Blue	5.54PB 3.16/6.03
+Millet Blue	5.55PB 3.46/5.64
+Queen Blue	5.55PB 5.14/5.81
+Fairway Blue	5.56PB 4.62/6.34
+Club Blue	5.57PB 3.15/3.23
+Dome Blue	5.58PB 2.24/4.07
+Radar Blue	5.60PB 2.48/5.36
+Blue Fizz	5.60PB 3.90/9.30
+Deep Blue	5.61PB 2.47/8.66
+Drapeau Blue	5.61PB 3.12/7.18
+Strong Purplish Blue	5.61PB 3.52/8.21
+Dauntless Blue	5.61PB 4.26/6.68
+Lusty Blue	5.62PB 2.69/9.05
+Champion Blue	5.62PB 3.74/5.57
+Cadiz Blue	5.63PB 3.57/7.95
+Cornflower Blue	5.64PB 2.76/6.11
+Metal Blue	5.64PB 3.24/3.82
+Blue Vista	5.65PB 2.45/6.41
+Voltage Blue	5.66PB 5.01/8.23
+Moonlight Blue	5.66PB 5.35/1.50
+Dark Blue	5.67PB 1.78/5.32
+Salute Blue	5.67PB 2.78/1.81
+Sea Skipper Blue	5.67PB 3.12/8.30
+Indiglow Blue	5.68PB 2.05/4.65
+Flaxen Blue	5.69PB 4.30/6.66
+Blue Goose	5.70PB 3.16/7.07
+Spa Blue	5.71PB 2.06/5.74
+Fountain Blue	5.71PB 3.49/7.50
+Newport Blue	5.71PB 4.62/7.36
+schirmeister blue	5.71PB 4.74/7.53
+Elysse Blue	5.73PB 2.60/6.87
+Butcher Blue	5.74PB 4.15/5.74
+Dearborn Blue	5.76PB 6.73/6.35
+Chipper Clipper Blue	5.77PB 1.92/4.64
+Blue Splendor	5.77PB 2.51/8.24
+Electron Blue	5.77PB 3.30/6.22
+Blue	5.77PB 3.61/9.25
+Mayfair Blue	5.77PB 3.88/8.32
+Grotto Blue	5.77PB 4.32/6.77
+Van Eyck Blue	5.78PB 1.35/1.14
+Blaze Blue	5.78PB 3.76/10.73
+Happy Blue	5.78PB 6.18/1.85
+Legion Blue	5.79PB 2.29/3.91
+highlighter blue	5.79PB 3.44/9.95
+Blue Lustre	5.80PB 2.36/6.81
+Coachman Blue	5.80PB 2.91/6.09
+Hydrangea Blue	5.80PB 5.48/4.79
+Pottery Blue	5.81PB 2.10/4.57
+Midnight Blue	5.81PB 2.46/3.16
+Chappaqua Blue	5.81PB 4.44/2.28
+little boy blue	5.81PB 6.63/5.74
+Cove Blue	5.82PB 3.22/8.00
+Orleans Blue	5.83PB 2.38/7.33
+Blue Brilliance	5.83PB 2.82/8.84
+Sailor Blue	5.83PB 3.24/7.42
+Romance Blue	5.83PB 6.61/4.12
+Norfold Blue	5.84PB 2.44/3.05
+Pursuit Blue	5.84PB 2.84/4.31
+Triumph Blue	5.84PB 2.93/9.24
+past prime blue	5.84PB 3.98/3.61
+Chicory Blue	5.84PB 5.02/5.64
+Geneva Blue	5.85PB 2.02/4.13
+Orleans Blue	5.85PB 3.34/10.03
+Versailles Blue	5.85PB 3.35/8.47
+Crayon Blue	5.85PB 5.33/2.10
+Maltese Blue	5.86PB 2.62/9.32
+Watchman Blue	5.87PB 1.40/2.61
+bottle blue	5.87PB 3.14/9.13
+Glass Blue	5.87PB 3.50/8.70
+Sistine Blue	5.87PB 5.75/4.09
+Flemish Blue	5.88PB 3.66/2.63
+Etched Blue	5.89PB 2.00/3.84
+Manor Blue	5.89PB 2.62/8.45
+Valiant Blue	5.89PB 4.47/5.16
+Aviator Blue	5.91PB 2.04/3.14
+Cristobal Blue	5.91PB 3.51/4.14
+Bluebeard 2	5.91PB 4.87/4.79
+Melody Blue	5.91PB 6.94/0.72
+Blue Comet	5.92PB 3.66/4.95
+Nordic Blue	5.93PB 1.99/3.96
+Portrait Blue	5.93PB 2.00/6.28
+Blue Note	5.93PB 3.39/5.93
+Voltage Blue	5.94PB 3.30/7.94
+Glory Blue	5.95PB 2.75/5.83
+Glory Blue	5.96PB 2.72/5.72
+Blue	5.96PB 4.62/4.63
+Big Sky Blue	5.96PB 4.85/6.49
+Comet Blue	5.97PB 2.98/3.70
+Airman Blue	5.97PB 3.49/2.62
+Blue Forget-Me-Not	5.97PB 5.55/4.64
+Deep Blue	5.98PB 2.77/5.00
+Bouncy Blue	5.98PB 3.20/9.16
+Victorian Blue	5.98PB 5.29/2.10
+Promenade Blue	5.99PB 2.61/5.41
+Sapphire Blue	5.99PB 2.65/6.76
+blue ribbon	5.99PB 3.30/9.79
+Rendezvous Blue	5.99PB 4.10/6.18
+Augusta Blue	5.99PB 5.15/5.26
+Man O'War Blue	6.00PB 3.61/9.72
+Lithium Blue	6.01PB 4.16/5.13
+Norqegian Blue	6.02PB 2.95/3.51
+Paysanne Blue	6.02PB 3.39/3.20
+Aubusson Blue	6.03PB 3.17/2.87
+Lucerne Blue	6.03PB 5.21/4.57
+Fjord Blue	6.04PB 2.99/4.13
+Nassau Blue	6.04PB 4.39/10.68
+Bluejacket	6.05PB 1.51/1.48
+Windward Blue	6.05PB 2.50/5.97
+Glory Blue	6.06PB 2.31/5.33
+Country Blue	6.06PB 2.88/6.77
+Tailleur Blue	6.07PB 2.85/4.64
+Starry Blue	6.07PB 5.47/4.75
+Gascon Blue	6.08PB 3.48/5.98
+Honor Blue	6.08PB 3.79/6.03
+Strato Blue	6.09PB 2.62/3.29
+Nordic Blue	6.11PB 2.03/3.32
+Arcade Blue	6.11PB 3.04/8.59
+Zap Blue	6.11PB 3.07/9.23
+Como Blue	6.11PB 4.09/4.90
+Oboe Blue	6.12PB 1.60/3.97
+Brigade Blue	6.12PB 2.88/5.97
+Yarn Blue	6.12PB 4.93/7.50
+Palermo Blue	6.13PB 2.84/9.58
+Normandy Blue	6.14PB 2.89/3.81
+Steam Blue	6.14PB 2.92/1.93
+cloud blue	6.14PB 7.63/4.36
+Computer Blue	6.15PB 2.95/5.93
+Moody Blue	6.16PB 1.28/4.61
+Cyano Blue	6.16PB 2.67/7.61
+Ceramic Blue	6.16PB 3.26/5.35
+Platinum Blue	6.17PB 3.95/2.64
+Directoire Blue	6.17PB 5.37/8.23
+Porcelain Blue	6.17PB 5.40/4.48
+Harbor Blue	6.18PB 1.80/3.32
+Beauvais Blue	6.18PB 1.91/3.26
+Iceberg Blue	6.18PB 4.15/5.23
+Peaceful Blue	6.18PB 4.20/8.15
+Tender Blue	6.18PB 5.15/2.68
+Revue Blue	6.20PB 2.82/8.43
+King's Road Blue	6.21PB 3.76/6.17
+Bluesteel	6.21PB 4.35/1.33
+Bellhop Blue	6.22PB 1.76/2.83
+Strobe Blue	6.22PB 2.11/7.75
+Champion Blue	6.22PB 3.42/9.05
+Bonnie Blue	6.22PB 4.26/11.64
+Guardsman Blue	6.23PB 2.42/3.87
+Pueblo Blue	6.23PB 2.75/8.94
+Williamsburg Blue	6.23PB 3.88/5.07
+Starlight Blue	6.23PB 6.14/2.06
+Worth Blue	6.23PB 7.75/2.91
+Blue Clipper	6.24PB 2.29/3.95
+Regent Blue	6.24PB 3.17/10.00
+drift blue	6.24PB 3.36/9.96
+Napoleon Blue	6.24PB 3.61/8.25
+Dark Blue	6.25PB 2.27/4.64
+Blueberry Bellbottoms	6.25PB 3.23/7.08
+Formal Blue	6.26PB 7.57/3.07
+River Blue	6.27PB 2.36/3.23
+Magellan Blue	6.27PB 2.45/8.33
+Sail Blue	6.27PB 2.80/5.85
+Striking Blue	6.27PB 3.03/3.65
+Zeus Blue	6.27PB 3.08/6.72
+Crystalline Blue	6.27PB 5.81/1.71
+Parade Blue	6.28PB 1.63/3.65
+Florentine Blue	6.28PB 2.36/7.33
+Manchu Blue	6.29PB 2.37/8.22
+Challenge Blue	6.29PB 4.47/7.65
+Hyacinth Blue	6.30PB 4.85/5.61
+Dominion Blue	6.31PB 2.31/4.77
+Glory Blue	6.31PB 2.61/6.01
+Patrician Blue	6.32PB 1.40/3.36
+Corsaire Blue	6.33PB 2.53/5.47
+Tyrolian Blue	6.33PB 2.85/7.40
+Grand Prix Blue	6.33PB 3.02/9.71
+Streamer Blue	6.33PB 3.05/10.02
+Blue Harmony	6.33PB 3.27/8.83
+Sunlit Blue	6.33PB 5.10/4.05
+Lustre Blue	6.34PB 3.55/6.89
+Shadowy Blue	6.35PB 2.06/3.40
+Liberty Blue	6.35PB 2.80/9.05
+Patrie Blue	6.36PB 2.28/6.76
+Lapis Blue	6.37PB 2.61/8.51
+Slick Blue	6.38PB 2.91/7.11
+Blue Starlight	6.38PB 5.06/3.81
+Savannah Blue	6.38PB 7.69/3.00
+Fresco Blue	6.39PB 2.54/5.85
+Kingfisher Blue	6.39PB 5.08/5.82
+Showboat Blue	6.40PB 2.76/9.70
+Trojan Blue	6.40PB 2.83/6.69
+Brioni Blue	6.40PB 3.40/10.81
+Spinning Blue	6.41PB 1.83/3.34
+Maestro Blue	6.42PB 2.81/4.91
+Fleur de lis Blue	6.42PB 4.25/5.53
+Neapolitan Blue	6.43PB 2.30/4.29
+Polo Blue	6.43PB 2.60/6.55
+Gloria Blue	6.44PB 3.02/10.59
+Royal Blue	6.44PB 3.35/7.32
+Sailor Blue	6.45PB 1.52/2.35
+Rouen Blue	6.45PB 3.17/5.86
+Fresco Blue	6.45PB 3.79/5.98
+Lacquer Blue	6.45PB 4.41/7.17
+Banner Blue	6.46PB 2.13/3.11
+Blue Flax	6.46PB 5.71/3.34
+Natacha Blue	6.46PB 5.87/3.91
+Blue Graphite	6.47PB 2.32/2.36
+Cheerio Blue	6.47PB 2.65/7.36
+Fairway Blue	6.47PB 4.11/6.27
+Chola Blue	6.48PB 2.36/9.40
+Admiral Blue	6.49PB 3.15/9.43
+Yankee Blue	6.50PB 1.87/5.37
+Steam Engine Blue	6.50PB 2.31/3.48
+Arithematic Progression Blue	6.50PB 2.46/6.66
+Beaucoup Blue	6.50PB 2.70/5.98
+Newport Blue	6.50PB 4.15/6.43
+Military Blue	6.51PB 3.72/5.47
+Belmont Blue	6.52PB 1.57/2.42
+Blustery Blue	6.52PB 1.70/4.49
+Bluesmoke	6.52PB 4.54/1.30
+Lifesaver Blue	6.52PB 4.56/7.41
+Sparkle Blue	6.53PB 2.78/7.46
+Provence Blue	6.53PB 3.52/5.08
+Blue	6.53PB 4.30/7.83
+Strong Blue	6.54PB 3.68/10.01
+periwinkle blue	6.54PB 5.36/9.68
+Spa Blue	6.56PB 2.39/11.08
+Bernese Blue	6.58PB 3.59/5.65
+Kyoto Blue	6.59PB 4.49/7.49
+Roma Blue	6.59PB 8.12/0.74
+Blue Slate	6.60PB 3.25/6.94
+Sungay Blue	6.60PB 3.98/5.97
+Palma Blue	6.60PB 4.18/2.80
+Allied Blue	6.61PB 2.82/4.12
+New Age Blue	6.61PB 5.79/3.31
+Mosaic Blue	6.62PB 3.93/7.83
+Suitability Blue	6.63PB 1.42/1.31
+Dark Night Blue	6.63PB 2.43/3.82
+Highpoint Blue	6.63PB 2.99/8.79
+Blue Dream	6.64PB 5.22/5.67
+Montique Blue	6.65PB 1.87/5.19
+Fisherman Blue	6.65PB 2.10/3.99
+Poster Blue	6.65PB 3.23/10.42
+Waterloo Blue	6.65PB 4.59/7.96
+Commodore Blue	6.66PB 1.30/1.78
+Bluebeard 3	6.66PB 3.89/5.23
+Blue Flair	6.67PB 2.93/7.26
+Everyone's Blue	6.68PB 2.03/4.46
+Chinese Blue	6.68PB 3.37/9.85
+Blueberry	6.69PB 1.93/3.96
+Flanders Blue	6.69PB 2.08/5.85
+Placid Blue	6.70PB 1.91/4.64
+Dark Night Blue	6.70PB 2.30/3.17
+Grayish Purplish Blue	6.70PB 2.94/3.84
+Whammo Blue	6.70PB 6.04/5.38
+Brigade Blue	6.71PB 1.82/5.46
+Superior Blue	6.71PB 4.75/8.53
+Capri Blue	6.72PB 2.94/6.83
+All American Blue	6.72PB 3.03/7.47
+Maritime Blue	6.73PB 1.84/4.87
+Carnival Blue	6.73PB 2.64/11.26
+Flotilla Blue	6.74PB 1.75/2.13
+Melloblue	6.74PB 2.08/4.42
+Tranquil Blue	6.75PB 1.73/3.67
+Wedgewood Blue	6.75PB 2.40/6.54
+Jeanne D'arc Blue	6.75PB 2.67/9.52
+Dark Grayish Blue	6.75PB 3.04/1.44
+Carib Blue	6.75PB 4.34/7.81
+Blue Larkspur	6.75PB 5.32/6.81
+Sailing Blue	6.78PB 2.29/7.13
+Bike Blue	6.78PB 2.70/7.58
+Tapestry Blue	6.78PB 4.66/5.13
+Romany Blue	6.79PB 1.66/5.87
+Corsaire Blue	6.79PB 2.62/5.40
+Blue Fish	6.79PB 3.69/6.14
+Ocean Floor Blue	6.80PB 1.98/2.84
+Pompeian Blue	6.80PB 2.68/8.68
+Blue Lotus	6.80PB 5.03/6.17
+Shellac Blue	6.81PB 2.92/9.23
+Blue Orchid	6.81PB 4.70/2.43
+Brisk Blue	6.82PB 2.40/10.07
+Grey Blue	6.82PB 3.46/2.20
+Blueslate	6.83PB 3.14/2.55
+Blue Night	6.84PB 1.98/2.24
+Cabana Blue	6.84PB 2.34/6.94
+Bateau Blue	6.85PB 1.61/2.89
+Blue Blaze	6.85PB 2.59/7.17
+Royalty Blue	6.86PB 2.08/7.18
+Valleyo Blue	6.86PB 4.10/10.08
+Serene Blue	6.87PB 4.10/6.27
+Chalet Blue	6.88PB 2.26/4.38
+Monet Blue	6.88PB 3.61/6.83
+Sailor Blue	6.89PB 1.36/2.22
+Smoke Blue	6.89PB 1.81/3.59
+Navy Blue	6.89PB 2.54/3.03
+Twilight Blue	6.89PB 4.66/5.45
+Sailor Blue	6.90PB 1.30/2.97
+Defender Blue	6.91PB 1.86/6.09
+Undertow Blue	6.91PB 3.09/8.71
+Strong Blue	6.91PB 4.21/11.13
+Midship Blue	6.92PB 2.36/7.72
+Midnight Blue	6.93PB 1.15/1.17
+Cocktail Blue	6.93PB 2.54/6.57
+Dove Blue	6.94PB 2.84/4.27
+Lapis Blue	6.94PB 3.23/12.92
+Brahms Blue	6.94PB 3.97/10.76
+Chartres Blue	6.95PB 1.95/6.42
+Blue Sail	6.95PB 2.07/3.88
+Night Blue	6.95PB 2.64/8.28
+Wedgwood Blue	6.95PB 2.85/6.82
+Boulevard Blue	6.96PB 2.62/6.90
+Falling Light Blue	6.96PB 3.99/9.62
+Cruise Blue	6.97PB 1.41/3.55
+Anchor Blue	6.99PB 1.27/2.14
+Chic Blue	6.99PB 2.88/2.46
+Guardsman Blue	7.00PB 2.43/3.86
+Gulf Stream Blue	7.00PB 2.67/8.68
+Carbon Blue	7.00PB 3.01/9.23
+Nautical Blue	7.01PB 1.60/5.81
+Outerspace Blue	7.01PB 1.97/5.89
+Hacienda Blue	7.01PB 2.88/6.81
+Pale Purplish Blue	7.01PB 5.50/3.94
+Gala Blue	7.02PB 2.92/5.39
+Festival Blue	7.02PB 3.29/8.63
+Native Dancer Blue	7.03PB 3.94/1.18
+Sunrise Blue	7.03PB 3.97/7.42
+Sweetpea Blue	7.03PB 6.83/2.92
+Longchamps Blue	7.04PB 2.21/5.87
+Joy Blue	7.04PB 2.64/7.27
+Argentine Blue	7.04PB 2.81/6.96
+Ensign Blue	7.05PB 2.14/6.62
+bronx-zoo blue	7.05PB 4.96/7.57
+Blue FLight	7.06PB 2.26/8.29
+Commune Blue	7.06PB 2.65/8.93
+Musky Blue	7.06PB 6.16/3.40
+Seaman Blue	7.07PB 1.43/2.17
+Brighton Blue	7.07PB 1.72/5.51
+Brave Blue	7.07PB 2.26/7.07
+blue patato	7.07PB 2.28/4.17
+All-Star Blue	7.07PB 2.58/7.53
+Peru Blue	7.08PB 2.79/9.36
+Swagger Blue	7.10PB 1.60/3.78
+Belmont Blue	7.10PB 1.62/5.20
+Major Blue	7.10PB 1.65/4.96
+Tropez Blue	7.10PB 2.10/4.96
+Blue	7.10PB 2.20/10.42
+Deep Purplish Blue	7.11PB 1.97/9.34
+Nobility Blue	7.11PB 2.58/10.02
+Shipshape Blue	7.12PB 1.60/4.56
+Mogul Blue	7.12PB 1.66/6.13
+Frigate Blue	7.14PB 1.18/1.58
+Blue Flame	7.14PB 2.55/6.97
+Arriba Blue	7.15PB 3.02/7.29
+slate blue	7.15PB 3.63/6.51
+Regatta Blue	7.16PB 2.33/7.05
+Norse Blue	7.17PB 3.02/5.46
+Gascon Blue	7.18PB 4.03/3.65
+Onyx Blue	7.19PB 1.64/4.34
+Gusto Blue	7.20PB 1.53/5.45
+Forest Blue	7.20PB 2.02/3.55
+Rocket Blue	7.20PB 2.16/5.23
+plains blue	7.20PB 2.86/8.20
+Marshall Blue	7.21PB 1.57/3.87
+Manoa Blue	7.21PB 2.36/5.55
+York Blue	7.22PB 1.80/4.06
+Danish Blue	7.22PB 2.30/4.59
+Gallant Blue	7.22PB 3.10/3.44
+Blackish Blue	7.23PB 1.09/2.38
+Sappho Blue	7.23PB 2.52/7.59
+Monet Blue	7.23PB 4.02/6.54
+Particle Blue	7.24PB 4.04/11.00
+Blackish Blue	7.25PB 1.39/2.23
+Valiant Blue	7.25PB 4.40/9.28
+Vendome Blue	7.26PB 1.32/2.40
+Monaco Blue	7.26PB 1.93/8.74
+Chow Blue	7.26PB 2.17/9.41
+Tempo Blue	7.26PB 2.40/7.92
+Tahoe Blue	7.26PB 3.37/8.76
+Monet Blue	7.26PB 3.39/4.56
+Cosmos Blue	7.26PB 3.53/6.22
+Blueberry	7.27PB 2.65/6.47
+Fumee Blue	7.27PB 3.13/4.68
+Blue Ore	7.27PB 3.94/1.92
+Adriatic Blue	7.27PB 3.99/7.51
+Pocatello Blue	7.27PB 7.65/3.25
+Autumn Blue	7.28PB 1.16/7.70
+Marquis Blue	7.28PB 2.22/4.14
+Integrity Blue	7.29PB 2.64/5.45
+Ship's Blue	7.30PB 1.61/3.82
+Sailing Blue	7.30PB 2.57/8.64
+Laguna Blue	7.30PB 3.25/8.81
+Sailor Blue	7.31PB 1.17/2.65
+Loyal Blue	7.31PB 2.09/7.13
+Newport Blue	7.31PB 2.12/6.52
+Lorraine Blue	7.31PB 2.17/7.24
+Rheims Blue	7.31PB 2.50/6.94
+Premier Blue	7.34PB 1.70/4.28
+Allure Blue	7.34PB 2.84/11.50
+Slate Blue	7.35PB 4.60/6.37
+Concord Blue	7.38PB 1.51/3.79
+Freedom Blue	7.38PB 1.53/3.72
+Sailor Blue	7.39PB 1.43/2.64
+Roma Blue	7.39PB 1.89/3.69
+Mayan Blue	7.39PB 2.92/9.71
+Paradise Blue	7.39PB 6.38/3.66
+Royal Blue	7.41PB 2.20/10.37
+Sundown Blue	7.41PB 4.24/5.00
+Pale Blue	7.41PB 6.46/2.92
+Malibu Blue	7.43PB 2.78/7.47
+Monet Blue	7.43PB 3.01/6.02
+Deep Blue	7.43PB 3.69/2.68
+Officer Blue	7.44PB 1.23/1.09
+Navigator Blue	7.45PB 1.65/2.75
+Blue Opal	7.45PB 3.67/3.88
+Blue Night	7.46PB 1.30/1.87
+Brunch Blue	7.47PB 2.32/7.18
+Electric Slide Blue	7.48PB 5.73/7.11
+Savona Blue	7.49PB 5.50/2.72
+Dark Purplish Blue	7.5PB 0.98/3
+Yambu Blue	7.50PB 2.62/8.26
+Strong Purplish Blue	7.50PB 3.11/12.34
+China Blue	7.50PB 5.26/6.39
+Battalion Blue	7.52PB 1.50/3.08
+Dawn Blue	7.52PB 7.88/3.48
+Fairbanks Blue	7.53PB 2.41/8.05
+Madeliene Blue	7.53PB 2.72/5.18
+Maritime Blue	7.54PB 1.52/2.29
+Guardsman Blue	7.54PB 1.89/4.25
+Cruise Blue	7.54PB 2.02/4.26
+Nocturne Blue	7.55PB 1.59/2.80
+Fleet Blue	7.56PB 1.37/3.29
+Homage Blue	7.57PB 1.60/2.31
+Trotteur Blue	7.57PB 1.62/3.43
+Blue Astor	7.57PB 4.24/5.28
+Periwink Blue	7.57PB 4.38/6.54
+Formosa Blue	7.58PB 3.15/6.49
+Foggy Blue	7.58PB 3.27/1.75
+Lorraine Blue	7.58PB 3.67/7.02
+Bouldering Blue	7.59PB 2.77/8.13
+Napolean Blue	7.60PB 3.90/9.65
+Madeleine Blue	7.61PB 2.56/5.51
+Bumped Blue-Gray	7.61PB 4.77/4.04
+Brilliant Purplish Blue	7.61PB 4.98/7.71
+Gendarme Blue	7.62PB 1.92/2.20
+Guardsman Blue	7.63PB 1.83/5.30
+Storm Blue	7.63PB 2.67/7.48
+Kingfisher Blue	7.64PB 3.18/7.61
+Corbeau Blue	7.65PB 1.15/1.38
+Meadow Blue	7.65PB 1.73/5.77
+Dauphin Blue	7.65PB 2.54/4.94
+Blue Banner	7.66PB 2.26/7.48
+Delft Blue	7.66PB 5.40/3.19
+Matinee Blue	7.67PB 1.38/3.82
+Concord Blue	7.67PB 1.68/3.93
+First Light Blue	7.68PB 5.62/0.80
+360 blue	7.69PB 4.62/6.31
+Spritzer Blue	7.69PB 6.74/4.27
+Blue Ribbon Navy	7.71PB 2.07/4.49
+Blue Pottery	7.71PB 2.70/4.79
+Guardsman Blue	7.72PB 1.61/3.75
+Homage Blue	7.72PB 1.64/1.93
+Navarre Blue	7.72PB 3.80/4.70
+Blue Enamel	7.72PB 4.39/7.31
+Mystic Blue	7.73PB 2.15/9.00
+Anchor Blue	7.74PB 1.35/2.62
+Bowie Blue	7.74PB 1.91/7.39
+London Blue	7.74PB 2.66/8.69
+Liberty Blue	7.76PB 4.78/7.15
+Captain Blue	7.77PB 1.39/2.44
+Yukon Blue	7.77PB 1.93/5.02
+Stone Blue	7.77PB 3.17/1.63
+Talisman Blue	7.78PB 1.98/7.52
+Dramatic Blue	7.78PB 2.32/11.17
+Arc de Triomphe Blue	7.78PB 4.47/5.40
+Dark Purplish Blue	7.79PB 2.25/2.91
+Yachting Blue	7.79PB 2.85/8.40
+Signal Blue	7.81PB 1.62/6.17
+Bernese blue	7.81PB 4.33/5.51
+Heavenly Blue	7.81PB 4.75/5.61
+Independence Blue	7.83PB 1.61/3.21
+Hometown Blue	7.83PB 3.16/4.16
+Mediterranean Blue	7.83PB 5.01/4.51
+Tyrol Blue	7.85PB 2.90/9.56
+Knave Blue	7.86PB 1.92/4.79
+Madeliene Blue	7.86PB 2.50/3.77
+Bagdad Blue	7.87PB 2.20/7.59
+Believer's Blue	7.88PB 1.57/2.11
+Night Blue	7.88PB 1.85/5.09
+Thai Blue	7.88PB 4.72/7.13
+Bud Blue	7.88PB 6.90/4.45
+Charred Blue	7.89PB 2.47/3.78
+9 am/9 pm Blue	7.90PB 2.04/3.59
+Lazuli Blue	7.92PB 2.81/10.35
+Carbon Blue	7.94PB 1.55/1.70
+Rio Blue	7.94PB 1.98/6.27
+Clematis Blue	7.95PB 1.87/6.22
+Midnight Blue	7.95PB 1.92/2.59
+Periwinkle Blue	7.96PB 5.21/7.40
+Grecian Blue	7.97PB 1.85/6.42
+Rhine Blue	7.97PB 3.04/1.70
+satorini blue	7.99PB 3.32/10.99
+Superman Blue	8.00PB 3.41/9.18
+Skipper Blue	8.02PB 1.24/1.56
+Schooner Blue	8.02PB 1.39/1.86
+Boating Blue	8.03PB 2.17/6.91
+Hula Blue	8.03PB 3.41/7.36
+Corsican Blue	8.04PB 1.28/5.43
+Blueberry	8.04PB 1.71/3.72
+Victorious Blue	8.04PB 2.64/7.64
+Apertif Blue	8.04PB 3.26/8.04
+Valor Blue	8.04PB 3.33/6.07
+Jockey Blue	8.04PB 3.65/15.07
+Homage Blue	8.05PB 2.47/2.28
+Bagatelle Blue	8.06PB 3.44/7.41
+Squadron Blue	8.07PB 1.54/1.72
+Mayfair Blue	8.07PB 3.93/7.21
+Regal Blue	8.10PB 2.36/8.89
+Dark Purplish Blue	8.11PB 1.56/5.27
+Stalwart Blue	8.11PB 3.06/6.82
+Buoyant Blue	8.12PB 1.88/6.49
+Homage Blue	8.12PB 2.13/3.11
+Flagship Blue	8.13PB 1.52/2.80
+Blue of Heaven	8.15PB 5.51/2.88
+Corsican Blue	8.16PB 1.56/5.44
+Luminous Blue	8.16PB 3.42/5.19
+Steel Blue	8.16PB 3.65/3.52
+Blue Glass	8.17PB 3.27/5.46
+Mayflower Blue	8.17PB 3.96/5.12
+Teak Blue	8.19PB 1.38/3.17
+Patriot Blue	8.22PB 2.05/5.14
+Etoile Blue	8.22PB 2.53/7.32
+Periblue	8.22PB 4.42/7.49
+Sprinter Blue	8.26PB 2.48/7.66
+Yachting Blue	8.27PB 1.48/3.31
+Guardsman Blue	8.27PB 2.91/4.21
+Spotlight Blue	8.27PB 3.01/4.89
+Spectrum Blue	8.28PB 2.32/12.31
+Starlight Blue	8.28PB 2.72/1.12
+Azure Blue	8.28PB 5.32/2.30
+Mountain Blue	8.29PB 2.12/10.63
+Moderate Purplish Blue	8.29PB 3.08/8.05
+Blue	8.29PB 4.21/6.38
+Military Blue	8.30PB 1.36/1.98
+Squadron Blue	8.33PB 1.31/2.44
+Spicy Blue	8.33PB 1.66/6.96
+Blue Stripe	8.34PB 1.71/3.27
+Mural Blue	8.36PB 3.38/3.05
+Charcoal Blue	8.37PB 1.94/1.59
+Carriage Blue	8.37PB 2.76/4.73
+Anthracite Blue	8.40PB 2.57/1.67
+Very Pale Purplish Blue	8.42PB 7.63/2.91
+Strong Purplish Blue	8.43PB 4.05/9.69
+Outer Blue	8.44PB 1.88/3.33
+blue thunder	8.44PB 2.74/3.41
+Matelot Blue	8.46PB 1.75/4.11
+Flame Blue	8.47PB 2.05/7.11
+Montoya Blue	8.47PB 4.69/2.04
+Antines Blue	8.47PB 6.24/3.80
+Alliance Blue	8.48PB 3.47/3.33
+Mayflower Blue	8.48PB 3.98/4.87
+Regalia Blue	8.49PB 2.37/3.91
+Morning Glory Blue	8.50PB 2.31/9.70
+Dark Grayish Blue	8.51PB 2.84/0.80
+Admiral Blue	8.54PB 1.74/3.67
+Schooner Blue	8.56PB 1.20/1.81
+Tuxedo Blue	8.57PB 1.41/3.52
+North American Blue	8.57PB 2.01/8.17
+Metallic Blue	8.59PB 1.92/3.92
+Cruiser Blue	8.60PB 1.22/1.58
+Blueslate	8.60PB 3.77/1.51
+Bluet	8.60PB 5.92/4.43
+Nighttime Blue	8.61PB 2.02/3.07
+Schooner Blue	8.62PB 1.46/1.62
+Boater Blue	8.62PB 1.67/2.36
+Deep Purplish Blue	8.63PB 2.51/6.36
+Tuxedo Blue	8.66PB 1.33/4.59
+Helio Blue	8.66PB 3.41/4.01
+Courage Blue	8.68PB 2.30/8.49
+Juniper Blue	8.69PB 3.03/6.88
+Mezzo Blue	8.69PB 4.75/1.86
+river blue	8.70PB 3.29/7.68
+Pashad Blue	8.71PB 2.21/9.30
+Bohemian Blue	8.71PB 2.65/5.28
+Kandinsky Blue	8.73PB 3.35/13.59
+Nightshade Blue	8.73PB 3.45/6.96
+Montreux Blue	8.74PB 5.62/4.01
+Blue Lavender	8.75PB 6.08/4.76
+Captain Blue	8.76PB 2.39/5.40
+Elderberry Blue	8.76PB 3.19/8.83
+new delhi blue	8.76PB 7.60/4.13
+Metallic Blue	8.78PB 2.32/3.74
+Deauville Blue	8.78PB 5.12/8.66
+Marimba Blue	8.82PB 2.54/11.23
+Blue Gem	8.87PB 2.20/6.88
+Canyon Blue	8.87PB 3.65/6.24
+Plaza Blue	8.89PB 1.85/8.57
+Harmony Blue	8.89PB 2.74/11.09
+Hilite Blue	8.89PB 3.87/8.46
+Tahiti Blue	8.90PB 2.47/8.76
+Violet Blue	8.90PB 4.91/3.35
+Tribal Blue	8.91PB 3.85/8.98
+Sand Blue	8.91PB 6.33/5.41
+Commando Blue	8.93PB 4.63/2.41
+Violine Blue	8.94PB 2.36/9.58
+Blue Silver	8.95PB 4.54/1.49
+Ascot Blue	8.97PB 1.55/2.18
+Larkspur Blue	8.97PB 4.20/8.98
+Galaxy Blue	8.99PB 2.35/6.60
+Crew Blue	8.99PB 2.37/4.76
+Devon Blue	9.02PB 2.52/5.97
+Parma Blue	9.05PB 4.20/8.67
+Aubusson Blue	9.09PB 4.64/1.93
+true blue	9.12PB 1.77/2.81
+Blue Diamond	9.14PB 2.85/2.00
+Clematis Blue	9.16PB 3.03/8.74
+Raven Blue	9.20PB 1.24/1.24
+Aloha Blue	9.20PB 2.48/8.85
+Paris Blue	9.20PB 3.12/9.16
+Bangor Blue	9.21PB 2.97/7.00
+Cloud Blue	9.23PB 4.49/2.99
+San Remo Blue	9.24PB 2.79/5.31
+Petunia Blue	9.29PB 2.08/7.20
+Grayish Blue	9.32PB 5.09/2.78
+blue blood	9.34PB 2.27/1.74
+Blue Orchid	9.39PB 1.37/1.64
+Yukata Blue	9.41PB 1.22/1.14
+Dark Purplish Blue	9.41PB 1.86/4.37
+Genitian Blue	9.41PB 3.16/9.60
+Chalky Blue	9.48PB 5.95/2.81
+Sugar Blue	9.50PB 5.25/3.52
+Dark Purplish Blue	9.62PB 1.56/4.08
+Stadium Blue	9.63PB 2.50/8.06
+Victory Blue	9.68PB 2.28/10.21
+Grape Blue	9.68PB 4.21/6.80
+blue corn	9.73PB 4.01/8.93
+Prussian Blue	9.74PB 1.33/1.07
+Blue Dove	9.81PB 3.04/2.88
+Astral Blue	9.88PB 3.67/3.49
+Breeches Blue	9.89PB 2.96/5.64
+Uno Blue	9.94PB 2.26/5.25
+Club Blue	9.97PB 1.83/2.64
+Blue Plum	0.00P 1.50/4.93
+Chantilly Blue	0.13P 3.63/7.51
+Blue Plum	0.16P 4.07/6.39
+Gypsy Blue	0.17P 2.24/6.90
+Blue VIoline	0.17P 5.88/5.54
+Winsor Blue	0.32P 7.82/3.14
+Cluny Blue	0.45P 4.21/5.82
+Malta Blue	0.57P 4.21/7.90
+Bold Blue	0.58P 2.04/6.76
+Wistaria Blue	0.90P 5.29/3.87
+Grape Blue	0.99P 3.47/6.20
+Canterbury Blue	1.00P 1.89/10.45
+Blueberry Mauve	1.00P 2.85/6.11
+Flame Blue	1.02P 4.57/7.61
+Angelo blue	1.03P 5.68/4.95
+Indelible Blue	1.05P 1.61/2.43
+Blue Violet	1.12P 5.00/6.89
+Blue Plum	1.14P 1.88/5.02
+Mariner Blue	1.17P 1.16/1.02
+Castilian Blue	1.24P 2.38/6.83
+Kent Blue	1.27P 2.60/3.72
+Regency Blue	1.29P 4.28/2.42
+Stormy Blue	1.46P 4.63/2.38
+Zinc Blue	1.59P 2.91/3.09
+Blueberry Purple	1.64P 2.04/6.34
+Zinc blue	1.96P 2.27/2.64
+Heather Blue	1.96P 3.65/2.71
+Trader's Blue	2.04P 2.31/6.39
+Heather Blue	2.07P 4.45/3.27
+Opal Blue	2.36P 5.66/1.06
+Biella Blue	2.46P 5.43/1.98
+Cloisonne Blue	2.53P 3.87/2.79
+Nebular Blue	2.64P 6.59/2.62
+Evening Blue	2.67P 5.73/2.48
+Avenue Blue	2.88P 2.33/2.88
+Matador Blue	2.91P 3.01/4.62
+Blue Corn	2.92P 1.95/1.01
+Blue THistle	3.11P 6.07/2.07
+Dulcet Blue	3.94P 4.64/3.64
+Lupine Blue	4.08P 6.94/1.54
+blueberry	4.25P 3.01/2.11
+Lacquer Blue	4.90P 3.97/2.73
+Blue Lavender	5.68P 4.26/3.11
+Blackish Blue	6.02P 2.22/0.83
+Blue Lilac	7.50P 5.37/3.81
+Bride's Blue	7.96P 6.67/2.13
+Blueberry	8.06P 1.15/0.95
+Ciel Blue	9.04P 6.47/2.09
+Navigator Blue	0.01RP 2.28/0.73
+Pale Blue	0.22RP 6.26/1.39
+Blue Hyacinth	5.12RP 7.09/2.76

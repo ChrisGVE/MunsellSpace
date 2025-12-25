@@ -1,0 +1,200 @@
+Colour name:	navy
+Number of CAUS samples:	100
+Centroid in Munsell coordinates:	7.26PB 2.11/3.61
+Centroid in Cartesian coordinates:	 0.51	-3.57	2.11
+Polyhedron vertices in Munsell coordinates:
+3.54PB 1.75/1.71
+4.16PB 2.18/2.80
+5.45PB 2.41/3.90
+6.00PB 2.77/2.59
+6.12PB 2.17/4.81
+6.26PB 1.47/1.94
+6.36PB 1.42/1.38
+6.47PB 2.17/5.53
+6.68PB 1.81/1.32
+6.84PB 1.61/4.98
+7.03PB 2.73/6.10
+7.34PB 1.39/1.74
+7.37PB 2.21/7.21
+7.63PB 1.41/1.60
+7.79PB 1.55/3.76
+8.19PB 1.43/1.57
+8.81PB 1.92/4.53
+9.09PB 1.56/1.36
+9.38PB 2.61/2.84
+9.69PB 1.77/2.86
+9.70PB 1.80/1.33
+9.78PB 2.01/1.66
+9.89PB 2.15/2.99
+1.05P 2.00/2.29
+Polyhedron vertices in Cartesian coordinates:
+-0.16	-1.70	1.75
+-0.15	-2.80	2.18
+0.11	-3.90	2.41
+0.16	-2.58	2.77
+0.34	-4.80	2.17
+0.15	-1.93	1.47
+0.12	-1.37	1.42
+0.51	-5.51	2.17
+0.14	-1.31	1.81
+0.57	-4.95	1.61
+0.78	-6.05	2.73
+0.25	-1.72	1.39
+1.07	-7.13	2.21
+0.26	-1.58	1.41
+0.66	-3.70	1.55
+0.31	-1.54	1.43
+1.07	-4.40	1.92
+0.35	-1.32	1.56
+0.77	-2.73	2.61
+0.83	-2.74	1.77
+0.39	-1.27	1.80
+0.49	-1.59	2.01
+0.90	-2.85	2.15
+0.85	-2.13	2.00
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+10	13	17
+13	19	17
+11	3	4
+11	19	13
+19	11	4
+2	10	1
+4	2	1
+3	2	4
+9	4	1
+9	21	4
+23	24	17
+19	23	17
+23	19	24
+22	21	24
+19	22	24
+21	22	4
+22	19	4
+8	11	13
+11	8	3
+10	8	13
+10	6	1
+15	10	17
+15	12	10
+5	2	3
+8	5	3
+2	5	10
+5	8	10
+12	7	10
+7	6	10
+6	7	1
+14	7	12
+7	9	1
+20	15	17
+24	20	17
+21	18	24
+9	18	21
+7	18	9
+16	7	14
+16	18	7
+16	14	12
+16	20	24
+18	16	24
+15	16	12
+20	16	15
+Samples, with Munsell coordinates, from CAUS data:
+Navy 3	2.03PB 1.60/1.39
+Navy 2	2.70PB 2.09/2.65
+Jet Navy	3.54PB 1.75/1.71
+Navy 2	4.16PB 2.18/2.80
+Navy 3	4.27PB 2.33/1.81
+Black Navy	4.97PB 1.45/1.09
+Digital Navy	5.03PB 2.07/2.00
+Navy 1	5.18PB 2.98/3.94
+Navy 2	5.20PB 2.26/3.06
+Navy 2	5.40PB 2.30/2.34
+Navy 1	5.45PB 2.41/3.90
+Fleet Navy	5.51PB 2.03/1.98
+Navy 2	5.67PB 2.10/2.42
+Navy 2	5.94PB 2.45/3.48
+Midnight Navy	5.96PB 2.21/2.13
+Navy 3	6.00PB 1.21/1.39
+Portage Navy	6.00PB 2.77/2.59
+Navy 2	6.02PB 2.32/2.90
+Navy 3	6.03PB 2.24/2.29
+Navaho Navy	6.05PB 2.10/3.19
+Navy 2	6.07PB 2.03/2.76
+Hidden NAvy	6.12PB 2.17/4.81
+Bona Navy	6.20PB 2.39/3.62
+Navy 2	6.23PB 2.25/3.81
+Navy	6.24PB 1.64/2.16
+Norfolk Navy	6.25PB 1.27/3.45
+Navy II	6.26PB 1.47/1.94
+Reflection Navy	6.36PB 1.42/1.38
+Nocturne Navy	6.47PB 2.17/5.53
+Navy 3	6.53PB 1.25/1.21
+Navy 3	6.68PB 1.81/1.32
+Sailor Navy	6.69PB 1.71/2.79
+Urban Navy	6.74PB 2.16/3.57
+Navy 3	6.75PB 1.94/1.54
+Ferryboat Navy	6.76PB 2.54/3.61
+Purple Navy	6.77PB 2.38/4.58
+Independence Navy	6.84PB 1.61/4.98
+Navy	6.85PB 3.36/3.21
+Hightide Navy	6.86PB 1.79/5.31
+Parisian Navy	6.89PB 1.71/3.06
+Navy Blue	6.89PB 2.54/3.03
+Tech-no-phobia Navy	6.90PB 1.64/2.80
+MTV Navy	6.90PB 1.94/3.68
+Navy	6.93PB 2.39/3.27
+Navy II	6.95PB 2.09/3.15
+Clipper Navy	6.97PB 1.60/2.27
+Navy	7.03PB 2.73/6.10
+Peaceful Navy	7.06PB 2.47/3.12
+Flagship Navy	7.09PB 2.02/6.86
+Well Bred Navy	7.13PB 2.21/3.09
+Pacific Navy	7.13PB 2.60/7.93
+Telepathic Navy	7.15PB 1.85/4.40
+Nautical Navy	7.16PB 2.59/2.64
+Anchor Navy	7.29PB 1.87/2.74
+Navy Reserve	7.29PB 2.16/4.31
+National Navy	7.34PB 1.39/1.74
+Skipper Navy	7.34PB 1.58/4.04
+Navy	7.34PB 1.62/2.01
+Allied NAvy	7.35PB 1.50/1.61
+Spring Navy	7.35PB 1.83/3.23
+Royal Navy	7.37PB 2.21/7.21
+Town Navy	7.38PB 1.61/2.39
+Uniform Navy	7.41PB 1.78/4.28
+Autumn Navy	7.42PB 1.37/3.67
+Flagship Navy	7.43PB 1.88/2.83
+Parade Navy	7.47PB 1.85/3.43
+Valiant Navy	7.49PB 1.47/2.46
+Navy	7.57PB 1.92/3.88
+Mystic Navy	7.59PB 1.73/3.04
+Flotilla Navy	7.63PB 1.41/1.60
+Promenade Navy	7.69PB 1.50/5.52
+Nantucket Navy	7.70PB 2.50/7.83
+Blue Ribbon Navy	7.71PB 2.07/4.49
+Purple Navy	7.72PB 3.17/5.62
+Navy	7.74PB 1.87/1.67
+Navy	7.79PB 1.29/1.49
+Autumn Navy	7.79PB 1.55/3.76
+Nautical Navy	7.83PB 1.88/2.64
+Summer Navy	7.91PB 2.22/2.75
+Yankee Navy	7.94PB 1.87/3.23
+French Navy	7.98PB 2.38/3.64
+Hip Navy	7.99PB 1.64/1.99
+Colonial Navy	8.03PB 1.30/1.58
+Valhalla Navy	8.05PB 1.97/3.86
+Portrait Navy	8.19PB 1.43/1.57
+Goldpost Navy	8.32PB 2.05/1.29
+Navy I	8.50PB 2.21/4.23
+Nifty Navy	8.62PB 1.65/2.84
+Palomas Navy	8.81PB 1.92/4.53
+Navy I	8.96PB 2.54/8.13
+Genova Navy	9.09PB 1.56/1.36
+Background Navy	9.38PB 2.61/2.84
+Mayfair Navy	9.63PB 1.75/1.17
+Navy	9.69PB 1.77/2.86
+Nashua Navy	9.70PB 1.80/1.33
+Clipper Navy	9.78PB 2.01/1.66
+venture navy	9.89PB 2.15/2.99
+Hand-in-hand Navy	0.41P 1.79/5.01
+Night School Navy	1.05P 2.00/2.29
+Red Navy	6.52P 2.15/1.58

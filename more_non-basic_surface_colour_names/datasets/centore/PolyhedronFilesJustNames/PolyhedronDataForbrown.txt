@@ -1,0 +1,672 @@
+Colour name:	brown
+Number of CAUS samples:	536
+Centroid in Munsell coordinates:	2.84YR 3.95/3.70
+Centroid in Cartesian coordinates:	 2.56	 2.67	3.95
+Polyhedron vertices in Munsell coordinates:
+1.66R 2.24/3.83
+1.98R 2.09/4.00
+2.95R 3.15/4.71
+4.35R 3.79/5.80
+5.90R 1.95/4.28
+6.44R 1.67/2.85
+7.61R 1.70/3.28
+8.64R 1.65/0.67
+9.34R 5.40/2.14
+0.24YR 4.95/6.10
+0.29YR 2.92/5.91
+0.36YR 2.67/5.72
+2.22YR 2.02/4.21
+2.32YR 2.85/5.63
+2.46YR 4.71/1.17
+2.90YR 1.51/1.60
+3.42YR 4.53/7.36
+3.74YR 3.80/0.66
+4.35YR 4.36/7.76
+4.41YR 5.59/7.49
+5.24YR 1.41/0.89
+5.70YR 3.21/5.50
+5.80YR 2.01/2.67
+7.39YR 6.29/5.38
+7.78YR 2.85/4.32
+9.60YR 1.89/0.78
+0.52Y 6.50/2.14
+0.97Y 6.49/1.70
+1.27Y 6.14/4.32
+2.12Y 5.07/4.65
+3.52Y 2.67/2.01
+5.15Y 4.69/0.89
+8.41RP 2.00/1.68
+Polyhedron vertices in Cartesian coordinates:
+3.81	0.40	2.24
+3.97	0.50	2.09
+4.63	0.87	3.15
+5.58	1.57	3.79
+3.99	1.55	1.95
+2.62	1.12	1.67
+2.91	1.51	1.70
+0.57	0.35	1.65
+1.78	1.19	5.40
+4.88	3.66	4.95
+4.72	3.56	2.92
+4.55	3.47	2.67
+3.03	2.92	2.02
+4.03	3.94	2.85
+0.83	0.83	4.71
+1.10	1.16	1.51
+4.89	5.50	4.53
+0.43	0.50	3.80
+4.81	6.09	4.36
+4.62	5.89	5.59
+0.51	0.73	1.41
+3.03	4.59	3.21
+1.46	2.24	2.01
+2.48	4.78	6.29
+1.89	3.88	2.85
+0.26	0.74	1.89
+0.59	2.06	6.50
+0.43	1.65	6.49
+1.00	4.20	6.14
+0.84	4.57	5.07
+0.19	2.00	2.67
+-0.01	0.89	4.69
+1.67	-0.17	2.00
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+8	33	21
+18	8	32
+8	18	33
+9	28	4
+3	9	4
+9	3	33
+33	2	21
+5	2	4
+2	3	4
+17	19	4
+20	17	4
+17	20	19
+28	10	4
+10	20	4
+20	10	28
+18	15	33
+15	9	33
+9	15	28
+28	15	32
+15	18	32
+25	22	19
+25	31	21
+3	1	33
+1	2	33
+2	1	3
+24	20	28
+31	26	21
+26	8	21
+26	31	32
+8	26	32
+19	11	4
+13	22	25
+22	13	19
+31	30	32
+30	31	25
+30	28	32
+30	29	28
+24	30	20
+30	24	29
+20	30	19
+30	25	19
+29	27	28
+27	24	28
+24	27	29
+23	25	21
+13	23	21
+23	13	25
+13	7	5
+12	13	5
+12	5	4
+11	12	4
+12	11	19
+16	13	21
+7	16	21
+16	7	13
+2	6	21
+6	7	21
+6	2	5
+7	6	5
+13	14	19
+14	12	19
+12	14	13
+Samples, with Munsell coordinates, from CAUS data:
+Earthy Brown	0.46R 2.20/3.91
+el greco brown	1.14R 5.25/4.05
+Grandpa's Brown	1.66R 2.24/3.83
+Hound Brown	1.98R 2.09/4.00
+Light Grayish Reddish Brown	2.12R 6.16/6.09
+Light Brown	2.32R 3.13/7.52
+Red Brown	2.95R 3.15/4.71
+Working Brown	3.29R 1.77/1.64
+Moderate Reddish Brown	4.35R 3.79/5.80
+African Brown	5.08R 3.57/3.54
+Prune Brown	5.55R 2.07/3.49
+odysseus brown	5.75R 3.78/3.52
+Brownwine	5.90R 1.95/4.28
+Plumbrown	6.31R 2.99/2.19
+Pentimento Brown	6.34R 2.72/3.64
+Rembrandt's Brown	6.44R 1.67/2.85
+Portbrown	6.72R 2.51/2.90
+Earth Brown	6.95R 1.69/2.88
+Raisin Brown	7.09R 1.87/1.68
+Rose Brown	7.37R 3.18/3.90
+Indian Brown	7.39R 3.84/5.97
+Winebrown	7.53R 2.30/2.83
+Brazil Nut Brown	7.54R 4.31/8.53
+Edwardian Brown	7.60R 2.11/3.87
+Sepia Brown	7.61R 1.70/3.28
+Burlington Brown	7.61R 2.93/1.58
+Liqueur Brown	7.66R 2.65/3.32
+Caribbee Brown	7.70R 2.14/3.13
+Walking Brown	7.71R 2.02/2.48
+Alamo Brown	7.77R 2.11/3.46
+Hard-Drive Brown	7.77R 3.09/7.23
+Mulberry Brown	7.81R 2.38/3.08
+Bad Brown	7.91R 2.46/3.84
+Carnelian Brown	7.95R 3.82/5.89
+Padre Brown	8.12R 1.72/1.60
+Plumbrown	8.17R 2.74/1.83
+Sandalwood Brown	8.26R 4.89/4.10
+Grapebrown	8.29R 1.66/1.36
+Wee Hours Brown	8.35R 2.66/4.09
+Boreaux Brown	8.50R 1.91/2.54
+Dollhouse Brown	8.61R 4.22/4.15
+Stardivarian Brown	8.64R 1.65/0.67
+Bisque Brown	8.69R 4.94/4.03
+Trek Brown	8.80R 4.36/3.10
+Passion Brown	8.81R 3.23/5.23
+Bolivia Brown	8.82R 3.24/1.92
+Carbon Brown	8.84R 2.10/2.18
+Rhum Brown	8.89R 2.53/2.86
+Porto Brown	8.91R 2.18/3.06
+Capucine Brown	8.91R 2.53/4.72
+Brown Teak	8.98R 2.08/3.08
+Knave Brown	9.07R 2.47/2.12
+builder brown	9.10R 4.18/2.68
+Town Brown	9.11R 2.97/2.43
+Casino Brown	9.12R 2.38/3.59
+Porto Brown	9.12R 2.74/2.55
+Umber Brown	9.15R 4.49/2.74
+Titian Brown	9.21R 3.60/5.45
+Bordeaux Brown	9.23R 1.90/2.33
+Chocolate Brown	9.25R 2.12/2.75
+Mauve Brown	9.25R 3.26/1.81
+Mahogany Brown	9.32R 2.06/4.05
+Brown	9.32R 3.08/4.18
+Space Brown	9.33R 2.59/4.41
+Little Bear Brown	9.34R 5.40/2.14
+Liqueur Brown	9.36R 1.93/2.87
+Brown Taupe	9.37R 2.77/1.18
+Obsidian Brown	9.38R 4.56/3.69
+Carib Brown	9.39R 2.21/2.91
+Portbrown	9.40R 2.44/2.73
+Bisque Brown	9.42R 3.51/3.60
+Brown Taupe	9.43R 2.08/0.80
+Dyer's Brown	9.53R 2.55/0.78
+Planters Brown	9.61R 2.69/1.69
+Bison Brown	9.71R 3.03/2.04
+Grass Roots Brown	9.73R 2.03/2.39
+Burma Brown	9.74R 2.19/1.33
+SIlk-Suit Brown	9.77R 2.58/2.72
+Glace Brown	9.83R 3.69/3.45
+Burma Brown	9.87R 2.32/2.00
+Viking Brown	9.97R 2.19/2.15
+Raisin Brown	0.09YR 1.83/1.51
+Tahiti Brown	0.10YR 2.34/2.58
+Mehara Brown	0.15YR 2.23/3.28
+Moderate Reddish Brown	0.24YR 3.07/4.29
+Granada Brown	0.24YR 4.95/6.10
+Sunglasses Brown	0.29YR 2.92/5.91
+Mayfair Brown	0.30YR 2.59/1.94
+Capucine Brown	0.36YR 2.67/5.72
+Brown Praline	0.43YR 4.07/4.78
+Taiwan Brown	0.51YR 3.87/1.96
+Malaga Brown	0.53YR 2.08/2.62
+tempest brown	0.53YR 3.70/3.96
+Castilian Brown	0.57YR 2.44/3.62
+Clove Brown	0.58YR 2.72/2.84
+Background Brown	0.59YR 2.29/4.49
+Brontosaurus Brown	0.59YR 4.00/5.61
+Acajou Brown	0.61YR 4.16/5.13
+Rosewood Brown	0.62YR 1.74/2.62
+Salvador Brown	0.64YR 3.36/3.38
+Tangera Brown	0.65YR 2.70/5.37
+planet brown	0.66YR 3.15/5.49
+Choco Brown	0.75YR 2.62/2.59
+Shadobrown	0.77YR 4.13/2.04
+Rosebrown	0.78YR 4.05/3.03
+Cafe Brown	0.81YR 1.94/2.35
+Kara Brown	0.81YR 2.44/2.47
+Brown Coffee	0.82YR 1.90/2.27
+Rhum Brown	0.83YR 1.68/2.45
+Amadou Brown	0.83YR 2.38/4.21
+Shuttle Brown	0.86YR 3.01/1.86
+Colonial Brown	0.87YR 2.05/1.87
+Rendezvous Brown	0.95YR 3.04/3.29
+Amadou Brown	0.99YR 2.84/4.62
+Aloma Brown	1.00YR 2.49/3.89
+Auburn Brown	1.01YR 2.14/3.17
+Tiger Brown	1.05YR 3.35/5.58
+Clove Brown	1.08YR 2.33/2.00
+Constructivist Brown	1.15YR 3.09/4.93
+Leather Brown	1.18YR 1.79/0.70
+Friar Brown	1.19YR 2.68/1.61
+New Age Brown	1.22YR 1.59/1.84
+Monaco Brown	1.26YR 4.32/5.76
+Moro Brown	1.40YR 2.04/2.91
+Tracking Brown	1.40YR 3.30/5.52
+Browned Rose	1.41YR 3.93/4.20
+Patio Brown	1.43YR 2.89/4.90
+Dark Grayish Reddish Brown	1.44YR 2.46/1.32
+Patina Brown	1.44YR 2.81/1.21
+taos brown	1.46YR 4.80/2.74
+Chona Brown	1.56YR 2.39/2.35
+Catawba Brown	1.61YR 2.88/3.04
+Light Brown	1.62YR 5.78/9.93
+Belmont Brown	1.64YR 3.23/3.71
+Come-on Brown	1.65YR 4.23/8.81
+Loafin Brown	1.66YR 3.41/6.27
+Spring Brown	1.69YR 2.98/2.81
+Moderate Reddish Brown	1.71YR 3.32/5.51
+Light Grayish Reddish Brown	1.71YR 5.16/2.37
+Mulberry Brown	1.74YR 1.92/1.59
+Portland Brown	1.74YR 2.18/0.84
+Pecan Brown	1.81YR 4.25/3.17
+Cigar Brown	1.83YR 2.32/3.11
+French Brown	1.90YR 3.80/2.70
+Brown Cocoa	1.94YR 2.55/2.46
+Rustic Brown	1.94YR 3.95/5.87
+Ocre Brown	2.03YR 3.23/4.16
+Quotient Brown	2.04YR 2.81/4.04
+Cedar Brown	2.05YR 3.46/3.15
+Brown	2.06YR 2.93/2.46
+Forest Brown	2.13YR 1.92/1.99
+Creole Brown	2.14YR 2.01/2.26
+Enduring Brown	2.15YR 1.91/1.38
+Cocktail Brown	2.17YR 3.67/3.57
+Wood Fire Brown	2.19YR 2.43/1.90
+Dark Brown	2.22YR 2.02/4.21
+Bacardi Brown	2.24YR 3.22/5.17
+Deskey Brown	2.25YR 3.35/3.42
+Blanket Brown	2.27YR 3.15/1.72
+Scroll Brown	2.31YR 1.91/2.82
+Brown Copper	2.32YR 2.85/5.63
+Marron Brown	2.32YR 3.69/6.64
+Muddy Brown	2.35YR 2.59/2.18
+Astro Brown	2.37YR 5.52/4.58
+Bottle Brown	2.38YR 2.43/1.68
+Shadow-Cast Brown	2.39YR 2.11/2.36
+Colony Brown	2.39YR 2.59/1.97
+Brown Tobacco	2.46YR 3.09/3.16
+Burley Brown	2.46YR 4.71/1.17
+Metallic Brown	2.48YR 3.44/4.43
+bernadino brown	2.53YR 5.01/2.02
+Chili Brown	2.54YR 1.92/1.75
+Umber Brown	2.54YR 2.81/1.48
+Coke Brown	2.57YR 2.00/1.24
+FIgaro Brown	2.57YR 2.28/1.56
+Inca Brown	2.62YR 1.99/2.75
+Mallet Brown	2.62YR 4.70/5.84
+Copper Brown	2.65YR 3.80/5.99
+Ranger Brown	2.65YR 3.99/4.41
+Bedrock's Brown	2.67YR 1.74/1.31
+Brassy Brown	2.67YR 3.89/3.30
+Ebony Brown	2.69YR 1.56/0.78
+Nicotine Brown	2.69YR 1.88/1.64
+Gypsy Brown	2.69YR 3.23/3.66
+Burnished Brown	2.69YR 3.55/4.08
+Delivering Brown	2.69YR 4.12/4.17
+Chona Brown	2.73YR 1.81/2.01
+Moderate Reddish Brown	2.77YR 4.17/4.15
+Manila Brown	2.78YR 2.71/2.91
+Spicy Brown	2.80YR 3.87/4.60
+Brazilian Brown	2.83YR 1.61/1.05
+Toast Brown	2.83YR 3.92/4.01
+Dominican Brown	2.84YR 1.76/1.52
+Moderate Reddish Brown	2.84YR 2.89/4.22
+Biskra Brown	2.87YR 2.14/1.56
+Chili Brown	2.90YR 1.51/1.60
+Brewster Brown	2.93YR 2.23/2.30
+Brazil Brown	2.93YR 2.51/2.57
+Polished Brown	2.94YR 2.03/1.82
+Bison Brown	2.95YR 2.54/2.01
+Kitchenette Brown	3YR 0.55/2.5
+Cordova Brown	3.00YR 2.47/2.18
+Brown by Brown	3.01YR 1.90/0.88
+Ryebrown	3.03YR 2.99/2.94
+Fudge Brown	3.09YR 3.02/2.27
+Blond Brown	3.09YR 3.75/2.55
+Shoreline Brown	3.09YR 3.86/2.62
+Malacca Brown	3.12YR 2.10/1.45
+Domingo Brown	3.13YR 1.90/1.85
+Shaker Brown	3.17YR 2.94/3.22
+Toffee Brown	3.18YR 1.95/2.73
+Brown Smoke	3.18YR 2.88/1.69
+Woven Brown	3.19YR 2.93/4.59
+Banda Brown	3.23YR 2.77/2.01
+Maplecrest Brown	3.24YR 2.53/1.12
+Arabian Brown	3.24YR 4.33/5.67
+Bear Brown	3.25YR 1.99/1.55
+Manoa Brown	3.29YR 1.95/1.23
+Brazil Brown	3.31YR 2.72/1.22
+Barbarossa Brown	3.37YR 4.29/1.89
+Concord Brown	3.37YR 4.99/5.23
+African Bush Brown	3.41YR 3.01/4.83
+Terra Brown	3.42YR 4.53/7.36
+Kung-Fu Brown	3.43YR 2.39/2.53
+Angola Brown	3.46YR 2.09/2.00
+Manila Brown	3.49YR 2.12/1.82
+Snuffbrown	3.50YR 2.58/3.77
+Sugar Brown	3.51YR 4.12/4.22
+Cloister Brown	3.52YR 1.52/0.88
+Malabar Brown	3.52YR 2.19/3.08
+Nomad Brown	3.53YR 2.32/2.50
+Moderate Brown	3.56YR 3.68/2.91
+Gold Brown	3.56YR 3.83/7.03
+austin brown	3.57YR 4.87/3.07
+Indies Brown	3.59YR 3.19/1.83
+Muscade Brown	3.60YR 2.98/1.94
+Manoa Brown	3.61YR 1.62/1.11
+Brown	3.62YR 1.64/1.31
+African Brown	3.63YR 1.82/1.16
+Gypsy Brown	3.64YR 2.08/2.42
+Arabian Brown	3.66YR 4.58/5.67
+Caramel Brown	3.67YR 2.10/3.08
+Channel Brown	3.74YR 3.80/0.66
+Coffee Brown	3.76YR 4.03/3.56
+Burnt Brown	3.78YR 2.55/3.03
+Bark Brown	3.84YR 4.07/2.22
+Dark Grayish Brown	3.85YR 2.22/1.12
+Well-Mannered Brown	3.86YR 2.48/1.77
+Ascot Brown	3.86YR 2.95/1.61
+Jungle Brown	3.88YR 1.66/1.33
+Santos Brown	3.90YR 2.14/2.77
+Teak Brown	3.91YR 1.69/0.99
+Doe Brown	3.91YR 2.08/1.74
+Biscuit Brown	3.93YR 3.91/2.88
+Brown Rum	3.94YR 2.35/3.09
+Tahoe Brown	3.94YR 2.67/3.44
+Burntwood Brown	3.95YR 2.00/2.24
+Friar Brown	3.96YR 1.70/1.34
+Cuban Brown	3.96YR 3.18/4.54
+Sandringham Brown	3.96YR 3.36/4.06
+Moderate Brown	3.96YR 4.11/2.62
+Toast Brown	3.97YR 3.45/3.26
+Indian Brown	4.00YR 3.34/5.34
+Taffy Brown	4.03YR 3.68/4.04
+Manila Brown	4.05YR 2.36/2.12
+Hawaiin Brown	4.09YR 3.74/3.65
+Gold Brown	4.09YR 3.88/5.80
+Clean Brown	4.10YR 2.18/1.85
+Mace Brown	4.10YR 2.88/2.33
+India Brown	4.12YR 1.90/2.01
+Zuni Brown	4.12YR 3.07/3.31
+Coffee Brown	4.14YR 2.73/2.97
+Chocolate Brown	4.15YR 1.64/1.40
+Jug Brown	4.16YR 2.89/2.94
+Fudge Brown	4.19YR 2.56/2.11
+Tuscan Brown	4.19YR 2.56/2.50
+Sorolla Brown	4.19YR 3.19/4.83
+Bark Brown	4.21YR 2.19/1.66
+Ginger Brown	4.28YR 2.52/2.79
+Pheasant Brown	4.29YR 2.52/3.00
+Cognac Brown	4.34YR 2.14/2.14
+Nutbrown	4.34YR 3.29/2.32
+Foxy Brown	4.35YR 4.36/7.76
+Light Brown	4.36YR 5.08/4.37
+Deerskin Brown	4.41YR 2.25/2.04
+Butterscotch Brown	4.41YR 5.59/7.49
+Vintage Brown	4.48YR 2.91/2.55
+Mt. Minimalist Brown	4.50YR 3.90/4.60
+Clove Brown	4.52YR 4.90/6.83
+Mocha Brown	4.53YR 2.80/2.41
+Orleans Brown	4.54YR 3.01/2.93
+Rio Brown	4.56YR 2.83/3.69
+Marshbrown	4.56YR 3.67/2.78
+Araby Brown	4.57YR 2.29/2.06
+Conviction Brown	4.57YR 3.03/3.20
+Strong Brown	4.58YR 3.62/5.44
+broken-in brown	4.62YR 2.14/1.47
+Brazilian Brown	4.62YR 2.99/3.14
+Joss Brown	4.65YR 3.55/3.70
+Nutty Brown	4.68YR 1.85/1.78
+Chalet Brown	4.70YR 3.34/3.83
+Brown Mustard	4.72YR 3.33/4.24
+Glazed Brown	4.72YR 4.81/2.21
+Bunny Hop Brown	4.73YR 4.11/3.02
+Noisette Brown	4.75YR 3.31/3.22
+Autumn Brown	4.76YR 3.14/2.43
+Persian Brown	4.77YR 1.79/1.55
+Taupe Brown	4.78YR 2.79/1.87
+Sierra Brown	4.80YR 1.60/1.11
+Indonesian Brown	4.82YR 2.01/1.19
+Woodst Brown	4.82YR 2.75/2.22
+Cameo Brown	4.82YR 3.28/5.02
+Rifle Brown	4.84YR 3.38/3.38
+Lacquer Brown	4.85YR 2.06/1.74
+Maple Brown	4.85YR 2.98/3.54
+Rococoa Brown	4.87YR 2.67/3.35
+Night Owl Brown	4.87YR 2.73/0.94
+Brown-Out Brown	4.87YR 3.25/3.51
+Light Yellowish Brown	4.88YR 7.05/4.79
+Ultrabrown	4.90YR 3.27/1.94
+Cordova Brown	4.91YR 3.78/3.28
+Malacca Brown	4.93YR 1.92/1.56
+Tortoise Brown	4.93YR 3.90/6.44
+Acorn Brown	4.95YR 3.79/2.39
+Spicy Brown	4.97YR 2.51/3.02
+Mordore Brown	4.98YR 3.76/5.82
+corsica brown	4.98YR 4.87/2.77
+Brick Brown	4.99YR 4.54/4.90
+Light Brown	4.99YR 5.05/3.86
+Brown	5YR 0.78/2
+Gold Brown	5.00YR 3.76/5.47
+Brown Sugar	5.03YR 4.77/4.61
+Nomad Brown	5.05YR 2.28/2.53
+Chocolate Brown	5.07YR 1.73/1.04
+Baggage Brown	5.07YR 5.53/1.95
+Manila Brown	5.10YR 3.41/1.78
+Freckle Brown	5.10YR 4.35/5.09
+Teak Brown	5.11YR 2.39/2.41
+Monk's Brown	5.13YR 2.65/1.86
+Deep Nut Brown	5.13YR 3.55/2.88
+Date Brown	5.14YR 2.64/1.85
+Coral Brown	5.17YR 2.76/2.77
+Hawaiin Brown	5.17YR 2.95/3.32
+Brown Seal	5.21YR 2.18/1.66
+Licorice Brown	5.24YR 1.41/0.89
+Chukker Brown	5.24YR 4.02/3.37
+Rifle Brown	5.26YR 3.74/2.93
+Cheroot Brown	5.26YR 5.10/8.21
+Malibu Brown	5.27YR 3.29/2.91
+Elf Brown	5.28YR 3.67/3.69
+Brown	5.29YR 3.27/3.50
+Paris Brown	5.32YR 3.62/2.41
+Hazy Brown	5.33YR 3.97/1.49
+Dry-creek Brown	5.35YR 3.24/2.93
+Bayleaf Brown	5.37YR 2.72/2.20
+Shale Brown	5.40YR 3.01/1.18
+Sherry Brown	5.40YR 3.43/4.26
+Bond Street Brown	5.44YR 4.12/3.12
+Caledonian Brown	5.46YR 2.05/1.25
+Chateau Brown	5.46YR 2.23/1.28
+Boot Brown	5.49YR 1.75/1.79
+Graham Brown	5.57YR 4.81/2.87
+Grayish Brown	5.61YR 3.43/2.13
+Brown Maple	5.62YR 4.08/4.57
+Seaweed Brown	5.63YR 2.44/1.91
+Carlyle Brown	5.66YR 3.00/1.61
+Branbrown	5.67YR 2.96/2.31
+Saddle Brown	5.70YR 3.21/5.50
+Tonka Brown	5.72YR 3.73/4.16
+Well-worn Brown	5.73YR 2.04/0.76
+Dark Grayish Yellowish Brown	5.73YR 2.84/0.94
+Brown	5.74YR 2.36/1.07
+Basque Brown	5.75YR 3.38/3.14
+Tobacco Brown	5.80YR 2.01/2.67
+Indo Brown	5.81YR 1.78/1.30
+Brown Slate	5.81YR 3.34/1.39
+Banyan Brown	5.82YR 5.04/6.25
+Lichee Brown	5.83YR 3.64/2.07
+Congo Brown	5.84YR 1.75/0.95
+Sienna Brown	5.88YR 3.55/5.66
+Plage Brown	5.91YR 4.12/2.71
+Earth's Brown	5.93YR 2.44/0.94
+Cone Brown	5.93YR 4.74/4.94
+Gold Brown	5.96YR 4.57/6.50
+Beetle Brown	5.99YR 3.24/4.95
+Lichee Brown	5.99YR 3.62/2.06
+Summer Brown	6.02YR 3.68/2.57
+Golden Brown	6.03YR 3.41/3.76
+african brown	6.04YR 3.47/2.59
+Brown Cork	6.05YR 2.43/1.57
+Light Reddish Brown	6.05YR 4.88/3.44
+Vanilla Brown	6.07YR 3.92/2.56
+Jasper Brown	6.13YR 2.41/2.03
+Mascara Brown	6.16YR 1.63/1.14
+Dixie Brown	6.16YR 3.25/3.14
+Unicorn Brown	6.20YR 4.19/3.15
+Suntan Brown	6.23YR 3.47/3.31
+Dune Brown	6.26YR 5.02/2.33
+Oar Brown	6.29YR 4.18/1.68
+Winter Brown	6.30YR 2.25/1.24
+Brown Sugar	6.30YR 3.05/3.13
+Smokebrown	6.31YR 3.12/1.34
+Peruvian Brown	6.33YR 4.50/7.65
+Burnt Brown	6.35YR 2.35/2.07
+Summer Brown	6.35YR 3.90/3.11
+Cocoa Brown	6.36YR 4.21/3.10
+Grayish Brown	6.41YR 3.68/1.81
+Baronia Brown	6.42YR 3.11/2.18
+Brown Stone	6.44YR 2.66/3.16
+Earthbrown	6.45YR 3.74/2.62
+Chutney Brown	6.45YR 4.35/4.55
+Sugar Cane Brown	6.47YR 2.82/4.20
+Urban Brown	6.48YR 3.03/3.04
+Moderate Yellowish Brown	6.52YR 6.01/7.26
+Cachou Brown	6.53YR 4.32/3.32
+Violin Brown	6.56YR 3.39/3.09
+Coastal Brown	6.57YR 5.60/2.83
+Brown Chocolate	6.60YR 1.69/1.32
+Dense Brown	6.60YR 2.50/0.92
+Grayish Yellowish Brown	6.61YR 3.82/1.00
+Brown	6.63YR 3.09/3.77
+Bentley Brown	6.64YR 2.71/2.85
+Pelican Brown	6.65YR 2.80/3.10
+Earthy Brown	6.66YR 3.53/3.82
+Ronald Brown	6.71YR 4.04/1.63
+Claybrown	6.76YR 3.81/1.91
+Rattan Brown	6.79YR 5.82/3.36
+Nude Brown	6.82YR 5.45/4.35
+Beanie Brown	6.84YR 2.53/2.81
+Mustard Brown	6.84YR 4.01/4.24
+Nougat Brown	6.88YR 3.02/1.78
+Brown Caramel	6.88YR 4.55/2.53
+Capability Brown	6.92YR 1.94/1.70
+Ash Brown	6.92YR 3.63/1.94
+Butternut Brown	6.97YR 3.78/4.51
+Light Brown	6.97YR 6.17/4.51
+Wooly Mammoth Brown	6.98YR 3.63/1.70
+Carpet Brown	6.99YR 1.89/1.94
+Big City Brown	7.00YR 4.05/3.63
+Bayou Brown	7.01YR 3.30/2.52
+Kola Brown	7.06YR 3.86/2.93
+Platinum Brown	7.15YR 3.53/1.56
+Bran Brown	7.19YR 3.79/3.30
+Brazilian Brown	7.22YR 3.34/3.68
+Light Grayish Yellowish Brown	7.22YR 6.24/3.01
+Third Strike Brown	7.23YR 2.44/2.02
+Ink Brown	7.31YR 2.01/1.33
+Beeva Brown	7.31YR 2.47/1.32
+Moose Brown	7.32YR 3.21/3.24
+Parisian Brown	7.32YR 3.55/3.22
+Flaxbrown	7.37YR 4.04/2.28
+Brown Curry	7.39YR 6.29/5.38
+Walnut Brown	7.42YR 2.98/2.11
+Fawn Brown	7.56YR 5.69/2.39
+Rivoli Brown	7.58YR 4.88/5.65
+Hempbrown	7.60YR 4.43/2.60
+Damp Soil Brown	7.62YR 2.20/0.78
+Tempest Brown	7.62YR 3.54/1.83
+Rigoletto Brown	7.65YR 2.29/1.66
+Paddock Brown	7.73YR 5.00/4.27
+Caraway Brown	7.78YR 2.85/4.32
+Glace Brown	7.78YR 3.79/2.11
+Auburn Brown	7.78YR 4.23/4.75
+Sepia Brown	7.79YR 2.03/1.99
+Afghan Brown	7.79YR 4.75/3.84
+Friar Brown	7.81YR 2.25/1.84
+Annamese Brown	7.84YR 2.78/1.95
+Moderate Brown	7.86YR 3.04/3.20
+Spring Brown	7.89YR 5.07/3.07
+Pony Brown	7.91YR 4.00/3.04
+Taupe Brown	7.96YR 3.94/1.30
+Crustie Brown	7.96YR 4.14/6.58
+Moderate Brown	7.98YR 3.46/3.57
+Elephant Brown	7.98YR 3.55/1.62
+Oak Brown	8.08YR 4.19/3.39
+Nicotina Brown	8.10YR 4.17/4.30
+Banyan Brown	8.19YR 3.26/3.73
+Night Watch Brown	8.22YR 2.15/1.62
+Nutty Brown	8.22YR 2.58/1.96
+Light Brown	8.23YR 5.35/4.14
+Travertine Brown	8.25YR 4.67/4.41
+Jaffa Brown	8.29YR 2.65/1.68
+yates brown	8.38YR 3.12/0.90
+Artisan Brown	8.43YR 2.82/1.28
+Cocoon Brown	8.47YR 5.78/3.85
+Chestnut Brown	8.48YR 3.79/3.68
+Light Brown	8.56YR 5.75/4.94
+Demi Brown	8.59YR 4.76/2.94
+Bahama Brown	8.71YR 3.19/2.24
+Cello Brown	8.80YR 1.51/0.87
+Light Brown	8.82YR 4.64/5.25
+Mud Brown	8.96YR 3.49/4.12
+Flat Brown	9.04YR 5.65/4.07
+Martinique Brown	9.11YR 3.45/2.70
+Earth Brown	9.21YR 3.64/1.86
+Nutwood Brown	9.40YR 3.09/2.09
+Elegant Brown	9.43YR 3.54/3.98
+Dark Grayish Yellowish Brown	9.45YR 2.75/0.12
+Elephant Brown	9.60YR 1.89/0.78
+Brown	9.63YR 2.68/1.20
+Oak Leaf Brown	9.67YR 3.78/5.16
+Shale Brown	9.67YR 4.35/4.47
+Light Brown	9.91YR 5.24/3.00
+Mascara Brown	9.99YR 2.93/1.81
+Cowboy Brown	0.30Y 4.52/2.61
+Light Grayish Brown	0.34Y 5.76/2.16
+Bike-Trail Brown	0.39Y 2.25/1.51
+Briar Brown	0.39Y 2.79/2.37
+Light Grayish Yellowish Brown	0.52Y 6.50/2.14
+Moderate Yellowish Brown	0.59Y 3.86/3.47
+Pottery Brown	0.78Y 6.05/3.78
+Casino Brown	0.94Y 4.66/3.97
+Light Grayish Yellowish Brown	0.97Y 6.49/1.70
+Light Grayish Yellowish Brown	1.01Y 6.23/1.76
+Eco Brown	1.08Y 2.59/1.41
+Moderate Yellowish Brown	1.13Y 4.81/4.09
+york bay brown	1.19Y 5.29/1.49
+Brown Sugar Beige	1.27Y 6.14/4.32
+Date Brown	1.40Y 4.78/3.55
+Brownzine	1.52Y 2.35/1.41
+Moderate Yellowish Brown	1.94Y 3.77/3.87
+Herbal Brown	1.98Y 2.35/1.40
+Light Brown	2.12Y 5.07/4.65
+Light Brown	2.13Y 4.43/1.30
+Brown Olive	2.14Y 3.16/2.06
+Olive Brown	2.57Y 3.66/1.65
+Grayish Brown	2.93Y 3.69/1.77
+Olivebridge Brown	3.52Y 2.67/2.01
+Elephant Brown	4.47Y 2.26/1.83
+Grayish Yellowish Brown	5.15Y 4.69/0.89
+Grayish Yellowish Brown	5.34Y 7.29/4.79
+Grayish Yellowish Brown	6.34Y 4.53/2.41
+Smoke Brown	2.86GY 7.62/1.11
+Nomadic Brown	7.53P 1.41/1.09
+laredo brown	8.02RP 3.83/1.21
+Tobago Brown	8.41RP 2.00/1.68

@@ -1,0 +1,253 @@
+Colour name:	white
+Number of non-unique CAUS samples:	175
+Number of unique CAUS samples:	152
+Centroid in Munsell coordinates:	2.07Y 8.01/2.02
+Centroid in Cartesian coordinates:	 0.37	 1.98	8.01
+Polyhedron vertices in Munsell coordinates:
+1.74YR 8.34/2.42
+6.72YR 9.18/2.02
+8.33YR 6.81/1.56
+9.73YR 8.22/3.30
+0.78Y 6.89/3.22
+1.87Y 6.03/1.93
+2.42Y 9.21/0.72
+2.44Y 9.33/1.34
+2.52Y 6.70/3.82
+2.79Y 6.87/0.99
+3.48Y 8.55/3.71
+3.48Y 9.18/2.13
+3.91Y 9.03/2.78
+5.67Y 9.35/1.43
+6.91Y 9.30/1.02
+7.18Y 7.63/2.24
+8.04Y 8.91/3.17
+0.25GY 7.77/0.45
+1.23GY 8.94/0.73
+2.78GY 9.12/0.45
+4.15GY 9.04/0.16
+6.03GY 7.33/0.74
+0.14G 8.63/0.19
+N9.02
+Polyhedron vertices in Cartesian coordinates:
+1.79	1.63	8.34
+1.00	1.75	9.18
+0.63	1.42	6.81
+1.07	3.12	8.22
+0.84	3.11	6.89
+0.38	1.89	6.03
+0.12	0.71	9.21
+0.21	1.32	9.33
+0.59	3.77	6.70
+0.14	0.98	6.87
+0.35	3.69	8.55
+0.20	2.12	9.18
+0.19	2.77	9.03
+-0.06	1.43	9.35
+-0.12	1.01	9.30
+-0.31	2.22	7.63
+-0.60	3.11	8.91
+-0.15	0.43	7.77
+-0.28	0.67	8.94
+-0.21	0.40	9.12
+-0.09	0.13	9.04
+-0.47	0.57	7.33
+-0.15	0.11	8.63
+0.00	0.00	9.02
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+24	2	1
+5	6	1
+9	5	1
+5	9	6
+19	22	17
+22	16	17
+16	22	6
+16	9	17
+9	16	6
+10	24	1
+22	10	6
+14	12	2
+8	14	2
+12	13	2
+13	14	17
+13	12	14
+2	4	1
+4	9	1
+20	19	17
+19	20	22
+20	23	22
+6	3	1
+3	10	1
+10	3	6
+7	2	24
+7	8	2
+11	4	2
+13	11	2
+11	13	17
+4	11	9
+9	11	17
+18	10	22
+23	18	22
+10	18	24
+18	23	24
+23	21	24
+21	20	24
+20	21	23
+8	15	14
+7	15	8
+20	15	24
+15	7	24
+14	15	17
+15	20	17
+Unique samples, with Munsell coordinates, from CAUS data:
+2014-15	na	interiors	Purplish White	N9.02	-99.00
+1998	ss	women	Heavenly White	5.49R 8.16/1.82	5.49
+1990-91	na	interiors	zurbaran white	0.56YR 8.41/3.23	10.56
+2012-13	fw	youth	White Peak	1.74YR 8.34/2.42	11.74
+2008	ss	youth	Pinkish White	2.44YR 9.22/1.18	12.44
+1931-32	fw	silk	Mauve White	2.66YR 8.99/2.12	12.66
+1985-86	na	interiors	Angel White	6.04YR 8.90/1.70	16.04
+1955-56	fw	women	Moonwhite	6.68YR 6.29/1.64	16.68
+1986-87	na	interiors	Pink White	6.72YR 9.18/2.02	16.72
+1991-92	na	interiors	fodor white	7.69YR 7.73/2.03	17.69
+1994-95	fw	women	Verbena White	8.08YR 7.42/4.52	18.08
+2003-04	fw	men	Elegant White	8.33YR 6.81/1.56	18.33
+1946	ss	silk	Romance White	8.88YR 7.49/2.91	18.88
+1990-91	na	interiors	tucson white	8.91YR 8.87/2.15	18.91
+1950-51	fw	women	Shadowhite	9.34YR 6.95/1.99	19.34
+2003-04	fw	women	City Snow White	9.36YR 7.90/1.57	19.36
+1958-59	fw	women	White Sand	9.73YR 7.12/1.79	19.73
+1986-87	fw	women	Blanche White	9.73YR 8.22/3.30	19.73
+1954-55	fw	women	Porcelain White	9.76YR 6.85/2.00	19.76
+1988-89	fw	women	Opal White	9.79YR 8.31/2.59	19.79
+2003-04	fw	women	Rice White	9.81YR 8.22/2.87	19.81
+1931-32	fw	silk	Rose White	9.82YR 7.74/1.86	19.82
+1945-46	fw	women	Dynamic White	9.95YR 7.83/3.07	19.95
+1952	ss	silk	Parchment White	0.23Y 7.52/2.05	20.23
+1952-53	fw	women	Antique White	0.28Y 6.00/2.85	20.28
+1947	ss	women	White Sand	0.31Y 6.60/2.23	20.31
+1998	ss	women	Moonlight White	0.42Y 8.75/2.59	20.42
+1944-45	fw	women	Polar White	0.49Y 7.03/2.48	20.49
+1988-89	fw	men	Winter White	0.51Y 8.63/1.07	20.51
+1956-57	fw	women	White Frost	0.57Y 7.13/2.63	20.57
+1947-48	fw	women	Frost White	0.61Y 6.53/1.69	20.61
+1972	ss	men	White Clay	0.66Y 7.73/1.32	20.66
+1958	ss	women	Moonstone White	0.67Y 7.66/2.27	20.67
+1932	ss	women	Unbleached White	0.78Y 6.89/3.22	20.78
+1932	ss	silk	Egg White	0.88Y 8.85/2.29	20.88
+2015-16	fw	men	knot white	0.90Y 8.79/1.28	20.90
+1990-91	fw	women	Wintery White	0.95Y 8.74/2.83	20.95
+1934	ss	silk	Oyster White	0.97Y 7.01/1.69	20.97
+1942	ss	silk	Pearl White	1.02Y 8.28/2.05	21.02
+1931	ss	silk	Antique White	1.18Y 7.99/2.08	21.18
+1953	ss	silk	White Lilac	1.24Y 8.15/1.89	21.24
+1964	ss	silk	White Ivory	1.28Y 8.34/1.81	21.28
+2000-01	fw	women	Urban White	1.40Y 8.29/1.81	21.40
+1966-67	fw	women	White Chestnut	1.42Y 5.93/1.44	21.42
+1991-92	fw	youth	atmosphere white	1.56Y 7.50/2.23	21.56
+1932-33	fw	silk	Magnolia White	1.58Y 8.30/2.51	21.58
+1956	ss	silk	Jasmine White	1.60Y 8.49/2.12	21.60
+1989-90	fw	youth	Warm White	1.61Y 8.30/2.17	21.61
+2000	ss	men	Whitewash	1.62Y 8.46/1.28	21.62
+1999-00	fw	women	Noon White	1.64Y 7.87/2.30	21.64
+1934	ss	silk	Cream White	1.65Y 7.52/2.64	21.65
+1988	ss	women	Magnolia White	1.68Y 7.96/1.85	21.68
+1982	ss	women	Summer White	1.84Y 8.35/1.99	21.84
+1946-47	fw	women	White Smoke	1.87Y 6.03/1.93	21.87
+2002-03	fw	women	Canvas White	1.88Y 7.72/1.82	21.88
+2001	ss	men	Base White	1.92Y 8.11/0.77	21.92
+1988-89	fw	women	Snow White	1.93Y 8.73/1.67	21.93
+1955	ss	women	Nacre White	1.94Y 8.08/2.91	21.94
+1986-87	na	interiors	Ivory White	1.94Y 8.22/2.25	21.94
+2001-02	fw	women	China White	1.96Y 7.05/2.44	21.96
+2003	ss	men	Linen White	2.07Y 7.47/2.02	22.07
+2000	ss	women	Canvas White	2.08Y 8.14/2.70	22.08
+1989	ss	women	White	2.15Y 9.05/1.46	22.15
+1944	ss	silk	White Orchid	2.19Y 7.93/2.75	22.19
+1963	ss	silk	Lily White	2.23Y 8.96/2.00	22.23
+1990	ss	women	Gardenia White	2.26Y 8.21/2.22	22.26
+1987	ss	women	Off White	2.28Y 8.92/1.57	22.28
+2005	ss	men	Petal White	2.34Y 8.97/1.53	22.34
+1968	ss	silk	Silver White	2.40Y 8.15/1.79	22.40
+1999	ss	men	Window Pane White	2.42Y 9.21/0.72	22.42
+1988	ss	youth	Tennis White	2.44Y 9.33/1.34	22.44
+2000	ss	women	Linen White	2.52Y 6.70/3.82	22.52
+1998-99	fw	women	Virtual White	2.53Y 8.23/2.41	22.53
+1986-87	na	interiors	Pearlized White	2.63Y 8.32/1.42	22.63
+1988	ss	men	White	2.64Y 8.99/1.30	22.64
+1951-52	fw	silk	White Diamond	2.79Y 6.87/0.99	22.79
+1995	ss	youth	Cloud White	2.79Y 8.85/1.46	22.79
+1982-83	na	interiors	White Gold	2.85Y 8.90/2.37	22.85
+2002	ss	youth	Lasso White	2.94Y 7.73/1.64	22.94
+1953	ss	women	White Ginger	2.94Y 7.90/2.54	22.94
+2000-01	fw	men	Column White	3.09Y 7.22/2.59	23.09
+1931-32	fw	silk	Calla White	3.11Y 8.24/1.78	23.11
+1982	ss	men	Sheepskin White	3.11Y 8.39/2.09	23.11
+1965	ss	silk	White Onion	3.13Y 8.55/2.50	23.13
+1979	ss	men	Dice White	3.19Y 8.01/2.02	23.19
+1989	ss	women	White Vodka	3.30Y 8.46/3.30	23.30
+2003	ss	women	Bone White	3.37Y 8.94/4.54	23.37
+2001-02	fw	men	Warming White	3.42Y 6.45/3.91	23.42
+1988-89	na	interiors	portsmouth white	3.48Y 8.55/3.71	23.48
+1986	ss	youth	Augusta White	3.48Y 9.18/2.13	23.48
+1994	ss	youth	Nature's White	3.50Y 8.44/2.06	23.50
+1933	ss	silk	Nacre White	3.58Y 8.54/1.08	23.58
+1932-33	fw	silk	Lemon White	3.76Y 8.07/2.55	23.76
+1964	ss	women	White Bead	3.79Y 8.63/2.34	23.79
+1998-99	fw	youth	Faraway White	3.79Y 8.89/2.27	23.79
+1973	ss	women	Honey White	3.81Y 8.07/3.04	23.81
+1989-90	fw	youth	Glacier White	3.84Y 8.86/1.70	23.84
+1973	ss	silk	White Rice	3.91Y 9.03/2.78	23.91
+2001	ss	men	Equilibrium Balance White	3.97Y 8.54/2.12	23.97
+1985-86	na	interiors	Dawn White	4.00Y 9.53/2.95	24.00
+1994	ss	women	White Sail	4.11Y 8.94/1.27	24.11
+1990	ss	women	White Dune	4.12Y 9.09/1.51	24.12
+1990	ss	youth	Ocean White	4.23Y 8.84/0.94	24.23
+1987-88	na	interiors	Alabaster White	4.24Y 9.24/1.63	24.24
+1998	ss	youth	Shooting-Star White	4.35Y 8.99/2.05	24.35
+1986	ss	youth	North White	4.48Y 9.21/1.20	24.48
+2013-14	fw	beauty	winter white	4.50Y 9.06/1.04	24.50
+1962	ss	silk	Lemon White	4.67Y 8.36/2.09	24.67
+1987	ss	men	Oyster Bay White	4.74Y 8.96/1.12	24.74
+1990-91	na	interiors	hokkaido white	4.77Y 8.80/1.78	24.77
+1980-81	fw	women	White Pepper	4.79Y 8.43/1.17	24.79
+2001-02	fw	youth	Not-Quite White	4.87Y 8.51/1.18	24.87
+1983-84	fw	men	Yellowish White	4.91Y 8.95/1.44	24.91
+2001	ss	youth	Beach White	4.94Y 9.00/1.97	24.94
+1986-87	fw	youth	White	4.96Y 9.06/0.90	24.96
+1999-2000	fw	youth	Afterglow White	5.24Y 8.92/1.75	25.24
+1994-95	fw	youth	Buttercup White	5.24Y 9.11/1.54	25.24
+2000-01	fw	men	Chalk White	5.33Y 8.06/1.43	25.33
+1998	ss	men	Summer White	5.39Y 9.43/1.50	25.39
+1990-91	fw	youth	Whiz White	5.44Y 8.60/1.72	25.44
+2000-01	fw	men	Classic White	5.47Y 8.07/1.17	25.47
+2002	ss	men	Deep White	5.47Y 8.19/1.02	25.47
+1992	ss	men	Data White	5.67Y 9.35/1.43	25.67
+2003-04	fw	youth	Embroidery White	5.78Y 6.12/0.42	25.78
+1997	ss	youth	Chalk White	5.79Y 9.16/1.06	25.79
+1983	ss	women	Arabian White	5.84Y 8.65/1.60	25.84
+2001-02	fw	youth	New-White	6.24Y 9.17/0.88	26.24
+1997-98	fw	men	Techie White	6.49Y 7.81/0.97	26.49
+1990-91	fw	men	White	6.64Y 8.35/2.04	26.64
+1989	ss	women	White	6.66Y 9.28/1.18	26.66
+1969	ss	women	Sugar White	6.88Y 8.16/1.94	26.88
+2002	ss	youth	Stitch White	6.91Y 9.30/1.02	26.91
+2004-05	fw	youth	Fridge White	7.18Y 7.63/2.24	27.18
+1963-64	fw	women	Willow White	7.29Y 6.65/2.28	27.29
+1987-88	fw	men	White	7.69Y 8.92/0.30	27.69
+2004-05	fw	men	Polite White	8.04Y 8.91/3.17	28.04
+1986-87	fw	men	White	8.41Y 8.81/0.41	28.41
+1998	ss	men	Spring White	8.46Y 9.37/3.34	28.46
+1987	ss	men	Campobello White	8.47Y 8.39/0.47	28.47
+1981	ss	women	Hi-Tech White	8.78Y 8.98/1.00	28.78
+1960-61	fw	women	Arctic White	9.43Y 5.83/1.46	29.43
+1985-86	na	interiors	White	0.25GY 7.77/0.45	30.25
+2014-15	fw	men	new white	0.92GY 8.60/0.49	30.92
+1987	ss	youth	Sail White	1.23GY 8.94/0.73	31.23
+1969	ss	silk	White Steel	1.48GY 8.39/0.67	31.48
+1988	ss	women	White	2.78GY 9.12/0.45	32.78
+1987	ss	women	White	4.15GY 9.04/0.16	34.15
+2017	ss	men	white limbo	6.03GY 7.33/0.74	36.03
+2005-06	fw	men	Steam White	0.14G 8.63/0.19	40.14
+1986-87	na	interiors	Aqua White	1.25B 8.97/1.18	61.25
+1992	ss	women	Purplish White	2.63P 8.38/0.69	82.63
+2014-15	na	interiors	Purplish White	3.04RP 8.83/0.46	93.04

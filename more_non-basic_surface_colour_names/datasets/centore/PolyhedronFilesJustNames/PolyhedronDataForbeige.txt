@@ -1,0 +1,409 @@
+Colour name:	beige
+Number of CAUS samples:	277
+Centroid in Munsell coordinates:	6.66YR 6.15/3.40
+Centroid in Cartesian coordinates:	 1.70	 2.94	6.15
+Polyhedron vertices in Munsell coordinates:
+8.77R 5.22/3.94
+2.03YR 5.02/4.36
+2.58YR 7.21/2.88
+2.63YR 5.51/1.76
+2.82YR 4.72/1.99
+3.24YR 6.71/4.38
+4.18YR 4.07/2.13
+4.31YR 3.65/2.95
+4.46YR 5.64/5.76
+4.83YR 6.55/5.60
+4.95YR 7.89/3.85
+6.22YR 6.02/5.77
+6.41YR 4.42/4.06
+6.80YR 5.51/5.49
+6.97YR 3.86/2.07
+7.10YR 6.99/1.46
+7.48YR 3.79/2.39
+8.21YR 4.76/3.84
+8.34YR 5.80/5.14
+9.16YR 7.01/5.26
+9.46YR 7.86/1.51
+9.49YR 8.02/4.54
+9.67YR 7.95/1.66
+0.85Y 8.27/3.05
+1.27Y 6.14/4.32
+1.44Y 6.08/1.48
+1.94Y 7.61/1.32
+3.22Y 7.92/3.25
+3.39Y 5.71/3.31
+3.97Y 6.47/1.92
+4.55Y 6.67/2.34
+4.78Y 7.46/1.62
+Polyhedron vertices in Cartesian coordinates:
+3.36	2.06	5.22
+3.17	2.99	5.02
+2.03	2.05	7.21
+1.23	1.25	5.51
+1.38	1.44	4.72
+2.95	3.24	6.71
+1.34	1.66	4.07
+1.84	2.31	3.65
+3.54	4.54	5.64
+3.34	4.50	6.55
+2.27	3.11	7.89
+3.02	4.91	6.02
+2.09	3.48	4.42
+2.71	4.78	5.51
+1.00	1.81	3.86
+0.70	1.28	6.99
+1.09	2.13	3.79
+1.59	3.50	4.76
+2.09	4.70	5.80
+1.89	4.91	7.01
+0.52	1.42	7.86
+1.54	4.27	8.02
+0.55	1.57	7.95
+0.79	2.95	8.27
+1.00	4.20	6.14
+0.33	1.44	6.08
+0.25	1.30	7.61
+0.36	3.23	7.92
+0.33	3.29	5.71
+0.12	1.92	6.47
+0.07	2.34	6.67
+0.02	1.62	7.46
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+12	14	9
+29	18	25
+27	16	4
+16	27	21
+16	1	4
+1	21	3
+1	16	21
+7	1	8
+17	18	29
+13	8	9
+14	13	9
+13	17	8
+17	13	18
+18	19	25
+19	13	14
+13	19	18
+28	29	25
+21	11	3
+11	1	3
+1	5	4
+5	1	7
+8	2	9
+2	1	9
+1	2	8
+15	7	8
+17	15	8
+5	15	4
+15	5	7
+15	17	29
+12	20	14
+20	19	14
+19	20	25
+20	28	25
+28	20	22
+24	28	22
+11	24	22
+31	28	32
+28	31	29
+1	10	9
+10	12	9
+10	11	22
+10	20	12
+20	10	22
+15	26	4
+26	27	4
+27	26	32
+23	11	21
+23	24	11
+23	27	32
+27	23	21
+28	23	32
+24	23	28
+30	15	29
+31	30	29
+30	26	15
+30	31	32
+26	30	32
+11	6	1
+6	10	1
+10	6	11
+Samples, with Munsell coordinates, from CAUS data:
+Sandra Pink-Beige	5.89R 6.18/5.58
+Highland Beige	6.42R 5.70/2.06
+Tenuto Beige	8.77R 5.22/3.94
+Winebeige	1.93YR 5.70/3.38
+Rose Beige No.2	2.03YR 5.02/4.36
+Cocoa Beige	2.10YR 5.81/3.61
+Buffalo Beige	2.11YR 7.20/1.75
+Pottery Beige	2.22YR 5.45/2.24
+Beige	2.29YR 6.83/3.21
+Blush Beige	2.36YR 5.56/3.35
+Cordbeige	2.58YR 7.21/2.88
+Continental Beige	2.63YR 5.51/1.76
+Muscade Beige	2.82YR 4.72/1.99
+Rose Beige No.2	2.92YR 4.69/3.83
+Sandalwood Beige	3.07YR 5.45/4.59
+Crouton Beige	3.16YR 6.20/3.54
+Townbeige	3.23YR 4.54/3.10
+Powder Beige	3.24YR 6.71/4.38
+Musca de Beige	3.32YR 6.02/2.34
+beigestone	3.37YR 5.29/3.62
+Amber Beige	3.42YR 6.46/4.49
+Wood Beige	3.43YR 2.98/2.56
+Beige Taupe	3.48YR 4.81/1.31
+Dawnbeige	3.63YR 5.79/2.62
+pink beige	3.63YR 5.97/2.85
+Ashbeige	3.67YR 5.20/2.22
+Directoire Beige	3.77YR 7.18/3.24
+Mokabeige	3.84YR 5.03/3.77
+Dragee Beige	3.84YR 6.14/2.67
+Bahama Beige	3.98YR 7.06/4.16
+Iridescent Beige	4.08YR 5.57/2.97
+Mellobeige	4.09YR 5.08/2.86
+Winebeige	4.12YR 5.60/3.28
+French Beige	4.14YR 5.37/4.07
+Trotteur Beige	4.18YR 4.07/2.13
+mauve beige	4.21YR 6.89/1.98
+Maple Beige	4.25YR 5.84/4.12
+Sunbaked Beige	4.28YR 5.31/4.77
+Rose Beige	4.31YR 3.65/2.95
+French Beige	4.42YR 6.41/3.88
+Creole Beige	4.46YR 5.64/5.76
+Vanilla Beige	4.58YR 5.80/4.14
+Stucco Beige	4.62YR 6.20/5.54
+Monaco Beige	4.63YR 4.83/2.10
+Frappe Beige	4.63YR 6.21/3.99
+Anzac Beige	4.64YR 5.65/3.01
+Chalkbeige	4.66YR 5.87/1.87
+Beige Taupe	4.81YR 3.87/1.49
+Stucco Beige	4.83YR 6.55/5.60
+Java Beige	4.89YR 6.48/4.32
+Vanilla Beige	4.90YR 5.79/3.93
+Mocha Beige	4.90YR 7.21/3.89
+Peachbeige	4.95YR 7.89/3.85
+Bryn Mawr Beige	5.10YR 7.31/3.69
+Tawny Beige	5.12YR 4.25/4.34
+Coconut Beige	5.16YR 5.49/2.40
+Rose Beige No.2	5.17YR 6.10/3.49
+Taupe Beige	5.18YR 6.15/2.12
+Peachbeige	5.18YR 7.35/3.91
+Beige Ambre	5.21YR 7.22/4.31
+Beige Caramel	5.38YR 6.06/6.72
+Cachou Beige	5.39YR 5.53/2.77
+Raffia Beige	5.50YR 5.70/3.34
+Ceramic Beige	5.54YR 6.19/3.62
+Cruise Beige	5.56YR 6.56/3.04
+Sugar Beige	5.63YR 6.60/3.29
+Tawnbeige	5.69YR 4.57/2.80
+Beige Pearl	5.70YR 5.65/1.85
+Tawny beige	5.72YR 4.87/4.44
+String Beige	5.73YR 7.35/2.68
+Toffee Beige	5.78YR 5.70/3.76
+Parfait Beige	5.79YR 6.03/3.16
+Pecan Beige	5.81YR 4.76/3.95
+Cord Beige	5.82YR 7.41/2.51
+Stratobeige	5.93YR 5.46/2.24
+Pastry Beige	6.00YR 6.23/4.76
+Titian Beige	6.01YR 6.13/5.52
+Nougat Beige	6.05YR 6.84/4.20
+albuquerque beige	6.09YR 7.40/4.12
+Twilite Beige	6.14YR 5.64/2.07
+Cocoa Beige	6.18YR 5.10/2.37
+Baroque Beige	6.20YR 6.86/4.07
+Copperbeige	6.22YR 6.02/5.77
+Yangtze Beige	6.23YR 5.70/2.06
+Doebeige	6.25YR 4.92/2.13
+Mazurka Beige	6.25YR 7.07/4.21
+Fondant Beige	6.27YR 6.60/3.94
+Beige	6.28YR 5.13/2.59
+Belleek Beige	6.31YR 6.07/4.40
+Shorebeige	6.33YR 5.78/2.65
+Toastbeige	6.36YR 5.62/4.62
+Rosewood Beige	6.37YR 5.78/3.04
+Cafe Beige	6.41YR 4.42/4.06
+Apricot Beige	6.49YR 5.83/4.72
+Pate Beige	6.53YR 6.28/2.40
+Beige Wine	6.55YR 5.85/3.38
+Vellum Beige	6.63YR 6.95/2.99
+Sconebeige	6.67YR 6.24/3.86
+jordan beige	6.72YR 7.55/2.63
+Sandy Beige	6.75YR 6.09/1.62
+Almond Beige	6.76YR 5.99/3.28
+Pink Beige	6.80YR 5.51/5.49
+Bettyanbull Beige	6.80YR 6.32/3.39
+Doebeige	6.82YR 4.49/2.37
+Cream Beige	6.87YR 5.65/3.67
+Candy Beige	6.89YR 6.06/3.58
+Peachbeige	6.89YR 6.46/4.16
+Sunrise Beige	6.90YR 6.20/3.20
+Duskbeige	6.90YR 7.60/3.01
+Krimmer Beige	6.93YR 5.53/1.76
+Shadobeige	6.94YR 6.83/1.89
+Beigebark	6.97YR 3.86/2.07
+Beige Soiree	7.04YR 7.51/2.81
+Champagne Beige	7.06YR 7.17/2.64
+Opal Beige	7.10YR 6.99/1.46
+String Beige	7.14YR 7.72/3.57
+Putty Beige	7.15YR 5.12/2.51
+Beige Rose	7.22YR 7.03/3.88
+Toffee Beige	7.23YR 5.83/3.16
+Taffy Beige	7.24YR 5.56/4.61
+Beige Blond	7.34YR 5.59/4.62
+Caramel Beige	7.42YR 7.11/3.49
+Chaff Beige	7.45YR 5.69/2.31
+Walnut Beige	7.48YR 3.79/2.39
+Miami Beige	7.52YR 6.51/2.52
+Bisque Beige	7.60YR 8.47/3.18
+Cliquot Beige	7.61YR 6.71/3.68
+Riviera Beige	7.63YR 6.33/3.21
+Shadobeige	7.64YR 6.35/2.55
+Flaxbeige	7.65YR 5.87/3.51
+Tropic Beige	7.65YR 6.27/3.84
+Cloudbeige	7.65YR 7.02/1.84
+Bennington Beige	7.66YR 4.49/2.76
+keene beige	7.77YR 6.98/4.94
+Cuba Beige	7.78YR 6.67/2.93
+Natural Beige	7.80YR 6.39/1.91
+Cocoon Beige	7.81YR 5.55/1.82
+Twinebeige	7.84YR 4.69/2.05
+Beige Quartz	7.84YR 5.21/3.90
+Leafbeige	7.85YR 5.82/3.38
+Cameo Beige	7.86YR 6.36/2.56
+Walnut Beige	7.87YR 5.95/2.47
+Parchment Beige	7.91YR 6.08/3.37
+Adobe Beige	7.93YR 5.14/2.65
+Sconebeige	7.94YR 6.79/3.38
+Hempbeige	7.96YR 5.55/1.80
+Chamois Beige	8.00YR 5.90/2.96
+Bonbon Beige	8.01YR 7.56/3.06
+Tulla Beige	8.03YR 5.80/5.64
+String Beige	8.03YR 7.95/1.66
+Tapioca Beige	8.05YR 7.04/2.56
+Parisian Beige	8.09YR 6.79/3.04
+Saddle Beige	8.12YR 6.74/3.35
+Pampas Beige	8.13YR 6.83/2.83
+Plastic Beige	8.14YR 6.75/3.19
+Putty Beige	8.17YR 5.33/2.39
+Banana Beige	8.20YR 6.60/4.32
+Nut Beige	8.21YR 4.76/3.84
+Kasha-Beige	8.23YR 5.51/1.68
+Oakbeige	8.24YR 4.97/2.47
+Limonite Beige	8.29YR 6.62/4.69
+Bamboo Beige	8.30YR 6.78/4.40
+Nougat Beige	8.31YR 7.26/3.90
+Casino Beige	8.32YR 7.48/3.58
+Powder Beige	8.33YR 7.65/1.67
+Yellow Beige	8.34YR 5.80/5.14
+Nutria Beige	8.35YR 4.71/2.07
+Candy Beige	8.37YR 5.98/3.29
+Crashbeige	8.40YR 6.34/2.51
+Glace Beige	8.43YR 6.13/2.75
+Biscay Beige	8.45YR 6.76/2.47
+Blond Beige	8.47YR 5.85/3.22
+Eggshell Beige	8.48YR 6.75/2.55
+Panama Beige	8.49YR 6.39/2.12
+Beige Clay	8.52YR 5.25/2.72
+Foam Beige	8.58YR 6.32/1.73
+Chamois Beige	8.59YR 5.51/3.61
+Country Beige	8.60YR 6.08/2.62
+Beige	8.60YR 7.42/2.18
+Pebble Beige	8.64YR 6.01/4.13
+Pueblo Beige	8.67YR 5.52/2.14
+Saddle Beige	8.84YR 6.48/2.97
+Macaroon Beige	8.89YR 6.44/3.96
+Peasant Beige	8.98YR 6.25/2.35
+Capri Beige	8.98YR 6.33/3.22
+Champagne Beige	8.99YR 6.05/2.63
+Colony Beige	9.01YR 5.75/2.75
+Ivorybeige	9.02YR 7.36/2.48
+Flesh Beige	9.03YR 6.57/2.98
+Patty Beige	9.05YR 6.13/1.99
+Stonebeige	9.08YR 5.85/2.14
+Clay Beige	9.11YR 6.50/3.79
+Airy Beige	9.12YR 6.03/3.53
+Muffin Beige	9.13YR 6.78/4.72
+Shell Beige	9.13YR 7.89/3.31
+Butterbeige	9.16YR 7.01/5.26
+Barley Beige	9.20YR 6.58/2.97
+Oatmeal Beige	9.27YR 6.41/2.35
+Beige Cameo	9.29YR 7.10/2.54
+Albino Beige	9.29YR 7.46/1.58
+Tapa Beige	9.34YR 6.88/2.99
+Beige Banana	9.36YR 7.12/3.91
+Sky Beige	9.37YR 6.09/2.40
+Linbeige	9.40YR 7.14/2.03
+Beige Foam	9.41YR 6.70/2.65
+SUmmer Beige	9.44YR 6.41/2.67
+Pebble Beige	9.46YR 7.86/1.51
+Golden Beige	9.47YR 5.79/4.17
+Straw-Hat Beige	9.49YR 8.02/4.54
+Illusion Beige	9.52YR 8.74/3.59
+Beige Nacre	9.56YR 7.40/2.57
+Beige String	9.65YR 6.50/2.61
+Space Beige	9.66YR 7.30/4.04
+Palamino Beige	9.66YR 8.00/2.03
+Ecru Beige	9.67YR 7.95/1.66
+Lido Beige	9.69YR 6.63/3.37
+Blond Beige	9.69YR 6.86/2.37
+Bisque Beige	9.72YR 5.54/2.79
+Rachel Beige	9.76YR 7.23/3.69
+Bashful Beige	9.76YR 7.36/2.93
+Coffeebeige	9.78YR 6.01/4.10
+Pebble Beige	9.79YR 7.86/2.49
+Plaster Beige	9.80YR 6.27/2.06
+Linbeige	9.85YR 6.48/2.48
+Twine Beige	9.94YR 6.50/3.21
+Seashell Beige	9.95YR 6.86/3.89
+Maple Beige	9.95YR 7.62/3.94
+Grainbeige	0.03Y 5.56/3.61
+Beige String	0.03Y 7.41/1.83
+Beige Bisque	0.03Y 7.53/2.35
+Almond Beige	0.04Y 7.59/2.12
+Oatbeige	0.07Y 6.21/2.04
+Butterbeige	0.11Y 7.94/3.71
+Corkbeige	0.13Y 6.30/3.95
+Aberdeen Beige	0.15Y 6.39/2.84
+Shadobeige	0.16Y 7.87/2.71
+Bantam Beige	0.17Y 5.28/1.87
+Oatbeige	0.18Y 5.57/2.06
+Acoma Beige	0.19Y 7.09/4.32
+Parchment Beige	0.21Y 7.82/1.76
+Pearl Beige	0.27Y 7.32/1.46
+Milky Beige	0.51Y 7.65/1.81
+Flaxen Beige	0.60Y 7.18/2.62
+Beigette	0.63Y 5.60/2.03
+Ficelle Beige	0.78Y 6.87/2.35
+Sand Dune Beige	0.82Y 6.41/1.47
+Pink Beige	0.83Y 6.98/2.84
+Buffy Beige	0.85Y 8.27/3.05
+Straw Beige	0.86Y 6.25/4.00
+Safari Beige	1.05Y 5.36/2.96
+Beige Pearl	1.07Y 7.64/3.03
+Wafer Beige	1.10Y 7.88/1.31
+Sand Beige	1.20Y 6.33/3.08
+Rye Beige	1.23Y 6.98/2.00
+Brown Sugar Beige	1.27Y 6.14/4.32
+Nutra Beige	1.31Y 6.28/2.02
+Oyster Beige	1.44Y 6.08/1.48
+Dawn Beige	1.84Y 7.02/3.71
+Pearl Beige	1.90Y 7.08/2.76
+Blanc Beige	1.94Y 7.61/1.32
+Manila Beige	2.03Y 7.62/3.57
+Cream Beige	2.08Y 7.85/2.63
+Flax Beige	2.12Y 7.55/6.12
+Beige Cream	2.39Y 7.47/1.85
+Sand Beige	2.42Y 6.49/1.61
+Olivine Beige	2.48Y 4.19/2.14
+Seabeige	2.87Y 6.80/2.25
+Iceberg Beige	3.12Y 6.53/2.85
+Afternoon Beige	3.22Y 7.92/3.25
+Linden Beige	3.39Y 5.71/3.31
+Civility's Beige	3.92Y 7.85/3.18
+Driftwood Beige	3.97Y 6.47/1.92
+Crusader Beige	3.98Y 6.40/1.25
+Sand Beige	4.55Y 6.67/2.34
+Vapor Beige	4.78Y 7.46/1.62
+Alaskan Beige	6.26Y 7.70/1.67
+Lime Beige	6.66Y 6.88/3.20

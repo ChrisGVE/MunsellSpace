@@ -1,0 +1,163 @@
+Colour name:	lilac
+Number of non-unique CAUS samples:	99
+Number of unique CAUS samples:	78
+Centroid in Munsell coordinates:	7.75P 5.61/4.83
+Centroid in Cartesian coordinates:	 3.47	-3.36	5.61
+Polyhedron vertices in Munsell coordinates:
+8.99PB 6.37/2.35
+9.81PB 3.86/5.36
+0.16P 6.68/3.96
+1.54P 3.60/8.14
+2.21P 6.35/6.04
+3.37P 7.20/3.48
+3.61P 7.16/2.28
+4.61P 3.56/7.80
+5.32P 4.24/7.73
+7.17P 5.88/2.27
+8.98P 7.46/3.78
+9.98P 7.91/2.39
+0.19RP 4.25/4.49
+0.19RP 5.27/2.47
+1.26RP 6.57/2.48
+2.76RP 6.66/7.27
+5.82RP 5.03/5.53
+6.51RP 5.45/5.99
+6.95RP 5.02/4.64
+8.63RP 6.70/4.82
+Polyhedron vertices in Cartesian coordinates:
+0.58	-2.28	6.37
+1.60	-5.12	3.86
+1.26	-3.75	6.68
+3.25	-7.46	3.60
+2.64	-5.43	6.35
+1.75	-3.01	7.20
+1.17	-1.95	7.16
+4.43	-6.42	3.56
+4.67	-6.16	4.24
+1.57	-1.64	5.88
+2.91	-2.41	7.46
+1.93	-1.41	7.91
+3.66	-2.60	4.25
+2.02	-1.43	5.27
+2.12	-1.29	6.57
+6.53	-3.19	6.66
+5.34	-1.44	5.03
+5.85	-1.30	5.45
+4.56	-0.88	5.02
+4.80	-0.41	6.70
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+4	5	16
+2	14	1
+14	2	13
+8	2	4
+2	8	13
+12	20	16
+14	19	20
+19	14	13
+9	4	16
+8	9	16
+9	8	4
+3	2	1
+3	5	4
+2	3	4
+14	10	1
+10	12	1
+5	11	16
+11	12	16
+12	11	5
+18	8	16
+19	18	20
+20	18	16
+12	7	1
+7	3	1
+3	7	12
+6	12	5
+3	6	5
+6	3	12
+15	10	14
+10	15	12
+15	14	20
+12	15	20
+18	17	8
+17	18	19
+8	17	13
+17	19	13
+Unique samples, with Munsell coordinates, from CAUS data:
+1953	ss	silk	Pink Lilac	4.92R 6.45/5.19	4.92
+1999-00	fw	women	Dawn's Early Lilac	0.19YR 6.13/2.28	10.19
+1953	ss	silk	Azure Lilac	4.30PB 5.48/3.41	74.30
+2017-18	na	interiors	lace lilac	5.89PB 6.74/1.70	75.89
+2000-01	fw	women	Orbital Lilac	8.08PB 2.97/9.15	78.08
+1965	ss	women	Lilac Quartz	8.99PB 6.37/2.35	78.99
+1952	ss	women	Paris Lilac	9.12PB 4.37/2.30	79.12
+1998-99	fw	youth	Wand Lilac	9.75PB 6.39/5.71	79.75
+1940	ss	women	Ash Lilac	9.81PB 3.86/5.36	79.81
+1993-94	fw	youth	Lil's Lilac	0.16P 6.68/3.96	80.16
+1965	ss	women	Lilac Hue	1.39P 5.38/4.48	81.39
+1958	ss	silk	Venetian Lilac	1.54P 3.60/8.14	81.54
+1956	ss	silk	Como Lilac	1.74P 5.56/3.94	81.74
+1948	ss	women	English Lilac	1.87P 4.88/5.27	81.87
+1976-77	fw	men	Glace Lilac	1.99P 6.07/4.41	81.99
+1970	ss	women	Wisty Lilac	2.02P 6.17/4.40	82.02
+1991-92	fw	youth	laughing lilac	2.21P 6.35/6.04	82.21
+1995	ss	women	Lilac	2.65P 6.04/5.44	82.65
+2001-02	fw	youth	Teen Lilac	2.92P 5.15/3.73	82.92
+1991	ss	youth	Kismet Lilac	3.37P 7.20/3.48	83.37
+1975	ss	silk	Lucerne Lilac	3.61P 7.16/2.28	83.61
+2005-06	fw	youth	Cactus Lilac	3.94P 4.30/6.27	83.94
+1947	ss	women	Exotic Lilac	4.23P 5.33/3.14	84.23
+1971	ss	women	Lilty Lilac	4.32P 5.85/4.48	84.32
+2000-01	fw	youth	Easter Lilac	4.40P 6.73/6.20	84.40
+1944-45	fw	women	Patio Lilac	4.61P 3.56/7.80	84.61
+1977	ss	women	Frosty Lilac	4.92P 6.25/3.81	84.92
+1995-96	fw	youth	Locket Lilac	4.93P 6.04/3.99	84.93
+1990	ss	women	Sweet Lilac	5.16P 7.33/4.38	85.16
+1957	ss	women	Crushed Lilac	5.20P 5.13/4.88	85.20
+1943-44	fw	silk	Chinese Lilac	5.32P 4.24/7.73	85.32
+1943-44	fw	women	Chinese Lilac	5.88P 4.26/8.82	85.88
+1958-59	fw	silk	Italian Lilac	6.04P 5.08/8.37	86.04
+1945	ss	silk	Purple Lilac	6.06P 3.76/8.51	86.06
+1966	ss	women	Light Lilac	6.19P 5.82/4.74	86.19
+1930	ss	women	Lilacbloom	6.45P 4.72/4.50	86.45
+1988	ss	youth	Easter Lilac	6.45P 7.04/3.53	86.45
+1951	ss	silk	Lilac Sky	6.66P 6.02/4.63	86.66
+1941-42	fw	women	California Lilac	6.89P 4.82/3.97	86.89
+1926-27	fw	silk	French Lilac	7.08P 4.84/5.92	87.08
+1996-97	fw	men	H&H Lilac	7.17P 5.88/2.27	87.17
+1938-39	fw	silk	Blue Lilac	7.50P 5.37/3.81	87.50
+1944-45	fw	silk	Sweet Lilac	7.59P 5.21/6.57	87.59
+1952	ss	silk	Parma Lilac	7.69P 4.87/3.87	87.69
+1934	ss	women	Lilactint	7.80P 4.84/3.30	87.80
+1961	ss	women	Lilac Bud	8.02P 5.75/4.74	88.02
+1939-40	fw	silk	Riviera Lilac	8.09P 3.62/8.19	88.09
+1986-87	fw	youth	Aurora Lilac	8.98P 7.46/3.78	88.98
+1987	ss	women	Loma Lilac	9.59P 5.37/5.22	89.59
+1990-91	fw	youth	Libby's Lilac	9.98P 7.91/2.39	89.98
+1935-36	fw	women	Woodlilac	0.19RP 4.25/4.49	90.19
+1949-50	fw	silk	Faded Lilac	0.19RP 5.27/2.47	90.19
+2003-04	fw	youth	Victorian Lilac	0.49RP 5.77/2.54	90.49
+1986-87	na	interiors	Lincoln Lilac	0.51RP 5.45/5.44	90.51
+1997-98	fw	women	Dada Lilac	0.51RP 6.60/2.86	90.51
+1945	ss	women	Tuscan Lilac	0.87RP 4.26/7.64	90.87
+2011-12	na	interiors	Persian Lilac	0.93RP 6.37/5.92	90.93
+1939	ss	silk	Crushed Lilac	1.00RP 5.36/5.18	91.00
+2001	ss	women	Artful Lilac	1.26RP 6.57/2.48	91.26
+1931	ss	silk	Wild Lilac	1.53RP 6.35/6.21	91.53
+1941-42	fw	silk	Cloud Lilac	1.82RP 4.08/3.90	91.82
+1979-80	fw	women	Pink Lilac	1.84RP 6.13/6.27	91.84
+1985	ss	women	Wild Lilac	2.76RP 6.66/7.27	92.76
+1988	ss	women	French Lilac	3.00RP 6.34/6.98	93.00
+1984-85	fw	women	Lilac	3.29RP 6.27/10.45	93.29
+1985-86	fw	women	Snow Lilac	4.33RP 5.67/4.60	94.33
+1998-99	fw	women	Impressionist Lilac	4.36RP 5.67/4.56	94.36
+1950-51	fw	silk	Dusty Lilac	4.51RP 5.46/3.69	94.51
+1935-36	fw	silk	Woodlilac	5.15RP 4.99/4.42	95.15
+1987	ss	women	Glace Lilac	5.57RP 8.44/2.47	95.57
+1944	ss	women	Mauve Lilac	5.82RP 5.03/5.53	95.82
+1981-82	fw	women	Lyric Lilac	6.51RP 5.45/5.99	96.51
+1950-51	fw	women	Lilac Pink	6.95RP 5.02/4.64	96.95
+2000	ss	women	Ladylike Lilac	7.15RP 7.92/3.77	97.15
+1940-41	fw	silk	Silver Lilac	7.32RP 4.86/5.07	97.32
+1944	ss	silk	Mauve Lilac	8.11RP 5.34/5.57	98.11
+1986-87	fw	women	London Lilac	8.63RP 6.70/4.82	98.63
+1934-35	fw	silk	Ashes of Lilac	8.85RP 4.94/3.54	98.85

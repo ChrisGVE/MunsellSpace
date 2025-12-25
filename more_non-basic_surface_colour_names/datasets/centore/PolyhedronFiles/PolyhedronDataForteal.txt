@@ -1,0 +1,108 @@
+Colour name:	teal
+Number of non-unique CAUS samples:	47
+Number of unique CAUS samples:	43
+Centroid in Munsell coordinates:	1.56B 3.32/4.53
+Centroid in Cartesian coordinates:	-3.38	-3.01	3.32
+Polyhedron vertices in Munsell coordinates:
+4.19BG 3.82/6.32
+4.24BG 2.96/4.76
+5.78BG 3.89/5.38
+9.41BG 3.11/3.36
+9.42BG 3.58/6.58
+9.42BG 3.71/6.29
+0.24B 2.64/3.11
+1.15B 2.48/3.10
+2.60B 2.54/4.08
+2.85B 4.06/4.06
+5.24B 3.64/5.86
+7.41B 2.57/3.42
+7.78B 2.99/3.09
+8.11B 3.44/5.91
+9.05B 3.38/3.52
+Polyhedron vertices in Cartesian coordinates:
+-6.10	-1.64	3.82
+-4.59	-1.25	2.96
+-5.03	-1.91	3.89
+-2.79	-1.87	3.11
+-5.46	-3.67	3.58
+-5.22	-3.51	3.71
+-2.49	-1.87	2.64
+-2.37	-2.00	2.48
+-2.87	-2.90	2.54
+-2.81	-2.93	4.06
+-3.37	-4.79	3.64
+-1.57	-3.04	2.57
+-1.35	-2.78	2.99
+-2.48	-5.36	3.44
+-1.29	-3.28	3.38
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+14	10	15
+12	14	15
+5	2	1
+11	10	14
+5	11	14
+9	12	8
+2	9	8
+9	2	5
+9	5	14
+12	9	14
+7	2	8
+7	4	2
+10	13	15
+4	13	10
+7	13	4
+13	7	8
+13	12	15
+12	13	8
+2	3	1
+4	3	2
+3	10	1
+3	4	10
+11	6	10
+6	11	5
+10	6	1
+6	5	1
+Unique samples, with Munsell coordinates, from CAUS data:
+1990-91	fw	men	Teal	1.26BG 2.88/5.38	51.26
+1996	ss	men	Thunder Teal	1.97BG 5.10/7.89	51.97
+1989-90	fw	women	Teal	4.19BG 3.82/6.32	54.19
+2002	ss	youth	DockTeal	4.24BG 2.96/4.76	54.24
+1984	ss	men	Booth Bay Teal	5.78BG 3.89/5.38	55.78
+1997-98	fw	women	Peace-Loving Teal	5.98BG 2.25/2.27	55.98
+1984-85	na	interiors	Baltimore Teal	6.53BG 4.19/2.40	56.53
+1990	ss	men	Teal	6.88BG 4.67/2.69	56.88
+1999-00	fw	women	Tonight's Teal	7.14BG 2.53/4.64	57.14
+1959-60	fw	women	Blue Teal	7.72BG 2.29/3.94	57.72
+1998-99	fw	men	Dizzie's Teal	9.01BG 1.89/2.05	59.01
+1989-90	fw	men	Teal	9.12BG 3.21/7.12	59.12
+1989-90	fw	women	Dark Teal	9.41BG 3.11/3.36	59.41
+1992-93	fw	youth	Underwater Teal	9.42BG 3.58/6.58	59.42
+1992-93	fw	men	underwater teal	9.42BG 3.71/6.29	59.42
+1920	ss	silk	Teal Duck	0.24B 2.64/3.11	60.24
+2000-01	fw	women	Portal Teal	0.44B 3.86/4.84	60.44
+2000-01	fw	women	Out There Teal	0.79B 2.19/3.89	60.79
+1984	ss	women	Gunsmith Teal	1.15B 2.48/3.10	61.15
+2001-02	fw	women	Venus Teal	1.84B 3.67/3.88	61.84
+1998-99	fw	youth	My-Room Teal	2.60B 2.54/4.08	62.60
+2003-04	fw	women	Deep Teal	2.70B 2.92/4.15	62.70
+1984-85	fw	men	Dark Teal	2.85B 4.06/4.06	62.85
+1947-48	fw	silk	Blue Teal	2.92B 2.93/3.27	62.92
+2000	ss	youth	Planter's Teal	3.12B 3.90/4.60	63.12
+2001	ss	women	Tarot Teal	4.47B 3.64/5.30	64.47
+1917-18	fw	silk	Teal Duck	4.55B 3.10/3.94	64.55
+1999-2000	fw	men	Tahitian Wave Teal	4.66B 3.05/3.61	64.66
+1994-95	fw	youth	Dance Teal	5.24B 3.64/5.86	65.24
+1927-28	fw	women	Teal Blue	5.82B 2.08/3.18	65.82
+1938-39	fw	women	Teal	7.08B 2.38/2.44	67.08
+1961-62	fw	women	Tealtone	7.24B 2.88/5.55	67.24
+1955-56	fw	silk	Teal Duck	7.41B 2.57/3.42	67.41
+1990	ss	women	Teal	7.54B 2.73/3.59	67.54
+1938-39	fw	silk	Teal	7.78B 2.99/3.09	67.78
+2002	ss	women	Tranquil Teal	8.11B 3.44/5.91	68.11
+1997-98	fw	women	Tadeo Teal	8.19B 3.91/7.52	68.19
+1954-55	fw	women	Tealwing	9.05B 3.38/3.52	69.05
+1959-60	fw	silk	Teal Feather	0.03PB 4.24/6.14	70.03
+1952-53	fw	women	Teal Blue	0.35PB 2.32/3.76	70.35
+1980-81	fw	women	Teal	0.74PB 2.89/3.01	70.74
+2001	ss	youth	Techno Teal	1.59PB 3.12/5.72	71.59
+1991	ss	men	storm teal	1.75PB 3.65/3.13	71.75

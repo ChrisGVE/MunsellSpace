@@ -1,0 +1,252 @@
+Colour name:	white
+Number of CAUS samples:	152
+Centroid in Munsell coordinates:	2.07Y 8.01/2.02
+Centroid in Cartesian coordinates:	 0.37	 1.98	8.01
+Polyhedron vertices in Munsell coordinates:
+1.74YR 8.34/2.42
+6.72YR 9.18/2.02
+8.33YR 6.81/1.56
+9.73YR 8.22/3.30
+0.78Y 6.89/3.22
+1.87Y 6.03/1.93
+2.42Y 9.21/0.72
+2.44Y 9.33/1.34
+2.52Y 6.70/3.82
+2.79Y 6.87/0.99
+3.48Y 8.55/3.71
+3.48Y 9.18/2.13
+3.91Y 9.03/2.78
+5.67Y 9.35/1.43
+6.91Y 9.30/1.02
+7.18Y 7.63/2.24
+8.04Y 8.91/3.17
+0.25GY 7.77/0.45
+1.23GY 8.94/0.73
+2.78GY 9.12/0.45
+4.15GY 9.04/0.16
+6.03GY 7.33/0.74
+0.14G 8.63/0.19
+N9.02
+Polyhedron vertices in Cartesian coordinates:
+1.79	1.63	8.34
+1.00	1.75	9.18
+0.63	1.42	6.81
+1.07	3.12	8.22
+0.84	3.11	6.89
+0.38	1.89	6.03
+0.12	0.71	9.21
+0.21	1.32	9.33
+0.59	3.77	6.70
+0.14	0.98	6.87
+0.35	3.69	8.55
+0.20	2.12	9.18
+0.19	2.77	9.03
+-0.06	1.43	9.35
+-0.12	1.01	9.30
+-0.31	2.22	7.63
+-0.60	3.11	8.91
+-0.15	0.43	7.77
+-0.28	0.67	8.94
+-0.21	0.40	9.12
+-0.09	0.13	9.04
+-0.47	0.57	7.33
+-0.15	0.11	8.63
+0.00	0.00	9.02
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+24	2	1
+5	6	1
+9	5	1
+5	9	6
+19	22	17
+22	16	17
+16	22	6
+16	9	17
+9	16	6
+10	24	1
+22	10	6
+14	12	2
+8	14	2
+12	13	2
+13	14	17
+13	12	14
+2	4	1
+4	9	1
+20	19	17
+19	20	22
+20	23	22
+6	3	1
+3	10	1
+10	3	6
+7	2	24
+7	8	2
+11	4	2
+13	11	2
+11	13	17
+4	11	9
+9	11	17
+18	10	22
+23	18	22
+10	18	24
+18	23	24
+23	21	24
+21	20	24
+20	21	23
+8	15	14
+7	15	8
+20	15	24
+15	7	24
+14	15	17
+15	20	17
+Samples, with Munsell coordinates, from CAUS data:
+Purplish White	N9.02
+Heavenly White	5.49R 8.16/1.82
+zurbaran white	0.56YR 8.41/3.23
+White Peak	1.74YR 8.34/2.42
+Pinkish White	2.44YR 9.22/1.18
+Mauve White	2.66YR 8.99/2.12
+Angel White	6.04YR 8.90/1.70
+Moonwhite	6.68YR 6.29/1.64
+Pink White	6.72YR 9.18/2.02
+fodor white	7.69YR 7.73/2.03
+Verbena White	8.08YR 7.42/4.52
+Elegant White	8.33YR 6.81/1.56
+Romance White	8.88YR 7.49/2.91
+tucson white	8.91YR 8.87/2.15
+Shadowhite	9.34YR 6.95/1.99
+City Snow White	9.36YR 7.90/1.57
+White Sand	9.73YR 7.12/1.79
+Blanche White	9.73YR 8.22/3.30
+Porcelain White	9.76YR 6.85/2.00
+Opal White	9.79YR 8.31/2.59
+Rice White	9.81YR 8.22/2.87
+Rose White	9.82YR 7.74/1.86
+Dynamic White	9.95YR 7.83/3.07
+Parchment White	0.23Y 7.52/2.05
+Antique White	0.28Y 6.00/2.85
+White Sand	0.31Y 6.60/2.23
+Moonlight White	0.42Y 8.75/2.59
+Polar White	0.49Y 7.03/2.48
+Winter White	0.51Y 8.63/1.07
+White Frost	0.57Y 7.13/2.63
+Frost White	0.61Y 6.53/1.69
+White Clay	0.66Y 7.73/1.32
+Moonstone White	0.67Y 7.66/2.27
+Unbleached White	0.78Y 6.89/3.22
+Egg White	0.88Y 8.85/2.29
+knot white	0.90Y 8.79/1.28
+Wintery White	0.95Y 8.74/2.83
+Oyster White	0.97Y 7.01/1.69
+Pearl White	1.02Y 8.28/2.05
+Antique White	1.18Y 7.99/2.08
+White Lilac	1.24Y 8.15/1.89
+White Ivory	1.28Y 8.34/1.81
+Urban White	1.40Y 8.29/1.81
+White Chestnut	1.42Y 5.93/1.44
+atmosphere white	1.56Y 7.50/2.23
+Magnolia White	1.58Y 8.30/2.51
+Jasmine White	1.60Y 8.49/2.12
+Warm White	1.61Y 8.30/2.17
+Whitewash	1.62Y 8.46/1.28
+Noon White	1.64Y 7.87/2.30
+Cream White	1.65Y 7.52/2.64
+Magnolia White	1.68Y 7.96/1.85
+Summer White	1.84Y 8.35/1.99
+White Smoke	1.87Y 6.03/1.93
+Canvas White	1.88Y 7.72/1.82
+Base White	1.92Y 8.11/0.77
+Snow White	1.93Y 8.73/1.67
+Nacre White	1.94Y 8.08/2.91
+Ivory White	1.94Y 8.22/2.25
+China White	1.96Y 7.05/2.44
+Linen White	2.07Y 7.47/2.02
+Canvas White	2.08Y 8.14/2.70
+White	2.15Y 9.05/1.46
+White Orchid	2.19Y 7.93/2.75
+Lily White	2.23Y 8.96/2.00
+Gardenia White	2.26Y 8.21/2.22
+Off White	2.28Y 8.92/1.57
+Petal White	2.34Y 8.97/1.53
+Silver White	2.40Y 8.15/1.79
+Window Pane White	2.42Y 9.21/0.72
+Tennis White	2.44Y 9.33/1.34
+Linen White	2.52Y 6.70/3.82
+Virtual White	2.53Y 8.23/2.41
+Pearlized White	2.63Y 8.32/1.42
+White	2.64Y 8.99/1.30
+White Diamond	2.79Y 6.87/0.99
+Cloud White	2.79Y 8.85/1.46
+White Gold	2.85Y 8.90/2.37
+Lasso White	2.94Y 7.73/1.64
+White Ginger	2.94Y 7.90/2.54
+Column White	3.09Y 7.22/2.59
+Calla White	3.11Y 8.24/1.78
+Sheepskin White	3.11Y 8.39/2.09
+White Onion	3.13Y 8.55/2.50
+Dice White	3.19Y 8.01/2.02
+White Vodka	3.30Y 8.46/3.30
+Bone White	3.37Y 8.94/4.54
+Warming White	3.42Y 6.45/3.91
+portsmouth white	3.48Y 8.55/3.71
+Augusta White	3.48Y 9.18/2.13
+Nature's White	3.50Y 8.44/2.06
+Nacre White	3.58Y 8.54/1.08
+Lemon White	3.76Y 8.07/2.55
+White Bead	3.79Y 8.63/2.34
+Faraway White	3.79Y 8.89/2.27
+Honey White	3.81Y 8.07/3.04
+Glacier White	3.84Y 8.86/1.70
+White Rice	3.91Y 9.03/2.78
+Equilibrium Balance White	3.97Y 8.54/2.12
+Dawn White	4.00Y 9.53/2.95
+White Sail	4.11Y 8.94/1.27
+White Dune	4.12Y 9.09/1.51
+Ocean White	4.23Y 8.84/0.94
+Alabaster White	4.24Y 9.24/1.63
+Shooting-Star White	4.35Y 8.99/2.05
+North White	4.48Y 9.21/1.20
+winter white	4.50Y 9.06/1.04
+Lemon White	4.67Y 8.36/2.09
+Oyster Bay White	4.74Y 8.96/1.12
+hokkaido white	4.77Y 8.80/1.78
+White Pepper	4.79Y 8.43/1.17
+Not-Quite White	4.87Y 8.51/1.18
+Yellowish White	4.91Y 8.95/1.44
+Beach White	4.94Y 9.00/1.97
+White	4.96Y 9.06/0.90
+Afterglow White	5.24Y 8.92/1.75
+Buttercup White	5.24Y 9.11/1.54
+Chalk White	5.33Y 8.06/1.43
+Summer White	5.39Y 9.43/1.50
+Whiz White	5.44Y 8.60/1.72
+Classic White	5.47Y 8.07/1.17
+Deep White	5.47Y 8.19/1.02
+Data White	5.67Y 9.35/1.43
+Embroidery White	5.78Y 6.12/0.42
+Chalk White	5.79Y 9.16/1.06
+Arabian White	5.84Y 8.65/1.60
+New-White	6.24Y 9.17/0.88
+Techie White	6.49Y 7.81/0.97
+White	6.64Y 8.35/2.04
+White	6.66Y 9.28/1.18
+Sugar White	6.88Y 8.16/1.94
+Stitch White	6.91Y 9.30/1.02
+Fridge White	7.18Y 7.63/2.24
+Willow White	7.29Y 6.65/2.28
+White	7.69Y 8.92/0.30
+Polite White	8.04Y 8.91/3.17
+White	8.41Y 8.81/0.41
+Spring White	8.46Y 9.37/3.34
+Campobello White	8.47Y 8.39/0.47
+Hi-Tech White	8.78Y 8.98/1.00
+Arctic White	9.43Y 5.83/1.46
+White	0.25GY 7.77/0.45
+new white	0.92GY 8.60/0.49
+Sail White	1.23GY 8.94/0.73
+White Steel	1.48GY 8.39/0.67
+White	2.78GY 9.12/0.45
+White	4.15GY 9.04/0.16
+white limbo	6.03GY 7.33/0.74
+Steam White	0.14G 8.63/0.19
+Aqua White	1.25B 8.97/1.18
+Purplish White	2.63P 8.38/0.69
+Purplish White	3.04RP 8.83/0.46

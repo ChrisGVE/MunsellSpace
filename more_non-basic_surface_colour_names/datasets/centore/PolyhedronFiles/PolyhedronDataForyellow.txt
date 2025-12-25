@@ -1,0 +1,539 @@
+Colour name:	yellow
+Number of non-unique CAUS samples:	470
+Number of unique CAUS samples:	394
+Centroid in Munsell coordinates:	2.64Y 7.44/7.98
+Centroid in Cartesian coordinates:	 1.18	 7.90	7.44
+Polyhedron vertices in Munsell coordinates:
+4.72YR 6.62/10.64
+7.01YR 7.57/10.29
+7.66YR 7.06/13.12
+7.86YR 5.97/9.67
+8.42YR 7.60/4.07
+9.20YR 7.96/3.52
+0.24Y 7.77/12.94
+0.82Y 7.16/13.28
+1.43Y 8.83/5.46
+1.97Y 8.41/11.81
+2.43Y 5.43/7.43
+2.51Y 4.84/5.30
+2.66Y 5.74/8.46
+3.14Y 8.94/8.39
+3.28Y 5.73/4.23
+3.89Y 8.32/13.55
+4.27Y 8.68/2.53
+4.44Y 8.67/12.03
+4.67Y 5.87/7.75
+4.90Y 9.28/4.95
+4.93Y 8.88/9.66
+5.80Y 7.79/12.12
+5.80Y 9.21/3.88
+6.54Y 8.05/11.81
+6.72Y 9.06/3.58
+7.24Y 8.81/10.76
+8.06Y 9.05/5.35
+8.08Y 8.93/8.80
+8.10Y 8.85/9.80
+8.76Y 7.19/8.47
+9.62Y 8.63/10.15
+9.88Y 8.46/9.84
+0.10GY 8.26/3.69
+0.95GY 8.71/5.41
+1.19GY 7.92/5.67
+Polyhedron vertices in Cartesian coordinates:
+6.40	8.50	6.62
+4.95	9.02	7.57
+5.84	11.75	7.06
+4.19	8.71	5.97
+1.64	3.73	7.60
+1.25	3.29	7.96
+3.81	12.37	7.77
+3.45	12.82	7.16
+1.21	5.32	8.83
+2.23	11.60	8.41
+1.19	7.33	5.43
+0.83	5.24	4.84
+1.24	8.37	5.74
+0.98	8.33	8.94
+0.46	4.21	5.73
+0.94	13.52	8.32
+0.12	2.53	8.68
+0.42	12.02	8.67
+0.16	7.75	5.87
+0.03	4.95	9.28
+0.04	9.66	8.88
+-0.61	12.10	7.79
+-0.19	3.88	9.21
+-1.14	11.75	8.05
+-0.39	3.56	9.06
+-1.51	10.65	8.81
+-1.02	5.25	9.05
+-1.69	8.64	8.93
+-1.90	9.61	8.85
+-1.98	8.23	7.19
+-2.91	9.73	8.63
+-2.97	9.38	8.46
+-1.16	3.50	8.26
+-1.98	5.04	8.71
+-2.15	5.25	7.92
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+4	12	1
+35	15	12
+12	15	1
+15	5	1
+35	30	32
+30	35	12
+11	13	12
+4	11	12
+11	8	13
+8	11	4
+15	33	17
+33	15	35
+33	25	17
+6	15	17
+15	6	5
+6	17	1
+5	6	1
+13	19	12
+19	30	12
+2	14	10
+14	2	20
+17	9	1
+9	2	1
+2	9	20
+28	26	20
+34	35	32
+34	33	35
+33	34	25
+16	7	10
+19	22	30
+22	19	13
+8	22	13
+22	8	16
+31	34	32
+26	31	16
+18	26	16
+18	16	10
+14	18	10
+18	14	20
+31	27	34
+27	28	20
+27	31	28
+3	2	10
+7	3	10
+2	3	1
+3	4	1
+3	8	4
+8	3	16
+3	7	16
+29	26	28
+31	29	28
+29	31	26
+24	22	16
+31	24	16
+24	31	32
+30	24	32
+22	24	30
+26	21	20
+21	18	20
+18	21	26
+34	23	25
+27	23	34
+23	27	20
+25	23	17
+23	9	17
+9	23	20
+Unique samples, with Munsell coordinates, from CAUS data:
+1980-81	fw	women	Pumpkin Yellow	2.01YR 6.55/14.00	12.01
+1932	ss	women	Pumpkin Yellow	4.72YR 6.62/10.64	14.72
+1932-33	fw	silk	Persian Yellow	5.51YR 6.89/9.04	15.51
+1940-41	fw	silk	Yellow Rose	6.31YR 7.30/4.81	16.31
+1928-29	fw	silk	Sunrise Yellow	6.62YR 7.09/6.38	16.62
+2002	ss	women	Ocher Yellow	6.85YR 4.45/7.90	16.85
+1998	ss	men	Tribal Yellow	7.00YR 6.53/9.50	17.00
+1989	ss	women	Yellow	7.01YR 7.57/10.29	17.01
+2000-01	fw	men	Eternal Yellow	7.04YR 6.61/10.44	17.04
+2005	ss	youth	Go-Go Yellow	7.45YR 5.84/14.19	17.45
+1934	ss	silk	Bagdad Yellow	7.50YR 6.66/10.65	17.50
+1994	ss	youth	Rollerblade Yellow	7.66YR 7.06/13.12	17.66
+1999	ss	youth	Beachball Yellow	7.81YR 7.08/9.69	17.81
+1985-86	fw	men	Medal Yellow	7.82YR 7.09/9.30	17.82
+1998-99	fw	youth	Nightwatch Yellow	7.84YR 7.52/10.61	17.84
+2014-15	na	interiors	Deep Orange Yellow	7.86YR 5.97/9.67	17.86
+1991	ss	youth	Goldenrod Yellow	8.08YR 6.55/10.91	18.08
+1952	ss	women	Wine Yellow	8.10YR 6.23/6.29	18.10
+1989	ss	youth	Indian Yellow	8.32YR 7.09/11.89	18.32
+1927-28	fw	silk	Yellow Beige	8.34YR 5.80/5.14	18.34
+2007	ss	youth	Vivid Orange Yellow	8.41YR 6.83/12.26	18.41
+1999-2000	fw	men	Pebble Yellow	8.42YR 7.60/4.07	18.42
+1995-96	fw	women	Strong Orange Yellow	8.43YR 6.75/11.34	18.43
+1947	ss	women	Ceramic Yellow	8.47YR 7.04/6.23	18.47
+2008	ss	youth	Vivid Orange Yellow	8.51YR 6.88/12.23	18.51
+1949	ss	women	Majolica Yellow	8.62YR 6.32/6.77	18.62
+1988-89	fw	women	Plastic Yellow	8.70YR 6.89/10.81	18.70
+1943	ss	silk	Apricot Yellow	8.96YR 6.86/4.94	18.96
+1989-90	fw	youth	Sun Valley Yellow	8.99YR 6.81/14.22	18.99
+1967	ss	women	Yellow Sun	9.07YR 7.45/8.01	19.07
+1972-73	fw	men	Sunglow Yellow	9.20YR 5.97/9.44	19.20
+1998	ss	women	Low-Moon Yellow	9.20YR 7.96/3.52	19.20
+1987-88	fw	youth	Sun Yellow	9.31YR 6.88/9.63	19.31
+1995-96	fw	women	Dark Orange Yellow	9.36YR 6.09/7.26	19.36
+2002-03	fw	women	Camel Yellow	9.38YR 5.75/7.24	19.38
+1957	ss	silk	Leghorn Yellow	9.62YR 6.87/4.90	19.62
+1994	ss	youth	Back-to-Nature Yellow	9.64YR 7.62/12.04	19.64
+1952	ss	silk	Blond Yellow	9.70YR 7.79/4.41	19.70
+1994	ss	women	Yachting Yellow	9.77YR 7.47/11.79	19.77
+1995-96	fw	youth	April Yellow	9.80YR 7.02/10.53	19.80
+1973	ss	men	Sunflash Yellow	9.84YR 7.48/11.50	19.84
+1991-92	fw	youth	monkey-trick yellow	9.97YR 7.48/10.72	19.97
+1976-77	fw	women	Spectric Yellow	0.05Y 6.80/11.96	20.05
+1999-2000	na	interiors	Moderate Orange Yellow	0.05Y 7.91/7.54	20.05
+1928	ss	silk	Yellowstone	0.09Y 6.11/5.94	20.09
+1995	ss	youth	Pluto Yellow	0.16Y 7.90/11.55	20.16
+1953-54	fw	women	Porcelain Yellow	0.22Y 6.41/6.86	20.22
+1997-98	fw	youth	Signal Yellow	0.24Y 7.77/12.94	20.24
+1986-87	fw	women	Maize Yellow	0.25Y 7.00/9.42	20.25
+1925	ss	silk	Spanish Yellow	0.25Y 7.07/10.37	20.25
+1992-93	fw	women	Synchro Yellow	0.27Y 7.39/10.15	20.27
+1997-98	fw	women	Rubber Yellow	0.29Y 7.37/11.75	20.29
+1968-69	fw	women	Spiffy Yellow	0.30Y 6.86/10.08	20.30
+1992	ss	men	Spiral Yellow	0.40Y 6.09/6.91	20.40
+1933-34	fw	silk	Honey Yellow	0.49Y 6.58/4.92	20.49
+1991	ss	women	Canary Yellow	0.53Y 8.12/9.18	20.53
+2001	ss	youth	Tarzan Yellow	0.59Y 6.95/7.95	20.59
+1997	ss	women	Infallibility Yellow	0.69Y 7.45/11.18	20.69
+1992	ss	youth	chutes yellow	0.69Y 7.68/11.53	20.69
+1989	ss	youth	Pottery Yellow	0.74Y 8.33/4.60	20.74
+1998-99	fw	youth	Double-Click Yellow	0.78Y 7.71/10.27	20.78
+1979	ss	women	Mucho Yellow	0.82Y 7.16/13.28	20.82
+1992	ss	youth	amped yellow	0.83Y 7.71/7.56	20.83
+1994-95	fw	youth	Hot-Tot Yellow	0.84Y 7.87/12.42	20.84
+1996-97	fw	women	Happening Yellow	0.95Y 7.89/8.64	20.95
+1939	ss	silk	Starlight Yellow	1.00Y 7.05/11.17	21.00
+1995	ss	women	Circuit-Breaker Yellow	1.02Y 8.33/8.64	21.02
+1997	ss	youth	Wildlife Yellow	1.04Y 7.43/7.50	21.04
+1999	ss	youth	Vegetal Yellow	1.07Y 6.20/7.16	21.07
+1992	ss	women	Pale Orange Yellow	1.08Y 8.06/5.30	21.08
+1984	ss	men	Olympia Yellow	1.12Y 8.10/8.73	21.12
+1988	ss	youth	Coney Island Yellow	1.22Y 7.91/8.99	21.22
+1938	ss	women	Lido Yellow	1.23Y 6.95/9.97	21.23
+1969-70	fw	women	Flick Yellow	1.27Y 7.01/8.24	21.27
+1992	ss	men	Clam Yellow	1.43Y 8.83/5.46	21.43
+2004	ss	youth	Pulizer Yellow	1.45Y 7.32/10.44	21.45
+1998	ss	youth	Suspenseful Yellow	1.45Y 8.09/10.72	21.45
+1991	ss	youth	Churnin' Yellow	1.50Y 8.77/5.73	21.50
+1983	ss	women	Lacquer Yellow	1.58Y 7.62/11.04	21.58
+1996	ss	youth	Straw Yellow	1.60Y 8.33/7.56	21.60
+2002	ss	youth	Quilter's Yellow	1.62Y 8.53/7.97	21.62
+1952	ss	silk	Carnation Yellow	1.65Y 6.91/5.42	21.65
+2000-01	fw	youth	Safari Yellow	1.71Y 6.21/7.07	21.71
+1998-99	fw	men	Hip-Hop Yellow	1.71Y 6.82/7.73	21.71
+1992	ss	women	Pale Orange Yellow	1.72Y 8.61/4.78	21.72
+1933	ss	silk	Straw Yellow	1.73Y 8.19/3.79	21.73
+1977	ss	women	Spangled Yellow	1.78Y 7.90/12.26	21.78
+1982-83	fw	women	Dresden Yellow	1.78Y 8.03/6.14	21.78
+1998	ss	men	Weft Yellow	1.79Y 6.72/9.61	21.79
+1991-92	na	interiors	larsen yellow	1.83Y 7.82/10.94	21.83
+2003	ss	women	Desert Yellow	1.83Y 8.24/11.76	21.83
+1989	ss	youth	Bangles Yellow	1.88Y 8.13/8.05	21.88
+2007	ss	youth	Moderate Orange Yellow	1.93Y 6.97/8.20	21.93
+1988-89	na	interiors	nogales yellow	1.96Y 8.29/7.13	21.96
+1990-91	na	interiors	napoli yellow	1.97Y 8.41/11.81	21.97
+2003	ss	women	Mirage Yellow	1.98Y 6.35/8.76	21.98
+1999-2000	na	interiors	Dark Grayish Yellow	2.01Y 5.94/3.81	22.01
+2007	ss	women	Light Orange Yellow	2.01Y 7.71/5.54	22.01
+1954	ss	silk	Pineapple Yellow	2.06Y 6.81/9.90	22.06
+1955-56	fw	silk	Watteau Yellow	2.06Y 7.98/4.42	22.06
+1940	ss	women	Solar Yellow	2.07Y 6.90/5.54	22.07
+1958	ss	silk	Banana Yellow	2.08Y 8.04/6.14	22.08
+1987	ss	youth	Sunshine Yellow	2.12Y 8.14/11.14	22.12
+1999	ss	youth	Jump Yellow	2.13Y 7.93/8.01	22.13
+1937	ss	women	Chukker Yellow	2.14Y 7.02/5.36	22.14
+1982	ss	men	Winning Yellow	2.14Y 7.83/9.88	22.14
+1939	ss	women	Aura Yellow	2.15Y 6.43/7.90	22.15
+1944	ss	silk	Yellow Lotus	2.22Y 6.98/6.82	22.22
+1946	ss	women	Banana Yellow	2.24Y 6.87/4.97	22.24
+2001	ss	men	Divisor Yellow	2.26Y 8.44/3.31	22.26
+1928-29	fw	women	Japanese Yellow	2.29Y 6.41/7.44	22.29
+1999-2000	na	interiors	Light Orange Yellow	2.31Y 8.56/6.83	22.31
+1999-2000	fw	men	Falling Leaf Yellow	2.33Y 6.52/8.12	22.33
+1989-90	na	interiors	duty yellow	2.35Y 7.60/10.40	22.35
+1999-2000	fw	youth	Illumination Yellow	2.35Y 8.28/6.56	22.35
+1942	ss	silk	Primrose Yellow	2.38Y 7.27/5.84	22.38
+1972-73	fw	men	Yellow Frost	2.38Y 8.17/6.68	22.38
+1974-75	fw	women	Capricorn Yellow	2.39Y 7.84/12.02	22.39
+1950	ss	women	Yellow Wheat	2.41Y 6.98/4.95	22.41
+2003-04	fw	youth	Hiking Yellow	2.43Y 5.43/7.43	22.43
+1995	ss	youth	Ranger Yellow	2.43Y 8.37/6.45	22.43
+1935	ss	silk	Chamois Yellow	2.44Y 7.57/4.47	22.44
+2014-15	na	interiors	Moderate Orange Yellow	2.48Y 7.03/7.10	22.48
+1946	ss	silk	Dawn Yellow	2.49Y 7.43/4.82	22.49
+1986	ss	youth	Colombia Yellow	2.50Y 8.47/6.26	22.50
+2004-05	fw	youth	Crayon Yellow	2.51Y 4.84/5.30	22.51
+1980-81	fw	men	Gourd Yellow	2.51Y 8.33/6.08	22.51
+1998-99	fw	women	Naples Yellow	2.52Y 7.11/6.54	22.52
+1972	ss	women	Jasmine Yellow	2.53Y 8.04/7.91	22.53
+2002	ss	men	Ship Yellow	2.53Y 8.89/5.70	22.53
+2002	ss	men	Sand Yellow	2.54Y 7.70/4.46	22.54
+1942-43	fw	silk	Glory Yellow	2.56Y 7.27/6.65	22.56
+2001	ss	men	Squared Yellow	2.59Y 6.75/7.24	22.59
+1951	ss	silk	Hibiscus Yellow	2.60Y 6.97/6.71	22.60
+1924	ss	silk	Chinese Yellow	2.64Y 8.13/9.30	22.64
+1989	ss	men	Frappe Yellow	2.64Y 8.32/6.07	22.64
+1970-71	fw	women	Pale Orange Yellow	2.65Y 8.18/3.16	22.65
+2014-15	fw	women	highlighter yellow	2.66Y 5.74/8.46	22.66
+1995-96	fw	women	Pale Orange Yellow	2.67Y 8.17/3.88	22.67
+2008	ss	women	Yellowjacket	2.71Y 8.23/8.82	22.71
+1931	ss	silk	Citrus Yellow	2.75Y 7.41/9.79	22.75
+1970-71	fw	women	Strong Orange Yellow	2.78Y 7.47/10.50	22.78
+1988-89	fw	youth	Elisabeth Yellow	2.78Y 8.53/3.00	22.78
+2014-15	fw	men	yellow tape	2.81Y 7.46/12.18	22.81
+1945	ss	silk	Pottery Yellow	2.85Y 7.75/5.29	22.85
+1999	ss	youth	Shellac Yellow	2.85Y 8.55/6.25	22.85
+1947-48	fw	silk	Yellow Lustre	2.87Y 7.38/4.41	22.87
+1998	ss	men	Warp Yellow	2.90Y 7.34/4.57	22.90
+2000	ss	women	Sapient Yellow	2.92Y 6.65/7.91	22.92
+1987	ss	men	Bar Harbor Yellow	2.92Y 8.45/2.80	22.92
+1973	ss	silk	Kiku Yellow	3.00Y 8.18/11.85	23.00
+1968-69	fw	women	Indo Yellow	3.03Y 7.01/5.47	23.03
+1982	ss	men	Light-Up Yellow	3.03Y 8.05/9.82	23.03
+1981-82	fw	men	Yellowstone	3.04Y 8.34/5.46	23.04
+1983	ss	men	Gold Medal Yellow	3.06Y 7.93/11.20	23.06
+1953	ss	women	Corn Yellow	3.07Y 7.06/4.34	23.07
+1999-2000	fw	youth	Night Owl Yellow	3.08Y 8.13/9.10	23.08
+1989-90	fw	men	Yellow	3.09Y 7.15/6.30	23.09
+1984-85	na	interiors	Antibes Yellow	3.10Y 9.00/2.24	23.10
+1971-72	fw	silk	Eggo Yellow	3.12Y 8.39/8.78	23.12
+2001-02	fw	women	Techie Yellow	3.13Y 7.14/10.24	23.13
+1988	ss	youth	Yellow	3.14Y 8.94/8.39	23.14
+1990	ss	youth	Mickey Yellow	3.15Y 8.23/7.66	23.15
+1936	ss	silk	Pirate Yellow	3.19Y 7.47/10.20	23.19
+1987-88	fw	youth	Tortilla Yellow	3.21Y 7.64/7.01	23.21
+1997	ss	youth	Marble Yellow	3.22Y 8.36/8.40	23.22
+2016	ss	women	pretty yellow	3.25Y 7.42/10.52	23.25
+1999-2000	fw	men	Hickory Leaf Yellow	3.28Y 5.73/4.23	23.28
+1992-93	fw	men	indian yellow	3.29Y 7.14/3.05	23.29
+1971	ss	silk	Sherbet Yellow	3.31Y 8.78/6.19	23.31
+1997-98	fw	youth	Auld Yellow	3.32Y 7.97/7.62	23.32
+1995-96	fw	youth	Albert Hall Yellow	3.32Y 8.11/7.81	23.32
+1994	ss	youth	Marilyn's Yellow	3.32Y 8.67/5.52	23.32
+2001-02	fw	men	Rock Climbing Yellow	3.36Y 6.50/4.04	23.36
+1957	ss	women	Sunlit Yellow	3.38Y 7.54/5.37	23.38
+1981	ss	men	Marathon Yellow	3.40Y 8.75/11.48	23.40
+2002	ss	youth	Popcorn Yellow	3.42Y 8.14/6.00	23.42
+1971	ss	silk	Yellow Diamond	3.43Y 8.75/4.97	23.43
+2001-02	fw	youth	Tinged Yellow	3.45Y 8.79/5.03	23.45
+1987	ss	women	Durango Yellow	3.46Y 7.57/7.63	23.46
+1978	ss	women	Chicklet Yellow	3.48Y 8.00/7.41	23.48
+1941	ss	silk	Tulip Yellow	3.49Y 7.48/7.20	23.49
+1989-90	fw	youth	Yellow	3.49Y 7.66/10.68	23.49
+1993-94	fw	youth	Running Yellow	3.50Y 8.10/11.48	23.50
+1974	ss	women	Zoki Yellow	3.52Y 8.14/11.62	23.52
+1977	ss	men	Sunflower Yellow	3.52Y 8.46/10.88	23.52
+1950	ss	women	Moonlight Yellow	3.56Y 7.19/5.71	23.56
+1986-87	na	interiors	Yellow	3.57Y 7.88/11.94	23.57
+2014-15	na	interiors	Dark Grayish Yellow	3.58Y 5.02/4.53	23.58
+2000-01	fw	men	Bench Pine Yellow	3.62Y 6.46/6.23	23.62
+1942	ss	silk	Nosegay Yellow	3.63Y 8.27/3.79	23.63
+1985-86	na	interiors	Citron Yellow	3.63Y 9.41/4.58	23.63
+1959	ss	silk	Yellow Heath	3.64Y 8.92/4.17	23.64
+1955	ss	women	Yellow Dawn	3.67Y 7.87/3.93	23.67
+1996	ss	men	Yachting Yellow	3.70Y 8.04/7.41	23.70
+1984-85	fw	men	Canary Yellow	3.71Y 8.56/11.12	23.71
+1958-59	fw	silk	Venetian Yellow	3.72Y 8.40/8.91	23.72
+1998	ss	youth	Space Yellow	3.72Y 8.56/7.92	23.72
+1980-81	fw	men	Yellow Sting	3.74Y 7.44/6.23	23.74
+1931-32	fw	silk	Minaret Yellow	3.75Y 7.93/10.08	23.75
+1978	ss	women	Opal Yellow	3.77Y 8.74/5.76	23.77
+1955	ss	women	Festive Yellow	3.78Y 7.57/7.88	23.78
+2002	ss	youth	Persian Yellow	3.81Y 8.90/4.79	23.81
+1986	ss	women	Santa Ana Yellow	3.83Y 7.85/7.55	23.83
+1992-93	fw	men	maize yellow	3.83Y 8.24/11.90	23.83
+1999	ss	men	Risotto Yellow	3.88Y 6.53/7.51	23.88
+1995	ss	youth	Beep Yellow	3.88Y 8.37/12.35	23.88
+1992-93	fw	youth	Maize Yellow	3.88Y 8.46/12.20	23.88
+1996-97	fw	youth	Network Yellow	3.88Y 8.50/11.66	23.88
+1981-82	na	interiors	Blossom Yellow	3.89Y 8.32/13.55	23.89
+1956	ss	silk	Mimosa Yellow	3.90Y 7.79/6.39	23.90
+1982-83	na	interiors	Yellow	3.91Y 7.91/7.38	23.91
+1973	ss	men	Yellow Lily	3.92Y 7.78/7.64	23.92
+1994-95	fw	youth	Antiqued Yellow	3.93Y 5.92/7.94	23.93
+1936	ss	women	Nassau Yellow	3.97Y 7.00/9.23	23.97
+1987-88	fw	youth	Pale Orange Yellow	3.97Y 8.49/5.10	23.97
+1936	ss	silk	Chamois Yellow	4.00Y 7.56/4.13	24.00
+1986	ss	youth	Arizona Yellow	4.01Y 8.39/7.79	24.01
+1975	ss	women	Daisy Yellow	4.05Y 7.94/9.62	24.05
+1960	ss	women	Yellow Carnation	4.10Y 7.97/4.27	24.10
+1952	ss	silk	Ceylong Yellow	4.13Y 6.86/7.32	24.13
+1932	ss	women	Canary Yellow	4.13Y 7.60/6.97	24.13
+1993	ss	youth	Lattice Yellow	4.13Y 8.27/11.82	24.13
+2000	ss	women	Lightning Yellow	4.14Y 7.40/10.36	24.14
+2014-15	na	interiors	Vivid Yellow	4.15Y 8.22/12.42	24.15
+1986	ss	men	Gallant Yellow	4.19Y 7.40/9.29	24.19
+1965	ss	silk	Yellow Rose	4.23Y 8.32/4.96	24.23
+1973-74	fw	women	Yellow Fizz	4.24Y 7.33/8.41	24.24
+1982	ss	men	Hint of Yellow	4.27Y 8.68/2.53	24.27
+1936-37	fw	silk	Star Yellow	4.28Y 7.15/8.51	24.28
+1999	ss	men	Terrain Yellow	4.28Y 8.98/4.12	24.28
+1932	ss	women	Sulphur Yellow	4.30Y 6.82/6.34	24.30
+1983-84	fw	men	Kaldez Yellow	4.33Y 8.75/3.66	24.33
+1995-96	fw	men	Dandy Yellow	4.34Y 4.25/5.32	24.34
+1972	ss	women	Feather Yellow	4.37Y 8.59/6.44	24.37
+1996-97	fw	men	Running Yellow	4.40Y 7.36/9.76	24.40
+1999	ss	women	Cornfield Yellow	4.44Y 8.02/8.09	24.44
+1991	ss	youth	Papeete Yellow	4.44Y 8.67/12.03	24.44
+1970-71	fw	women	Light Yellow	4.45Y 7.99/7.61	24.45
+2000	ss	men	Squash Yellow	4.50Y 6.64/7.44	24.50
+2013	ss	men	past prime yellow	4.50Y 7.12/6.09	24.50
+2008	ss	youth	Light Orange Yellow	4.51Y 7.87/6.66	24.51
+1959	ss	women	Yellow Gentian	4.52Y 7.99/5.85	24.52
+1957	ss	silk	Yellow Ive	4.52Y 8.43/3.79	24.52
+1962-63	fw	silk	Electric Yellow	4.54Y 7.86/9.65	24.54
+1990	ss	youth	Dreamy Yellow	4.55Y 8.45/4.83	24.55
+1939	ss	silk	Magic Yellow	4.56Y 7.67/8.19	24.56
+1926	ss	silk	Yellow Daisy	4.60Y 7.43/5.84	24.60
+1995	ss	youth	Sugar Cane Yellow	4.60Y 8.75/6.93	24.60
+1973-74	fw	silk	Lustre Yellow	4.61Y 8.39/8.03	24.61
+1933	ss	women	Candy Yellow	4.65Y 7.25/7.00	24.65
+1970-71	fw	women	Deep Yellow	4.67Y 5.87/7.75	24.67
+1932-33	fw	silk	Crayon Yellow	4.67Y 9.13/5.32	24.67
+2001	ss	youth	Park Yellow	4.72Y 7.65/6.07	24.72
+1998	ss	youth	Ultimate Yellow	4.72Y 8.48/10.73	24.72
+1961	ss	silk	Yellow Mist	4.72Y 8.62/3.86	24.72
+1992	ss	men	Component Yellow	4.73Y 7.12/6.76	24.73
+1932	ss	silk	Basque Yellow	4.74Y 8.10/6.27	24.74
+2000-01	fw	women	Quiet Yellow	4.77Y 7.45/4.53	24.77
+1951	ss	women	Yellow Iris	4.79Y 7.47/4.80	24.79
+1996-97	fw	women	Olive Oil Yellow	4.79Y 7.62/7.83	24.79
+1959	ss	silk	Wild Yellow	4.79Y 7.99/10.77	24.79
+1998	ss	youth	Glowing Yellow	4.80Y 8.62/8.99	24.80
+1988-89	fw	men	Gulf Yellow	4.84Y 8.03/3.17	24.84
+1974	ss	men	Mariposa Yellow	4.84Y 8.40/6.60	24.84
+1932	ss	silk	Yellow Tulip	4.84Y 8.68/6.38	24.84
+2002-03	fw	youth	Whooping Crane Yellow	4.89Y 7.80/4.60	24.89
+1997	ss	youth	Cycle Yellow	4.89Y 8.56/10.07	24.89
+2000-01	fw	youth	Birch Leaf Yellow	4.90Y 9.28/4.95	24.90
+1991-92	fw	youth	jamboree yellow	4.92Y 8.35/10.49	24.92
+2001-02	fw	youth	Stylish Yellow	4.93Y 8.81/9.53	24.93
+2001	ss	youth	Moonlit Yellow	4.93Y 8.88/9.66	24.93
+1935	ss	silk	Boutonniere Yellow	4.94Y 7.90/7.42	24.94
+1958	ss	women	Jewel Yellow	4.95Y 7.49/6.27	24.95
+2003	ss	youth	Lemon Pop Yellow	4.97Y 8.52/14.69	24.97
+1999-2000	na	interiors	Grayish Yellow	5.00Y 7.81/4.63	25.00
+1972	ss	women	Jonquil Yellow	5.01Y 8.21/6.34	25.01
+1954	ss	silk	Jonquil Yellow	5.04Y 8.11/5.74	25.04
+1973	ss	silk	Lotus Yellow	5.05Y 8.89/7.78	25.05
+1929-30	fw	silk	Lemon Yellow	5.10Y 8.91/7.99	25.10
+1989	ss	youth	Square Dance Yellow	5.15Y 8.70/4.09	25.15
+1938-39	fw	silk	Trianon Yellow	5.20Y 7.56/6.72	25.20
+1999	ss	women	Wild Honey Yellow	5.21Y 6.87/8.60	25.21
+2000-01	fw	youth	Buttermilk Yellow	5.21Y 9.13/6.06	25.21
+1940-41	fw	silk	Yellow Moon	5.26Y 6.96/7.27	25.26
+1971	ss	silk	Carnation Yellow	5.32Y 8.97/6.02	25.32
+1985	ss	women	Spring Yellow	5.33Y 8.12/7.14	25.33
+1938	ss	silk	Yellow Mustard	5.40Y 6.67/8.43	25.40
+2000	ss	men	Yellow Sand	5.41Y 8.53/6.45	25.41
+1987	ss	women	Glace Yellow	5.41Y 8.98/4.22	25.41
+1964	ss	silk	Yellow Lily	5.42Y 8.85/5.72	25.42
+1977	ss	men	Narcissus Yellow	5.49Y 8.33/7.38	25.49
+1971	ss	women	Yellow Weegie	5.53Y 8.04/8.42	25.53
+1983	ss	women	Glisten Yellow	5.53Y 8.81/7.72	25.53
+1993-94	fw	youth	Flower Yellow	5.59Y 6.60/5.49	25.59
+1929-30	fw	silk	Mimosa Yellow	5.59Y 8.53/7.45	25.59
+2005	ss	youth	Neon Yellow	5.62Y 7.93/12.12	25.62
+1987	ss	women	Snob Yellow	5.64Y 8.36/9.90	25.64
+1973	ss	silk	Phospho Yellow	5.64Y 8.61/9.04	25.64
+1946	ss	silk	Charm Yellow	5.71Y 7.23/6.69	25.71
+1938	ss	silk	Bouquet Yellow	5.74Y 7.41/6.92	25.74
+1994	ss	youth	Wesselman Yellow	5.75Y 8.65/10.15	25.75
+1996	ss	women	Cajun Yellow	5.76Y 8.57/3.14	25.76
+2003	ss	youth	Wall Floral Yellow	5.78Y 8.02/6.01	25.78
+1985	ss	men	Nautical Yellow	5.78Y 8.32/9.38	25.78
+2007	ss	youth	Vivid Yellow	5.80Y 7.76/12.31	25.80
+2008	ss	youth	Vivid Yellow	5.80Y 7.79/12.12	25.80
+1990	ss	women	Naples Yellow	5.80Y 8.83/8.86	25.80
+1991	ss	women	Yellow	5.80Y 9.21/3.88	25.80
+2003	ss	men	Bolt Yellow	5.85Y 8.13/11.49	25.85
+1931	ss	silk	Opal Yellow	5.85Y 8.14/7.27	25.85
+1950	ss	women	Antibes Yellow	5.87Y 7.87/7.58	25.87
+1988	ss	men	Yellow	5.87Y 9.18/3.97	25.87
+1953	ss	women	Cactus Yellow	5.90Y 7.54/7.38	25.90
+2002	ss	youth	Barnacle Yellow	5.92Y 7.55/3.75	25.92
+1994-95	fw	youth	Yum-Yum Yellow	5.94Y 8.73/8.72	25.94
+1972	ss	women	Primrose Yellow	5.97Y 8.50/4.65	25.97
+2001	ss	men	Equal Yellow	5.98Y 8.71/6.79	25.98
+1968	ss	women	Yellow Sting	6.13Y 7.99/9.80	26.13
+1998	ss	women	Indirectly Yellow	6.14Y 8.18/10.50	26.14
+1945	ss	women	Sunlight Yellow	6.32Y 7.82/5.70	26.32
+1953	ss	women	Yellow Orchid	6.33Y 7.63/3.85	26.33
+1991	ss	women	N.A.S.A. Yellow	6.36Y 9.05/11.61	26.36
+1956	ss	silk	Yellow Plum	6.42Y 6.81/5.26	26.42
+1957	ss	women	Yellow Cloud	6.49Y 7.68/3.86	26.49
+2001	ss	youth	Toy Car Yellow	6.49Y 8.92/7.56	26.49
+1942	ss	women	Candlelight Yellow	6.52Y 7.01/4.51	26.52
+1990-91	fw	youth	Mirror Yellow	6.54Y 8.05/11.81	26.54
+1987-88	na	interiors	Bonnard Yellow	6.55Y 8.88/13.98	26.55
+1998-99	fw	women	Varnish Yellow	6.57Y 6.68/5.68	26.57
+2000	ss	youth	Canario Yellow	6.60Y 7.29/8.35	26.60
+2002	ss	men	Starry Yellow	6.61Y 7.89/4.86	26.61
+1993	ss	youth	Pearl Yellow	6.62Y 8.88/5.08	26.62
+1935	ss	women	Citron Yellow	6.65Y 7.39/5.34	26.65
+1991	ss	youth	Wattle Yellow	6.69Y 9.01/7.62	26.69
+1939-40	fw	silk	Fiesta Yellow	6.72Y 8.03/8.34	26.72
+1974	ss	women	Zircon Yellow	6.72Y 9.06/3.58	26.72
+1954	ss	women	Exciting Yellow	6.79Y 6.95/6.73	26.79
+2004	ss	youth	Beach Yellow	6.79Y 8.25/6.15	26.79
+1997-98	fw	men	Passing-Through Yellow	6.85Y 7.32/4.61	26.85
+1993	ss	youth	Boogie Yellow	6.88Y 8.81/6.07	26.88
+1974	ss	women	Solara Yellow	6.89Y 8.62/6.96	26.89
+1997-98	fw	women	Mystic Yellow	6.93Y 7.00/3.24	26.93
+1983	ss	men	Javelin Yellow	6.94Y 8.51/4.23	26.94
+1967	ss	silk	Citric Yellow	6.96Y 8.67/9.55	26.96
+1970-71	fw	women	Yellow Dynamo	6.97Y 8.12/9.65	26.97
+1970-71	fw	silk	Electric Yellow	6.97Y 8.86/8.05	26.97
+1965	ss	silk	Jelly Bean Yellow	7.03Y 8.60/10.44	27.03
+1964	ss	women	Yellow Spark	7.04Y 8.06/10.69	27.04
+1995-96	fw	women	Brilliant Yellow	7.08Y 7.85/9.97	27.08
+1988-89	na	interiors	yosemite yellow	7.14Y 8.91/5.34	27.14
+1989	ss	women	Yellow	7.18Y 9.21/3.79	27.18
+1976	ss	women	Yellow Tang	7.21Y 8.32/7.95	27.21
+1999-2000	fw	youth	Lightning Bolt Yellow	7.24Y 8.81/10.76	27.24
+1994-95	fw	youth	Top Yellow	7.26Y 8.15/9.78	27.26
+1942	ss	silk	Melody Yellow	7.38Y 8.02/3.92	27.38
+1930-31	fw	silk	Acacia Yellow	7.38Y 8.40/6.95	27.38
+1987	ss	men	Talbot Yellow	7.40Y 8.27/5.55	27.40
+1971-72	fw	men	Yellow Pearl	7.42Y 8.02/6.69	27.42
+2000	ss	youth	Day Lily Yellow	7.50Y 9.04/11.23	27.50
+1971	ss	women	Bambi Yellow	7.69Y 8.12/7.00	27.69
+1992	ss	youth	yonkers yellow	7.70Y 8.53/10.12	27.70
+1984-85	fw	women	Lemon Yellow	7.75Y 8.45/6.84	27.75
+1926-27	fw	women	Linden Yellow	7.85Y 7.25/5.28	27.85
+1993	ss	women	angular yellow	7.91Y 8.18/6.51	27.91
+1949	ss	silk	Yellow Jasmine	7.99Y 8.38/7.17	27.99
+1944	ss	silk	Dulcet Yellow	8.04Y 7.57/6.37	28.04
+1950	ss	silk	Lotus Yellow	8.06Y 8.61/5.84	28.06
+1997	ss	youth	Hopping Yellow	8.06Y 9.05/5.35	28.06
+1997-98	fw	youth	Rock-Climbing Yellow	8.08Y 8.93/8.80	28.08
+1995-96	fw	youth	Mellow Yellow	8.10Y 8.85/9.80	28.10
+1990	ss	youth	Bugs Yellow	8.20Y 8.08/9.98	28.20
+1987-88	fw	men	Arctic Yellow	8.24Y 8.39/2.77	28.24
+1997	ss	youth	Sweet Yellow	8.34Y 8.71/7.79	28.34
+2001	ss	youth	Varnish Yellow	8.42Y 8.56/10.15	28.42
+1987	ss	women	Hollywood Yellow	8.57Y 7.74/6.30	28.57
+1996	ss	youth	Cayman Yellow	8.67Y 8.84/7.94	28.67
+1995-96	fw	men	Tap-Tap Yellow	8.76Y 7.19/8.47	28.76
+1966-67	fw	silk	Pernod Yellow	8.79Y 8.37/8.94	28.79
+1931-32	fw	silk	Indo Yellow	8.85Y 7.29/9.08	28.85
+1996	ss	women	Moonlight Yellow	8.86Y 8.35/9.00	28.86
+1936	ss	silk	Annes Yellow	8.99Y 7.97/5.18	28.99
+1966	ss	silk	Pernod Yellow	9.02Y 8.43/8.92	29.02
+1972	ss	men	Yellow Flash	9.27Y 8.67/9.43	29.27
+1988-89	fw	youth	Yellow	9.48Y 9.25/5.55	29.48
+1991	ss	youth	Bayshore Yellow	9.60Y 9.25/5.21	29.60
+1996-97	fw	youth	Computer Yellow	9.62Y 8.63/10.15	29.62
+2000-01	fw	men	Skylight Yellow	9.86Y 7.58/5.57	29.86
+1993	ss	youth	String Yellow	9.88Y 8.46/9.84	29.88
+1999-2000	na	interiors	Pale Yellow	0.10GY 8.26/3.69	30.10
+1991-92	fw	youth	yap-yap yellow	0.95GY 8.71/5.41	30.95
+2014-15	fw	youth	Moderate Greenish Yellow	1.19GY 7.92/5.67	31.19
+1992	ss	women	Grayish Greenish Yellow	2.41GY 7.95/3.86	32.41
+2001-02	fw	youth	Stick Yellow	5.22GY 8.51/7.99	35.22

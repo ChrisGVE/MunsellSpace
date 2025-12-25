@@ -1,0 +1,362 @@
+Colour name:	mauve
+Number of non-unique CAUS samples:	238
+Number of unique CAUS samples:	181
+Centroid in Munsell coordinates:	1.19RP 5.15/3.85
+Centroid in Cartesian coordinates:	 3.28	-2.02	5.15
+Polyhedron vertices in Munsell coordinates:
+6.12R 7.99/2.53
+9.25R 3.26/1.81
+0.49YR 3.56/1.06
+1.11YR 4.43/2.35
+2.31YR 7.62/1.47
+2.58YR 6.58/1.07
+2.94YR 7.77/1.60
+3.36YR 8.01/2.23
+3.44YR 3.83/2.15
+4.89YR 7.01/2.49
+4.91YR 6.00/2.22
+7.06YR 5.69/1.37
+7.81PB 4.73/3.17
+8.91PB 4.00/3.88
+9.77PB 6.25/4.27
+9.95PB 3.53/4.88
+0.70P 4.22/5.53
+1.27P 4.66/5.88
+1.71P 7.22/2.32
+2.64P 3.10/2.14
+2.84P 6.16/4.85
+3.29P 3.38/6.76
+3.64P 3.95/6.80
+5.12P 4.78/7.07
+5.60P 6.71/4.93
+5.71P 5.68/0.90
+6.27P 7.15/3.67
+6.95P 2.29/3.18
+8.01P 4.25/7.90
+8.56P 7.45/3.31
+9.86P 5.26/8.24
+9.86P 6.98/5.40
+0.42RP 3.05/1.16
+1.20RP 3.27/6.02
+1.59RP 6.00/8.41
+1.94RP 5.27/9.13
+2.79RP 4.44/7.92
+3.10RP 2.42/2.94
+3.49RP 4.65/7.79
+5.49RP 7.20/5.95
+6.70RP 3.05/3.83
+7.60RP 6.85/6.00
+8.11RP 5.34/5.57
+8.92RP 4.34/5.15
+Polyhedron vertices in Cartesian coordinates:
+2.35	0.95	7.99
+1.51	0.99	3.26
+0.84	0.65	3.56
+1.80	1.51	4.43
+1.05	1.03	7.62
+0.75	0.76	6.58
+1.10	1.16	7.77
+1.49	1.66	8.01
+1.43	1.61	3.83
+1.48	2.00	7.01
+1.32	1.79	6.00
+0.66	1.20	5.69
+0.56	-3.12	4.73
+0.94	-3.76	4.00
+1.26	-4.08	6.25
+1.49	-4.65	3.53
+1.94	-5.18	4.22
+2.26	-5.43	4.66
+0.95	-2.12	7.22
+0.99	-1.90	3.10
+2.29	-4.27	6.16
+3.36	-5.86	3.38
+3.51	-5.82	3.95
+4.20	-5.69	4.78
+3.05	-3.88	6.71
+0.56	-0.70	5.68
+2.39	-2.79	7.15
+2.17	-2.32	2.29
+5.76	-5.40	4.25
+2.49	-2.18	7.45
+6.62	-4.90	5.26
+4.34	-3.21	6.98
+0.96	-0.66	3.05
+5.12	-3.16	3.27
+7.26	-4.24	6.00
+7.98	-4.43	5.27
+7.12	-3.47	4.44
+2.67	-1.24	2.42
+7.15	-3.10	4.65
+5.71	-1.66	7.20
+3.75	-0.79	3.05
+5.93	-0.90	6.85
+5.53	-0.66	5.34
+5.14	-0.35	4.34
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+16	22	28
+9	12	3
+16	14	13
+15	16	13
+3	26	13
+12	26	3
+12	11	10
+11	9	10
+9	11	12
+20	16	28
+20	14	16
+14	20	13
+40	32	30
+35	32	40
+1	40	30
+8	1	30
+7	12	10
+8	7	10
+35	42	36
+42	35	40
+1	42	40
+44	42	10
+42	1	8
+42	8	10
+9	4	10
+4	44	10
+44	4	9
+2	44	9
+2	9	3
+38	2	28
+37	29	36
+33	20	28
+2	33	28
+33	2	3
+33	3	13
+20	33	13
+15	17	16
+18	17	15
+16	17	22
+17	18	22
+24	29	22
+24	18	15
+6	26	12
+7	6	12
+19	15	13
+26	19	13
+6	19	26
+27	19	30
+19	8	30
+19	7	8
+42	39	36
+39	37	36
+37	39	44
+41	37	44
+2	41	44
+41	2	38
+18	23	22
+23	24	22
+24	23	18
+29	31	36
+24	31	29
+31	35	36
+31	24	35
+25	32	35
+24	25	35
+19	25	15
+25	19	27
+32	25	30
+25	27	30
+5	6	7
+19	5	7
+5	19	6
+43	42	44
+39	43	44
+43	39	42
+34	41	38
+41	34	37
+34	38	28
+22	34	28
+29	34	22
+37	34	29
+21	24	15
+25	21	15
+21	25	24
+Unique samples, with Munsell coordinates, from CAUS data:
+1964	ss	silk	Mauve Mist	0.50R 7.73/3.20	0.50
+1942	ss	silk	Moonlight Mauve	0.73R 7.19/5.08	0.73
+1927	ss	women	Mauve Dust	0.89R 4.65/2.13	0.89
+1935-36	fw	silk	Dawnmauve	0.90R 7.06/2.75	0.90
+1962	ss	women	Mauvette	0.92R 6.99/5.18	0.92
+1928-29	fw	silk	Mauverose	1.00R 4.33/7.26	1.00
+2000-01	fw	women	Knitter's Mauve	1.56R 3.50/2.48	1.56
+1987-88	fw	women	Tornado Mauve	2.21R 3.74/1.17	2.21
+1982-83	fw	men	Classic Mauve	2.38R 4.41/3.34	2.38
+1931-32	fw	silk	Mauve Sweet	2.76R 7.50/3.35	2.76
+1957	ss	women	Heavenly Mauve	3.01R 5.84/3.55	3.01
+1927	ss	women	Mauve Castor	3.11R 4.28/2.50	3.11
+1926-27	fw	silk	Mauve Castor	3.44R 4.56/1.93	3.44
+1926-27	fw	silk	Mauveglow	4.99R 6.52/1.70	4.99
+1933	ss	silk	Mauvedew	5.39R 7.18/2.43	5.39
+1958	ss	silk	Mauve Ice	6.12R 7.99/2.53	6.12
+1929-30	fw	silk	Mauve Brown	9.25R 3.26/1.81	9.25
+2001-02	fw	men	Sunset Mauve	0.49YR 3.56/1.06	10.49
+1931-32	fw	women	Mauvesand	1.11YR 4.43/2.35	11.11
+1985-86	na	interiors	Mauve	2.31YR 7.62/1.47	12.31
+1933	ss	silk	Haze Mauve	2.58YR 6.58/1.07	12.58
+1931-32	fw	silk	Mauve White	2.66YR 8.99/2.12	12.66
+1930-31	fw	silk	Mauve mist	2.94YR 7.77/1.60	12.94
+1926-27	fw	women	Mauvewood	3.00YR 2.69/3.10	13.00
+1932	ss	silk	Mauve Crystal	3.36YR 8.01/2.23	13.36
+1999-2000	fw	men	Desert Mauve	3.44YR 3.83/2.15	13.44
+1985	ss	men	Mauve Taupe	3.87YR 5.57/1.60	13.87
+1989-90	na	interiors	mauve beige	4.21YR 6.89/1.98	14.21
+1955	ss	women	Mist Mauve	4.89YR 7.01/2.49	14.89
+1931	ss	silk	Mauve Bisque	4.91YR 6.00/2.22	14.91
+1989-90	fw	men	Grey Mauve	6.38YR 3.57/0.51	16.38
+1934	ss	silk	Crystal Mauve	7.06YR 5.69/1.37	17.06
+1987-88	fw	youth	Mauve Gray	1.40Y 7.32/3.21	21.40
+1986	ss	men	Morvich Mauve	0.50G 7.70/0.11	40.50
+1986	ss	men	Cavalcade Mauve	6.83PB 4.56/1.81	76.83
+1988-89	fw	youth	Mauve	6.88PB 7.86/2.42	76.88
+1985	ss	men	Rod n' Reel Mauve	7.78PB 5.74/4.07	77.78
+1947-48	fw	women	Mauve Glaze	7.81PB 4.73/3.17	77.81
+1940-41	fw	women	Desert Mauve	8.65PB 3.70/5.49	78.65
+1951-52	fw	women	Mauve Dusk	8.91PB 4.00/3.88	78.91
+1950-51	fw	women	Crayon Mauve	8.98PB 3.07/3.89	78.98
+1956	ss	women	Sistine Mauve	9.60PB 5.31/3.88	79.60
+1989	ss	men	Massaccio Mauve	9.77PB 6.25/4.27	79.77
+1956-57	fw	women	Silver Mauve	9.79PB 4.54/4.34	79.79
+1956-57	fw	women	Mauve Twilight	9.95PB 3.53/4.88	79.95
+1959-60	fw	women	Mauve Spark	9.98PB 3.76/6.70	79.98
+1958	ss	women	Rustic Mauve	0.20P 4.25/4.43	80.20
+1991-92	na	interiors	delos mauve	0.29P 3.91/3.73	80.29
+1957	ss	silk	Mauve Cornflower	0.38P 4.21/7.80	80.38
+1940	ss	women	Horizon Mauve	0.53P 4.31/3.90	80.53
+1953-54	fw	women	Mauve Periwinkle	0.70P 4.22/5.53	80.70
+2005	ss	men	Dozing Mauve	0.85P 4.31/3.65	80.85
+1951	ss	women	Blueberry Mauve	1.00P 2.85/6.11	81.00
+1953	ss	women	Tender Mauve	1.04P 5.13/2.96	81.04
+1958-59	fw	women	Cruise Mauve	1.27P 4.66/5.88	81.27
+1989-90	na	interiors	mauve grey	1.27P 6.38/3.05	81.27
+1958	ss	silk	Blossom Mauve	1.60P 5.03/7.67	81.60
+1957-58	fw	women	Mauve Gem	1.65P 4.66/5.56	81.65
+1986	ss	women	Lamar Mauve	1.67P 5.20/4.66	81.67
+1985	ss	women	Trumpet Mauve	1.71P 7.22/2.32	81.71
+2000-01	fw	men	Imported Mauve	1.74P 4.20/3.98	81.74
+1957-58	fw	women	Verbena Mauve	1.95P 5.18/3.77	81.95
+1946	ss	silk	Sentimental Mauve	1.98P 4.99/5.39	81.98
+1950-51	fw	silk	Viennese Mauve	2.00P 1.97/4.97	82.00
+1939	ss	women	Wistaria Mauve	2.13P 4.49/5.03	82.13
+1954	ss	women	French Mauve	2.24P 5.14/3.85	82.24
+1949	ss	women	Wedgewood Mauve	2.33P 4.83/2.30	82.33
+2003-04	fw	youth	Vintage Mauve	2.64P 3.10/2.14	82.64
+1953	ss	silk	Charm Mauve	2.84P 6.16/4.85	82.84
+1954-55	fw	women	Florentine Mauve	3.29P 3.38/6.76	83.29
+1956-57	fw	silk	Mauve Thistle	3.64P 3.95/6.80	83.64
+1988-89	fw	men	Mountain Mauve	3.85P 3.71/4.43	83.85
+1995	ss	youth	Auto mechanic Mauve	4.31P 4.56/4.01	84.31
+1990-91	na	interiors	madras mauve	4.33P 4.66/5.95	84.33
+1938-39	fw	women	Twilight Mauve	4.52P 3.32/2.26	84.52
+1939-40	fw	women	Rico Mauve	4.77P 3.23/4.67	84.77
+1939	ss	women	Sky Mauve	5.02P 3.82/6.57	85.02
+1947	ss	silk	Tulip Mauve	5.12P 4.78/7.07	85.12
+1952-53	fw	women	Mauve CLover	5.30P 4.89/5.47	85.30
+1988-89	fw	men	Montego Mauve	5.39P 6.75/1.98	85.39
+1953-54	fw	silk	Parma Mauve	5.41P 5.31/5.80	85.41
+1950	ss	silk	Mauvelite	5.60P 6.71/4.93	85.60
+1952	ss	women	Bouquet Mauve	5.71P 5.68/0.90	85.71
+1987-88	na	interiors	Mountain Mauve	5.76P 6.83/5.61	85.76
+2003	ss	youth	Tea Set Mauve	5.84P 5.42/3.24	85.84
+1940	ss	silk	Pearl Mauve	6.02P 5.98/2.65	86.02
+1949	ss	women	Mauve Lily	6.15P 4.61/5.50	86.15
+1957-58	fw	silk	Mauve Petal	6.25P 5.08/4.77	86.25
+1990	ss	men	Mauve	6.27P 7.15/3.67	86.27
+1958	ss	women	Mauve Opal	6.37P 5.53/4.00	86.37
+2002	ss	women	Forget-me-not Mauve	6.92P 3.70/4.67	86.92
+1952-53	fw	silk	Plum Mauve	6.95P 2.29/3.18	86.95
+1957-58	fw	silk	Lyric Mauve	7.12P 5.38/4.89	87.12
+1955-56	fw	silk	Du Barry Mauve	7.18P 5.23/6.29	87.18
+1947-48	fw	silk	Limpid Mauve	7.51P 5.73/4.40	87.51
+1945	ss	women	Mauve Sky	7.52P 5.29/4.36	87.52
+1998-99	fw	women	Victorian Mauve	7.65P 4.26/3.13	87.65
+1949-50	fw	silk	Muted Mauve	7.76P 4.19/2.91	87.76
+1950-51	fw	women	Mauvehaze	7.95P 4.75/2.31	87.95
+1945-46	fw	women	Mauve Dahlia	7.96P 2.50/7.58	87.96
+1931	ss	silk	Victorian Mauve	8.01P 4.25/7.90	88.01
+1990	ss	men	Mauved Gray	8.02P 4.46/2.90	88.02
+1939-40	fw	silk	Mauve Hyacinth	8.45P 5.90/6.33	88.45
+1954	ss	silk	Mauve Shadow	8.56P 7.45/3.31	88.56
+1996-97	fw	women	Accidental Mauve	8.67P 5.39/6.91	88.67
+1988-89	fw	youth	Agatha Mauve	8.68P 7.19/3.86	88.68
+1986-87	fw	youth	Marble Mauve	8.85P 5.11/2.88	88.85
+1989-90	fw	men	Mauve	9.53P 6.30/4.33	89.53
+1958-59	fw	women	Mulberry Mauve	9.62P 4.11/4.48	89.62
+1953	ss	women	Mauve Lotus	9.69P 5.68/3.14	89.69
+1989	ss	youth	Marilyn's Mauve	9.86P 5.26/8.24	89.86
+1986	ss	youth	Mockingbird Mauve	9.86P 6.98/5.40	89.86
+1989-90	fw	women	Mauve	9.94P 6.91/2.52	89.94
+1955	ss	silk	Mauvebloom	0.03RP 6.79/5.70	90.03
+1945-46	fw	silk	Blush Mauve	0.16RP 5.67/5.99	90.16
+1996-97	fw	men	TLC Mauve	0.42RP 3.05/1.16	90.42
+1950	ss	women	Dulcet Mauve	0.58RP 5.43/2.99	90.58
+1948	ss	women	Monet Mauve	0.69RP 5.49/3.79	90.69
+1953	ss	silk	Magenta Mauve	0.75RP 4.87/7.71	90.75
+1945	ss	silk	Cyclamen Mauve	0.81RP 5.19/7.81	90.81
+1949	ss	silk	Mauve Helio	1.10RP 6.60/3.94	91.10
+1936-37	fw	silk	Amethyst Mauve	1.20RP 3.27/6.02	91.20
+1983	ss	men	Monopoly Mauve	1.39RP 6.20/1.95	91.39
+1939	ss	silk	Romance Mauve	1.58RP 5.50/6.21	91.58
+1979	ss	women	Mode Mauve	1.58RP 5.51/7.02	91.58
+1943	ss	women	China Mauve	1.59RP 5.37/3.74	91.59
+2000	ss	women	Mademoiselle Mauve	1.59RP 6.00/8.41	91.59
+1948-49	fw	silk	Waterlily mauve	1.67RP 4.69/6.41	91.67
+1928-29	fw	women	Dahlia Mauve	1.89RP 3.88/6.60	91.89
+1968-69	fw	women	Rose Mauve	1.94RP 5.27/9.13	91.94
+1984-85	fw	women	Pale Mauve	2.12RP 5.83/1.95	92.12
+1925	ss	silk	Old Mauve	2.13RP 4.19/4.26	92.13
+1999	ss	women	Royal Mauve	2.21RP 3.79/3.34	92.21
+1950	ss	women	celestial mauve	2.28RP 5.45/3.14	92.28
+1947	ss	women	Summer Mauve	2.54RP 5.68/4.57	92.54
+1967	ss	women	Misty Mauve	2.61RP 6.22/7.02	92.61
+1946-47	fw	silk	Paris Mauve	2.79RP 4.44/7.92	92.79
+1988	ss	women	Anemone Mauve	2.79RP 4.73/9.76	92.79
+1949-50	fw	women	Mauveleaf	2.97RP 3.15/4.15	92.97
+1941	ss	silk	Flower Mauve	3.06RP 6.55/4.95	93.06
+1999-2000	fw	youth	Train Parlor Mauve	3.10RP 2.42/2.94	93.10
+1983-84	na	interiors	Pekin Mauve	3.13RP 4.29/1.93	93.13
+1955	ss	women	Carib Mauve	3.18RP 5.77/2.72	93.18
+1986-87	fw	youth	Alpenglow Mauve	3.29RP 5.95/6.02	93.29
+1927-28	fw	silk	Opera Mauve	3.29RP 6.16/5.31	93.29
+1944-45	fw	women	Mauve Plum	3.37RP 3.50/4.38	93.37
+1946	ss	silk	Tropic Mauve	3.49RP 4.65/7.79	93.49
+1972	ss	men	Opal Mauve	3.64RP 6.51/5.86	93.64
+1974-75	fw	women	Mauvette Pink	3.95RP 6.31/10.30	93.95
+1948	ss	silk	Mauve Heather	3.96RP 3.84/2.47	93.96
+1943-44	fw	women	Rose Mauve	4.13RP 3.97/3.96	94.13
+2002-03	fw	women	Chevreul's Mauve	4.66RP 4.38/3.71	94.66
+1987-88	fw	men	Mill River Mauve	4.71RP 3.81/1.62	94.71
+1940-41	fw	silk	Mauve Orchid	4.75RP 6.52/4.15	94.75
+1954	ss	women	Mauve Pearl	4.91RP 5.71/1.99	94.91
+1931	ss	silk	Orchid Mauve	5.41RP 6.36/4.78	95.41
+1985-86	fw	men	Smokey Mauve	5.45RP 4.87/5.41	95.45
+1978	ss	women	Mauve Petite	5.49RP 7.20/5.95	95.49
+1944	ss	women	Mauve Lilac	5.82RP 5.03/5.53	95.82
+1985	ss	men	Monterey Mauve	5.83RP 4.38/4.05	95.83
+1933	ss	silk	Heather Mauve	5.93RP 5.04/1.19	95.93
+1943-44	fw	silk	Rose Mauve	5.98RP 4.86/4.58	95.98
+2003-04	fw	women	Theatrical Mauve	6.02RP 4.17/2.76	96.02
+1947-48	fw	women	Mauve Pink	6.04RP 4.99/4.96	96.04
+1934-35	fw	silk	Mauvedawn	6.19RP 6.65/2.01	96.19
+1998-99	fw	men	Mile's Mauve	6.48RP 2.60/1.73	96.48
+1948	ss	silk	Dream Mauve	6.65RP 6.57/3.77	96.65
+1939-40	fw	women	Mauve Raspberry	6.70RP 3.05/3.83	96.70
+1935	ss	silk	Empire Mauve	7.52RP 7.44/1.79	97.52
+1954-55	fw	silk	Williamsburg Mauve	7.57RP 5.53/3.87	97.57
+1951-52	fw	silk	Bonbon Mauve	7.57RP 6.33/4.28	97.57
+1972	ss	men	Mauve Shell	7.60RP 6.85/6.00	97.60
+1930-31	fw	silk	Mauve Orchide	7.72RP 5.84/4.48	97.72
+1946-47	fw	women	CLover mauve	7.99RP 5.02/5.13	97.99
+1952	ss	silk	Mystic Mauve	8.01RP 5.04/3.98	98.01
+1944	ss	silk	Mauve Lilac	8.11RP 5.34/5.57	98.11
+1999-2000	fw	men	Floral Mauve	8.92RP 4.34/5.15	98.92
+1981-82	fw	women	Mauve Magic	8.94RP 4.60/2.77	98.94
+1935	ss	silk	Antique Mauve	9.56RP 6.27/4.40	99.56
+1949-50	fw	women	Ashmauve	9.76RP 4.60/3.45	99.76
+1987-88	fw	men	Frost Mauve	9.84RP 7.74/2.31	99.84

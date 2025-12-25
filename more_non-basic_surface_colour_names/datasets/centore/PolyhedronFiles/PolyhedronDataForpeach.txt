@@ -1,0 +1,219 @@
+Colour name:	peach
+Number of non-unique CAUS samples:	130
+Number of unique CAUS samples:	102
+Centroid in Munsell coordinates:	2.89YR 7.03/5.86
+Centroid in Cartesian coordinates:	 4.04	 4.24	7.03
+Polyhedron vertices in Munsell coordinates:
+7.90R 6.04/6.23
+8.07R 6.54/5.31
+8.13R 6.89/9.12
+8.31R 6.13/8.67
+8.82R 7.40/5.78
+9.31R 7.73/5.44
+9.57R 7.84/7.39
+9.68R 7.90/5.36
+0.49YR 6.45/8.53
+0.92YR 7.34/8.48
+2.17YR 5.00/5.81
+2.43YR 7.72/7.71
+4.68YR 8.23/5.87
+5.51YR 7.99/2.71
+5.54YR 8.59/3.16
+5.94YR 6.27/4.13
+6.47YR 5.93/5.32
+6.52YR 6.10/6.62
+6.87YR 7.67/7.53
+7.40YR 8.33/2.94
+7.84YR 7.06/6.52
+8.05YR 6.46/4.56
+8.08YR 8.49/5.07
+8.58YR 7.80/6.23
+8.88YR 8.49/5.14
+9.16YR 7.62/2.91
+9.24YR 8.42/4.39
+9.68YR 8.37/5.16
+Polyhedron vertices in Cartesian coordinates:
+5.48	2.97	6.04
+4.64	2.58	6.54
+7.96	4.46	6.89
+7.51	4.32	6.13
+4.91	3.04	7.40
+4.54	3.00	7.73
+6.09	4.18	7.84
+4.40	3.06	7.90
+6.74	5.22	6.45
+6.56	5.37	7.34
+4.19	4.02	5.00
+5.48	5.43	7.72
+3.55	4.68	8.23
+1.52	2.24	7.99
+1.77	2.62	8.59
+2.23	3.48	6.27
+2.72	4.57	5.93
+3.36	5.70	6.10
+3.68	6.57	7.67
+1.35	2.61	8.33
+2.84	5.87	7.06
+1.93	4.13	6.46
+2.14	4.60	8.49
+2.45	5.73	7.80
+1.93	4.76	8.49
+1.04	2.72	7.62
+1.55	4.11	8.42
+1.69	4.87	8.37
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+1	2	3
+2	1	11
+16	22	26
+14	16	26
+16	2	11
+16	14	2
+18	9	19
+9	18	11
+4	1	3
+1	4	11
+9	4	3
+4	9	11
+7	10	3
+10	9	3
+9	10	19
+14	6	2
+6	14	15
+27	25	15
+20	14	26
+14	20	15
+27	20	26
+20	27	15
+18	17	11
+17	18	22
+17	16	11
+16	17	22
+18	21	22
+21	24	22
+21	18	19
+24	21	19
+10	12	19
+12	10	7
+12	25	19
+7	8	15
+8	6	15
+8	7	3
+6	8	3
+2	5	3
+5	6	3
+6	5	2
+28	24	19
+25	28	19
+28	25	27
+28	27	26
+24	28	22
+22	28	26
+23	7	15
+25	23	15
+12	13	25
+13	23	25
+13	12	7
+23	13	7
+Unique samples, with Munsell coordinates, from CAUS data:
+1988	ss	youth	Peach	3.08R 7.96/4.82	3.08
+1986-87	fw	women	Peach Pink	4.88R 5.55/13.40	4.88
+1967	ss	silk	Peachie Coral	6.73R 7.56/7.86	6.73
+1986	ss	women	Woodland Peach	7.07R 6.22/12.95	7.07
+1948-49	fw	silk	Candied Peach	7.90R 6.04/6.23	7.90
+1942	ss	women	Peach Pink	8.07R 6.54/5.31	8.07
+1975-76	fw	men	Souffle Peach	8.13R 6.89/9.12	8.13
+1920-21	fw	silk	Peach	8.31R 6.13/8.67	8.31
+1961	ss	women	Salmon Peach	8.80R 6.82/6.90	8.80
+1986-87	na	interiors	Meridian Peach	8.82R 7.40/5.78	8.82
+1926-27	fw	silk	Peach Blush	9.02R 5.38/5.83	9.02
+1989-90	na	interiors	peach	9.14R 7.19/6.06	9.14
+1956-57	fw	women	Peachglaze	9.20R 6.07/7.32	9.20
+1987-88	na	interiors	Giotto Peach	9.27R 7.53/6.11	9.27
+1991-92	na	interiors	charbonneau peach	9.31R 7.73/5.44	9.31
+1976-77	fw	men	Cameo Peach	9.57R 7.84/7.39	9.57
+1967	ss	silk	Shell Peach	9.63R 7.75/5.90	9.63
+1988-89	fw	youth	Peach	9.68R 7.90/5.36	9.68
+1974	ss	men	Candy Peach	9.79R 7.16/7.73	9.79
+1947	ss	silk	Peach Shell	9.82R 6.83/5.77	9.82
+1987	ss	youth	Peach	9.97R 7.33/6.40	9.97
+1956	ss	women	Peach Cream	0.29YR 6.60/5.57	10.29
+1950	ss	silk	Peach Ice	0.38YR 7.12/4.96	10.38
+1989	ss	men	Peach Sundae	0.49YR 6.45/8.53	10.49
+1994	ss	youth	Marlene's Peach	0.68YR 7.69/6.20	10.68
+1976-77	fw	women	Spicy Peach	0.92YR 7.34/8.48	10.92
+1931-32	fw	silk	Peach Cream	1.27YR 7.57/5.28	11.27
+1973	ss	women	Pipsie Peach	1.30YR 7.60/6.61	11.30
+1971-72	fw	women	Peachie Blush	1.35YR 7.76/8.60	11.35
+1952-53	fw	silk	Glace Peach	1.68YR 6.68/6.92	11.68
+1988-89	na	interiors	hera peach	1.82YR 7.43/7.00	11.82
+1982	ss	women	Peach	2.06YR 7.68/6.31	12.06
+1926-27	fw	women	Peach Bisque	2.17YR 5.00/5.81	12.17
+1947-48	fw	women	Peach Tan	2.34YR 5.04/4.89	12.34
+1959	ss	silk	Peach Quartz	2.35YR 8.02/5.76	12.35
+1974-75	fw	women	Mandarin Peach	2.43YR 7.72/7.71	12.43
+1979	ss	women	Prism Peach	2.45YR 7.89/5.24	12.45
+1999	ss	women	Outback peach	2.48YR 7.21/5.06	12.48
+2006	ss	women	Peach Blossom	2.55YR 6.68/5.32	12.55
+1995	ss	women	Peach Skin	2.83YR 7.95/3.88	12.83
+1977-78	fw	men	Peach Champagne	2.84YR 8.33/4.36	12.84
+1988	ss	men	Peach	2.94YR 8.87/3.60	12.94
+1935	ss	silk	Peachglow	3.04YR 7.47/4.43	13.04
+1946	ss	women	Crushed Peach	3.10YR 6.92/4.99	13.10
+1989	ss	women	Peach	3.11YR 9.06/2.49	13.11
+1983	ss	men	Pole Vault Peach	3.23YR 7.74/6.54	13.23
+1933	ss	silk	Peachstone	3.39YR 6.87/4.62	13.39
+1947-48	fw	women	Iced Peach	3.41YR 6.82/4.73	13.41
+1967	ss	women	Tender Peach	3.61YR 6.67/5.61	13.61
+1957-58	fw	silk	Brandied Peach	3.66YR 5.10/6.63	13.66
+1975	ss	women	Peachette	3.95YR 7.46/7.39	13.95
+1952	ss	women	Peach Liqueur	4.40YR 6.65/4.57	14.40
+1976	ss	men	Peach	4.50YR 7.59/5.20	14.50
+1978-79	fw	women	Petal Peach	4.66YR 7.96/6.30	14.66
+1969	ss	silk	Peach Meringue	4.68YR 8.23/5.87	14.68
+1965-66	fw	women	Pale Peach	4.69YR 7.82/5.82	14.69
+1961	ss	silk	Peachbloom	4.94YR 8.15/5.30	14.94
+1929	ss	silk	Peachbeige	4.95YR 7.89/3.85	14.95
+1953-54	fw	women	Peach Brandy	5.04YR 5.26/6.69	15.04
+1933	ss	women	Peachstone	5.09YR 5.92/5.07	15.09
+1928	ss	silk	Peachbeige	5.18YR 7.35/3.91	15.18
+1986	ss	men	Campfire Peach	5.51YR 7.99/2.71	15.51
+1972	ss	men	Persian Peach	5.53YR 7.12/8.55	15.53
+1963	ss	silk	Peach Foam	5.54YR 8.59/3.16	15.54
+1978-79	fw	women	Champeach	5.61YR 7.65/4.86	15.61
+1951	ss	women	Peach Whip	5.91YR 7.39/5.80	15.91
+1934	ss	women	Honey Peach	5.94YR 6.27/4.13	15.94
+1998-99	fw	men	Plaintive Peach	5.96YR 4.73/5.00	15.96
+1978	ss	women	Peach	6.03YR 7.48/5.71	16.03
+1997-98	fw	women	Fuzzy Peach	6.13YR 7.37/3.75	16.13
+1963	ss	women	Pickled Peach	6.47YR 5.93/5.32	16.47
+1973-74	fw	women	Toasty Peach	6.52YR 6.10/6.62	16.52
+1975	ss	silk	Pepsi Peach	6.53YR 7.73/6.83	16.53
+1972	ss	women	Poco Peach	6.81YR 8.39/5.01	16.81
+1984-85	fw	women	Peach	6.86YR 7.42/7.04	16.86
+1997	ss	women	Ascot Peach	6.87YR 7.67/7.53	16.87
+1928	ss	women	Peachbeige	6.89YR 6.46/4.16	16.89
+1931	ss	silk	Peachtint	7.40YR 8.33/2.94	17.40
+1998-99	fw	youth	Giant Peach	7.60YR 8.42/4.32	17.60
+1966-67	fw	silk	Fresh Peach	7.66YR 8.30/5.31	17.66
+1944	ss	silk	Peach Bud	7.72YR 7.15/6.46	17.72
+1962	ss	women	Peach Spark	7.73YR 6.30/6.87	17.73
+1966	ss	silk	Fresh Peach	7.75YR 8.32/5.37	17.75
+1959	ss	women	Peach Primrose	7.76YR 7.47/4.75	17.76
+2000	ss	youth	Salamander Peach	7.84YR 7.06/6.52	17.84
+1935	ss	women	Peachdew	7.97YR 7.32/4.10	17.97
+1966	ss	women	Pretty Peach	8.04YR 7.28/5.68	18.04
+1930	ss	women	Peachskin	8.05YR 6.46/4.56	18.05
+1971	ss	silk	Sweet Peach	8.08YR 8.49/5.07	18.08
+1983-84	na	interiors	Nanking Peach	8.18YR 8.71/4.63	18.18
+1961	ss	women	Peach Cologne	8.58YR 7.80/6.23	18.58
+1965	ss	women	Peach Puff	8.59YR 7.32/4.89	18.59
+1962	ss	silk	Ivory Peach	8.62YR 8.41/2.10	18.62
+1987-88	fw	women	Peach Blossom	8.80YR 8.35/4.48	18.80
+1970	ss	silk	Peach Cream	8.88YR 8.49/5.14	18.88
+1988-89	fw	men	Bahama Peach	9.16YR 7.62/2.91	19.16
+1958	ss	silk	Peach Souffle	9.24YR 8.42/4.39	19.24
+1975	ss	women	Perfect Peach	9.64YR 7.84/7.16	19.64
+1974-75	fw	men	Precious Peach	9.68YR 8.37/5.16	19.68
+1968-69	fw	silk	Peach Frost	0.49Y 8.66/4.42	20.49
+1974	ss	women	Peach Frost	2.16Y 8.70/3.06	22.16
+1986-87	fw	men	Tinted Peach	2.57Y 8.17/2.20	22.57

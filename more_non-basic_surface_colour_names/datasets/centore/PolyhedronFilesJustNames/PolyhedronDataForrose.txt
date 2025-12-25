@@ -1,0 +1,675 @@
+Colour name:	rose
+Number of CAUS samples:	467
+Centroid in Munsell coordinates:	0.47R 4.99/7.69
+Centroid in Cartesian coordinates:	 7.69	 0.23	4.99
+Polyhedron vertices in Munsell coordinates:
+0.02R 4.07/14.69
+0.55R 5.26/15.70
+1.72R 6.61/11.11
+2.55R 8.10/5.89
+3.10R 4.01/14.08
+3.32R 2.34/7.90
+3.46R 2.27/6.38
+3.60R 5.23/13.11
+4.57R 4.25/13.04
+5.05R 3.31/11.62
+5.54R 7.24/8.29
+6.11R 2.54/7.01
+6.28R 5.78/10.48
+6.94R 8.20/3.98
+7.58R 3.11/3.92
+7.94R 8.01/5.04
+8.61R 8.20/3.02
+8.78R 7.29/7.40
+0.88YR 3.25/4.16
+1.43YR 8.10/3.08
+1.63YR 7.34/6.73
+1.95YR 5.12/8.44
+4.04YR 8.05/4.13
+4.31YR 3.65/2.95
+6.31YR 7.30/4.81
+6.78YR 5.95/3.50
+7.22YR 7.03/3.88
+9.82YR 7.74/1.86
+9.64P 3.17/7.64
+0.94RP 3.55/9.69
+0.98RP 2.37/7.71
+1.48RP 6.13/7.76
+2.21RP 4.76/11.35
+2.57RP 6.31/2.91
+2.99RP 2.92/4.63
+3.60RP 3.79/13.15
+3.68RP 3.64/12.72
+3.86RP 5.90/11.02
+4.99RP 2.53/5.14
+5.65RP 3.32/12.10
+5.96RP 6.78/9.21
+6.08RP 2.52/8.32
+6.43RP 6.90/2.57
+6.85RP 3.60/13.16
+7.36RP 6.00/13.71
+7.62RP 2.42/7.82
+7.74RP 4.42/15.38
+8.05RP 3.69/13.78
+8.14RP 3.06/11.40
+9.37RP 4.18/15.03
+9.67RP 2.53/8.60
+Polyhedron vertices in Cartesian coordinates:
+14.69	0.02	4.07
+15.69	0.54	5.26
+11.05	1.20	6.61
+5.81	0.94	8.10
+13.81	2.73	4.01
+7.73	1.64	2.34
+6.23	1.38	2.27
+12.78	2.94	5.23
+12.51	3.69	4.25
+11.04	3.63	3.31
+7.79	2.83	7.24
+6.50	2.63	2.54
+9.67	4.03	5.78
+3.61	1.68	8.20
+3.48	1.80	3.11
+4.43	2.41	8.01
+2.59	1.56	8.20
+6.30	3.88	7.29
+3.23	2.63	3.25
+2.32	2.03	8.10
+5.01	4.49	7.34
+6.17	5.76	5.12
+2.62	3.19	8.05
+1.84	2.31	3.65
+2.50	4.11	7.30
+1.73	3.04	5.95
+1.82	3.43	7.03
+0.59	1.76	7.74
+6.08	-4.63	3.17
+8.16	-5.22	3.55
+6.50	-4.14	2.37
+6.67	-3.96	6.13
+10.02	-5.34	4.76
+2.60	-1.31	6.31
+4.19	-1.97	2.92
+12.10	-5.15	3.79
+11.73	-4.92	3.64
+10.21	-4.15	5.90
+4.89	-1.59	2.53
+11.65	-3.27	3.32
+8.91	-2.31	6.78
+8.07	-2.03	2.52
+2.51	-0.57	6.90
+12.90	-2.59	3.60
+13.52	-2.26	6.00
+7.73	-1.17	2.42
+15.23	-2.18	4.42
+13.68	-1.68	3.69
+11.32	-1.33	3.06
+15.02	-0.59	4.18
+8.60	-0.18	2.53
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+24	26	28
+24	19	22
+10	9	22
+34	32	29
+34	24	28
+32	38	33
+17	32	28
+32	17	4
+30	32	33
+32	30	29
+9	5	2
+5	9	10
+25	24	22
+25	26	24
+25	23	28
+12	10	22
+19	12	22
+12	19	7
+15	39	7
+39	15	24
+19	15	7
+15	19	24
+35	39	24
+35	34	29
+34	35	24
+30	31	29
+31	35	29
+35	31	39
+39	31	7
+32	43	28
+43	34	28
+34	43	32
+36	30	33
+36	31	30
+38	36	33
+36	38	45
+45	41	4
+38	41	45
+41	32	4
+41	38	32
+23	20	28
+20	17	28
+17	20	23
+17	14	4
+14	17	23
+18	11	4
+16	18	4
+14	16	4
+16	14	23
+9	13	22
+25	21	23
+21	16	23
+16	21	18
+21	25	22
+13	21	22
+21	13	18
+26	27	28
+27	25	28
+25	27	26
+31	6	7
+6	49	10
+6	12	7
+12	6	10
+47	36	45
+47	45	2
+31	40	49
+3	11	2
+11	3	4
+45	3	2
+3	45	4
+8	9	2
+8	13	9
+13	8	18
+11	8	2
+8	11	18
+46	6	31
+5	50	2
+50	47	2
+36	37	31
+37	40	31
+40	37	36
+47	48	36
+50	48	47
+40	48	49
+42	31	49
+46	42	49
+42	46	31
+6	51	49
+51	46	49
+46	51	6
+44	40	36
+48	44	36
+44	48	40
+1	50	5
+1	48	50
+48	1	49
+1	5	10
+49	1	10
+Samples, with Munsell coordinates, from CAUS data:
+Winter Rose	0.01R 5.20/6.33
+Glowing Rose	0.02R 4.07/14.69
+Rose Orchid	0.02R 7.20/3.83
+Bagdad Rose	0.09R 3.69/10.01
+Bois de Rose	0.16R 5.16/5.47
+Hacienda Rose	0.20R 3.82/11.73
+Rio Rose	0.25R 5.05/11.00
+Madonna Rose	0.34R 5.31/9.05
+Trianon Rose	0.36R 6.11/10.09
+Rose of Picardy	0.37R 4.86/10.40
+Glamour Rose	0.39R 5.11/10.45
+Brittany Rose	0.51R 3.68/10.51
+Dove Rose	0.53R 4.72/4.42
+Romany Rose	0.55R 3.09/8.64
+Rose Romaine	0.55R 5.26/15.70
+Aurora Rose	0.57R 4.23/15.41
+Mandarin Rose	0.57R 4.41/9.04
+Riviera Rose	0.58R 4.53/11.15
+Rhapsody Rose	0.58R 5.33/14.22
+Normandy Rose	0.59R 3.19/10.81
+Blush Rose	0.62R 5.90/8.09
+Vin Rose	0.63R 4.27/7.16
+Carmen Rose	0.64R 3.25/10.22
+French Rose	0.68R 5.84/8.30
+Rose Romaine	0.74R 5.26/15.86
+Embroidery Rose	0.76R 6.29/5.22
+Rapture Rose	0.78R 3.69/12.96
+Cruise Rose	0.84R 4.36/11.90
+Beauty Rose	0.85R 4.05/11.71
+Rancho Rose	0.87R 4.03/7.05
+Porcelain Rose	0.91R 4.33/7.86
+Mauverose	1.00R 4.33/7.26
+Swiss Rose	1.00R 5.00/8.25
+Paris Rose	1.02R 4.12/8.97
+Peony Rose	1.02R 4.73/8.17
+Unicorn Rose	1.09R 3.58/9.71
+Charmrose	1.19R 4.52/12.91
+Rose Red	1.20R 2.92/9.04
+Moss Rose	1.22R 6.04/6.85
+Roseheart	1.27R 3.35/11.22
+Radiant Rose	1.27R 5.30/10.58
+British Rose	1.34R 3.49/7.42
+Shadow Rose	1.36R 4.96/3.91
+Rose Raspberry	1.36R 5.41/5.37
+May Rose	1.39R 5.98/9.52
+Coral Rose	1.40R 5.33/15.46
+Chiquita Rose	1.44R 5.10/11.64
+Jewel Rose	1.47R 5.11/8.97
+Beauty Rose	1.52R 4.23/10.28
+Harvest Rose	1.53R 2.75/8.12
+Tropical Rose	1.53R 4.83/11.67
+Flamingo Rose	1.55R 3.04/9.63
+Sweetheart Rose	1.55R 5.01/7.70
+Rose Stone	1.59R 5.68/12.15
+Vassar Rose	1.61R 7.23/6.85
+Carnation Rose	1.62R 5.74/7.79
+Glowing Rose	1.63R 4.29/6.37
+Virginia Rose	1.68R 4.53/8.16
+Caribee Rose	1.70R 4.85/11.20
+Rose of Sharon	1.70R 5.99/10.10
+Tea Rose	1.71R 6.59/8.57
+Pink Rose	1.72R 6.61/11.11
+Andes Rose	1.78R 3.73/9.83
+Rose Allure	1.78R 4.86/9.65
+Waterford Rose	1.79R 3.48/8.13
+Crimson Rose	1.81R 3.57/12.13
+Alpine Rose	1.81R 3.82/6.51
+Horizon Rose	1.87R 5.05/4.76
+Rubyrose	1.88R 4.16/9.50
+Italian Rose	1.89R 5.26/11.04
+Bijou Rose	1.91R 6.17/9.17
+Old Roseleaf	1.94R 4.49/6.25
+Rose Apple	1.95R 4.28/8.66
+Rose Cherry	1.95R 4.61/9.71
+Rose Clover	2.00R 3.95/7.83
+Rose Cerise	2.04R 5.62/10.19
+Rosewine	2.10R 2.59/8.85
+Sugar Rose	2.13R 6.37/9.62
+PRairie Rose	2.15R 4.10/5.13
+Barberry Rose	2.19R 3.43/8.27
+Geranium Rose	2.19R 4.35/11.89
+Radiance Rose	2.27R 4.71/13.84
+Brier Rose 1	2.30R 6.36/5.72
+Flamenco Rose	2.35R 4.59/6.52
+Fall Rose	2.35R 4.60/8.92
+Tapestry Rose	2.43R 3.07/6.45
+Watermelon Rose	2.46R 5.43/10.98
+Rose Raspberry	2.47R 5.35/5.40
+Crimson Rose	2.54R 5.34/14.90
+Bella Rosetta	2.55R 8.10/5.89
+Tapestry Rose	2.56R 3.72/7.48
+Orchard Rose	2.59R 5.91/2.47
+Frosty Rose	2.62R 3.12/6.68
+Afternoon Rose	2.63R 4.39/10.42
+Roseleaf	2.66R 7.61/7.43
+Roseflame	2.71R 4.65/11.79
+rose quartz	2.72R 7.26/4.30
+Copper Rose	2.75R 3.13/7.34
+Backporch Rose	2.75R 8.19/5.80
+Rose Quartz	2.84R 5.59/3.76
+Peruvian Rose	2.85R 4.78/8.29
+Rustic Rose	2.86R 3.98/9.80
+Garnet Rose	2.88R 2.41/8.69
+Tile Rose	2.91R 2.88/6.82
+Rose Flame	2.91R 5.76/11.99
+Dusty Rose	2.92R 4.68/5.77
+Roseberry	2.93R 3.53/7.50
+Horizon Rose	2.93R 4.76/4.37
+Ash Rose	2.96R 6.88/4.13
+Rose Red	2.99R 3.03/8.73
+Grotto Rose	3.01R 6.66/7.94
+Del Monte Rose	3.02R 4.04/10.93
+Rose Fraise	3.03R 4.49/7.82
+Burgundy Rose	3.08R 2.01/6.36
+Vineyard Rose	3.08R 3.32/10.55
+Begonia Rose	3.10R 4.01/14.08
+Berryrose	3.11R 3.39/8.27
+Rose Coral	3.12R 5.65/12.21
+Rose Grey	3.16R 4.78/2.49
+Pressed Rose	3.17R 4.59/6.55
+Plumrose	3.18R 3.59/3.74
+Powder Rose	3.20R 6.45/4.37
+Rose Capucine	3.23R 4.86/11.11
+Fresco Rose	3.23R 5.34/5.66
+Cherry Rose	3.24R 3.82/14.24
+Tanagra Rose	3.24R 5.21/8.34
+Rose Quartz	3.25R 5.18/2.48
+Monaco Rose	3.29R 5.30/10.20
+Rose des Bois	3.31R 4.77/6.81
+Rose Camellia	3.31R 4.91/8.93
+Roseberry Red	3.32R 2.34/7.90
+Frostrose	3.32R 5.91/5.68
+Auld Rose	3.36R 4.73/10.36
+Fandango Rose	3.43R 3.62/10.91
+Degas Rose	3.44R 6.22/5.56
+Rose Ruby	3.46R 2.27/6.38
+Winerose	3.47R 4.21/4.17
+Rose Geranium	3.52R 4.18/11.40
+Roseberry	3.58R 3.28/7.51
+Rustic Rose	3.60R 3.91/9.61
+Spanish Rose	3.60R 5.23/13.11
+rosey	3.61R 7.05/5.34
+Rose Spice	3.65R 2.98/4.89
+Rose Heather	3.67R 3.25/4.14
+Rose Directoire	3.70R 7.42/4.36
+Tomato Rose	3.76R 4.49/8.98
+Peruvian Rose	3.76R 4.87/8.53
+Magnolia Rose	3.83R 6.23/6.85
+Chalk Rose	3.83R 6.41/5.19
+Ceramic Rose	3.84R 5.67/8.51
+Rose Cinnabar	3.86R 3.33/7.06
+Rose de Nuit	3.87R 4.46/11.72
+rosetta	3.92R 7.16/3.85
+Rose Laque	3.99R 3.62/7.70
+Venetian Rose	3.99R 4.65/10.65
+Ash Rose	4.00R 5.10/4.10
+Majolica Rose	4.04R 4.38/6.03
+Rose Castor	4.06R 6.28/2.21
+Valz Rose	4.10R 6.82/4.16
+Rose Pottery	4.13R 5.01/7.60
+Rosebark	4.18R 4.09/7.13
+Rosepetal Pink	4.20R 6.48/6.79
+Patio Rose	4.22R 5.19/6.10
+Roselustre	4.32R 3.40/7.15
+Flamingo Rose	4.41R 5.06/11.00
+Ash Rose	4.48R 5.90/4.73
+Havana Rose	4.49R 3.64/6.69
+Dream Rose	4.53R 5.28/9.37
+Scarlet Rose	4.57R 4.25/13.04
+Gobelin Rose	4.62R 4.64/6.55
+Colonial Rose	4.62R 4.77/5.12
+Cactus Rose	4.63R 4.65/8.49
+Roseraie	4.65R 3.29/7.11
+Scarlet Rose	4.67R 3.47/10.62
+Patio Rose	4.68R 5.18/6.06
+Beauvais Rose	4.69R 5.63/6.64
+Geranium Rose	4.72R 4.96/11.91
+Winerose	4.80R 4.04/3.63
+Rosevale	4.88R 3.73/7.57
+Tapestry Rose	4.91R 3.66/8.27
+Leafrose	4.94R 4.44/6.58
+Fiesta Rose	4.94R 4.88/11.80
+Rose Dusk	4.95R 5.05/2.71
+Bois de Rose	4.95R 5.08/5.85
+Salmon Rose	4.97R 6.98/10.40
+Cardinal Rose	5.05R 3.31/11.62
+June Rose	5.10R 6.35/6.11
+Salem Rose	5.17R 4.62/3.71
+Rose Geranium	5.22R 4.92/11.88
+Marsh Rose	5.32R 4.35/6.13
+Ashen Rose	5.35R 4.50/3.94
+Crayon Rose	5.36R 6.88/4.58
+Foliage Rose	5.43R 4.08/6.57
+Rose Breath	5.50R 7.76/4.20
+Rose France	5.54R 7.24/8.29
+Mission Rose	5.56R 5.20/5.40
+Powdered Rose	5.71R 4.36/4.00
+Rosedust	5.82R 4.91/2.89
+Coral Rose	5.88R 5.45/6.94
+Victorian Rose	6.02R 3.61/5.24
+Tuscan Rose	6.11R 2.54/7.01
+Rosecloud	6.17R 5.96/3.35
+Gladiolus Rose	6.21R 4.43/10.55
+Rose	6.28R 5.26/4.48
+Rose Shrimp	6.28R 5.78/10.48
+Cinnamon Rose	6.31R 3.59/5.84
+Rose Ash	6.31R 4.52/5.50
+Grecian Rose	6.44R 5.36/5.02
+Dawnrose	6.45R 6.38/5.68
+Rose Acajou	6.53R 2.36/5.17
+Bois de Rose	6.68R 4.76/5.47
+Dessert Rose	6.74R 5.32/5.75
+belgrade rose	6.77R 5.54/6.34
+Leafrose	6.82R 4.15/6.34
+Rose	6.84R 5.29/4.47
+Cloudrose	6.91R 4.65/3.44
+Tea Rose	6.94R 8.20/3.98
+Duskrose	7.03R 5.23/5.48
+Rose Gleam	7.03R 7.53/4.34
+Pottery Rose	7.09R 5.64/4.23
+Crushed Rose	7.14R 5.70/4.95
+Dried Roses	7.17R 5.89/3.08
+Rosebloom	7.26R 5.36/4.88
+Rose Brown	7.37R 3.18/3.90
+Rose Ebony	7.58R 3.11/3.92
+Rose Tattoo	7.58R 3.68/13.48
+iphigenia rose	7.63R 4.46/6.91
+Rose Henna	7.64R 5.23/9.19
+Digger Rose	7.65R 6.99/6.83
+Duskrose	7.67R 5.08/5.66
+Attar of Roses	7.75R 5.24/6.66
+Attar of Roses	7.78R 5.64/7.71
+Roserust	7.84R 6.33/8.17
+Tea Rose	7.84R 8.24/4.87
+Rosedew	7.94R 8.01/5.04
+Altar of Roses	7.98R 4.10/5.36
+Clove Rose	8.07R 5.60/5.31
+Rose	8.13R 5.97/8.07
+Winter Rose	8.26R 3.55/6.21
+Amber Rose	8.37R 4.75/7.22
+Meadow Rose	8.59R 4.94/5.22
+Wild Rose	8.61R 8.20/3.02
+Cameo Rose	8.68R 6.59/5.38
+Bois de Rose	8.70R 4.71/5.36
+Terra Cotta Rose	8.73R 3.72/3.69
+Rose Coral	8.78R 6.52/5.97
+Snapdragon Rose	8.78R 7.29/7.40
+Aroma of Moss Rose	9.04R 7.29/2.82
+Anjou Rose	9.15R 5.32/7.07
+Rose Ember	9.21R 4.95/5.90
+Cinnabar Rose	9.31R 4.66/5.93
+Rosestone	9.41R 4.62/2.81
+Windsor Rose	9.42R 4.75/6.10
+Rose Maple	9.61R 4.54/3.67
+Tea Rose	9.83R 4.64/3.71
+Rusty Rose	9.89R 3.70/5.97
+Rose Cedar	9.94R 5.74/4.26
+Rose Clay	0.01YR 6.28/4.13
+Candy Rose	0.06YR 7.48/4.32
+gilded rose	0.17YR 4.56/2.88
+Wood Rose	0.21YR 4.85/2.92
+Roseglow	0.39YR 5.40/4.25
+Roseglow	0.46YR 5.08/3.83
+Creme de Rose	0.60YR 6.40/3.44
+Cupboard Rose	0.61YR 5.82/3.48
+Rose Blonde	0.65YR 5.86/3.82
+Rose Copper	0.74YR 6.14/8.98
+Rosebrown	0.78YR 4.05/3.03
+Roseglow	0.79YR 5.06/4.49
+Rose Cinnamon	0.88YR 3.25/4.16
+Spice Rose	0.90YR 5.77/4.79
+Rose Cedar	0.93YR 5.41/3.06
+Indian Rose	0.96YR 4.84/4.92
+Rosebisque	0.96YR 5.64/4.17
+Browned Rose	1.41YR 3.93/4.20
+Eau de Rose	1.43YR 8.10/3.08
+Rosebisque	1.50YR 6.22/3.91
+Rosebay	1.57YR 4.22/3.88
+Tiny Tearose	1.63YR 7.34/6.73
+Bois Rose	1.65YR 3.79/4.23
+Rose Mahogany	1.69YR 2.31/2.13
+Rose Blush	1.80YR 5.64/3.82
+Oak Rose	1.83YR 4.47/3.05
+Cedar Rose	1.89YR 5.23/4.11
+Rose Oak	1.95YR 3.75/3.55
+Mesa Rose	1.95YR 5.12/8.44
+Rose Beige No.2	2.03YR 5.02/4.36
+Wood Rose	2.26YR 4.87/3.32
+Meditation Rose	2.29YR 5.49/3.78
+Rose Pearl	2.34YR 8.39/3.13
+Rose Blush	2.46YR 5.89/3.41
+rose prick	2.48YR 4.02/2.76
+westbury rose	2.73YR 7.01/4.30
+Salmon Rose	2.82YR 7.44/4.92
+Rose Beige No.2	2.92YR 4.69/3.83
+tea rose	3.01YR 7.38/3.74
+Rose Blush	3.19YR 5.55/3.54
+Dressage Rose	3.30YR 5.67/4.27
+Dusk Rose	3.33YR 5.49/3.27
+ring round rose	3.55YR 8.04/3.77
+Pale Rose	4.04YR 8.05/4.13
+Rose Amber	4.25YR 5.22/7.39
+Rose Beige	4.31YR 3.65/2.95
+Rosebuff	4.39YR 5.48/3.80
+Rose Champagne	4.68YR 5.59/2.81
+Rosetan	5.03YR 5.67/2.99
+Rose Beige No.2	5.17YR 6.10/3.49
+Rose Taupe	5.41YR 3.61/0.93
+Sunset Rose	6.29YR 7.36/6.27
+Yellow Rose	6.31YR 7.30/4.81
+Rosetan	6.78YR 5.95/3.50
+Beige Rose	7.22YR 7.03/3.88
+Blanc Rose	9.12YR 8.41/1.53
+Rose White	9.82YR 7.74/1.86
+Yellow Rose	4.23Y 8.32/4.96
+Tea Rose	4.86Y 5.94/0.83
+Rainbow Fish Rose	8.60P 5.72/8.32
+Rose Amethyst	9.50P 2.53/11.09
+Rose Grape	9.64P 3.17/7.64
+Rose Violet	0.94RP 3.55/9.69
+Rose Petunia	0.98RP 2.37/7.71
+Ribera Rose	1.44RP 5.42/5.09
+Rose Satin	1.48RP 6.13/7.76
+Rose Mauve	1.94RP 5.27/9.13
+California Rose	2.14RP 2.81/7.65
+Viola Rose	2.21RP 4.76/11.35
+Amulet Rose	2.48RP 3.53/8.61
+Angelico Rose	2.57RP 6.31/2.91
+Prairie Rose	2.91RP 6.23/7.61
+Rose Vintage	2.99RP 2.92/4.63
+Cherokee Rose	3.02RP 3.92/11.67
+Campus Rose	3.20RP 3.22/7.17
+Peppermint Rose	3.32RP 5.55/9.70
+Mountain Rose	3.50RP 2.92/8.87
+Rita Rose	3.54RP 4.98/10.73
+Louisiana Rose	3.60RP 3.79/13.15
+Canyon Rose	3.62RP 3.79/7.93
+Cyclamen Rose	3.68RP 3.64/12.72
+Cinema Rose	3.86RP 5.90/11.02
+Magenta Rose	3.95RP 2.83/8.42
+Graperose	4.08RP 3.69/8.32
+Rose Mauve	4.13RP 3.97/3.96
+Persian Rose	4.23RP 5.34/17.64
+Violine Rose	4.31RP 5.91/8.16
+Rose Iris	4.33RP 4.14/8.81
+Twilight Rose	4.36RP 4.60/6.81
+Caprice Rose	4.39RP 4.23/9.73
+Fuchsia Rose	4.41RP 3.51/9.61
+Grape Rose	4.48RP 3.00/10.40
+Spirited Rose	4.57RP 3.31/9.53
+bengal rose	4.62RP 5.88/6.25
+Bali Rose	4.79RP 3.90/8.64
+Posy Rose	4.79RP 5.96/11.34
+Cuba Rose	4.84RP 2.95/9.42
+Camellia Rose	4.94RP 6.42/7.37
+Rose Dahlia	4.99RP 2.53/5.14
+Tahiti Rose	5.06RP 5.39/9.89
+Persian Rose	5.13RP 4.61/17.74
+Buenos Aires Rose	5.44RP 5.49/9.48
+spanish rose	5.44RP 5.63/6.88
+Rosette	5.60RP 6.74/7.94
+Mexirose	5.62RP 3.95/12.21
+Glace Rose	5.62RP 4.02/4.26
+Mulberry Rose	5.65RP 3.32/12.10
+Dragee Rose	5.71RP 4.63/4.57
+Monterrey Rose	5.74RP 3.62/5.89
+Rose Claret	5.80RP 5.99/11.67
+Erin Rose	5.81RP 4.32/12.01
+Watteau Rose	5.81RP 4.80/5.33
+Cerise Rose	5.87RP 4.30/12.34
+Southsea Rose	5.91RP 2.67/8.53
+Rose de Versailles	5.96RP 6.78/9.21
+Rose Mauve	5.98RP 4.86/4.58
+Varsity Rose	6.08RP 2.52/8.32
+Rose	6.11RP 3.49/7.21
+Brazilian Rose	6.15RP 3.47/9.47
+Rose Wine	6.33RP 3.01/9.95
+Valor Rose	6.43RP 3.54/10.98
+quartz rose	6.43RP 6.90/2.57
+Java Rose	6.48RP 4.25/8.77
+Rose Helio	6.49RP 5.98/4.96
+Rose Plum	6.50RP 1.94/5.10
+Rose of Persia	6.59RP 3.65/12.30
+Rosehips	6.59RP 8.03/4.55
+Gala Rose	6.85RP 3.60/13.16
+Rumba Rose	6.94RP 3.73/12.43
+Skyrose	6.98RP 6.02/9.51
+Mistrose	7.06RP 4.86/9.92
+Rose Mallow	7.10RP 3.69/6.41
+Rose Cyclamen	7.13RP 4.66/12.56
+Capri Rose	7.18RP 3.01/6.00
+Chelsea Rose	7.22RP 6.04/10.02
+Daring Rose	7.28RP 4.87/14.31
+Cancan Rose	7.36RP 6.00/13.71
+Crimson Rose	7.37RP 4.23/13.31
+Rose Violine	7.41RP 3.94/13.22
+China Rose	7.41RP 4.53/10.37
+Rose Moderne	7.42RP 4.62/10.16
+Brier Rose No. 2	7.47RP 5.13/8.35
+Brier Rose No. 2	7.47RP 5.87/8.19
+Rose Mulberry	7.62RP 2.42/7.82
+France Rose	7.68RP 6.28/11.99
+Rose D'Amour	7.74RP 4.42/15.38
+Gaiety Rose	7.75RP 3.66/12.46
+Rose	7.75RP 7.18/7.50
+Chianti Rose	7.76RP 2.56/9.89
+Rosette	7.81RP 5.18/9.45
+Grenadine Rose	7.86RP 4.05/13.24
+Rose of Sharon	7.91RP 6.10/8.59
+Rose Midinette	7.95RP 6.17/9.92
+Fuchsia Rose	7.97RP 4.16/16.07
+Vino Rose	8.05RP 2.67/8.22
+Romany Rose	8.05RP 3.69/13.78
+Rosecloud	8.06RP 6.04/3.31
+Rose	8.11RP 6.04/11.18
+St. Moritz Rose	8.14RP 2.74/8.84
+Winter Rose	8.14RP 3.06/11.40
+Fragonard Rose	8.14RP 3.69/6.86
+Brier Rose 3	8.15RP 4.25/7.03
+Gypsy Rose	8.17RP 3.85/11.38
+Florida Rose	8.20RP 3.39/9.92
+Sahara Rose	8.20RP 4.56/9.53
+Opaline Rose	8.37RP 4.91/10.61
+Argentine Rose	8.37RP 6.58/10.76
+Strawberry Rose	8.38RP 5.50/10.16
+Rose de Paris	8.41RP 6.14/10.69
+Rose de France	8.44RP 4.34/9.75
+Rose Peppermint	8.49RP 5.26/10.09
+Indian Rose	8.51RP 4.70/10.53
+Sentimental Rose	8.51RP 5.57/11.05
+Rose Gay	8.53RP 4.78/13.27
+Savoy Rose	8.54RP 2.94/10.75
+Whistler Rose	8.70RP 4.46/3.77
+Rose Lavender	8.70RP 6.36/5.83
+Rose Flash	8.71RP 3.80/12.15
+Romance Rose	8.75RP 5.58/8.03
+Strawberry Rose	8.76RP 4.18/8.76
+Rosetta	8.77RP 3.69/0.85
+Rambler Rose	8.78RP 6.67/7.98
+Rose Ruby	8.79RP 3.03/10.93
+Peony Rose	8.80RP 5.62/11.48
+Ritzie Rose	8.86RP 5.69/13.28
+Burma Rose	8.92RP 4.00/11.85
+Dahlia Rose	9.06RP 4.50/10.85
+Rose GLow	9.09RP 6.84/6.33
+Flamingo Rose	9.19RP 4.54/11.80
+Fuchsia Rose	9.24RP 5.30/12.19
+Rio Rose	9.25RP 3.93/14.27
+Rosegleam	9.29RP 3.79/11.98
+Romantic Rose	9.33RP 4.52/10.68
+Engadine Rose	9.34RP 3.34/9.57
+Heaven's Rose	9.36RP 6.80/8.47
+Maple Rose	9.37RP 3.68/9.99
+Jack Rose	9.37RP 4.18/15.03
+Bangor Rose	9.39RP 5.77/8.54
+Moss Rose	9.57RP 5.17/6.64
+Jewel Rose	9.59RP 4.80/8.77
+Brier Rose 2	9.60RP 5.18/7.33
+Crystal Rose	9.64RP 4.66/12.38
+Panama Rose	9.67RP 2.53/8.60
+Summer Rose	9.73RP 5.52/9.00
+Laurel Rose	9.75RP 4.94/9.23
+WIld Rose	9.87RP 5.57/8.55
+Carrara Rose	9.87RP 6.52/4.79
+Briar Rose	9.88RP 4.11/14.57
+Dramatic Rose	9.94RP 4.91/15.98
+Rose Smoke	9.99RP 2.43/0.83

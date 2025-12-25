@@ -163,9 +163,13 @@ node_modules/
 # Research papers (local reference only, not tracked)
 jaic_v25_03.pdf
 more_non-basic_surface_colour_names/literature/*.pdf
-PolyhedronFilesJustNames/
+
+# Root-level duplicates (originals to be deleted after migration)
+/PolyhedronFilesJustNames/
+/PolyhedronFiles/
+
+# Scratchpad folder
 tmp/
-PolyhedronFiles/
 
 # Large data files (download separately)
 assets/xkcd/mainsurvey_sqldump.txt

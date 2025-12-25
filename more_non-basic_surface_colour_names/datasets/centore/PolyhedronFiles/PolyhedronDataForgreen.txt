@@ -1,0 +1,1565 @@
+Colour name:	green
+Number of non-unique CAUS samples:	1613
+Number of unique CAUS samples:	1296
+Centroid in Munsell coordinates:	2.04G 5.33/4.75
+Centroid in Cartesian coordinates:	-4.17	 2.28	5.33
+Polyhedron vertices in Munsell coordinates:
+1.02Y 2.41/1.14
+1.11Y 6.28/4.15
+1.40Y 3.81/3.79
+2.86Y 4.50/0.55
+2.94Y 6.94/1.33
+2.97Y 2.16/1.41
+3.08Y 5.75/5.52
+3.54Y 4.24/4.91
+4.10Y 5.45/6.29
+4.30Y 3.43/0.43
+4.65Y 4.85/6.10
+5.06Y 5.90/6.57
+5.19Y 7.65/5.36
+5.53Y 8.59/2.10
+6.03Y 8.21/4.43
+6.83Y 5.93/7.83
+6.92Y 4.63/6.44
+8.23Y 6.40/8.11
+8.60Y 2.09/2.59
+0.30GY 8.44/7.43
+3.08GY 2.30/0.24
+3.85GY 8.14/0.92
+5.67GY 7.89/9.17
+5.80GY 6.36/9.80
+5.98GY 8.82/5.53
+6.32GY 8.01/8.51
+7.82GY 8.58/1.84
+8.16GY 7.71/9.13
+8.81GY 6.59/10.42
+8.92GY 4.91/10.94
+9.35GY 7.03/10.38
+0.69G 6.93/10.70
+0.70G 8.46/1.38
+1.74G 1.43/0.78
+2.03G 2.78/7.60
+3.14G 3.39/9.75
+3.47G 5.99/10.92
+3.88G 2.63/6.83
+4.12G 3.40/9.85
+4.25G 2.10/4.63
+5.37G 7.84/7.62
+9.40G 3.93/9.01
+9.55G 1.34/1.06
+0.65BG 7.50/6.02
+1.21BG 1.35/0.78
+1.28BG 4.66/9.06
+2.36BG 3.24/7.81
+2.68BG 1.87/3.08
+3.14BG 7.56/4.94
+3.30BG 5.90/8.42
+4.40BG 7.32/4.54
+4.96BG 3.07/6.73
+5.99BG 4.12/8.16
+6.32BG 5.81/7.80
+7.82BG 1.61/2.04
+8.94BG 6.64/2.69
+9.02BG 4.73/7.14
+9.34BG 5.05/6.78
+9.58BG 4.04/7.03
+1.95B 1.58/1.02
+2.03B 3.15/5.68
+2.20B 2.34/3.71
+3.61B 3.74/5.21
+4.42B 4.07/1.01
+4.96B 2.91/4.18
+5.52B 2.66/3.05
+Polyhedron vertices in Cartesian coordinates:
+0.28	1.10	2.41
+1.00	4.03	6.28
+0.85	3.69	3.81
+0.07	0.55	4.50
+0.17	1.32	6.94
+0.18	1.40	2.16
+0.66	5.48	5.75
+0.45	4.89	4.24
+0.36	6.28	5.45
+0.02	0.43	3.43
+0.13	6.10	4.85
+-0.02	6.57	5.90
+-0.06	5.36	7.65
+-0.07	2.10	8.59
+-0.29	4.42	8.21
+-0.90	7.78	5.93
+-0.78	6.39	4.63
+-1.63	7.94	6.40
+-0.58	2.52	2.09
+-2.43	7.02	8.44
+-0.12	0.21	2.30
+-0.49	0.78	8.14
+-5.70	7.19	7.89
+-6.15	7.63	6.36
+-3.52	4.27	8.82
+-5.56	6.45	8.01
+-1.33	1.27	8.58
+-6.72	6.18	7.71
+-7.95	6.74	6.59
+-8.39	7.02	4.91
+-8.14	6.44	7.03
+-8.92	5.91	6.93
+-1.15	0.76	8.46
+-0.68	0.39	1.43
+-6.67	3.65	2.78
+-8.86	4.07	3.39
+-10.01	4.36	5.99
+-6.33	2.56	2.63
+-9.19	3.56	3.40
+-4.33	1.64	2.10
+-7.30	2.19	7.84
+-9.00	0.34	3.93
+-1.06	0.03	1.34
+-6.01	-0.25	7.50
+-0.78	-0.06	1.35
+-9.03	-0.73	4.66
+-7.72	-1.15	3.24
+-3.04	-0.52	1.87
+-4.84	-0.97	7.56
+-8.24	-1.73	5.90
+-4.37	-1.24	7.32
+-6.41	-2.06	3.07
+-7.59	-3.00	4.12
+-7.19	-3.02	5.81
+-1.80	-0.96	1.61
+-2.28	-1.43	6.64
+-6.02	-3.83	4.73
+-5.65	-3.75	5.05
+-5.79	-3.98	4.04
+-0.75	-0.70	1.58
+-4.13	-3.90	3.15
+-2.67	-2.57	2.34
+-3.42	-3.93	3.74
+-0.62	-0.79	4.07
+-2.47	-3.38	2.91
+-1.71	-2.52	2.66
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+39	30	37
+42	39	37
+39	42	47
+42	53	47
+5	14	2
+19	6	3
+40	39	47
+35	19	30
+19	35	43
+35	40	43
+15	14	20
+14	25	20
+57	58	59
+58	57	54
+53	57	59
+57	53	54
+58	63	59
+24	29	30
+14	22	33
+22	14	5
+52	55	47
+53	52	47
+6	1	3
+3	1	2
+60	1	6
+11	9	16
+39	36	30
+36	35	30
+35	36	39
+40	38	39
+38	35	39
+35	38	40
+13	20	16
+13	15	20
+14	13	2
+15	13	14
+44	49	54
+49	44	41
+51	58	54
+49	51	54
+51	49	33
+25	27	41
+49	27	33
+27	49	41
+27	14	33
+27	25	14
+25	23	20
+24	23	29
+63	61	59
+61	53	59
+61	52	53
+22	56	33
+56	22	63
+56	63	58
+56	51	33
+51	56	58
+34	19	43
+19	34	6
+55	45	43
+60	45	55
+45	34	43
+45	60	6
+34	45	6
+1	21	10
+21	1	60
+66	21	60
+17	11	16
+11	17	19
+30	17	16
+19	17	30
+8	19	3
+8	11	19
+9	8	3
+11	8	9
+48	40	47
+55	48	47
+40	48	43
+48	55	43
+9	12	16
+12	13	16
+13	12	9
+13	7	2
+7	13	9
+7	3	2
+7	9	3
+28	25	41
+18	23	24
+18	30	16
+18	24	30
+20	18	16
+23	18	20
+64	22	5
+21	64	10
+64	21	66
+22	65	63
+65	61	63
+64	65	22
+65	64	66
+65	66	60
+52	62	55
+61	62	52
+65	62	61
+62	60	55
+62	65	60
+46	53	42
+46	42	37
+26	23	25
+28	26	25
+26	28	23
+32	41	37
+32	28	41
+30	32	37
+29	32	30
+28	32	23
+4	64	5
+64	4	10
+4	1	10
+4	5	2
+1	4	2
+53	50	54
+46	50	53
+50	46	37
+50	44	54
+44	50	41
+41	50	37
+23	31	29
+31	32	29
+32	31	23
+Unique samples, with Munsell coordinates, from CAUS data:
+1942-43	fw	men	Canada Green	8.64YR 3.09/2.84	18.64
+1988-89	fw	women	Oxide Green	0.36Y 2.95/3.02	20.36
+1944	ss	silk	Green Iris	0.78Y 6.46/6.25	20.78
+1951-52	fw	silk	Dragee Green	0.84Y 6.00/0.60	20.84
+2001-02	fw	men	Thread Green	1.02Y 2.41/1.14	21.02
+2003	ss	women	Trail Green	1.11Y 6.28/4.15	21.11
+1941-42	fw	silk	Green Tobacco	1.40Y 3.81/3.79	21.40
+1992	ss	men	Lauan Green	1.59Y 4.07/3.89	21.59
+1991	ss	women	Lichen Green	1.92Y 5.15/2.61	21.92
+1989-90	fw	men	Sea Green	1.94Y 7.79/1.82	21.94
+1982-83	fw	women	Willow Green	1.97Y 7.20/1.22	21.97
+1999	ss	men	Polish Green	2.47Y 3.00/1.31	22.47
+1992	ss	men	Green Quartz	2.65Y 5.93/3.03	22.65
+1986-87	fw	men	Salem Green	2.72Y 4.58/1.32	22.72
+2014-15	na	interiors	Grayish Green	2.86Y 4.50/0.55	22.86
+1991	ss	youth	Rope Green	2.89Y 4.18/1.94	22.89
+2004-05	fw	women	Self-Possessed Green	2.94Y 6.94/1.33	22.94
+1987-88	fw	men	Harbour Green	2.97Y 2.16/1.41	22.97
+1941-42	fw	silk	Canyon Green	3.03Y 3.13/2.04	23.03
+2001	ss	women	Tourmaline Green	3.08Y 5.75/5.52	23.08
+2005-06	fw	men	Green Mist	3.13Y 4.59/2.20	23.13
+1991	ss	men	gale green	3.17Y 3.95/2.19	23.17
+1990	ss	women	Washington Green	3.17Y 6.48/4.69	23.17
+1990-91	fw	men	Foam Green	3.35Y 5.68/2.69	23.35
+2004-05	fw	men	Certainty's Green	3.39Y 2.56/1.73	23.39
+1983-84	fw	women	Charleston Green	3.39Y 7.42/3.62	23.39
+1997-98	fw	women	In-The-Groove Green	3.47Y 4.21/4.27	23.47
+1960-61	fw	silk	Green Bronze	3.54Y 4.24/4.91	23.54
+1983	ss	women	Preakness Green	3.56Y 7.12/2.43	23.56
+1986-87	na	interiors	Greenville Green	3.59Y 4.76/2.28	23.59
+1993	ss	youth	Rip-Stop Green	3.79Y 3.74/1.86	23.79
+1991	ss	women	Australian Green	3.83Y 3.25/2.04	23.83
+2004	ss	youth	North Island Green	4.01Y 2.63/3.52	24.01
+1986	ss	men	Dragon Green	4.01Y 6.15/5.42	24.01
+1941-42	fw	silk	Prairie Green	4.08Y 3.98/2.38	24.08
+1987-88	fw	women	Fog Green	4.08Y 5.28/2.43	24.08
+1939	ss	silk	Cezanne Green	4.10Y 5.45/6.29	24.10
+1999-00	fw	women	Dew Green	4.11Y 6.13/1.07	24.11
+2001	ss	men	Denominator Green	4.11Y 6.45/1.18	24.11
+1987-88	fw	women	Storm Green	4.12Y 3.49/2.80	24.12
+2000-01	fw	women	Social Green	4.30Y 3.43/0.43	24.30
+1963-64	fw	women	Antique Green	4.31Y 3.60/3.44	24.31
+1956	ss	women	Green Brass	4.34Y 4.95/4.07	24.34
+1988	ss	men	Polo Green	4.46Y 5.05/1.89	24.46
+1989-90	fw	men	Grey Green	4.63Y 3.21/0.87	24.63
+1955-56	fw	silk	Greenglo	4.65Y 4.85/6.10	24.65
+1985-86	fw	men	Hunting Green	4.72Y 3.59/1.26	24.72
+1928-29	fw	silk	Metallic Green	4.72Y 3.95/3.46	24.72
+1980-81	fw	men	Misty Green	4.72Y 6.97/3.77	24.72
+1985-86	fw	women	Nepal Green	4.74Y 5.99/3.95	24.74
+1926	ss	silk	Chartreuse Green	4.77Y 7.82/7.81	24.77
+2002	ss	men	Sail cloth Green	4.79Y 5.09/3.82	24.79
+2005-06	fw	men	Farm Green	4.85Y 3.15/1.24	24.85
+1941	ss	silk	Ashgreen	4.98Y 6.64/3.41	24.98
+1999	ss	youth	River Moss Green	4.98Y 7.74/7.98	24.98
+1956-57	fw	silk	Green Talisman	5.06Y 5.90/6.57	25.06
+2001	ss	women	Peaceful Green	5.17Y 7.74/2.76	25.17
+1940-41	fw	silk	Deb Green	5.19Y 7.65/5.36	25.19
+1956-57	fw	silk	Allure Green	5.25Y 4.83/4.91	25.25
+1951	ss	silk	Banana Green	5.32Y 5.79/3.92	25.32
+1986	ss	women	Visalia Green	5.32Y 7.06/1.51	25.32
+1997	ss	men	Green Tea	5.34Y 4.53/0.90	25.34
+1951-52	fw	women	Foggy Green	5.38Y 5.34/3.23	25.38
+1942	ss	silk	Tender Green	5.41Y 7.83/1.91	25.41
+1996	ss	youth	Kelp green	5.44Y 5.44/5.55	25.44
+1998	ss	women	Dewed Green	5.53Y 8.59/2.10	25.53
+1944	ss	women	Canary Green	5.56Y 6.55/4.90	25.56
+1989	ss	men	Green Slate	5.57Y 3.74/1.35	25.57
+1999-2000	fw	men	Olive Leaf Green	5.66Y 3.86/2.76	25.66
+1982	ss	men	Earth Green	5.70Y 4.05/2.44	25.70
+1996-97	fw	women	Seaweed Green	5.75Y 4.10/3.25	25.75
+1999-2000	fw	men	Seaweed Green	5.81Y 3.07/2.43	25.81
+1932-33	fw	women	Greengold	5.81Y 5.04/5.76	25.81
+1999	ss	women	Tidal Pool Green	5.83Y 6.15/1.58	25.83
+2004-05	fw	youth	Pine Green	5.98Y 1.10/1.02	25.98
+1993	ss	women	pyramid green	5.98Y 7.14/3.53	25.98
+1940-41	fw	women	Mesa Green	6.00Y 4.85/3.76	26.00
+1939-40	fw	silk	Coronado Green	6.01Y 5.75/8.18	26.01
+1980-81	fw	women	Papyrus Green	6.03Y 8.21/4.43	26.03
+1941	ss	silk	Patio green	6.17Y 5.78/3.49	26.17
+1998	ss	men	Mill Green	6.23Y 5.74/5.41	26.23
+1985	ss	women	Foam Green	6.24Y 7.37/2.89	26.24
+1943	ss	silk	Rhapsody Green	6.32Y 6.29/6.46	26.32
+1948	ss	silk	Sundown Green	6.34Y 6.81/3.39	26.34
+1936	ss	women	Orchid Green	6.39Y 6.42/4.18	26.39
+1989-90	na	interiors	chalk green	6.42Y 8.96/1.72	26.42
+1989-90	fw	youth	Expedition Green	6.46Y 3.70/1.71	26.46
+1998-99	fw	men	Wandering Green	6.49Y 4.49/2.86	26.49
+1980-81	fw	men	Reed Green	6.63Y 6.34/2.06	26.63
+1952	ss	silk	Okra Green	6.73Y 3.23/1.79	26.73
+1938-39	fw	women	Cactus Green	6.77Y 3.87/2.33	26.77
+1933	ss	women	Green Lemon	6.79Y 6.39/6.86	26.79
+1991-92	na	interiors	silver green	6.81Y 6.72/1.72	26.81
+1936	ss	women	Exotic Green	6.83Y 5.93/7.83	26.83
+1938-39	fw	women	Green Mustard	6.92Y 4.63/6.44	26.92
+1964-65	fw	women	Stinger Green	6.98Y 4.40/5.38	26.98
+2003	ss	men	Mist Green	7.02Y 6.48/2.29	27.02
+1950-51	fw	women	Snowgreen	7.08Y 5.90/3.44	27.08
+1933-34	fw	women	Chutney Green	7.11Y 3.25/3.12	27.11
+1950-51	fw	women	Terrapin Green	7.19Y 2.37/2.15	27.19
+2017-18	fw	men	green market	7.20Y 3.49/4.13	27.20
+1949-50	fw	women	Teagreen	7.23Y 5.07/2.43	27.23
+1940-41	fw	women	Khaki Green	7.38Y 3.24/2.83	27.38
+1943	ss	silk	Green Orchid	7.53Y 5.81/3.75	27.53
+1992	ss	youth	new jack green	7.56Y 5.63/1.86	27.56
+1996-97	fw	men	Dollar Green	7.62Y 3.12/3.44	27.62
+1934	ss	silk	Mustard Green	7.62Y 5.51/6.15	27.62
+1967	ss	women	Seaweed Green	7.72Y 3.62/3.44	27.72
+1975	ss	silk	Jasper Green	7.77Y 4.72/3.90	27.77
+1937-38	fw	women	Tahoe Green	7.83Y 3.77/4.02	27.83
+1981-82	fw	women	Dulcet Green	7.94Y 5.67/1.91	27.94
+1999	ss	men	Oxidized Green	8.03Y 5.73/2.04	28.03
+2000-01	fw	women	Out-of-the-ordinary Green	8.04Y 2.32/1.40	28.04
+1928-29	fw	silk	Romantic Green	8.15Y 5.23/5.55	28.15
+1940	ss	silk	Greenmist	8.15Y 6.39/3.05	28.15
+1960-61	fw	silk	Marsh Green	8.17Y 5.67/4.18	28.17
+1985	ss	men	Boat House Green	8.18Y 7.97/3.59	28.18
+1940-41	fw	women	Lava Green	8.19Y 4.08/2.67	28.19
+1958-59	fw	silk	Frog Green	8.20Y 3.38/2.17	28.20
+1936	ss	silk	Cocktail Green	8.23Y 6.40/8.11	28.23
+1957-58	fw	women	Cholla Green	8.26Y 5.40/3.44	28.26
+1999	ss	women	Kiwi green	8.35Y 6.83/3.99	28.35
+1955	ss	women	Dreamy Green	8.37Y 6.62/2.91	28.37
+1939-40	fw	silk	Hacienda Green	8.41Y 6.36/6.17	28.41
+1970-71	fw	women	Scarab Green	8.42Y 3.41/4.11	28.42
+1984	ss	men	Newport Green	8.42Y 7.96/2.96	28.42
+2004-05	fw	men	Conversation Green	8.43Y 5.82/3.06	28.43
+1933-34	fw	women	Lizard Green	8.60Y 2.09/2.59	28.60
+1927-28	fw	silk	Liqueur Green	8.62Y 8.76/6.60	28.62
+1934	ss	women	Mustard Green	8.70Y 4.83/5.53	28.70
+1990-91	fw	youth	Remote-Control Green	8.79Y 4.35/4.59	28.79
+1947-48	fw	silk	Glass Green	8.79Y 6.69/1.11	28.79
+1941-42	fw	silk	Steelgreen	8.82Y 3.71/1.27	28.82
+1933-34	fw	silk	Brassgreen	8.82Y 5.50/5.55	28.82
+1943	ss	silk	Greenfrost	9.05Y 6.99/3.52	29.05
+1929-30	fw	women	Copper Green	9.07Y 2.32/2.49	29.07
+1938	ss	women	Green Bronze	9.12Y 4.67/4.05	29.12
+1990-91	na	interiors	tang green	9.14Y 4.84/4.17	29.14
+1958	ss	silk	Fruit Green	9.19Y 6.32/5.21	29.19
+1986	ss	men	Noor Green	9.21Y 7.14/2.48	29.21
+1975	ss	silk	Demi Green	9.23Y 6.10/2.56	29.23
+1934	ss	silk	Hickey Green	9.26Y 7.13/6.12	29.26
+1940	ss	silk	Rapture Green	9.35Y 5.32/5.77	29.35
+1934	ss	women	Rickey Green	9.35Y 6.67/6.32	29.35
+1996	ss	women	Fir Green	9.37Y 2.79/1.22	29.37
+2003	ss	women	New Leaf Green	9.48Y 8.90/3.94	29.48
+1988-89	fw	women	Crystal Green	9.56Y 7.51/1.12	29.56
+1940	ss	women	Moonlight Green	9.63Y 6.43/4.84	29.63
+1992	ss	youth	bicycle green	9.68Y 6.76/7.29	29.68
+1981	ss	men	Mirage Green	9.71Y 7.18/2.52	29.71
+1999	ss	youth	Primordial Soup Green	9.72Y 5.14/5.92	29.72
+1983	ss	women	Lily Pad Green	9.75Y 7.85/6.73	29.75
+2003-04	fw	women	Compatibility Green	9.78Y 7.45/5.75	29.78
+1996	ss	women	Swamp Green	9.81Y 6.60/1.52	29.81
+1937-38	fw	silk	Green Lime	9.83Y 6.79/6.71	29.83
+1990-91	fw	men	Olive Green	9.85Y 2.00/2.04	29.85
+1963-64	fw	women	Fog Green	9.89Y 5.01/1.49	29.89
+1958-59	fw	women	Green Cactus	9.92Y 4.82/2.90	29.92
+1939	ss	silk	Ultra Green	9.92Y 6.02/6.04	29.92
+1968-69	fw	women	Green Rind	9.95Y 5.95/4.42	29.95
+1997	ss	youth	Yin-Yang Green	9.95Y 6.82/7.28	29.95
+1937	ss	women	Palmetto Green	9.97Y 4.10/2.83	29.97
+1956-57	fw	silk	Green Melody	0.00GY 6.23/1.61	30.00
+2002	ss	youth	Rope Green	0.04GY 5.96/5.67	30.04
+1993	ss	youth	Pyramid Greenelo	0.07GY 6.79/7.17	30.07
+1991	ss	youth	Aphrodite Green	0.14GY 7.12/7.63	30.14
+1945	ss	silk	Pondlily Green	0.22GY 7.14/6.08	30.22
+1980-81	fw	men	Banana Green	0.22GY 8.02/3.17	30.22
+1990-91	fw	youth	Dracula Green	0.25GY 6.83/7.22	30.25
+1997-98	fw	youth	Nerd Green	0.30GY 7.00/7.67	30.30
+1999	ss	youth	Sprite Green	0.30GY 8.44/7.43	30.30
+1999	ss	men	Frosted Green Glass	0.31GY 8.30/2.64	30.31
+1933-34	fw	silk	Bronze Green	0.36GY 2.92/3.27	30.36
+1996	ss	women	Vista Green	0.36GY 3.87/0.99	30.36
+1933-34	fw	silk	Aspic Green	0.36GY 6.10/7.42	30.36
+1992	ss	youth	house island green	0.38GY 7.87/6.95	30.38
+1945	ss	silk	Guam Green	0.42GY 5.88/6.36	30.42
+2001-02	fw	women	Field Trip Green	0.45GY 6.57/3.62	30.45
+1963	ss	women	Shadow Green	0.46GY 4.93/2.47	30.46
+1937	ss	women	Aiken green	0.48GY 6.51/5.98	30.48
+1945	ss	silk	Peridot Green	0.52GY 7.45/3.67	30.52
+1955-56	fw	women	Haze Green	0.53GY 5.82/3.48	30.53
+2014-15	fw	men	marsh green	0.57GY 3.29/2.32	30.57
+1950-51	fw	silk	Green Lacquer	0.62GY 5.74/2.20	30.62
+1945-46	fw	silk	Clover Green	0.72GY 4.16/2.25	30.72
+1988-89	fw	men	Clay Green	0.73GY 2.96/1.30	30.73
+1946-47	fw	women	Green Sulphur	0.82GY 5.68/3.87	30.82
+1954	ss	silk	Green Acid	0.84GY 4.14/4.98	30.84
+1957-58	fw	silk	Green Sparkle	0.90GY 6.72/7.77	30.90
+1994	ss	youth	Catalonia Green	0.92GY 7.27/7.73	30.92
+1994-95	fw	women	Plummet Green	0.96GY 3.34/2.51	30.96
+1934-35	fw	silk	Cordial Green	0.96GY 6.00/9.24	30.96
+1954-55	fw	silk	Evening Green	0.99GY 3.06/2.60	30.99
+1949	ss	women	Faience Green	0.99GY 6.11/5.50	30.99
+1931-32	fw	silk	Fruit Green	1.04GY 6.87/5.89	31.04
+1953-54	fw	women	Glitter Green	1.08GY 4.81/4.98	31.08
+2002	ss	women	Northern Green	1.09GY 8.17/6.34	31.09
+1958	ss	silk	Verdant Green	1.11GY 4.86/3.98	31.11
+1998-99	fw	youth	Savannah Green	1.12GY 4.95/5.03	31.12
+1962-63	fw	women	Tart Green	1.15GY 5.79/5.48	31.15
+1948-49	fw	silk	Creme de Menthe Green	1.16GY 6.55/6.93	31.16
+2004-05	fw	youth	Leaf Green	1.20GY 4.58/4.96	31.20
+2003	ss	men	Animation Green	1.22GY 8.31/7.40	31.22
+1934-35	fw	silk	Glace Green	1.23GY 6.46/1.82	31.23
+1932	ss	women	Limegreen	1.24GY 6.80/6.00	31.24
+1966	ss	women	Greenapple Green	1.27GY 6.26/6.17	31.27
+1966-67	fw	women	Sorrel Green	1.38GY 3.53/4.51	31.38
+1948	ss	silk	Renoir Green	1.45GY 6.19/3.11	31.45
+1932	ss	silk	Citron Green	1.50GY 7.41/4.79	31.50
+1989	ss	women	Green	1.50GY 7.62/5.57	31.50
+1985	ss	men	Hampton Green	1.52GY 6.74/3.55	31.52
+1997	ss	women	Poison Green	1.54GY 7.16/9.32	31.54
+1951-52	fw	silk	Seamoss Green	1.61GY 2.56/2.24	31.61
+1939-40	fw	women	Mimosa green	1.68GY 6.43/6.90	31.68
+1940-41	fw	silk	Opera Green	1.70GY 7.27/3.04	31.70
+1986	ss	men	Seabiscuit Green	1.71GY 5.64/2.72	31.71
+1938	ss	silk	Coquette Green	1.71GY 7.01/6.60	31.71
+1935	ss	women	Acid Green	1.75GY 6.85/7.08	31.75
+1997-98	fw	women	Ethereal Green	1.93GY 3.76/2.62	31.93
+1999	ss	women	Amazon Green	2.00GY 4.31/4.48	32.00
+2004-05	fw	women	Calm Green	2.00GY 6.03/2.37	32.00
+1983-84	fw	men	Bosquet Green	2.01GY 6.60/3.03	32.01
+1936	ss	silk	Perfume Green	2.02GY 6.29/6.78	32.02
+1940	ss	silk	Green Metal	2.11GY 4.48/4.31	32.11
+1960-61	fw	women	Mosstone Green	2.13GY 4.50/4.51	32.13
+2002	ss	men	Stratus Green	2.13GY 7.67/2.72	32.13
+1942-43	fw	silk	Hope Green	2.17GY 6.76/2.53	32.17
+1947-48	fw	women	Linden Green	2.19GY 5.10/1.78	32.19
+1940	ss	silk	Foliage Green	2.23GY 5.27/3.15	32.23
+1948	ss	silk	Green Magic	2.26GY 6.67/5.68	32.26
+1955	ss	silk	Mallorca Green	2.27GY 5.24/1.44	32.27
+1971-72	fw	men	Lima Green	2.29GY 5.92/5.55	32.29
+2000	ss	youth	Forest Canopy Green	2.30GY 3.88/3.14	32.30
+1990-91	na	interiors	ming green	2.33GY 6.15/4.38	32.33
+1988-89	fw	women	Green	2.41GY 5.25/4.05	32.41
+1992-93	fw	youth	Imani Green	2.45GY 7.05/9.68	32.45
+1993-94	fw	youth	Adam Green	2.47GY 6.17/5.62	32.47
+1983	ss	men	Canasta Green	2.54GY 6.03/1.69	32.54
+1944	ss	silk	Cloisonne green	2.54GY 6.77/2.68	32.54
+1949-50	fw	silk	Green Glamour	2.57GY 6.87/7.28	32.57
+1950	ss	silk	Greenfern	2.70GY 6.58/4.04	32.70
+1991-92	na	interiors	rhodes green	2.74GY 4.85/4.03	32.74
+1991	ss	men	green granite	2.76GY 5.19/1.67	32.76
+1946	ss	silk	Buoyant Green	2.79GY 7.52/5.82	32.79
+1936	ss	silk	Citrus Green	2.82GY 6.67/6.71	32.82
+1996	ss	youth	Grass Green	2.86GY 7.97/5.55	32.86
+1987-88	fw	women	Hailey Green	2.94GY 5.85/6.08	32.94
+1935	ss	silk	Poison Green	2.96GY 7.48/7.29	32.96
+1996-97	fw	youth	H-D Green	3.02GY 3.06/1.93	33.02
+1940-41	fw	silk	Seaweed Green	3.03GY 2.21/0.66	33.03
+1950	ss	women	Julep Green	3.03GY 4.73/3.96	33.03
+1937	ss	silk	Dancing Green	3.04GY 6.02/6.67	33.04
+2006-07	fw	men	Dandy Green	3.08GY 2.30/0.24	33.08
+1935	ss	silk	Basque Green	3.16GY 5.95/7.89	33.16
+1932-33	fw	silk	Bonbon Green	3.19GY 8.38/3.45	33.19
+1941-42	fw	silk	Slategreen	3.25GY 2.68/1.18	33.25
+1992-93	fw	men	chrome green	3.28GY 5.41/0.72	33.28
+1943	ss	women	Green Chartreuse	3.32GY 5.75/7.03	33.32
+1998-99	fw	women	Leaf Green	3.33GY 5.30/4.91	33.33
+1971	ss	women	Gumdrop Green	3.36GY 7.91/3.31	33.36
+1982	ss	men	Pinch of Green	3.37GY 7.84/1.68	33.37
+1935-36	fw	silk	Opaline Green	3.42GY 7.60/5.25	33.42
+1939	ss	women	Pixie Green	3.43GY 4.91/5.49	33.43
+1937-38	fw	silk	Chile Green	3.43GY 5.52/7.56	33.43
+1928-29	fw	women	Fern Green	3.45GY 5.13/2.99	33.45
+1976-77	fw	women	Palma Green	3.57GY 5.48/4.00	33.57
+1991	ss	women	Milton Avery Green	3.57GY 7.50/4.45	33.57
+1998-99	fw	youth	Coastguard Green	3.64GY 2.87/1.90	33.64
+2000	ss	youth	Gila Monster Green	3.66GY 3.87/1.33	33.66
+1948-49	fw	silk	Turtle Green	3.68GY 3.97/4.45	33.68
+1926-27	fw	silk	Silver Green	3.69GY 5.79/2.32	33.69
+1956	ss	silk	Relish Green	3.75GY 4.92/3.97	33.75
+1928	ss	silk	Lily Green	3.75GY 6.97/3.49	33.75
+1989-90	fw	women	Green Grey	3.76GY 6.58/0.96	33.76
+2014-15	na	interiors	Dark Grayish Olive Green	3.78GY 2.23/0.94	33.78
+1981-82	fw	women	Regal Green	3.78GY 4.46/2.82	33.78
+1996	ss	youth	Praise-singer Green	3.80GY 6.12/6.85	33.80
+1950	ss	women	Green Pineapple	3.83GY 6.17/4.04	33.83
+1987-88	fw	men	Ice Green	3.85GY 8.14/0.92	33.85
+1964-65	fw	silk	Herb Green	3.88GY 4.82/4.81	33.88
+1935	ss	silk	Springtime Green	3.90GY 8.03/3.92	33.90
+1989	ss	women	Green	3.93GY 5.05/1.84	33.93
+1934	ss	silk	Formosa Green	3.94GY 7.27/7.65	33.94
+1989-90	fw	men	Green	3.95GY 5.68/3.12	33.95
+1996	ss	women	Citrus Green	3.97GY 6.31/8.12	33.97
+1998	ss	youth	Fortress Green	4.01GY 7.12/5.72	34.01
+1963-64	fw	women	Green Frost	4.03GY 6.20/1.28	34.03
+1972	ss	women	Pickle-o Green	4.04GY 5.36/5.96	34.04
+1986-87	fw	women	Kent Green	4.09GY 6.87/2.61	34.09
+2002-03	fw	youth	Gecko Green	4.11GY 6.76/3.57	34.11
+1934	ss	women	Alpgreen	4.12GY 2.99/3.10	34.12
+1998	ss	men	Yarn-Dyed Green	4.16GY 3.34/3.37	34.16
+1935	ss	women	Grapegreen	4.19GY 5.08/4.89	34.19
+1999-00	fw	women	Shadow Green	4.20GY 3.67/1.29	34.20
+2001-02	fw	youth	Camouflage Green	4.26GY 4.27/3.80	34.26
+1935	ss	silk	Grapegreen	4.33GY 5.31/4.93	34.33
+1984-85	na	interiors	Provence Green	4.40GY 3.26/1.74	34.40
+1997	ss	youth	Astro Green	4.46GY 3.39/2.55	34.46
+2010-11	na	interiors	bean green	4.47GY 6.91/8.48	34.47
+1999	ss	women	Emerald Isle Green	4.52GY 2.87/1.17	34.52
+1926-27	fw	silk	Jungle Green	4.57GY 3.05/1.18	34.57
+2001-02	fw	men	Plant Green	4.57GY 4.11/1.21	34.57
+1950	ss	silk	Raindrop Green	4.57GY 7.55/1.59	34.57
+2000	ss	women	Gracious Green	4.62GY 7.35/6.01	34.62
+1985-86	fw	men	Icy Green	4.65GY 5.03/5.74	34.65
+1938-39	fw	silk	Greenmoss	4.68GY 2.90/2.90	34.68
+1945	ss	women	Cantaloupe Green	4.73GY 6.26/4.55	34.73
+1953	ss	women	Green Citron	4.73GY 6.31/3.41	34.73
+1934	ss	silk	Alpgreen	4.76GY 3.72/3.68	34.76
+1988	ss	youth	Anise Green	4.80GY 7.93/1.70	34.80
+1935	ss	women	Vineyard Green	4.81GY 3.13/3.80	34.81
+1987	ss	men	Meridian Green	4.88GY 5.51/2.22	34.88
+1988-89	na	interiors	hudson green	4.91GY 4.70/2.74	34.91
+1933	ss	women	Lettuce Green	5.02GY 5.72/5.05	35.02
+1998	ss	women	If-By-Chance Green	5.03GY 5.67/1.01	35.03
+1969-70	fw	women	Chivy Green	5.07GY 3.78/4.85	35.07
+1986	ss	men	Whirlaway Green	5.07GY 5.24/2.00	35.07
+1982	ss	men	Sea Foam Green	5.07GY 5.31/2.99	35.07
+1934	ss	women	Engadine Green	5.08GY 4.21/3.91	35.08
+1989-90	na	interiors	tea green	5.08GY 7.49/3.38	35.08
+1934	ss	silk	Engadine Green	5.09GY 4.79/4.47	35.09
+1927	ss	women	Mignon Green	5.11GY 5.23/3.47	35.11
+1983	ss	women	Tallahassee Green	5.12GY 5.97/5.99	35.12
+2005	ss	youth	Acid Green	5.12GY 7.53/9.83	35.12
+1995	ss	youth	Java Green	5.13GY 6.93/7.89	35.13
+1940-41	fw	women	Track green	5.18GY 4.61/5.75	35.18
+1987	ss	men	Westbury Green	5.23GY 2.90/1.66	35.23
+1989	ss	women	Green	5.24GY 7.98/1.12	35.24
+1949-50	fw	silk	Frappe Green	5.26GY 5.42/1.39	35.26
+1989-90	fw	men	Silver Green	5.26GY 6.51/1.79	35.26
+2000-01	fw	youth	Kiwi Green	5.26GY 8.64/8.84	35.26
+1995	ss	women	Electric Green	5.32GY 5.74/5.71	35.32
+1990-91	fw	women	African Green	5.33GY 6.91/2.92	35.33
+1959	ss	silk	Green Grass	5.38GY 4.90/4.86	35.38
+1953-54	fw	silk	Fernleaf Green	5.39GY 5.84/2.05	35.39
+1940	ss	women	Festive Green	5.43GY 5.04/5.90	35.43
+1998-99	fw	men	Clarinet Green	5.45GY 2.64/2.37	35.45
+1953	ss	silk	Bronzite Green	5.45GY 3.37/3.78	35.45
+1928-29	fw	silk	Piquant Green	5.47GY 6.05/5.56	35.47
+1927-28	fw	women	Water Green	5.49GY 6.08/3.58	35.49
+1927	ss	women	Water Green	5.49GY 6.41/3.89	35.49
+1943-44	fw	silk	Verdure Green	5.52GY 4.54/4.39	35.52
+2001	ss	youth	Rain Forest Green	5.52GY 5.83/3.18	35.52
+1990	ss	women	Albuquerque Green	5.52GY 5.99/3.58	35.52
+1948	ss	women	Cosmic Green	5.54GY 6.01/1.86	35.54
+2002	ss	women	Tropical Green	5.55GY 5.13/6.20	35.55
+2000-01	fw	youth	Midnight Sun Green	5.55GY 5.21/5.70	35.55
+1936-37	fw	women	Aintree Green	5.58GY 3.29/4.50	35.58
+1986-87	na	interiors	Rochester Green	5.61GY 6.93/1.09	35.61
+1947-48	fw	silk	Beauvais Green	5.62GY 5.63/2.17	35.62
+1927	ss	silk	Gooseberry Green	5.63GY 5.12/2.48	35.63
+1971-72	fw	men	Spritely Green	5.64GY 7.72/7.12	35.64
+1942	ss	women	Mignonette Green	5.66GY 6.07/2.92	35.66
+1995	ss	youth	Leaf Green	5.67GY 7.89/9.17	35.67
+1932	ss	women	Plumgreen	5.68GY 5.35/4.88	35.68
+2003	ss	youth	Green Thumb	5.69GY 7.54/3.43	35.69
+1934-35	fw	women	Beetle Green	5.70GY 2.08/1.93	35.70
+1936	ss	women	Reseda Green	5.71GY 4.00/2.13	35.71
+1936	ss	silk	Corniche Green	5.71GY 5.64/5.47	35.71
+1938	ss	women	Sprig Green	5.71GY 6.17/4.32	35.71
+1998-99	fw	youth	Cursor Green	5.72GY 6.59/5.43	35.72
+1998	ss	youth	Humor-Me-Green	5.74GY 7.64/6.47	35.74
+1937-38	fw	silk	Candy Green	5.75GY 5.86/5.51	35.75
+1996-97	fw	women	Opening Gambit Green	5.78GY 3.11/1.39	35.78
+1986	ss	women	Pensacola Green	5.79GY 5.17/2.11	35.79
+1943-44	fw	women	Verdure Green	5.79GY 5.33/5.16	35.79
+1992	ss	women	Strong Yellow Green	5.80GY 6.36/9.80	35.80
+1935-36	fw	women	Chivegreen	5.82GY 2.43/2.83	35.82
+1988-89	na	interiors	lauderdale green	5.82GY 8.22/2.80	35.82
+1983-84	fw	men	Mesquite Green	5.83GY 8.04/1.35	35.83
+1965	ss	women	Sharp Green	5.85GY 6.62/6.86	35.85
+1944-45	fw	silk	Prado Green	5.86GY 3.54/3.28	35.86
+1990-91	na	interiors	manchu green	5.86GY 3.73/2.93	35.86
+1935-36	fw	women	Bavaria Green	5.86GY 4.07/4.86	35.86
+1990	ss	women	Venice Green	5.86GY 6.25/3.91	35.86
+1938-39	fw	women	Vegetable Green	5.88GY 2.40/3.74	35.88
+1945	ss	women	Coconut Green	5.90GY 4.91/3.98	35.90
+1946	ss	silk	Blossom Green	5.94GY 6.71/3.25	35.94
+1974-75	fw	women	Frosty Green	5.94GY 7.90/6.54	35.94
+1941	ss	silk	Vernal green	5.95GY 6.72/3.34	35.95
+1997	ss	youth	Dashing Green	5.98GY 8.82/5.53	35.98
+1981	ss	women	Devon Green	5.99GY 4.04/1.88	35.99
+1932-33	fw	silk	Aquarelle Green	6.01GY 7.92/1.90	36.01
+1943	ss	women	Placid Green	6.02GY 4.29/2.29	36.02
+1927-28	fw	silk	Balsam Green	6.09GY 2.34/0.61	36.09
+1971-72	fw	women	Picor Green	6.12GY 5.36/7.55	36.12
+1945	ss	silk	Pistachio Green	6.12GY 6.86/2.38	36.12
+1996-97	fw	women	Entr'acte Green	6.12GY 8.13/3.93	36.12
+1943	ss	silk	Alert Green	6.13GY 4.05/3.57	36.13
+1939	ss	silk	Celtic Green	6.15GY 4.69/4.26	36.15
+1933	ss	women	Chicory Green	6.16GY 3.68/3.84	36.16
+1940	ss	women	Aura Green	6.16GY 5.96/3.97	36.16
+1945	ss	women	Sunnigreen	6.16GY 6.72/3.92	36.16
+1989-90	na	interiors	lichen green	6.20GY 6.83/0.96	36.20
+1992	ss	youth	humpty green	6.22GY 8.41/5.58	36.22
+1941-42	fw	silk	Cross-Country Green	6.24GY 3.41/4.69	36.24
+1936	ss	silk	Primeval Green	6.24GY 3.97/6.53	36.24
+1987-88	na	interiors	Rousseau Green	6.27GY 7.42/5.84	36.27
+1936	ss	women	Tyrol Green	6.30GY 2.68/3.42	36.30
+2001	ss	men	Progression Green	6.31GY 4.17/4.34	36.31
+2000	ss	youth	Seeding Green	6.32GY 8.01/8.51	36.32
+1992-93	fw	youth	Hometown Green	6.33GY 8.89/5.62	36.33
+1998	ss	youth	Backyard-Party Green	6.34GY 6.56/9.21	36.34
+1935-36	fw	silk	Harem Green	6.35GY 5.31/5.99	36.35
+1974-75	fw	men	Palmyra Green	6.36GY 4.09/5.29	36.36
+1938-39	fw	silk	Confetti Green	6.37GY 5.37/6.73	36.37
+1968-69	fw	women	Vine Green	6.40GY 3.13/4.50	36.40
+2000	ss	women	Kamikaze Green	6.41GY 5.83/7.50	36.41
+1991-92	fw	youth	leeway green	6.42GY 6.32/7.78	36.42
+1942	ss	silk	Sungreen	6.47GY 6.24/4.20	36.47
+1946	ss	silk	Cheer Green	6.50GY 4.42/4.58	36.50
+1955-56	fw	women	Green Jasper	6.51GY 2.45/3.29	36.51
+1958-59	fw	silk	Tivoli Green	6.58GY 6.82/3.69	36.58
+1949	ss	silk	Minuet Green	6.58GY 6.98/2.18	36.58
+1970	ss	silk	Chard Green	6.60GY 3.96/2.58	36.60
+1936	ss	silk	Cafe Green	6.60GY 4.16/6.56	36.60
+1945-46	fw	silk	Dulcet Green	6.62GY 6.18/2.54	36.62
+1989	ss	men	Lettuce Green	6.62GY 6.80/5.56	36.62
+1944	ss	silk	Romance Green	6.62GY 6.82/1.55	36.62
+1982	ss	women	Lawn Green	6.63GY 5.35/3.87	36.63
+1998	ss	women	Cut-Grass Green	6.67GY 5.01/7.26	36.67
+2000-01	fw	men	Quilt Green	6.67GY 5.36/3.71	36.67
+1970-71	fw	women	Dark Yellowish Green	6.69GY 3.59/4.21	36.69
+1987	ss	men	Alpha Green	6.74GY 5.93/3.57	36.74
+1975	ss	silk	Vervy Green	6.74GY 6.21/9.13	36.74
+1957	ss	women	Pistachio Green	6.75GY 6.60/2.64	36.75
+1990-91	na	interiors	celadon green	6.75GY 7.66/2.37	36.75
+1926-27	fw	silk	Wintergreen	6.78GY 3.63/3.24	36.78
+1937	ss	women	Spa Green	6.78GY 5.10/4.69	36.78
+1927	ss	women	Sage Green	6.82GY 4.31/1.16	36.82
+2000	ss	men	Leafy Green	6.84GY 4.75/4.59	36.84
+1990	ss	youth	Slime Green	6.85GY 6.47/8.06	36.85
+1928	ss	women	Water Green	6.91GY 6.40/3.93	36.91
+1940	ss	silk	Powder Green	6.92GY 6.43/1.34	36.92
+1963-64	fw	women	Greentree	6.93GY 4.16/3.87	36.93
+1926-27	fw	women	Surf Green	6.93GY 5.63/3.56	36.93
+1946	ss	women	Coolgreen	6.94GY 6.57/4.87	36.94
+1957	ss	women	Green Peppermint	6.95GY 6.03/3.34	36.95
+1940-41	fw	women	Promenade Green	6.96GY 2.66/2.29	36.96
+1963	ss	women	Green Agate	6.98GY 6.38/3.09	36.98
+1984-85	na	interiors	Green Sage	6.98GY 7.03/1.56	36.98
+1987	ss	women	Glace Green	6.98GY 8.73/1.58	36.98
+1929	ss	silk	Treaty Green	7.00GY 4.15/2.24	37.00
+1937	ss	silk	Bali Green	7.01GY 6.44/4.79	37.01
+1989-90	fw	women	Green	7.02GY 7.16/4.39	37.02
+1944	ss	silk	Butterfly Green	7.03GY 4.92/1.56	37.03
+1961	ss	women	Softsoap Green	7.05GY 6.22/2.19	37.05
+1935	ss	silk	Greentea	7.06GY 5.63/2.48	37.06
+1998	ss	youth	Essentially-There Green	7.06GY 7.14/4.46	37.06
+1948	ss	silk	Petal Green	7.07GY 5.73/2.67	37.07
+1990	ss	youth	Miracle Green	7.07GY 8.55/4.21	37.07
+1988-89	na	interiors	pompano green	7.09GY 3.17/1.22	37.09
+1939	ss	silk	Greenjade	7.09GY 5.00/3.91	37.09
+1979	ss	women	Celeste Green	7.13GY 7.78/3.82	37.13
+1953	ss	silk	Avocado Green	7.14GY 3.47/2.43	37.14
+1994-95	fw	youth	Train Green	7.16GY 3.53/4.43	37.16
+1988-89	fw	youth	Green	7.17GY 6.56/7.30	37.17
+1958-59	fw	women	Scenic Green	7.18GY 4.01/3.79	37.18
+1938	ss	silk	Metal Green	7.20GY 3.68/2.88	37.20
+1937	ss	women	Salzburg green	7.22GY 2.97/3.60	37.22
+1995-96	fw	men	Hip-Hop Green	7.23GY 4.44/7.16	37.23
+2001	ss	youth	Shag Rug Green	7.28GY 7.28/8.53	37.28
+1934-35	fw	silk	Beetle Green	7.29GY 1.95/2.07	37.29
+1945	ss	silk	California Green	7.33GY 5.31/2.36	37.33
+1948-49	fw	silk	Nassau Green	7.33GY 5.63/3.53	37.33
+1954	ss	silk	Iris Green	7.33GY 6.18/3.07	37.33
+1991-92	na	interiors	tundra green	7.35GY 6.86/1.33	37.35
+2001	ss	women	Grateful Green	7.38GY 5.46/1.13	37.38
+1928	ss	silk	Polo Green	7.40GY 3.69/2.98	37.40
+1945-46	fw	women	Lacquer Green	7.43GY 3.67/2.99	37.43
+1987	ss	women	Dove Green	7.43GY 5.60/3.71	37.43
+1928	ss	silk	Garland Green	7.44GY 5.08/3.59	37.44
+1974-75	fw	women	Pickled Green	7.45GY 4.95/5.51	37.45
+1944	ss	women	Cloisonne Green	7.47GY 6.64/2.91	37.47
+1935-36	fw	silk	Chivegreen	7.50GY 2.45/3.43	37.50
+1953	ss	women	Green Blossom	7.51GY 6.86/2.17	37.51
+1997-98	fw	men	Backwoods Green	7.53GY 4.32/4.63	37.53
+1935	ss	women	Crayon Green	7.53GY 6.43/3.68	37.53
+1997-98	fw	youth	Highland Green	7.59GY 3.93/3.17	37.59
+1987	ss	women	Futura Green	7.62GY 6.42/9.48	37.62
+1990-91	fw	youth	Apple Green	7.62GY 6.89/8.98	37.62
+1991	ss	youth	Downeast Green	7.62GY 7.32/2.85	37.62
+1995-96	fw	youth	Ninja Green	7.69GY 4.91/3.33	37.69
+1960	ss	women	Arbor Green	7.70GY 5.69/3.07	37.70
+1934-35	fw	silk	Pistache Green	7.71GY 5.66/2.30	37.71
+1999-2000	fw	men	Great Lakes Green	7.72GY 2.25/1.86	37.72
+1962-63	fw	women	Green Briar	7.72GY 2.82/3.00	37.72
+1992	ss	youth	dr. seuss green	7.72GY 7.27/9.58	37.72
+1938	ss	women	Metal Green	7.73GY 3.69/3.31	37.73
+1996	ss	women	Floridian Green	7.75GY 7.37/7.85	37.75
+1993-94	fw	youth	Gorilla Green	7.76GY 6.28/6.18	37.76
+1958-59	fw	silk	Avenue Green	7.77GY 4.11/4.08	37.77
+1948	ss	women	Oasis Green	7.80GY 5.05/4.99	37.80
+1990-91	fw	women	Metallic Green	7.82GY 7.66/1.43	37.82
+1985	ss	women	Tile Green	7.82GY 8.58/1.84	37.82
+1991	ss	youth	Ocean Green	7.86GY 8.95/3.02	37.86
+1928	ss	women	Surf Green	7.91GY 5.34/3.55	37.91
+1937	ss	silk	Green Apple	7.94GY 4.35/5.30	37.94
+1997-98	fw	women	Global Green	7.95GY 3.69/4.22	37.95
+1997-98	fw	youth	Sage Green	7.96GY 6.90/3.24	37.96
+1930	ss	women	Nymph Green	8.05GY 6.53/3.59	38.05
+1993	ss	youth	Foamy Green	8.08GY 8.37/6.13	38.08
+1957-58	fw	silk	Nosegay Green	8.09GY 6.38/2.52	38.09
+1988-89	fw	women	Green Bronze	8.10GY 5.78/1.75	38.10
+1988-89	na	interiors	glenoit green	8.10GY 6.54/3.56	38.10
+1965-66	fw	women	Gherkin Green	8.15GY 3.94/4.55	38.15
+1998	ss	youth	Field-Coat Green	8.16GY 5.02/3.23	38.16
+1993	ss	youth	Mali Green	8.16GY 7.71/9.13	38.16
+1986-87	fw	women	Montego Green	8.18GY 5.78/3.63	38.18
+1979	ss	men	Enchanted Green	8.19GY 5.15/2.80	38.19
+1929-30	fw	silk	Treaty Green	8.20GY 5.99/1.48	38.20
+2008	ss	youth	Strong Yellow Green	8.20GY 6.10/9.75	38.20
+1953-54	fw	women	Green Willow	8.23GY 4.41/2.95	38.23
+2007	ss	women	Brilliant Yellowish Green	8.23GY 7.04/8.19	38.23
+1991	ss	women	Amazon Green	8.26GY 5.27/4.74	38.26
+1953-54	fw	silk	Green Crayon	8.26GY 5.89/1.22	38.26
+1995	ss	women	Leaf Green	8.29GY 6.71/3.34	38.29
+1964	ss	women	Water Color Green	8.30GY 7.10/1.64	38.30
+1974-75	fw	women	Nougat Green	8.31GY 7.01/5.60	38.31
+2007	ss	youth	Strong Yellow Green	8.33GY 5.98/10.25	38.33
+1929	ss	silk	Avon Green	8.34GY 3.64/2.36	38.34
+1940-41	fw	silk	Promenade green	8.35GY 2.95/2.32	38.35
+1991-92	na	interiors	china green	8.36GY 4.77/4.75	38.36
+1992-93	fw	youth	Oldenburg Green	8.41GY 6.01/6.67	38.41
+1932	ss	women	Green Almond	8.42GY 4.31/2.41	38.42
+1938	ss	silk	Tarragon Green	8.45GY 2.81/3.84	38.45
+2013	ss	men	past prime green	8.48GY 5.74/3.53	38.48
+1952	ss	women	Green Wave	8.50GY 6.60/1.64	38.50
+1940-41	fw	silk	Samba Green	8.52GY 4.77/7.12	38.52
+1956	ss	women	Dulcet Green	8.55GY 6.32/2.79	38.55
+2002	ss	women	Leaf Green	8.60GY 2.66/2.73	38.60
+1935-36	fw	silk	Mistgreen	8.63GY 5.46/1.77	38.63
+1981-82	na	interiors	Wintergreen	8.71GY 4.79/5.35	38.71
+1987	ss	men	Spruce Head Green	8.71GY 7.64/2.59	38.71
+1999-2000	fw	youth	Sky Light Green	8.72GY 6.18/3.03	38.72
+2006-07	fw	youth	Strobe Green	8.74GY 5.01/10.79	38.74
+1948	ss	women	Enamel Green	8.79GY 5.60/3.29	38.79
+1997	ss	youth	Scuba Green	8.81GY 6.59/10.42	38.81
+2010-11	na	interiors	sean green	8.88GY 3.23/5.17	38.88
+1995	ss	youth	Landscaper Green	8.91GY 5.80/4.58	38.91
+2009	ss	youth	Grass Green	8.92GY 4.91/10.94	38.92
+1954	ss	silk	Green Flair	8.95GY 6.93/3.18	38.95
+1949	ss	women	Pinewood Green	8.97GY 3.40/2.64	38.97
+1936	ss	silk	Tyrol Green	9.00GY 2.88/3.87	39.00
+1999	ss	women	Farmland Green	9.01GY 6.12/5.42	39.01
+1946	ss	women	Plaza Green	9.02GY 4.52/4.49	39.02
+1995-96	fw	men	Nitty Green	9.04GY 3.08/4.68	39.04
+1985-86	na	interiors	Kyoto Green	9.04GY 6.55/1.29	39.04
+1981-82	fw	women	Court Green	9.05GY 2.16/2.96	39.05
+1985-86	na	interiors	Morning Green	9.05GY 8.02/1.92	39.05
+1952	ss	silk	Tonkin green	9.06GY 5.22/5.96	39.06
+1956-57	fw	women	Green Almond	9.11GY 4.65/2.43	39.11
+1998-99	fw	men	Vogue Green	9.13GY 3.26/4.46	39.13
+1995-96	fw	men	Hype Green	9.22GY 2.18/1.29	39.22
+1926-27	fw	silk	Lichen Green	9.22GY 4.68/1.70	39.22
+1999	ss	youth	Forest Floor Green	9.26GY 4.89/1.23	39.26
+1991	ss	women	Hi-Tec Green	9.30GY 7.34/9.52	39.30
+1942-43	fw	silk	Pacific Green	9.32GY 4.81/1.76	39.32
+1943	ss	women	Acadia Green	9.32GY 6.19/3.69	39.32
+2002	ss	youth	Pattern Green	9.34GY 4.51/4.48	39.34
+1992	ss	women	Brilliant Yellowish Green	9.35GY 7.03/10.38	39.35
+1933	ss	silk	Romany Green	9.36GY 4.50/5.29	39.36
+1988-89	na	interiors	nantucket green	9.38GY 5.34/1.26	39.38
+1996	ss	youth	Bumper-Car green	9.39GY 6.95/10.98	39.39
+1982	ss	women	Scoreboard Green	9.45GY 7.41/5.96	39.45
+1934	ss	silk	Tropez Green	9.46GY 5.32/2.88	39.46
+1944-45	fw	women	Vista Green	9.46GY 5.56/3.34	39.46
+1999-2000	na	interiors	Grayish Yellowish Green	9.50GY 5.49/2.60	39.50
+1976-77	fw	women	Gallant Green	9.53GY 3.19/5.55	39.53
+1927-28	fw	silk	Aspen Green	9.53GY 4.24/1.37	39.53
+1931	ss	women	Maygreen	9.53GY 6.49/3.77	39.53
+1940	ss	silk	Monterey Green	9.56GY 5.11/2.90	39.56
+1949	ss	women	Hillside Green	9.58GY 5.96/3.07	39.58
+2001-02	fw	women	Download Green	9.66GY 3.96/5.12	39.66
+1949-50	fw	women	Amandine Green	9.69GY 4.22/2.37	39.69
+1972	ss	women	Hillary Green	9.70GY 6.51/7.32	39.70
+1933	ss	women	Paris Green	9.73GY 4.30/6.04	39.73
+1945	ss	silk	CHindit Green	9.74GY 4.18/2.03	39.74
+1965	ss	women	Marble Green	9.74GY 6.67/2.97	39.74
+2005	ss	youth	Vertical Green	9.75GY 5.08/8.14	39.75
+2001	ss	youth	Glossy Green	9.75GY 6.32/10.27	39.75
+1928-29	fw	silk	Arcadian Green	9.75GY 6.54/6.54	39.75
+1932-33	fw	women	Riviera Green	9.76GY 4.53/4.92	39.76
+1984-85	fw	women	Green	9.77GY 2.24/1.27	39.77
+1998	ss	women	Still-Dreamin' Green	9.77GY 6.27/2.96	39.77
+1940	ss	women	Green	9.80GY 4.73/3.42	39.80
+1938	ss	women	Lotus Green	9.88GY 6.04/4.15	39.88
+1991-92	na	interiors	grecian green	9.89GY 5.71/1.08	39.89
+1994-95	fw	women	Traveller Green	9.92GY 4.54/6.43	39.92
+1962	ss	women	Zephyr Green	9.92GY 6.92/2.34	39.92
+1936	ss	women	Starboard Green	9.93GY 4.18/7.82	39.93
+1950	ss	women	Horizon Green	9.95GY 5.89/3.09	39.95
+1956-57	fw	women	Powder Green	0.00G 5.36/1.53	40.00
+1987-88	na	interiors	Dune Green	0.01G 5.41/1.65	40.01
+1937	ss	silk	Watteau Green	0.01G 6.62/3.28	40.01
+1986	ss	youth	Huron Green	0.03G 8.40/2.57	40.03
+1934	ss	silk	Nippon Green	0.06G 6.61/7.00	40.06
+1982	ss	men	Spirited Green	0.07G 5.78/9.03	40.07
+1944-45	fw	silk	Miami Green	0.09G 4.58/3.05	40.09
+1975-76	fw	women	Gleaming Green	0.13G 6.57/7.00	40.13
+1942	ss	silk	Miniature Green	0.20G 6.96/2.46	40.20
+1928-29	fw	silk	English Green	0.29G 1.89/2.14	40.29
+1941-42	fw	silk	Yachting Green	0.30G 5.60/5.95	40.30
+1993-94	fw	youth	Mountaineering Green	0.31G 5.15/7.48	40.31
+1951	ss	silk	Flamenco Green	0.34G 5.11/6.13	40.34
+1946	ss	silk	Nosegay Green	0.35G 6.35/1.87	40.35
+1997	ss	men	Emeraldine Green	0.37G 3.50/3.77	40.37
+1994-95	fw	women	High Street Green	0.37G 4.73/1.33	40.37
+1999	ss	youth	Toy Green	0.38G 5.96/8.51	40.38
+1997	ss	youth	Dot-Candy Green	0.41G 7.77/10.23	40.41
+1986-87	na	interiors	Greensboro Green	0.45G 5.83/4.62	40.45
+1998-99	fw	youth	Ice Green	0.47G 8.23/1.82	40.47
+1981	ss	men	Tripod Green	0.50G 4.52/3.53	40.50
+1941	ss	silk	Amazon Green	0.50G 4.66/3.37	40.50
+1951	ss	silk	Hula Green	0.50G 5.34/3.29	40.50
+1965-66	fw	silk	Silvery Green	0.51G 7.15/1.94	40.51
+1931-32	fw	women	Alamo Green	0.56G 2.45/1.44	40.56
+1988-89	fw	youth	Green	0.56G 7.93/5.09	40.56
+1975	ss	silk	Shimmer Green	0.56G 8.05/5.02	40.56
+2001-02	fw	men	Digital Green	0.59G 4.69/6.00	40.59
+1929-30	fw	silk	Avon Green	0.65G 3.06/2.38	40.65
+2007	ss	youth	Light Yellowish Green	0.65G 6.53/6.67	40.65
+1994	ss	youth	Pop Green	0.68G 5.56/8.91	40.68
+2001	ss	men	.5 Green	0.69G 4.38/4.31	40.69
+1939-40	fw	silk	Killarney Green	0.69G 4.87/7.70	40.69
+1993	ss	youth	Ice Green	0.69G 6.93/10.70	40.69
+1984	ss	men	Napoli Green	0.70G 8.46/1.38	40.70
+1935	ss	women	Nomad Green	0.72G 3.01/4.93	40.72
+2002	ss	women	Garden Green	0.79G 5.89/3.65	40.79
+2002	ss	men	Gemini Green	0.80G 2.72/1.95	40.80
+2002	ss	men	Land Green	0.80G 3.28/4.16	40.80
+1939	ss	women	Norway Green	0.80G 4.42/2.21	40.80
+1961-62	fw	women	Sylvan Green	0.81G 3.55/3.02	40.81
+1992-93	fw	men	cactus greent	0.85G 6.05/9.62	40.85
+1927-28	fw	silk	Almond Green	0.86G 4.69/1.63	40.86
+1937	ss	women	Greentree	0.88G 3.43/6.43	40.88
+1988	ss	youth	Playland Green	0.88G 5.81/9.29	40.88
+1969-70	fw	silk	Hunting Green	0.91G 3.07/4.82	40.91
+1925-26	fw	silk	Alpine Green	0.91G 5.18/3.21	40.91
+1935	ss	silk	Bulgarian Green	0.91G 5.57/8.12	40.91
+1941-42	fw	women	Yachting Green	0.92G 5.33/6.07	40.92
+1986	ss	men	Centurion Green	0.96G 5.40/10.15	40.96
+1940	ss	silk	Swagger Green	0.99G 3.54/4.61	40.99
+1927-28	fw	women	Mountain Green	1.04G 2.76/1.24	41.04
+1930	ss	women	Villa Green	1.04G 5.16/3.23	41.04
+1992-93	fw	youth	Cactus Green	1.04G 5.93/10.17	41.04
+1983-84	na	interiors	Chi Pai Green	1.04G 8.11/1.39	41.04
+1993-94	fw	youth	Granny's Green	1.07G 7.52/2.61	41.07
+1975	ss	silk	Supreme Green	1.08G 6.84/7.07	41.08
+1947	ss	women	Urban Green	1.09G 3.90/3.52	41.09
+1982	ss	men	Neon Green	1.09G 7.21/9.55	41.09
+1976	ss	men	Spartan Green	1.11G 3.87/7.16	41.11
+1983	ss	women	Lacquer Green	1.11G 5.94/8.53	41.11
+2000	ss	youth	Seahorse Blue/Green	1.13G 7.88/2.87	41.13
+1989	ss	men	Mintigreen	1.15G 6.38/5.93	41.15
+1938	ss	women	Newport Green	1.26G 4.56/7.71	41.26
+1934	ss	women	Dragon Green	1.27G 3.69/4.79	41.27
+1962-63	fw	silk	Jubilee Green	1.28G 5.00/9.07	41.28
+1977-78	fw	men	Lombard Green	1.32G 3.15/6.36	41.32
+1933-34	fw	silk	Frostgreen	1.32G 4.50/3.57	41.32
+1988-89	fw	youth	Maxie Green	1.36G 7.58/5.93	41.36
+1978-79	fw	women	Zocko Green	1.38G 3.14/7.94	41.38
+2007	ss	youth	Strong Yellowish Green	1.39G 4.95/9.73	41.39
+1958	ss	women	Greenglaze	1.39G 6.44/2.32	41.39
+1984-85	fw	men	Chrome Green	1.41G 3.27/5.48	41.41
+1981	ss	men	Fairway Green	1.41G 3.35/3.99	41.41
+1975	ss	silk	Fiesta Green	1.43G 5.86/9.72	41.43
+1999	ss	women	Rainforest Green	1.44G 3.48/3.70	41.44
+1936-37	fw	women	Scotgreen	1.45G 1.94/2.82	41.45
+1947	ss	silk	Mint Green	1.45G 5.61/4.69	41.45
+1995	ss	youth	Donald Green	1.45G 5.92/10.04	41.45
+1965-66	fw	women	Green Jasper	1.47G 2.45/3.07	41.47
+1986	ss	youth	Lake Green	1.47G 5.29/9.50	41.47
+1938-39	fw	women	Arosa Green	1.49G 3.84/2.86	41.49
+1939-40	fw	women	Eucalyptus Green	1.51G 3.13/0.96	41.51
+1992	ss	men	Galactic Green	1.52G 4.74/4.23	41.52
+1946-47	fw	silk	Skyline Green	1.52G 4.97/4.33	41.52
+1941	ss	women	Green Heather	1.53G 4.27/2.67	41.53
+1936	ss	silk	Greenglaze	1.54G 6.82/2.29	41.54
+1981-82	fw	women	Elegant Green	1.57G 3.80/0.57	41.57
+1937-38	fw	silk	Arcady Green	1.61G 2.93/4.04	41.61
+1931-32	fw	silk	Alamo Green	1.62G 2.86/2.50	41.62
+1976	ss	men	Gulliver Green	1.65G 3.03/4.53	41.65
+2000-01	fw	women	Chatroom Green	1.70G 3.67/7.49	41.70
+1923	ss	silk	Almond Green	1.70G 5.28/2.03	41.70
+1974-75	fw	men	Polaris Green	1.73G 8.00/3.61	41.73
+1934-35	fw	women	Cedagreen	1.74G 1.43/0.78	41.74
+1942-43	fw	silk	Mexican Green	1.75G 4.75/2.85	41.75
+1937-38	fw	silk	Toltec Green	1.79G 4.87/7.59	41.79
+2005	ss	youth	Grid Green	1.80G 1.83/5.73	41.80
+1975	ss	women	Casino Green	1.81G 6.21/8.29	41.81
+1942-43	fw	women	Patriot Green	1.82G 1.91/2.32	41.82
+1937	ss	silk	Cathay Green	1.83G 3.97/3.07	41.83
+1931-32	fw	women	Willow Green	1.84G 4.30/2.59	41.84
+1952	ss	silk	Sorrento Green	1.87G 4.21/4.38	41.87
+1947-48	fw	silk	Dramatic green	1.89G 4.29/3.51	41.89
+2002	ss	youth	Surf Green	1.89G 8.03/5.12	41.89
+2004	ss	youth	Parrot Green	1.92G 2.00/3.32	41.92
+1993	ss	youth	Rap green	1.94G 6.86/4.98	41.94
+1986-87	fw	men	Atwood Green	1.95G 3.66/5.57	41.95
+1941-42	fw	women	Wave Green	1.95G 5.10/2.13	41.95
+1934-35	fw	women	Scottie Green	1.96G 1.65/1.79	41.96
+1942	ss	silk	Greenturf	1.98G 3.17/4.51	41.98
+1992-93	fw	men	french green	1.98G 6.46/2.11	41.98
+1934	ss	women	Lucerne Green	2.01G 3.42/3.24	42.01
+1946	ss	women	Heroic Green	2.01G 4.37/5.54	42.01
+1992	ss	men	Screen Green	2.02G 6.98/1.88	42.02
+1935-36	fw	women	Rally Green	2.03G 2.78/7.60	42.03
+1999-2000	fw	youth	Court Green	2.05G 3.23/4.78	42.05
+1931	ss	silk	Woodland Green	2.05G 6.52/3.20	42.05
+1983	ss	women	Sprite Green	2.06G 6.79/8.00	42.06
+1985	ss	men	Kerry Green	2.07G 4.89/9.22	42.07
+1987-88	fw	youth	Guacamole Green	2.11G 5.61/2.12	42.11
+2000-01	fw	men	Ageless Green	2.13G 3.21/5.54	42.13
+1965-66	fw	silk	Pine Green	2.16G 5.67/3.49	42.16
+1996	ss	women	Valley Green	2.18G 5.79/8.83	42.18
+1991-92	fw	youth	jolly green	2.18G 7.19/7.40	42.18
+1941	ss	women	Rancho Green	2.21G 3.89/8.11	42.21
+1972	ss	women	Zingo Green	2.23G 5.87/8.92	42.23
+1988-89	fw	women	Deco Green	2.24G 3.78/8.96	42.24
+1989-90	fw	youth	Greenland	2.27G 6.08/3.90	42.27
+1937	ss	silk	Folly Green	2.28G 4.69/6.63	42.28
+1977-78	fw	women	Lotus Green	2.28G 5.84/4.58	42.28
+1942-43	fw	women	Pacific Green	2.29G 4.30/1.74	42.29
+1931-32	fw	silk	Kiltie Green	2.30G 2.58/2.92	42.30
+2003	ss	youth	Ogre Jelly Green	2.30G 4.12/13.22	42.30
+1990	ss	women	Forest Green	2.31G 2.54/1.94	42.31
+1926-27	fw	silk	Locarno Green	2.32G 4.77/6.10	42.32
+1940	ss	women	Woodgreen	2.33G 2.13/3.27	42.33
+1973-74	fw	women	Vivace Green	2.33G 3.71/7.27	42.33
+1990	ss	men	Green	2.33G 5.62/7.97	42.33
+1992-93	fw	women	Miro Green	2.34G 5.06/10.29	42.34
+1930-31	fw	silk	Magnolia Green	2.35G 2.37/3.97	42.35
+2003-04	fw	men	Emerald Green	2.36G 3.42/6.55	42.36
+1931-32	fw	silk	Fondant Green	2.40G 7.63/1.90	42.40
+1930-31	fw	silk	Gem Green	2.42G 2.82/5.48	42.42
+1973-74	fw	men	De Forest Green	2.46G 2.54/3.80	42.46
+1965-66	fw	silk	Whisper Green	2.46G 7.11/1.21	42.46
+1941	ss	women	Greenturf	2.48G 2.97/4.71	42.48
+2003	ss	men	Pixel Green	2.48G 5.52/9.18	42.48
+1936	ss	women	Chalkgreen	2.49G 6.16/2.50	42.49
+1990	ss	men	Spruce Green	2.51G 3.13/3.49	42.51
+1962-63	fw	silk	Holly Green	2.51G 3.33/7.23	42.51
+1957-58	fw	silk	Green Crystal	2.52G 5.20/2.37	42.52
+1931-32	fw	women	Tropic Green	2.56G 3.36/6.82	42.56
+1935-36	fw	silk	Tahiti Green	2.56G 5.37/3.80	42.56
+1991-92	na	interiors	alaska green	2.57G 6.77/4.07	42.57
+1956-57	fw	silk	Caliph Green	2.62G 3.10/6.37	42.62
+1944	ss	women	Chili Green	2.62G 3.74/7.08	42.62
+1931-32	fw	silk	Vine GReen	2.64G 5.44/5.23	42.64
+1931-32	fw	women	Kiltie Green	2.66G 1.57/1.28	42.66
+1964	ss	women	Woodsy Green	2.67G 2.83/3.19	42.67
+1998	ss	youth	X-treme Green	2.67G 5.35/9.85	42.67
+1996	ss	youth	Tranquilino Green	2.72G 6.37/3.85	42.72
+1943-44	fw	silk	Panama Green	2.73G 4.56/2.50	42.73
+1934	ss	silk	Dragon green	2.74G 4.15/5.76	42.74
+1943	ss	women	Daring Green	2.75G 2.77/6.81	42.75
+1932	ss	women	Turf Green	2.75G 2.78/2.21	42.75
+1939	ss	women	Greenjade	2.75G 4.16/4.91	42.75
+1971-72	fw	women	Chloro Green	2.80G 5.10/9.04	42.80
+1986	ss	youth	Robin Green	2.80G 7.00/1.71	42.80
+1924-25	fw	silk	Bakst Green	2.85G 3.50/5.43	42.85
+2003	ss	women	Vermont Green	2.85G 5.79/11.57	42.85
+1997	ss	women	Fast Track Green	2.87G 4.29/8.87	42.87
+1929-30	fw	silk	English Green	2.97G 2.48/2.75	42.97
+1931-32	fw	women	Palmgreen	3.01G 2.60/2.82	43.01
+1938	ss	women	Palermo Green	3.01G 3.93/3.49	43.01
+1951	ss	silk	Banshee Green	3.01G 4.09/5.41	43.01
+1948-49	fw	women	Sun Valley Green	3.03G 3.45/7.30	43.03
+1972-73	fw	women	Yorkshire Green	3.05G 3.28/6.19	43.05
+1935	ss	women	Limerick Green	3.06G 3.75/7.41	43.06
+1976-77	fw	women	Opulent Green	3.06G 4.23/8.52	43.06
+1938-39	fw	silk	Colleen Green	3.08G 3.09/5.72	43.08
+1950-51	fw	women	Dynamic Green	3.10G 3.95/9.40	43.10
+1932	ss	silk	Pirate Green	3.11G 4.52/9.91	43.11
+1933-34	fw	women	Dundee Green	3.14G 1.34/1.66	43.14
+1968-69	fw	women	Snazzy Green	3.14G 3.39/9.75	43.14
+1927-28	fw	silk	Jungle Green	3.15G 2.01/1.67	43.15
+1994-95	fw	youth	Rainforest Green	3.16G 4.42/8.46	43.16
+1991-92	na	interiors	tanganika green	3.17G 5.30/3.01	43.17
+1989	ss	men	Cucumber Green	3.18G 4.98/5.09	43.18
+1942-43	fw	women	Australian Green	3.19G 3.20/1.26	43.19
+1930-31	fw	silk	Gypsy Green	3.19G 3.63/6.39	43.19
+1992	ss	women	Dark Grayish Olive Green	3.22G 2.34/1.14	43.22
+1944-45	fw	women	Happy green	3.24G 3.51/6.03	43.24
+1949	ss	silk	Carib green	3.30G 4.76/5.36	43.30
+1930-31	fw	silk	Cricket Green	3.33G 2.93/2.99	43.33
+1931	ss	silk	Chukker Green	3.33G 3.68/2.68	43.33
+1936-37	fw	silk	Mayfair Green	3.37G 2.86/4.21	43.37
+1946-47	fw	women	Carioca Green	3.38G 3.38/7.78	43.38
+1930	ss	women	Leaf Green	3.39G 4.69/2.68	43.39
+1952	ss	women	Egypt Green	3.42G 4.22/4.93	43.42
+1967	ss	women	Sweet Green	3.45G 6.79/3.01	43.45
+1932-33	fw	silk	Buccaneer Green	3.47G 5.99/10.92	43.47
+2003-04	fw	youth	Evergreen	3.52G 2.11/2.92	43.52
+1930	ss	women	Lido Green	3.52G 5.37/2.22	43.52
+1953	ss	women	Lyric Green	3.53G 5.96/4.10	43.53
+1984-85	na	interiors	Spruce Green	3.55G 5.75/2.75	43.55
+2001	ss	youth	Puppet Green	3.60G 7.87/5.25	43.60
+1936-37	fw	silk	Ceylon green	3.61G 4.43/2.95	43.61
+1932-33	fw	women	Arab Green	3.63G 2.52/4.39	43.63
+1948	ss	women	Boulevard Green	3.69G 3.95/3.86	43.69
+1945	ss	women	Florida Green	3.69G 4.55/5.73	43.69
+1949	ss	women	Boating Green	3.74G 3.84/6.91	43.74
+1981	ss	men	Moon Green	3.75G 7.05/2.71	43.75
+1957-58	fw	women	Glowing Green	3.76G 4.79/5.48	43.76
+1931	ss	silk	Primitive Green	3.77G 4.58/8.72	43.77
+1935-36	fw	women	Kent Green	3.78G 1.73/2.32	43.78
+1930	ss	women	Garden Green	3.81G 3.15/2.61	43.81
+1988-89	fw	men	Green	3.82G 3.62/8.99	43.82
+1932-33	fw	silk	Talisman Green	3.82G 4.19/7.84	43.82
+1954	ss	silk	Green Banana	3.84G 4.64/8.29	43.84
+1930-31	fw	silk	Nugreen	3.86G 2.66/4.16	43.86
+1937-38	fw	women	Hockey Green	3.88G 2.63/6.83	43.88
+1979-80	fw	men	Sylvana Green	3.89G 5.76/4.65	43.89
+1990-91	fw	youth	Moon Green	3.91G 3.87/9.65	43.91
+1939	ss	women	Java Green	3.94G 3.87/7.47	43.94
+1952-53	fw	women	Green Quartz	3.95G 3.16/2.00	43.95
+1944	ss	women	Whitecap Green	3.96G 6.14/1.49	43.96
+1943-44	fw	silk	Colonial Green	3.97G 2.10/1.97	43.97
+1975-76	fw	women	Waterlily Green	3.99G 7.13/4.35	43.99
+1944-45	fw	women	Ranger Green	4.01G 2.29/2.49	44.01
+1990-91	na	interiors	ghana green	4.02G 4.47/7.66	44.02
+1985-86	fw	women	Central Park Green	4.07G 2.16/3.40	44.07
+1932-33	fw	women	Brigand Green	4.07G 2.90/6.91	44.07
+1960-61	fw	silk	Jewel Green	4.07G 3.40/8.28	44.07
+1933-34	fw	silk	Tipperary Green	4.07G 4.50/6.63	44.07
+1943-44	fw	women	Fertile Green	4.11G 3.05/6.77	44.11
+1968	ss	women	Gem Green	4.12G 3.40/9.85	44.12
+1935-36	fw	silk	Spraygreen	4.13G 6.51/2.04	44.13
+1962-63	fw	women	Ranger Green	4.17G 2.30/3.63	44.17
+1991	ss	men	green hurrican	4.18G 3.93/1.60	44.18
+1975-76	fw	women	Grando Green	4.21G 4.78/7.96	44.21
+1968-69	fw	women	Laurel Green	4.23G 2.62/6.69	44.23
+1936-37	fw	women	Churchill Green	4.25G 2.10/4.63	44.25
+1988-89	fw	men	Tundra Green	4.27G 8.04/0.76	44.27
+1970-71	fw	women	Gaspe Green	4.29G 2.17/4.15	44.29
+1979-80	fw	men	Nymph Green	4.30G 6.86/2.53	44.30
+1957-58	fw	women	Apache Green	4.34G 4.57/8.98	44.34
+1935-36	fw	silk	Ali Baba Green	4.40G 5.02/6.67	44.40
+1943	ss	women	Glory Green	4.42G 3.89/7.21	44.42
+1983-84	fw	men	Enchilada Green	4.45G 4.01/3.02	44.45
+1932-33	fw	women	Rustic Green	4.46G 1.79/2.66	44.46
+1951-52	fw	silk	Green Clover	4.48G 4.07/6.13	44.48
+1934-35	fw	silk	Piper Green	4.51G 2.04/3.04	44.51
+1954-55	fw	silk	Luminous Green	4.52G 5.26/5.47	44.52
+1995	ss	men	Greensleeves	4.54G 4.41/4.53	44.54
+1991-92	fw	youth	stream green	4.56G 5.47/8.22	44.56
+1984-85	fw	men	Kelly Green	4.58G 5.37/10.23	44.58
+2014-15	na	interiors	Dark Grayish Green	4.59G 3.32/2.60	44.59
+1931	ss	silk	Meadow Green	4.61G 4.04/3.12	44.61
+1999	ss	youth	Living Green	4.63G 2.36/2.38	44.63
+1994	ss	youth	Cycling Green	4.64G 5.14/9.48	44.64
+1971-72	fw	women	Hamlin Green	4.65G 4.16/8.11	44.65
+1932-33	fw	women	Bagdad Green	4.68G 1.92/2.00	44.68
+1927-28	fw	women	Forest Green	4.69G 1.81/0.79	44.69
+2014-15	fw	women	highlighter green	4.69G 4.87/9.29	44.69
+1949	ss	silk	Seaspray Green	4.73G 6.02/2.43	44.73
+1947-48	fw	silk	Directoire Green	4.74G 2.73/2.56	44.74
+1987-88	fw	youth	Forest Green	4.75G 3.46/5.09	44.75
+1933	ss	women	Baden Green	4.77G 2.86/5.52	44.77
+1951-52	fw	silk	Planters Green	4.77G 3.04/4.42	44.77
+1987-88	fw	women	Haze Green	4.79G 6.08/2.07	44.79
+1957	ss	women	Sunrise Green	4.79G 6.90/2.73	44.79
+1943	ss	silk	Rhythm Green	4.82G 5.06/4.88	44.82
+1999-2000	fw	youth	Grounded Green	4.84G 4.72/8.66	44.84
+1990	ss	youth	ZZZ Green	4.85G 6.55/7.16	44.85
+1996-97	fw	women	Pepper Green	4.86G 2.89/1.26	44.86
+1996	ss	men	Granted Green	4.87G 3.43/0.85	44.87
+1949-50	fw	silk	London Green	4.88G 2.54/2.52	44.88
+1999-2000	fw	youth	Industrial Green	4.92G 2.75/3.23	44.92
+1989-90	na	interiors	van gogh green	4.92G 5.98/8.60	44.92
+1982-83	fw	women	Shannon Green	4.93G 4.34/3.65	44.93
+1995	ss	youth	Indian Green	4.94G 3.12/4.44	44.94
+1964-65	fw	silk	Dancing Green	4.94G 4.64/5.73	44.94
+2000-01	fw	youth	Madras Green	4.94G 7.53/1.89	44.94
+1976-77	fw	men	Jubilee Green	4.95G 3.54/8.55	44.95
+1994-95	fw	youth	Grind Green	4.95G 6.57/7.16	44.95
+1939	ss	silk	Scotch Green	5.01G 3.01/3.65	45.01
+1967	ss	silk	Prime Green	5.02G 4.23/8.20	45.02
+1926-27	fw	women	Gardenia Green	5.06G 3.54/1.72	45.06
+1995-96	fw	youth	Sherwood Green	5.14G 2.51/2.52	45.14
+1978-79	fw	women	Festival Green	5.14G 3.25/8.17	45.14
+1942-43	fw	women	Russian GReen	5.20G 3.39/4.19	45.20
+1934-35	fw	women	Manchu Green	5.21G 3.19/5.47	45.21
+2001-02	fw	men	Amazon Green	5.31G 2.58/3.50	45.31
+1996	ss	youth	Havana Green	5.37G 7.84/7.62	45.37
+1988-89	fw	women	Motor Green	5.43G 2.98/6.32	45.43
+2001	ss	men	Quantifiable Green	5.50G 2.66/2.04	45.50
+1987-88	fw	youth	Juggler's Green	5.50G 4.37/8.79	45.50
+1946	ss	silk	Exciting Green	5.51G 4.26/3.92	45.51
+1986-87	fw	youth	Dublin Green	5.54G 4.54/8.85	45.54
+1976-77	fw	men	Carafe Green	5.59G 2.24/4.09	45.59
+1948-49	fw	women	Serene Green	5.64G 4.80/4.13	45.64
+1940	ss	women	Dawngreen	5.67G 5.60/3.01	45.67
+1949-50	fw	women	Rico Green	5.69G 3.01/6.85	45.69
+1983-84	fw	men	San Pedro Green	5.74G 6.36/1.95	45.74
+1969	ss	silk	Gothic Green	5.75G 3.15/6.15	45.75
+1962-63	fw	silk	Gala Green	5.78G 5.10/7.88	45.78
+2003	ss	women	Spruce Green	5.80G 6.53/4.14	45.80
+1945-46	fw	women	Cloudgreen	5.85G 5.10/3.26	45.85
+1997	ss	youth	Turf Green	5.86G 3.70/3.98	45.86
+1987	ss	youth	Kelly Green	5.90G 4.43/8.26	45.90
+1947-48	fw	women	Victorian Green	5.91G 1.90/2.14	45.91
+1974-75	fw	men	Gadroon Green	5.93G 3.30/7.89	45.93
+1968-69	fw	women	Tempus Green	5.98G 3.41/8.02	45.98
+1981	ss	women	Mineral Green	5.98G 5.29/4.16	45.98
+1937	ss	women	Tile Green	5.99G 4.07/3.34	45.99
+1943-44	fw	women	Colonial Green	6.00G 2.11/2.38	46.00
+2007	ss	youth	Deep Green	6.00G 3.00/8.41	46.00
+1956-57	fw	silk	Greenpine	6.04G 2.52/3.78	46.04
+1929	ss	silk	Rocky green	6.09G 3.01/1.66	46.09
+1985-86	na	interiors	Olive Tree Green	6.09G 4.26/1.94	46.09
+1961-62	fw	silk	Green Glint	6.10G 2.89/7.29	46.10
+1933-34	fw	silk	Dundee Green	6.15G 2.04/2.07	46.15
+1958	ss	silk	Radiance Green	6.17G 4.18/5.85	46.17
+1994-95	fw	youth	Formal Green	6.18G 2.56/3.21	46.18
+1989	ss	youth	Jungle Green	6.20G 4.88/8.50	46.20
+1937	ss	women	Meadowbrook Green	6.25G 4.10/7.44	46.25
+2003	ss	youth	Glass Green	6.28G 6.99/2.23	46.28
+1933-34	fw	women	Hindu Green	6.32G 2.48/4.59	46.32
+2008	ss	youth	Very Light Green	6.34G 7.16/5.18	46.34
+2003	ss	women	Myrtle Green	6.41G 3.82/6.26	46.41
+1972-73	fw	women	Dartmoor Green	6.42G 3.38/6.56	46.42
+1987-88	na	interiors	Veronese Green	6.45G 4.83/8.30	46.45
+1937	ss	women	Porcelain Green	6.45G 5.28/2.69	46.45
+1933	ss	women	Ascot Green	6.46G 3.44/3.59	46.46
+1933	ss	silk	Canton Green	6.47G 5.07/5.02	46.47
+1937-38	fw	silk	Trotteur Green	6.51G 2.25/2.92	46.51
+1932	ss	women	Grotto Green	6.54G 3.56/2.90	46.54
+1963-64	fw	silk	Green Spree	6.55G 3.38/4.23	46.55
+1975-76	fw	women	Gadabout Green	6.57G 2.52/4.55	46.57
+1941-42	fw	silk	TImber Green	6.60G 1.52/1.77	46.60
+1943-44	fw	women	Panama Green	6.60G 5.02/2.63	46.60
+1988	ss	youth	Adventure Green	6.61G 4.78/7.52	46.61
+1999	ss	men	Incinerator Green	6.63G 2.62/1.16	46.63
+1936	ss	silk	Jockey Green	6.64G 3.22/5.20	46.64
+1935-36	fw	silk	Devongreen	6.73G 2.10/2.73	46.73
+1944-45	fw	women	Tidegreen	6.76G 4.03/1.99	46.76
+1959-60	fw	women	Glade Green	6.78G 2.85/5.49	46.78
+1947	ss	silk	Deepsea Green	6.83G 3.69/4.37	46.83
+1957	ss	women	Sailing Green	6.85G 4.89/7.41	46.85
+1939	ss	women	Bagpipe Green	6.86G 2.76/3.09	46.86
+1945-46	fw	women	Valiant Green	6.90G 4.07/4.16	46.90
+1939-40	fw	women	Peasant Green	6.93G 3.89/8.37	46.93
+1957	ss	women	Porcelain Green	6.95G 6.16/3.43	46.95
+1950	ss	women	Frosted Green	6.96G 5.41/2.35	46.96
+1941-42	fw	silk	Wave Green	7.06G 5.20/1.98	47.06
+2003-04	fw	men	Forest Green	7.10G 1.85/2.31	47.10
+1996	ss	women	Loon Green	7.14G 3.00/2.49	47.14
+1952-53	fw	silk	Dashing Green	7.15G 3.88/8.95	47.15
+1992-93	fw	men	bellini green	7.18G 4.95/0.79	47.18
+1932-33	fw	silk	Rustic Green	7.22G 3.69/4.42	47.22
+1927-28	fw	silk	Carrara Green	7.23G 3.41/2.98	47.23
+1931	ss	women	Chukker Green	7.23G 3.76/3.33	47.23
+1988	ss	youth	Green	7.28G 7.26/5.54	47.28
+1986	ss	women	Trinidad Green	7.29G 6.43/6.78	47.29
+1949-50	fw	women	Spinach Green	7.34G 1.74/2.51	47.34
+1937	ss	silk	Tile Green	7.35G 4.26/3.42	47.35
+1983	ss	men	Explorer's Green	7.36G 3.90/2.11	47.36
+1967	ss	silk	Racine Green	7.38G 4.16/9.12	47.38
+1950	ss	silk	Lovebird Green	7.38G 5.89/4.42	47.38
+1938	ss	silk	Glamour Green	7.40G 4.13/7.68	47.40
+1979	ss	men	Regiment Green	7.41G 2.85/5.87	47.41
+1957-58	fw	silk	Rustic Green	7.47G 2.31/3.68	47.47
+1931-32	fw	women	Tuscan Green	7.51G 2.65/3.47	47.51
+1973-74	fw	silk	Arcadia Green	7.52G 2.95/4.39	47.52
+1940-41	fw	women	Fieldgreen	7.53G 3.45/6.74	47.53
+1969-70	fw	women	Boxwood Green	7.59G 2.53/3.70	47.59
+1998	ss	women	Warming Green	7.63G 2.26/3.67	47.63
+1963-64	fw	women	Pageant Green	7.67G 3.52/6.01	47.67
+1940-41	fw	silk	Fiesta Green	7.74G 3.50/7.55	47.74
+1983	ss	men	Ready-Set-Go Green	7.76G 5.20/8.18	47.76
+1938	ss	women	Cruise Green	7.79G 3.52/6.75	47.79
+1937-38	fw	women	Pinegreen	7.80G 1.54/1.15	47.80
+2014-15	fw	youth	Light Green	7.81G 7.02/4.99	47.81
+1939-40	fw	women	Gobelin Green	7.83G 4.46/1.74	47.83
+1943	ss	silk	Harmony Green	7.85G 3.63/4.51	47.85
+1956-57	fw	women	Tamarack Green	7.89G 2.18/2.17	47.89
+1962-63	fw	women	Piper Green	7.89G 4.07/8.66	47.89
+2001-02	fw	youth	Vegetation Green	7.97G 2.55/3.50	47.97
+1990	ss	men	Greened Gray	7.97G 5.56/1.69	47.97
+1951-52	fw	women	Malachite Green	8.00G 3.03/4.20	48.00
+1928-29	fw	women	Frosty Green	8.12G 2.56/2.20	48.12
+1951-52	fw	women	Sunlight Green	8.19G 3.70/7.02	48.19
+1962-63	fw	women	Village Green	8.20G 2.53/4.00	48.20
+1939-40	fw	silk	Marine green	8.22G 2.74/0.46	48.22
+1956-57	fw	women	Country Green	8.24G 3.88/8.53	48.24
+1998	ss	men	Factory Green	8.25G 4.01/2.70	48.25
+1999-2000	fw	youth	Night Shift Green	8.26G 2.28/2.79	48.26
+1943-44	fw	silk	Green River	8.34G 3.56/2.55	48.34
+1950	ss	silk	Poker Green	8.38G 3.84/5.66	48.38
+1939-40	fw	silk	Green Ocean	8.40G 5.01/2.48	48.40
+1992	ss	youth	jack horner green	8.46G 7.77/3.98	48.46
+1931	ss	women	Thicket Green	8.47G 2.94/3.63	48.47
+1932-33	fw	women	Indo Green	8.61G 2.39/2.24	48.61
+1947	ss	women	Juniper Green	8.62G 3.88/3.20	48.62
+2000	ss	youth	Gardener's Green	8.64G 5.57/8.92	48.64
+1932	ss	women	Lagoon Green	8.68G 4.60/2.77	48.68
+1996-97	fw	men	Therapy Green	8.69G 2.62/2.78	48.69
+1944-45	fw	silk	Parkgreen	8.72G 1.89/2.13	48.72
+1945	ss	silk	Green Grotto	8.76G 6.30/2.16	48.76
+1950	ss	silk	Dreamgreen	8.76G 6.98/2.24	48.76
+1995-96	fw	women	Dark Grayish Olive Green	8.81G 2.44/0.72	48.81
+2007	ss	youth	Brilliant Bluish Green	8.81G 6.22/6.72	48.81
+1952	ss	silk	Seaview Green	8.83G 4.77/1.32	48.83
+1977-78	fw	men	Rob Roy Green	8.86G 2.60/3.98	48.86
+1949-50	fw	women	Green Balsam	8.90G 3.06/3.43	48.90
+1937-38	fw	women	Hunting Green	8.95G 1.71/2.34	48.95
+1986-87	fw	men	Dundee Green	9.02G 2.68/3.11	49.02
+1986-87	fw	women	Cloister Green	9.02G 4.35/3.86	49.02
+1948-49	fw	women	Continental Green	9.15G 2.17/3.05	49.15
+1938-39	fw	women	Laurel Green	9.17G 1.97/2.98	49.17
+1982-83	fw	women	Monastery Green	9.20G 1.83/2.59	49.20
+1935-36	fw	women	Heather Green	9.20G 3.12/1.66	49.20
+1989	ss	youth	Floral Green	9.22G 6.12/7.15	49.22
+1961-62	fw	women	Glen Green	9.24G 3.92/4.66	49.24
+1988-89	fw	men	Alpine Green	9.32G 4.47/4.04	49.32
+1991	ss	women	Parrot Green	9.34G 5.77/8.14	49.34
+1981-82	fw	women	Guardsman Green	9.40G 3.93/9.01	49.40
+1952-53	fw	women	Fresco Green	9.48G 4.99/3.89	49.48
+1999-2000	na	interiors	Grayish Green	9.52G 5.19/2.43	49.52
+1926-27	fw	women	Forest Green	9.55G 1.34/1.06	49.55
+1940-41	fw	women	Valley Green	9.55G 4.26/2.28	49.55
+1989	ss	men	Giotto Green	9.56G 5.99/1.73	49.56
+1949-50	fw	silk	Sunset Green	9.63G 5.23/2.23	49.63
+1996-97	fw	women	Far Cry Green	9.65G 2.37/0.70	49.65
+1995	ss	youth	Bam Green	9.68G 5.87/8.58	49.68
+1997-98	fw	women	Polar Green	9.69G 3.22/1.87	49.69
+1991-92	fw	youth	rainforest green	9.78G 2.98/4.11	49.78
+1988-89	fw	youth	Jonathan Green	9.78G 4.10/2.19	49.78
+1934	ss	women	Coachman Green	9.83G 2.64/3.93	49.83
+1927	ss	silk	Posy green	9.84G 5.13/2.85	49.84
+1937-38	fw	women	Glengarry Green	9.90G 2.44/3.85	49.90
+1923	ss	silk	Persian Green	9.96G 3.48/2.36	49.96
+1933	ss	women	Canton Green	9.96G 3.86/5.14	49.96
+1983	ss	men	Starter Green	9.99G 4.85/4.28	49.99
+1926-27	fw	women	Robinhood Green	0.02BG 2.32/3.41	50.02
+1974-75	fw	men	Juniper Green	0.06BG 3.10/3.74	50.06
+1969-70	fw	women	Jester Green	0.11BG 3.50/8.77	50.11
+2002	ss	women	Vegetation Green	0.19BG 2.14/1.88	50.19
+1990-91	fw	men	Grouse Green	0.20BG 2.35/3.56	50.20
+1986-87	na	interiors	Pago Pago Green	0.20BG 3.26/2.01	50.20
+1929-30	fw	silk	Antibes Green	0.20BG 4.41/5.24	50.20
+1936-37	fw	women	Spruce Green	0.22BG 2.17/3.14	50.22
+1937	ss	silk	Porcelain Green	0.22BG 5.59/2.69	50.22
+1935-36	fw	silk	Heather Green	0.25BG 3.51/1.93	50.25
+1979-80	fw	men	Tyrolian Green	0.26BG 2.44/2.89	50.26
+1928-29	fw	women	Mountain Green	0.33BG 1.77/1.86	50.33
+1964-65	fw	women	Gator Green	0.33BG 1.96/3.35	50.33
+1985-86	na	interiors	Nymph Green	0.36BG 6.96/2.79	50.36
+1944-45	fw	women	Deepwater Green	0.39BG 2.61/2.62	50.39
+1956-57	fw	silk	Florentine Green	0.51BG 3.21/4.02	50.51
+1929	ss	silk	Opaque Green	0.52BG 6.16/1.26	50.52
+1932	ss	women	Miramar Green	0.53BG 2.21/2.27	50.53
+1961-62	fw	women	Brilliant Green	0.54BG 3.85/8.24	50.54
+1998	ss	men	Direct Green	0.57BG 4.14/6.07	50.57
+1949	ss	silk	Green Spruce	0.58BG 3.75/2.79	50.58
+2002	ss	women	Rain Forest Green	0.58BG 4.03/6.55	50.58
+1980-81	fw	women	Shocking Green	0.59BG 4.29/6.94	50.59
+1979-80	fw	women	Minorca Green	0.64BG 4.76/3.34	50.64
+1985	ss	women	Silver Green	0.65BG 7.50/6.02	50.65
+1934-35	fw	silk	Chin-Chin Green	0.67BG 3.12/7.07	50.67
+1987	ss	women	Esmeralda Green	0.68BG 3.74/4.42	50.68
+1987-88	na	interiors	Spruce Green	0.71BG 3.49/1.57	50.71
+1940-41	fw	women	Vernon Green	0.75BG 2.07/2.64	50.75
+1951	ss	women	Green Opal	0.77BG 5.97/2.90	50.77
+1936	ss	women	Pottery green	0.86BG 4.04/2.99	50.86
+1987-88	fw	men	Anchorage Green	0.88BG 2.99/3.85	50.88
+1994	ss	youth	Rock Climbing Green	0.89BG 3.75/2.01	50.89
+1957	ss	women	Green Clay	0.91BG 4.33/5.50	50.91
+1964-65	fw	silk	Lapis Green	0.91BG 6.69/2.43	50.91
+1934-35	fw	women	Palma Green	0.92BG 2.66/1.46	50.92
+1978-79	fw	men	Majolica Green	0.92BG 3.54/7.80	50.92
+1994	ss	youth	Gaudi Green	0.96BG 5.17/7.95	50.96
+2004-05	fw	youth	Pool Table Green	0.99BG 3.58/5.03	50.99
+1977-78	fw	men	Everglade Green	1.00BG 3.45/6.89	51.00
+1934	ss	silk	Coachman Green	1.06BG 2.78/4.12	51.06
+1954-55	fw	women	Duskgreen	1.11BG 1.58/1.19	51.11
+1991-92	na	interiors	oslo green	1.16BG 3.01/2.44	51.16
+1950	ss	silk	Playgreen	1.16BG 4.43/4.86	51.16
+1948-49	fw	silk	Continental Green	1.20BG 1.93/2.22	51.20
+1924-25	fw	silk	Tartan Green	1.21BG 1.35/0.78	51.21
+1938-39	fw	silk	Laurel Green	1.26BG 2.24/2.74	51.26
+1985	ss	women	Mallard Green	1.28BG 3.57/4.13	51.28
+1996	ss	youth	Hole-in-One Green	1.28BG 4.66/9.06	51.28
+1993-94	fw	youth	Congo-Grind Green	1.30BG 4.84/8.09	51.30
+1972-73	fw	women	Gramercy Green	1.32BG 3.74/7.71	51.32
+1948	ss	silk	Carnival Green	1.37BG 3.74/3.19	51.37
+1955	ss	women	Roman Green	1.40BG 4.26/3.47	51.40
+1987	ss	women	Goddard Green	1.44BG 5.60/8.08	51.44
+1937-38	fw	women	Chantilly Green	1.50BG 3.32/3.02	51.50
+1961-62	fw	silk	Green Glass	1.53BG 3.26/7.08	51.53
+1941-42	fw	silk	Ski Green	1.55BG 2.84/4.00	51.55
+1999	ss	youth	Man-Made Green	1.59BG 5.72/7.74	51.59
+1945-46	fw	women	Yukon Green	1.61BG 2.94/2.82	51.61
+1989-90	na	interiors	silver green	1.67BG 7.44/1.72	51.67
+1977	ss	men	Flare Green	1.71BG 3.17/7.98	51.71
+1966-67	fw	women	Rajah Green	1.71BG 3.35/7.63	51.71
+1941	ss	women	Banff Green	1.71BG 4.07/5.73	51.71
+1936-37	fw	women	Dark Grayish Green	1.75BG 3.55/2.66	51.75
+1999	ss	men	Lime Ice Green	1.77BG 4.81/7.73	51.77
+1936	ss	silk	Club Green	1.81BG 4.59/8.72	51.81
+1990	ss	women	Green Turq	1.83BG 6.42/9.07	51.83
+1940	ss	women	Arctic Green	1.87BG 3.52/2.27	51.87
+1989	ss	women	Green	1.88BG 4.03/7.22	51.88
+1935	ss	silk	Hungarian Green	1.89BG 4.81/7.85	51.89
+1936-37	fw	silk	Spruce Green	1.93BG 1.85/2.73	51.93
+1986	ss	youth	Colorado Green	1.98BG 7.98/6.60	51.98
+1964-65	fw	silk	Green Gem	2.00BG 3.27/5.47	52.00
+1989	ss	men	Carbon Green	2.03BG 3.76/2.26	52.03
+1961-62	fw	women	Pixie Green	2.05BG 1.88/2.28	52.05
+1966-67	fw	women	Regal green	2.09BG 3.16/6.90	52.09
+1986-87	fw	men	Westbury Green	2.10BG 1.73/1.80	52.10
+1950-51	fw	silk	Five O'clock Green	2.12BG 3.43/4.55	52.12
+1979	ss	women	Kashmir Green	2.14BG 4.27/5.28	52.14
+1998-99	fw	women	www.green	2.14BG 4.35/0.56	52.14
+1948-49	fw	silk	Southsea Green	2.25BG 4.99/4.43	52.25
+1988-89	na	interiors	shasta green	2.26BG 3.70/4.15	52.26
+2008	ss	youth	Deep Green	2.36BG 3.24/7.81	52.36
+1944	ss	women	Freshwater Green	2.40BG 4.55/2.44	52.40
+1975-76	fw	women	Fir Tree Green	2.45BG 3.45/5.65	52.45
+1984	ss	women	Jupiter Green	2.47BG 4.89/7.46	52.47
+1940	ss	women	Green Aqua	2.58BG 3.98/3.00	52.58
+1986	ss	youth	Rainier Green	2.65BG 4.65/8.32	52.65
+1997	ss	women	Workaholic Green	2.68BG 1.87/3.08	52.68
+1993	ss	youth	Rollerblade Green	2.68BG 4.44/8.14	52.68
+1930-31	fw	silk	Montreaux Green	2.71BG 3.00/4.09	52.71
+1950-51	fw	women	Green Laurel	2.78BG 2.12/2.75	52.78
+1980-81	fw	women	Almond Green	2.83BG 7.12/3.16	52.83
+2014-15	fw	youth	Very Dark Green	2.87BG 1.89/2.75	52.87
+1994-95	fw	women	Interactive Green	2.93BG 3.38/1.55	52.93
+1931-32	fw	women	Lombardy Green	2.95BG 2.21/2.18	52.95
+1970-71	fw	women	Strong Bluish Green	2.97BG 3.30/7.62	52.97
+1935	ss	silk	Cossack Green	2.99BG 2.40/3.55	52.99
+1984-85	na	interiors	Monte Carlo Green	3.03BG 5.05/3.72	53.03
+1950-51	fw	silk	Green Agate	3.05BG 2.42/3.24	53.05
+1984-85	fw	women	Sea Green	3.11BG 5.82/1.43	53.11
+1981-82	na	interiors	Midnight Green	3.12BG 3.31/4.22	53.12
+1980-81	fw	men	Jewel Green	3.12BG 4.01/4.07	53.12
+1937-38	fw	silk	Capri Green	3.12BG 4.47/2.97	53.12
+1975-76	fw	silk	Green Opal	3.13BG 7.36/3.54	53.13
+2007	ss	women	Very Light Bluish Green	3.14BG 7.56/4.94	53.14
+1953-54	fw	silk	India Green	3.19BG 2.94/1.98	53.19
+1930-31	fw	silk	Buddha Green	3.21BG 5.15/6.66	53.21
+1987-88	na	interiors	Jade Green	3.21BG 5.35/8.14	53.21
+1930-31	fw	silk	China Green	3.24BG 5.81/6.63	53.24
+2014	ss	men	shagreen	3.26BG 3.37/1.43	53.26
+1931-32	fw	silk	Calife Green	3.26BG 3.88/7.85	53.26
+1978	ss	men	Sprucy Green	3.28BG 3.97/5.77	53.28
+1987-88	fw	women	Green	3.29BG 1.78/2.67	53.29
+1991	ss	youth	Noa Noa Green	3.30BG 5.90/8.42	53.30
+1992-93	fw	women	Evergreen	3.32BG 2.99/3.04	53.32
+1966-67	fw	women	Gordon Green	3.33BG 2.53/5.04	53.33
+2000-01	fw	women	I-am-what-I-am Green	3.35BG 2.15/1.28	53.35
+1985-86	na	interiors	Misty Green	3.39BG 6.01/1.58	53.39
+1930-31	fw	silk	Glade Green	3.42BG 2.86/3.06	53.42
+1986	ss	youth	Meadow Lark Green	3.42BG 6.60/3.49	53.42
+1998-99	fw	women	Oil Green	3.50BG 1.98/1.26	53.50
+1946-47	fw	women	Rendezvous Green	3.50BG 2.18/2.23	53.50
+1950	ss	women	Saltwater Green	3.55BG 4.01/2.90	53.55
+1988-89	na	interiors	everglades green	3.63BG 4.40/2.13	53.63
+2000-01	fw	youth	New Zealand Green	4.01BG 4.09/7.13	54.01
+1990-91	fw	men	Sage Green	4.04BG 3.25/1.81	54.04
+1983-84	fw	men	Mesa Green	4.05BG 5.05/7.30	54.05
+1949-50	fw	silk	Green Cedar	4.07BG 2.37/2.56	54.07
+1959-60	fw	women	Vagabond Green	4.08BG 2.74/4.38	54.08
+1931	ss	silk	Bahama Green	4.08BG 5.86/2.54	54.08
+1954-55	fw	silk	Green Fantasy	4.10BG 2.72/2.57	54.10
+1983-84	fw	men	Hachita Green	4.11BG 2.36/2.21	54.11
+1946	ss	women	Seaway Green	4.12BG 4.34/3.59	54.12
+1936-37	fw	women	Derby Green	4.17BG 3.32/5.46	54.17
+1939-40	fw	women	Virginia Green	4.18BG 2.97/4.07	54.18
+1985	ss	men	Deep Green	4.23BG 3.40/3.65	54.23
+1949-50	fw	women	Greendusk	4.26BG 3.23/1.05	54.26
+1947	ss	silk	Peacock Green	4.27BG 3.58/4.49	54.27
+1931	ss	women	Bahama Green	4.27BG 3.65/2.37	54.27
+1991	ss	men	foam green	4.33BG 5.97/1.41	54.33
+1929-30	fw	silk	Carafe Green	4.39BG 2.70/1.67	54.39
+1992	ss	women	Light Bluish Green	4.40BG 7.32/4.54	54.40
+1970-71	fw	silk	Ceramic Green	4.41BG 4.21/7.98	54.41
+1938-39	fw	women	Greenhaze	4.42BG 3.14/1.91	54.42
+1983-84	fw	women	French Horn Green	4.44BG 2.43/2.18	54.44
+1991	ss	women	Patagonia Green	4.48BG 3.44/3.23	54.48
+1999	ss	women	Hemisphere Green	4.50BG 5.03/2.95	54.50
+1994	ss	women	Seafaring Green	4.58BG 3.80/5.70	54.58
+1977-78	fw	men	Dark Duck Green	4.60BG 2.84/4.48	54.60
+1952-53	fw	women	Baroque Green	4.66BG 3.04/4.08	54.66
+2012-13	fw	women	Race Car Green	4.68BG 2.14/1.05	54.68
+1986-87	fw	women	Parrot Green	4.68BG 5.03/7.80	54.68
+1951	ss	silk	Green Vista	4.69BG 3.20/3.40	54.69
+1952-53	fw	women	Mineral Green	4.72BG 2.03/2.84	54.72
+1984-85	fw	women	Ocean Green	4.76BG 4.20/1.59	54.76
+1930	ss	women	Adriatic Green	4.89BG 2.95/2.92	54.89
+1954-55	fw	women	Orient Green	4.93BG 2.64/3.61	54.93
+1948-49	fw	silk	Hummingbird Green	4.95BG 2.99/5.40	54.95
+1966-67	fw	women	Jaded Green	4.96BG 3.07/6.73	54.96
+1928	ss	women	Ripple Green	5.07BG 4.47/3.57	55.07
+1992	ss	youth	lon popo green	5.09BG 5.50/7.87	55.09
+1988	ss	men	Aventurine Green	5.19BG 4.41/1.05	55.19
+1930-31	fw	women	Swiss Green	5.30BG 3.41/2.90	55.30
+1929-30	fw	silk	Lomond Green	5.36BG 3.95/2.00	55.36
+1986-87	fw	youth	Granite Green	5.42BG 4.09/2.45	55.42
+1988	ss	women	Brassica Green	5.42BG 7.03/4.35	55.42
+1998	ss	men	Industrial Green	5.43BG 2.77/2.67	55.43
+1931	ss	silk	Caribbee Green	5.43BG 4.67/3.25	55.43
+1935-36	fw	women	Amulet Green	5.56BG 2.18/2.77	55.56
+1988	ss	youth	Wham Green	5.68BG 4.57/6.97	55.68
+1997-98	fw	youth	Mainframe Green	5.68BG 4.85/7.86	55.68
+1954-55	fw	women	Green Tile	5.71BG 4.26/3.61	55.71
+1985-86	fw	women	Parrot Green	5.71BG 4.65/6.24	55.71
+1981	ss	men	Tartan Green	5.84BG 1.93/2.88	55.84
+1928-29	fw	women	Marble Green	5.85BG 2.00/2.59	55.85
+1934-35	fw	silk	Palma Green	5.85BG 2.43/1.96	55.85
+1990-91	na	interiors	kenya green	5.88BG 3.71/3.97	55.88
+1972-73	fw	silk	Romany Green	5.99BG 4.12/8.16	55.99
+1997-98	fw	men	Gad-About Green	6.00BG 4.61/0.95	56.00
+1984	ss	women	Amish Green	6.03BG 5.65/2.05	56.03
+1927-28	fw	women	Vagabond Green	6.12BG 2.58/3.81	56.12
+1987-88	fw	women	Hurricane Green	6.18BG 3.42/1.90	56.18
+1984-85	fw	men	Egyptian Green	6.28BG 2.51/2.82	56.28
+1944-45	fw	silk	Deepriver Green	6.29BG 4.05/2.94	56.29
+1993	ss	youth	Zaire Green	6.32BG 5.81/7.80	56.32
+1930-31	fw	women	Marble green	6.36BG 2.44/2.78	56.36
+1940	ss	women	Greenspray	6.48BG 4.73/2.31	56.48
+1936	ss	silk	Tapestry Green	6.49BG 3.80/4.46	56.49
+1931-32	fw	women	Chasseur Green	6.55BG 1.65/1.34	56.55
+1935-36	fw	women	Adengreen	6.57BG 1.70/1.28	56.57
+1986-87	fw	women	Dublin Green	6.63BG 3.16/2.63	56.63
+1980-81	fw	women	Hemlock Green	6.65BG 3.76/3.69	56.65
+1931	ss	women	Maris Green	6.66BG 5.17/2.20	56.66
+1951	ss	women	Jasper Green	6.72BG 3.84/3.91	56.72
+1970-71	fw	women	Dark Bluish Green	6.94BG 3.16/7.09	56.94
+1934-35	fw	women	Stroller Green	7.35BG 1.64/0.81	57.35
+1987-88	fw	men	Dawson Green	7.40BG 2.19/1.13	57.40
+1928-29	fw	women	Vagabond Green	7.44BG 2.33/3.88	57.44
+1980-81	fw	women	Congo Green	7.50BG 4.76/4.56	57.50
+1975-76	fw	silk	Cyana Green	7.62BG 2.61/4.75	57.62
+1985-86	na	interiors	Medici Green	7.62BG 4.70/3.22	57.62
+1940-41	fw	women	Quad Green	7.71BG 3.99/4.89	57.71
+1936-37	fw	women	Gleneagles Green	7.72BG 2.08/3.77	57.72
+2014-15	fw	men	lovat green	7.74BG 6.10/3.03	57.74
+1930-31	fw	women	Greenwood	7.79BG 1.74/1.56	57.79
+1983-84	na	interiors	Amoy Dk. Green	7.82BG 1.61/2.04	57.82
+1930-31	fw	silk	Marble Green	7.82BG 3.55/3.05	57.82
+1938	ss	women	Greensea	7.83BG 5.11/4.10	57.83
+1989-90	na	interiors	spruce green	7.87BG 3.44/4.20	57.87
+2000-01	fw	youth	Ice Green	8.01BG 2.48/1.36	58.01
+1938	ss	silk	Dragonfly Green	8.10BG 2.88/3.65	58.10
+1927-28	fw	women	Highland Green	8.26BG 1.91/2.69	58.26
+1936-37	fw	silk	Aperitif Green	8.46BG 2.77/2.48	58.46
+1929-30	fw	women	Sylvan Green	8.49BG 2.70/3.26	58.49
+1987-88	fw	men	Green	8.53BG 4.51/5.08	58.53
+1930-31	fw	women	Pagoda Green	8.54BG 3.54/4.66	58.54
+2005	ss	men	Cleansing Green	8.63BG 2.49/1.99	58.63
+1930-31	fw	silk	Moderate Bluish Green	8.71BG 4.21/3.75	58.71
+1988-89	fw	men	Arctic Green	8.80BG 4.15/1.51	58.80
+2010-11	fw	women	Greened Blue	8.83BG 4.15/8.80	58.83
+1964-65	fw	silk	Opal Green	8.94BG 6.64/2.69	58.94
+1939-40	fw	women	Marine Green	8.99BG 1.23/0.62	58.99
+1992	ss	women	Vivid Bluish Green	9.02BG 4.73/7.14	59.02
+1940	ss	women	Electric Green	9.08BG 2.51/3.32	59.08
+1984	ss	women	Greengooseberry	9.28BG 4.16/5.25	59.28
+1935	ss	women	Peking Green	9.32BG 2.58/3.65	59.32
+2008	ss	youth	Vivid Bluish Green	9.34BG 5.05/6.78	59.34
+1937-38	fw	women	Duckgreen	9.38BG 2.83/3.89	59.38
+1937-38	fw	silk	Duckgreen	9.50BG 2.75/3.68	59.50
+2007	ss	youth	Strong Bluish Green	9.58BG 4.04/7.03	59.58
+1987-88	fw	women	London Green	9.60BG 3.84/5.01	59.60
+1935	ss	silk	Peking Green	9.71BG 2.75/4.04	59.71
+2007	ss	youth	Light Bluish Green	9.83BG 6.57/6.17	59.83
+1980-81	fw	women	Spruce Green	9.95BG 3.10/2.30	59.95
+1930-31	fw	women	Ivy Green	0.07B 1.63/1.08	60.07
+1955-56	fw	silk	Versailles Green	0.08B 4.95/2.31	60.08
+1929-30	fw	silk	Tyrolian Green	0.30B 2.73/1.76	60.30
+1927	ss	silk	Antique Green	0.50B 4.71/3.01	60.50
+2003	ss	women	Evergreen	1.12B 2.89/1.73	61.12
+1936-37	fw	women	Duskgreen	1.21B 1.57/0.97	61.21
+2002	ss	men	Barnacle Green	1.30B 4.24/2.10	61.30
+1988-89	fw	men	Lichen Green	1.34B 4.07/1.44	61.34
+1949-50	fw	silk	Chameleon Green	1.85B 2.84/2.06	61.85
+1997-98	fw	men	Interview Green	1.95B 1.58/1.02	61.95
+1961-62	fw	silk	Crackle Green	2.03B 3.15/5.68	62.03
+2004-05	fw	men	Definite Green	2.20B 2.34/3.71	62.20
+1952-53	fw	women	Duckling Green	2.49B 3.03/3.03	62.49
+1988	ss	men	Gin Green	2.59B 4.63/8.74	62.59
+1963-64	fw	women	Marine Green	3.02B 2.81/5.13	63.02
+1996	ss	women	River green	3.38B 3.69/3.59	63.38
+1987-88	na	interiors	Lacquer Green	3.61B 3.74/5.21	63.61
+1938	ss	women	Mallard Green	3.93B 3.42/3.17	63.93
+1987-88	fw	men	Waterville Green	4.42B 4.07/1.01	64.42
+1964-65	fw	silk	Cathedral Green	4.96B 2.91/4.18	64.96
+2005	ss	men	Rev-Up Green	5.40B 3.01/4.12	65.40
+1946-47	fw	silk	Green Mallard	5.52B 2.66/3.05	65.52
+1937-38	fw	women	Normandy Green	7.55B 1.45/1.82	67.55
+1937	ss	men	Petrol Green	0.43PB 3.10/1.87	70.43

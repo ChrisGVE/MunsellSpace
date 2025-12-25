@@ -1,0 +1,554 @@
+Colour name:	gold
+Number of CAUS samples:	362
+Centroid in Munsell coordinates:	9.79YR 6.39/7.35
+Centroid in Cartesian coordinates:	 2.36	 6.96	6.39
+Polyhedron vertices in Munsell coordinates:
+3.42YR 4.94/6.66
+4.09YR 3.88/5.80
+4.24YR 4.68/7.52
+4.32YR 6.24/9.92
+5.00YR 3.76/5.47
+5.04YR 6.92/10.04
+5.05YR 6.19/11.31
+5.26YR 4.62/8.35
+5.57YR 5.66/10.60
+5.86YR 3.77/6.15
+6.13YR 7.48/10.82
+7.35YR 6.49/12.11
+8.10YR 4.35/7.94
+8.18YR 4.98/9.84
+8.58YR 3.51/2.29
+8.83YR 3.74/4.73
+8.93YR 6.10/11.73
+9.03YR 6.22/2.87
+9.26YR 7.58/12.24
+9.66YR 7.02/12.27
+9.78YR 5.91/11.11
+9.97YR 7.95/10.74
+0.48Y 8.00/2.93
+1.04Y 8.22/3.52
+1.57Y 8.40/5.59
+1.72Y 8.43/6.67
+1.88Y 8.27/10.10
+2.49Y 4.28/5.46
+2.67Y 8.49/7.93
+2.87Y 8.50/6.86
+3.06Y 7.93/11.20
+3.06Y 8.34/10.52
+3.10Y 8.51/9.22
+3.69Y 7.94/10.97
+3.80Y 7.43/3.26
+3.97Y 4.88/5.95
+4.50Y 6.73/9.90
+4.61Y 6.40/3.55
+4.78Y 8.53/9.31
+5.06Y 6.07/8.07
+5.08Y 7.47/9.94
+5.18Y 7.00/4.18
+5.37Y 7.10/9.14
+5.68Y 7.49/5.42
+5.79Y 6.14/6.92
+6.16Y 8.28/8.75
+6.27Y 6.61/5.85
+Polyhedron vertices in Cartesian coordinates:
+4.43	4.97	4.94
+3.67	4.49	3.88
+4.71	5.87	4.68
+6.17	7.77	6.24
+3.22	4.43	3.76
+5.88	8.14	6.92
+6.62	9.17	6.19
+4.80	6.83	4.62
+5.92	8.79	5.66
+3.34	5.16	3.77
+5.72	9.18	7.48
+5.60	10.74	6.49
+3.34	7.21	4.35
+4.09	8.95	4.98
+0.90	2.11	3.51
+1.79	4.38	3.74
+4.37	10.89	6.10
+1.05	2.67	6.22
+4.32	11.45	7.58
+4.04	11.59	7.02
+3.58	10.52	5.91
+3.34	10.21	7.95
+0.82	2.81	8.00
+0.87	3.41	8.22
+1.20	5.46	8.40
+1.36	6.53	8.43
+1.97	9.91	8.27
+0.86	5.39	4.28
+1.16	7.85	8.49
+0.92	6.80	8.50
+1.36	11.12	7.93
+1.28	10.44	8.34
+1.10	9.15	8.51
+0.90	10.93	7.94
+0.25	3.25	7.43
+0.38	5.94	4.88
+0.31	9.90	6.73
+0.09	3.55	6.40
+0.13	9.31	8.53
+-0.03	8.07	6.07
+-0.05	9.94	7.47
+-0.05	4.18	7.00
+-0.21	9.14	7.10
+-0.23	5.42	7.49
+-0.34	6.91	6.14
+-0.64	8.73	8.28
+-0.47	5.83	6.61
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+11	12	7
+10	16	15
+35	23	15
+38	35	15
+23	35	46
+35	44	46
+4	1	23
+23	18	15
+18	1	15
+1	18	23
+3	4	7
+4	3	1
+1	2	15
+3	2	1
+45	43	46
+43	40	37
+40	43	45
+47	38	15
+45	47	15
+47	45	46
+44	47	46
+43	41	46
+41	43	37
+37	21	20
+40	28	37
+28	21	37
+16	28	15
+8	14	10
+2	8	10
+8	3	7
+8	2	3
+12	9	7
+14	9	12
+9	8	7
+8	9	14
+11	6	23
+6	4	23
+6	11	7
+4	6	7
+5	10	15
+2	5	15
+5	2	10
+35	42	44
+42	47	44
+42	35	38
+47	42	38
+31	37	20
+17	12	20
+21	17	20
+17	14	12
+17	21	14
+13	28	16
+13	16	10
+14	13	10
+21	13	14
+28	13	21
+36	40	45
+36	28	40
+36	45	15
+28	36	15
+26	29	11
+25	26	11
+24	23	46
+39	24	46
+24	11	23
+24	25	11
+34	41	37
+31	34	37
+41	34	46
+34	39	46
+34	31	32
+39	34	32
+22	27	32
+33	39	32
+27	33	32
+29	33	11
+33	22	11
+22	33	27
+24	30	25
+30	24	39
+26	30	29
+30	26	25
+30	33	29
+33	30	39
+31	19	32
+19	22	32
+19	31	20
+22	19	11
+12	19	20
+19	12	11
+Samples, with Munsell coordinates, from CAUS data:
+liquid gold	4.30R 2.39/0.15
+Coppergold	3.11YR 4.52/6.99
+Burmese Gold	3.42YR 4.94/6.66
+Gold Brown	3.56YR 3.83/7.03
+Marigold	3.98YR 5.92/13.23
+Gold Brown	4.09YR 3.88/5.80
+Gold Pheasant	4.24YR 4.68/7.52
+Gala Gold	4.32YR 6.24/9.92
+Sunflower Gold	4.33YR 7.34/10.89
+Kowhai Gold	4.36YR 4.14/9.83
+Chinese Gold	4.87YR 5.88/8.77
+Gold Brown	5.00YR 3.76/5.47
+Heavy Metal Gold	5.04YR 6.92/10.04
+Teddy's Gold	5.05YR 6.19/11.31
+Rusty Gold	5.26YR 4.62/8.35
+Samba Gold	5.57YR 5.20/8.46
+Curry Gold	5.57YR 5.66/10.60
+French Marigold	5.66YR 6.06/9.63
+Champagne Gold	5.81YR 5.84/5.95
+torino gold	5.85YR 5.41/7.89
+Waxed Gold	5.86YR 3.77/6.15
+Gold Brown	5.96YR 4.57/6.50
+Leland Gold	6.12YR 5.32/5.29
+Techno-Gold	6.13YR 7.48/10.82
+Sahara Gold	6.15YR 6.68/10.43
+Crescendo Gold	6.24YR 4.24/5.34
+Dependable Gold	6.37YR 5.50/8.83
+Bridle Gold	6.40YR 5.49/8.49
+Plaza Gold	6.54YR 6.26/5.23
+SIlvergold	6.60YR 6.11/1.04
+Indian Gold	6.69YR 6.46/8.01
+Stadium Gold	6.73YR 6.55/9.84
+Gold Lustre	6.86YR 6.63/6.91
+Merry Gold	6.87YR 5.43/10.02
+Molten Gold	6.90YR 6.14/7.87
+Cauldron Gold	6.98YR 7.08/13.07
+Cortez Gold	7.15YR 6.04/9.40
+Gold	7.22YR 6.61/5.14
+Orange Gold	7.27YR 5.64/8.65
+Pompey Gold	7.35YR 6.49/12.11
+Gold Dust	7.39YR 5.56/5.13
+Rusted Gold	7.44YR 5.54/9.09
+Star Gold (a)	7.49YR 6.17/4.77
+Antiqued Gold	7.49YR 6.52/10.40
+Honeygold	7.50YR 5.81/5.65
+indian gold	7.55YR 6.75/8.75
+Florida Gold	7.56YR 7.51/10.32
+Tobacco Gold	7.59YR 4.84/6.30
+Honey Gold	7.64YR 5.46/5.80
+Gold Leaf	7.65YR 6.05/6.85
+Gold	7.73YR 5.70/9.87
+Sunny Gold	7.80YR 5.69/6.84
+Leaf Gold	7.85YR 5.21/5.03
+Glossed Gold	7.86YR 5.30/6.97
+Dijon Gold	7.95YR 4.00/6.90
+Tokyo Gold	7.97YR 5.32/10.01
+Tarnished Gold	8.00YR 5.42/6.38
+Angers Gold	8.02YR 5.14/7.72
+Marigold	8.07YR 7.33/11.21
+Harvest Gold	8.10YR 4.35/7.94
+Pencil Gold	8.12YR 6.88/11.63
+Gold Leaf	8.15YR 5.98/9.58
+Gracious Gold	8.18YR 4.98/9.84
+Magic Gold	8.18YR 5.03/9.57
+carabiner gold	8.29YR 4.91/7.58
+Incan Gold	8.33YR 6.16/11.13
+Inca Gold	8.39YR 7.07/6.80
+collector's gold	8.44YR 7.47/11.43
+Mozart Gold	8.55YR 6.02/9.63
+Enchanted Gold	8.56YR 5.69/9.12
+Ginger Gold	8.56YR 6.76/7.37
+Khaki Gold	8.58YR 3.51/2.29
+Canton Gold	8.60YR 6.47/9.77
+Yakima Gold	8.60YR 6.92/9.58
+Sienna Gold	8.67YR 5.50/7.00
+Gold Bar	8.70YR 7.00/7.51
+Saffron Gold	8.71YR 5.98/8.89
+Gold	8.72YR 5.29/11.09
+Gold Glow	8.75YR 7.59/7.95
+Harvest Gold	8.76YR 5.88/6.04
+Carrot Gold	8.79YR 5.51/9.30
+Relic Gold	8.82YR 6.52/6.66
+Antique CHain Gold	8.83YR 3.74/4.73
+Glitter Gold	8.93YR 6.10/11.73
+Aloha Gold	8.99YR 7.61/13.14
+Gold Dust	9.03YR 6.22/2.87
+Mystic Gold	9.08YR 6.18/6.46
+Explorer Gold	9.12YR 5.69/7.39
+Gold Lacquer	9.13YR 5.98/6.37
+Checkmate Gold	9.13YR 7.17/5.08
+Meadow Gold	9.14YR 4.70/4.55
+Goldspice	9.17YR 5.20/6.45
+Antique Gold	9.18YR 5.01/8.31
+Indo Gold	9.21YR 6.28/6.14
+Marigold	9.21YR 7.87/10.21
+Sorrento Gold	9.26YR 7.58/12.24
+Chrome Gold	9.32YR 7.22/10.55
+China Gold	9.33YR 6.72/7.35
+Filtered Gold	9.42YR 7.48/3.34
+Autumn Gold	9.45YR 6.02/7.31
+Glory Gold	9.48YR 6.56/9.13
+Cheergold	9.50YR 6.17/7.44
+Earth Gold	9.54YR 5.98/8.10
+Foliage Gold	9.56YR 5.47/7.30
+Ceramic Gold	9.57YR 7.18/6.86
+Gala Gold	9.60YR 7.38/11.42
+Saffron Gold	9.64YR 4.80/5.72
+Vibrant Gold	9.66YR 7.02/12.27
+Sunset Gold	9.66YR 7.35/6.59
+Spun Gold	9.67YR 6.14/5.24
+Ocala Gold	9.67YR 6.95/6.53
+Glimmer Gold	9.69YR 6.63/8.63
+Gold Leaf	9.71YR 5.96/7.50
+earth gold	9.71YR 6.00/7.86
+Sunnigold	9.71YR 6.01/7.37
+Olympia Gold	9.74YR 7.51/6.13
+Gold	9.78YR 5.91/11.11
+Curry Gold	9.79YR 6.09/4.98
+Stagehand Gold	9.79YR 7.42/6.18
+Seagold	9.84YR 5.11/6.94
+Powdered Gold	9.85YR 5.73/4.32
+Horizon Gold	9.85YR 5.86/7.10
+Romance Gold	9.88YR 6.32/7.24
+San Francisco Gold	9.92YR 6.80/9.35
+Maizie Gold	9.94YR 7.51/11.54
+Harvest Gold	9.96YR 5.82/6.66
+Trojan Gold	9.96YR 7.11/10.10
+Mandarin Gold	9.97YR 7.95/10.74
+Honor Gold	0.02Y 5.67/5.11
+Floragold	0.02Y 7.27/5.31
+Etoile Gold	0.05Y 6.38/6.67
+Beaten Gold	0.09Y 5.16/5.31
+Subtle Gold	0.10Y 7.15/6.50
+Siren Gold	0.11Y 5.95/10.79
+Cabaret Gold	0.16Y 6.15/7.21
+Rio Gold	0.24Y 6.71/8.30
+gold standard	0.28Y 6.46/10.71
+Martinique Gold	0.28Y 7.23/9.09
+Victory Gold	0.30Y 6.44/6.73
+Aladdin Gold	0.33Y 6.42/9.62
+Brassine Gold	0.37Y 6.22/5.62
+Arcade Gold	0.38Y 5.06/6.90
+Honor Gold	0.41Y 5.87/5.15
+Gold Cup	0.43Y 7.05/10.72
+Dusty Gold	0.48Y 8.00/2.93
+Sun Valley Gold	0.50Y 4.40/5.35
+Milano Gold	0.50Y 5.26/5.08
+Pungent Gold	0.56Y 6.48/9.80
+Fortune Gold	0.57Y 6.75/8.15
+Quartz Gold	0.58Y 6.37/7.76
+Pennant Gold	0.63Y 7.74/10.28
+Jubilee Gold	0.65Y 7.59/11.46
+Sungold	0.65Y 7.64/9.71
+Coronado Gold	0.68Y 6.25/7.30
+Global Gold	0.69Y 4.83/6.17
+Baroque Gold	0.71Y 7.10/7.70
+Brass Gold	0.74Y 4.44/6.29
+Rum Gold	0.74Y 4.62/5.07
+Champion Gold	0.74Y 5.90/8.55
+Ambergold	0.78Y 6.88/5.95
+Mustard Gold	0.79Y 5.16/7.28
+Chicory Gold	0.79Y 6.66/7.38
+Sierra Gold	0.81Y 5.92/4.91
+Viola Gold	0.84Y 4.01/5.83
+Ming Gold	0.86Y 5.64/7.78
+Cocktail Gold	0.94Y 6.20/6.18
+Ceaznne Gold	0.97Y 6.36/5.09
+Bengal Gold	1.02Y 8.65/5.93
+Windsor Gold	1.03Y 7.95/5.05
+Spiked Gold	1.04Y 6.71/10.98
+Verona Gold	1.04Y 8.22/3.52
+Umber Gold	1.06Y 4.94/8.64
+Rind Gold	1.11Y 3.72/4.66
+Goldflake	1.11Y 5.78/5.68
+Moongold	1.11Y 6.11/5.67
+Aloha Gold	1.13Y 6.40/7.84
+Goldleaf	1.15Y 8.25/5.55
+Ascot Gold	1.18Y 7.64/6.09
+Lacquer Gold	1.19Y 5.55/5.47
+Topaz Gold	1.20Y 6.62/8.27
+China Gold	1.20Y 6.68/8.63
+Vision Gold	1.20Y 7.12/12.57
+Star Gold	1.25Y 6.49/4.76
+Goldfinch	1.25Y 7.04/4.83
+Smoked Gold	1.26Y 5.24/4.38
+Trophy Gold	1.27Y 5.15/5.96
+Bar Harbor Gold	1.29Y 5.86/6.96
+Marigold	1.30Y 6.81/7.71
+Nugold	1.30Y 8.19/6.95
+Solar Gold	1.31Y 7.04/7.00
+Glint Gold	1.34Y 7.82/9.11
+Charm Gold	1.36Y 7.08/5.28
+Carib Gold	1.38Y 6.30/7.11
+Honey Gold	1.39Y 5.88/6.36
+Starry Gold	1.43Y 7.92/7.22
+American Eagle Gold	1.45Y 6.29/6.02
+Gold	1.45Y 7.38/10.12
+Gay Gold	1.49Y 5.79/6.25
+Gris Gold	1.57Y 6.13/3.59
+Encanto Gold	1.57Y 6.83/9.01
+Gilda Gold	1.57Y 8.40/5.59
+SPun Gold	1.59Y 6.45/6.43
+Melody Gold	1.60Y 6.73/6.90
+Dashing Gold	1.61Y 7.31/11.00
+Chimayo Gold	1.62Y 6.35/6.18
+American Eagle Gold	1.67Y 6.41/5.89
+gold maize	1.67Y 8.30/6.14
+Gaiety Gold	1.69Y 7.78/8.35
+Saffron Gold	1.72Y 8.43/6.67
+Casino Gold	1.74Y 7.52/8.81
+Faded Gold	1.75Y 7.93/6.24
+Goldlite	1.77Y 6.59/10.40
+Toasted Gold	1.79Y 5.60/5.48
+Winner's Gold	1.79Y 7.15/9.22
+Aspen Gold	1.80Y 4.71/3.60
+Acapulco Gold	1.81Y 6.77/6.92
+Goldtint	1.83Y 6.44/2.89
+Pirate Gold	1.83Y 7.85/10.19
+Varsity Gold	1.87Y 6.15/9.31
+Bengal Gold	1.87Y 7.94/12.63
+Gold	1.88Y 8.27/10.10
+Marilyn Gold	1.89Y 7.62/9.79
+Gold	1.90Y 6.03/6.18
+Gentle Gold	1.93Y 6.23/5.34
+Straw Hat Gold	1.95Y 6.50/5.27
+Glazed Gold	1.99Y 6.42/7.93
+Buttercup Gold	1.99Y 7.32/8.88
+Aspen Gold	2.00Y 5.59/8.44
+Magic Gold	2.03Y 6.67/7.47
+Goldfinch	2.13Y 8.35/10.76
+Gold Mustard	2.14Y 5.78/5.61
+Stargold	2.15Y 7.68/7.14
+Grand Prix Gold	2.16Y 5.24/6.20
+Treasure Gold	2.17Y 5.75/6.75
+Earth Gold	2.17Y 6.57/7.75
+Canary Gold	2.18Y 6.35/6.30
+gold rush	2.19Y 4.64/4.03
+Jungle Gold	2.21Y 5.32/6.65
+Diadem Gold	2.22Y 7.52/9.58
+Mustard Gold	2.23Y 5.81/7.06
+California Gold	2.28Y 5.83/5.83
+Gallant Gold	2.29Y 6.27/9.22
+Muted Gold	2.32Y 8.02/4.42
+Fresco Gold	2.33Y 6.11/6.19
+Leafgold	2.34Y 4.93/5.36
+Ming Gold	2.35Y 5.71/7.53
+Sulphur Gold	2.37Y 6.73/6.34
+Spark Gold	2.39Y 7.52/11.14
+Icegold	2.40Y 6.42/4.63
+Cloudgold	2.46Y 6.52/5.75
+Canada Gold	2.47Y 6.05/10.84
+Warm Front Gold	2.48Y 4.84/3.47
+Burnt Gold	2.49Y 4.28/5.46
+Sunflash Gold	2.51Y 7.77/11.30
+Sparkle Gold	2.55Y 6.63/9.36
+Quince Gold	2.56Y 7.22/6.83
+Empire Gold	2.57Y 5.76/4.59
+Maraca Gold	2.59Y 6.89/7.87
+Gaudi Gold	2.59Y 8.23/7.41
+Dramatic Gold	2.66Y 6.14/6.37
+Gold SPark	2.66Y 7.92/11.05
+Zola Gold	2.67Y 8.49/7.93
+Pottery Gold	2.70Y 6.47/6.05
+Inca Bird Gold	2.72Y 5.42/6.16
+Hermosa Gold	2.73Y 8.22/9.53
+Gypsy Gold	2.74Y 7.38/7.98
+Swank Gold	2.76Y 6.38/8.35
+Stargold	2.77Y 7.56/6.07
+Australian Gold	2.79Y 6.08/7.20
+Glamour Gold	2.79Y 6.53/9.04
+Gold Nugget	2.79Y 6.87/7.54
+Aura Gold	2.79Y 7.74/5.42
+Forbidden Gold	2.80Y 7.44/6.19
+kroll gold	2.81Y 7.72/5.47
+Gold Sparkle	2.82Y 6.50/9.75
+Sparkling Gold	2.82Y 7.36/9.55
+Soft Gold	2.85Y 5.85/6.95
+Taffy Gold	2.85Y 6.43/5.13
+Wheatgold	2.85Y 7.28/6.67
+White Gold	2.85Y 8.90/2.37
+Sizzler Gold	2.87Y 7.87/10.62
+Sun Gold	2.87Y 8.50/6.86
+Czecho Gold	2.88Y 7.61/8.93
+Navaho Gold	2.89Y 7.41/9.15
+Thieves Gold	2.92Y 7.95/10.66
+Bitter Gold	2.95Y 5.13/7.85
+Roman Gold	2.95Y 6.74/8.56
+Vivid Gold	2.96Y 7.23/9.51
+Twinkle Gold	2.97Y 6.67/9.95
+Gold Medal Yellow	3.06Y 7.93/11.20
+Lucifer Gold	3.06Y 8.34/10.52
+Comet Gold	3.08Y 7.46/9.81
+Trinket Gold	3.10Y 8.51/9.22
+Glint O'Gold	3.14Y 7.23/6.45
+Phospho Gold	3.14Y 7.46/9.97
+Cumbria Gold	3.22Y 7.04/8.61
+Glowing GOld	3.27Y 8.00/8.94
+Yucatan Gold	3.31Y 6.81/6.67
+Roman Gold	3.32Y 5.60/6.92
+Cloudgold	3.33Y 6.68/5.40
+Goldglaze	3.35Y 5.59/4.29
+Spanish Gold	3.37Y 7.98/8.34
+Goldmist	3.44Y 6.23/4.48
+Mexigold	3.47Y 5.60/4.97
+Silken Gold	3.47Y 7.20/5.60
+Gold Gleam	3.51Y 8.63/9.86
+Cologne Gold	3.52Y 8.68/8.74
+Sulphur Gold	3.54Y 6.95/5.92
+Brittle Gold	3.55Y 5.44/6.67
+Cold Gold	3.57Y 6.84/8.38
+Sultan Gold	3.63Y 6.33/7.00
+Cloudy Gold	3.65Y 5.29/4.70
+Swiss Gold	3.68Y 5.43/4.79
+Leafgold	3.69Y 5.13/5.68
+Castile Gold	3.69Y 7.94/10.97
+Lucky Gold	3.78Y 6.33/7.92
+Wisp Gold	3.80Y 7.43/3.26
+Goldflake	3.81Y 7.46/7.46
+Chafed Gold	3.81Y 7.53/4.43
+Wheatgold	3.83Y 7.92/6.41
+Floral Gold	3.84Y 7.76/9.51
+newport gold	3.85Y 7.50/3.72
+Triumph Gold	3.91Y 6.71/9.12
+Jacagold	3.94Y 6.18/5.07
+Evening Hostess Gold	3.97Y 4.88/5.95
+Temple Gold	4.07Y 6.90/8.11
+Southsea Gold	4.15Y 7.85/8.81
+Dynamic Gold	4.17Y 6.73/10.78
+Glitter Gold	4.19Y 5.90/7.80
+Corngold	4.22Y 7.16/7.33
+Coin Gold	4.26Y 6.38/7.64
+Goldhaze	4.32Y 5.86/4.93
+Alaska Gold	4.36Y 6.31/8.22
+Nugget Gold	4.50Y 6.73/9.90
+Navarone Gold	4.55Y 7.57/7.18
+Mist Gold	4.61Y 6.40/3.55
+Linden Gold	4.62Y 6.90/5.30
+Gypsy Gold	4.78Y 8.53/9.31
+American Gold	4.88Y 6.72/8.65
+Scoregold	4.89Y 5.79/6.38
+Galaxy Gold	5.01Y 8.48/9.76
+Pirate Gold	5.03Y 6.99/8.85
+Fennel Gold	5.06Y 6.07/8.07
+Sulphur Gold	5.07Y 6.40/6.98
+Neon Gold	5.08Y 7.47/9.94
+Glossy Gold	5.08Y 7.99/7.67
+Victory Gold	5.10Y 5.63/5.48
+Aspen Gold	5.10Y 7.54/2.65
+Goldmist	5.18Y 7.00/4.18
+Starlet Gold	5.23Y 8.76/6.96
+Filigree Gold	5.25Y 5.78/5.52
+Gay Gold	5.37Y 7.10/9.14
+Limepeel Gold	5.49Y 6.23/5.95
+Honeysuckle Gold	5.68Y 7.49/5.42
+Yankee Gold	5.79Y 6.14/6.92
+Greengold	5.81Y 5.04/5.76
+Aztec Gold	5.91Y 6.43/6.21
+Apollo Gold	6.16Y 8.28/8.75
+Limegold	6.27Y 6.61/5.85
+Vita Gold	6.57Y 8.25/10.10
+Acacia Gold	6.92Y 8.40/7.91
+Star Gold (b)	7.77Y 7.76/5.70

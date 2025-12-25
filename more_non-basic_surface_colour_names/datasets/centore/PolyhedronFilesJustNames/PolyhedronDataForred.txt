@@ -1,0 +1,822 @@
+Colour name:	red
+Number of CAUS samples:	662
+Centroid in Munsell coordinates:	4.27R 3.79/8.82
+Centroid in Cartesian coordinates:	 8.51	 2.34	3.79
+Polyhedron vertices in Munsell coordinates:
+0.48R 3.33/12.39
+1.18R 5.07/8.96
+2.70R 4.21/14.97
+3.33R 5.38/8.13
+3.57R 1.44/4.76
+3.59R 3.45/13.00
+4.56R 5.54/13.24
+4.62R 4.79/15.36
+4.77R 5.36/6.40
+5.32R 2.53/10.48
+5.49R 5.93/11.41
+5.56R 5.73/8.38
+5.80R 1.41/2.19
+6.03R 4.95/15.52
+6.56R 3.64/2.66
+6.58R 3.92/15.25
+6.72R 4.24/15.40
+7.26R 5.16/14.64
+7.47R 1.37/2.79
+7.49R 4.43/15.29
+7.56R 3.42/13.84
+7.70R 5.75/8.83
+7.81R 3.15/2.32
+8.05R 4.76/14.92
+8.86R 3.74/13.14
+9.04R 4.45/13.58
+9.05R 2.16/8.17
+9.22R 5.07/12.73
+0.09YR 4.27/9.30
+0.94YR 2.40/6.17
+0.99YR 5.32/6.94
+1.34YR 3.20/4.81
+3.31RP 2.91/8.17
+6.95RP 1.99/5.87
+7.46RP 3.85/3.87
+8.31RP 1.72/4.12
+8.34RP 4.27/13.02
+8.55RP 4.25/13.49
+9.56RP 3.18/11.70
+Polyhedron vertices in Cartesian coordinates:
+12.38	0.37	3.33
+8.94	0.66	5.07
+14.76	2.53	4.21
+7.95	1.69	5.38
+4.64	1.06	1.44
+12.67	2.91	3.45
+12.70	3.74	5.54
+14.72	4.40	4.79
+6.11	1.89	5.36
+9.90	3.44	2.53
+10.74	3.86	5.93
+7.87	2.87	5.73
+2.05	0.78	1.41
+14.42	5.74	4.95
+2.44	1.07	3.64
+13.97	6.13	3.92
+14.05	6.31	4.24
+13.14	6.45	5.16
+2.49	1.26	1.37
+13.63	6.93	4.43
+12.31	6.33	3.42
+7.82	4.11	5.75
+2.05	1.09	3.15
+13.05	7.23	4.76
+11.16	6.94	3.74
+11.45	7.31	4.45
+6.88	4.40	2.16
+10.65	6.97	5.07
+7.49	5.51	4.27
+4.77	3.91	2.40
+5.35	4.42	5.32
+3.64	3.14	3.20
+7.46	-3.33	2.91
+5.76	-1.12	1.99
+3.82	-0.62	3.85
+4.10	-0.44	1.72
+12.95	-1.36	4.27
+13.43	-1.23	4.25
+11.70	-0.32	3.18
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+38	39	33
+9	15	31
+1	38	3
+38	1	39
+7	38	11
+30	25	26
+20	25	21
+32	30	31
+22	28	11
+28	22	31
+28	18	11
+18	7	11
+7	18	14
+30	29	31
+29	28	31
+29	30	26
+28	29	26
+32	23	13
+15	23	31
+23	32	31
+35	9	33
+9	35	15
+35	23	15
+35	33	13
+23	35	13
+16	20	21
+16	1	3
+39	34	33
+5	34	39
+25	27	21
+27	25	30
+27	10	21
+10	27	5
+10	16	21
+10	5	39
+1	10	39
+8	7	14
+8	16	3
+38	8	3
+7	8	38
+12	9	31
+22	12	31
+12	22	11
+12	4	9
+24	18	28
+24	28	26
+24	20	14
+18	24	14
+25	24	26
+24	25	20
+9	2	33
+4	2	9
+2	12	11
+12	2	4
+20	17	14
+16	17	20
+17	8	14
+8	17	16
+36	5	13
+36	34	5
+33	36	13
+34	36	33
+5	19	13
+27	19	5
+19	27	30
+19	32	13
+32	19	30
+16	6	1
+6	10	1
+10	6	16
+37	38	33
+2	37	33
+38	37	11
+37	2	11
+Samples, with Munsell coordinates, from CAUS data:
+Barcelona Red	0.03R 4.77/15.04
+Relay Red	0.06R 3.11/9.76
+Symphony Red	0.12R 3.97/12.26
+Rendezvous Red	0.14R 3.65/11.10
+Orient Red	0.15R 3.05/9.48
+Hula Red	0.22R 3.44/9.74
+Red Rambler	0.29R 3.21/10.64
+Aussie Red	0.32R 3.70/12.73
+Framboise Red	0.38R 4.51/9.76
+Red Carnation	0.40R 4.30/13.54
+Strong Red	0.48R 3.33/12.39
+lightning red	0.53R 3.92/6.04
+Red Camellia	0.54R 4.37/10.72
+Chianti Red	0.60R 3.23/6.26
+Bark Red	0.71R 2.32/5.04
+Deep Red	0.73R 3.51/10.90
+Dark Red	0.75R 2.63/7.03
+Garnet Red	0.78R 3.28/5.77
+Hockey Red	0.86R 4.03/7.39
+Strong Red	0.87R 4.90/11.51
+Fisherman Red	0.97R 4.31/15.19
+Delta Red	1.01R 3.95/9.06
+Rush Hour Red	1.18R 5.07/8.96
+Rose Red	1.20R 2.92/9.04
+Roanoke Red	1.21R 3.00/5.08
+Random Red	1.41R 2.83/8.65
+Red Jelly	1.50R 3.28/10.24
+orpheus red	1.59R 3.63/8.69
+Claret Red	1.65R 3.23/8.89
+Gypsy Red	1.78R 2.97/8.79
+Red Cloud	1.81R 4.12/15.02
+Red Rage	1.84R 3.50/12.01
+Red Lsture	1.86R 3.08/8.64
+Beauty Red	1.93R 4.24/14.00
+Red Glamour	1.95R 4.03/13.75
+Red	1.96R 4.38/10.68
+Indian Red	1.97R 3.05/7.55
+Strawberry Red	2.09R 2.70/6.22
+Red Currant	2.09R 4.55/11.95
+American Beauty Red	2.12R 3.11/9.39
+Lustre Red	2.12R 3.63/11.68
+Damson Red	2.15R 2.27/5.33
+Garnet Red	2.18R 2.52/8.36
+Sumac Red	2.21R 2.60/6.50
+Strong Red	2.21R 4.53/11.64
+Red Peppermint	2.22R 3.67/11.26
+Red Beauty	2.23R 3.13/9.15
+Rocky Red	2.25R 3.88/10.02
+Vintage Red	2.27R 2.29/5.71
+Clover Red	2.28R 3.07/8.83
+Deep Red	2.37R 3.01/10.50
+Santa Barbara Red	2.37R 3.82/11.27
+Banner Red	2.41R 3.75/11.41
+chili red	2.42R 4.20/14.43
+Luminous Red	2.43R 3.82/12.96
+Fandango Red	2.43R 4.13/13.95
+Cerise Red	2.52R 3.79/11.29
+Garnet Red	2.53R 3.83/10.12
+Grenadine Red	2.57R 3.35/11.65
+Tuscan Red	2.59R 2.52/8.23
+American Beauty Red	2.70R 3.16/9.84
+Chile Red	2.70R 4.21/14.97
+douglas red	2.72R 4.35/9.19
+Ruby Red	2.75R 2.17/7.22
+Havana Red	2.76R 3.12/10.22
+Mars Red	2.80R 5.57/14.15
+Dynamic Red	2.88R 3.88/12.44
+Peony Red	2.95R 2.46/6.84
+Red Brown	2.95R 3.15/4.71
+Rose Red	2.99R 3.03/8.73
+Strong Red	3.01R 4.31/9.87
+Ardent Red	3.04R 4.45/10.85
+Sizzle Red	3.06R 3.51/11.93
+Red Champagne	3.07R 3.60/11.41
+Claret Red	3.09R 2.70/6.22
+Red Cape	3.09R 3.84/13.43
+Rubian Red	3.12R 1.89/5.02
+Cupboard Red	3.15R 4.80/10.38
+Triple Crown Red	3.17R 3.26/9.54
+Genevieve Red	3.19R 3.63/11.16
+Exotic Red	3.19R 4.08/10.40
+Mandarin Red	3.23R 3.82/11.77
+Hot Bed Red	3.25R 4.52/14.87
+Red CHianti	3.26R 3.05/9.87
+mooring red	3.27R 2.80/6.71
+Red Geranium	3.30R 4.28/10.73
+Roseberry Red	3.32R 2.34/7.90
+Pompeian Red	3.33R 5.38/8.13
+Rancho Red	3.34R 2.84/7.00
+Viola Red	3.35R 1.60/2.89
+Raku Red	3.35R 3.32/5.69
+Carnation Red	3.36R 3.06/9.58
+Batik Red	3.41R 3.27/8.37
+Fete Red	3.42R 4.01/13.72
+Red Currant	3.48R 2.63/8.23
+Cherry Red	3.49R 3.18/10.20
+Redglow	3.50R 4.24/13.23
+Strong Red	3.52R 4.95/13.49
+Bohemian Red	3.53R 3.33/9.29
+Red Hot	3.55R 2.09/7.30
+goya red	3.56R 3.35/7.88
+Twilight Red	3.57R 1.44/4.76
+Cuckoo Red	3.59R 3.45/13.00
+Cochineal Red	3.60R 3.64/11.72
+Valor Red	3.65R 2.22/6.68
+Victory Red	3.65R 3.96/11.13
+Comic Book Red	3.65R 4.69/13.88
+Sultana Red	3.66R 1.65/3.30
+Red Currant	3.66R 2.09/6.65
+Strong Red	3.70R 4.39/10.68
+Nasturtium Red	3.71R 3.62/9.41
+Tropic Red	3.76R 3.05/9.98
+Rhythm Red	3.77R 4.04/12.01
+Red Bordeaux	3.78R 2.27/7.08
+Bacchante Red	3.80R 2.86/9.30
+Firenze Red	3.80R 4.01/7.36
+Freedom Red	3.81R 3.51/10.42
+Sumac Red	3.83R 3.96/10.98
+Dahlia Red	3.85R 2.39/7.89
+Martial Arts Red	3.86R 3.36/10.53
+Chukker Red	3.88R 3.07/8.68
+Cuba Red	3.92R 4.06/11.75
+Tee Red	3.95R 4.33/6.80
+Red	3.96R 3.58/9.72
+Barolo Red	3.97R 2.74/4.09
+Strong Red	3.97R 4.66/11.86
+Carnation Red	3.99R 2.51/8.18
+Hot Pepper Red	4.01R 3.66/10.89
+Barn Red	4.01R 3.76/6.28
+Siren Red	4.01R 3.80/12.93
+Strawberry Red	4.02R 3.75/12.54
+Tuscany Red	4.03R 3.68/12.16
+Longchamps Red	4.05R 2.26/8.19
+Glowing Red	4.07R 3.01/9.96
+Arroyo Red	4.07R 3.40/6.41
+Red	4.09R 3.58/11.55
+Bordeaux Red	4.11R 2.28/5.54
+Red Apple	4.11R 3.44/10.81
+Bermuda Red	4.11R 3.56/9.41
+Hero Red	4.12R 3.74/8.89
+Dramatic Red	4.13R 3.59/10.67
+Taco Red	4.13R 3.76/9.38
+Palatka Red	4.13R 4.30/8.62
+Gallant Red	4.16R 2.59/7.91
+Araby Red	4.17R 3.48/12.24
+ruby red	4.25R 3.41/6.78
+field red	4.27R 3.51/11.34
+Rustic Red	4.28R 2.96/6.92
+Carnival Red	4.29R 3.99/13.60
+Red Poppy	4.29R 4.59/10.67
+WIne Red	4.31R 1.88/5.72
+Spinner Red	4.31R 2.57/8.02
+Firebrand Red	4.31R 2.98/9.34
+berry red	4.32R 3.16/9.96
+Kimono Red	4.34R 3.60/11.33
+Apple Red	4.35R 4.39/13.33
+Redshift Red	4.36R 2.98/9.37
+Begonia Red	4.36R 4.51/11.01
+Red Field	4.37R 3.34/6.63
+Cranberry Red	4.38R 2.97/8.34
+Progression Red	4.39R 3.10/10.23
+Redgrape	4.40R 2.31/5.23
+Wineberry Red	4.40R 2.46/8.21
+Redwine	4.40R 2.66/8.08
+Cabbage Red	4.41R 2.65/8.86
+poppins red	4.41R 5.23/13.05
+Kindled Red	4.42R 2.90/10.39
+Capucine Red	4.42R 4.86/10.76
+Speed Red	4.43R 4.52/14.77
+Claret Red	4.44R 3.30/10.32
+Adventure Red	4.47R 3.30/10.93
+Rome Red	4.47R 4.36/14.77
+Pottery Red	4.48R 2.59/6.24
+Aristocrat Red	4.48R 3.34/6.68
+Field Red	4.50R 3.38/11.51
+Flashy Red	4.51R 3.99/14.39
+Japanese Red	4.51R 4.04/14.45
+La Jolla Red	4.52R 3.65/11.06
+Romany Red	4.52R 4.15/13.72
+Sea Urchin Red	4.53R 3.14/8.54
+Setting-Sun Red	4.53R 3.58/11.65
+Ruby Red	4.53R 4.07/11.91
+Bach Red	4.54R 3.14/10.84
+past prime red	4.54R 4.11/7.69
+Joy Red	4.54R 4.69/11.62
+Lava-Lamp Red	4.56R 4.43/14.58
+Minnie Red	4.56R 5.54/13.24
+Dark Red	4.57R 3.00/6.08
+Mulberry Red	4.58R 1.75/4.47
+Deep Red	4.58R 3.25/10.17
+Arson Red	4.58R 3.30/10.28
+Spartan Red	4.59R 4.42/13.81
+Futurity Red	4.61R 3.75/11.81
+Teddy Red	4.61R 4.19/14.25
+Banner Red	4.61R 4.24/13.06
+Ravishing Red	4.62R 4.79/15.36
+Red Flair	4.63R 2.80/9.82
+Night Emitting Red	4.63R 3.94/11.88
+Raspberry Red	4.64R 2.05/6.75
+Cabana Red	4.64R 3.85/12.42
+Boulevard Red	4.67R 4.22/12.99
+Holly red	4.69R 2.32/7.69
+Malaga Red	4.70R 1.77/3.44
+Ruby Red	4.70R 2.57/7.80
+Sticky Wicket Red	4.71R 3.73/9.04
+Bali Red	4.76R 3.96/11.53
+Red	4.76R 4.98/10.75
+Adobe Red	4.77R 5.36/6.40
+Torrid Red	4.79R 3.12/11.23
+redrum	4.81R 4.07/13.38
+Titian's Red	4.82R 2.32/4.98
+Brick Red	4.82R 3.24/6.57
+Hot Red	4.82R 3.97/13.51
+Red Sparkle	4.83R 3.36/10.16
+Red Raspberry	4.84R 2.47/7.94
+Barberry Red	4.84R 3.25/11.67
+Gem Red	4.84R 3.94/12.44
+Bangkok Red	4.85R 4.48/10.15
+Redcliff Rust	4.86R 3.13/7.02
+Castilian Red	4.86R 4.71/15.47
+Porto Red	4.88R 1.68/4.10
+Maroon Red	4.88R 2.04/5.28
+Vino Red	4.89R 2.05/5.79
+Red Apple	4.89R 2.78/9.96
+To-Your-Room Red	4.89R 3.09/10.16
+Venetian Red	4.91R 2.76/9.48
+Gloria Red	4.91R 3.34/10.05
+Radiance Red	4.92R 3.50/7.61
+Cluny Red	4.92R 3.93/12.45
+Gay Red	4.92R 4.23/13.63
+Afghan Red	4.93R 3.02/9.44
+Folly Red	4.94R 3.81/13.12
+Helium Red	4.97R 2.04/4.75
+Talisman Red	4.98R 2.69/8.75
+Regiment Red	4.98R 4.34/14.37
+Rhapsody Red	4.98R 4.51/14.56
+Gleaming Red	4.98R 4.72/13.96
+Morocco Red	4.99R 2.85/9.38
+Carrot Red	5.00R 3.85/10.86
+Delray Red	5.01R 3.54/11.39
+Persimmon Red	5.02R 3.94/8.38
+Persian Red	5.06R 3.35/8.29
+Taurus Red	5.08R 3.43/11.90
+Redblaze	5.08R 3.44/11.44
+Troubador Red	5.10R 3.30/10.80
+Ferry Red	5.10R 3.65/9.14
+Magnetic Red	5.10R 4.01/12.39
+Exhilerating Red	5.10R 4.29/13.05
+Online Red	5.11R 4.73/14.62
+Barberry Red	5.12R 2.70/8.00
+Winter Red	5.13R 2.30/7.74
+Signal Red	5.13R 4.04/14.02
+Red Tail Punch	5.13R 4.15/14.11
+Claret Red	5.14R 2.22/5.16
+Riff Red	5.15R 2.46/6.55
+Catawba Red	5.16R 2.30/6.11
+Soldier Red	5.17R 3.13/9.72
+Rock-n-Roll Red	5.17R 3.21/9.98
+Robin Red	5.18R 3.29/11.24
+Red Pepper	5.19R 3.55/10.69
+Electric Red	5.19R 3.97/13.39
+Daring Red	5.20R 3.63/11.36
+Surely Red	5.21R 2.39/7.29
+Aloha Red	5.22R 3.59/11.07
+Dashing Red	5.23R 3.65/10.37
+Ski Red	5.24R 4.01/14.36
+Currant Red	5.25R 1.84/4.24
+Auburn Red	5.25R 3.54/8.75
+Umbrian Red	5.26R 2.29/7.90
+Cocarde Red	5.26R 2.93/9.93
+Red Geranium	5.26R 3.68/11.22
+Bunyan Red	5.27R 3.26/10.79
+Castilian Red	5.27R 4.69/13.21
+Tin Soldier Red	5.28R 3.55/11.82
+Vino Red	5.29R 2.56/7.15
+Viva Red	5.29R 3.51/11.24
+Cozy Red	5.30R 2.79/9.76
+Classic Red	5.30R 4.41/13.26
+Plum Red	5.32R 1.45/3.15
+Delaunay Red	5.32R 2.41/7.13
+Rug Red	5.32R 2.53/10.48
+Pippin Red	5.32R 3.95/14.14
+redon red	5.34R 4.09/15.34
+Lacquer Red	5.36R 4.32/14.33
+Heritage Red	5.37R 2.15/7.74
+Flaming Red	5.37R 3.79/13.33
+Claret Red	5.40R 2.09/6.30
+Redberry	5.40R 2.32/7.57
+India Red	5.41R 2.98/8.54
+Flowerpot Red	5.41R 3.37/6.91
+Watermelon Red	5.41R 4.71/10.46
+Tokay Red	5.42R 2.26/4.61
+Sparkler Red	5.42R 2.65/9.22
+Renoir Red	5.43R 5.33/13.67
+Disney Red	5.44R 3.76/13.66
+Patrie Red	5.44R 3.83/12.06
+Vivid Red	5.44R 4.65/14.71
+Red Pepper	5.45R 3.58/10.87
+Red Drench	5.46R 1.95/5.95
+Vivid Red	5.46R 3.89/14.03
+Parade Red	5.47R 3.27/11.52
+Flag Staff Red	5.47R 4.54/7.09
+Monaco Red	5.48R 3.22/9.54
+Nasa Red	5.49R 5.93/11.41
+Blood Red	5.51R 2.45/7.30
+Signal Red	5.51R 3.90/13.38
+Big Red	5.52R 4.01/13.84
+Soccer Red	5.53R 4.10/14.23
+Casino Red	5.54R 4.91/11.48
+Handkerchief Red	5.56R 3.27/10.43
+Gallant Red	5.56R 4.27/14.43
+Red Salmon	5.56R 5.73/8.38
+Viking Red	5.57R 2.93/10.03
+Catawba Red	5.59R 1.90/5.16
+Rogue's Red	5.59R 2.86/10.90
+Hacienda Red	5.59R 3.82/13.85
+Spahi Red	5.59R 4.91/15.25
+Clan Red	5.60R 3.53/11.77
+London Red	5.60R 3.94/12.42
+Conscious-Raising Red	5.61R 4.15/14.48
+Red	5.62R 4.19/14.22
+Arabian Red	5.63R 2.52/5.92
+Loyal Red	5.63R 3.12/10.46
+Mulberry Red	5.64R 2.68/8.22
+Madeira Red	5.65R 2.48/7.46
+Kerville Red	5.65R 4.33/13.97
+Cherry Blossom Red	5.67R 2.19/6.06
+Strong Red	5.67R 4.10/11.73
+Troubador Red	5.68R 3.49/10.88
+Stellar Red	5.68R 4.28/14.15
+Brigade Red	5.71R 3.40/12.39
+Red	5.71R 5.37/12.93
+London Red	5.73R 3.53/11.01
+Vivid Red	5.74R 3.11/11.20
+Tile Red	5.75R 5.15/8.78
+Traditional Red	5.76R 2.77/8.77
+Etruscan Red	5.77R 2.15/6.04
+Nerdy Red	5.78R 4.34/14.30
+Calaban Red	5.79R 2.32/7.02
+Rubine Red	5.79R 3.80/5.10
+Wine Red	5.80R 1.41/2.19
+Red	5.80R 1.85/4.22
+Caribbean Red	5.80R 4.03/14.04
+Damask Red	5.81R 2.72/9.74
+Red Sun	5.81R 4.80/9.44
+Red Banana	5.82R 3.05/8.53
+Jolly Red	5.82R 3.28/10.86
+Troubadour Red	5.82R 3.33/11.24
+Cockatoo Red	5.82R 4.11/13.95
+Ability Red	5.82R 4.43/14.87
+Corsair Red	5.83R 2.95/9.68
+Really Red	5.83R 4.10/14.34
+Redwood Red	5.83R 4.25/13.44
+Realgar Red	5.85R 2.99/10.32
+Hopi Red	5.85R 3.30/11.85
+Flamingo Red	5.85R 4.60/11.16
+Valiant Red	5.86R 2.81/10.70
+Angled Red	5.86R 2.84/7.07
+Lightning Red	5.87R 3.62/11.33
+Red Red	5.89R 3.53/13.03
+Granada Red	5.90R 2.28/7.57
+Kick-Off Red	5.90R 2.81/8.54
+Harvest Red	5.90R 2.87/5.89
+Lucky Red	5.90R 3.99/12.95
+Vulcan Red	5.90R 4.53/14.35
+Moresque Red	5.91R 4.07/12.49
+Castille Red	5.92R 2.42/8.22
+Spitfire Red	5.92R 3.80/8.98
+Florentine Red	5.94R 2.32/7.42
+Gaughin Red	5.96R 3.84/8.27
+Wonder Red	5.97R 2.82/6.88
+Garnet Red	5.98R 2.10/6.28
+e-mail Red	5.98R 2.89/8.87
+Flamboyant Red	5.99R 3.61/12.17
+Trafalgar Red	6.00R 2.88/7.13
+Moujik Red	6.00R 4.66/11.12
+Toboggan Red	6.01R 2.90/10.26
+Peasant Red	6.01R 3.02/10.31
+Rust Red	6.01R 3.03/9.35
+Strong Red	6.02R 4.21/10.58
+Red Flash	6.03R 4.95/15.52
+Berry Red	6.04R 2.65/9.14
+Fuego Red	6.04R 3.93/13.09
+Soccer Red	6.05R 4.60/15.00
+Rustic Red	6.06R 2.55/6.31
+Strong Red	6.06R 3.81/9.06
+Rock Star Red	6.09R 4.42/14.41
+Cranberry Red	6.10R 2.06/7.02
+Ritz Red	6.10R 2.46/6.26
+Red Lacquer	6.10R 3.94/11.21
+Joyous Red	6.14R 3.11/10.77
+Red	6.14R 3.45/11.69
+Sparkle Red	6.14R 3.93/13.56
+Quill Red	6.16R 3.14/8.56
+Horseshow Red	6.18R 2.91/10.27
+Checker Red	6.18R 4.49/13.24
+Poinsettia Red	6.19R 3.56/13.21
+Brick Red	6.19R 3.78/8.47
+Bengali Red	6.20R 2.45/7.13
+21st Century Red	6.20R 2.75/9.88
+raucous red	6.20R 4.06/13.80
+Cranberry Red	6.21R 2.56/7.77
+Tropic Red	6.22R 3.25/10.92
+Shimmy Red	6.22R 4.07/14.52
+Red Alert	6.22R 4.13/14.42
+Poppy Red	6.26R 4.07/10.13
+Gondolier Red	6.27R 3.29/11.36
+Fire Red	6.28R 2.75/10.09
+Pencil Red	6.28R 3.05/9.84
+Apple Red	6.29R 3.72/12.26
+Burgundy Red	6.31R 1.73/3.98
+brick red	6.31R 3.30/7.97
+Cardinal Red	6.31R 3.87/13.82
+Nantucket Red	6.32R 4.77/9.79
+Madrona Red	6.33R 3.48/10.39
+Cheerio Red	6.33R 3.56/11.37
+Red	6.33R 3.77/13.42
+Hi-Yi Red	6.33R 4.22/12.53
+Java Red	6.34R 3.84/12.61
+Stalwart Red	6.35R 3.94/14.56
+Nomad Red	6.36R 3.96/12.34
+Flag Red	6.36R 4.07/13.92
+True-Heart Red	6.38R 3.43/12.06
+Athena Red	6.38R 4.22/14.22
+Bacchus Red	6.39R 2.16/5.55
+Accessibility Red	6.39R 2.37/8.46
+Riding Red	6.40R 3.79/14.11
+Jewel Red	6.41R 3.58/10.41
+Viva Red	6.43R 4.13/14.16
+Tartan Red	6.46R 3.38/11.43
+Indies Red	6.47R 3.72/12.48
+Sunred	6.47R 4.79/11.65
+Java Red	6.48R 3.09/10.74
+Lacquer Red	6.50R 4.65/13.96
+Red Copper	6.51R 2.78/6.01
+Radiant Red	6.53R 2.94/11.36
+Cruise Red	6.56R 3.26/11.67
+Purple/Red woven combination	6.56R 3.64/2.66
+Cocktail Red	6.57R 4.68/12.95
+Pakistan Red	6.58R 3.16/10.76
+Firebird Red	6.58R 3.92/15.25
+Vivid Red	6.58R 4.39/13.25
+Marasca Red	6.60R 2.15/7.27
+Colonial Red	6.60R 2.96/10.09
+Jockey Red	6.60R 3.66/11.86
+Tommy Red	6.60R 3.69/11.46
+Red	6.61R 2.79/7.26
+Gaiety Red	6.61R 3.85/11.77
+Brave Red	6.63R 3.46/11.66
+Fractional Red	6.64R 3.26/12.08
+Ritzie Red	6.65R 3.73/15.01
+Rizola Red	6.65R 4.82/14.53
+Tempo Red	6.66R 3.77/13.26
+Happy Red	6.66R 4.05/12.42
+Aztec Red	6.66R 4.05/13.20
+Riviera Red	6.66R 4.20/11.19
+Castilian Red	6.67R 4.47/15.99
+Barn Red	6.68R 3.03/8.74
+Ringmaster's Red	6.69R 4.50/15.39
+Silk-Tie Red	6.71R 3.90/12.76
+Sultan Red	6.71R 3.91/12.28
+Tomato Red	6.72R 4.24/15.40
+Cinnabar Red	6.73R 2.70/5.25
+Red Radiance	6.73R 2.70/8.63
+Pepper Red	6.73R 3.97/9.52
+Redstone	6.74R 3.12/8.69
+India Red	6.75R 2.49/7.74
+Flirt Red	6.79R 2.78/8.90
+Pasha Red	6.80R 4.34/11.35
+Red	6.82R 3.36/10.59
+Harlequin Red	6.82R 3.51/12.12
+Shrimp Red	6.82R 4.41/12.04
+Ember Red	6.85R 3.42/8.51
+Rooster Red	6.86R 3.38/11.67
+Vivid Red	6.86R 4.75/13.73
+Take-Out Chinese Red	6.87R 2.57/8.38
+Beijing Red	6.87R 2.71/10.44
+Seductive Red	6.87R 2.91/11.68
+Festival Red	6.87R 3.14/10.62
+Vivid Red	6.87R 3.53/12.59
+Pan-American Red	6.87R 3.81/9.30
+Redcherry	6.89R 2.94/10.10
+Manchu Red	6.89R 3.49/11.31
+Red Robbin	6.90R 1.85/5.86
+Blazing Red	6.90R 4.89/14.54
+Coral Red	6.90R 4.95/12.30
+Sultan Red	6.91R 2.30/8.44
+Molten Red	6.91R 4.58/14.78
+Meteor Red	6.92R 4.64/16.08
+Pompeian Red	6.93R 2.72/7.62
+Barn Red	6.93R 2.87/9.31
+Medallion Red	6.93R 3.06/11.92
+Haiti Red	6.93R 3.55/12.90
+Chinese Red	6.93R 5.57/14.37
+SIgnal Red	6.94R 3.21/11.36
+Hoopoe Red	6.94R 3.76/12.42
+Red Clay	6.95R 2.89/8.99
+Barbaric Red	6.96R 4.58/14.03
+Carnelian Red	6.99R 2.45/7.54
+Sailing Red	6.99R 3.54/12.59
+Red Ember	6.99R 3.59/9.47
+Regiment Red	6.99R 3.72/12.83
+American Red	6.99R 4.48/15.07
+Andromeda Red	6.99R 5.23/11.16
+Rico Red	7.01R 3.90/12.28
+Crusade Red	7.01R 4.12/14.75
+Monterey Red	7.02R 4.09/14.97
+Indo Red	7.03R 4.59/13.36
+Red Clay	7.04R 2.96/8.50
+Firenze Red	7.04R 3.09/11.28
+Bandera Red	7.05R 3.74/13.19
+Military Red	7.05R 4.30/11.98
+Flame Red	7.05R 5.20/14.39
+Firebrand Red	7.07R 2.57/9.16
+Red	7.07R 4.22/9.86
+Burma Red	7.08R 2.03/5.62
+Radiant Red	7.10R 2.67/10.35
+Canada Red	7.12R 3.06/8.73
+Bright Banner Red	7.12R 4.28/14.64
+Coraline Red	7.13R 3.90/11.64
+Matador Red	7.14R 2.75/10.17
+Terra Cotta Red	7.14R 4.44/8.96
+Exciting Red	7.15R 3.38/11.33
+Tyrol Red	7.19R 3.54/12.18
+Red Rascal	7.19R 4.75/14.22
+Dramatic Red	7.20R 4.00/13.77
+Coral Red	7.20R 4.38/11.40
+Vivid Red	7.22R 3.23/12.90
+Print-Out Red	7.23R 2.08/7.40
+Sienna Red	7.23R 3.62/7.48
+Rumba Red	7.23R 3.90/13.78
+Sputnik Red	7.23R 5.20/13.18
+Red Henna	7.26R 2.49/5.29
+Diabolo Red	7.26R 5.16/14.64
+Chalet Red	7.27R 3.41/6.53
+Dalmatian Red	7.27R 4.57/12.57
+Red Tide	7.31R 3.90/11.42
+Corsican Red	7.32R 2.10/7.02
+Roaring Red	7.33R 5.12/16.05
+Devil Red	7.33R 5.14/14.58
+Morocco Red	7.35R 3.46/8.60
+Adobe Red	7.39R 3.08/5.70
+agean red	7.39R 3.87/5.99
+Celluloid Red	7.41R 3.93/14.38
+Radiance Red	7.42R 2.39/8.00
+Zimbabwe Red	7.43R 4.63/14.67
+Toreador Red	7.44R 4.57/12.25
+Rokay Red	7.47R 1.37/2.79
+Hunting Red	7.47R 4.13/12.24
+San Mortz Red	7.48R 3.69/12.24
+Mexican Blanket Red	7.49R 3.98/14.32
+Pow Red	7.49R 4.43/15.29
+Flame Red	7.52R 4.19/13.28
+Zip Red	7.54R 5.17/15.99
+Dark Red	7.55R 2.70/5.54
+Annato Red	7.55R 4.49/15.60
+Vivid Red	7.56R 3.42/13.84
+annato red	7.60R 4.30/14.87
+Glow Red	7.62R 3.11/11.80
+Strong Red	7.64R 3.68/3.12
+Barabesque Red	7.66R 3.41/9.79
+Frivolity Red	7.66R 4.18/11.36
+Fez Red	7.68R 2.29/8.00
+Tropez Red	7.68R 3.99/14.44
+Mesa Red	7.70R 5.75/8.83
+Marseillaise Red	7.72R 3.67/12.48
+Paprica Red	7.76R 3.63/13.35
+Turco Red	7.79R 3.70/12.54
+Muscatel Red	7.81R 3.15/2.32
+Egyptian Red	7.82R 3.20/7.50
+Paprika Red	7.83R 3.40/10.27
+Red Cedar	7.85R 2.67/6.21
+Rave Red	7.87R 2.36/8.51
+Red Sail	7.88R 3.62/10.45
+Salinas Red	7.88R 4.63/8.12
+Sail Red	7.89R 5.23/11.17
+Chimney Red	7.95R 3.22/7.82
+Redwood	7.96R 3.95/8.77
+Tabasco Red	7.98R 3.77/12.62
+Hindu Red	7.99R 2.59/8.38
+Power Red	8.00R 3.90/11.75
+Shan Tongue Red	8.05R 4.51/14.03
+Roadrunner Red	8.05R 4.76/14.92
+Redorange	8.07R 4.12/12.68
+Red Coral	8.08R 5.11/11.74
+Ginger Red	8.11R 5.20/11.45
+Hotshot Red	8.13R 4.65/12.22
+Sinbad Red	8.14R 4.55/12.86
+Adobe Red	8.15R 3.24/6.14
+Redwood	8.18R 4.10/8.69
+Breton Red	8.21R 2.80/7.61
+Fisherman Red	8.25R 4.26/9.25
+Rustic Red	8.32R 2.90/7.00
+Zinnia Red	8.35R 3.21/8.63
+Gridiron Red	8.36R 3.44/9.46
+Red Agate	8.36R 3.52/7.44
+Red Bird Rust	8.36R 3.57/7.98
+Log Cabin Red	8.37R 2.19/8.07
+Sonar Red	8.39R 4.16/11.30
+Nantucket Red	8.44R 2.96/6.47
+Norway Red	8.58R 4.15/12.89
+Red Brick	8.59R 3.71/7.66
+Arca Red	8.62R 3.07/5.38
+Fresco Red	8.63R 3.78/10.79
+Starboard Red	8.65R 3.17/7.11
+Flame Red	8.70R 3.86/14.02
+Pattern Red	8.73R 2.88/13.46
+Moro Red	8.81R 2.14/4.69
+Biarritz Red	8.86R 3.74/13.14
+Steaming Red	8.87R 3.90/12.01
+Maruna Red	8.96R 1.35/1.77
+Tamale Red	9.04R 4.45/13.58
+Canoe Red	9.05R 2.16/8.17
+Canyon Red	9.08R 1.93/5.32
+Santiago Red	9.14R 4.51/8.57
+Red Earth	9.16R 2.79/6.84
+Berry Red	9.18R 1.39/4.07
+Sheik Red	9.22R 5.07/12.73
+Cherry Red	9.36R 2.03/11.21
+Red Clay	9.46R 3.69/4.74
+Brick Red	9.52R 2.31/6.88
+Havana Red	0.09YR 4.27/9.30
+Red Rust	0.23YR 2.83/6.77
+Chili Red	0.35YR 4.76/7.51
+Redspice	0.92YR 3.26/6.37
+Red Clay	0.94YR 2.40/6.17
+Red Rock	0.99YR 5.32/6.94
+Maple Red	1.34YR 3.20/4.81
+Red Fox	4.10YR 3.68/6.17
+Oporto red	5.49YR 3.23/1.74
+Trumpet Red	6.25YR 7.12/10.15
+Red Violet	0.74RP 3.72/7.65
+Red Mulberry	1.80RP 2.25/6.62
+Ranchero Red	2.66RP 2.16/2.89
+Red Violet	3.31RP 2.91/8.17
+Violine Red	4.93RP 2.00/7.58
+Red Fuchsia	5.78RP 3.20/9.16
+Mulberry Red	6.13RP 3.53/6.64
+Volcano Red	6.47RP 2.51/7.38
+Fuchsia Red	6.86RP 3.59/14.10
+Oxheart Red	6.95RP 1.99/5.87
+Mesa Red	6.96RP 2.56/5.45
+peru red	7.46RP 3.85/3.87
+Red	7.57RP 3.65/7.26
+Vineyard Red	8.31RP 1.72/4.12
+Manhattan Red	8.31RP 3.33/8.06
+Red Cosmos	8.34RP 4.27/13.02
+Grape Red	8.45RP 2.41/3.89
+Stop Red	8.55RP 4.25/13.49
+Pago Red	8.72RP 2.72/8.67
+Challenge Red	8.74RP 3.42/10.88
+Ginger Red	9.04RP 2.81/5.85
+Redgrape	9.24RP 2.35/7.58
+Malaga Red	9.34RP 2.79/4.01
+achilleus red	9.34RP 5.96/7.27
+Very Dark Red	9.36RP 1.42/5.81
+Dancing Red	9.56RP 3.18/11.70
+Deep Red	9.67RP 3.65/11.56
+tamayo red	9.73RP 4.05/12.80
+Fairy Red	9.73RP 4.53/14.95
+Dark Red	9.92RP 3.20/6.84
+Fun Red	9.97RP 4.45/10.99

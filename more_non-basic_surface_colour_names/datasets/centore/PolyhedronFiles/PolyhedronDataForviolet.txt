@@ -1,0 +1,307 @@
+Colour name:	violet
+Number of non-unique CAUS samples:	227
+Number of unique CAUS samples:	178
+Centroid in Munsell coordinates:	7.00P 3.80/6.16
+Centroid in Cartesian coordinates:	 4.22	-4.49	3.80
+Polyhedron vertices in Munsell coordinates:
+0.44R 6.37/1.33
+8.18PB 4.31/7.03
+8.45PB 2.51/5.25
+8.49PB 2.96/7.00
+8.90PB 4.91/3.35
+9.48PB 4.31/8.71
+9.70PB 2.13/7.41
+9.98PB 2.29/9.37
+0.65P 2.43/11.12
+2.07P 2.03/8.78
+2.35P 1.46/2.18
+2.42P 2.67/1.95
+3.02P 5.42/7.87
+3.15P 1.86/7.07
+4.16P 2.00/8.12
+6.68P 3.40/11.47
+7.33P 6.47/1.73
+7.39P 2.57/11.06
+7.43P 2.92/11.38
+7.51P 5.00/9.33
+9.03P 3.66/10.97
+9.65P 5.30/9.62
+1.34RP 6.83/5.19
+1.75RP 1.92/6.05
+2.66RP 3.05/10.40
+2.88RP 3.30/10.33
+3.64RP 5.68/5.15
+4.92RP 2.63/8.01
+7.08RP 4.80/3.86
+7.89RP 6.17/2.29
+7.91RP 1.98/5.34
+Polyhedron vertices in Cartesian coordinates:
+1.33	0.04	6.37
+1.40	-6.89	4.31
+1.13	-5.13	2.51
+1.52	-6.83	2.96
+0.81	-3.25	4.91
+2.42	-8.37	4.31
+2.16	-7.09	2.13
+2.88	-8.92	2.29
+3.87	-10.43	2.43
+3.77	-7.93	2.03
+0.97	-1.95	1.46
+0.88	-1.74	2.67
+3.80	-6.89	5.42
+3.46	-6.16	1.86
+4.42	-6.81	2.00
+7.68	-8.52	3.40
+1.21	-1.24	6.47
+7.77	-7.87	2.57
+8.01	-8.08	2.92
+6.60	-6.59	5.00
+8.47	-6.98	3.66
+7.66	-5.82	5.30
+4.44	-2.69	6.83
+5.26	-3.00	1.92
+9.31	-4.63	3.05
+9.31	-4.47	3.30
+4.74	-2.00	5.68
+7.61	-2.51	2.63
+3.80	-0.70	4.80
+2.27	-0.30	6.17
+5.29	-0.70	1.98
+Polyhedron faces (each entry refers to a row in the listing of vertices):
+11	12	5
+31	1	11
+1	12	11
+12	1	5
+28	31	25
+31	28	29
+28	27	29
+31	24	25
+24	31	11
+2	6	9
+26	22	23
+27	26	23
+26	28	25
+28	26	27
+6	13	9
+22	13	23
+3	7	11
+7	3	4
+3	2	4
+3	11	5
+2	3	5
+10	14	11
+14	10	15
+14	24	11
+24	14	15
+7	8	11
+8	10	11
+10	8	9
+8	7	4
+8	2	9
+2	8	4
+27	30	29
+30	31	29
+30	1	31
+30	27	23
+1	30	23
+18	10	9
+19	18	9
+10	18	15
+18	24	15
+18	19	25
+24	18	25
+26	21	22
+19	21	25
+21	26	25
+13	16	9
+16	19	9
+21	16	22
+16	21	19
+17	1	23
+13	17	23
+2	17	6
+17	13	6
+1	17	5
+17	2	5
+20	13	22
+16	20	22
+20	16	13
+Unique samples, with Munsell coordinates, from CAUS data:
+1952	ss	women	Violet Dew	0.44R 6.37/1.33	0.44
+2002-03	fw	women	Bukhara Violet	3.50R 2.25/9.41	3.50
+1948	ss	women	Violet Mist	8.29R 6.25/1.52	8.29
+1996	ss	women	Melrose Violet	7.21PB 2.90/9.29	77.21
+1986-87	na	interiors	Violet	8.03PB 3.95/10.84	78.03
+1987	ss	women	Bardot Violet	8.18PB 4.31/7.03	78.18
+1986-87	fw	women	Lady Violet	8.45PB 2.51/5.25	78.45
+1958	ss	silk	Violet Sapphire	8.49PB 2.96/7.00	78.49
+1945	ss	women	Violet Blue	8.90PB 4.91/3.35	78.90
+1955-56	fw	women	Snow Violet	8.99PB 4.84/4.63	78.99
+1953	ss	women	Candied Violet	9.01PB 3.90/5.04	79.01
+1939-40	fw	women	Florida Violet	9.14PB 3.34/6.08	79.14
+1957-58	fw	women	Mesa Violet	9.37PB 3.55/6.64	79.37
+2001	ss	women	Ultra Violet	9.48PB 4.31/8.71	79.48
+1950-51	fw	women	Vatican Violet	9.62PB 1.87/6.38	79.62
+1952-53	fw	women	Violet Haze	9.70PB 2.13/7.41	79.70
+1956	ss	women	Magic Violet	9.70PB 3.01/7.54	79.70
+1958	ss	women	Violet Bloom	9.86PB 5.18/4.25	79.86
+1937-38	fw	women	Paris Violet	9.98PB 2.29/9.37	79.98
+1987-88	fw	women	Vienna Violet	0.07P 2.99/9.27	80.07
+1946-47	fw	women	Charm Violet	0.08P 3.21/7.67	80.08
+2014-15	na	interiors	Grayish Violet	0.13P 2.94/4.40	80.13
+1953-54	fw	women	Mayfair Violet	0.25P 2.15/6.38	80.25
+1939	ss	women	Swiss Violet	0.35P 3.39/6.84	80.35
+1989-90	na	interiors	vuillard violet	0.45P 3.81/11.38	80.45
+1960-61	fw	women	Hucleberry Violet	0.51P 2.83/8.03	80.51
+1994-95	fw	youth	Very-Very Violet	0.54P 5.89/7.03	80.54
+1994-95	fw	youth	Aster Violet	0.59P 4.87/6.85	80.59
+1954-55	fw	silk	WIld Violet	0.65P 2.43/11.12	80.65
+1985	ss	women	Beach Violet	0.73P 3.70/6.22	80.73
+1939	ss	women	Helio Violet	0.88P 2.20/8.80	80.88
+1936	ss	silk	Gypsy Violet	1.01P 2.47/12.42	81.01
+1939	ss	women	Touquet Violet	1.04P 2.45/5.92	81.04
+1937	ss	women	Como Violet	1.08P 2.12/10.17	81.08
+1929-30	fw	silk	Blue Violet	1.12P 5.00/6.89	81.12
+2002	ss	men	Virgo Violet	1.13P 3.71/7.57	81.13
+1935-36	fw	women	Tyrol Violet	1.41P 2.17/6.18	81.41
+1948-49	fw	silk	Bon Bon Violet	1.43P 4.68/5.77	81.43
+1954	ss	women	Frosted Violet	1.44P 3.74/6.84	81.44
+1940-41	fw	women	Stadium Violet	1.46P 2.27/8.53	81.46
+1956-57	fw	women	Vintage Violet	1.50P 2.80/7.68	81.50
+1949-50	fw	silk	Gala Violet	1.57P 2.77/9.22	81.57
+1992	ss	women	Grayish Violet	1.57P 3.69/3.49	81.57
+1959-60	fw	silk	African Violet	1.58P 3.29/5.30	81.58
+1979-80	fw	women	Bold Violet	1.66P 3.47/9.81	81.66
+1990-91	fw	men	Violet	1.70P 2.66/12.19	81.70
+1988-89	fw	men	Violet	1.70P 3.11/10.24	81.70
+1938-39	fw	silk	Dusty Violet	1.75P 2.62/5.24	81.75
+1948-49	fw	women	California Violet	1.94P 2.55/8.87	81.94
+1949	ss	silk	Southsea Violet	2.02P 3.98/9.37	82.02
+1945-46	fw	women	Ardent Violet	2.03P 4.38/5.32	82.03
+1964-65	fw	women	Vintage Violet	2.07P 2.03/8.78	82.07
+1948	ss	women	Rustic VIolet	2.08P 2.16/7.26	82.08
+1990-91	fw	men	Dark Violet	2.11P 1.66/6.62	82.11
+1950	ss	women	Violet Heather	2.29P 2.50/6.88	82.29
+1961	ss	women	Vibrant Violet	2.31P 4.24/6.34	82.31
+1999-2000	fw	men	Blooming Violet	2.35P 1.46/2.18	82.35
+1958	ss	women	Grotto Violet	2.38P 3.95/6.78	82.38
+1983-84	na	interiors	Han Violet	2.42P 2.67/1.95	82.42
+1955-56	fw	silk	Glamour Violet	2.43P 2.90/8.41	82.43
+1955	ss	women	Italian Violet	2.51P 3.22/6.54	82.51
+1995	ss	women	Violet Haze	2.52P 5.57/3.46	82.52
+1957	ss	women	Play Violet	2.55P 3.99/6.54	82.55
+1956	ss	silk	Jewel Violet	2.58P 4.26/4.97	82.58
+1929-30	fw	silk	Violeterra	2.59P 2.46/11.92	82.59
+1938	ss	women	Tropez Violet	2.64P 2.79/9.18	82.64
+1948	ss	silk	ROmany Violet	2.80P 3.86/8.28	82.80
+1936	ss	women	Spring Violet	2.97P 4.64/5.09	82.97
+1939	ss	women	Rio Violet	2.98P 2.82/9.64	82.98
+1996-97	fw	youth	Snail-Mail Violet	3.02P 5.42/7.87	83.02
+1935	ss	silk	Imperial Violet	3.15P 1.86/7.07	83.15
+1950-51	fw	silk	Bermuda Violet	3.23P 4.40/6.40	83.23
+1945-46	fw	silk	Pagoda Violet	3.24P 3.61/7.92	83.24
+1945	ss	women	Brittany Violet	3.35P 2.46/9.23	83.35
+2001-02	fw	women	Stardust Violet	3.36P 4.47/3.45	83.36
+1932-33	fw	silk	Violette	3.52P 3.64/9.80	83.52
+1953-54	fw	silk	Venetian Violet	3.57P 3.04/9.51	83.57
+1966	ss	women	Violet Quartz	3.57P 4.29/7.36	83.57
+1953-54	fw	women	Violet Light	3.59P 3.85/5.88	83.59
+1985-86	na	interiors	Violet	3.64P 4.44/4.20	83.64
+1943-44	fw	women	Fiesta Violet	3.75P 2.11/8.17	83.75
+1957-58	fw	silk	Dramatic Violet	3.79P 4.63/8.81	83.79
+2001-02	fw	youth	Violet-Gray	3.80P 6.90/0.84	83.80
+1926	ss	silk	Parma Violet	3.90P 4.19/8.13	83.90
+1959	ss	women	Pale Violet	3.91P 5.42/4.57	83.91
+1939-40	fw	women	Ashes of Violet	3.93P 2.02/2.14	83.93
+1947-48	fw	silk	Regency violet	3.99P 2.76/8.38	83.99
+1930	ss	women	Purple Violet	4.16P 2.00/8.12	84.16
+1951-52	fw	women	Cpair Violet	4.17P 2.23/7.26	84.17
+1940	ss	women	Hawaii Violet	4.22P 3.66/7.92	84.22
+1981-82	na	interiors	Brittany Violet	4.23P 3.48/3.49	84.23
+1991-92	na	interiors	violet	4.29P 2.94/5.80	84.29
+1950	ss	silk	Dawn Violet	4.56P 3.34/8.61	84.56
+1951	ss	silk	Vendome Violet	4.85P 4.31/8.15	84.85
+1926	ss	silk	Russian Violet	4.89P 2.01/6.98	84.89
+1951-52	fw	silk	Muted Violet	5.14P 5.01/7.11	85.14
+1939	ss	silk	Violette de Parme	5.44P 4.17/7.16	85.44
+1945	ss	silk	British Violet	5.46P 3.18/8.32	85.46
+2001	ss	women	Mollusk Violet	5.56P 3.64/4.03	85.56
+1946	ss	silk	Russian Violet	5.71P 3.35/8.89	85.71
+1943	ss	silk	Beauty Violet	5.72P 4.86/7.82	85.72
+1988-89	fw	women	Dada Violet	5.89P 2.61/7.14	85.89
+1990	ss	youth	Robot Violet	5.91P 4.67/8.05	85.91
+1992-93	fw	youth	Ujamma Violet	5.96P 4.45/9.59	85.96
+2014	ss	men	african violet	6.28P 5.18/3.17	86.28
+1986-87	fw	men	Vermont Violet	6.32P 2.66/3.83	86.32
+1935-36	fw	silk	French Violet	6.56P 2.13/7.82	86.56
+1955	ss	silk	Violeteen	6.61P 6.21/3.75	86.61
+1927	ss	silk	Wood Violet	6.68P 3.40/11.47	86.68
+1998-99	fw	men	Wagner's Violet	7.10P 1.31/0.92	87.10
+1962	ss	women	Shy Violet	7.13P 5.76/4.55	87.13
+1944	ss	women	Siesta Violet	7.21P 3.00/9.17	87.21
+1963	ss	women	Violet Gumdrop	7.33P 6.47/1.73	87.33
+1929-30	fw	silk	Violeta	7.35P 4.81/8.99	87.35
+1937	ss	silk	Tuscan Violet	7.39P 2.57/11.06	87.39
+1975-76	fw	women	Violet Glow	7.43P 2.92/11.38	87.43
+1964	ss	women	Pink Violet	7.46P 5.10/8.42	87.46
+2001-02	fw	women	Cosmic Violet	7.49P 2.85/4.54	87.49
+1950-51	fw	women	Lush Violet	7.51P 2.56/7.67	87.51
+1985	ss	men	Deep Violet	7.51P 2.96/5.85	87.51
+1992-93	fw	women	Violette	7.51P 5.00/9.33	87.51
+1939-40	fw	women	Parisian Violet	7.69P 2.97/4.02	87.69
+1958-59	fw	women	Tyrolian Violet	7.98P 3.28/10.67	87.98
+1990-91	fw	youth	Video Violet	8.16P 2.77/10.67	88.16
+1989	ss	youth	Video Violet	8.24P 6.99/4.80	88.24
+1939	ss	silk	Alpine Violet	8.53P 3.20/5.90	88.53
+1979	ss	women	Violet Flash	8.57P 3.71/11.80	88.57
+1943	ss	women	SUnset Violet	8.61P 3.72/6.55	88.61
+1930-31	fw	silk	Persian Violet	8.65P 4.83/10.53	88.65
+1932	ss	silk	Antique Violet	8.71P 3.82/10.53	88.71
+2012-13	na	interiors	Violet Dusk	8.84P 5.70/6.46	88.84
+1928-29	fw	silk	English Violet	8.87P 3.58/7.07	88.87
+1961	ss	women	Sweet Violet	8.88P 4.69/7.86	88.88
+1992-93	fw	men	pale violet	8.91P 6.37/4.82	88.91
+1993	ss	women	vertical violet	8.96P 5.94/8.28	88.96
+1971-72	fw	women	Violet Russe	9.03P 3.66/10.97	89.03
+1941-42	fw	silk	Plum Violet	9.25P 2.22/4.53	89.25
+1947	ss	silk	Violet Sky	9.52P 6.11/4.85	89.52
+1932	ss	silk	Tropic Violet	9.65P 5.30/9.62	89.65
+1956-57	fw	silk	Miniature Violet	9.75P 2.76/9.64	89.75
+1961-62	fw	women	Violet Glace	9.86P 2.83/8.73	89.86
+1970-71	fw	women	Vega Violet	0.01RP 2.46/7.84	90.01
+1988	ss	youth	Twisted Sister Violet	0.14RP 3.53/8.55	90.14
+1932-33	fw	silk	Magenta Violet	0.29RP 3.90/11.72	90.29
+1978-79	fw	women	VIbesy Violet	0.33RP 2.52/11.29	90.33
+1952	ss	silk	Faded Violet	0.42RP 6.24/2.35	90.42
+1946	ss	women	Violet Dawn	0.44RP 4.58/5.38	90.44
+1967	ss	women	Spring Violet	0.48RP 6.12/5.49	90.48
+1998-99	fw	women	Mackintosh Violet	0.50RP 3.42/8.18	90.50
+1953-54	fw	silk	Violet Plum	0.52RP 2.54/5.09	90.52
+1967	ss	women	Violet Ray	0.57RP 2.92/9.49	90.57
+1962-63	fw	women	Tyrian Violet	0.65RP 3.36/9.08	90.65
+1968-69	fw	women	Bright Violet	0.73RP 3.28/11.73	90.73
+1994	ss	women	Red Violet	0.74RP 3.72/7.65	90.74
+1998-99	fw	youth	King's Violet	0.78RP 4.48/6.60	90.78
+1969-70	fw	women	Vervy Violet	0.79RP 2.83/9.16	90.79
+1940-41	fw	women	Mist Violet	0.90RP 3.86/1.95	90.90
+1939-40	fw	women	Rose Violet	0.94RP 3.55/9.69	90.94
+1936	ss	women	Samoa Violet	1.00RP 3.29/9.75	91.00
+1945-46	fw	silk	Romantic Violet	1.08RP 2.91/7.68	91.08
+1976	ss	women	Frosty Violet	1.34RP 6.83/5.19	91.34
+1946-47	fw	silk	Jungle Violet	1.75RP 1.92/6.05	91.75
+2001-02	fw	youth	Glittering Violet	2.13RP 3.97/11.66	92.13
+1950-51	fw	silk	Violet Eve	2.22RP 2.58/7.87	92.22
+2002-03	fw	women	Persian Violet	2.37RP 3.26/8.08	92.37
+1993	ss	youth	Beat Violet	2.66RP 3.05/10.40	92.66
+1999-2000	fw	youth	Her Majesty's Violet	2.88RP 3.30/10.33	92.88
+1939	ss	silk	Empire Violet	3.13RP 2.86/6.30	93.13
+2003-04	fw	youth	Dancing Violet	3.13RP 3.43/8.13	93.13
+1941	ss	women	Red Violet	3.31RP 2.91/8.17	93.31
+1961-62	fw	silk	Violeta	3.56RP 6.73/7.28	93.56
+1952-53	fw	silk	Violet Blush	3.64RP 5.68/5.15	93.64
+2005	ss	youth	Jazzy Violet	3.85RP 2.65/8.40	93.85
+1944-45	fw	silk	Marimba Violet	4.92RP 2.63/8.01	94.92
+2003-04	fw	women	Vivid Violet	6.69RP 2.64/10.59	96.69
+2011	ss	women	Victorian Violet	7.08RP 4.80/3.86	97.08
+1946	ss	women	Glace Violet	7.89RP 6.17/2.29	97.89
+1984-85	fw	women	Plum Violet	7.91RP 1.98/5.34	97.91
