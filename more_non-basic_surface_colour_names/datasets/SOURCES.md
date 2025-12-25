@@ -1,6 +1,8 @@
 # Dataset Sources
 
-This directory contains datasets for color name research and analysis. All scraped/derived datasets are tracked in git with source documentation.
+This directory contains datasets for color name research and analysis.
+
+**Note:** Data files are NOT tracked in git. Download from sources below and place in appropriate folders.
 
 ---
 
@@ -12,10 +14,9 @@ datasets/
 │   ├── PolyhedronFiles/       # Full data with vertices and coordinates
 │   └── PolyhedronFilesJustNames/  # Simplified version with names only
 ├── collected/            # Color vocabulary datasets from various sources
+├── xkcd/                 # XKCD Color Survey raw data
 └── SOURCES.md            # This file
 ```
-
-**Note:** XKCD raw survey data (175,844 unique names, 3.4M responses) is stored separately in `assets/xkcd/` and is not duplicated here.
 
 ---
 
@@ -24,9 +25,20 @@ datasets/
 **Citation:**
 Centore, P. (2020). Beige, aqua, fuchsia, etc.: Definitions for some non-basic surface colour names. *Journal of the International Colour Association*, 25, 24-54.
 
-**Download URL:**
-https://www.munsellcolourscienceforpainters.com/ColourSciencePapers/BeigeAquaFuchsiaEtc.pdf
-(Supplementary materials available from same source)
+**Download URLs:**
+- Paper: https://www.munsellcolourscienceforpainters.com/ColourSciencePapers/BeigeAquaFuchsiaEtc.pdf
+- Polyhedron Data: https://www.munsellcolourscienceforpainters.com/ColourSciencePapers/PolyhedronFiles.zip
+- Polyhedron Names Only: https://www.munsellcolourscienceforpainters.com/ColourSciencePapers/PolyhedronFilesJustNames.zip
+
+**Setup:**
+```bash
+cd datasets/centore/
+curl -O https://www.munsellcolourscienceforpainters.com/ColourSciencePapers/PolyhedronFiles.zip
+curl -O https://www.munsellcolourscienceforpainters.com/ColourSciencePapers/PolyhedronFilesJustNames.zip
+unzip PolyhedronFiles.zip
+unzip PolyhedronFilesJustNames.zip
+rm *.zip
+```
 
 **Format:** Text files containing convex hull polyhedra for 30 non-basic color terms in Munsell color space. Each file includes:
 - Color name
@@ -46,19 +58,64 @@ Simplified version containing vertex names without additional metadata.
 
 ---
 
+## XKCD Color Survey (Primary Data Source)
+
+**Citation:**
+Munroe, R. (2010). Color Survey Results. *XKCD*. https://blog.xkcd.com/2010/05/03/color-survey-results/
+
+**Download URL:**
+https://xkcd.com/color/rgb.txt (summary)
+Full data: Contact author or use archived version
+
+**Description:**
+Large-scale crowd-sourced color naming survey with ~3.4 million responses from ~222,500 participants naming RGB colors displayed on screen.
+
+**Files:**
+
+| File | Size | Tracked | Description |
+|------|------|---------|-------------|
+| `xkcd_color_survey.txt` | 19 KB | Yes | Summary of 949 most common color names with hex values |
+| `mainsurvey_sqldump.txt` | 295 MB | No | Full survey responses (download separately) |
+| `satfaces_sqldump.txt` | 159 MB | No | Saturation/faces data (download separately) |
+| `colorsurvey.tar.gz` | 84 MB | No | Compressed archive of survey data |
+
+**Key Statistics:**
+- Total unique color names: 175,844
+- Validated names (after semantic filtering): 137,878
+- Survey responses: ~3.4 million
+
+**License:** Data released by Randall Munroe; academic/research use permitted.
+
+**Note:** Large files (SQL dumps) are excluded from git tracking. Download separately from the XKCD archives if needed.
+
+---
+
 ## Collected Vocabularies (Scraped/Derived)
 
 Color vocabulary datasets collected from various online sources for research purposes.
 
-| File | Source | URL | Entries | Collected | License |
-|------|--------|-----|---------|-----------|---------|
-| `xkcd_colors.csv` | XKCD Color Survey | https://xkcd.com/color/rgb/ | 949 | 2024-12 | CC0 |
-| `meodai_colors.csv` | Meodai Color Names | https://github.com/meodai/color-names | 31,852 | 2024-12 | MIT |
-| `colorhexa_colors.csv` | ColorHexa | https://www.colorhexa.com/ | 1,421 | 2024-12 | Fair use |
-| `wikipedia_colors.csv` | Wikipedia Color Lists | https://en.wikipedia.org/wiki/Lists_of_colors | 900 | 2024-12 | CC BY-SA |
-| `color_name_com_colors.csv` | ColorName.com | https://colorname.com/ | 1,313 | 2024-12 | Fair use |
-| `centore_colors.csv` | Derived from Centore JAIC 2020 | (see above) | 30 | 2024-12 | Academic |
-| `master_vocabulary.csv` | Consolidated from all sources | - | 33,208 | 2024-12 | Mixed |
+| File | Source | URL | Entries | License |
+|------|--------|-----|---------|---------|
+| `xkcd_colors.csv` | XKCD Color Survey | https://xkcd.com/color/rgb.txt | 949 | CC0 |
+| `meodai_colors.csv` | Meodai Color Names | https://github.com/meodai/color-names | 31,852 | MIT |
+| `colorhexa_colors.csv` | ColorHexa | https://www.colorhexa.com/ | 1,421 | Fair use |
+| `wikipedia_colors.csv` | Wikipedia Color Lists | https://en.wikipedia.org/wiki/Lists_of_colors | 900 | CC BY-SA |
+| `color_name_com_colors.csv` | ColorName.com | https://colorname.com/ | 1,313 | Fair use |
+| `centore_colors.csv` | Derived from Centore JAIC 2020 | (see above) | 30 | Academic |
+| `master_vocabulary.csv` | Consolidated from all sources | - | 33,208 | Mixed |
+
+**Setup (direct downloads):**
+```bash
+cd datasets/collected/
+
+# XKCD colors (direct download)
+curl -o xkcd_colors.csv https://xkcd.com/color/rgb.txt
+
+# Meodai colors (from GitHub)
+curl -o meodai_colors.csv https://raw.githubusercontent.com/meodai/color-names/master/dist/colornames.csv
+```
+
+**Note:** ColorHexa, Wikipedia, and ColorName.com require web scraping. Use scripts in `../scripts/src/` to regenerate.
 
 ### CSV Format
 
@@ -88,15 +145,14 @@ A consolidated vocabulary of unique color names from all sources. Contains only 
 2. **Duplicates exist:** The collected sources may contain overlapping color names.
 3. **Quality varies:** XKCD data is crowd-sourced; Centore data is expert-curated.
 4. **Case sensitivity:** Color names may have inconsistent capitalization across sources.
-5. **XKCD full data:** The raw XKCD survey (~295 MB SQL dump) is in `assets/xkcd/` and not tracked in git.
+5. **Large files excluded:** XKCD SQL dumps (~450 MB total) are in `datasets/xkcd/` but not tracked in git.
 
 ---
 
 ## Related Files
 
-- `assets/xkcd/` - Full XKCD color survey data (not tracked, download separately)
-- `more_non-basic_surface_colour_names/scripts/` - Analysis scripts (TBD)
-- `more_non-basic_surface_colour_names/literature/SOURCES.md` - Literature references
+- `../scripts/` - Analysis scripts using these datasets
+- `../literature/SOURCES.md` - Literature references and academic papers
 
 ---
 

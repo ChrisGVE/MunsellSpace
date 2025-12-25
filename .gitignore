@@ -171,7 +171,7 @@ more_non-basic_surface_colour_names/literature/*.pdf
 # Scratchpad folder
 tmp/
 
-# Large data files (download separately)
-assets/xkcd/mainsurvey_sqldump.txt
-assets/xkcd/satfaces_sqldump.txt
-assets/xkcd/colorsurvey.tar.gz
+# Research data files (local only, download from sources documented in SOURCES.md)
+more_non-basic_surface_colour_names/datasets/centore/
+more_non-basic_surface_colour_names/datasets/collected/
+more_non-basic_surface_colour_names/datasets/xkcd/

@@ -59,7 +59,7 @@ Original Python scripts from overlay-preprocessing. See `archives/scripts/INVENT
 
 ## 2. Datasets (`datasets/`)
 
-All color data sources organized by origin. **All tracked in git.**
+All color data sources organized by origin. **Data files NOT tracked in git** - download from sources documented in `datasets/SOURCES.md`.
 
 ### 2.1 Centore Data (`datasets/centore/`, 60 files)
 
@@ -80,7 +80,18 @@ All color data sources organized by origin. **All tracked in git.**
 | `wikipedia_colors.csv` | Wikipedia list of colors | ~900 |
 | `master_vocabulary.csv` | Merged reference vocabulary | ~33,000 |
 
-### 2.3 Source Documentation
+### 2.3 XKCD Color Survey (`datasets/xkcd/`, 4 files)
+
+| File | Size | Tracked | Description |
+|------|------|---------|-------------|
+| `xkcd_color_survey.txt` | 19 KB | Yes | Summary of 949 most common color names |
+| `mainsurvey_sqldump.txt` | 295 MB | No | Full survey responses |
+| `satfaces_sqldump.txt` | 159 MB | No | Saturation/faces data |
+| `colorsurvey.tar.gz` | 84 MB | No | Compressed archive |
+
+**Source:** Munroe, R. (2010). XKCD Color Survey. https://blog.xkcd.com/2010/05/03/color-survey-results/
+
+### 2.4 Source Documentation
 
 - `datasets/SOURCES.md` - Complete documentation with URLs and collection dates
 
@@ -191,7 +202,7 @@ Documentation, references, and paper drafts.
 ### Finding Data
 - **Centore polyhedra?** → `datasets/centore/PolyhedronFiles/`
 - **Color vocabularies?** → `datasets/collected/`
-- **XKCD raw data?** → `assets/xkcd/` (separate, not in this folder)
+- **XKCD raw data?** → `datasets/xkcd/`
 
 ### Finding Scripts
 - **Active scripts?** → `scripts/src/`
