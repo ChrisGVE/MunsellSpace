@@ -28,57 +28,45 @@
 - Centroid (Munsell and Cartesian)
 - Polyhedron vertices (Munsell coordinates)
 
-**Assessment**: This appears to be **PROCESSED data** (the final inner hull vertices), not the raw CAUS samples. The sample counts are mentioned but the original samples are not provided.
+**Assessment**: The polyhedron files contain BOTH processed and raw data:
+- **Processed**: Polyhedron vertices (inner hull) and faces
+- **Raw**: All unique CAUS samples used for that category (with year, season, market, name, Munsell coordinates)
 
-**Implication**: We can **verify** Centore's final polyhedra but cannot **replicate** his data cleanup process without raw CAUS data.
+**Implication**: We CAN verify Centore's inner hull methodology by:
+1. Starting from the raw samples in each file
+2. Computing our own inner convex hull
+3. Comparing our vertices to Centore's published vertices
 
-### Centore's Data Cleanup (from paper pp. 31-35)
+### Centore's Data Cleanup (from JAIC 2020 paper, pp. 30-31)
 
-According to user knowledge of the paper, Centore applied two filtering steps:
+Centore applied two filtering steps to the raw CAUS data:
 
-#### Step 1: Illuminant Filtering (Fluorescent Exclusion)
-- **Purpose**: Remove samples measured under non-standard illumination
-- **Method**: Exclude fluorescent color samples
-- **Relevance to us**: May inform how we handle screen data later
+#### Step 1: Fluorescent Sample Exclusion
+- **Original dataset**: 18,706 lines in spreadsheet
+- **Criterion**: Reflectance percentage >100% at one or more wavelengths
+- **Excluded**: 2,245 fluorescent samples
+- **Reason**: Fluorescent materials re-emit absorbed energy as visible light, making them unsuitable for standard Munsell conversion
 
-#### Step 2: Color Consistency Filtering
-- **Purpose**: Ensure samples genuinely represent the target color
-- **Method**: Exclude certain colors (details in paper)
-- **Relevance to us**: May be reusable/adaptable for our pipeline
+#### Step 2: Implausible Name Exclusion
+- **Criterion**: Color name that is "completely unsuitable" for the measured Munsell coordinates
+- **Example given** (p. 31): "Futurist blue" with Munsell 7.97R 5.64/8.13 - a saturated red, dismissed as "clerical mishap"
+- **Excluded**: ~60 samples
+- **Final dataset**: ~16,400 non-fluorescent samples with plausible names
 
-**Action Item**: Document exact filtering criteria from paper for potential reuse.
+**Minimum sample requirement**: Every color name analyzed occurred in at least 25 unique, non-fluorescent samples.
 
-### Sourcing Raw CAUS Data
+### Raw CAUS Data Availability
 
-**Goal**: Obtain the unprocessed raw CAUS data to:
-1. Understand and replicate Centore's filtering process
-2. Find the excluded fluorescent colors for analysis
-3. Enable true methodology replication
+**Status**: The full CAUS database (including excluded samples) is only accessible via paid subscription to the Color Association of the United States. We will not pursue this data source.
 
-**Potential Sources**:
+**What we have**: The polyhedron files contain all samples that passed Centore's filtering. This is sufficient for our Track A verification.
 
-1. **Contact Paul Centore directly**
-   - Author of the original paper
-   - May have retained the raw CAUS data used in his analysis
-   - Contact via his website: munsellcolourscienceforpainters.com
+**What we don't have**: The 2,245 fluorescent samples and ~60 implausible name samples that were excluded.
 
-2. **Hagley Museum and Library Archives**
-   - URL: https://findingaids.hagley.org/repositories/3/resources/939
-   - Contains CAUS historical records (1915-2003)
-   - Includes "color determination files" with spectrophotometric data (1940-1968)
-   - Physical access only (Wilmington, Delaware)
-   - Contact: askhagley@hagley.org or 302-658-2400
-
-3. **Color Association of the United States**
-   - Current organization: colorassociation.com
-   - May have digitized archives or can provide access
-   - The 9,261 fabric samples may still be available
-
-**Research Questions for Raw Data**:
-- What are the exact filtering criteria for fluorescent exclusion?
-- Which specific samples were excluded for color consistency?
-- What spectrophotometer was used and under what illuminant?
-- Can we obtain the full dataset of excluded samples?
+**Historical reference** (for future researchers):
+- **Hagley Museum and Library Archives**: https://findingaids.hagley.org/repositories/3/resources/939
+  - Contains CAUS historical records (1915-2003)
+  - Physical access only (Wilmington, Delaware)
 
 ---
 
@@ -88,7 +76,7 @@ According to user knowledge of the paper, Centore applied two filtering steps:
 
 | Source | Type | Size | Use |
 |--------|------|------|-----|
-| Centore CAUS Polyhedra | Processed (inner hulls) | 30 categories | Reference standard |
+| Centore CAUS Polyhedra | Processed (inner hulls) | 30 colour names | Reference standard |
 | XKCD Color Survey | Screen colors (RGB) | 175,844 names | New color extraction |
 
 ### Reference Vocabulary Sources (for semantic validation)
@@ -149,7 +137,7 @@ Phase 7: Validation & Integration
 **Goal**: Prove we can correctly parse and represent Centore's published polyhedra.
 
 **Input**:
-- Centore's polyhedron data files (30 categories)
+- Centore's polyhedron data files (30 colour names)
 
 **Steps**:
 1. Parse Centore's polyhedron files to extract vertices
@@ -164,13 +152,86 @@ Phase 7: Validation & Integration
 - Hull is valid 3D convex polyhedron
 
 **Output**:
-- Parsing code verified against 30 categories
+- Parsing code verified against 30 colour names
 - Tolerance bounds established for centroid matching
 - Understanding of what we CAN verify
 
 **Decision Point**: If we cannot accurately parse the data, STOP and investigate format issues.
 
 **Note**: Since we have processed data (not raw), this validates our **parsing** of Centore's results, not our ability to **replicate** his data cleanup.
+
+### Track A Results (2025-12-25)
+
+**Status**: COMPLETED SUCCESSFULLY
+
+All 30 Centore polyhedra verified with comprehensive concordance testing.
+
+**Terminology note**: Centore uses "colour name" (British spelling), not "category".
+
+#### Method
+1. Parsed all polyhedron files to extract samples
+2. Converted Munsell → Cartesian using Centore's formula: `x = C×cos(H×π/50), y = C×sin(H×π/50), z = V`
+3. Computed inner hull via single-layer peeling (scipy ConvexHull)
+4. Computed filled-solid centroid via tetrahedron decomposition
+5. Matched computed vertices to published vertices using Hungarian algorithm
+
+#### Full Verification Table
+
+| Colour Name | Centroid Err | V(ours) | V(Centore) | E(ours) | E(Centore) | F(ours) | F(Centore) | Mean V Err | Max V Err |
+|-------------|--------------|---------|------------|---------|------------|---------|------------|------------|-----------|
+| aqua        | 0.0023       | 28      | 28         | 78      | 78         | 52      | 52         | 0.0037     | 0.0058    |
+| beige       | 0.0033       | 32      | 32         | 90      | 90         | 60      | 60         | 0.0041     | 0.0063    |
+| blue        | 0.0052       | 66      | 66         | 192     | 192        | 128     | 128        | 0.0038     | 0.0067    |
+| brown       | 0.0051       | 33      | 33         | 93      | 93         | 62      | 62         | 0.0039     | 0.0065    |
+| coral       | 0.0062       | 34      | 34         | 96      | 96         | 64      | 64         | 0.0038     | 0.0063    |
+| fuchsia     | 0.0049       | 18      | 18         | 48      | 48         | 32      | 32         | 0.0032     | 0.0066    |
+| gold        | 0.0046       | 47      | 47         | 135     | 135        | 90      | 90         | 0.0035     | 0.0067    |
+| gray        | 0.0038       | 39      | 39         | 111     | 111        | 74      | 74         | 0.0035     | 0.0062    |
+| green       | 0.0067       | 66      | 66         | 192     | 192        | 128     | 128        | 0.0039     | 0.0065    |
+| lavender    | 0.0047       | 15      | 15         | 39      | 39         | 26      | 26         | 0.0039     | 0.0062    |
+| lilac       | 0.0011       | 20      | 20         | 54      | 54         | 36      | 36         | 0.0042     | 0.0064    |
+| magenta     | 0.0046       | 7       | 7          | 15      | 15         | 10      | 10         | 0.0043     | 0.0060    |
+| mauve       | 0.0064       | 44      | 44         | 126     | 126        | 84      | 84         | 0.0035     | 0.0054    |
+| navy        | 0.0029       | 24      | 24         | 66      | 66         | 44      | 44         | 0.0040     | 0.0064    |
+| orange      | 0.0050       | 46      | 46         | 132     | 132        | 88      | 88         | 0.0040     | 0.0066    |
+| peach       | 0.0018       | 28      | 28         | 78      | 78         | 52      | 52         | 0.0041     | 0.0062    |
+| pink        | 0.0035       | 55      | 55         | 159     | 159        | 106     | 106        | 0.0037     | 0.0068    |
+| purple      | 0.0040       | 45      | 45         | 129     | 129        | 86      | 86         | 0.0037     | 0.0065    |
+| red         | 0.0042       | 39      | 39         | 111     | 111        | 74      | 74         | 0.0038     | 0.0059    |
+| rose        | 0.0051       | 51      | 51         | 147     | 147        | 98      | 98         | 0.0039     | 0.0061    |
+| rust        | 0.0046       | 24      | 24         | 66      | 66         | 44      | 44         | 0.0039     | 0.0067    |
+| sand        | 0.0054       | 24      | 24         | 66      | 66         | 44      | 44         | 0.0036     | 0.0055    |
+| tan         | 0.0058       | 27      | 27         | 75      | 75         | 50      | 50         | 0.0035     | 0.0055    |
+| taupe       | 0.0063       | 23      | 23         | 63      | 63         | 42      | 42         | 0.0038     | 0.0057    |
+| teal        | 0.0053       | 15      | 15         | 39      | 39         | 26      | 26         | 0.0034     | 0.0055    |
+| turquoise   | 0.0044       | 26      | 26         | 72      | 72         | 48      | 48         | 0.0042     | 0.0062    |
+| violet      | 0.0026       | 31      | 31         | 87      | 87         | 58      | 58         | 0.0041     | 0.0066    |
+| white       | 0.0034       | 24      | 24         | 66      | 66         | 44      | 44         | 0.0039     | 0.0069    |
+| wine        | 0.0066       | 21      | 21         | 57      | 57         | 38      | 38         | 0.0037     | 0.0062    |
+| yellow      | 0.0037       | 35      | 35         | 99      | 99         | 66      | 66         | 0.0043     | 0.0070    |
+| **MEAN**    | **0.0045**   |         |            |         |            |         |            | **0.0038** | **0.0063**|
+| **MAX**     | **0.0067**   |         |            |         |            |         |            | **0.0043** | **0.0070**|
+
+#### Summary Statistics
+
+| Metric | Value |
+|--------|-------|
+| Exact vertex count match | 30/30 (100%) |
+| Vertex count discrepancy | None |
+| Mean centroid error | 0.0045 Munsell units |
+| Max centroid error | 0.0067 (green) |
+| Mean vertex coordinate error | 0.0038 Munsell units |
+| Max vertex coordinate error | 0.0070 Munsell units |
+
+**Interpretation**: Perfect concordance achieved for all 30 colour names. All errors are below 0.01 Munsell units, representing sub-percentage agreement well within numerical precision bounds.
+
+**Technical Note**: Initial verification showed a discrepancy for "white" (23 vs 24 vertices) caused by a parsing issue. The white polyhedron includes a neutral sample (N9.02 - "Purplish White") which uses the Munsell neutral notation `N{value}` rather than the chromatic pattern `{hue}{letter} {value}/{chroma}`. After adding neutral color parsing, all 30 colour names matched exactly.
+
+**Verification scripts**:
+- `scripts/src/track_a_verification.py` (centroid-only)
+- `scripts/src/track_a_full_verification.py` (comprehensive)
+
+**Detailed results**: `writeups/results/track_a_full_verification.json`
 
 ---
 
@@ -451,23 +512,38 @@ Based on discussion:
 
 ---
 
+## Critical Insight: Screen vs Surface Colors (from Centore's paper, p. 28)
+
+Centore explicitly addresses the screen-physical color problem:
+
+> "The Munsell system applies only to surface colours, and not to coloured lights... it is not clear how to convert between RGBs and Munsell coordinates. This paper, however, relies only on spectrophotometrically measured surface colours."
+
+**Implication for our work**: Centore's CAUS data consists of physical fabric samples measured with a spectrophotometer. Our XKCD data consists of screen colors (self-luminous RGB). Centore himself states the conversion between these domains is unclear without "additional analysis."
+
+This validates our Track B approach: we must investigate the screen-physical relationship before proceeding with full conversion.
+
+---
+
 ## Open Questions Requiring Further Research
 
 ### Illuminant and Perception
 
 1. **Illuminant resolution**: Is there an illuminant under which LCD colors would match Centore's Munsell coordinates? Could chromatic adaptation (Bradford, CIECAM02) provide a principled correction?
 
-2. **Fluorescent colors**: Could Centore's excluded fluorescent samples provide insight into the illuminant question? (Fluorescent materials exhibit enhanced appearance under certain illuminants.)
-
-3. **Perceptual validity**: When users name screen colors perceived as brighter/more saturated, is it correct to "correct" for this? Or does the perception itself matter?
+2. **Perceptual validity**: When users name screen colors perceived as brighter/more saturated, is it correct to "correct" for this? Or does the perception itself matter?
 
 ### Methodological
 
-4. **Centore raw data access**: Can we obtain the raw CAUS data (before Centore's filtering)? This would enable true replication.
+3. **Quality criteria from literature**: What criteria exist in geometry/convex set literature for polyhedron quality? Locality, volume, stability?
 
-5. **Color consistency filtering**: What exactly did Centore exclude for "color consistency"? Can we adapt this for our pipeline?
+### Resolved Questions (via paper extraction)
 
-6. **Quality criteria from literature**: What criteria exist in geometry/convex set literature for polyhedron quality? Locality, volume, stability?
+| Question | Resolution |
+|----------|------------|
+| Centore raw data access | Not feasible - CAUS requires paid subscription. Polyhedron files contain sufficient samples for verification. |
+| Fluorescent exclusion criteria | Reflectance >100% at any wavelength (2,245 samples excluded) |
+| Implausible name criteria | Color name "completely unsuitable" for measured coordinates (~60 samples excluded) |
+| Minimum sample count | 25 unique, non-fluorescent samples per category |
 
 ---
 
@@ -506,14 +582,14 @@ From `writeups/methodology/centore_inner_hull.md`:
 
 ## Next Steps
 
-1. **Track A Phase 0**: Parse Centore polyhedra, verify interpretation
+1. ~~**Track A Phase 0**: Parse Centore polyhedra, verify interpretation~~ ✅ COMPLETED
 2. **Track B Phase 1**: Build reference vocabulary with proper normalization
-3. **Track B Phase 3**: Design calibration subset experiment
-4. **Research**: Investigate illuminant hypothesis (literature review)
-5. **Documentation**: Extract Centore's filtering criteria from paper
+3. **Track B Phase 2**: XKCD semantic validation
+4. **Track B Phase 3**: Design calibration subset experiment
+5. **Research**: Investigate illuminant hypothesis (literature review)
 
 ---
 
-**Document Status**: Draft v2 - Incorporating user feedback
+**Document Status**: Draft v2.2 - Track A complete with 100% verification
 **Author**: Claude Code
 **Date**: 2025-12-25
