@@ -11,6 +11,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ready for production publication to crates.io
 - Merged feature/true-mathematical-conversion branch to main
 
+## [1.2.1] - 2025-12-26
+
+### Added
+- **Flexible Characterization API**: New separation of objective color facts from formatting preferences
+  - `ColorCharacterization`: Objective facts about a color (ISCC-NBS category, semantic matches, shade)
+  - `FormatOptions`: User preferences for output formatting
+  - `BaseColorSet`: Choose between Standard (13 colors) or Extended (267 with modifiers)
+  - `OverlayMode`: Control semantic overlay usage (Never, WhenMatching, Nearest)
+- **New `characterize_*` methods on `ColorClassifier`**:
+  - `characterize_srgb()`, `characterize_hex()`, `characterize_lab()`, `characterize_munsell_notation()`
+  - Return `ColorCharacterization` for flexible formatting via `describe(&FormatOptions)`
+
+### Changed
+- `ColorDescriptor` now uses `ColorCharacterization` internally (backward compatible)
+- Reduced code duplication in classifier implementation
+
+## [1.2.0] - 2025-12-25
+
+### Added
+- **Unified Color Naming API**: Single entry point for all color naming systems
+  - `ColorClassifier`: Unified interface for ISCC-NBS, extended, and semantic names
+  - `ColorDescriptor`: Complete naming info with consistent modifiers across systems
+  - `ColorModifier`: 22-variant enum for all ISCC-NBS modifiers (vivid, pale, dark, etc.)
+- **Semantic Color Overlays**: 30 color names from Centore (2020) research
+  - 20 non-basic: aqua, beige, coral, fuchsia, gold, lavender, lilac, magenta, mauve, navy, peach, rose, rust, sand, tan, taupe, teal, turquoise, violet, wine
+  - 10 basic: blue, brown, gray, green, orange, pink, purple, red, white, yellow
+- Color name registry with `known_color_names()`, `is_known_color()`, `color_name_count()`
+
+### Deprecated
+- `IsccNbsClassifier::classify_srgb()`, `classify_lab()`, `classify_hex()` - use `ColorClassifier` instead
+- `semantic_overlay()`, `matching_overlays()`, `matching_overlays_ranked()`, `matches_overlay()`, `closest_overlay()` - use `ColorClassifier` and `ColorDescriptor` instead
+
+### Attribution
+- Added proper citations for Paul Centore's 2020 JAIC paper on non-basic surface colour names
+- Added attribution for ISCC (Inter-Society Color Council) color category definitions
+
+## [1.1.1] - 2025-12-24
+
+### Added
+- Attribution for Paul Centore's sRGB-to-Munsell conversion methodology and publications
+- Attribution for ISCC (Inter-Society Color Council) color category definitions
+
 ## [1.1.0] - 2025-01-15
 
 ### Added
