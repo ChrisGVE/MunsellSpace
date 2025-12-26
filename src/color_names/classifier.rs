@@ -289,46 +289,31 @@ impl ColorClassifier {
             modifier,
             semantic_matches,
             nearest_semantic: nearest,
+            shade: iscc_meta.color_shade.clone(),
         })
     }
 
     /// Internal: classify a MunsellColor and build the complete descriptor.
-    #[allow(deprecated)] // Uses deprecated semantic overlay functions internally
+    ///
+    /// Uses ColorCharacterization internally and converts to ColorDescriptor.
     fn classify_munsell_color(&self, munsell: &MunsellColor) -> Result<ColorDescriptor> {
-        // Get ISCC-NBS classification
-        let (iscc_number, iscc_meta) = self.get_iscc_classification(munsell)?;
+        // Get the characterization first
+        let char = self.characterize_munsell_color(munsell)?;
 
-        // Convert to MunsellSpec for semantic overlay lookup
-        let munsell_spec = self.munsell_color_to_spec(munsell);
-
-        // Get semantic overlay matches
-        let (semantic_name, semantic_alternates, nearest) = if let Some(ref spec) = munsell_spec {
-            let primary = semantic_overlay(spec).map(|s| s.to_string());
-            let all_matches: Vec<String> =
-                matching_overlays(spec).iter().map(|s| s.to_string()).collect();
-            let alternates: Vec<String> = all_matches.into_iter().skip(1).collect();
-            let nearest = closest_overlay(spec).map(|(name, dist)| (name.to_string(), dist));
-            (primary, alternates, nearest)
-        } else {
-            (None, vec![], None)
-        };
-
-        // Extract modifier from formatter
-        let modifier = iscc_meta
-            .iscc_nbs_formatter
-            .as_ref()
-            .map(|f| ColorModifier::from_formatter(f))
-            .unwrap_or(ColorModifier::None);
+        // Convert to ColorDescriptor format
+        let semantic_name = char.semantic_matches.first().cloned();
+        let semantic_alternates: Vec<String> =
+            char.semantic_matches.into_iter().skip(1).collect();
 
         Ok(ColorDescriptor {
-            iscc_nbs_number: iscc_number,
-            modifier,
-            standard_name: iscc_meta.iscc_nbs_color_name.clone(),
-            extended_name: iscc_meta.alt_color_name.clone(),
+            iscc_nbs_number: char.iscc_nbs_number,
+            modifier: char.modifier,
+            standard_name: char.iscc_base_color,
+            extended_name: char.iscc_extended_name,
             semantic_name,
             semantic_alternates,
-            nearest_semantic: nearest,
-            shade: iscc_meta.color_shade.clone(),
+            nearest_semantic: char.nearest_semantic,
+            shade: char.shade,
         })
     }
 
