@@ -141,12 +141,12 @@ impl Default for ConverterConfig {
 
 ## ISCC-NBS Classification
 
-### `ISCC_NBS_Classifier`
+### `IsccNbsClassifier`
 
 Classifies colors into ISCC-NBS standardized color names.
 
 ```rust
-pub struct ISCC_NBS_Classifier {
+pub struct IsccNbsClassifier {
     // Internal fields
 }
 ```
@@ -154,7 +154,7 @@ pub struct ISCC_NBS_Classifier {
 #### Methods
 
 ```rust
-impl ISCC_NBS_Classifier {
+impl IsccNbsClassifier {
     /// Create a new classifier
     pub fn new() -> Result<Self>
     
@@ -383,10 +383,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 ### ISCC-NBS Classification
 
 ```rust
-use munsellspace::ISCC_NBS_Classifier;
+use munsellspace::IsccNbsClassifier;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let classifier = ISCC_NBS_Classifier::new()?;
+    let classifier = IsccNbsClassifier::new()?;
     
     // Classify colors
     let red_name = classifier.classify_rgb([255, 0, 0])?;

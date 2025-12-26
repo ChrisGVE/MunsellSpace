@@ -1,4 +1,4 @@
-use munsellspace::{ISCC_NBS_Classifier, MunsellConverter};
+use munsellspace::{IsccNbsClassifier, MunsellConverter};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🐛 Debugging specific case: #886648 -> 9.5R 4.5/6.0");
@@ -12,7 +12,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("   Hue: {:?}, Value: {}, Chroma: {:?}", munsell.hue, munsell.value, munsell.chroma);
     
     // Step 2: Try ISCC-NBS classification
-    let classifier = ISCC_NBS_Classifier::new()?;
+    let classifier = IsccNbsClassifier::new()?;
     
     // Test the specific coordinates
     let hue = "9.5R";

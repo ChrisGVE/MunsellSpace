@@ -36,7 +36,7 @@ munsellspace = "1.0"
 ### Basic Usage
 
 ```rust
-use munsellspace::{MunsellConverter, ISCC_NBS_Classifier};
+use munsellspace::{MunsellConverter, IsccNbsClassifier};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create converter for Munsell notation
@@ -47,7 +47,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Pure red: {}", munsell); // Output: 7.9R 5.2/20.5
     
     // Create ISCC-NBS classifier
-    let classifier = ISCC_NBS_Classifier::new()?;
+    let classifier = IsccNbsClassifier::new()?;
     
     // Classify color to ISCC-NBS name
     let color_name = classifier.classify_rgb([255, 0, 0])?;
@@ -107,12 +107,12 @@ The library implements a sophisticated color conversion pipeline:
 All public types implement `Send + Sync` for safe concurrent usage:
 
 ```rust
-use munsellspace::{MunsellConverter, ISCC_NBS_Classifier};
+use munsellspace::{MunsellConverter, IsccNbsClassifier};
 use std::sync::Arc;
 use std::thread;
 
 let converter = Arc::new(MunsellConverter::new()?);
-let classifier = Arc::new(ISCC_NBS_Classifier::new()?);
+let classifier = Arc::new(IsccNbsClassifier::new()?);
 
 let mut handles = vec![];
 

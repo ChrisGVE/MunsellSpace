@@ -5,8 +5,8 @@
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion, BenchmarkId};
 use munsellspace::{
-    MunsellConverter, 
-    ISCC_NBS_Classifier,
+    MunsellConverter,
+    IsccNbsClassifier,
     mathematical::MathematicalMunsellConverter,
     reverse_conversion::ReverseConverter,
     MunsellColor
@@ -124,7 +124,7 @@ fn bench_mathematical_converter(c: &mut Criterion) {
 
 /// Benchmark ISCC-NBS classification performance
 fn bench_iscc_nbs_classification(c: &mut Criterion) {
-    let classifier = ISCC_NBS_Classifier::new().expect("Failed to create ISCC-NBS classifier");
+    let classifier = IsccNbsClassifier::new().expect("Failed to create ISCC-NBS classifier");
     
     let mut group = c.benchmark_group("iscc_nbs_classification");
     

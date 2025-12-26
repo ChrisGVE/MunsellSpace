@@ -222,13 +222,13 @@ fn is_close_match(actual: &str, expected: &str) -> bool {
 fn test_comprehensive_thread_safety() {
     use std::sync::Arc;
     use std::thread;
-    use munsellspace::{ISCC_NBS_Classifier, UnifiedColorCache};
+    use munsellspace::{IsccNbsClassifier, UnifiedColorCache};
     
     println!("Testing thread safety across all public API components...");
     
     // Create shared instances of all major components
     let converter = Arc::new(MunsellConverter::new().expect("Failed to create converter"));
-    let classifier = Arc::new(ISCC_NBS_Classifier::new().expect("Failed to create classifier"));
+    let classifier = Arc::new(IsccNbsClassifier::new().expect("Failed to create classifier"));
     let cache = Arc::new(UnifiedColorCache::new());
     
     // Test data covering the full spectrum of colors
@@ -399,10 +399,10 @@ fn test_send_sync_traits_all_public_types() {
     assert_sync::<Arc<MunsellConverter>>();
     
     // ISCC-NBS Classifier should be Send + Sync  
-    assert_send::<ISCC_NBS_Classifier>();
-    assert_sync::<ISCC_NBS_Classifier>();
-    assert_send::<Arc<ISCC_NBS_Classifier>>();
-    assert_sync::<Arc<ISCC_NBS_Classifier>>();
+    assert_send::<IsccNbsClassifier>();
+    assert_sync::<IsccNbsClassifier>();
+    assert_send::<Arc<IsccNbsClassifier>>();
+    assert_sync::<Arc<IsccNbsClassifier>>();
     
     // Cache should be Send + Sync
     assert_send::<UnifiedColorCache>();

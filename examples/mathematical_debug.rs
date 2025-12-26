@@ -22,7 +22,7 @@ fn main() {
             println!("Step 1 - sRGB to xyY (with chromatic adaptation):");
             println!("  x: {:.6}", xyy.x);
             println!("  y: {:.6}", xyy.y);
-            println!("  Y: {:.6}", xyy.Y);
+            println!("  Y: {:.6}", xyy.y_luminance);
             println!();
 
             // Step 2: xyY to Munsell conversion
