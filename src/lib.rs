@@ -219,6 +219,8 @@ pub use semantic_overlay_data::{create_overlay_registry, get_registry};
 pub use color_names::{
     ColorClassifier, ColorDescriptor, ColorModifier,
     known_color_names, is_known_color, color_name_count,
+    // New in v1.2.1: Flexible characterization API
+    ColorCharacterization, FormatOptions, BaseColorSet, OverlayMode,
 };
 
 // Note: General color conversions (RGB↔Hex↔Lab↔HSL↔HSV) are available via the palette crate
