@@ -4,27 +4,34 @@ Process, analyze, and deduplicate XKCD survey data.
 
 This script:
 1. Parses the raw XKCD survey SQL dump directly
-2. Normalizes color names (lowercase, HTML entities, quotes, etc.)
-3. Analyzes for potential issues
-4. Deduplicates based on (name + hex) - keeps unique color assignments
-5. Applies cleaning filters
-6. Generates analysis report
-7. Outputs single cleaned CSV
+2. Normalizes color names (separate phase - transforms only)
+3. Filters invalid entries (separate phase - removes only)
+4. Deduplicates based on (name + hex)
+5. Generates analysis report
+6. Outputs single cleaned CSV
 
-Deduplication rule: Remove row only if BOTH normalized name AND hex are identical.
-Different RGB values for the same name are kept (they represent different user perceptions).
+NORMALIZATION (transforms, does not remove):
+- HTML entity decoding
+- Fancy quotes to straight quotes
+- SQL escape handling
+- Lowercase
+- Whitespace normalization
+- Strip leading punctuation (except apostrophe+alphanumeric like '60s)
+- Convert 'word' to "word" (apostrophe pairs around words become quotes)
+- Remove surrounding quotes
 
-Cleaning filters (applied after deduplication):
-- Very short names (<=1 char)
-- Very long names (>50 chars)
-- Numbers only
+FILTERING (removes entries, order-independent):
+- Empty after normalization
+- Trivial content (<=1 alphanumeric after removing special chars)
+- Numbers in any base (decimal, hex, octal, binary with prefixes)
+- Only special characters
+- Very long (>50 chars)
 - Keyboard mash patterns
-- URLs/code snippets
-- Only special characters / whitespace
+- Code snippets / URLs
 
-NOT filtered at this stage (per pipeline - filtered at end):
+NOT filtered (per pipeline - filtered at end):
 - Profanity / bodily functions
-- Non-English names (legitimate color names)
+- Non-English names
 """
 
 import csv
@@ -33,7 +40,7 @@ import re
 import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 
 # Paths
 DATASETS_DIR = Path(__file__).parent.parent.parent / "datasets"
@@ -43,187 +50,306 @@ SOURCE_FILE = XKCD_DIR / "mainsurvey_sqldump.txt"
 OUTPUT_FILE = NORMALIZED_DIR / "xkcd_survey_normalized.csv"
 REPORT_FILE = NORMALIZED_DIR / "xkcd_survey_analysis_report.txt"
 
-# Patterns to filter during normalization
-FILTER_PATTERNS = [
-    r'^#?[0-9a-f]{3}$',          # 3-digit hex
-    r'^#?[0-9a-f]{6}$',          # 6-digit hex
-    r'^#?[0-9a-f]{8}$',          # 8-digit hex (with alpha)
-]
-FILTER_REGEX = re.compile('|'.join(FILTER_PATTERNS), re.IGNORECASE)
 
-# Patterns for ANALYSIS (not all are filtered)
-ANALYSIS_PATTERNS = {
-    'very_short': lambda n: len(n) <= 1,
-    'very_long': lambda n: len(n) > 50,
-    'only_numbers': lambda n: bool(re.match(r'^[\d\s.,-]+$', n)),
-    'only_special_chars': lambda n: bool(re.match(r'^[^\w]+$', n)),  # No word chars at all
-    'excessive_punctuation': lambda n: len(re.findall(r'[^\w\s]', n)) > 5,
-    'repeated_chars': lambda n: bool(re.search(r'(.)\1{4,}', n)),  # 5+ same char
-    'keyboard_mash': lambda n: bool(re.search(r'[qwerty]{5,}|[asdfgh]{5,}|[zxcvbn]{5,}|[aeiou]{5,}', n, re.I)),
-    'profanity': lambda n: any(w in n for w in ['fuck', 'shit', ' ass ', 'dick', 'cunt', 'bitch', 'nigger', 'faggot']),
-    'bodily_functions': lambda n: any(w in n for w in ['puke', 'vomit', 'poop', 'pee ', 'snot', 'booger', 'fart', 'barf']),
-    'urls_or_code': lambda n: bool(re.search(r'http|www\.|\.com|\.org|\.net|<[^>]+>|\{|\}|function|var |document\.|script', n)),
-    'has_emoji': lambda n: bool(re.search(r'[\U0001F300-\U0001F9FF]', n)),
-    'non_ascii': lambda n: bool(re.search(r'[^\x00-\x7F]', n)),
-}
+# =============================================================================
+# NORMALIZATION FUNCTIONS (transforms only, no filtering)
+# =============================================================================
 
-# Patterns for CLEANING (these get filtered out)
-CLEANING_FILTERS = {
-    'very_short': lambda n: len(n) <= 1,
-    'very_long': lambda n: len(n) > 50,
-    'only_numbers': lambda n: bool(re.match(r'^[\d\s.,-]+$', n)),
-    'only_special_chars': lambda n: bool(re.match(r'^[^\w]+$', n)),
-    'keyboard_mash': lambda n: bool(re.search(r'[qwerty]{6,}|[asdfgh]{6,}|[zxcvbn]{6,}', n, re.I)),
-    'urls_or_code': lambda n: bool(re.search(r'https?://|www\.|<script|<[a-z]+>|document\.|function\s*\(', n, re.I)),
-}
-
-
-def normalize_name(name: str) -> Optional[str]:
+def normalize_name(name: str) -> str:
     """
-    Normalize a color name.
+    Normalize a color name. Only transforms, never filters.
 
-    Rules:
-    - Decode HTML entities
-    - Lowercase
-    - Collapse multiple whitespace to single space
-    - Trim leading/trailing whitespace
-    - Remove surrounding quotes (but keep internal apostrophes like "hunter's")
-    - Normalize fancy quotes to straight quotes
-
-    Returns None if name should be filtered out.
+    Transformations applied:
+    1. Decode HTML entities
+    2. Normalize fancy quotes to straight quotes
+    3. Handle SQL-escaped quotes
+    4. Lowercase
+    5. Collapse whitespace
+    6. Strip leading punctuation (except apostrophe+alphanumeric)
+    7. Convert 'word' to "word"
+    8. Remove surrounding quotes
+    9. Final trim
     """
     if not name:
-        return None
+        return ""
 
-    # Decode HTML entities (&#039; -> ', &#8217; -> ', &amp; -> &, etc.)
-    result = html.unescape(name)
+    result = name
 
-    # Normalize fancy quotes to straight apostrophe
-    result = result.replace(''', "'")  # U+2019 right single quotation mark
-    result = result.replace(''', "'")  # U+2018 left single quotation mark
-    result = result.replace('"', '"')  # U+201C left double quotation mark
-    result = result.replace('"', '"')  # U+201D right double quotation mark
+    # 1. Decode HTML entities (&#039; -> ', &#8217; -> ', &amp; -> &)
+    result = html.unescape(result)
 
-    # Handle SQL-escaped single quotes ('' -> ')
+    # 2. Normalize fancy quotes to straight quotes
+    result = result.replace('\u2019', "'")  # Right single quotation mark
+    result = result.replace('\u2018', "'")  # Left single quotation mark
+    result = result.replace('\u201c', '"')  # Left double quotation mark
+    result = result.replace('\u201d', '"')  # Right double quotation mark
+
+    # 3. Handle SQL-escaped single quotes ('' -> ')
     result = result.replace("''", "'")
 
-    # Lowercase
+    # 4. Lowercase
     result = result.lower()
 
-    # Collapse multiple whitespace to single space
-    result = re.sub(r'\s+', ' ', result)
+    # 5. Collapse multiple whitespace to single space and trim
+    result = re.sub(r'\s+', ' ', result).strip()
 
-    # Trim
-    result = result.strip()
+    # 6. Strip leading punctuation, EXCEPT apostrophe followed by alphanumeric
+    # e.g., "'60s colors" should keep the apostrophe, but "---blue" should become "blue"
+    while result and not result[0].isalnum():
+        # Check if it's an apostrophe followed by alphanumeric
+        if result[0] == "'" and len(result) > 1 and result[1].isalnum():
+            break
+        result = result[1:].lstrip()
 
-    # Remove surrounding quotes (single or double)
+    # 7. Convert 'word' (apostrophe pairs around words) to "word"
+    # Match 'word' where word contains no apostrophes
+    result = re.sub(r"'([^']+)'", r'"\1"', result)
+
+    # 8. Remove surrounding quotes (single or double)
     if len(result) >= 2:
         if (result[0] == '"' and result[-1] == '"') or \
            (result[0] == "'" and result[-1] == "'"):
             result = result[1:-1].strip()
 
-    # Filter out unwanted patterns (hex codes)
-    if not result or FILTER_REGEX.search(result):
-        return None
+    # 9. Final trim
+    result = result.strip()
 
     return result
 
 
-def get_unicode_category(char):
-    """Get human-readable Unicode category for a character."""
-    try:
-        name = unicodedata.name(char, 'UNKNOWN')
-        category = unicodedata.category(char)
-        return f"{char} (U+{ord(char):04X}) - {category} - {name}"
-    except:
-        return f"{char} (U+{ord(char):04X}) - UNKNOWN"
+# =============================================================================
+# FILTERING FUNCTIONS (each returns True if entry should be REMOVED)
+# =============================================================================
+
+def extract_alphanumeric(s: str) -> str:
+    """Extract only ASCII alphanumeric characters from string."""
+    return ''.join(c for c in s if c.isascii() and c.isalnum())
 
 
-def analyze_utf8_characters(rows):
-    """Analyze non-ASCII characters in the dataset."""
-    char_counter = Counter()
-    char_examples = defaultdict(list)
-
-    for row in rows:
-        name = row['name']
-        for char in name:
-            if ord(char) > 127:  # Non-ASCII
-                char_counter[char] += 1
-                if len(char_examples[char]) < 3:
-                    char_examples[char].append(name[:50])
-
-    # Categorize characters
-    categories = defaultdict(list)
-    for char, count in char_counter.most_common():
-        cat = unicodedata.category(char)
-        cat_name = {
-            'Ll': 'Lowercase Letter',
-            'Lu': 'Uppercase Letter',
-            'Lo': 'Other Letter',
-            'Mn': 'Nonspacing Mark',
-            'Mc': 'Spacing Mark',
-            'So': 'Other Symbol (emoji, etc.)',
-            'Sm': 'Math Symbol',
-            'Sc': 'Currency Symbol',
-            'Sk': 'Modifier Symbol',
-            'Po': 'Other Punctuation',
-            'Ps': 'Open Punctuation',
-            'Pe': 'Close Punctuation',
-            'Pd': 'Dash Punctuation',
-            'Nd': 'Decimal Number',
-            'Nl': 'Letter Number',
-            'No': 'Other Number',
-            'Zs': 'Space Separator',
-            'Cc': 'Control Character',
-            'Cf': 'Format Character',
-        }.get(cat, cat)
-
-        categories[cat_name].append((char, count, char_examples[char]))
-
-    return char_counter, categories
+def is_trivial_content(name: str) -> bool:
+    """
+    Returns True if name has trivial content (should be filtered).
+    After removing all ASCII special characters, if only 0-1 alphanumeric remains.
+    """
+    alphanum = extract_alphanumeric(name)
+    return len(alphanum) <= 1
 
 
-def analyze_code_snippets(rows):
-    """Analyze what the code/URL snippets contain."""
-    snippets = []
-    url_pattern = re.compile(r'https?://|www\.|\.com|\.org|\.net')
-    code_pattern = re.compile(r'<[^>]+>|\{|\}|function|var |document\.|script')
+def is_number_any_base(name: str) -> bool:
+    """
+    Returns True if name is a number in any base (should be filtered).
 
-    for row in rows:
-        name = row['name']
-        if url_pattern.search(name):
-            snippets.append(('URL', name[:80], row['hex']))
-        elif code_pattern.search(name):
-            snippets.append(('CODE', name[:80], row['hex']))
+    Matches:
+    - Plain integers: 42, 123
+    - Decimals: 3.14, .5, 5.
+    - Hex: 0x1a2b, #ff00ff, 1a2b3c (6 hex digits), abc (3 hex digits)
+    - Octal: 0o755, 0755
+    - Binary: 0b1010
+    - With common suffixes: 42px, 100%, 12pt
+    - Negative numbers: -42, -0xff
+    - Space-separated numbers: 255 128 64 (RGB values)
+    """
+    # Strip and lowercase for matching
+    s = name.strip().lower()
 
-    return snippets[:50]  # Return first 50
+    # Remove common suffixes
+    s = re.sub(r'(px|pt|em|rem|%|deg|rad)$', '', s)
 
+    # Space-separated numbers (like RGB: "255 128 64")
+    if re.match(r'^[\d\s.,]+$', s) and re.search(r'\d', s):
+        return True
+
+    # Hex color codes: #rgb, #rrggbb, #rrggbbaa
+    if re.match(r'^#?[0-9a-f]{3}$', s) or \
+       re.match(r'^#?[0-9a-f]{6}$', s) or \
+       re.match(r'^#?[0-9a-f]{8}$', s):
+        return True
+
+    # Prefixed numbers: 0x (hex), 0o (octal), 0b (binary)
+    if re.match(r'^-?0x[0-9a-f]+$', s):  # Hex
+        return True
+    if re.match(r'^-?0o[0-7]+$', s):      # Octal
+        return True
+    if re.match(r'^-?0b[01]+$', s):       # Binary
+        return True
+
+    # Old-style octal (leading zero)
+    if re.match(r'^-?0[0-7]+$', s) and len(s) > 1:
+        return True
+
+    # Plain integers and decimals
+    if re.match(r'^-?[\d]+\.?[\d]*$', s) or re.match(r'^-?\.[\d]+$', s):
+        return True
+
+    # Scientific notation
+    if re.match(r'^-?[\d.]+e[+-]?[\d]+$', s):
+        return True
+
+    return False
+
+
+def is_only_special_chars(name: str) -> bool:
+    """Returns True if name contains no alphanumeric characters at all."""
+    return not any(c.isalnum() for c in name)
+
+
+def is_too_long(name: str, max_length: int = 50) -> bool:
+    """Returns True if name exceeds maximum length."""
+    return len(name) > max_length
+
+
+def is_keyboard_mash(name: str) -> bool:
+    """
+    Returns True if name appears to be keyboard mashing.
+
+    Detects:
+    - Consecutive same-row keyboard characters (qwerty, asdfgh, zxcvbn)
+    - Repeated characters (5+ same char in a row)
+    - Random character sequences without vowels
+    """
+    s = name.lower()
+
+    # Keyboard rows
+    if re.search(r'[qwerty]{5,}|[asdfgh]{5,}|[zxcvbn]{5,}', s):
+        return True
+
+    # Repeated characters (5+ same char)
+    if re.search(r'(.)\1{4,}', s):
+        return True
+
+    # Long sequences without vowels (likely random typing)
+    # Find longest consonant-only sequence
+    consonant_seqs = re.findall(r'[bcdfghjklmnpqrstvwxz]{6,}', s)
+    if consonant_seqs:
+        return True
+
+    # Check for "mash" patterns: alternating hands, etc.
+    # e.g., "asdfasdf", "jkljkl"
+    if re.search(r'(asdf|jkl;|qwer|uiop){2,}', s):
+        return True
+
+    return False
+
+
+def is_code_or_url(name: str) -> bool:
+    """
+    Returns True if name appears to be code or URL.
+
+    Detects:
+    - URLs (http://, https://, www., .com, .org, .net, .io)
+    - HTML tags (<tag>, </tag>)
+    - JavaScript code (function, var, document., alert, script)
+    - CSS/code braces ({, })
+    - Programming patterns
+    """
+    s = name.lower()
+
+    # URLs
+    if re.search(r'https?://|www\.|\.com\b|\.org\b|\.net\b|\.io\b', s):
+        return True
+
+    # HTML tags
+    if re.search(r'</?[a-z][a-z0-9]*[^>]*>', s):
+        return True
+
+    # JavaScript patterns
+    if re.search(r'\bfunction\s*\(|\bvar\s+|document\.|alert\s*\(|<script', s):
+        return True
+
+    # Code braces (but not emoji-like uses)
+    if re.search(r'\{[^}]*\}', s) and not re.search(r'^\{[^}]{1,3}\}$', s):
+        return True
+
+    # SQL injection attempts
+    if re.search(r";\s*(drop|select|insert|delete|update)\s", s):
+        return True
+
+    return False
+
+
+# =============================================================================
+# COMBINED FILTER (applies all filters, returns reason if filtered)
+# =============================================================================
+
+def should_filter(name: str) -> Tuple[bool, Optional[str]]:
+    """
+    Apply all filters to a name.
+    Returns (should_filter, reason) where reason is None if not filtered.
+
+    Filters are applied in order of simplicity/cost.
+    """
+    # Empty check
+    if not name:
+        return True, "empty"
+
+    # Trivial content (<=1 alphanumeric after removing special chars)
+    if is_trivial_content(name):
+        return True, "trivial_content"
+
+    # Only special characters
+    if is_only_special_chars(name):
+        return True, "only_special_chars"
+
+    # Numbers in any base
+    if is_number_any_base(name):
+        return True, "number"
+
+    # Too long
+    if is_too_long(name):
+        return True, "too_long"
+
+    # Keyboard mash
+    if is_keyboard_mash(name):
+        return True, "keyboard_mash"
+
+    # Code or URL
+    if is_code_or_url(name):
+        return True, "code_or_url"
+
+    return False, None
+
+
+# =============================================================================
+# ANALYSIS PATTERNS (for reporting, not filtering)
+# =============================================================================
+
+ANALYSIS_PATTERNS = {
+    'profanity': lambda n: any(w in n for w in ['fuck', 'shit', ' ass ', 'dick', 'cunt', 'bitch', 'nigger', 'faggot']),
+    'bodily_functions': lambda n: any(w in n for w in ['puke', 'vomit', 'poop', 'pee ', 'snot', 'booger', 'fart', 'barf']),
+    'has_emoji': lambda n: bool(re.search(r'[\U0001F300-\U0001F9FF]', n)),
+    'non_ascii': lambda n: bool(re.search(r'[^\x00-\x7F]', n)),
+}
+
+
+# =============================================================================
+# DATA LOADING
+# =============================================================================
 
 def load_from_sql_dump():
     """
-    Parse the raw XKCD survey SQL dump and normalize names.
+    Parse the raw XKCD survey SQL dump, normalize, and filter.
 
-    Extracts from answers table: R, G, B, colorname
     Returns list of dicts with: name, name_raw, r, g, b, hex
+    Also returns filter statistics.
     """
     print("Parsing XKCD survey SQL dump (this may take a while)...")
 
     # Pattern to match INSERT INTO answers
-    # Format: INSERT INTO "answers" VALUES(id,user_id,timestamp,R,G,B,'colorname');
     pattern = re.compile(
         r'INSERT INTO "answers" VALUES\((\d+),(\d+),([\d.]+),(\d+),(\d+),(\d+),\'(.*?)\'\);'
     )
 
     rows = []
+    filter_stats = defaultdict(int)
     line_count = 0
     match_count = 0
-    filtered_count = 0
 
     with open(SOURCE_FILE, 'r', encoding='utf-8', errors='replace') as f:
         for line in f:
             line_count += 1
             if line_count % 500000 == 0:
-                print(f"  ... processed {line_count:,} lines, found {match_count:,} answers, filtered {filtered_count:,}")
+                total_filtered = sum(filter_stats.values())
+                print(f"  ... processed {line_count:,} lines, found {match_count:,} answers, filtered {total_filtered:,}")
 
             if 'INSERT INTO "answers"' not in line:
                 continue
@@ -232,10 +358,14 @@ def load_from_sql_dump():
             if match:
                 match_count += 1
                 answer_id, user_id, timestamp, r, g, b, name_raw = match.groups()
+
+                # Normalize
                 name_normalized = normalize_name(name_raw)
 
-                if name_normalized is None:
-                    filtered_count += 1
+                # Filter
+                filtered, reason = should_filter(name_normalized)
+                if filtered:
+                    filter_stats[reason] += 1
                     continue
 
                 # Convert RGB to hex
@@ -250,30 +380,82 @@ def load_from_sql_dump():
                     'hex': hex_color
                 })
 
-    print(f"  Parsed {match_count:,} answers, {filtered_count:,} filtered during normalization")
-    return rows
+    total_filtered = sum(filter_stats.values())
+    print(f"  Parsed {match_count:,} answers, {total_filtered:,} filtered")
+    print(f"  Filter breakdown:")
+    for reason, count in sorted(filter_stats.items(), key=lambda x: -x[1]):
+        print(f"    {reason}: {count:,}")
+
+    return rows, filter_stats
+
+
+# =============================================================================
+# ANALYSIS FUNCTIONS
+# =============================================================================
+
+def analyze_utf8_characters(rows):
+    """Analyze non-ASCII characters in the dataset."""
+    char_counter = Counter()
+    char_examples = defaultdict(list)
+
+    for row in rows:
+        name = row['name']
+        for char in name:
+            if ord(char) > 127:
+                char_counter[char] += 1
+                if len(char_examples[char]) < 3:
+                    char_examples[char].append(name[:50])
+
+    categories = defaultdict(list)
+    for char, count in char_counter.most_common():
+        cat = unicodedata.category(char)
+        cat_name = {
+            'Ll': 'Lowercase Letter',
+            'Lu': 'Uppercase Letter',
+            'Lo': 'Other Letter',
+            'Mn': 'Nonspacing Mark',
+            'Mc': 'Spacing Mark',
+            'So': 'Other Symbol',
+            'Sm': 'Math Symbol',
+            'Sc': 'Currency Symbol',
+            'Sk': 'Modifier Symbol',
+            'Po': 'Other Punctuation',
+            'Ps': 'Open Punctuation',
+            'Pe': 'Close Punctuation',
+            'Pd': 'Dash Punctuation',
+            'Nd': 'Decimal Number',
+            'Nl': 'Letter Number',
+            'No': 'Other Number',
+            'Zs': 'Space Separator',
+            'Cc': 'Control Character',
+            'Cf': 'Format Character',
+        }.get(cat, cat)
+        categories[cat_name].append((char, count, char_examples[char]))
+
+    return char_counter, categories
 
 
 def analyze_dataset():
     """Load and analyze the XKCD survey dataset."""
-    rows = load_from_sql_dump()
-    print(f"Loaded {len(rows):,} normalized rows")
+    rows, filter_stats = load_from_sql_dump()
+    print(f"Loaded {len(rows):,} rows after normalization and filtering")
 
-    # Statistics
     stats = {
         'total_rows': len(rows),
         'unique_names': len(set(r['name'] for r in rows)),
         'unique_hex': len(set(r['hex'] for r in rows)),
         'unique_name_hex_pairs': len(set((r['name'], r['hex']) for r in rows)),
+        'filter_stats': dict(filter_stats),
     }
 
     # Name length distribution
     name_lengths = [len(r['name']) for r in rows]
-    stats['name_length_min'] = min(name_lengths)
-    stats['name_length_max'] = max(name_lengths)
-    stats['name_length_avg'] = sum(name_lengths) / len(name_lengths)
+    if name_lengths:
+        stats['name_length_min'] = min(name_lengths)
+        stats['name_length_max'] = max(name_lengths)
+        stats['name_length_avg'] = sum(name_lengths) / len(name_lengths)
 
-    # Find issues (for analysis/reporting)
+    # Analysis patterns (for reporting)
     issues = defaultdict(list)
     issue_counts = Counter()
     for row in rows:
@@ -281,9 +463,8 @@ def analyze_dataset():
         for issue_name, check_fn in ANALYSIS_PATTERNS.items():
             if check_fn(name):
                 issue_counts[issue_name] += 1
-                if len(issues[issue_name]) < 20:  # Keep up to 20 examples
+                if len(issues[issue_name]) < 20:
                     issues[issue_name].append((name, row['hex']))
-
     stats['issue_counts'] = issue_counts
 
     # Most common names
@@ -294,9 +475,10 @@ def analyze_dataset():
     name_to_colors = defaultdict(set)
     for row in rows:
         name_to_colors[row['name']].add(row['hex'])
-
-    names_by_variation = [(name, len(colors)) for name, colors in name_to_colors.items()]
-    names_by_variation.sort(key=lambda x: -x[1])
+    names_by_variation = sorted(
+        [(name, len(colors)) for name, colors in name_to_colors.items()],
+        key=lambda x: -x[1]
+    )
     stats['most_varied_names'] = names_by_variation[:30]
 
     # UTF-8 character analysis
@@ -305,11 +487,7 @@ def analyze_dataset():
     stats['utf8_char_count'] = len(char_counter)
     stats['utf8_categories'] = char_categories
 
-    # Code snippet analysis
-    print("Analyzing code/URL snippets...")
-    stats['code_snippets'] = analyze_code_snippets(rows)
-
-    # Deduplicate: keep unique (name, hex) pairs
+    # Deduplicate
     print("Deduplicating...")
     seen = set()
     deduplicated = []
@@ -326,28 +504,7 @@ def analyze_dataset():
     stats['duplicates_removed'] = duplicates_removed
     stats['rows_after_dedup'] = len(deduplicated)
 
-    # Clean: apply filters
-    print("Applying cleaning filters...")
-    cleaned = []
-    filtered_out = defaultdict(list)
-
-    for row in deduplicated:
-        name = row['name']
-        filtered = False
-        for filter_name, check_fn in CLEANING_FILTERS.items():
-            if check_fn(name):
-                filtered = True
-                if len(filtered_out[filter_name]) < 20:
-                    filtered_out[filter_name].append((name[:50], row['hex']))
-                break
-        if not filtered:
-            cleaned.append(row)
-
-    stats['rows_after_clean'] = len(cleaned)
-    stats['filtered_out'] = filtered_out
-    stats['total_filtered'] = len(deduplicated) - len(cleaned)
-
-    return stats, issues, deduplicated, cleaned
+    return stats, issues, deduplicated
 
 
 def generate_report(stats, issues):
@@ -360,30 +517,31 @@ def generate_report(stats, issues):
 
     report.append("BASIC STATISTICS")
     report.append("-" * 40)
-    report.append(f"Total rows:              {stats['total_rows']:>12,}")
+    report.append(f"Rows after filtering:    {stats['total_rows']:>12,}")
     report.append(f"Unique names:            {stats['unique_names']:>12,}")
     report.append(f"Unique hex colors:       {stats['unique_hex']:>12,}")
     report.append(f"Unique (name,hex) pairs: {stats['unique_name_hex_pairs']:>12,}")
     report.append(f"Duplicates removed:      {stats['duplicates_removed']:>12,}")
-    report.append(f"Rows after dedup:        {stats['rows_after_dedup']:>12,}")
-    report.append(f"Rows filtered (cleaned): {stats['total_filtered']:>12,}")
-    report.append(f"Rows after clean:        {stats['rows_after_clean']:>12,}")
+    report.append(f"Final row count:         {stats['rows_after_dedup']:>12,}")
     report.append("")
 
-    report.append("NAME LENGTH STATISTICS")
+    report.append("FILTER STATISTICS (entries removed)")
     report.append("-" * 40)
-    report.append(f"Min length: {stats['name_length_min']}")
-    report.append(f"Max length: {stats['name_length_max']}")
-    report.append(f"Avg length: {stats['name_length_avg']:.1f}")
+    total_filtered = sum(stats['filter_stats'].values())
+    report.append(f"Total filtered:          {total_filtered:>12,}")
+    for reason, count in sorted(stats['filter_stats'].items(), key=lambda x: -x[1]):
+        report.append(f"  {reason:22} {count:>10,}")
     report.append("")
 
-    report.append("ISSUE COUNTS (total occurrences in raw data)")
-    report.append("-" * 40)
-    for issue_name, count in sorted(stats['issue_counts'].items(), key=lambda x: -x[1]):
-        report.append(f"  {issue_name:25} {count:>10,}")
-    report.append("")
+    if 'name_length_min' in stats:
+        report.append("NAME LENGTH STATISTICS")
+        report.append("-" * 40)
+        report.append(f"Min length: {stats['name_length_min']}")
+        report.append(f"Max length: {stats['name_length_max']}")
+        report.append(f"Avg length: {stats['name_length_avg']:.1f}")
+        report.append("")
 
-    report.append("TOP 30 MOST COMMON NAMES (response count)")
+    report.append("TOP 30 MOST COMMON NAMES")
     report.append("-" * 40)
     for name, count in stats['most_common_names']:
         report.append(f"  {count:>6,}x  {name[:50]}")
@@ -395,49 +553,28 @@ def generate_report(stats, issues):
         report.append(f"  {variation_count:>6} colors  {name[:50]}")
     report.append("")
 
-    # UTF-8 character analysis
     report.append("UTF-8 CHARACTER ANALYSIS")
     report.append("-" * 40)
     report.append(f"Total unique non-ASCII characters: {stats['utf8_char_count']}")
-    report.append("")
-
     for cat_name, chars in sorted(stats['utf8_categories'].items()):
-        report.append(f"\n  {cat_name} ({len(chars)} unique chars):")
+        report.append(f"\n  {cat_name} ({len(chars)} unique):")
         for char, count, examples in chars[:10]:
             try:
-                char_info = f"U+{ord(char):04X} {unicodedata.name(char, '?')[:30]}"
+                char_info = f"U+{ord(char):04X} {unicodedata.name(char, '?')[:25]}"
             except:
                 char_info = f"U+{ord(char):04X}"
             report.append(f"    '{char}' ({count:,}x) - {char_info}")
             if examples:
-                report.append(f"        Example: {examples[0][:40]}")
+                report.append(f"        Ex: {examples[0][:35]}")
     report.append("")
 
-    # Code snippets analysis
-    report.append("CODE/URL SNIPPETS ANALYSIS")
-    report.append("-" * 40)
-    for snippet_type, content, hex_color in stats['code_snippets'][:30]:
-        report.append(f"  [{snippet_type}] [{hex_color}] {content}")
-    report.append("")
-
-    # Filtered entries
-    report.append("ENTRIES FILTERED OUT (cleaned)")
-    report.append("-" * 40)
-    for filter_name, examples in sorted(stats['filtered_out'].items()):
-        total = sum(1 for row in stats.get('_deduplicated', [])
-                   if CLEANING_FILTERS.get(filter_name, lambda x: False)(row['name']))
-        report.append(f"\n  {filter_name.upper()} ({len(examples)} examples):")
-        for name, hex_color in examples[:10]:
-            report.append(f"    [{hex_color}] {name}")
-    report.append("")
-
-    # Issues for review (not filtered)
     report.append("POTENTIAL ISSUES (NOT filtered - for review)")
     report.append("-" * 40)
     for issue_name in ['profanity', 'bodily_functions', 'non_ascii', 'has_emoji']:
         if issue_name in issues:
             examples = issues[issue_name]
-            report.append(f"\n  {issue_name.upper()} ({len(examples)} examples shown):")
+            count = stats['issue_counts'].get(issue_name, 0)
+            report.append(f"\n  {issue_name.upper()} ({count:,} total, {len(examples)} shown):")
             for name, hex_color in examples[:10]:
                 display_name = name[:45] + "..." if len(name) > 45 else name
                 report.append(f"    [{hex_color}] {display_name}")
@@ -450,27 +587,24 @@ def generate_report(stats, issues):
     return "\n".join(report)
 
 
-def save_csv(rows, output_file, description):
+def save_csv(rows, output_file):
     """Save data to CSV."""
-    print(f"Saving {len(rows):,} {description} rows...")
-
+    print(f"Saving {len(rows):,} rows...")
     with open(output_file, 'w', encoding='utf-8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=['name', 'name_raw', 'r', 'g', 'b', 'hex'])
         writer.writeheader()
         writer.writerows(rows)
-
     print(f"  -> Saved to {output_file.name}")
 
 
 def main():
     print("=" * 60)
-    print("XKCD Survey Analysis and Deduplication")
+    print("XKCD Survey Processing")
     print("=" * 60)
     print()
 
-    stats, issues, deduplicated, cleaned = analyze_dataset()
+    stats, issues, final_rows = analyze_dataset()
 
-    # Generate and save report
     report = generate_report(stats, issues)
     print(report)
 
@@ -478,20 +612,20 @@ def main():
         f.write(report)
     print(f"\nReport saved to {REPORT_FILE.name}")
 
-    # Save cleaned data (single output file)
-    save_csv(cleaned, OUTPUT_FILE, "cleaned")
+    save_csv(final_rows, OUTPUT_FILE)
 
     print()
     print("=" * 60)
     print("SUMMARY")
     print("=" * 60)
-    print(f"Original rows:      {stats['total_rows']:>12,}")
-    print(f"After dedup:        {stats['rows_after_dedup']:>12,} (-{stats['duplicates_removed']:,})")
-    print(f"After clean:        {stats['rows_after_clean']:>12,} (-{stats['total_filtered']:,})")
+    total_filtered = sum(stats['filter_stats'].values())
+    print(f"Raw answers parsed:     {stats['total_rows'] + total_filtered:>12,}")
+    print(f"Filtered out:           {total_filtered:>12,}")
+    print(f"After dedup:            {stats['rows_after_dedup']:>12,}")
     print()
     print("Output files:")
-    print(f"  - {OUTPUT_FILE.name} (deduplicated + filtered)")
-    print(f"  - {REPORT_FILE.name} (analysis report)")
+    print(f"  - {OUTPUT_FILE.name}")
+    print(f"  - {REPORT_FILE.name}")
 
 
 if __name__ == "__main__":
