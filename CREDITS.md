@@ -38,6 +38,7 @@ This library incorporates methodology and algorithms developed by **Paul Centore
 - Mathematical framework for sRGB to Munsell conversion
 - Chromatic adaptation techniques between illuminants C and D65
 - Validation datasets and conversion tables
+- 30 semantic color name definitions as convex polyhedra in Munsell space
 
 **Publications:**
 1. Centore, P. (2012). "An Open-Source Inversion Algorithm for the Munsell Renotation"
@@ -45,6 +46,11 @@ This library incorporates methodology and algorithms developed by **Paul Centore
 
 2. Centore, P. (2013). "Conversions Between the Munsell and sRGB Colour Systems"
    - Available at: http://www.munsellcolorscienceforpainters.com/
+
+3. Centore, P. (2020). "Beige, aqua, fuchsia, etc.: Definitions for some non-basic surface colour names"
+   - *Journal of the International Colour Association (JAIC)*, 25, 24-54
+   - Available at: https://www.jaic-colour.org/
+   - This paper defines 30 semantic color names (aqua, beige, coral, fuchsia, etc.) as convex polyhedra in Munsell color space, which are implemented in this library's semantic overlay system.
 
 **Resources:**
 - Website: http://www.munsellcolorscienceforpainters.com/
@@ -180,6 +186,19 @@ If you use MunsellSpace in your research or project, please cite both this libra
   title = {Colour: A comprehensive Python package for color science},
   year = {2024},
   url = {https://github.com/colour-science/colour}
+}
+```
+
+### Paul Centore's Semantic Color Names (JAIC 2020)
+```bibtex
+@article{centore2020beige,
+  author = {Centore, Paul},
+  title = {Beige, aqua, fuchsia, etc.: Definitions for some non-basic surface colour names},
+  journal = {Journal of the International Colour Association},
+  volume = {25},
+  pages = {24--54},
+  year = {2020},
+  url = {https://www.jaic-colour.org/}
 }
 ```
 

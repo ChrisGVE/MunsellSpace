@@ -200,6 +200,7 @@ This library builds upon decades of color science research and open-source contr
 - **[Paul Centore's Munsell Research](http://www.munsellcolorscienceforpainters.com/)**: This library incorporates methodology from Dr. Paul Centore's work on sRGB-to-Munsell conversion, including his chromatic adaptation techniques and validation datasets.
 
 ### Scientific References
+- **Semantic Color Names**: Centore, P. (2020). [Beige, aqua, fuchsia, etc.: Definitions for some non-basic surface colour names](https://www.jaic-colour.org/). *Journal of the International Colour Association*, 25, 24-54. The 30 semantic color overlays in this library are derived from the convex polyhedra defined in this paper.
 - **Munsell Renotation Data**: Based on the original Munsell renotation studies (1943) and subsequent refinements
 - **ISCC-NBS Method of Designating Colors**: Kelly, K.L. & Judd, D.B. (1976). Color: Universal Language and Dictionary of Names
 - **CIE Standards**: International Commission on Illumination specifications for color spaces and illuminants
