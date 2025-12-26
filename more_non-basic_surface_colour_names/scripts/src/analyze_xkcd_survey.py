@@ -129,10 +129,10 @@ def extract_alphanumeric(s: str) -> str:
 def is_trivial_content(name: str) -> bool:
     """
     Returns True if name has trivial content (should be filtered).
-    After removing all ASCII special characters, if only 0-1 alphanumeric remains.
+    After removing all ASCII special characters, if only 0-2 alphanumeric remains.
     """
     alphanum = extract_alphanumeric(name)
-    return len(alphanum) <= 1
+    return len(alphanum) <= 2
 
 
 def is_number_any_base(name: str) -> bool:
@@ -206,10 +206,11 @@ def is_keyboard_mash(name: str) -> bool:
     - Consecutive same-row keyboard characters (qwerty, asdfgh, zxcvbn)
     - Repeated characters (5+ same char in a row)
     - Random character sequences without vowels
+    - Short keyboard mash patterns (3-4 chars from home row)
     """
     s = name.lower()
 
-    # Keyboard rows
+    # Keyboard rows (5+ chars)
     if re.search(r'[qwerty]{5,}|[asdfgh]{5,}|[zxcvbn]{5,}', s):
         return True
 
@@ -218,17 +219,94 @@ def is_keyboard_mash(name: str) -> bool:
         return True
 
     # Long sequences without vowels (likely random typing)
-    # Find longest consonant-only sequence
     consonant_seqs = re.findall(r'[bcdfghjklmnpqrstvwxz]{6,}', s)
     if consonant_seqs:
         return True
 
     # Check for "mash" patterns: alternating hands, etc.
-    # e.g., "asdfasdf", "jkljkl"
     if re.search(r'(asdf|jkl;|qwer|uiop){2,}', s):
         return True
 
+    # Short keyboard mash patterns (3-4 char combinations from keyboard rows)
+    short_mash_patterns = {
+        # Home row
+        'sdf', 'asd', 'dsf', 'dsa', 'fds', 'fsd', 'jkl', 'klj', 'ljk',
+        'dfg', 'fgh', 'ghj', 'hjk', 'gfd', 'hgf', 'jhg', 'kjh',
+        'asdf', 'sdfg', 'dfgh', 'fghj', 'ghjk', 'hjkl',
+        'fdsa', 'gfds', 'hgfd', 'jhgf', 'kjhg', 'lkjh',
+        # Top row
+        'qwe', 'wer', 'ert', 'rty', 'tyu', 'yui', 'uio', 'iop',
+        'ewq', 'rew', 'tre', 'ytr', 'uyt', 'iuy', 'oiu', 'poi',
+        'qwer', 'wert', 'erty', 'rtyu', 'tyui', 'yuio', 'uiop',
+        'rewq', 'trew', 'ytre', 'uytr', 'iuyt', 'oiuy', 'poiu',
+        # Bottom row
+        'zxc', 'xcv', 'cvb', 'vbn', 'bnm',
+        'cxz', 'vcx', 'bvc', 'nbv', 'mnb',
+        'zxcv', 'xcvb', 'cvbn', 'vbnm',
+        'vcxz', 'bvcx', 'nbvc', 'mnbv',
+        # Mixed/other common mash
+        'dfs', 'asf', 'ads', 'sad', 'das', 'gdf', 'sdg', 'sfd', 'sfg',
+        'erf', 'rth', 'erg', 'teh', 'hte', 'tna',
+    }
+    if s in short_mash_patterns:
+        return True
+
+    # Repeated single character (any length >= 3)
+    if len(s) >= 3 and len(set(s)) == 1:
+        return True
+
     return False
+
+
+def is_non_color_word(name: str) -> bool:
+    """
+    Returns True if name is a known non-color word.
+
+    Filters short words that are clearly not color names:
+    - Internet expressions (idk, wtf, lol, etc.)
+    - Common words (the, and, you, etc.)
+    - Names (bob, ian, etc.)
+    - Profanity/bodily that aren't color-related
+    """
+    # Only check short names (efficiency)
+    if len(name) > 4:
+        return False
+
+    s = name.lower()
+
+    # Non-color words blocklist
+    non_color_words = {
+        # Internet expressions
+        'idk', 'wtf', 'ugh', 'meh', 'lol', 'eww', 'yuk', 'omg', 'brb', 'btw',
+        'rofl', 'lmao', 'yolo', 'tbh', 'smh', 'fml', 'imo', 'aka', 'hmm',
+        'wow', 'wat', 'wut', 'huh', 'moo', 'boo', 'yay', 'nah', 'duh',
+        'idc', 'eew', 'uck', 'bleh', 'derp', 'herp', 'meh',
+        # Common words
+        'the', 'and', 'you', 'yes', 'bye', 'end', 'but', 'for', 'not', 'are',
+        'was', 'has', 'had', 'have', 'been', 'will', 'can', 'did', 'does',
+        'this', 'that', 'with', 'from', 'they', 'were', 'said', 'each',
+        'she', 'her', 'him', 'his', 'who', 'what', 'when', 'how', 'why',
+        'ten', 'odd',
+        # Names
+        'bob', 'ian', 'joe', 'tom', 'dan', 'sam', 'ben', 'max', 'tim', 'jim',
+        'ann', 'amy', 'sue', 'pat', 'kim', 'lee', 'jay', 'ray', 'roy', 'ted',
+        # Profanity/bodily/offensive (not color-related)
+        'gay', 'poo', 'ass', 'fag', 'sex', 'pee', 'ick', 'die', 'pig', 'pus',
+        'cum', 'tit', 'rot',
+        # Other non-colors
+        'mad', 'bad', 'god', 'dog', 'cat', 'car', 'man', 'run',
+        'sit', 'eat', 'see', 'say', 'get', 'got', 'put', 'let', 'set',
+        'now', 'new', 'old', 'big', 'hot', 'cut', 'try', 'ask', 'use',
+        'way', 'day', 'too', 'two', 'one', 'all', 'any', 'few', 'our',
+        'own', 'its', 'out', 'off', 'may', 'just', 'also', 'well', 'back',
+        'only', 'come', 'over', 'such', 'take', 'into', 'year', 'some',
+        'them', 'then', 'than', 'been', 'call', 'first', 'could', 'other',
+        # Abbreviations (not colors)
+        'res', 'ref', 'tel', 'etc', 'inc', 'ltd', 'org', 'gov',
+        'reg', 'ren', 'rep', 'req', 'ret', 'rev',
+    }
+
+    return s in non_color_words
 
 
 def is_code_or_url(name: str) -> bool:
@@ -305,6 +383,10 @@ def should_filter(name: str) -> Tuple[bool, Optional[str]]:
     # Code or URL
     if is_code_or_url(name):
         return True, "code_or_url"
+
+    # Non-color words (expressions, names, common words)
+    if is_non_color_word(name):
+        return True, "non_color_word"
 
     return False, None
 
