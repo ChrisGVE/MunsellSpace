@@ -70,42 +70,30 @@ fn extract_base_color(iscc_name: &str) -> String {
     name_lower.split_whitespace().last().unwrap_or("unknown").to_string()
 }
 
-/// Map overlay names to their expected base colors
-fn overlay_to_base_color(overlay_name: &str) -> &'static str {
+/// Check if an overlay name exists in ISCC-NBS (valid for comparison)
+fn is_comparable_overlay(overlay_name: &str) -> bool {
+    matches!(overlay_name,
+        "blue" | "brown" | "gray" | "green" | "orange" |
+        "pink" | "purple" | "red" | "white" | "yellow"
+    )
+}
+
+/// Map overlay names to their ISCC-NBS base color (only for comparable colors)
+fn overlay_to_base_color(overlay_name: &str) -> Option<&'static str> {
     match overlay_name {
-        // Non-basic colors and their expected base
-        "aqua" => "blue",      // or green?
-        "beige" => "brown",    // or yellow?
-        "coral" => "red",      // or orange?
-        "fuchsia" => "purple", // or red?
-        "gold" => "yellow",
-        "lavender" => "purple", // or blue?
-        "lilac" => "purple",
-        "magenta" => "purple", // or red?
-        "mauve" => "purple",
-        "navy" => "blue",
-        "peach" => "orange",   // or pink?
-        "rose" => "pink",      // or red?
-        "rust" => "brown",     // or orange?
-        "sand" => "brown",     // or yellow?
-        "tan" => "brown",
-        "taupe" => "brown",    // or gray?
-        "teal" => "blue",      // or green?
-        "turquoise" => "blue", // or green?
-        "violet" => "purple",  // or blue?
-        "wine" => "red",       // or purple?
-        // Basic colors
-        "blue" => "blue",
-        "brown" => "brown",
-        "gray" | "grey" => "gray",
-        "green" => "green",
-        "orange" => "orange",
-        "pink" => "pink",
-        "purple" => "purple",
-        "red" => "red",
-        "white" => "white",
-        "yellow" => "yellow",
-        _ => "unknown",
+        // Only the 10 colors that exist in both systems
+        "blue" => Some("blue"),
+        "brown" => Some("brown"),
+        "gray" => Some("gray"),
+        "green" => Some("green"),
+        "orange" => Some("orange"),
+        "pink" => Some("pink"),
+        "purple" => Some("purple"),
+        "red" => Some("red"),
+        "white" => Some("white"),
+        "yellow" => Some("yellow"),
+        // Non-basic colors have no ISCC-NBS equivalent - not comparable
+        _ => None,
     }
 }
 
@@ -163,21 +151,32 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut disagreements: Vec<DisagreementRecord> = Vec::new();
     let mut total_points = 0;
+    let mut comparable_points = 0;
     let mut classified_points = 0;
     let mut agreement_count = 0;
     let mut disagreement_count = 0;
     let mut no_iscc_match = 0;
+    let mut skipped_non_comparable = 0;
 
-    // Statistics by overlay
+    // Statistics by overlay (only for comparable colors)
     let mut stats_by_overlay: HashMap<String, (usize, usize, usize)> = HashMap::new(); // (total, agree, disagree)
 
     for (overlay_name, vertices) in &polyhedra_data {
+        // Skip non-comparable overlays (those not in ISCC-NBS)
+        if !is_comparable_overlay(overlay_name) {
+            skipped_non_comparable += vertices.len();
+            total_points += vertices.len();
+            continue;
+        }
+
+        let overlay_expected = overlay_to_base_color(overlay_name).unwrap(); // Safe: we checked is_comparable
         let mut overlay_total = 0;
         let mut overlay_agree = 0;
         let mut overlay_disagree = 0;
 
         for &(x, y, z) in *vertices {
             total_points += 1;
+            comparable_points += 1;
             overlay_total += 1;
 
             // Convert Cartesian (x, y, z) to Munsell spec
@@ -192,12 +191,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     classified_points += 1;
 
                     let iscc_base = extract_base_color(&metadata.iscc_nbs_color_name);
-                    let overlay_expected = overlay_to_base_color(overlay_name);
 
                     // Check for disagreement
                     let base_matches = iscc_base == overlay_expected;
 
-                    // Also check if ISCC says different base color family
                     if base_matches {
                         agreement_count += 1;
                         overlay_agree += 1;
@@ -238,13 +235,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Print summary
     println!("=== Summary ===");
-    println!("Total vertex points analyzed: {}", total_points);
-    println!("Successfully classified: {}", classified_points);
+    println!("Total vertex points in all polyhedra: {}", total_points);
+    println!("Skipped (non-comparable, e.g. tan, navy): {}", skipped_non_comparable);
+    println!("Comparable points (10 shared colors): {}", comparable_points);
+    println!("Successfully classified by ISCC-NBS: {}", classified_points);
     println!("No ISCC-NBS match: {}", no_iscc_match);
     println!();
-    println!("Agreements (same base color): {}", agreement_count);
-    println!("Disagreements (different base): {}", disagreement_count);
-    println!("Agreement rate: {:.1}%", 100.0 * agreement_count as f64 / classified_points as f64);
+    println!("Agreements (ISCC-NBS base = overlay name): {}", agreement_count);
+    println!("Disagreements (ISCC-NBS base ≠ overlay name): {}", disagreement_count);
+    if classified_points > 0 {
+        println!("Agreement rate: {:.1}%", 100.0 * agreement_count as f64 / classified_points as f64);
+    }
     println!();
 
     // Print per-overlay statistics
