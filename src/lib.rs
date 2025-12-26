@@ -155,6 +155,50 @@
 //!     Ok(())
 //! }
 //! ```
+//!
+//! ## Flexible Color Characterization (v1.2.1+)
+//!
+//! The new characterization API separates objective color facts from formatting preferences,
+//! giving you complete control over how colors are described.
+//!
+//! ```rust
+//! use munsellspace::{ColorClassifier, ColorCharacterization, FormatOptions, BaseColorSet, OverlayMode};
+//!
+//! fn main() -> Result<(), Box<dyn std::error::Error>> {
+//!     let classifier = ColorClassifier::new()?;
+//!
+//!     // Get objective characterization
+//!     let char = classifier.characterize_srgb([0, 0, 128])?;
+//!
+//!     // Access raw data
+//!     println!("ISCC-NBS #{}: {}", char.iscc_nbs_number, char.iscc_base_color);
+//!     println!("Semantic matches: {:?}", char.semantic_matches);
+//!
+//!     // Format with different preferences
+//!     let standard = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Never);
+//!     let extended = FormatOptions::new(BaseColorSet::Extended, OverlayMode::WhenMatching);
+//!
+//!     println!("Standard: {}", char.describe(&standard));  // "blue"
+//!     println!("Extended: {}", char.describe(&extended));  // "dark navy" (if inside navy)
+//!
+//!     // Preset options for common cases
+//!     println!("{}", char.describe(&FormatOptions::standard()));           // "blue"
+//!     println!("{}", char.describe(&FormatOptions::extended()));           // "dark blue"
+//!     println!("{}", char.describe(&FormatOptions::standard_with_overlays())); // "navy"
+//!     println!("{}", char.describe(&FormatOptions::extended_with_overlays())); // "dark navy"
+//!
+//!     Ok(())
+//! }
+//! ```
+//!
+//! **`BaseColorSet`**: Controls which ISCC-NBS names to use
+//! - `Standard`: 13 basic colors without modifiers ("blue", "red", "green")
+//! - `Extended`: Full 267-category system with modifiers ("dark blue", "vivid red")
+//!
+//! **`OverlayMode`**: Controls semantic overlay behavior
+//! - `Never`: Always use ISCC-NBS names
+//! - `WhenMatching`: Use overlay if color is inside the polyhedron
+//! - `Nearest`: Always use nearest overlay, even if outside
 
 pub mod converter;
 pub mod types;
@@ -219,6 +263,8 @@ pub use semantic_overlay_data::{create_overlay_registry, get_registry};
 pub use color_names::{
     ColorClassifier, ColorDescriptor, ColorModifier,
     known_color_names, is_known_color, color_name_count,
+    // New in v1.2.1: Flexible characterization API
+    ColorCharacterization, FormatOptions, BaseColorSet, OverlayMode,
 };
 
 // Note: General color conversions (RGB↔Hex↔Lab↔HSL↔HSV) are available via the palette crate

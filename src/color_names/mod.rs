@@ -69,6 +69,7 @@
 //! }
 //! ```
 
+mod characterization;
 mod classifier;
 mod descriptor;
 mod modifier;
@@ -79,6 +80,7 @@ mod registry;
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // Primary types
+pub use characterization::{BaseColorSet, ColorCharacterization, FormatOptions, OverlayMode};
 pub use classifier::ColorClassifier;
 pub use descriptor::ColorDescriptor;
 pub use modifier::ColorModifier;

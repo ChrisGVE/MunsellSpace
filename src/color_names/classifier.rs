@@ -15,6 +15,7 @@ use crate::MunsellConverter;
 #[allow(deprecated)]
 use crate::semantic_overlay::{closest_overlay, matching_overlays, semantic_overlay};
 
+use super::characterization::ColorCharacterization;
 use super::descriptor::ColorDescriptor;
 use super::modifier::ColorModifier;
 
@@ -163,9 +164,100 @@ impl ColorClassifier {
         self.classify_munsell_color(&munsell)
     }
 
-    /// Internal: classify a MunsellColor and build the complete descriptor.
+    // ═══════════════════════════════════════════════════════════════════════════
+    // Characterization Methods (v1.2.1+)
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    /// Characterize an sRGB color and return objective facts.
+    ///
+    /// Returns a [`ColorCharacterization`] containing all classification data
+    /// without applying any formatting. Use [`ColorCharacterization::describe()`]
+    /// with [`FormatOptions`](super::FormatOptions) to generate the output string.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use munsellspace::color_names::{ColorClassifier, FormatOptions, BaseColorSet, OverlayMode};
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = ColorClassifier::new()?;
+    /// let char = classifier.characterize_srgb([0, 0, 128])?;
+    ///
+    /// // Access raw data
+    /// println!("ISCC-NBS: {} ({})", char.iscc_base_color, char.iscc_nbs_number);
+    ///
+    /// // Format with options
+    /// let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::WhenMatching);
+    /// println!("{}", char.describe(&opts));
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn characterize_srgb(&self, rgb: [u8; 3]) -> Result<ColorCharacterization> {
+        let munsell = self.converter.srgb_to_munsell(rgb)?;
+        self.characterize_munsell_color(&munsell)
+    }
+
+    /// Characterize a hex color string and return objective facts.
+    ///
+    /// Accepts formats: "#RRGGBB", "RRGGBB", "#RGB", "RGB"
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use munsellspace::color_names::{ColorClassifier, FormatOptions};
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = ColorClassifier::new()?;
+    /// let char = classifier.characterize_hex("#000080")?;
+    /// println!("{}", char.describe(&FormatOptions::extended_with_overlays()));
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn characterize_hex(&self, hex: &str) -> Result<ColorCharacterization> {
+        let rgb = hex_to_rgb(hex)?;
+        self.characterize_srgb(rgb)
+    }
+
+    /// Characterize a CIELAB color and return objective facts.
+    ///
+    /// # Arguments
+    ///
+    /// * `lab` - CIELAB color as [L*, a*, b*]
+    pub fn characterize_lab(&self, lab: [f64; 3]) -> Result<ColorCharacterization> {
+        let munsell = self.converter.lab_to_munsell(lab)?;
+        self.characterize_munsell_color(&munsell)
+    }
+
+    /// Characterize a Munsell notation string and return objective facts.
+    ///
+    /// # Arguments
+    ///
+    /// * `notation` - Munsell notation string (e.g., "5R 4/10", "N 5/")
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use munsellspace::color_names::{ColorClassifier, FormatOptions};
+    ///
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// let classifier = ColorClassifier::new()?;
+    /// let char = classifier.characterize_munsell_notation("5PB 3/8")?;
+    ///
+    /// // Check semantic matches
+    /// if char.has_semantic_match() {
+    ///     println!("Matches: {:?}", char.semantic_matches);
+    /// }
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub fn characterize_munsell_notation(&self, notation: &str) -> Result<ColorCharacterization> {
+        let munsell = MunsellColor::from_notation(notation)?;
+        self.characterize_munsell_color(&munsell)
+    }
+
+    /// Internal: characterize a MunsellColor and build ColorCharacterization.
     #[allow(deprecated)] // Uses deprecated semantic overlay functions internally
-    fn classify_munsell_color(&self, munsell: &MunsellColor) -> Result<ColorDescriptor> {
+    fn characterize_munsell_color(&self, munsell: &MunsellColor) -> Result<ColorCharacterization> {
         // Get ISCC-NBS classification
         let (iscc_number, iscc_meta) = self.get_iscc_classification(munsell)?;
 
@@ -173,15 +265,13 @@ impl ColorClassifier {
         let munsell_spec = self.munsell_color_to_spec(munsell);
 
         // Get semantic overlay matches
-        let (semantic_name, semantic_alternates, nearest) = if let Some(ref spec) = munsell_spec {
-            let primary = semantic_overlay(spec).map(|s| s.to_string());
+        let (semantic_matches, nearest) = if let Some(ref spec) = munsell_spec {
             let all_matches: Vec<String> =
                 matching_overlays(spec).iter().map(|s| s.to_string()).collect();
-            let alternates: Vec<String> = all_matches.into_iter().skip(1).collect();
             let nearest = closest_overlay(spec).map(|(name, dist)| (name.to_string(), dist));
-            (primary, alternates, nearest)
+            (all_matches, nearest)
         } else {
-            (None, vec![], None)
+            (vec![], None)
         };
 
         // Extract modifier from formatter
@@ -191,15 +281,39 @@ impl ColorClassifier {
             .map(|f| ColorModifier::from_formatter(f))
             .unwrap_or(ColorModifier::None);
 
-        Ok(ColorDescriptor {
+        Ok(ColorCharacterization {
+            munsell: munsell_spec.unwrap_or_else(|| MunsellSpec::new(0.0, munsell.value, 0.0)),
             iscc_nbs_number: iscc_number,
+            iscc_base_color: iscc_meta.iscc_nbs_color_name.clone(),
+            iscc_extended_name: iscc_meta.alt_color_name.clone(),
             modifier,
-            standard_name: iscc_meta.iscc_nbs_color_name.clone(),
-            extended_name: iscc_meta.alt_color_name.clone(),
-            semantic_name,
-            semantic_alternates,
+            semantic_matches,
             nearest_semantic: nearest,
             shade: iscc_meta.color_shade.clone(),
+        })
+    }
+
+    /// Internal: classify a MunsellColor and build the complete descriptor.
+    ///
+    /// Uses ColorCharacterization internally and converts to ColorDescriptor.
+    fn classify_munsell_color(&self, munsell: &MunsellColor) -> Result<ColorDescriptor> {
+        // Get the characterization first
+        let char = self.characterize_munsell_color(munsell)?;
+
+        // Convert to ColorDescriptor format
+        let semantic_name = char.semantic_matches.first().cloned();
+        let semantic_alternates: Vec<String> =
+            char.semantic_matches.into_iter().skip(1).collect();
+
+        Ok(ColorDescriptor {
+            iscc_nbs_number: char.iscc_nbs_number,
+            modifier: char.modifier,
+            standard_name: char.iscc_base_color,
+            extended_name: char.iscc_extended_name,
+            semantic_name,
+            semantic_alternates,
+            nearest_semantic: char.nearest_semantic,
+            shade: char.shade,
         })
     }
 
