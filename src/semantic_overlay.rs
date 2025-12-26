@@ -501,12 +501,16 @@ impl SemanticOverlayRegistry {
     }
 }
 
-/// The 20 non-basic color names defined by Centore (2020).
-pub const OVERLAY_NAMES: [&str; 20] = [
+/// All 30 color names from Centore (2020): 20 non-basic + 10 basic.
+pub const OVERLAY_NAMES: [&str; 30] = [
+    // 20 non-basic color names
     "aqua", "beige", "coral", "fuchsia", "gold",
     "lavender", "lilac", "magenta", "mauve", "navy",
     "peach", "rose", "rust", "sand", "tan",
     "taupe", "teal", "turquoise", "violet", "wine",
+    // 10 basic color names
+    "blue", "brown", "gray", "green", "orange",
+    "pink", "purple", "red", "white", "yellow",
 ];
 
 /// Centroid specifications from Centore (2020) Table 1.
@@ -562,6 +566,31 @@ pub mod centroids {
     /// Wine: 2.7R 3.0/4.9
     pub fn wine() -> MunsellSpec { spec("2.7R 3.0/4.9") }
 
+    // ========================================================================
+    // 10 Basic Color Centroids (computed from polyhedron vertices)
+    // ========================================================================
+
+    /// Blue: 1.8PB 4.8/5.0 (1673 CAUS samples)
+    pub fn blue() -> MunsellSpec { spec("1.8PB 4.8/5.0") }
+    /// Brown: 2.2YR 3.5/3.4 (536 CAUS samples)
+    pub fn brown() -> MunsellSpec { spec("2.2YR 3.5/3.4") }
+    /// Gray: 3.2Y 5.0/1.9 (485 CAUS samples) - low chroma yellowish
+    pub fn gray() -> MunsellSpec { spec("3.2Y 5.0/1.9") }
+    /// Green: 2.3G 5.0/4.0 (1296 CAUS samples)
+    pub fn green() -> MunsellSpec { spec("2.3G 5.0/4.0") }
+    /// Orange: 2.5YR 6.1/10.3 (378 CAUS samples)
+    pub fn orange() -> MunsellSpec { spec("2.5YR 6.1/10.3") }
+    /// Pink: 0.7R 6.1/7.2 (594 CAUS samples)
+    pub fn pink() -> MunsellSpec { spec("0.7R 6.1/7.2") }
+    /// Purple: 4.3P 3.0/6.5 (226 CAUS samples)
+    pub fn purple() -> MunsellSpec { spec("4.3P 3.0/6.5") }
+    /// Red: 5.1R 3.9/9.6 (662 CAUS samples)
+    pub fn red() -> MunsellSpec { spec("5.1R 3.9/9.6") }
+    /// White: 2.2Y 8.3/1.6 (152 CAUS samples) - low chroma yellowish
+    pub fn white() -> MunsellSpec { spec("2.2Y 8.3/1.6") }
+    /// Yellow: 3.9Y 7.8/8.0 (394 CAUS samples)
+    pub fn yellow() -> MunsellSpec { spec("3.9Y 7.8/8.0") }
+
     /// Get centroid by name (case-insensitive).
     pub fn get(name: &str) -> Option<MunsellSpec> {
         match name.to_lowercase().as_str() {
@@ -585,6 +614,17 @@ pub mod centroids {
             "turquoise" => Some(turquoise()),
             "violet" => Some(violet()),
             "wine" => Some(wine()),
+            // Basic colors
+            "blue" => Some(blue()),
+            "brown" => Some(brown()),
+            "gray" | "grey" => Some(gray()),
+            "green" => Some(green()),
+            "orange" => Some(orange()),
+            "pink" => Some(pink()),
+            "purple" => Some(purple()),
+            "red" => Some(red()),
+            "white" => Some(white()),
+            "yellow" => Some(yellow()),
             _ => None,
         }
     }
@@ -804,6 +844,14 @@ pub fn munsell_in_polyhedron(
 /// the name of the best match. If multiple overlays match, the one with the
 /// closest centroid is returned.
 ///
+/// # Deprecated
+/// Use [`ColorClassifier`](crate::ColorClassifier) for unified color naming:
+/// ```rust,ignore
+/// let classifier = ColorClassifier::new()?;
+/// let desc = classifier.classify_srgb([180, 80, 60])?;
+/// let semantic = desc.semantic_name; // Option<String>
+/// ```
+///
 /// # Arguments
 /// * `color` - The Munsell color specification to test
 ///
@@ -818,6 +866,10 @@ pub fn munsell_in_polyhedron(
 /// let aqua = parse_munsell_notation("7.4BG 6.2/3.4").unwrap();
 /// assert_eq!(semantic_overlay(&aqua), Some("aqua"));
 /// ```
+#[deprecated(
+    since = "1.2.0",
+    note = "Use ColorClassifier for unified color naming. Access semantic names via ColorDescriptor::semantic_name. This function will be removed in v2.0.0."
+)]
 pub fn semantic_overlay(color: &MunsellSpec) -> Option<&'static str> {
     let registry = crate::semantic_overlay_data::get_registry();
     registry.best_match(color).map(|o| o.name)
@@ -827,6 +879,11 @@ pub fn semantic_overlay(color: &MunsellSpec) -> Option<&'static str> {
 ///
 /// A color can potentially match multiple overlays if it lies in overlapping
 /// regions. This function returns all matching overlay names.
+///
+/// # Deprecated
+/// Use [`ColorClassifier`](crate::ColorClassifier) for unified color naming.
+/// Access all semantic matches via `ColorDescriptor::semantic_name` and
+/// `ColorDescriptor::semantic_alternates`.
 ///
 /// # Arguments
 /// * `color` - The Munsell color specification to test
@@ -842,6 +899,10 @@ pub fn semantic_overlay(color: &MunsellSpec) -> Option<&'static str> {
 /// let matches = matching_overlays(&color);
 /// assert!(matches.contains(&"aqua"));
 /// ```
+#[deprecated(
+    since = "1.2.0",
+    note = "Use ColorClassifier for unified color naming. Access semantic matches via ColorDescriptor::semantic_name and semantic_alternates. This function will be removed in v2.0.0."
+)]
 pub fn matching_overlays(color: &MunsellSpec) -> Vec<&'static str> {
     let registry = crate::semantic_overlay_data::get_registry();
     registry.matching_overlays(color)
@@ -856,6 +917,10 @@ pub fn matching_overlays(color: &MunsellSpec) -> Vec<&'static str> {
 /// centroid. The first match is the most confident (closest to centroid).
 /// This follows Centore's guidance that "if the sample is near the polyhedron's
 /// centroid, the name can be assigned with considerably more confidence."
+///
+/// # Deprecated
+/// Use [`ColorClassifier`](crate::ColorClassifier) for unified color naming.
+/// Access ranked matches via `ColorDescriptor::nearest_semantic_descriptor()`.
 ///
 /// # Arguments
 /// * `color` - The Munsell color specification to test
@@ -876,6 +941,10 @@ pub fn matching_overlays(color: &MunsellSpec) -> Vec<&'static str> {
 ///     println!("Best match: {} (distance: {:.2})", best_name, distance);
 /// }
 /// ```
+#[deprecated(
+    since = "1.2.0",
+    note = "Use ColorClassifier for unified color naming. Access ranked matches via ColorDescriptor::nearest_semantic_descriptor(). This function will be removed in v2.0.0."
+)]
 pub fn matching_overlays_ranked(color: &MunsellSpec) -> Vec<(&'static str, f64)> {
     let registry = crate::semantic_overlay_data::get_registry();
     registry.matching_overlays_ranked(color)
@@ -885,6 +954,11 @@ pub fn matching_overlays_ranked(color: &MunsellSpec) -> Vec<(&'static str, f64)>
 }
 
 /// Check if a Munsell color matches a specific overlay by name.
+///
+/// # Deprecated
+/// Use [`ColorClassifier`](crate::ColorClassifier) for unified color naming.
+/// Check semantic matches via `ColorDescriptor::semantic_name` and
+/// `ColorDescriptor::semantic_alternates`.
 ///
 /// # Arguments
 /// * `color` - The Munsell color specification to test
@@ -901,6 +975,10 @@ pub fn matching_overlays_ranked(color: &MunsellSpec) -> Vec<(&'static str, f64)>
 /// assert!(matches_overlay(&color, "aqua"));
 /// assert!(matches_overlay(&color, "AQUA")); // Case-insensitive
 /// ```
+#[deprecated(
+    since = "1.2.0",
+    note = "Use ColorClassifier for unified color naming. Check semantic matches via ColorDescriptor. This function will be removed in v2.0.0."
+)]
 pub fn matches_overlay(color: &MunsellSpec, overlay_name: &str) -> bool {
     let registry = crate::semantic_overlay_data::get_registry();
     registry.matches(color, overlay_name)
@@ -910,6 +988,10 @@ pub fn matches_overlay(color: &MunsellSpec, overlay_name: &str) -> bool {
 ///
 /// This is useful when a color doesn't match any overlay but you want to
 /// find the nearest semantic name anyway.
+///
+/// # Deprecated
+/// Use [`ColorClassifier`](crate::ColorClassifier) for unified color naming.
+/// Access nearest overlay via `ColorDescriptor::nearest_semantic`.
 ///
 /// # Arguments
 /// * `color` - The Munsell color specification to test
@@ -927,6 +1009,10 @@ pub fn matches_overlay(color: &MunsellSpec, overlay_name: &str) -> bool {
 ///     println!("Closest color name: {} (distance: {:.2})", name, distance);
 /// }
 /// ```
+#[deprecated(
+    since = "1.2.0",
+    note = "Use ColorClassifier for unified color naming. Access nearest overlay via ColorDescriptor::nearest_semantic. This function will be removed in v2.0.0."
+)]
 pub fn closest_overlay(color: &MunsellSpec) -> Option<(&'static str, f64)> {
     let registry = crate::semantic_overlay_data::get_registry();
     registry.closest_overlay(color).map(|(o, d)| (o.name, d))
@@ -935,6 +1021,10 @@ pub fn closest_overlay(color: &MunsellSpec) -> Option<(&'static str, f64)> {
 /// Get a semantic overlay name from a Munsell notation string.
 ///
 /// This is a convenience function that parses the notation and finds the overlay.
+///
+/// # Deprecated
+/// Use [`ColorClassifier`](crate::ColorClassifier) for unified color naming.
+/// Parse notation with `ColorClassifier::classify_munsell()` instead.
 ///
 /// # Arguments
 /// * `notation` - Munsell notation string like "5R 4.0/12.0"
@@ -949,12 +1039,18 @@ pub fn closest_overlay(color: &MunsellSpec) -> Option<(&'static str, f64)> {
 /// assert_eq!(semantic_overlay_from_notation("7.4BG 6.2/3.4"), Some("aqua"));
 /// assert_eq!(semantic_overlay_from_notation("invalid"), None);
 /// ```
+#[deprecated(
+    since = "1.2.0",
+    note = "Use ColorClassifier::classify_munsell() for unified color naming. This function will be removed in v2.0.0."
+)]
+#[allow(deprecated)] // Calls semantic_overlay which is also deprecated
 pub fn semantic_overlay_from_notation(notation: &str) -> Option<&'static str> {
     let spec = parse_munsell_notation(notation)?;
     semantic_overlay(&spec)
 }
 
 #[cfg(test)]
+#[allow(deprecated)] // Tests verify deprecated functions still work
 mod tests {
     use super::*;
 
@@ -1184,7 +1280,7 @@ mod tests {
 
     #[test]
     fn test_overlay_names_count() {
-        assert_eq!(super::OVERLAY_NAMES.len(), 20);
+        assert_eq!(super::OVERLAY_NAMES.len(), 30);
     }
 
     #[test]
@@ -1493,11 +1589,11 @@ mod tests {
     }
 
     #[test]
-    fn test_matching_overlays_ranked_empty_for_gray() {
-        // Neutral gray should not match any overlays
-        let gray = MunsellSpec::neutral(5.0);
-        let ranked = matching_overlays_ranked(&gray);
-        assert!(ranked.is_empty(), "Neutral gray should not match any overlays");
+    fn test_matching_overlays_ranked_empty_for_black() {
+        // Pure black (N 0/) should not match any overlays
+        let pure_black = MunsellSpec::neutral(0.0);
+        let ranked = matching_overlays_ranked(&pure_black);
+        assert!(ranked.is_empty(), "Pure black should not match any overlays");
     }
 
     #[test]

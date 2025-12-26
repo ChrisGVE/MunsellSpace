@@ -553,6 +553,14 @@ impl IsccNbsClassifier {
     }
 
     /// Classify an sRGB color using the ISCC-NBS system.
+    ///
+    /// # Deprecated
+    /// Use [`ColorClassifier::classify_srgb()`](crate::ColorClassifier::classify_srgb)
+    /// instead for unified access to standard, extended, and semantic color names.
+    #[deprecated(
+        since = "1.2.0",
+        note = "Use ColorClassifier::classify_srgb() for unified color naming. This method will be removed in v2.0.0."
+    )]
     pub fn classify_srgb(&self, rgb: [u8; 3]) -> Result<Option<ColorMetadata>, MunsellError> {
         use crate::MunsellConverter;
 
@@ -565,6 +573,14 @@ impl IsccNbsClassifier {
     }
 
     /// Classify a Lab color using the ISCC-NBS system.
+    ///
+    /// # Deprecated
+    /// Use [`ColorClassifier::classify_lab()`](crate::ColorClassifier::classify_lab)
+    /// instead for unified access to standard, extended, and semantic color names.
+    #[deprecated(
+        since = "1.2.0",
+        note = "Use ColorClassifier::classify_lab() for unified color naming. This method will be removed in v2.0.0."
+    )]
     pub fn classify_lab(&self, lab: [f64; 3]) -> Result<Option<ColorMetadata>, MunsellError> {
         use crate::MunsellConverter;
 
@@ -577,6 +593,15 @@ impl IsccNbsClassifier {
     }
 
     /// Classify a hex color using the ISCC-NBS system.
+    ///
+    /// # Deprecated
+    /// Use [`ColorClassifier::classify_hex()`](crate::ColorClassifier::classify_hex)
+    /// instead for unified access to standard, extended, and semantic color names.
+    #[deprecated(
+        since = "1.2.0",
+        note = "Use ColorClassifier::classify_hex() for unified color naming. This method will be removed in v2.0.0."
+    )]
+    #[allow(deprecated)] // Calls classify_srgb which is also deprecated
     pub fn classify_hex(&self, hex: &str) -> Result<Option<ColorMetadata>, MunsellError> {
         // Parse hex string to RGB
         let rgb = self.parse_hex_to_rgb(hex)?;

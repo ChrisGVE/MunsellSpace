@@ -26,7 +26,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Comprehensive Testing**: Property-based tests, edge cases, and benchmarks
 
 ### Changed
-- Renamed `IsccNbsClassifier` to `ISCC_NBS_Classifier` for consistency
 - Replaced `RefCell` with `Arc<RwLock>` for thread-safe caching
 - Optimized mathematical operations with inline hints
 - Enhanced documentation with detailed examples
@@ -96,13 +95,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Upgrading from 1.0.0 to 1.1.0
 
 #### New Features Available
-- ISCC-NBS classification: Use `ISCC_NBS_Classifier` for color names
+- ISCC-NBS classification: Use `IsccNbsClassifier` for color names
 - Multiple illuminants: Configure with `Illuminant::C`, `Illuminant::F7`
 - Thread-safe processing: Share converters with `Arc<T>`
 - Lab/Hex support: New conversion methods available
 
 #### API Changes
-- `IsccNbsClassifier` → `ISCC_NBS_Classifier` (if using preview features)
 - All types now implement `Send + Sync`
 - New methods: `lab_to_munsell()`, `hex_to_munsell()`
 

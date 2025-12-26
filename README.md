@@ -36,7 +36,7 @@ munsellspace = "1.0"
 ### Basic Usage
 
 ```rust
-use munsellspace::{MunsellConverter, ISCC_NBS_Classifier};
+use munsellspace::{MunsellConverter, IsccNbsClassifier};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create converter for Munsell notation
@@ -47,7 +47,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Pure red: {}", munsell); // Output: 7.9R 5.2/20.5
     
     // Create ISCC-NBS classifier
-    let classifier = ISCC_NBS_Classifier::new()?;
+    let classifier = IsccNbsClassifier::new()?;
     
     // Classify color to ISCC-NBS name
     let color_name = classifier.classify_rgb([255, 0, 0])?;
@@ -107,12 +107,12 @@ The library implements a sophisticated color conversion pipeline:
 All public types implement `Send + Sync` for safe concurrent usage:
 
 ```rust
-use munsellspace::{MunsellConverter, ISCC_NBS_Classifier};
+use munsellspace::{MunsellConverter, IsccNbsClassifier};
 use std::sync::Arc;
 use std::thread;
 
 let converter = Arc::new(MunsellConverter::new()?);
-let classifier = Arc::new(ISCC_NBS_Classifier::new()?);
+let classifier = Arc::new(IsccNbsClassifier::new()?);
 
 let mut handles = vec![];
 
@@ -200,6 +200,7 @@ This library builds upon decades of color science research and open-source contr
 - **[Paul Centore's Munsell Research](http://www.munsellcolorscienceforpainters.com/)**: This library incorporates methodology from Dr. Paul Centore's work on sRGB-to-Munsell conversion, including his chromatic adaptation techniques and validation datasets.
 
 ### Scientific References
+- **Semantic Color Names**: Centore, P. (2020). [Beige, aqua, fuchsia, etc.: Definitions for some non-basic surface colour names](https://www.jaic-colour.org/). *Journal of the International Colour Association*, 25, 24-54. The 30 semantic color overlays in this library are derived from the convex polyhedra defined in this paper.
 - **Munsell Renotation Data**: Based on the original Munsell renotation studies (1943) and subsequent refinements
 - **ISCC-NBS Method of Designating Colors**: Kelly, K.L. & Judd, D.B. (1976). Color: Universal Language and Dictionary of Names
 - **CIE Standards**: International Commission on Illumination specifications for color spaces and illuminants
