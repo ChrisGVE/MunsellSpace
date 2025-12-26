@@ -79,6 +79,7 @@ pub fn get_registry() -> &'static SemanticOverlayRegistry {
 }
 
 #[cfg(test)]
+#[allow(deprecated)] // Tests verify deprecated functions still work
 mod tests {
     use super::*;
     use crate::semantic_overlay::MunsellSpec;

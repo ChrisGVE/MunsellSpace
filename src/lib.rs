@@ -122,6 +122,39 @@
 //! - **Non-basic (20)**: aqua, beige, coral, fuchsia, gold, lavender, lilac, magenta,
 //!   mauve, navy, peach, rose, rust, sand, tan, taupe, teal, turquoise, violet, wine
 //! - **Basic (10)**: blue, brown, gray, green, orange, pink, purple, red, white, yellow
+//!
+//! ## Unified Color Naming API (v1.2.0+)
+//!
+//! The [`ColorClassifier`] provides a unified interface for all color naming systems.
+//! From any color input, get complete naming information with consistent modifiers
+//! across ISCC-NBS standard, extended, and semantic names.
+//!
+//! ```rust
+//! use munsellspace::{ColorClassifier, ColorModifier};
+//!
+//! fn main() -> Result<(), Box<dyn std::error::Error>> {
+//!     let classifier = ColorClassifier::new()?;
+//!
+//!     // Classify any color format
+//!     let desc = classifier.classify_srgb([180, 80, 60])?;
+//!
+//!     // Get descriptors from all naming systems
+//!     println!("Standard: {}", desc.standard_descriptor());   // "moderate reddish brown"
+//!     println!("Extended: {}", desc.extended_descriptor());   // "moderate rust"
+//!     if let Some(semantic) = desc.semantic_descriptor() {
+//!         println!("Semantic: {}", semantic);                 // "moderate rust"
+//!     }
+//!
+//!     // The same modifier applies across all systems
+//!     println!("Modifier: {:?}", desc.modifier);              // Moderate
+//!
+//!     // Format any modifier + color combination
+//!     let formatted = ColorModifier::Vivid.format("coral");
+//!     println!("{}", formatted);                              // "vivid coral"
+//!
+//!     Ok(())
+//! }
+//! ```
 
 pub mod converter;
 pub mod types;
@@ -142,6 +175,7 @@ pub mod mechanical_wedges;
 pub mod unified_cache;
 pub mod semantic_overlay;
 pub mod semantic_overlay_data;
+pub mod color_names;
 
 // Test modules were moved to their respective implementation files
 #[cfg(test)]
@@ -170,10 +204,23 @@ pub use reverse_conversion::{ReverseConverter, ColorFormats, CieLab, HslColor, H
 pub use unified_cache::{UnifiedColorCache, CachedColorResult};
 pub use semantic_overlay::{
     MunsellSpec, MunsellCartesian, SemanticOverlay, SemanticOverlayRegistry,
-    semantic_overlay, matching_overlays, matching_overlays_ranked, matches_overlay, closest_overlay,
     parse_hue_to_number, hue_number_to_string, parse_munsell_notation,
 };
+
+// Deprecated semantic overlay functions (v1.2.0) - Use ColorClassifier instead
+// These are re-exported for backward compatibility and will be removed in v2.0.0
+#[allow(deprecated)]
+pub use semantic_overlay::{
+    semantic_overlay, matching_overlays, matching_overlays_ranked, matches_overlay, closest_overlay,
+};
 pub use semantic_overlay_data::{create_overlay_registry, get_registry};
+
+// Unified color naming API (v1.2.0+)
+pub use color_names::{
+    ColorClassifier, ColorDescriptor, ColorModifier,
+    known_color_names, is_known_color, color_name_count,
+};
+
 // Note: General color conversions (RGB↔Hex↔Lab↔HSL↔HSV) are available via the palette crate
 // We only expose Munsell-specific conversions to avoid duplication
 

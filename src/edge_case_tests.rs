@@ -4,6 +4,7 @@
 //! and corner cases that might not be covered by regular unit tests.
 
 #[cfg(test)]
+#[allow(deprecated)] // Tests may use deprecated APIs for backward compatibility verification
 mod edge_case_tests {
     use crate::{MunsellConverter, MunsellColor, RgbColor, MunsellError};
     use crate::mathematical::MathematicalMunsellConverter;
