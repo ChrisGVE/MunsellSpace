@@ -22,16 +22,18 @@ NORMALIZATION (transforms, does not remove):
 
 FILTERING (removes entries, order-independent):
 - Empty after normalization
-- Trivial content (<=1 alphanumeric after removing special chars)
+- Trivial content (<=2 alphanumeric after removing special chars)
 - Numbers in any base (decimal, hex, octal, binary with prefixes)
 - Only special characters
 - Very long (>50 chars)
 - Keyboard mash patterns
 - Code snippets / URLs
+- Non-color words (expressions, names, common words, profanity)
+- Human skin tone references (keeps animal/object skins like buckskin, sharkskin)
 
-NOT filtered (per pipeline - filtered at end):
-- Profanity / bodily functions
-- Non-English names
+NOT filtered (noted for review):
+- Non-English color names (may be valid)
+- Some profanity in longer color descriptions
 """
 
 import csv
@@ -345,6 +347,91 @@ def is_code_or_url(name: str) -> bool:
     return False
 
 
+def is_human_skin_reference(name: str) -> bool:
+    """
+    Returns True if name contains a human skin tone reference (should be filtered).
+
+    Keeps legitimate color names:
+    - Animal skins: buckskin, pigskin, sharkskin, snakeskin, moleskin, deerskin, etc.
+    - Fantasy/object skins: zombie skin, alien skin, dragon skin, onion skin, etc.
+
+    Filters:
+    - Human skin tone references: skin, skin tone, caucasian skin, dark skin, etc.
+    - Racially offensive terms containing "skin"
+    """
+    s = name.lower()
+
+    # Only check names containing "skin"
+    if 'skin' not in s:
+        return False
+
+    # Allowed animal/leather skins (compound words - these are always OK)
+    # Use regex to match these as whole words to avoid false positives like "kidskinny"
+    allowed_animal_compounds = {
+        'buckskin', 'pigskin', 'sharkskin', 'snakeskin', 'moleskin', 'deerskin',
+        'sheepskin', 'calfskin', 'sealskin', 'doeskin', 'kidskin', 'lambskin',
+        'goatskin', 'coonskin', 'bearskin', 'wolfskin', 'foxskin', 'rabbitskin',
+        'mooseskin', 'elkskin', 'buffaloskin', 'horseskin', 'donkeyskin',
+        'lizardskin', 'crocodileskin', 'alligatorskin', 'eelskin', 'rayskin',
+        'fishskin', 'frogskin', 'toadskin', 'dragonskin', 'zombieskin',
+        'melonskin', 'treeskin', 'limeskin', 'whaleskin',
+    }
+
+    # Check for allowed animal skin compounds as whole words
+    compounds_pattern = '|'.join(re.escape(c) for c in allowed_animal_compounds)
+    if re.search(rf'\b({compounds_pattern})\b', s.replace('-', '')):
+        return False  # Keep this entry
+
+    # Pattern: "{word} skin" or "{word}-skin" where word is allowed
+    # These must immediately precede "skin"
+    allowed_prefixes = {
+        # Animals
+        'buck', 'pig', 'shark', 'snake', 'mole', 'deer', 'sheep', 'calf',
+        'seal', 'doe', 'kid', 'lamb', 'goat', 'coon', 'bear', 'wolf', 'fox',
+        'rabbit', 'moose', 'elk', 'buffalo', 'horse', 'donkey', 'cow',
+        'lizard', 'crocodile', 'alligator', 'eel', 'ray', 'fish', 'frog',
+        'toad', 'walrus', 'sealion', 'whale', 'dolphin', 'otter', 'beaver',
+        'badger', 'skunk', 'raccoon', 'possum', 'armadillo', 'porcupine',
+        # Fantasy creatures
+        'zombie', 'alien', 'dragon', 'vampire', 'goblin', 'orc', 'troll',
+        'demon', 'monster', 'creature', 'beast', 'ghost', 'skeleton',
+        'mummy', 'werewolf', 'witch', 'elf', 'dwarf', 'ogre', 'giant',
+        'dinosaur', 'reptile', 'chameleon', 'gecko', 'iguana', 'treefrog',
+        # Foods/objects - only unambiguous ones (NOT peach, orange which are human skin colors too)
+        'onion', 'banana', 'potato', 'apple', 'grape', 'lemon', 'lime',
+        'tomato', 'avocado', 'mango', 'papaya', 'pear', 'plum', 'grapefruit',
+        'cherry', 'melon', 'watermelon', 'cantaloupe', 'kiwi', 'coconut',
+        'eggplant', 'pepper', 'garlic', 'carrot', 'walnut',
+        'almond', 'peanut', 'chestnut', 'hazelnut', 'acorn', 'fig',
+        'sausage', 'salami', 'drum', 'leather', 'parchment', 'vellum',
+        'tar', 'rubber',
+    }
+
+    # Check for "{prefix} skin" or "{prefix}-skin" pattern with word boundaries
+    # Build regex pattern for all allowed prefixes
+    prefixes_pattern = '|'.join(re.escape(p) for p in allowed_prefixes)
+
+    # Match: word boundary + prefix + (space or hyphen or apostrophe-s) + "skin" + word boundary or end
+    # This ensures we match whole words, not substrings like "kid skinny" for "kid skin"
+    pattern = rf'\b({prefixes_pattern})[\s\-]?\'?s?\s*skin\b'
+    if re.search(pattern, s):
+        return False  # Keep this entry
+
+    # Also keep "skin of {object}" patterns
+    skin_of_pattern = re.search(r'\bskin of (\w+)', s)
+    if skin_of_pattern:
+        obj = skin_of_pattern.group(1)
+        if obj in allowed_prefixes or obj in {
+            'onion', 'banana', 'potato', 'apple', 'grape', 'lemon',
+            'tomato', 'avocado', 'mango', 'papaya', 'pear', 'plum',
+            'frog', 'snake', 'lizard', 'fish', 'shark', 'dragon',
+        }:
+            return False  # Keep this entry
+
+    # If "skin" is present but not in any allowed pattern, filter it
+    return True
+
+
 # =============================================================================
 # COMBINED FILTER (applies all filters, returns reason if filtered)
 # =============================================================================
@@ -387,6 +474,10 @@ def should_filter(name: str) -> Tuple[bool, Optional[str]]:
     # Non-color words (expressions, names, common words)
     if is_non_color_word(name):
         return True, "non_color_word"
+
+    # Human skin tone references (keep animal/object skins)
+    if is_human_skin_reference(name):
+        return True, "human_skin_reference"
 
     return False, None
 
