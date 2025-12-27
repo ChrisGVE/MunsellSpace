@@ -951,57 +951,108 @@ Phase B: Semantic Validation (EXISTING)
 ───────────────────────────────────────
 color_name_pipeline.py
   ├── Two-tier validation (vocabulary + SBERT 0.35)
-  └── Output: validated color names
+  └── Output: validated color names with RGB/Munsell coordinates
 
-Phase C: Synonym Consolidation (TO BUILD)
-─────────────────────────────────────────
-synonym_consolidation.py
-  ├── SBERT embedding clustering (high threshold ~0.85)
-  ├── Merge names describing same color region
-  ├── Keep canonical name (highest frequency or shortest)
-  └── Output: consolidated color names (no duplicates)
+Phase C: Multi-Method Family Clustering (TO BUILD)
+──────────────────────────────────────────────────
+Run multiple clustering approaches in parallel:
 
-Phase D: Family Clustering (TO BUILD)
-─────────────────────────────────────
-family_clustering.py
-  ├── Option 1: Color-space clustering (Munsell hue/value/chroma)
-  ├── Option 2: SBERT embedding clustering (semantic families)
-  ├── Option 3: Hybrid (color-space primary, semantic secondary)
-  ├── Optimal k via silhouette analysis or elbow method
-  └── Output: {name → family} mapping
+  ┌─────────────────────────────────────────────────────────────┐
+  │                    Validated Color Names                     │
+  └─────────────────────────────────────────────────────────────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        ▼                     ▼                     ▼
+  ┌───────────┐        ┌───────────┐        ┌───────────┐
+  │    NLP    │        │  ML/Stats │        │  Hybrid   │
+  ├───────────┤        ├───────────┤        ├───────────┤
+  │ SBERT     │        │ K-means   │        │ Munsell + │
+  │ embeddings│        │ on Munsell│        │ SBERT     │
+  │ clustering│        ├───────────┤        │ ensemble  │
+  │           │        │ DBSCAN    │        │           │
+  │           │        ├───────────┤        │           │
+  │           │        │ Random    │        │           │
+  │           │        │ Forest    │        │           │
+  │           │        ├───────────┤        │           │
+  │           │        │ Gaussian  │        │           │
+  │           │        │ Mixture   │        │           │
+  └─────┬─────┘        └─────┬─────┘        └─────┬─────┘
+        │                    │                    │
+        └─────────────────────┼─────────────────────┘
+                              ▼
+                    ┌─────────────────┐
+                    │  Candidate Set  │
+                    │   (Families)    │
+                    └────────┬────────┘
+                             │
+                             ▼
+
+Phase D: Synonym/Redundancy Filtering (TO BUILD)
+────────────────────────────────────────────────
+family_filter.py
+  ├── Input: Discovered families + Centore's 20 overlays (given)
+  ├── Centore families are anchors (not filtered)
+  ├── For each discovered family:
+  │     ├── Compute overlap with each Centore family
+  │     ├── If high overlap (Munsell region + semantic) → redundant
+  │     └── Eliminate redundant families (Centore wins)
+  ├── For remaining discovered families:
+  │     ├── Check pairwise for synonym families
+  │     └── Merge or eliminate duplicates
+  └── Output: Final family set (Centore + novel discoveries)
 
 Phase E: Validation (TO BUILD)
 ──────────────────────────────
 validate_families.py
-  ├── Compare discovered families to Centore's 20 overlays
-  ├── Measure: precision, recall, semantic overlap
-  └── Output: validation report
+  ├── Verify discovered families represent distinct color regions
+  ├── Ensure no synonym families remain
+  ├── Cross-validate: hold out Centore families, verify recovery
+  └── Output: validation report with metrics
 ```
+
+**Key insight**: Synonym filtering happens AFTER clustering, not before. This preserves all data for family discovery and makes synonym decisions with full context (cluster membership + Munsell region + semantic similarity).
+
+### Clustering Methodology Options
+
+| Category | Method | Input Space | Strengths |
+|----------|--------|-------------|-----------|
+| **NLP** | SBERT clustering | Embedding space | Captures semantic relationships |
+| **ML** | K-means | Munsell (H,V,C) | Simple, interpretable, fast |
+| **ML** | DBSCAN | Munsell (H,V,C) | No predefined k, finds density clusters |
+| **ML** | Gaussian Mixture | Munsell (H,V,C) | Soft assignments, handles overlap |
+| **ML** | Random Forest | Features (Munsell + freq) | Handles non-linear boundaries |
+| **Hybrid** | Ensemble | Combined | Robust to individual method weaknesses |
+
+**Ensemble strategy**: Run multiple methods, compare results, use consensus or voting to determine final families. Methods that agree on a family provide higher confidence.
 
 ### Key Design Decisions Pending
 
-1. **Clustering space**: Munsell coordinates vs SBERT embeddings vs hybrid?
-   - Munsell: captures perceptual similarity (color region)
-   - SBERT: captures semantic similarity (naming convention)
-   - Hybrid: cluster by Munsell, then validate semantic coherence
+1. **Which methods to implement first?**
+   - Start with K-means (baseline) + SBERT clustering (semantic)
+   - Add DBSCAN if k selection proves problematic
 
 2. **Optimal k determination**:
-   - Target ~20 (match Centore) vs data-driven discovery?
-   - Silhouette analysis may suggest different k
+   - Data-driven: silhouette analysis, elbow method, gap statistic
+   - Target ~20 as sanity check (should be in the ballpark of Centore)
 
-3. **Synonym threshold**:
-   - High SBERT similarity (>0.85) + same Munsell region = synonym
-   - Need validation on known synonym pairs
+3. **Overlap threshold for redundancy**:
+   - Munsell region overlap (e.g., IoU > 0.5)
+   - Semantic similarity (SBERT > 0.85)
+   - Both conditions required for "synonym family" determination
+
+4. **Ensemble combination**:
+   - Voting (majority of methods agree)
+   - Weighted by method performance on Centore recovery
 
 ### Next Steps
 
 1. Integrate Phase A output (analyze_xkcd_survey.py) with Phase B (ColorNamePipeline)
-2. Build synonym consolidation (Phase C)
-3. Implement clustering experiments with varying k
+2. Implement baseline clustering (K-means on Munsell + SBERT on embeddings)
+3. Build synonym/redundancy filter (Phase D)
 4. Validate against Centore overlays
 
 ---
 
-**Document version**: 1.1
+**Document version**: 1.2
 **Last updated**: 2024-12-27
 **Author**: MunsellSpace Color Research Project
