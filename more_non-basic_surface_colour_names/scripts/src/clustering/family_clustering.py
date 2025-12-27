@@ -30,6 +30,7 @@ from sklearn.cluster import KMeans, DBSCAN
 from sklearn.mixture import GaussianMixture
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
+from sklearn.neighbors import NearestNeighbors
 from scipy.spatial.distance import cdist
 
 
@@ -309,21 +310,53 @@ class FamilyClustering:
         print(f"  -> Created {len(families)} families")
         return families
 
+    def estimate_dbscan_eps(
+        self,
+        X_scaled: np.ndarray,
+        min_samples: int = 5,
+        percentile: float = 95.0
+    ) -> float:
+        """
+        Estimate optimal eps for DBSCAN using k-distance graph method.
+
+        Uses the elbow method on k-distance graph where k = min_samples.
+        Returns the distance at the given percentile as a robust estimate.
+        """
+        # Compute k-nearest neighbor distances
+        k = min(min_samples, len(X_scaled) - 1)
+        nbrs = NearestNeighbors(n_neighbors=k + 1).fit(X_scaled)
+        distances, _ = nbrs.kneighbors(X_scaled)
+
+        # Get the k-th neighbor distance (excluding self)
+        k_distances = np.sort(distances[:, k])
+
+        # Use percentile for robust eps estimation
+        # The elbow point is typically between 90-99th percentile
+        eps = np.percentile(k_distances, percentile)
+
+        return eps
+
     def cluster_dbscan_rgb(
         self,
-        eps: float = 0.5,
-        min_samples: int = 5,
-        name: str = "dbscan_rgb"
+        eps: Optional[float] = None,
+        min_samples: int = 20,
+        name: str = "dbscan_rgb",
+        auto_eps_percentile: float = 92.0
     ) -> List[ColorFamily]:
-        """DBSCAN clustering on RGB coordinates."""
-        print(f"Running DBSCAN on RGB (eps={eps}, min_samples={min_samples})...")
-
+        """DBSCAN clustering on RGB coordinates with auto eps estimation."""
         names = list(self.colors.keys())
         X = np.array([self.colors[n].rgb_array for n in names])
 
         # Normalize
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(X)
+
+        # Auto-estimate eps if not provided
+        if eps is None:
+            eps = self.estimate_dbscan_eps(X_scaled, min_samples, auto_eps_percentile)
+            print(f"Running DBSCAN on RGB (auto eps={eps:.4f}, min_samples={min_samples})...")
+        else:
+            print(f"Running DBSCAN on RGB (eps={eps}, min_samples={min_samples})...")
 
         # Cluster
         dbscan = DBSCAN(eps=eps, min_samples=min_samples)
@@ -345,13 +378,12 @@ class FamilyClustering:
 
     def cluster_dbscan_munsell(
         self,
-        eps: float = 0.5,
-        min_samples: int = 5,
-        name: str = "dbscan_munsell"
+        eps: Optional[float] = None,
+        min_samples: int = 20,
+        name: str = "dbscan_munsell",
+        auto_eps_percentile: float = 92.0
     ) -> List[ColorFamily]:
-        """DBSCAN clustering on Munsell coordinates."""
-        print(f"Running DBSCAN on Munsell (eps={eps}, min_samples={min_samples})...")
-
+        """DBSCAN clustering on Munsell coordinates with auto eps estimation."""
         # Filter to colors with Munsell coordinates
         names = [n for n in self.colors.keys()
                  if self.colors[n].munsell_array is not None]
@@ -365,6 +397,13 @@ class FamilyClustering:
         # Normalize
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(X)
+
+        # Auto-estimate eps if not provided
+        if eps is None:
+            eps = self.estimate_dbscan_eps(X_scaled, min_samples, auto_eps_percentile)
+            print(f"Running DBSCAN on Munsell (auto eps={eps:.4f}, min_samples={min_samples})...")
+        else:
+            print(f"Running DBSCAN on Munsell (eps={eps}, min_samples={min_samples})...")
 
         # Cluster
         dbscan = DBSCAN(eps=eps, min_samples=min_samples)
@@ -919,8 +958,9 @@ def main():
         clustering.cluster_kmeans_munsell(n_clusters=k_rgb)
 
     if 'dbscan_rgb' in methods:
-        # Lower eps for normalized data - find natural density clusters
-        clustering.cluster_dbscan_rgb(eps=0.3, min_samples=20)
+        # Use lower percentile for densely packed color data
+        # Note: DBSCAN finds density-based clusters - useful for outlier detection
+        clustering.cluster_dbscan_rgb(eps=None, min_samples=10, auto_eps_percentile=30.0)
 
     if 'gmm_rgb' in methods:
         clustering.cluster_gmm_rgb(n_components=k_rgb)
