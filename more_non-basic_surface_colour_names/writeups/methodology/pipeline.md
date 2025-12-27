@@ -884,6 +884,124 @@ def circular_weighted_mean(angles_degrees, weights):
 
 ---
 
-**Document version**: 1.0
-**Last updated**: 2024-12-24
+## Work In Progress (WIP)
+
+### Status: Archaeology Complete (2024-12-27)
+
+Investigation of the `scripts/src/semantic/` directory and supporting files has been completed. This section documents findings and proposes integration paths.
+
+### Existing ML Experiments Inventory
+
+| Experiment | File | Model/Method | Purpose | Status |
+|------------|------|--------------|---------|--------|
+| Exp 1 | `exp1_sbert_similarity.py` | `all-MiniLM-L6-v2` | Semantic similarity to color vocabulary | Production-ready |
+| Exp 2 | `exp2_bert_tokens.py` | `bert-base-uncased` tokenizer | Token overlap analysis | Research only |
+| Exp 3 | `exp3_autoencoder.py` | Character-level LSTM | Reconstruction loss for validation | Experimental |
+| Exp 4 | `exp4_hybrid.py` | SBERT + Autoencoder | Weighted/voting combination | Experimental |
+| Exp 5 | `exp5_spelling_preprocess.py` | Cleaning + SBERT | Preprocessing improves similarity | Validated |
+
+**Note on Exp 2 (BERT Tokens)**: This experiment uses BERT's tokenizer (not the full model) to check if color names share tokens with known color vocabulary. This is a parallel validation approach, not a preprocessing step for SBERT. Spelling variants like "gray/grey" tokenize similarly, providing robustness to variations. However, this approach was not integrated into the production pipeline because:
+1. SBERT already captures semantic similarity including spelling variants
+2. Token overlap doesn't measure semantic meaning, only subword overlap
+3. Added complexity without clear improvement over SBERT alone
+
+### Production Pipeline (`color_name_pipeline.py`)
+
+The `ColorNamePipeline` class implements two-tier validation:
+- **Tier 1**: Direct lookup in master vocabulary (33K+ names) → similarity = 1.0
+- **Tier 2**: SBERT semantic similarity → threshold = 0.35
+
+Preprocessing includes: hex decoding, noise stripping, whitespace normalization.
+
+### Historical Context: Fourier Bias Correction
+
+The Fourier correction model (Phase 7) was developed to address the research question: *Can we correct screen-emitted colors to predict their physical surface equivalents?*
+
+**Finding**: This is fundamentally limited. Screen colors (self-luminous, additive RGB) cannot be reliably mapped to surface colors (reflective, under illuminant D65) due to:
+- Metamerism (same screen color → multiple surface colors)
+- Uncalibrated monitors
+- Individual perception variation
+- No ground truth for training
+
+**Recommendation**: Retain this work as historical reference, but do not rely on it for the current objective (generating color families from crowd-sourced data). The correction model remains valuable for understanding systematic biases but is not on the critical path.
+
+### Current Objective: Non-Basic Color Family Generation
+
+**Goal**: Generate semantically meaningful color families from XKCD data that:
+1. Validate against Centore's 20 non-basic overlays (beige, aqua, tan, navy, wine, etc.)
+2. Emerge from data with minimal a priori assumptions
+3. Avoid synonym families (e.g., "teal" vs "blue-green" shouldn't be separate families if they describe the same color region)
+
+**Qualitative Rules**:
+- Families must represent distinct color regions, not just naming variations
+- Synonym detection required to prevent artificial family inflation
+- Validation metric: recovered families should approximate Centore's categories
+
+### Proposed Architecture: Family Discovery Pipeline
+
+```
+Phase A: Data Cleaning (COMPLETE)
+─────────────────────────────────
+analyze_xkcd_survey.py
+  ├── Garbage filtering (skin, numbers, gibberish)
+  ├── Normalization (decades, whitespace)
+  └── Output: cleaned XKCD names with counts
+
+Phase B: Semantic Validation (EXISTING)
+───────────────────────────────────────
+color_name_pipeline.py
+  ├── Two-tier validation (vocabulary + SBERT 0.35)
+  └── Output: validated color names
+
+Phase C: Synonym Consolidation (TO BUILD)
+─────────────────────────────────────────
+synonym_consolidation.py
+  ├── SBERT embedding clustering (high threshold ~0.85)
+  ├── Merge names describing same color region
+  ├── Keep canonical name (highest frequency or shortest)
+  └── Output: consolidated color names (no duplicates)
+
+Phase D: Family Clustering (TO BUILD)
+─────────────────────────────────────
+family_clustering.py
+  ├── Option 1: Color-space clustering (Munsell hue/value/chroma)
+  ├── Option 2: SBERT embedding clustering (semantic families)
+  ├── Option 3: Hybrid (color-space primary, semantic secondary)
+  ├── Optimal k via silhouette analysis or elbow method
+  └── Output: {name → family} mapping
+
+Phase E: Validation (TO BUILD)
+──────────────────────────────
+validate_families.py
+  ├── Compare discovered families to Centore's 20 overlays
+  ├── Measure: precision, recall, semantic overlap
+  └── Output: validation report
+```
+
+### Key Design Decisions Pending
+
+1. **Clustering space**: Munsell coordinates vs SBERT embeddings vs hybrid?
+   - Munsell: captures perceptual similarity (color region)
+   - SBERT: captures semantic similarity (naming convention)
+   - Hybrid: cluster by Munsell, then validate semantic coherence
+
+2. **Optimal k determination**:
+   - Target ~20 (match Centore) vs data-driven discovery?
+   - Silhouette analysis may suggest different k
+
+3. **Synonym threshold**:
+   - High SBERT similarity (>0.85) + same Munsell region = synonym
+   - Need validation on known synonym pairs
+
+### Next Steps
+
+1. Integrate Phase A output (analyze_xkcd_survey.py) with Phase B (ColorNamePipeline)
+2. Build synonym consolidation (Phase C)
+3. Implement clustering experiments with varying k
+4. Validate against Centore overlays
+
+---
+
+**Document version**: 1.1
+**Last updated**: 2024-12-27
 **Author**: MunsellSpace Color Research Project
