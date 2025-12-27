@@ -67,10 +67,11 @@ def normalize_name(name: str) -> str:
     3. Handle SQL-escaped quotes
     4. Lowercase
     5. Collapse whitespace
-    6. Strip leading punctuation (except apostrophe+alphanumeric)
-    7. Convert 'word' to "word"
-    8. Remove surrounding quotes
-    9. Final trim
+    6. Normalize decades (1970s, 1970's -> 70s)
+    7. Strip leading punctuation (except apostrophe+alphanumeric like '70s)
+    8. Convert 'word' to "word"
+    9. Remove surrounding quotes
+    10. Final trim
     """
     if not name:
         return ""
@@ -95,7 +96,12 @@ def normalize_name(name: str) -> str:
     # 5. Collapse multiple whitespace to single space and trim
     result = re.sub(r'\s+', ' ', result).strip()
 
-    # 6. Strip leading punctuation, EXCEPT apostrophe followed by alphanumeric
+    # 6. Normalize decade references: 1970s, 1970's, '1970s -> 70s
+    # Also handles: 1950s -> 50s, 1980's -> 80s, etc.
+    result = re.sub(r"'?19(\d0)'?s", r"\1s", result)
+    result = re.sub(r"'?20(\d0)'?s", r"\1s", result)
+
+    # 7. Strip leading punctuation, EXCEPT apostrophe followed by alphanumeric
     # e.g., "'60s colors" should keep the apostrophe, but "---blue" should become "blue"
     while result and not result[0].isalnum():
         # Check if it's an apostrophe followed by alphanumeric
@@ -103,17 +109,17 @@ def normalize_name(name: str) -> str:
             break
         result = result[1:].lstrip()
 
-    # 7. Convert 'word' (apostrophe pairs around words) to "word"
+    # 8. Convert 'word' (apostrophe pairs around words) to "word"
     # Match 'word' where word contains no apostrophes
     result = re.sub(r"'([^']+)'", r'"\1"', result)
 
-    # 8. Remove surrounding quotes (single or double)
+    # 9. Remove surrounding quotes (single or double)
     if len(result) >= 2:
         if (result[0] == '"' and result[-1] == '"') or \
            (result[0] == "'" and result[-1] == "'"):
             result = result[1:-1].strip()
 
-    # 9. Final trim
+    # 10. Final trim
     result = result.strip()
 
     return result
@@ -150,15 +156,29 @@ def is_number_any_base(name: str) -> bool:
     - With common suffixes: 42px, 100%, 12pt
     - Negative numbers: -42, -0xff
     - Space-separated numbers: 255 128 64 (RGB values)
+    - RGB with separators: 0/0/255, 255,128,64, 0-255-0
     """
     # Strip and lowercase for matching
     s = name.strip().lower()
 
+    # Strip trailing punctuation (keeps the core for testing)
+    s = re.sub(r'[)\]}>!?;:]+$', '', s)
+    s = re.sub(r'^[(\[{<]+', '', s)
+
     # Remove common suffixes
     s = re.sub(r'(px|pt|em|rem|%|deg|rad)$', '', s)
 
+    # RGB with various separators: 0/0/255, 255,128,64, 0-255-0, 24/192/228
+    if re.match(r'^[\d]+[/,\-][\d]+[/,\-][\d]+[/,\-]?[\d]*$', s):
+        return True
+
     # Space-separated numbers (like RGB: "255 128 64")
     if re.match(r'^[\d\s.,]+$', s) and re.search(r'\d', s):
+        return True
+
+    # Numbers with punctuation stripped: only digits/spaces/dots after stripping
+    s_stripped = re.sub(r'[^0-9a-z\s]', '', s)
+    if s_stripped and re.match(r'^[\d\s]+$', s_stripped) and re.search(r'\d', s_stripped):
         return True
 
     # Hex color codes: #rgb, #rrggbb, #rrggbbaa
@@ -186,6 +206,91 @@ def is_number_any_base(name: str) -> bool:
     # Scientific notation
     if re.match(r'^-?[\d.]+e[+-]?[\d]+$', s):
         return True
+
+    return False
+
+
+def is_gibberish(name: str) -> bool:
+    """
+    Returns True if name appears to be random gibberish (should be filtered).
+
+    Detects short entries with random letter-digit mixes that aren't:
+    - Munsell notation (10yr/3/3, 5r 4/8)
+    - Decade references ('70s, 80s)
+    - Legitimate prefixes (0range for orange)
+    - Percentages (10% gray)
+    """
+    s = name.lower().strip()
+
+    # Skip if too long to be gibberish (longer entries tend to be intentional)
+    if len(s) > 12:
+        return False
+
+    # Skip if no digits (not the pattern we're looking for)
+    if not re.search(r'\d', s):
+        return False
+
+    # Skip if no letters (will be caught by number filter)
+    if not re.search(r'[a-z]', s):
+        return False
+
+    # Allow Munsell notation: "10yr/3/3", "5r 4/8", "10pb 4/10", "2.5p2/14"
+    # Munsell hues are: r, yr, y, gy, g, bg, b, pb, p, rp (and n for neutral)
+    if re.match(r'^[\d.]+(?:yr|gy|bg|pb|rp|[rygbpn])\s*[\d./]+$', s):
+        return False
+
+    # Allow decade references: '70s, 80s, 1970s
+    if re.match(r"^'?\d{2,4}s\b", s):
+        return False
+
+    # Allow percentages: "10% gray"
+    if re.match(r'^\d+%\s', s):
+        return False
+
+    # Allow legitimate 0-prefixed words: 0range (orange), 0violet
+    if re.match(r'^0[a-z]{4,}', s):
+        return False
+
+    # Allow fractions: "1/4 cyan", "1/8 lime"
+    if re.match(r'^\d/\d+\s+[a-z]', s):
+        return False
+
+    # Allow ordinals: "12th man", "18th color", "100th"
+    if re.search(r'\d+(st|nd|rd|th)\b', s):
+        return False
+
+    # Allow bit/memory references: "16bit sky", "256k gold", "8bit"
+    if re.search(r'\d+(bit|k|m|g)\b', s):
+        return False
+
+    # Gibberish patterns: short random letter-digit mixes
+    # Pattern 1: digit(s) followed by random letters: "12erf", "23t", "09uv"
+    if re.match(r'^[\d]{1,3}[a-z]{1,4}$', s) and len(s) <= 6:
+        # But not hex-like patterns that could be color codes
+        if not re.match(r'^[0-9a-f]{3,6}$', s):
+            return True
+
+    # Pattern 2: letters followed by digit(s) followed by more letters: "2asd3", "01iv3", "ad897"
+    if re.match(r'^[\d]*[a-z]+[\d]+[a-z]*$', s) and len(s) <= 8:
+        return True
+    if re.match(r'^[a-z]+[\d]+[a-z]+[\d]*$', s) and len(s) <= 8:
+        return True
+
+    # Pattern 3: random mix with no clear structure: "3e 32tj"
+    alphanum = re.sub(r'[^a-z0-9]', '', s)
+    if len(alphanum) <= 8:
+        # Count transitions between letters and digits
+        transitions = 0
+        for i in range(1, len(alphanum)):
+            prev_is_digit = alphanum[i-1].isdigit()
+            curr_is_digit = alphanum[i].isdigit()
+            if prev_is_digit != curr_is_digit:
+                transitions += 1
+
+        # Multiple transitions in short string suggests gibberish
+        # 3+ transitions always gibberish, 2 transitions in <=6 chars also gibberish
+        if transitions >= 3 or (transitions >= 2 and len(alphanum) <= 6):
+            return True
 
     return False
 
@@ -466,6 +571,10 @@ def should_filter(name: str) -> Tuple[bool, Optional[str]]:
     # Keyboard mash
     if is_keyboard_mash(name):
         return True, "keyboard_mash"
+
+    # Gibberish (random letter-digit mixes)
+    if is_gibberish(name):
+        return True, "gibberish"
 
     # Code or URL
     if is_code_or_url(name):
