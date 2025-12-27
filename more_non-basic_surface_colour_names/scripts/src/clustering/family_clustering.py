@@ -26,12 +26,13 @@ from typing import Dict, List, Tuple, Optional, Set
 from collections import defaultdict
 from dataclasses import dataclass, field
 import numpy as np
-from sklearn.cluster import KMeans, DBSCAN
+from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering
 from sklearn.mixture import GaussianMixture
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
 from sklearn.neighbors import NearestNeighbors
-from scipy.spatial.distance import cdist
+from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
+from scipy.spatial.distance import cdist, pdist
 
 
 # Paths
@@ -484,6 +485,107 @@ class FamilyClustering:
         self.families[name] = families
         print(f"  -> Created {len(families)} families")
         return families
+
+    def cluster_hierarchical_rgb(
+        self,
+        n_clusters: int = 30,
+        linkage_method: str = "ward",
+        name: str = "hierarchical_rgb"
+    ) -> Tuple[List[ColorFamily], np.ndarray]:
+        """
+        Hierarchical/agglomerative clustering on RGB coordinates.
+
+        Returns both families and linkage matrix for dendrogram visualization.
+        """
+        print(f"Running Hierarchical on RGB (k={n_clusters}, linkage={linkage_method})...")
+
+        names = list(self.colors.keys())
+        X = np.array([self.colors[n].rgb_array for n in names])
+
+        # Normalize
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+
+        # Compute linkage matrix (for dendrogram)
+        Z = linkage(X_scaled, method=linkage_method)
+        self._hierarchical_linkage = Z  # Store for later visualization
+
+        # Cut dendrogram to get n_clusters
+        labels = fcluster(Z, n_clusters, criterion='maxclust') - 1  # 0-indexed
+
+        # Build families
+        families = self._build_families_from_labels(
+            names, labels, X, method=name
+        )
+
+        self.families[name] = families
+        print(f"  -> Created {len(families)} families")
+
+        return families, Z
+
+    def get_family_distances(self, method: str = "kmeans_rgb") -> np.ndarray:
+        """
+        Compute pairwise distances between family centroids.
+
+        Returns distance matrix for understanding family relationships.
+        """
+        if method not in self.families:
+            raise ValueError(f"No families for method: {method}")
+
+        families = self.families[method]
+        centroids = []
+        for family in families:
+            if family.centroid_rgb is not None:
+                centroids.append(family.centroid_rgb)
+            else:
+                # Compute centroid from members
+                member_rgbs = [self.colors[m].rgb_array for m in family.members
+                               if m in self.colors]
+                if member_rgbs:
+                    centroids.append(np.mean(member_rgbs, axis=0))
+
+        if not centroids:
+            return np.array([])
+
+        centroids = np.array(centroids)
+        distances = cdist(centroids, centroids, metric='euclidean')
+
+        return distances
+
+    def get_closest_families(
+        self,
+        method: str = "kmeans_rgb",
+        top_n: int = 5
+    ) -> List[Tuple[str, str, float]]:
+        """
+        Find the most similar pairs of families based on centroid distance.
+
+        Returns list of (family1, family2, distance) tuples.
+        """
+        if method not in self.families:
+            return []
+
+        families = self.families[method]
+        distances = self.get_family_distances(method)
+
+        if len(distances) == 0:
+            return []
+
+        # Get upper triangle indices (exclude diagonal and duplicates)
+        n = len(families)
+        pairs = []
+        for i in range(n):
+            for j in range(i + 1, n):
+                pairs.append((
+                    families[i].name,
+                    families[j].name,
+                    float(distances[i, j])
+                ))
+
+        # Sort by distance (ascending)
+        pairs.sort(key=lambda x: x[2])
+
+        return pairs[:top_n]
 
     # =========================================================================
     # Helper Methods
@@ -944,7 +1046,7 @@ def main():
 
     # Run clustering methods
     methods = args.methods.split(',') if args.methods != 'all' else [
-        'kmeans_rgb', 'kmeans_munsell', 'dbscan_rgb', 'gmm_rgb', 'sbert'
+        'kmeans_rgb', 'kmeans_munsell', 'dbscan_rgb', 'gmm_rgb', 'sbert', 'hierarchical_rgb'
     ]
 
     print("\n" + "-" * 40)
@@ -968,9 +1070,20 @@ def main():
     if 'sbert' in methods and not args.skip_sbert:
         clustering.cluster_sbert(n_clusters=k_rgb)
 
+    if 'hierarchical_rgb' in methods:
+        clustering.cluster_hierarchical_rgb(n_clusters=k_rgb)
+
     # Build consensus
     print("\n" + "-" * 40)
     clustering.build_consensus_families(min_agreement=2)
+    print("-" * 40)
+
+    # Show closest family pairs
+    print("\n" + "-" * 40)
+    print("Most similar family pairs (consensus):")
+    closest = clustering.get_closest_families("consensus", top_n=10)
+    for fam1, fam2, dist in closest:
+        print(f"  {fam1} <-> {fam2}: {dist:.1f}")
     print("-" * 40)
 
     # Save results
