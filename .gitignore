@@ -175,3 +175,7 @@ tmp/
 more_non-basic_surface_colour_names/datasets/centore/
 more_non-basic_surface_colour_names/datasets/collected/
 more_non-basic_surface_colour_names/datasets/xkcd/
+# Generated/processed data (can be regenerated from scripts)
+more_non-basic_surface_colour_names/datasets/normalized/
+more_non-basic_surface_colour_names/datasets/aggregated/
+more_non-basic_surface_colour_names/datasets/consolidated/
