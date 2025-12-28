@@ -50,7 +50,7 @@ fn test_complete_conversion_pipeline() {
                 
                 // Verify metadata completeness
                 assert!(!metadata.iscc_nbs_color_name.is_empty(), "Color name should not be empty");
-                assert!(!metadata.alt_color_name.is_empty(), "Alt color name should not be empty");
+                assert!(!metadata.extended_name.is_empty(), "Extended name should not be empty");
                 
                 // Basic color family check (lenient as color classification is complex)
                 let descriptor = metadata.iscc_nbs_descriptor();

@@ -52,7 +52,7 @@ use std::sync::{Arc, RwLock};
 /// let metadata = ColorMetadata {
 ///     iscc_nbs_color_name: "red".to_string(),
 ///     iscc_nbs_formatter: Some("vivid {0}".to_string()),
-///     alt_color_name: "red".to_string(),
+///     extended_name: "red".to_string(),
 ///     color_shade: "medium".to_string(),
 /// };
 ///
@@ -69,20 +69,20 @@ pub struct ColorMetadata {
     /// This is the core color term that gets formatted with modifiers
     /// like "vivid", "dark", "light", etc.
     pub iscc_nbs_color_name: String,
-    
+
     /// Formatter template with placeholders for dynamic descriptor construction.
     ///
     /// Contains templates like "vivid {0}", "light {1}", where:
     /// - `{0}` is replaced with the base color name
     /// - `{1}` is replaced with the "-ish" variant (e.g., "reddish")
     pub iscc_nbs_formatter: Option<String>,
-    
-    /// Alternative color name for variations in nomenclature.
+
+    /// Extended ISCC-NBS name - more recognizable color terms.
     ///
-    /// Provides alternative names for the same color concept,
-    /// allowing for different naming conventions or regional preferences.
-    pub alt_color_name: String,
-    
+    /// Provides more commonly-used names for colors (e.g., "lime" instead of
+    /// "yellow green"), based on frequency analysis of color name usage.
+    pub extended_name: String,
+
     /// Color shade information describing lightness/darkness characteristics.
     ///
     /// Indicates the relative brightness category such as "light", "dark",
@@ -102,14 +102,14 @@ impl ColorMetadata {
     /// # Examples
     /// ```rust
     /// use munsellspace::iscc::ColorMetadata;
-    /// 
+    ///
     /// let metadata = ColorMetadata {
     ///     iscc_nbs_color_name: "red".to_string(),
     ///     iscc_nbs_formatter: Some("vivid {0}".to_string()),
-    ///     alt_color_name: "red".to_string(),
+    ///     extended_name: "red".to_string(),
     ///     color_shade: "bright".to_string(),
     /// };
-    /// 
+    ///
     /// assert_eq!(metadata.iscc_nbs_descriptor(), "vivid red");
     /// ```
     pub fn iscc_nbs_descriptor(&self) -> String {
@@ -120,33 +120,45 @@ impl ColorMetadata {
         }
     }
 
-    /// Construct the alternative color descriptor using the formatter and alternative name.
+    /// Construct the extended color descriptor using the formatter and extended name.
     ///
     /// Similar to [`iscc_nbs_descriptor`](Self::iscc_nbs_descriptor) but uses the
-    /// alternative color name, providing variant naming options.
+    /// extended color name, providing more recognizable naming options.
     ///
     /// # Returns
-    /// Formatted alternative color descriptor string
+    /// Formatted extended color descriptor string
     ///
     /// # Examples
     /// ```rust
     /// use munsellspace::iscc::ColorMetadata;
-    /// 
+    ///
     /// let metadata = ColorMetadata {
-    ///     iscc_nbs_color_name: "red".to_string(),
-    ///     iscc_nbs_formatter: Some("deep {0}".to_string()),
-    ///     alt_color_name: "crimson".to_string(),
-    ///     color_shade: "dark".to_string(),
+    ///     iscc_nbs_color_name: "yellow green".to_string(),
+    ///     iscc_nbs_formatter: Some("vivid {0}".to_string()),
+    ///     extended_name: "lime".to_string(),
+    ///     color_shade: "lime".to_string(),
     /// };
-    /// 
-    /// assert_eq!(metadata.alt_color_descriptor(), "deep crimson");
+    ///
+    /// assert_eq!(metadata.extended_descriptor(), "vivid lime");
     /// ```
-    pub fn alt_color_descriptor(&self) -> String {
+    pub fn extended_descriptor(&self) -> String {
         if let Some(formatter) = &self.iscc_nbs_formatter {
-            Self::construct_descriptor(formatter, &self.alt_color_name)
+            Self::construct_descriptor(formatter, &self.extended_name)
         } else {
-            self.alt_color_name.clone()
+            self.extended_name.clone()
         }
+    }
+
+    /// Deprecated: Use [`extended_descriptor`](Self::extended_descriptor) instead.
+    #[deprecated(since = "1.3.0", note = "Use extended_descriptor() instead. Will be removed in v2.0.0.")]
+    pub fn alt_color_descriptor(&self) -> String {
+        self.extended_descriptor()
+    }
+
+    /// Deprecated: Access `extended_name` field directly instead.
+    #[deprecated(since = "1.3.0", note = "Use extended_name field instead. Will be removed in v2.0.0.")]
+    pub fn alt_color_name(&self) -> &str {
+        &self.extended_name
     }
 
     /// Get the color shade information.
@@ -160,14 +172,14 @@ impl ColorMetadata {
     /// # Examples
     /// ```rust
     /// use munsellspace::iscc::ColorMetadata;
-    /// 
+    ///
     /// let metadata = ColorMetadata {
     ///     iscc_nbs_color_name: "blue".to_string(),
     ///     iscc_nbs_formatter: None,
-    ///     alt_color_name: "blue".to_string(),
+    ///     extended_name: "blue".to_string(),
     ///     color_shade: "light".to_string(),
     /// };
-    /// 
+    ///
     /// assert_eq!(metadata.shade(), "light");
     /// ```
     pub fn shade(&self) -> &str {
@@ -770,7 +782,7 @@ impl IsccNbsClassifier {
         let mut reader = Reader::from_reader(csv_content.as_bytes());
         let mut color_metadata: HashMap<u16, ColorMetadata> = HashMap::new();
 
-        // Parse CSV data: color_number,iscc_nbs_color_name,iscc_nbs_formatter,alt_color_name,color_shade
+        // Parse CSV data: color_number,iscc_nbs_color_name,iscc_nbs_formatter,extended_name,color_shade
         for result in reader.records() {
             let record = result.map_err(|e| MunsellError::ReferenceDataError {
                 message: format!("CSV parsing error: {}", e),
@@ -792,9 +804,9 @@ impl IsccNbsClassifier {
                 .filter(|s| !s.is_empty())
                 .map(|s| s.to_string());
 
-            let alt_color_name = record
+            let extended_name = record
                 .get(3)
-                .ok_or_else(|| Self::data_error("Missing alt_color_name".to_string()))?
+                .ok_or_else(|| Self::data_error("Missing extended_name".to_string()))?
                 .to_string();
 
             let color_shade = record
@@ -807,7 +819,7 @@ impl IsccNbsClassifier {
                 ColorMetadata {
                     iscc_nbs_color_name,
                     iscc_nbs_formatter,
-                    alt_color_name,
+                    extended_name,
                     color_shade,
                 },
             );

@@ -386,8 +386,8 @@ mod comprehensive_unit_tests {
                     // Successful classification
                     assert!(!metadata.iscc_nbs_color_name.is_empty(), 
                            "{}: Color name should not be empty", description);
-                    assert!(!metadata.alt_color_name.is_empty(), 
-                           "{}: Alt color name should not be empty", description);
+                    assert!(!metadata.extended_name.is_empty(),
+                           "{}: Extended name should not be empty", description);
                     println!("{}: {} -> {}", description, 
                            format!("RGB({}, {}, {})", rgb[0], rgb[1], rgb[2]), 
                            metadata.iscc_nbs_color_name);

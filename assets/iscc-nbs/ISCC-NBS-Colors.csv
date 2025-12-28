@@ -1,4 +1,4 @@
-color_number,iscc_nbs_color_name,iscc_nbs_formatter,alt_color_name, color_shade
+color_number,iscc_nbs_color_name,iscc_nbs_formatter,extended_name,color_shade
 1,pink,vivid {0},pink,pink
 2,pink,strong {0},pink,pink
 3,pink,deep {0},pink,pink

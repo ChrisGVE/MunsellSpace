@@ -3,7 +3,7 @@
 //! This module provides a unified interface for all color naming systems:
 //!
 //! - **ISCC-NBS standard names**: 267 standardized color categories
-//! - **Extended/alternate names**: Alternative naming conventions
+//! - **Extended ISCC-NBS names**: More recognizable color terms (e.g., "lime" for "yellow green")
 //! - **Semantic overlays**: 30 color names from Centore (2020) research
 //!
 //! # Overview

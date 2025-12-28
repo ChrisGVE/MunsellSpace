@@ -2,7 +2,7 @@
 //!
 //! The `ColorDescriptor` provides unified access to all color naming systems:
 //! - ISCC-NBS standard names (267 categories)
-//! - Extended/alternate names
+//! - Extended ISCC-NBS names (more recognizable alternatives)
 //! - Semantic overlay names (Centore 2020)
 
 use super::modifier::ColorModifier;

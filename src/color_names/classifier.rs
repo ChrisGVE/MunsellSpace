@@ -24,7 +24,7 @@ use super::modifier::ColorModifier;
 /// Provides a single entry point for classifying colors and obtaining
 /// complete naming information across:
 /// - ISCC-NBS standard names (267 categories)
-/// - Extended/alternate names
+/// - Extended ISCC-NBS names
 /// - Semantic overlay names (Centore 2020, 30 colors)
 ///
 /// # Example
@@ -285,7 +285,7 @@ impl ColorClassifier {
             munsell: munsell_spec.unwrap_or_else(|| MunsellSpec::new(0.0, munsell.value, 0.0)),
             iscc_nbs_number: iscc_number,
             iscc_base_color: iscc_meta.iscc_nbs_color_name.clone(),
-            iscc_extended_name: iscc_meta.alt_color_name.clone(),
+            iscc_extended_name: iscc_meta.extended_name.clone(),
             modifier,
             semantic_matches,
             nearest_semantic: nearest,
@@ -421,7 +421,7 @@ impl ColorClassifier {
             let metadata = ColorMetadata {
                 iscc_nbs_color_name: neutral_name.to_string(),
                 iscc_nbs_formatter: None,
-                alt_color_name: neutral_name.to_string(),
+                extended_name: neutral_name.to_string(),
                 color_shade: neutral_name.to_string(),
             };
             let color_number = self.get_neutral_color_number(munsell.value);

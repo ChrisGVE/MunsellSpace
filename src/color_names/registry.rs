@@ -63,7 +63,7 @@ pub(crate) const COLOR_NAMES: &[ColorNameEntry] = &[
     ColorNameEntry::new("purplish red", "purplish reddish"),
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // Extended/Alt Color Names (ISCC-NBS alternates)
+    // Extended ISCC-NBS Color Names (more recognizable alternatives)
     // ═══════════════════════════════════════════════════════════════════════════
     ColorNameEntry::new("lime", "limish"),
     ColorNameEntry::new("teal", "tealish"),
@@ -117,7 +117,7 @@ pub(crate) fn get_base_form(ish_name: &str) -> Option<&'static str> {
 
 /// Returns an iterator over all known base color names.
 ///
-/// This includes ISCC-NBS standard names, extended/alternate names,
+/// This includes ISCC-NBS standard names, extended ISCC-NBS names,
 /// and semantic overlay names from Centore (2020).
 ///
 /// # Example
