@@ -65,7 +65,7 @@ pub(crate) const COLOR_NAMES: &[ColorNameEntry] = &[
     // ═══════════════════════════════════════════════════════════════════════════
     // Extended/Alt Color Names (ISCC-NBS alternates)
     // ═══════════════════════════════════════════════════════════════════════════
-    ColorNameEntry::new("chartreuse", "chartreusish"),
+    ColorNameEntry::new("lime", "limish"),
     ColorNameEntry::new("teal", "tealish"),
     ColorNameEntry::new("turquoise", "turquoisish"),
 
@@ -216,7 +216,7 @@ mod tests {
         let names: Vec<_> = known_color_names().collect();
         assert!(names.contains(&"red"));
         assert!(names.contains(&"coral"));
-        assert!(names.contains(&"chartreuse"));
+        assert!(names.contains(&"lime"));
         assert!(names.contains(&"yellowish pink"));
     }
 

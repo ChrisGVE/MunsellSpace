@@ -113,14 +113,14 @@ color_number,iscc_nbs_color_name,iscc_nbs_formatter,alt_color_name, color_shade
 112,olive,light {1} gray,olive,olive
 113,olive,{1} gray,olive,olive
 114,olive,{1} black,olive,olive
-115,yellow green,vivid {0},chartreuse,chartreuse
-116,yellow green,brilliant {0},chartreuse,chartreuse
-117,yellow green,strong {0},chartreuse,chartreuse
-118,yellow green,deep {0},chartreuse,chartreuse
-119,yellow green,light {0},chartreuse,chartreuse
-120,yellow green,moderate {0},chartreuse,chartreuse
-121,yellow green,pale {0},chartreuse,chartreuse
-122,yellow green,grayish {0},chartreuse,chartreuse
+115,yellow green,vivid {0},lime,lime
+116,yellow green,brilliant {0},lime,lime
+117,yellow green,strong {0},lime,lime
+118,yellow green,deep {0},lime,lime
+119,yellow green,light {0},lime,lime
+120,yellow green,moderate {0},lime,lime
+121,yellow green,pale {0},lime,lime
+122,yellow green,grayish {0},lime,lime
 123,olive green,strong {0},olive green,green
 124,olive green,deep {0},olive green,green
 125,olive green,moderate {0},olive green,green

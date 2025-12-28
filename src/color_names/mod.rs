@@ -60,7 +60,7 @@
 //!
 //! assert!(is_known_color("red"));
 //! assert!(is_known_color("coral"));
-//! assert!(is_known_color("chartreuse"));
+//! assert!(is_known_color("lime"));
 //! assert!(!is_known_color("unknown"));
 //!
 //! // List all known colors
