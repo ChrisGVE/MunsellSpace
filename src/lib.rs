@@ -175,16 +175,16 @@
 //!     println!("Semantic matches: {:?}", char.semantic_matches);
 //!
 //!     // Format with different preferences
-//!     let standard = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Never);
-//!     let extended = FormatOptions::new(BaseColorSet::Extended, OverlayMode::WhenMatching);
+//!     let standard = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Ignore);
+//!     let with_overlay = FormatOptions::new(BaseColorSet::Extended, OverlayMode::Include);
 //!
-//!     println!("Standard: {}", char.describe(&standard));  // "blue"
-//!     println!("Extended: {}", char.describe(&extended));  // "dark navy" (if inside navy)
+//!     println!("Standard: {}", char.describe(&standard));       // "dark blue"
+//!     println!("With overlay: {}", char.describe(&with_overlay)); // "dark navy"
 //!
 //!     // Preset options for common cases
-//!     println!("{}", char.describe(&FormatOptions::standard()));           // "blue"
+//!     println!("{}", char.describe(&FormatOptions::standard()));           // "dark blue"
 //!     println!("{}", char.describe(&FormatOptions::extended()));           // "dark blue"
-//!     println!("{}", char.describe(&FormatOptions::standard_with_overlays())); // "navy"
+//!     println!("{}", char.describe(&FormatOptions::standard_with_overlays())); // "dark navy"
 //!     println!("{}", char.describe(&FormatOptions::extended_with_overlays())); // "dark navy"
 //!
 //!     Ok(())
@@ -192,13 +192,12 @@
 //! ```
 //!
 //! **`BaseColorSet`**: Controls which ISCC-NBS names to use
-//! - `Standard`: 13 basic colors without modifiers ("blue", "red", "green")
-//! - `Extended`: Full 267-category system with modifiers ("dark blue", "vivid red")
+//! - `Standard`: 13 basic colors with modifiers ("dark blue", "vivid red")
+//! - `Extended`: Alternate names with modifiers ("dark navy", "vivid coral")
 //!
 //! **`OverlayMode`**: Controls semantic overlay behavior
-//! - `Never`: Always use ISCC-NBS names
-//! - `WhenMatching`: Use overlay if color is inside the polyhedron
-//! - `Nearest`: Always use nearest overlay, even if outside
+//! - `Ignore`: Always use ISCC-NBS base colors
+//! - `Include`: Use nearest semantic overlay when available
 
 pub mod converter;
 pub mod types;

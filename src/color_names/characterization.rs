@@ -4,6 +4,9 @@
 //! - **Characterization**: Objective facts about a color (ISCC-NBS category, semantic matches)
 //! - **Formatting**: User preferences for how to describe the color
 //!
+//! The ISCC-NBS modifier (e.g., "dark", "vivid", "pale") is ALWAYS applied regardless
+//! of whether Standard or Extended base colors are selected.
+//!
 //! # Example
 //!
 //! ```rust
@@ -14,11 +17,11 @@
 //! let char = classifier.characterize_srgb([0, 0, 128])?;
 //!
 //! // Different formatting options produce different descriptions
-//! let standard = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Never);
-//! let extended = FormatOptions::new(BaseColorSet::Extended, OverlayMode::WhenMatching);
+//! let standard = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Ignore);
+//! let with_overlay = FormatOptions::new(BaseColorSet::Extended, OverlayMode::Include);
 //!
-//! println!("Standard: {}", char.describe(&standard));  // "blue"
-//! println!("Extended: {}", char.describe(&extended));  // "dark navy" (if inside navy)
+//! println!("Standard: {}", char.describe(&standard));      // "dark blue"
+//! println!("With overlay: {}", char.describe(&with_overlay));  // "dark navy" (if navy available)
 //! # Ok(())
 //! # }
 //! ```
@@ -32,18 +35,18 @@ use crate::semantic_overlay::MunsellSpec;
 
 /// Base color naming system to use.
 ///
-/// Determines whether to use the 13 basic ISCC-NBS color names or the full
-/// 267-category system with modifiers.
+/// Determines whether to use the 13 basic ISCC-NBS color names or the
+/// extended alternate names. Modifiers are always applied.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum BaseColorSet {
-    /// Use only the 13 basic ISCC-NBS colors without modifiers.
-    ///
-    /// Output examples: "red", "blue", "yellow", "brown"
-    Standard,
-
-    /// Use the full ISCC-NBS system with modifiers.
+    /// Use the 13 basic ISCC-NBS color names with modifiers.
     ///
     /// Output examples: "vivid red", "dark blue", "pale yellow", "light brown"
+    Standard,
+
+    /// Use extended/alternate ISCC-NBS names with modifiers.
+    ///
+    /// Output examples: "vivid red", "dark navy", "pale lime", "light tan"
     #[default]
     Extended,
 }
@@ -54,22 +57,17 @@ pub enum BaseColorSet {
 /// represent commonly-used color terms beyond the basic ISCC-NBS set.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum OverlayMode {
-    /// Never use semantic overlay names; always use ISCC-NBS.
+    /// Ignore semantic overlays; always use ISCC-NBS base colors.
     ///
-    /// A color inside the "navy" polyhedron would still be called "blue".
-    Never,
+    /// A color near "navy" would still be called "dark blue".
+    Ignore,
 
-    /// Use the semantic overlay name if the color is inside a polyhedron.
+    /// Include the nearest semantic overlay when available.
     ///
-    /// A color inside the "navy" polyhedron becomes "navy".
-    /// A color outside all polyhedra uses ISCC-NBS.
+    /// Uses the overlay with the closest centroid distance to the color point.
+    /// Falls back to ISCC-NBS if no overlay data is available.
     #[default]
-    WhenMatching,
-
-    /// Always use the nearest semantic overlay, even if outside all polyhedra.
-    ///
-    /// Every color gets a semantic name based on the closest overlay centroid.
-    Nearest,
+    Include,
 }
 
 /// User preferences for color description formatting.
@@ -82,9 +80,9 @@ pub enum OverlayMode {
 /// use munsellspace::color_names::{FormatOptions, BaseColorSet, OverlayMode};
 ///
 /// // Standard ISCC-NBS without overlays
-/// let opts = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Never);
+/// let opts = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Ignore);
 ///
-/// // Extended with overlays when matching (default)
+/// // Extended with overlays (default)
 /// let default_opts = FormatOptions::default();
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -105,43 +103,43 @@ impl FormatOptions {
         }
     }
 
-    /// Standard ISCC-NBS base colors without overlays.
+    /// Standard ISCC-NBS base colors with modifiers, no overlays.
     ///
-    /// Output: "red", "blue", "green", etc.
+    /// Output: "vivid red", "dark blue", "pale green", etc.
     pub fn standard() -> Self {
         Self {
             base_colors: BaseColorSet::Standard,
-            overlay_mode: OverlayMode::Never,
+            overlay_mode: OverlayMode::Ignore,
         }
     }
 
-    /// Extended ISCC-NBS with modifiers, no overlays.
+    /// Extended ISCC-NBS alternate names with modifiers, no overlays.
     ///
-    /// Output: "vivid red", "dark blue", "pale green", etc.
+    /// Output: "vivid red", "dark navy", "pale lime", etc.
     pub fn extended() -> Self {
         Self {
             base_colors: BaseColorSet::Extended,
-            overlay_mode: OverlayMode::Never,
+            overlay_mode: OverlayMode::Ignore,
         }
     }
 
-    /// Standard base colors with semantic overlays when matching.
+    /// Standard base colors with modifiers and semantic overlays.
     ///
-    /// Output: "navy", "coral", "rust" (when inside polyhedron), else "blue", "red", etc.
+    /// Output: "dark navy", "vivid coral" (overlay when available), else "dark blue", "vivid red"
     pub fn standard_with_overlays() -> Self {
         Self {
             base_colors: BaseColorSet::Standard,
-            overlay_mode: OverlayMode::WhenMatching,
+            overlay_mode: OverlayMode::Include,
         }
     }
 
-    /// Extended with modifiers and semantic overlays when matching.
+    /// Extended alternate names with modifiers and semantic overlays.
     ///
-    /// Output: "dark navy", "vivid coral" (when inside), else "dark blue", "vivid red"
+    /// Output: "dark navy", "vivid coral" (overlay when available), else "dark sapphire", "vivid crimson"
     pub fn extended_with_overlays() -> Self {
         Self {
             base_colors: BaseColorSet::Extended,
-            overlay_mode: OverlayMode::WhenMatching,
+            overlay_mode: OverlayMode::Include,
         }
     }
 }
@@ -150,7 +148,7 @@ impl Default for FormatOptions {
     fn default() -> Self {
         Self {
             base_colors: BaseColorSet::Extended,
-            overlay_mode: OverlayMode::WhenMatching,
+            overlay_mode: OverlayMode::Include,
         }
     }
 }
@@ -168,7 +166,7 @@ impl Default for FormatOptions {
 /// # Fields
 ///
 /// - **ISCC-NBS data**: Category number (1-267), base color name, extended name, modifier
-/// - **Semantic overlay data**: Matching overlays, nearest overlay with distance
+/// - **Semantic overlay data**: Matching overlays (sorted by centroid distance), nearest overlay
 ///
 /// # Example
 ///
@@ -213,8 +211,8 @@ pub struct ColorCharacterization {
 
     /// All semantic overlays that contain this color (may be empty).
     ///
-    /// When multiple overlays match, they are ordered by distance from centroid
-    /// (closest first).
+    /// Ordered by distance from centroid (closest first). The first element
+    /// is used when `OverlayMode::Include` is selected.
     pub semantic_matches: Vec<String>,
 
     /// Nearest semantic overlay and distance, even if not matching.
@@ -234,39 +232,43 @@ impl ColorCharacterization {
     /// Generate a color description based on format options.
     ///
     /// The output string depends on:
-    /// - `base_colors`: Whether to use Standard (13 colors) or Extended (with modifiers)
-    /// - `overlay_mode`: Whether/how to use semantic overlay names
+    /// - `base_colors`: Whether to use Standard (13 basic colors) or Extended (alternate names)
+    /// - `overlay_mode`: Whether to include semantic overlay names
+    ///
+    /// The ISCC-NBS modifier (e.g., "dark", "vivid", "pale") is ALWAYS applied.
     ///
     /// # Examples
     ///
-    /// For a dark blue color inside the "navy" polyhedron:
+    /// For a dark blue color (extended name "sapphire") with "navy" as nearest overlay:
     ///
     /// | BaseColorSet | OverlayMode | Output |
     /// |--------------|-------------|--------|
-    /// | Standard | Never | "blue" |
-    /// | Extended | Never | "dark blue" |
-    /// | Standard | WhenMatching | "navy" |
-    /// | Extended | WhenMatching | "dark navy" |
+    /// | Standard | Ignore | "dark blue" |
+    /// | Extended | Ignore | "dark sapphire" |
+    /// | Standard | Include | "dark navy" |
+    /// | Extended | Include | "dark navy" |
     pub fn describe(&self, options: &FormatOptions) -> String {
-        // 1. Determine the base color name from overlay or ISCC-NBS
-        let overlay_name: Option<&str> = match options.overlay_mode {
-            OverlayMode::Never => None,
-            OverlayMode::WhenMatching => self.semantic_matches.first().map(|s| s.as_str()),
-            OverlayMode::Nearest => self.nearest_semantic.as_ref().map(|(name, _)| name.as_str()),
-        };
-
-        let color_name = overlay_name.unwrap_or_else(|| {
-            match options.base_colors {
+        // 1. Determine the color name: overlay takes precedence when included
+        let color_name = match options.overlay_mode {
+            OverlayMode::Ignore => match options.base_colors {
                 BaseColorSet::Standard => &self.iscc_base_color,
                 BaseColorSet::Extended => &self.iscc_extended_name,
+            },
+            OverlayMode::Include => {
+                // Use nearest overlay (first in sorted list), fall back to ISCC-NBS
+                self.semantic_matches
+                    .first()
+                    .map(|s| s.as_str())
+                    .or_else(|| self.nearest_semantic.as_ref().map(|(name, _)| name.as_str()))
+                    .unwrap_or_else(|| match options.base_colors {
+                        BaseColorSet::Standard => &self.iscc_base_color,
+                        BaseColorSet::Extended => &self.iscc_extended_name,
+                    })
             }
-        });
+        };
 
-        // 2. Apply modifier based on base_colors setting
-        match options.base_colors {
-            BaseColorSet::Standard => color_name.to_string(),
-            BaseColorSet::Extended => self.modifier.format(color_name),
-        }
+        // 2. Always apply modifier
+        self.modifier.format(color_name)
     }
 
     /// Get the base color name without any modifier.
@@ -275,22 +277,15 @@ impl ColorCharacterization {
     /// otherwise the ISCC-NBS name.
     pub fn base_color(&self, options: &FormatOptions) -> &str {
         match options.overlay_mode {
-            OverlayMode::Never => match options.base_colors {
+            OverlayMode::Ignore => match options.base_colors {
                 BaseColorSet::Standard => &self.iscc_base_color,
                 BaseColorSet::Extended => &self.iscc_extended_name,
             },
-            OverlayMode::WhenMatching => self
+            OverlayMode::Include => self
                 .semantic_matches
                 .first()
                 .map(|s| s.as_str())
-                .unwrap_or_else(|| match options.base_colors {
-                    BaseColorSet::Standard => &self.iscc_base_color,
-                    BaseColorSet::Extended => &self.iscc_extended_name,
-                }),
-            OverlayMode::Nearest => self
-                .nearest_semantic
-                .as_ref()
-                .map(|(name, _)| name.as_str())
+                .or_else(|| self.nearest_semantic.as_ref().map(|(name, _)| name.as_str()))
                 .unwrap_or_else(|| match options.base_colors {
                     BaseColorSet::Standard => &self.iscc_base_color,
                     BaseColorSet::Extended => &self.iscc_extended_name,
@@ -308,7 +303,7 @@ impl ColorCharacterization {
         self.semantic_matches.len()
     }
 
-    /// Convenience: describe with default options (Extended + WhenMatching).
+    /// Convenience: describe with default options (Extended + Include overlays).
     pub fn to_string_default(&self) -> String {
         self.describe(&FormatOptions::default())
     }
@@ -344,103 +339,105 @@ mod tests {
     }
 
     #[test]
-    fn test_standard_no_overlay() {
+    fn test_standard_ignore_overlay() {
         let char = make_test_characterization(
             "blue",
-            "blue",
+            "sapphire",
             ColorModifier::Dark,
             vec!["navy"],
             Some(("navy", 1.5)),
         );
 
-        let opts = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Never);
-        assert_eq!(char.describe(&opts), "blue");
+        let opts = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Ignore);
+        assert_eq!(char.describe(&opts), "dark blue"); // Uses base, modifier applied
     }
 
     #[test]
-    fn test_extended_no_overlay() {
+    fn test_extended_ignore_overlay() {
         let char = make_test_characterization(
             "blue",
-            "blue",
+            "sapphire",
             ColorModifier::Dark,
             vec!["navy"],
             Some(("navy", 1.5)),
         );
 
-        let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::Never);
-        assert_eq!(char.describe(&opts), "dark blue");
+        let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::Ignore);
+        assert_eq!(char.describe(&opts), "dark sapphire"); // Uses extended, modifier applied
     }
 
     #[test]
-    fn test_standard_with_overlay() {
+    fn test_standard_include_overlay() {
         let char = make_test_characterization(
             "blue",
-            "blue",
+            "sapphire",
             ColorModifier::Dark,
             vec!["navy"],
             Some(("navy", 1.5)),
         );
 
-        let opts = FormatOptions::new(BaseColorSet::Standard, OverlayMode::WhenMatching);
-        assert_eq!(char.describe(&opts), "navy");
+        let opts = FormatOptions::new(BaseColorSet::Standard, OverlayMode::Include);
+        assert_eq!(char.describe(&opts), "dark navy"); // Uses overlay, modifier applied
     }
 
     #[test]
-    fn test_extended_with_overlay() {
+    fn test_extended_include_overlay() {
         let char = make_test_characterization(
             "blue",
-            "blue",
+            "sapphire",
             ColorModifier::Dark,
             vec!["navy"],
             Some(("navy", 1.5)),
         );
 
-        let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::WhenMatching);
-        assert_eq!(char.describe(&opts), "dark navy");
+        let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::Include);
+        assert_eq!(char.describe(&opts), "dark navy"); // Uses overlay, modifier applied
     }
 
     #[test]
-    fn test_no_overlay_match_falls_back() {
+    fn test_include_falls_back_to_nearest() {
         let char = make_test_characterization(
             "blue",
-            "blue",
+            "sapphire",
             ColorModifier::Vivid,
-            vec![], // No overlay matches
-            Some(("navy", 5.0)),
+            vec![], // No direct matches
+            Some(("navy", 5.0)), // But we have nearest
         );
 
-        let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::WhenMatching);
-        assert_eq!(char.describe(&opts), "vivid blue"); // Falls back to ISCC-NBS
+        let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::Include);
+        assert_eq!(char.describe(&opts), "vivid navy"); // Uses nearest overlay
     }
 
     #[test]
-    fn test_nearest_mode_uses_nearest() {
+    fn test_include_falls_back_to_iscc_nbs() {
         let char = make_test_characterization(
             "blue",
-            "blue",
+            "sapphire",
             ColorModifier::Vivid,
-            vec![], // No overlay matches
-            Some(("navy", 5.0)),
+            vec![],  // No direct matches
+            None,    // No nearest either
         );
 
-        let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::Nearest);
-        assert_eq!(char.describe(&opts), "vivid navy"); // Uses nearest even though not matching
+        let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::Include);
+        assert_eq!(char.describe(&opts), "vivid sapphire"); // Falls back to extended
     }
 
     #[test]
     fn test_format_options_presets() {
+        // Use different base and extended names to show the difference
         let char = make_test_characterization(
-            "blue",
-            "blue",
+            "blue",        // Standard: 13 basic colors
+            "sapphire",    // Extended: alternate name
             ColorModifier::Dark,
             vec!["navy"],
             Some(("navy", 1.5)),
         );
 
-        assert_eq!(char.describe(&FormatOptions::standard()), "blue");
-        assert_eq!(char.describe(&FormatOptions::extended()), "dark blue");
-        assert_eq!(char.describe(&FormatOptions::standard_with_overlays()), "navy");
-        assert_eq!(char.describe(&FormatOptions::extended_with_overlays()), "dark navy");
+        // Modifiers are always applied regardless of Standard vs Extended
+        assert_eq!(char.describe(&FormatOptions::standard()), "dark blue");      // Uses base
+        assert_eq!(char.describe(&FormatOptions::extended()), "dark sapphire");  // Uses extended
+        assert_eq!(char.describe(&FormatOptions::standard_with_overlays()), "dark navy"); // Overlay wins
+        assert_eq!(char.describe(&FormatOptions::extended_with_overlays()), "dark navy"); // Overlay wins
     }
 
     #[test]
@@ -467,7 +464,7 @@ mod tests {
             vec!["navy"], Some(("navy", 1.5)),
         );
 
-        // Default is Extended + WhenMatching
+        // Default is Extended + Include
         assert_eq!(format!("{}", char), "dark navy");
     }
 

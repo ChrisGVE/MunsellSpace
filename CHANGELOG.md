@@ -11,6 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ready for production publication to crates.io
 - Merged feature/true-mathematical-conversion branch to main
 
+## [1.2.2] - 2025-12-28
+
+### Fixed
+- **ISCC-NBS modifiers now always applied**: The `describe()` method was incorrectly only applying
+  modifiers (vivid, dark, pale, etc.) when `BaseColorSet::Extended` was selected. Modifiers are now
+  correctly applied regardless of whether Standard or Extended base colors are used.
+
+### Changed
+- **Simplified `OverlayMode` API**: Renamed variants for clarity
+  - `Never` → `Ignore`: Always use ISCC-NBS base colors, ignore semantic overlays
+  - `WhenMatching`/`Nearest` → `Include`: Use nearest semantic overlay when available
+  - The previous three-mode system was confusing; the new two-mode system is clearer
+- Updated documentation to reflect correct modifier behavior
+
+### Migration from 1.2.1
+- Replace `OverlayMode::Never` with `OverlayMode::Ignore`
+- Replace `OverlayMode::WhenMatching` or `OverlayMode::Nearest` with `OverlayMode::Include`
+- Note: With the modifier fix, `FormatOptions::standard()` now returns "dark blue" instead of "blue"
+
 ## [1.2.1] - 2025-12-26
 
 ### Added
@@ -18,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `ColorCharacterization`: Objective facts about a color (ISCC-NBS category, semantic matches, shade)
   - `FormatOptions`: User preferences for output formatting
   - `BaseColorSet`: Choose between Standard (13 colors) or Extended (267 with modifiers)
-  - `OverlayMode`: Control semantic overlay usage (Never, WhenMatching, Nearest)
+  - `OverlayMode`: Control semantic overlay usage (Ignore, Include)
 - **New `characterize_*` methods on `ColorClassifier`**:
   - `characterize_srgb()`, `characterize_hex()`, `characterize_lab()`, `characterize_munsell_notation()`
   - Return `ColorCharacterization` for flexible formatting via `describe(&FormatOptions)`
