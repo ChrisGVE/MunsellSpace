@@ -1,0 +1,209 @@
+[
+  {
+    "family": "aqua",
+    "category": "non-basic",
+    "screen_samples": 14,
+    "surface_samples": 206,
+    "surface_quality": "good",
+    "screen_volume": 220.2422,
+    "screen_confidence": 0.7136
+  },
+  {
+    "family": "aquamarine",
+    "category": "new-candidate",
+    "screen_samples": 12,
+    "surface_samples": 113,
+    "surface_quality": "good",
+    "screen_volume": 928.9172,
+    "screen_confidence": 0.696
+  },
+  {
+    "family": "blue",
+    "category": "basic",
+    "screen_samples": 121,
+    "surface_samples": 627,
+    "surface_quality": "good",
+    "screen_volume": 1357.1623,
+    "screen_confidence": 0.7021
+  },
+  {
+    "family": "brown",
+    "category": "basic",
+    "screen_samples": 37,
+    "surface_samples": 75,
+    "surface_quality": "good",
+    "screen_volume": 189.7109,
+    "screen_confidence": 0.6882
+  },
+  {
+    "family": "coral",
+    "category": "non-basic",
+    "screen_samples": 23,
+    "surface_samples": 496,
+    "surface_quality": "good",
+    "screen_volume": 1005.737,
+    "screen_confidence": 0.6983
+  },
+  {
+    "family": "fuchsia",
+    "category": "non-basic",
+    "screen_samples": 16,
+    "surface_samples": 30,
+    "surface_quality": "insufficient",
+    "screen_volume": 680.4895,
+    "screen_confidence": 0.6893
+  },
+  {
+    "family": "gold",
+    "category": "non-basic",
+    "screen_samples": 17,
+    "surface_samples": 43,
+    "surface_quality": "insufficient",
+    "screen_volume": 153.4238,
+    "screen_confidence": 0.6866
+  },
+  {
+    "family": "gray",
+    "category": "basic",
+    "screen_samples": 34,
+    "surface_samples": 11,
+    "surface_quality": "insufficient",
+    "screen_volume": 355.7327,
+    "screen_confidence": 0.6516
+  },
+  {
+    "family": "green",
+    "category": "basic",
+    "screen_samples": 169,
+    "surface_samples": 1569,
+    "surface_quality": "good",
+    "screen_volume": 567.942,
+    "screen_confidence": 0.6992
+  },
+  {
+    "family": "indigo",
+    "category": "new-candidate",
+    "screen_samples": 19,
+    "surface_samples": 139,
+    "surface_quality": "good",
+    "screen_volume": 1415.6908,
+    "screen_confidence": 0.6972
+  },
+  {
+    "family": "lime",
+    "category": "new-candidate",
+    "screen_samples": 28,
+    "surface_samples": 159,
+    "surface_quality": "good",
+    "screen_volume": 699.7549,
+    "screen_confidence": 0.7191
+  },
+  {
+    "family": "magenta",
+    "category": "non-basic",
+    "screen_samples": 14,
+    "surface_samples": 30,
+    "surface_quality": "insufficient",
+    "screen_volume": 908.2228,
+    "screen_confidence": 0.7236
+  },
+  {
+    "family": "mauve",
+    "category": "non-basic",
+    "screen_samples": 14,
+    "surface_samples": 64,
+    "surface_quality": "good",
+    "screen_volume": 482.0033,
+    "screen_confidence": 0.6833
+  },
+  {
+    "family": "peach",
+    "category": "non-basic",
+    "screen_samples": 36,
+    "surface_samples": 64,
+    "surface_quality": "good",
+    "screen_volume": 1084.3904,
+    "screen_confidence": 0.6977
+  },
+  {
+    "family": "plum",
+    "category": "new-candidate",
+    "screen_samples": 14,
+    "surface_samples": 36,
+    "surface_quality": "insufficient",
+    "screen_volume": 412.2551,
+    "screen_confidence": 0.6577
+  },
+  {
+    "family": "red",
+    "category": "basic",
+    "screen_samples": 34,
+    "surface_samples": 567,
+    "surface_quality": "good",
+    "screen_volume": 105.9331,
+    "screen_confidence": 0.6971
+  },
+  {
+    "family": "rust",
+    "category": "non-basic",
+    "screen_samples": 15,
+    "surface_samples": 200,
+    "surface_quality": "good",
+    "screen_volume": 393.4799,
+    "screen_confidence": 0.7027
+  },
+  {
+    "family": "tan",
+    "category": "non-basic",
+    "screen_samples": 19,
+    "surface_samples": 1223,
+    "surface_quality": "good",
+    "screen_volume": 238.2654,
+    "screen_confidence": 0.7121
+  },
+  {
+    "family": "teal",
+    "category": "non-basic",
+    "screen_samples": 19,
+    "surface_samples": 160,
+    "surface_quality": "good",
+    "screen_volume": 192.3063,
+    "screen_confidence": 0.7129
+  },
+  {
+    "family": "violet",
+    "category": "non-basic",
+    "screen_samples": 27,
+    "surface_samples": 106,
+    "surface_quality": "good",
+    "screen_volume": 1652.3238,
+    "screen_confidence": 0.7322
+  },
+  {
+    "family": "white",
+    "category": "basic",
+    "screen_samples": 14,
+    "surface_samples": 5,
+    "surface_quality": "insufficient",
+    "screen_volume": 158.551,
+    "screen_confidence": 0.7151
+  },
+  {
+    "family": "wine",
+    "category": "non-basic",
+    "screen_samples": 20,
+    "surface_samples": 44,
+    "surface_quality": "insufficient",
+    "screen_volume": 674.2254,
+    "screen_confidence": 0.6936
+  },
+  {
+    "family": "yellow",
+    "category": "basic",
+    "screen_samples": 58,
+    "surface_samples": 405,
+    "surface_quality": "good",
+    "screen_volume": 334.1802,
+    "screen_confidence": 0.6927
+  }
+]

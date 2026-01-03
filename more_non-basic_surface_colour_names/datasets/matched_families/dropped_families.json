@@ -1,0 +1,77 @@
+{
+  "screen_only": [
+    {
+      "family": "beige",
+      "category": "non-basic",
+      "screen_samples": 18,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "lavender",
+      "category": "non-basic",
+      "screen_samples": 25,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "lilac",
+      "category": "non-basic",
+      "screen_samples": 15,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "maroon",
+      "category": "new-candidate",
+      "screen_samples": 7,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "navy",
+      "category": "non-basic",
+      "screen_samples": 6,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "orange",
+      "category": "basic",
+      "screen_samples": 51,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "pink",
+      "category": "basic",
+      "screen_samples": 62,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "purple",
+      "category": "basic",
+      "screen_samples": 68,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "rose",
+      "category": "non-basic",
+      "screen_samples": 27,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "sand",
+      "category": "non-basic",
+      "screen_samples": 27,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "taupe",
+      "category": "non-basic",
+      "screen_samples": 15,
+      "reason": "No surface polyhedron available"
+    },
+    {
+      "family": "turquoise",
+      "category": "non-basic",
+      "screen_samples": 12,
+      "reason": "No surface polyhedron available"
+    }
+  ],
+  "surface_only": []
+}
