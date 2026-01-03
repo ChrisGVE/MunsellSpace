@@ -1,0 +1,1344 @@
+{
+  "experiments": [
+    {
+      "id": "EXP-001",
+      "name": "Translation+Scaling Baseline",
+      "method": "translation_scaling",
+      "domain": "munsell_cartesian",
+      "loss_function": "combined_0.4_0.3_0.3",
+      "parameters": {
+        "w_centroid": 0.4,
+        "w_volume": 0.3,
+        "w_shape": 0.3,
+        "n_params": 6
+      },
+      "status": "registered",
+      "date_created": "2026-01-03T13:36:21.527907Z",
+      "date_completed": "",
+      "results": {},
+      "artifacts": [
+        "datasets/transformation_analysis/baseline_losses.json"
+      ],
+      "observations": [
+        "[2026-01-03 13:36] Baseline linear transformation. Best performer in Phase 4."
+      ],
+      "tags": [
+        "baseline",
+        "linear",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-002",
+      "name": "Nonlinear: polynomial_deg2",
+      "method": "polynomial_deg2",
+      "domain": "munsell_cartesian",
+      "loss_function": "combined",
+      "parameters": {
+        "type": "nonlinear"
+      },
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.529764Z",
+      "date_completed": "2026-01-03T13:36:21.530246Z",
+      "results": {
+        "mean_loss": 0.412221322074326,
+        "std_loss": 0.08209578290063124,
+        "families_analyzed": 21,
+        "per_family_results": [
+          {
+            "family": "aqua",
+            "name": "polynomial_deg2",
+            "initial_loss": 1.7501877973355016,
+            "final_loss": 0.3338579425017295,
+            "improvement": 0.8092445033555843,
+            "n_params": 30,
+            "cv_score": -148.906468450575
+          },
+          {
+            "family": "aquamarine",
+            "name": "polynomial_deg2",
+            "initial_loss": 22.297489468043768,
+            "final_loss": 0.3335897039710947,
+            "improvement": 0.9850391361570463,
+            "n_params": 30,
+            "cv_score": -4561.022274624914
+          },
+          {
+            "family": "blue",
+            "name": "polynomial_deg2",
+            "initial_loss": 1.4234930805677597,
+            "final_loss": 0.5459914123781212,
+            "improvement": 0.6164425244973072,
+            "n_params": 30,
+            "cv_score": -1629.4236874597875
+          },
+          {
+            "family": "brown",
+            "name": "polynomial_deg2",
+            "initial_loss": 2.3197275038839003,
+            "final_loss": 0.512585160009287,
+            "improvement": 0.7790321668596548,
+            "n_params": 30,
+            "cv_score": -48.22959588253707
+          },
+          {
+            "family": "coral",
+            "name": "polynomial_deg2",
+            "initial_loss": 1.7084536961587535,
+            "final_loss": 0.43097985612473766,
+            "improvement": 0.7477368821328066,
+            "n_params": 30,
+            "cv_score": -13.991375347433909
+          },
+          {
+            "family": "fuchsia",
+            "name": "polynomial_deg2",
+            "initial_loss": 0.9817017908945677,
+            "final_loss": 0.2275049041435431,
+            "improvement": 0.7682545695101247,
+            "n_params": 30,
+            "cv_score": -55.81482095958135
+          },
+          {
+            "family": "gold",
+            "name": "polynomial_deg2",
+            "initial_loss": 2.795408056418978,
+            "final_loss": 0.5323911219021531,
+            "improvement": 0.8095479761247574,
+            "n_params": 30,
+            "cv_score": -87735.34929373027
+          },
+          {
+            "family": "green",
+            "name": "polynomial_deg2",
+            "initial_loss": 0.6531249306941473,
+            "final_loss": 0.5003626861775268,
+            "improvement": 0.23389437049090045,
+            "n_params": 30,
+            "cv_score": -14.981157350251031
+          },
+          {
+            "family": "indigo",
+            "name": "polynomial_deg2",
+            "initial_loss": 3.1432820480493304,
+            "final_loss": 0.3881540715688706,
+            "improvement": 0.876513126841496,
+            "n_params": 30,
+            "cv_score": -27.29779040337804
+          },
+          {
+            "family": "lime",
+            "name": "polynomial_deg2",
+            "initial_loss": 1.6140131328483949,
+            "final_loss": 0.4164041486779452,
+            "improvement": 0.7420069637580463,
+            "n_params": 30,
+            "cv_score": -1785.6795879232468
+          },
+          {
+            "family": "magenta",
+            "name": "polynomial_deg2",
+            "initial_loss": 0.5663442007556533,
+            "final_loss": 0.25737081340803925,
+            "improvement": 0.5455576077857982,
+            "n_params": 30,
+            "cv_score": NaN
+          },
+          {
+            "family": "mauve",
+            "name": "polynomial_deg2",
+            "initial_loss": 0.9381706140003738,
+            "final_loss": 0.444590178073189,
+            "improvement": 0.5261094608608026,
+            "n_params": 30,
+            "cv_score": NaN
+          },
+          {
+            "family": "peach",
+            "name": "polynomial_deg2",
+            "initial_loss": 73.25628438886135,
+            "final_loss": 0.41015372636802305,
+            "improvement": 0.9944011120712752,
+            "n_params": 30,
+            "cv_score": -26.826358751911783
+          },
+          {
+            "family": "plum",
+            "name": "polynomial_deg2",
+            "initial_loss": 0.22431402036448622,
+            "final_loss": 0.416616750436051,
+            "improvement": -0.8572925123409294,
+            "n_params": 30,
+            "cv_score": -1303.2629302681858
+          },
+          {
+            "family": "red",
+            "name": "polynomial_deg2",
+            "initial_loss": 0.6940566575429091,
+            "final_loss": 0.4557220159562846,
+            "improvement": 0.3433936394045609,
+            "n_params": 30,
+            "cv_score": -24.033880131186237
+          },
+          {
+            "family": "rust",
+            "name": "polynomial_deg2",
+            "initial_loss": 1.2050531507973643,
+            "final_loss": 0.37511423421870843,
+            "improvement": 0.6887156106180866,
+            "n_params": 30,
+            "cv_score": -38.69103010312041
+          },
+          {
+            "family": "tan",
+            "name": "polynomial_deg2",
+            "initial_loss": 1.2482259461662728,
+            "final_loss": 0.4238143670049826,
+            "improvement": 0.6604666260089683,
+            "n_params": 30,
+            "cv_score": -494.7851814983378
+          },
+          {
+            "family": "teal",
+            "name": "polynomial_deg2",
+            "initial_loss": 1.0726605173570163,
+            "final_loss": 0.3320108595629978,
+            "improvement": 0.6904790898978397,
+            "n_params": 30,
+            "cv_score": -314.91965858164826
+          },
+          {
+            "family": "violet",
+            "name": "polynomial_deg2",
+            "initial_loss": 25.541039914615602,
+            "final_loss": 0.37421174095830273,
+            "improvement": 0.9853486098369799,
+            "n_params": 30,
+            "cv_score": -57.29482599240612
+          },
+          {
+            "family": "wine",
+            "name": "polynomial_deg2",
+            "initial_loss": 0.4581100792925795,
+            "final_loss": 0.45959969072395,
+            "improvement": -0.0032516451802823833,
+            "n_params": 30,
+            "cv_score": -495.50682373772474
+          },
+          {
+            "family": "yellow",
+            "name": "polynomial_deg2",
+            "initial_loss": 0.4040408187308713,
+            "final_loss": 0.48562237939530817,
+            "improvement": -0.20191415540808957,
+            "n_params": 30,
+            "cv_score": -19.942303021233517
+          }
+        ]
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/nonlinear_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "nonlinear",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-003",
+      "name": "Nonlinear: polynomial_deg3",
+      "method": "polynomial_deg3",
+      "domain": "munsell_cartesian",
+      "loss_function": "combined",
+      "parameters": {
+        "type": "nonlinear"
+      },
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.531656Z",
+      "date_completed": "2026-01-03T13:36:21.532606Z",
+      "results": {
+        "mean_loss": 0.3370735933705652,
+        "std_loss": 0.08557506176909499,
+        "families_analyzed": 21,
+        "per_family_results": [
+          {
+            "family": "aqua",
+            "name": "polynomial_deg3",
+            "initial_loss": 1.7501877973355016,
+            "final_loss": 0.30513529639635373,
+            "improvement": 0.8256556828582088,
+            "n_params": 60,
+            "cv_score": -188.48009708147174
+          },
+          {
+            "family": "aquamarine",
+            "name": "polynomial_deg3",
+            "initial_loss": 22.297489468043768,
+            "final_loss": 0.30666244027601286,
+            "improvement": 0.98624677272679,
+            "n_params": 60,
+            "cv_score": -2563.1368341460525
+          },
+          {
+            "family": "blue",
+            "name": "polynomial_deg3",
+            "initial_loss": 1.4234930805677597,
+            "final_loss": 0.41932856596591556,
+            "improvement": 0.7054228280486853,
+            "n_params": 60,
+            "cv_score": -8699.420734701902
+          },
+          {
+            "family": "brown",
+            "name": "polynomial_deg3",
+            "initial_loss": 2.3197275038839003,
+            "final_loss": 0.4015788305846219,
+            "improvement": 0.8268853432516268,
+            "n_params": 60,
+            "cv_score": -1257.7445061149306
+          },
+          {
+            "family": "coral",
+            "name": "polynomial_deg3",
+            "initial_loss": 1.7084536961587535,
+            "final_loss": 0.3679268522320029,
+            "improvement": 0.7846433572889678,
+            "n_params": 60,
+            "cv_score": -1990.6807097384499
+          },
+          {
+            "family": "fuchsia",
+            "name": "polynomial_deg3",
+            "initial_loss": 0.9817017908945677,
+            "final_loss": 0.13733596914411675,
+            "improvement": 0.8601041880355842,
+            "n_params": 60,
+            "cv_score": -275.8957067933589
+          },
+          {
+            "family": "gold",
+            "name": "polynomial_deg3",
+            "initial_loss": 2.795408056418978,
+            "final_loss": 0.487496239379461,
+            "improvement": 0.8256082011854964,
+            "n_params": 60,
+            "cv_score": -220357.25394867372
+          },
+          {
+            "family": "green",
+            "name": "polynomial_deg3",
+            "initial_loss": 0.6531249306941473,
+            "final_loss": 0.43519654306545835,
+            "improvement": 0.3336702939774059,
+            "n_params": 60,
+            "cv_score": -67.98434747131894
+          },
+          {
+            "family": "indigo",
+            "name": "polynomial_deg3",
+            "initial_loss": 3.1432820480493304,
+            "final_loss": 0.26944527345253333,
+            "improvement": 0.9142790022232505,
+            "n_params": 60,
+            "cv_score": -695.3631842033
+          },
+          {
+            "family": "lime",
+            "name": "polynomial_deg3",
+            "initial_loss": 1.6140131328483949,
+            "final_loss": 0.29876170638449195,
+            "improvement": 0.8148951205513177,
+            "n_params": 60,
+            "cv_score": -1034.2870254883799
+          },
+          {
+            "family": "magenta",
+            "name": "polynomial_deg3",
+            "initial_loss": 0.5663442007556533,
+            "final_loss": 0.22060640631429337,
+            "improvement": 0.6104729137864465,
+            "n_params": 60,
+            "cv_score": NaN
+          },
+          {
+            "family": "mauve",
+            "name": "polynomial_deg3",
+            "initial_loss": 0.9381706140003738,
+            "final_loss": 0.4224779355021506,
+            "improvement": 0.5496789931410255,
+            "n_params": 60,
+            "cv_score": NaN
+          },
+          {
+            "family": "peach",
+            "name": "polynomial_deg3",
+            "initial_loss": 73.25628438886135,
+            "final_loss": 0.28167235646026606,
+            "improvement": 0.9961549734768818,
+            "n_params": 60,
+            "cv_score": -628.919305217018
+          },
+          {
+            "family": "plum",
+            "name": "polynomial_deg3",
+            "initial_loss": 0.22431402036448622,
+            "final_loss": 0.24001909496796875,
+            "improvement": -0.07001378949904008,
+            "n_params": 60,
+            "cv_score": -5846.2177410992235
+          },
+          {
+            "family": "red",
+            "name": "polynomial_deg3",
+            "initial_loss": 0.6940566575429091,
+            "final_loss": 0.38257399458195385,
+            "improvement": 0.4487856424627672,
+            "n_params": 60,
+            "cv_score": -68.02968024421558
+          },
+          {
+            "family": "rust",
+            "name": "polynomial_deg3",
+            "initial_loss": 1.2050531507973643,
+            "final_loss": 0.37144866125635523,
+            "improvement": 0.6917574457105286,
+            "n_params": 60,
+            "cv_score": -2603.3256976760435
+          },
+          {
+            "family": "tan",
+            "name": "polynomial_deg3",
+            "initial_loss": 1.2482259461662728,
+            "final_loss": 0.38745195481556144,
+            "improvement": 0.6895979001193185,
+            "n_params": 60,
+            "cv_score": -724.6824648532219
+          },
+          {
+            "family": "teal",
+            "name": "polynomial_deg3",
+            "initial_loss": 1.0726605173570163,
+            "final_loss": 0.3045334382478133,
+            "improvement": 0.7160952292733128,
+            "n_params": 60,
+            "cv_score": -1239.0475377345176
+          },
+          {
+            "family": "violet",
+            "name": "polynomial_deg3",
+            "initial_loss": 25.541039914615602,
+            "final_loss": 0.23484229559658512,
+            "improvement": 0.9908052962455064,
+            "n_params": 60,
+            "cv_score": -479.2546589869074
+          },
+          {
+            "family": "wine",
+            "name": "polynomial_deg3",
+            "initial_loss": 0.4581100792925795,
+            "final_loss": 0.3653875195793565,
+            "improvement": 0.20240235677941554,
+            "n_params": 60,
+            "cv_score": -1007.1113533457293
+          },
+          {
+            "family": "yellow",
+            "name": "polynomial_deg3",
+            "initial_loss": 0.4040408187308713,
+            "final_loss": 0.4386640865785969,
+            "improvement": -0.08569249997186036,
+            "n_params": 60,
+            "cv_score": -340.0053708579438
+          }
+        ]
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/nonlinear_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "nonlinear",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-004",
+      "name": "Nonlinear: rbf_multiquadric",
+      "method": "rbf_multiquadric",
+      "domain": "munsell_cartesian",
+      "loss_function": "combined",
+      "parameters": {
+        "type": "nonlinear"
+      },
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.534784Z",
+      "date_completed": "2026-01-03T13:36:21.536193Z",
+      "results": {
+        "mean_loss": 0.32921552466513176,
+        "std_loss": 0.08660479609442433,
+        "families_analyzed": 21,
+        "per_family_results": [
+          {
+            "family": "aqua",
+            "name": "rbf_multiquadric",
+            "initial_loss": 1.7501877973355016,
+            "final_loss": 0.3128896873300965,
+            "improvement": 0.8212250777851142,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "aquamarine",
+            "name": "rbf_multiquadric",
+            "initial_loss": 22.297489468043768,
+            "final_loss": 0.3137886704199897,
+            "improvement": 0.9859271748566266,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "blue",
+            "name": "rbf_multiquadric",
+            "initial_loss": 1.4234930805677597,
+            "final_loss": 0.4121785616631453,
+            "improvement": 0.7104456865369883,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "brown",
+            "name": "rbf_multiquadric",
+            "initial_loss": 2.3197275038839003,
+            "final_loss": 0.3522971080544321,
+            "improvement": 0.8481299603231052,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "coral",
+            "name": "rbf_multiquadric",
+            "initial_loss": 1.7084536961587535,
+            "final_loss": 0.37323836630869056,
+            "improvement": 0.7815343973630244,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "fuchsia",
+            "name": "rbf_multiquadric",
+            "initial_loss": 0.9817017908945677,
+            "final_loss": 0.14356782249281097,
+            "improvement": 0.8537561774620112,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "gold",
+            "name": "rbf_multiquadric",
+            "initial_loss": 2.795408056418978,
+            "final_loss": 0.4924822782178224,
+            "improvement": 0.8238245478734469,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "green",
+            "name": "rbf_multiquadric",
+            "initial_loss": 0.6531249306941473,
+            "final_loss": 0.41694756034075975,
+            "improvement": 0.36161132312370325,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "indigo",
+            "name": "rbf_multiquadric",
+            "initial_loss": 3.1432820480493304,
+            "final_loss": 0.2698934119394046,
+            "improvement": 0.914136431979785,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "lime",
+            "name": "rbf_multiquadric",
+            "initial_loss": 1.6140131328483949,
+            "final_loss": 0.2951100368509676,
+            "improvement": 0.8171575987549988,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "magenta",
+            "name": "rbf_multiquadric",
+            "initial_loss": 0.5663442007556533,
+            "final_loss": 0.2388873992057296,
+            "improvement": 0.5781939695206723,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "mauve",
+            "name": "rbf_multiquadric",
+            "initial_loss": 0.9381706140003738,
+            "final_loss": 0.43209919763193744,
+            "improvement": 0.5394236494048136,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "peach",
+            "name": "rbf_multiquadric",
+            "initial_loss": 73.25628438886135,
+            "final_loss": 0.17882115743324634,
+            "improvement": 0.997558964955361,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "plum",
+            "name": "rbf_multiquadric",
+            "initial_loss": 0.22431402036448622,
+            "final_loss": 0.24954705582326597,
+            "improvement": -0.11248978292921136,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "red",
+            "name": "rbf_multiquadric",
+            "initial_loss": 0.6940566575429091,
+            "final_loss": 0.3462249565986973,
+            "improvement": 0.5011575022932585,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "rust",
+            "name": "rbf_multiquadric",
+            "initial_loss": 1.2050531507973643,
+            "final_loss": 0.3750445684413958,
+            "improvement": 0.688773421991192,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "tan",
+            "name": "rbf_multiquadric",
+            "initial_loss": 1.2482259461662728,
+            "final_loss": 0.38494621809827884,
+            "improvement": 0.6916053385362003,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "teal",
+            "name": "rbf_multiquadric",
+            "initial_loss": 1.0726605173570163,
+            "final_loss": 0.30813910552942625,
+            "improvement": 0.7127338048307529,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "violet",
+            "name": "rbf_multiquadric",
+            "initial_loss": 25.541039914615602,
+            "final_loss": 0.23254247254779786,
+            "improvement": 0.9908953404667471,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "wine",
+            "name": "rbf_multiquadric",
+            "initial_loss": 0.4581100792925795,
+            "final_loss": 0.35269195774866086,
+            "improvement": 0.23011526335920596,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "yellow",
+            "name": "rbf_multiquadric",
+            "initial_loss": 0.4040408187308713,
+            "final_loss": 0.4321884252912114,
+            "improvement": -0.06966525473528708,
+            "n_params": 0,
+            "cv_score": null
+          }
+        ]
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/nonlinear_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "nonlinear",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-005",
+      "name": "Nonlinear: rbf_gaussian",
+      "method": "rbf_gaussian",
+      "domain": "munsell_cartesian",
+      "loss_function": "combined",
+      "parameters": {
+        "type": "nonlinear"
+      },
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.539764Z",
+      "date_completed": "2026-01-03T13:36:21.541805Z",
+      "results": {
+        "mean_loss": 0.31435010609524344,
+        "std_loss": 0.10638651884216391,
+        "families_analyzed": 21,
+        "per_family_results": [
+          {
+            "family": "aqua",
+            "name": "rbf_gaussian",
+            "initial_loss": 1.7501877973355016,
+            "final_loss": 0.2963136661992881,
+            "improvement": 0.8306960735011418,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "aquamarine",
+            "name": "rbf_gaussian",
+            "initial_loss": 22.297489468043768,
+            "final_loss": 0.4998287867044537,
+            "improvement": 0.9775836294296361,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "blue",
+            "name": "rbf_gaussian",
+            "initial_loss": 1.4234930805677597,
+            "final_loss": 0.2539799707522954,
+            "improvement": 0.8215797644404457,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "brown",
+            "name": "rbf_gaussian",
+            "initial_loss": 2.3197275038839003,
+            "final_loss": 0.265324895283067,
+            "improvement": 0.8856223867506697,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "coral",
+            "name": "rbf_gaussian",
+            "initial_loss": 1.7084536961587535,
+            "final_loss": 0.4516868471690709,
+            "improvement": 0.7356165705956018,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "fuchsia",
+            "name": "rbf_gaussian",
+            "initial_loss": 0.9817017908945677,
+            "final_loss": 0.14243894626696096,
+            "improvement": 0.8549060951216513,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "gold",
+            "name": "rbf_gaussian",
+            "initial_loss": 2.795408056418978,
+            "final_loss": 0.47267971189046815,
+            "improvement": 0.8309085105464036,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "green",
+            "name": "rbf_gaussian",
+            "initial_loss": 0.6531249306941473,
+            "final_loss": 0.323155753967659,
+            "improvement": 0.5052160179765209,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "indigo",
+            "name": "rbf_gaussian",
+            "initial_loss": 3.1432820480493304,
+            "final_loss": 0.25097408279103267,
+            "improvement": 0.920155404779287,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "lime",
+            "name": "rbf_gaussian",
+            "initial_loss": 1.6140131328483949,
+            "final_loss": 0.34685084831628443,
+            "improvement": 0.785100355593659,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "magenta",
+            "name": "rbf_gaussian",
+            "initial_loss": 0.5663442007556533,
+            "final_loss": 0.1447965500491273,
+            "improvement": 0.7443311861303951,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "mauve",
+            "name": "rbf_gaussian",
+            "initial_loss": 0.9381706140003738,
+            "final_loss": 0.4093846005087701,
+            "improvement": 0.5636352339334655,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "peach",
+            "name": "rbf_gaussian",
+            "initial_loss": 73.25628438886135,
+            "final_loss": 0.4188911752592886,
+            "improvement": 0.9942818397253713,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "plum",
+            "name": "rbf_gaussian",
+            "initial_loss": 0.22431402036448622,
+            "final_loss": 0.16548667631368366,
+            "improvement": 0.26225442330895965,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "red",
+            "name": "rbf_gaussian",
+            "initial_loss": 0.6940566575429091,
+            "final_loss": 0.19808284643399018,
+            "improvement": 0.7146013307685274,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "rust",
+            "name": "rbf_gaussian",
+            "initial_loss": 1.2050531507973643,
+            "final_loss": 0.346638104402332,
+            "improvement": 0.7123462113078024,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "tan",
+            "name": "rbf_gaussian",
+            "initial_loss": 1.2482259461662728,
+            "final_loss": 0.37433049931958245,
+            "improvement": 0.7001099837178686,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "teal",
+            "name": "rbf_gaussian",
+            "initial_loss": 1.0726605173570163,
+            "final_loss": 0.33022795400649047,
+            "improvement": 0.6921412239352706,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "violet",
+            "name": "rbf_gaussian",
+            "initial_loss": 25.541039914615602,
+            "final_loss": 0.2523941104261601,
+            "improvement": 0.990118095767834,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "wine",
+            "name": "rbf_gaussian",
+            "initial_loss": 0.4581100792925795,
+            "final_loss": 0.2177521137852766,
+            "improvement": 0.5246729473371713,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "yellow",
+            "name": "rbf_gaussian",
+            "initial_loss": 0.4040408187308713,
+            "final_loss": 0.44013408815483085,
+            "improvement": -0.08933075013888893,
+            "n_params": 0,
+            "cv_score": null
+          }
+        ]
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/nonlinear_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "nonlinear",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-006",
+      "name": "Nonlinear: thin_plate_spline",
+      "method": "thin_plate_spline",
+      "domain": "munsell_cartesian",
+      "loss_function": "combined",
+      "parameters": {
+        "type": "nonlinear"
+      },
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.545510Z",
+      "date_completed": "2026-01-03T13:36:21.547775Z",
+      "results": {
+        "mean_loss": 0.28718331100341044,
+        "std_loss": 0.08396675698534076,
+        "families_analyzed": 21,
+        "per_family_results": [
+          {
+            "family": "aqua",
+            "name": "thin_plate_spline",
+            "initial_loss": 1.7501877973355016,
+            "final_loss": 0.29911149878419857,
+            "improvement": 0.8290974835731525,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "aquamarine",
+            "name": "thin_plate_spline",
+            "initial_loss": 22.297489468043768,
+            "final_loss": 0.3063614999904848,
+            "improvement": 0.9862602693263045,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "blue",
+            "name": "thin_plate_spline",
+            "initial_loss": 1.4234930805677597,
+            "final_loss": 0.33589145966530537,
+            "improvement": 0.7640371672679047,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "brown",
+            "name": "thin_plate_spline",
+            "initial_loss": 2.3197275038839003,
+            "final_loss": 0.31216427996609564,
+            "improvement": 0.8654306251732405,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "coral",
+            "name": "thin_plate_spline",
+            "initial_loss": 1.7084536961587535,
+            "final_loss": 0.360680577032504,
+            "improvement": 0.7888847805220301,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "fuchsia",
+            "name": "thin_plate_spline",
+            "initial_loss": 0.9817017908945677,
+            "final_loss": 0.12525105674508671,
+            "improvement": 0.8724143544334856,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "gold",
+            "name": "thin_plate_spline",
+            "initial_loss": 2.795408056418978,
+            "final_loss": 0.39585704200998195,
+            "improvement": 0.8583902478563041,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "green",
+            "name": "thin_plate_spline",
+            "initial_loss": 0.6531249306941473,
+            "final_loss": 0.38552730713270866,
+            "improvement": 0.40971889294906166,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "indigo",
+            "name": "thin_plate_spline",
+            "initial_loss": 3.1432820480493304,
+            "final_loss": 0.256926658465115,
+            "improvement": 0.9182616594573308,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "lime",
+            "name": "thin_plate_spline",
+            "initial_loss": 1.6140131328483949,
+            "final_loss": 0.28043619603619896,
+            "improvement": 0.8262491237966026,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "magenta",
+            "name": "thin_plate_spline",
+            "initial_loss": 0.5663442007556533,
+            "final_loss": 0.2163968915178149,
+            "improvement": 0.6179056989917366,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "mauve",
+            "name": "thin_plate_spline",
+            "initial_loss": 0.9381706140003738,
+            "final_loss": 0.42067319007390624,
+            "improvement": 0.5516026788771934,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "peach",
+            "name": "thin_plate_spline",
+            "initial_loss": 73.25628438886135,
+            "final_loss": 0.13568200856837165,
+            "improvement": 0.9981478447931084,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "plum",
+            "name": "thin_plate_spline",
+            "initial_loss": 0.22431402036448622,
+            "final_loss": 0.22414127135920006,
+            "improvement": 0.0007701213014035485,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "red",
+            "name": "thin_plate_spline",
+            "initial_loss": 0.6940566575429091,
+            "final_loss": 0.2790563408232577,
+            "improvement": 0.5979343504733899,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "rust",
+            "name": "thin_plate_spline",
+            "initial_loss": 1.2050531507973643,
+            "final_loss": 0.3707718614302186,
+            "improvement": 0.6923190805443852,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "tan",
+            "name": "thin_plate_spline",
+            "initial_loss": 1.2482259461662728,
+            "final_loss": 0.36536535783066226,
+            "improvement": 0.7072922903478943,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "teal",
+            "name": "thin_plate_spline",
+            "initial_loss": 1.0726605173570163,
+            "final_loss": 0.2836487340377274,
+            "improvement": 0.735565232943761,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "violet",
+            "name": "thin_plate_spline",
+            "initial_loss": 25.541039914615602,
+            "final_loss": 0.21218011269466514,
+            "improvement": 0.9916925812964551,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "wine",
+            "name": "thin_plate_spline",
+            "initial_loss": 0.4581100792925795,
+            "final_loss": 0.321566489966705,
+            "improvement": 0.2980584700007631,
+            "n_params": 0,
+            "cv_score": null
+          },
+          {
+            "family": "yellow",
+            "name": "thin_plate_spline",
+            "initial_loss": 0.4040408187308713,
+            "final_loss": 0.14315969694141095,
+            "improvement": 0.6456801137293788,
+            "n_params": 0,
+            "cv_score": null
+          }
+        ]
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/nonlinear_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "nonlinear",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-007",
+      "name": "Domain: Munsell Cartesian",
+      "method": "translation_scaling",
+      "domain": "munsell_cartesian",
+      "loss_function": "combined",
+      "parameters": {},
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.553593Z",
+      "date_completed": "2026-01-03T13:36:21.556529Z",
+      "results": {
+        "mean_loss": 0.0535,
+        "std_loss": 0.0123,
+        "description": "Direct transformation in Munsell (x, y, z) space"
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/domain_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "domain_comparison",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-008",
+      "name": "Domain: RGB",
+      "method": "translation_scaling",
+      "domain": "rgb",
+      "loss_function": "combined",
+      "parameters": {},
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.561452Z",
+      "date_completed": "2026-01-03T13:36:21.565434Z",
+      "results": {
+        "mean_loss": 1.4235,
+        "std_loss": 0.9419,
+        "description": "Transform in RGB, convert to Munsell for evaluation"
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/domain_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "domain_comparison",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-009",
+      "name": "Domain: CIELAB",
+      "method": "translation_scaling",
+      "domain": "cielab",
+      "loss_function": "combined",
+      "parameters": {},
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.571129Z",
+      "date_completed": "2026-01-03T13:36:21.574547Z",
+      "results": {
+        "mean_loss": 1.6004,
+        "std_loss": 1.012,
+        "description": "Transform in CIELAB (via RGB), convert to Munsell"
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/domain_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "domain_comparison",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-010",
+      "name": "Translation+Scaling in Munsell",
+      "method": "translation_scaling",
+      "domain": "munsell",
+      "loss_function": "combined_0.4_0.3_0.3",
+      "parameters": {},
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.580161Z",
+      "date_completed": "2026-01-03T13:36:21.583646Z",
+      "results": {
+        "mean_loss": 0.0534513884549569,
+        "std_loss": 0.012257426267827293,
+        "per_family_losses": {
+          "aqua": 0.07214190587708719,
+          "aquamarine": 0.052001982117379594,
+          "blue": 0.06783291972753847,
+          "brown": 0.04955138208880919,
+          "coral": 0.05728703722283042,
+          "fuchsia": 0.04218429447000663,
+          "gold": 0.0581440097874603,
+          "green": 0.05711343393389597,
+          "indigo": 0.03502434070984618,
+          "lime": 0.07452890826318932,
+          "magenta": 0.056047290233376276,
+          "mauve": 0.07779587178898091,
+          "peach": 0.045104301825384364,
+          "plum": 0.05096121343461132,
+          "red": 0.04929795798163554,
+          "rust": 0.05248370898664373,
+          "tan": 0.05921976480128315,
+          "teal": 0.0563053790023186,
+          "violet": 0.038236117793475584,
+          "wine": 0.03263823280592156,
+          "yellow": 0.03857910470242042
+        }
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/extended_domain_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "extended_domain",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-011",
+      "name": "Translation+Scaling in RGB",
+      "method": "translation_scaling",
+      "domain": "rgb",
+      "loss_function": "combined_0.4_0.3_0.3",
+      "parameters": {},
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.588595Z",
+      "date_completed": "2026-01-03T13:36:21.591522Z",
+      "results": {
+        "mean_loss": 1.4196757238462634,
+        "std_loss": 0.9419397365993136,
+        "per_family_losses": {
+          "aqua": 1.1893534349197796,
+          "aquamarine": 2.60052658499408,
+          "blue": 1.301688583457361,
+          "brown": 1.5700143072142914,
+          "coral": 2.042459776985705,
+          "fuchsia": 0.3103668310615534,
+          "gold": 2.188491719601609,
+          "green": 0.4836551460901367,
+          "indigo": 1.7509955836341724,
+          "lime": 1.9360799661918775,
+          "magenta": 0.21993245289391375,
+          "mauve": 0.3233696374705465,
+          "peach": 3.9238705197299,
+          "plum": 0.32624150929103385,
+          "red": 1.7221634256504867,
+          "rust": 1.1900447157278498,
+          "tan": 0.9990362418875458,
+          "teal": 1.2957780815712139,
+          "violet": 2.718300358340388,
+          "wine": 0.17856169613807277,
+          "yellow": 1.542259627920011
+        }
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/extended_domain_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "extended_domain",
+        "phase4"
+      ],
+      "parent_experiment": null
+    },
+    {
+      "id": "EXP-012",
+      "name": "Affine in Munsell",
+      "method": "affine",
+      "domain": "munsell",
+      "loss_function": "combined_0.4_0.3_0.3",
+      "parameters": {},
+      "status": "completed",
+      "date_created": "2026-01-03T13:36:21.596883Z",
+      "date_completed": "2026-01-03T13:36:21.600234Z",
+      "results": {
+        "mean_loss": 0.07763375477201166,
+        "std_loss": 0.04807361149828364,
+        "per_family_losses": {
+          "aqua": 0.0715205305189342,
+          "aquamarine": 0.17529037711220308,
+          "blue": 0.06050642731476588,
+          "brown": 0.055723896987515655,
+          "coral": 0.0641919777036065,
+          "fuchsia": 0.04489929544071871,
+          "gold": 0.058067559091081584,
+          "green": 0.054550553832514816,
+          "indigo": 0.050371553882853325,
+          "lime": 0.06749574186137107,
+          "magenta": 0.05705632720150875,
+          "mauve": 0.06144901293774012,
+          "peach": 0.09250477307548716,
+          "plum": 0.059475881028562425,
+          "red": 0.24056864313023207,
+          "rust": 0.0451693224557486,
+          "tan": 0.06098059363590708,
+          "teal": 0.06512745010307038,
+          "violet": 0.07687316490805672,
+          "wine": 0.03033828120122254,
+          "yellow": 0.13814748678914435
+        }
+      },
+      "artifacts": [
+        "datasets/transformation_analysis/extended_domain_comparison.json"
+      ],
+      "observations": [],
+      "tags": [
+        "extended_domain",
+        "phase4"
+      ],
+      "parent_experiment": null
+    }
+  ],
+  "metadata": {
+    "created": "2026-01-03T13:36:21.526803Z",
+    "version": "1.0.0",
+    "project": "MunsellSpace Transformation Research"
+  }
+}
