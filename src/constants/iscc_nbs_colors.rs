@@ -310,7 +310,7 @@ pub fn color_entry_to_metadata(entry: &IsccNbsColorEntry) -> crate::iscc::ColorM
     crate::iscc::ColorMetadata {
         iscc_nbs_color_name: entry.iscc_nbs_color_name.to_string(),
         iscc_nbs_formatter: entry.iscc_nbs_formatter.map(|s| s.to_string()),
-        alt_color_name: entry.alt_color_name.to_string(),
+        extended_name: entry.alt_color_name.to_string(),
         color_shade: entry.color_shade.to_string(),
     }
 }
@@ -355,7 +355,7 @@ mod tests {
         
         assert_eq!(metadata.iscc_nbs_color_name, "pink");
         assert_eq!(metadata.iscc_nbs_formatter, Some("vivid {0}".to_string()));
-        assert_eq!(metadata.alt_color_name, "pink");
+        assert_eq!(metadata.extended_name, "pink");
         assert_eq!(metadata.color_shade, "pink");
     }
 
