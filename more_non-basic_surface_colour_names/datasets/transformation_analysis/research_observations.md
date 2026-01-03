@@ -341,3 +341,46 @@ The RGB→Munsell volume transformation is remarkably uniform:
 - Use global scaling factor (≈2052.5)
 - No position-dependent corrections required
 - Volume matching in loss function needs no family-specific adjustments
+
+---
+
+## 2026-01-03: Bootstrap Sample Size Analysis (Task 100)
+
+### Volume Stability via Bootstrap Resampling
+
+Analyzed 177,706 samples across 35 color families to determine convex hull volume stability.
+
+### Key Results
+
+| Metric | Value |
+|--------|-------|
+| Total samples | 177,706 |
+| Stable families | 33/35 (94.3%) |
+| Unstable families | brown, purple |
+| Stability threshold | CV < 0.05 |
+
+### Minimum Stable N Distribution
+
+| Statistic | Value |
+|-----------|-------|
+| Mean | 4,809 |
+| Median | 3,385 |
+| Range | [500, 21,992] |
+
+### Notable Findings
+
+1. **Lime achieved stability earliest**: N=500 with CV=0.0079
+   - Most compact, well-defined color region
+
+2. **Brown and purple remain unstable**: Despite 5,068 and 10,339 samples
+   - Likely diffuse or irregularly shaped regions
+   - May benefit from alternative bounding methods (alpha shapes)
+
+3. **Most families need 2,000-5,000 samples** for stable hull volumes
+   - Current sample sizes are adequate for 94% of families
+
+### Implications
+
+1. **Sample adequacy**: 33/35 families have sufficient samples for reliable volume estimation
+2. **Problem families**: brown and purple may need special handling
+3. **Threshold recommendation**: ~3,000 samples minimum for new families
