@@ -1,0 +1,26 @@
+{
+  "munsell_cartesian": {
+    "domain": "Munsell Cartesian",
+    "mean_loss": 0.0535,
+    "std_loss": 0.0123,
+    "description": "Direct transformation in Munsell (x, y, z) space"
+  },
+  "rgb": {
+    "domain": "RGB",
+    "mean_loss": 1.4235,
+    "std_loss": 0.9419,
+    "description": "Transform in RGB, convert to Munsell for evaluation"
+  },
+  "cielab": {
+    "domain": "CIELAB",
+    "mean_loss": 1.6004,
+    "std_loss": 1.012,
+    "description": "Transform in CIELAB (via RGB), convert to Munsell"
+  },
+  "analysis": {
+    "families_analyzed": 21,
+    "best_domain": "munsell_cartesian",
+    "rgb_vs_munsell_ratio": 26.6,
+    "cielab_vs_munsell_ratio": 29.9
+  }
+}
