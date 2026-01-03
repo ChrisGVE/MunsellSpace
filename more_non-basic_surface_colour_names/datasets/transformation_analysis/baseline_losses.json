@@ -1,0 +1,212 @@
+[
+  {
+    "family": "aqua",
+    "category": "non-basic",
+    "screen_samples": 14,
+    "surface_samples": 206,
+    "centroid_loss": 1.4644496241434304,
+    "volume_loss": 3.4191228782538756,
+    "shape_loss": 0.46223694733988907,
+    "total_loss": 1.7501877973355016
+  },
+  {
+    "family": "aquamarine",
+    "category": "new-candidate",
+    "screen_samples": 12,
+    "surface_samples": 113,
+    "centroid_loss": 0.7744194503780111,
+    "volume_loss": 72.77850161628865,
+    "shape_loss": 0.5139040100199027,
+    "total_loss": 22.297489468043768
+  },
+  {
+    "family": "blue",
+    "category": "basic",
+    "screen_samples": 121,
+    "surface_samples": 627,
+    "centroid_loss": 0.8865232621985685,
+    "volume_loss": 3.264341096577521,
+    "shape_loss": 0.2986048223835862,
+    "total_loss": 1.4234930805677597
+  },
+  {
+    "family": "brown",
+    "category": "basic",
+    "screen_samples": 37,
+    "surface_samples": 75,
+    "centroid_loss": 1.3916713201213597,
+    "volume_loss": 5.568626357751145,
+    "shape_loss": 0.30823689503337504,
+    "total_loss": 2.3197275038839003
+  },
+  {
+    "family": "coral",
+    "category": "non-basic",
+    "screen_samples": 23,
+    "surface_samples": 496,
+    "centroid_loss": 1.083495603869828,
+    "volume_loss": 3.9652880109702053,
+    "shape_loss": 0.28489683773253655,
+    "total_loss": 1.7084536961587535
+  },
+  {
+    "family": "fuchsia",
+    "category": "non-basic",
+    "screen_samples": 16,
+    "surface_samples": 30,
+    "centroid_loss": 0.39770960494332436,
+    "volume_loss": 2.55879896417347,
+    "shape_loss": 0.18326086555065646,
+    "total_loss": 0.9817017908945677
+  },
+  {
+    "family": "gold",
+    "category": "non-basic",
+    "screen_samples": 17,
+    "surface_samples": 43,
+    "centroid_loss": 0.4054211339578787,
+    "volume_loss": 8.523704999994697,
+    "shape_loss": 0.2537603427913915,
+    "total_loss": 2.795408056418978
+  },
+  {
+    "family": "green",
+    "category": "basic",
+    "screen_samples": 169,
+    "surface_samples": 1569,
+    "centroid_loss": 1.40113850505257,
+    "volume_loss": 0.05438116254681402,
+    "shape_loss": 0.2545172663635834,
+    "total_loss": 0.6531249306941473
+  },
+  {
+    "family": "indigo",
+    "category": "new-candidate",
+    "screen_samples": 19,
+    "surface_samples": 139,
+    "centroid_loss": 1.1303820029685343,
+    "volume_loss": 8.628822744547634,
+    "shape_loss": 0.34160807832542356,
+    "total_loss": 3.1432820480493304
+  },
+  {
+    "family": "lime",
+    "category": "new-candidate",
+    "screen_samples": 28,
+    "surface_samples": 159,
+    "centroid_loss": 0.9178729979485308,
+    "volume_loss": 3.86112931279448,
+    "shape_loss": 0.2950837994354612,
+    "total_loss": 1.6140131328483949
+  },
+  {
+    "family": "magenta",
+    "category": "non-basic",
+    "screen_samples": 14,
+    "surface_samples": 30,
+    "centroid_loss": 0.7598975050934591,
+    "volume_loss": 0.6494531982153242,
+    "shape_loss": 0.22516413084557452,
+    "total_loss": 0.5663442007556533
+  },
+  {
+    "family": "mauve",
+    "category": "non-basic",
+    "screen_samples": 14,
+    "surface_samples": 64,
+    "centroid_loss": 1.0386797336771427,
+    "volume_loss": 1.4427856958248655,
+    "shape_loss": 0.2995433726068571,
+    "total_loss": 0.9381706140003738
+  },
+  {
+    "family": "peach",
+    "category": "non-basic",
+    "screen_samples": 36,
+    "surface_samples": 64,
+    "centroid_loss": 0.500337187533028,
+    "volume_loss": 243.0885754812507,
+    "shape_loss": 0.4319228982430982,
+    "total_loss": 73.25628438886135
+  },
+  {
+    "family": "plum",
+    "category": "new-candidate",
+    "screen_samples": 14,
+    "surface_samples": 36,
+    "centroid_loss": 0.36975789597779163,
+    "volume_loss": 0.057048103740397704,
+    "shape_loss": 0.19765476950416758,
+    "total_loss": 0.22431402036448622
+  },
+  {
+    "family": "red",
+    "category": "basic",
+    "screen_samples": 34,
+    "surface_samples": 567,
+    "centroid_loss": 1.1577357492435831,
+    "volume_loss": 0.6383049717426296,
+    "shape_loss": 0.13156955440895676,
+    "total_loss": 0.6940566575429091
+  },
+  {
+    "family": "rust",
+    "category": "non-basic",
+    "screen_samples": 15,
+    "surface_samples": 200,
+    "centroid_loss": 0.4884195740061269,
+    "volume_loss": 3.1620402932985394,
+    "shape_loss": 0.20357744401783937,
+    "total_loss": 1.2050531507973643
+  },
+  {
+    "family": "tan",
+    "category": "non-basic",
+    "screen_samples": 19,
+    "surface_samples": 1223,
+    "centroid_loss": 1.0790615300377393,
+    "volume_loss": 2.4149459975626213,
+    "shape_loss": 0.3070584496079684,
+    "total_loss": 1.2482259461662728
+  },
+  {
+    "family": "teal",
+    "category": "non-basic",
+    "screen_samples": 19,
+    "surface_samples": 160,
+    "centroid_loss": 2.0238825082646996,
+    "volume_loss": 0.4474935335476655,
+    "shape_loss": 0.429531513289456,
+    "total_loss": 1.0726605173570163
+  },
+  {
+    "family": "violet",
+    "category": "non-basic",
+    "screen_samples": 27,
+    "surface_samples": 106,
+    "centroid_loss": 0.8485871540016492,
+    "volume_loss": 83.65052273435124,
+    "shape_loss": 0.3548274423652367,
+    "total_loss": 25.541039914615602
+  },
+  {
+    "family": "wine",
+    "category": "non-basic",
+    "screen_samples": 20,
+    "surface_samples": 44,
+    "centroid_loss": 0.7133743000989489,
+    "volume_loss": 0.3997785486129295,
+    "shape_loss": 0.1760893155637371,
+    "total_loss": 0.4581100792925795
+  },
+  {
+    "family": "yellow",
+    "category": "basic",
+    "screen_samples": 58,
+    "surface_samples": 405,
+    "centroid_loss": 0.6387934275378475,
+    "volume_loss": 0.29887688613022934,
+    "shape_loss": 0.1962012729222115,
+    "total_loss": 0.4040408187308713
+  }
+]
