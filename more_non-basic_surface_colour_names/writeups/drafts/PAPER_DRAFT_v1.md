@@ -1,14 +1,14 @@
 # Extending Non-Basic Surface Color Names: A Computational Replication and Extension of Centore's Polyhedron Methodology
 
-**Draft Version**: 1.0
+**Draft Version**: 1.1
 **Date**: 2026-01-03
-**Status**: Working Draft
+**Status**: Working Draft (Updated with proper calibration methodology)
 
 ---
 
 ## Abstract
 
-We present a computational replication and extension of Centore's (2020) methodology for defining non-basic surface color names using inner convex hull polyhedra in Munsell color space. Our work makes three contributions: (1) full verification of Centore's 30 color family polyhedra with sub-percentage numerical agreement, (2) quantification of systematic differences between screen-displayed (RGB) and surface-measured (spectrophotometric) color naming with an average centroid shift of 3.21 Munsell units, and (3) identification of five candidate color families not in Centore's original set—indigo, maroon, lime, plum, and aquamarine—with sufficient sample sizes and spatial coherence for potential inclusion. We also investigate the RGB-to-Munsell transformation, finding that volume matching is the dominant objective for polyhedron transformation (achieving 0.054 combined loss with volume-only optimization) while shape preservation is fundamentally limited to a floor of 0.13–0.18 regardless of optimization strategy. Our analysis of 184,297 crowdsourced screen color names against Centore's 9,261 spectrophotometer-measured fabric samples reveals that screen colors appear systematically lighter (+0.81 Munsell value on average) and more saturated (+3.82 Munsell chroma on average) than their surface counterparts, with hue shifts that are category-dependent. These findings have implications for color naming research, computational color science, and the development of color-aware language models.
+We present a computational replication and extension of Centore's (2020) methodology for defining non-basic surface color names using inner convex hull polyhedra in Munsell color space. Our work makes three contributions: (1) full verification of Centore's 30 color family polyhedra with sub-percentage numerical agreement, (2) quantification of systematic differences between screen-displayed (RGB) and surface-measured (spectrophotometric) color naming with an average centroid shift of 3.21 Munsell units, and (3) identification of five candidate color families not in Centore's original set—indigo, maroon, lime, plum, and aquamarine—with sufficient sample sizes and spatial coherence for potential inclusion. We also investigate the RGB-to-Munsell transformation, finding that volume matching is the dominant objective for polyhedron transformation (achieving 0.054 combined loss with volume-only optimization) while shape preservation is fundamentally limited to a floor of 0.13–0.18 regardless of optimization strategy. Our calibration analysis using non-XKCD screen sources (Meodai, ColorHexa, Wikipedia) against Centore's 9,261 spectrophotometer-measured fabric samples reveals that screen colors appear systematically lighter (+2.06 Munsell value on average) with moderate chroma differences (+0.80 Munsell chroma on average) and substantial hue shifts (mean -31.8°, std 21.0°) that are category-dependent. These findings have implications for color naming research, computational color science, and the development of color-aware language models.
 
 **Keywords**: color naming, Munsell color space, convex hull, semantic color categories, screen-surface transformation, crowdsourced color data
 
@@ -120,15 +120,21 @@ We constructed polyhedra from crowdsourced screen color data following Centore's
 
 **Polyhedron construction**: Identical to Centore's methodology (Section 3.1) applied to screen-derived samples.
 
-### 3.3 Track C: Centore Comparison
+### 3.3 Track C: Centore Comparison (Calibration Analysis)
 
-For each of Centore's 30 families, we compared our screen-derived polyhedra to his surface-derived polyhedra.
+For each of Centore's 30 families, we compared calibration-derived polyhedra to his surface-derived polyhedra. Crucially, we use a **calibration subset** of screen color sources (Meodai, ColorHexa, Wikipedia) that excludes XKCD to avoid potential survey-specific biases.
+
+**Calibration procedure**:
+1. Select entries from calibration sources whose names match Centore's 30 family names
+2. Convert RGB coordinates to Munsell using the MunsellSpace library (ASTM D1535 compliant)
+3. Build inner convex hull polyhedra using Centore's exact methodology
+4. Compare calibration polyhedra centroids to Centore's published centroids
 
 **Metrics**:
-- **Centroid shift**: Euclidean distance between centroids in Cartesian Munsell space
-- **Value shift**: Difference in mean value (lightness)
-- **Volume ratio**: Ratio of polyhedron volumes
-- **Vertex count ratio**: Number of vertices (proxy for sample size and distribution)
+- **Value bias**: Difference in centroid z-coordinate (V axis)
+- **Chroma bias**: Difference in centroid radial distance from axis
+- **Hue bias**: Angular difference in centroid position (degrees)
+- **Bias uniformity**: Standard deviation across families to assess global vs. category-dependent effects
 
 ### 3.4 Track D: New Family Identification
 
@@ -203,31 +209,37 @@ Quality assessment used sample size (≥100 for good), spatial coherence (<0.3 f
 
 Comparison of our screen-derived polyhedra with Centore's surface-derived polyhedra reveals systematic differences.
 
-**Table 3: Screen-Surface Comparison Summary**
+**Table 3: Screen-Surface Comparison Summary (Calibration Subset)**
 
 | Metric | Value |
 |--------|-------|
+| Calibration sources | Meodai, ColorHexa, Wikipedia |
 | Centore families compared | 30 |
-| Average centroid shift | 3.21 Munsell units |
-| Maximum centroid shift | 7.44 Munsell units (purple) |
-| Families shifted lighter | 23 (77%) |
-| Families shifted darker | 4 (13%) |
-| Mean value shift | +0.81 |
-| Mean chroma shift | +3.82 |
+| Families with valid hulls | 29 (97%) |
+| Mean value bias | +2.06 (std 0.90) |
+| Mean chroma bias | +0.80 (std 1.90) |
+| Mean hue bias | -31.8° (std 21.0°) |
+| Hue bias uniformity | Non-uniform (category-dependent) |
 
-**Table 4: Top 5 Centroid Shifts**
+**Table 4: Per-Family Bias Analysis (Selected Families)**
 
-| Family | Shift (Munsell units) | Value Δ |
-|--------|----------------------|---------|
-| purple | 7.44 | +1.62 |
-| coral | 6.85 | -0.02 |
-| violet | 6.71 | +1.11 |
-| lilac | 6.50 | -0.09 |
-| lavender | 5.28 | +0.44 |
+| Family | Value Bias | Chroma Bias | Hue Bias |
+|--------|------------|-------------|----------|
+| magenta | +4.19 | -0.88 | -23.7° |
+| fuchsia | +3.98 | -1.84 | -22.8° |
+| orange | +3.02 | +0.66 | -23.0° |
+| purple | +2.88 | +1.00 | -18.5° |
+| gray | +0.34 | +1.29 | -127.8° |
 
-The purple family shows the largest divergence between screen and surface naming. This may reflect (1) the difficulty of reproducing purple hues on sRGB displays, (2) cultural differences between fashion-industry color naming (Centore's CAUS data) and general-population screen color naming (XKCD data), or (3) genuine differences in how people perceive emissive vs. reflective purple.
+**Key observations**:
 
-**Value trends**: 23 families appear lighter on screen (+value), consistent with the emissive nature of displays. Notable exceptions include white (-1.60 value), peach (-1.16), and orange (-0.71), which may reflect ceiling effects (white) or cultural associations (orange/peach as "warm" colors that people name more conservatively on cool-toned screens).
+1. **Value bias is uniformly positive**: All 29 families with valid hulls show positive value bias (screen appears lighter), with magenta (+4.19) and fuchsia (+3.98) showing the largest shifts. This is consistent with the emissive nature of displays.
+
+2. **Chroma bias is variable**: Unlike the uniformly positive value bias, chroma varies by family—some appear more saturated on screen (aqua +4.68, brown +4.11), others less (coral -3.58, fuchsia -1.84).
+
+3. **Hue bias is non-uniform**: The large standard deviation (21.0°) and wide range (-127.8° to +1.0°) confirms that hue shift is category-dependent. Gray shows extreme hue shift (-127.8°) because neutral colors have ill-defined hue; excluding it, hue bias ranges from -57.2° (navy) to +1.0° (rose).
+
+4. **Rust excluded**: Insufficient calibration samples (n=12) prevented hull construction for the rust family.
 
 ### 4.4 Track D: New Candidate Families
 
@@ -301,17 +313,21 @@ Jacobian analysis across color space shows the RGB-to-Munsell transformation has
 
 ### 5.1 Screen-Surface Color Gap
 
-Our results quantify a systematic gap between how people name colors on screens versus physical surfaces. The average centroid shift of 3.21 Munsell units is perceptually significant—roughly equivalent to one or two steps on the Munsell chroma scale.
+Our calibration analysis using non-XKCD sources quantifies a systematic gap between how people name colors on screens versus physical surfaces. The mean value bias of +2.06 Munsell units is perceptually significant—roughly equivalent to two steps on the Munsell value scale. Importantly, this value shift is uniformly positive across all 29 analyzed families: screen colors are consistently perceived as lighter than their surface counterparts.
+
+The hue bias findings are particularly notable. The large standard deviation (21.0°) and wide range confirm that hue shift is category-dependent rather than a simple global rotation. This has implications for any transformation model: a single hue offset is insufficient, and per-family or region-based corrections may be necessary.
 
 This gap has multiple sources:
 
 1. **Physical**: Emissive displays produce colors through additive mixing (R+G+B), while reflective surfaces use subtractive mixing. The sRGB gamut is smaller than the surface color gamut, particularly for saturated blues and greens.
 
-2. **Perceptual**: Screen viewing conditions vary (ambient lighting, monitor calibration), while spectrophotometric measurement is standardized. People may perceive screen colors as more saturated due to the high luminance of displays.
+2. **Perceptual**: Screen viewing conditions vary (ambient lighting, monitor calibration), while spectrophotometric measurement is standardized. The uniformly positive value bias suggests people perceive screen colors as systematically lighter due to the high luminance of emissive displays.
 
-3. **Cultural**: The CAUS database represents fashion-industry professional color naming, while XKCD represents general-population crowdsourced naming. Professional colorists may use terms more precisely.
+3. **Cultural**: The CAUS database represents fashion-industry professional color naming, while Meodai and Wikipedia represent curated web color naming. Professional colorists may use terms more precisely.
 
 4. **Semantic**: Color names carry cultural associations beyond colorimetry. "Navy" evokes military uniforms; "coral" evokes marine biology. These associations may shift the perceived boundaries of categories.
+
+5. **Methodological**: By using non-XKCD sources for calibration, we avoid potential biases in the XKCD survey methodology (single 2010 timepoint, self-selected tech-savvy respondents).
 
 ### 5.2 Implications for Color Naming Research
 
@@ -349,7 +365,7 @@ Several limitations constrain our findings:
 
 ## 6. Conclusions
 
-We have demonstrated that Centore's inner convex hull methodology for defining non-basic color names can be computationally replicated with sub-percentage numerical precision. Applying this methodology to crowdsourced screen color data reveals systematic differences from surface color naming: screen colors appear lighter, more saturated, and shifted in hue relative to spectrophotometer-measured surface colors.
+We have demonstrated that Centore's inner convex hull methodology for defining non-basic color names can be computationally replicated with sub-percentage numerical precision. Applying this methodology to screen color data from independent calibration sources (Meodai, ColorHexa, Wikipedia) reveals systematic differences from surface color naming: screen colors appear uniformly lighter (+2.06 Munsell value on average across all 29 analyzed families), with moderate chroma variation (+0.80 on average, but ranging from -3.6 to +4.7 by family), and substantial category-dependent hue shifts (mean -31.8°, std 21.0°).
 
 Our analysis identifies five candidate color families—indigo, maroon, lime, plum, and aquamarine—that merit consideration for addition to the standard vocabulary of defined color terms. These families fill intuitive gaps in the color space and have sufficient sample support from crowdsourced data.
 
@@ -521,4 +537,4 @@ Aquamarine provides gemstone-based naming for the blue-green region. Its centroi
 
 ---
 
-*End of Paper Draft v1.0*
+*End of Paper Draft v1.1 (Updated with proper Track B Phase 3 calibration methodology)*
