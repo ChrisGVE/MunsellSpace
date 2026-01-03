@@ -1,0 +1,2486 @@
+{
+  "summary": {
+    "total_families": 35,
+    "analyzed_successfully": 35,
+    "statistics": {
+      "sv_ratio": {
+        "mean": 7.42704436641816,
+        "std": 0.8560416525293828,
+        "min": 5.975955809654872,
+        "max": 8.52546946646829,
+        "median": 7.47983994485358
+      },
+      "fractal_dimension": {
+        "mean": 0.3708680724176935,
+        "std": 0.09415579895978897,
+        "min": 0.16808743612934818,
+        "max": 0.5835797100485146,
+        "median": 0.3747597743904869
+      },
+      "outlier_percentage": {
+        "mean": 4.064835012050922,
+        "std": 7.00064623201769,
+        "min": 0.0,
+        "max": 29.41176470588235,
+        "median": 0.0
+      }
+    },
+    "quality_distribution": {
+      "good": 1,
+      "acceptable": 6,
+      "poor": 28
+    }
+  },
+  "polyhedra": [
+    {
+      "family": "aqua",
+      "num_vertices": 39,
+      "surface_to_volume": {
+        "surface_area": 477.5115485712101,
+        "volume": 699.0609267053334,
+        "ratio": 6.062343315408065,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.2535927079347216
+      },
+      "fractal_dimension": {
+        "dimension": 0.3828706565782193,
+        "r_squared": 0.8086146553640272
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 2,
+          "percentage": 5.128205128205129
+        },
+        "iqr": {
+          "num_outliers": 6,
+          "percentage": 15.384615384615385
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 699.0609267053334,
+          "alpha_volume": 0.6195043653333334,
+          "ratio": 0.000886195096403186,
+          "volume_lost": 698.44142234,
+          "percent_lost": 99.91138049035968
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 699.0609267053334,
+          "alpha_volume": 0.050517328000000056,
+          "ratio": 7.226455673626e-05,
+          "volume_lost": 699.0104093773334,
+          "percent_lost": 99.99277354432637
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 699.0609267053334,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 699.0609267053334,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 699.0609267053334,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 699.0609267053334,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "acceptable",
+        "overall": "acceptable",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "aquamarine",
+      "num_vertices": 38,
+      "surface_to_volume": {
+        "surface_area": 480.7869227887653,
+        "volume": 685.603496838,
+        "ratio": 6.183541747062873,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.2786545466051639
+      },
+      "fractal_dimension": {
+        "dimension": 0.3977378823297021,
+        "r_squared": 0.9086511375681482
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 4,
+          "percentage": 10.526315789473685
+        },
+        "iqr": {
+          "num_outliers": 4,
+          "percentage": 10.526315789473685
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 685.603496838,
+          "alpha_volume": 0.4633216686666658,
+          "ratio": 0.0006757866183639715,
+          "volume_lost": 685.1401751693332,
+          "percent_lost": 99.9324213381636
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 685.603496838,
+          "alpha_volume": 0.01296027583333336,
+          "ratio": 1.890345643379313e-05,
+          "volume_lost": 685.5905365621667,
+          "percent_lost": 99.99810965435663
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 685.603496838,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 685.603496838,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 685.603496838,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 685.603496838,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "poor",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": true
+        }
+      }
+    },
+    {
+      "family": "beige",
+      "num_vertices": 38,
+      "surface_to_volume": {
+        "surface_area": 446.5736284371277,
+        "volume": 560.1660312544998,
+        "ratio": 6.571763007539722,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.358932306520555
+      },
+      "fractal_dimension": {
+        "dimension": 0.3534730450760986,
+        "r_squared": 0.8682035549318328
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 4,
+          "percentage": 10.526315789473685
+        },
+        "iqr": {
+          "num_outliers": 5,
+          "percentage": 13.157894736842104
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 560.1660312544998,
+          "alpha_volume": 0.3947750666666667,
+          "ratio": 0.0007047465298503772,
+          "volume_lost": 559.7712561878332,
+          "percent_lost": 99.92952534701496
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 560.1660312544998,
+          "alpha_volume": 0.03705695733333338,
+          "ratio": 6.615352460830908e-05,
+          "volume_lost": 560.1289742971665,
+          "percent_lost": 99.99338464753917
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 560.1660312544998,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 560.1660312544998,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 560.1660312544998,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 560.1660312544998,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "poor",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": true
+        }
+      }
+    },
+    {
+      "family": "blue",
+      "num_vertices": 78,
+      "surface_to_volume": {
+        "surface_area": 803.3497036522142,
+        "volume": 1274.7164167526666,
+        "ratio": 6.833275307481487,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.41300874119046566
+      },
+      "fractal_dimension": {
+        "dimension": 0.5835797100485146,
+        "r_squared": 0.9564991306375887
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 11,
+          "percentage": 14.102564102564102
+        },
+        "iqr": {
+          "num_outliers": 14,
+          "percentage": 17.94871794871795
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 1274.7164167526666,
+          "alpha_volume": 1.6676990510000003,
+          "ratio": 0.0013082902432907037,
+          "volume_lost": 1273.0487177016666,
+          "percent_lost": 99.86917097567093
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 1274.7164167526666,
+          "alpha_volume": 0.10169636466666665,
+          "ratio": 7.97795990779954e-05,
+          "volume_lost": 1274.614720388,
+          "percent_lost": 99.9920220400922
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 1274.7164167526666,
+          "alpha_volume": 0.002505421333333333,
+          "ratio": 1.9654734970118927e-06,
+          "volume_lost": 1274.7139113313333,
+          "percent_lost": 99.9998034526503
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 1274.7164167526666,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 1274.7164167526666,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "poor",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": true
+        }
+      }
+    },
+    {
+      "family": "brown",
+      "num_vertices": 33,
+      "surface_to_volume": {
+        "surface_area": 2040.2410038427772,
+        "volume": 3842.8658912069986,
+        "ratio": 8.315939462238239,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.7195992584241722
+      },
+      "fractal_dimension": {
+        "dimension": 0.24319715611845938,
+        "r_squared": 0.8392352164138264
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 3842.8658912069986,
+          "alpha_volume": 0.009214673000000001,
+          "ratio": 2.397864838605071e-06,
+          "volume_lost": 3842.856676533999,
+          "percent_lost": 99.99976021351614
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 3842.8658912069986,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3842.8658912069986,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 3842.8658912069986,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3842.8658912069986,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 3842.8658912069986,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3842.8658912069986,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "coral",
+      "num_vertices": 60,
+      "surface_to_volume": {
+        "surface_area": 2125.894755492569,
+        "volume": 3991.945338663167,
+        "ratio": 8.447963652018313,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.74689968549808
+      },
+      "fractal_dimension": {
+        "dimension": 0.37337597402897965,
+        "r_squared": 0.9275079624627084
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 3991.945338663167,
+          "alpha_volume": 0.3101225923333335,
+          "ratio": 7.768708387104022e-05,
+          "volume_lost": 3991.635216070834,
+          "percent_lost": 99.9922312916129
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 3991.945338663167,
+          "alpha_volume": 0.003462502833333315,
+          "ratio": 8.673723058775265e-07,
+          "volume_lost": 3991.941876160334,
+          "percent_lost": 99.99991326276941
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 3991.945338663167,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3991.945338663167,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 3991.945338663167,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3991.945338663167,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "fuchsia",
+      "num_vertices": 67,
+      "surface_to_volume": {
+        "surface_area": 2287.0880843140635,
+        "volume": 4437.978501695,
+        "ratio": 8.468882262003442,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.7512253093654777
+      },
+      "fractal_dimension": {
+        "dimension": 0.39586144344221774,
+        "r_squared": 0.8904219841567743
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 4437.978501695,
+          "alpha_volume": 0.4313899193333328,
+          "ratio": 9.720414805267122e-05,
+          "volume_lost": 4437.547111775667,
+          "percent_lost": 99.99027958519473
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 4437.978501695,
+          "alpha_volume": 0.0017541779999998754,
+          "ratio": 3.952650963338153e-07,
+          "volume_lost": 4437.976747517,
+          "percent_lost": 99.99996047349036
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 4437.978501695,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4437.978501695,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 4437.978501695,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4437.978501695,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "gold",
+      "num_vertices": 29,
+      "surface_to_volume": {
+        "surface_area": 485.80893729699443,
+        "volume": 700.8850587268332,
+        "ratio": 6.1569784312451725,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.2731616905798376
+      },
+      "fractal_dimension": {
+        "dimension": 0.2928289692132704,
+        "r_squared": 0.8921924507509476
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 2,
+          "percentage": 6.896551724137931
+        },
+        "iqr": {
+          "num_outliers": 2,
+          "percentage": 6.896551724137931
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 700.8850587268332,
+          "alpha_volume": 0.04558014483333328,
+          "ratio": 6.503226779599241e-05,
+          "volume_lost": 700.8394785819999,
+          "percent_lost": 99.9934967732204
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 700.8850587268332,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 700.8850587268332,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 700.8850587268332,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 700.8850587268332,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 700.8850587268332,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 700.8850587268332,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "acceptable",
+        "overall": "acceptable",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "gray",
+      "num_vertices": 65,
+      "surface_to_volume": {
+        "surface_area": 2244.9327574657195,
+        "volume": 4713.877413692165,
+        "ratio": 7.985175780897498,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.6512027791412289
+      },
+      "fractal_dimension": {
+        "dimension": 0.42040359996730636,
+        "r_squared": 0.9127966785492316
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 4713.877413692165,
+          "alpha_volume": 0.017705842333333336,
+          "ratio": 3.7561100511235313e-06,
+          "volume_lost": 4713.8597078498315,
+          "percent_lost": 99.99962438899489
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 4713.877413692165,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4713.877413692165,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 4713.877413692165,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4713.877413692165,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 4713.877413692165,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4713.877413692165,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "green",
+      "num_vertices": 72,
+      "surface_to_volume": {
+        "surface_area": 688.8916269828569,
+        "volume": 1164.2602397841667,
+        "ratio": 6.224687147603721,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.2871627374811187
+      },
+      "fractal_dimension": {
+        "dimension": 0.3655785721039464,
+        "r_squared": 0.879313772737928
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 1164.2602397841667,
+          "alpha_volume": 2.6458267271666656,
+          "ratio": 0.002272538936532914,
+          "volume_lost": 1161.614413057,
+          "percent_lost": 99.77274610634672
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 1164.2602397841667,
+          "alpha_volume": 0.0042820894999999835,
+          "ratio": 3.677948755506593e-06,
+          "volume_lost": 1164.2559576946667,
+          "percent_lost": 99.99963220512444
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 1164.2602397841667,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 1164.2602397841667,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 1164.2602397841667,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 1164.2602397841667,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "acceptable",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "indigo",
+      "num_vertices": 55,
+      "surface_to_volume": {
+        "surface_area": 783.7443684736995,
+        "volume": 1211.0177699014998,
+        "ratio": 6.898279010804578,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.4264504359667197
+      },
+      "fractal_dimension": {
+        "dimension": 0.44108844611083625,
+        "r_squared": 0.9622676036209253
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 9,
+          "percentage": 16.363636363636363
+        },
+        "iqr": {
+          "num_outliers": 7,
+          "percentage": 12.727272727272727
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 1211.0177699014998,
+          "alpha_volume": 1.7994641605000004,
+          "ratio": 0.0014859106160319702,
+          "volume_lost": 1209.2183057409998,
+          "percent_lost": 99.8514089383968
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 1211.0177699014998,
+          "alpha_volume": 0.016258004333333347,
+          "ratio": 1.3425074955469661e-05,
+          "volume_lost": 1211.0015118971664,
+          "percent_lost": 99.99865749250445
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 1211.0177699014998,
+          "alpha_volume": 0.0015051583333333275,
+          "ratio": 1.2428870746097738e-06,
+          "volume_lost": 1211.0162647431664,
+          "percent_lost": 99.99987571129255
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 1211.0177699014998,
+          "alpha_volume": 5.949616666666723e-05,
+          "ratio": 4.912906164168545e-08,
+          "volume_lost": 1211.0177104053332,
+          "percent_lost": 99.99999508709384
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "poor",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": true
+        }
+      }
+    },
+    {
+      "family": "lavender",
+      "num_vertices": 34,
+      "surface_to_volume": {
+        "surface_area": 600.8686596516619,
+        "volume": 702.6343336538328,
+        "ratio": 7.602562063944618,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.572084566830674
+      },
+      "fractal_dimension": {
+        "dimension": 0.42138817831042075,
+        "r_squared": 0.8996818317398465
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 10,
+          "percentage": 29.41176470588235
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 702.6343336538328,
+          "alpha_volume": 1.3236556144999994,
+          "ratio": 0.0018838470468938479,
+          "volume_lost": 701.3106780393327,
+          "percent_lost": 99.81161529531062
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 702.6343336538328,
+          "alpha_volume": 0.014691791999999999,
+          "ratio": 2.0909584539656458e-05,
+          "volume_lost": 702.6196418618327,
+          "percent_lost": 99.99790904154602
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 702.6343336538328,
+          "alpha_volume": 0.0012064544999999985,
+          "ratio": 1.7170446165450023e-06,
+          "volume_lost": 702.6331271993328,
+          "percent_lost": 99.99982829553834
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 702.6343336538328,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 702.6343336538328,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "poor",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": true
+        }
+      }
+    },
+    {
+      "family": "lilac",
+      "num_vertices": 42,
+      "surface_to_volume": {
+        "surface_area": 625.6330935671748,
+        "volume": 769.4159413166666,
+        "ratio": 7.450960477618377,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.5407358567292699
+      },
+      "fractal_dimension": {
+        "dimension": 0.5321474270288399,
+        "r_squared": 0.9274353784905343
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 769.4159413166666,
+          "alpha_volume": 2.5054594038333327,
+          "ratio": 0.0032563133531466138,
+          "volume_lost": 766.9104819128332,
+          "percent_lost": 99.67436866468535
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 769.4159413166666,
+          "alpha_volume": 0.03508251700000007,
+          "ratio": 4.559629599039104e-05,
+          "volume_lost": 769.3808587996666,
+          "percent_lost": 99.99544037040096
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 769.4159413166666,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 769.4159413166666,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 769.4159413166666,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 769.4159413166666,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "lime",
+      "num_vertices": 39,
+      "surface_to_volume": {
+        "surface_area": 671.7404959974174,
+        "volume": 931.9317885989998,
+        "ratio": 7.040639588848276,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.4558882578200897
+      },
+      "fractal_dimension": {
+        "dimension": 0.3747597743904869,
+        "r_squared": 0.9299664570602979
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 931.9317885989998,
+          "alpha_volume": 1.0668237168333328,
+          "ratio": 0.001144744422161111,
+          "volume_lost": 930.8649648821664,
+          "percent_lost": 99.8855255577839
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 931.9317885989998,
+          "alpha_volume": 0.007171492333333348,
+          "ratio": 7.69529746819181e-06,
+          "volume_lost": 931.9246171066665,
+          "percent_lost": 99.99923047025318
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 931.9317885989998,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 931.9317885989998,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 931.9317885989998,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 931.9317885989998,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "magenta",
+      "num_vertices": 54,
+      "surface_to_volume": {
+        "surface_area": 2099.350436611353,
+        "volume": 4049.9841152674994,
+        "ratio": 8.262587275831512,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.7085669053632924
+      },
+      "fractal_dimension": {
+        "dimension": 0.37426356027983776,
+        "r_squared": 0.9006371983491681
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 4049.9841152674994,
+          "alpha_volume": 0.8289093509999985,
+          "ratio": 0.0002046697783023896,
+          "volume_lost": 4049.155205916499,
+          "percent_lost": 99.97953302216976
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 4049.9841152674994,
+          "alpha_volume": 0.029807287500000054,
+          "ratio": 7.359852940566731e-06,
+          "volume_lost": 4049.9543079799996,
+          "percent_lost": 99.99926401470594
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 4049.9841152674994,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4049.9841152674994,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 4049.9841152674994,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4049.9841152674994,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "maroon",
+      "num_vertices": 53,
+      "surface_to_volume": {
+        "surface_area": 1945.6212306216455,
+        "volume": 3545.003906367999,
+        "ratio": 8.368490958615485,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.730466041979986
+      },
+      "fractal_dimension": {
+        "dimension": 0.2871764475968017,
+        "r_squared": 0.8602343762246484
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 3545.003906367999,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3545.003906367999,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 3545.003906367999,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3545.003906367999,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 3545.003906367999,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3545.003906367999,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 3545.003906367999,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3545.003906367999,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "mauve",
+      "num_vertices": 71,
+      "surface_to_volume": {
+        "surface_area": 2110.6894574092403,
+        "volume": 4022.035016525,
+        "ratio": 8.345655291993287,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.7257440023875303
+      },
+      "fractal_dimension": {
+        "dimension": 0.40890829332915046,
+        "r_squared": 0.9444023258076434
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 4022.035016525,
+          "alpha_volume": 0.3534353970000001,
+          "ratio": 8.787476875459054e-05,
+          "volume_lost": 4021.6815811280003,
+          "percent_lost": 99.99121252312455
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 4022.035016525,
+          "alpha_volume": 0.05999979283333339,
+          "ratio": 1.4917769881867572e-05,
+          "volume_lost": 4021.9750167321668,
+          "percent_lost": 99.99850822301181
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 4022.035016525,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4022.035016525,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 4022.035016525,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4022.035016525,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "navy",
+      "num_vertices": 38,
+      "surface_to_volume": {
+        "surface_area": 626.9739268763333,
+        "volume": 827.5698886008332,
+        "ratio": 7.112894391336275,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.4708293604267346
+      },
+      "fractal_dimension": {
+        "dimension": 0.3068701455231743,
+        "r_squared": 0.9321646673822787
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 4,
+          "percentage": 10.526315789473685
+        },
+        "iqr": {
+          "num_outliers": 4,
+          "percentage": 10.526315789473685
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 827.5698886008332,
+          "alpha_volume": 0.09670876850000007,
+          "ratio": 0.00011685873281772604,
+          "volume_lost": 827.4731798323332,
+          "percent_lost": 99.98831412671822
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 827.5698886008332,
+          "alpha_volume": 0.006401763000000014,
+          "ratio": 7.735616155420337e-06,
+          "volume_lost": 827.5634868378332,
+          "percent_lost": 99.99922643838445
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 827.5698886008332,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 827.5698886008332,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 827.5698886008332,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 827.5698886008332,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "poor",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": true
+        }
+      }
+    },
+    {
+      "family": "orange",
+      "num_vertices": 29,
+      "surface_to_volume": {
+        "surface_area": 637.4944699595518,
+        "volume": 803.6401590446667,
+        "ratio": 7.375112812198418,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.5250518092681715
+      },
+      "fractal_dimension": {
+        "dimension": 0.16808743612934818,
+        "r_squared": 0.913228403382077
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 3,
+          "percentage": 10.344827586206897
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 803.6401590446667,
+          "alpha_volume": 0.0030312686666666678,
+          "ratio": 3.7719228345558432e-06,
+          "volume_lost": 803.637127776,
+          "percent_lost": 99.99962280771655
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 803.6401590446667,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 803.6401590446667,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 803.6401590446667,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 803.6401590446667,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 803.6401590446667,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 803.6401590446667,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "poor",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": true
+        }
+      }
+    },
+    {
+      "family": "peach",
+      "num_vertices": 39,
+      "surface_to_volume": {
+        "surface_area": 653.331507866249,
+        "volume": 869.8481050005,
+        "ratio": 7.169760611251953,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.48258835771626835
+      },
+      "fractal_dimension": {
+        "dimension": 0.4228181988560064,
+        "r_squared": 0.8637690326641241
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 869.8481050005,
+          "alpha_volume": 1.2614696515000001,
+          "ratio": 0.00145021831311488,
+          "volume_lost": 868.5866353490001,
+          "percent_lost": 99.85497816868852
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 869.8481050005,
+          "alpha_volume": 0.013842888666666678,
+          "ratio": 1.5914144765146922e-05,
+          "volume_lost": 869.8342621118334,
+          "percent_lost": 99.99840858552349
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 869.8481050005,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 869.8481050005,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 869.8481050005,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 869.8481050005,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "pink",
+      "num_vertices": 73,
+      "surface_to_volume": {
+        "surface_area": 1964.0833020075474,
+        "volume": 3562.538240984835,
+        "ratio": 8.420157469541882,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.7411498251265367
+      },
+      "fractal_dimension": {
+        "dimension": 0.531399557245921,
+        "r_squared": 0.9284127017936696
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 3562.538240984835,
+          "alpha_volume": 0.8996178828333334,
+          "ratio": 0.0002525216073427022,
+          "volume_lost": 3561.6386231020015,
+          "percent_lost": 99.97474783926573
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 3562.538240984835,
+          "alpha_volume": 0.03328839216666709,
+          "ratio": 9.344009780359518e-06,
+          "volume_lost": 3562.5049525926684,
+          "percent_lost": 99.99906559902196
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 3562.538240984835,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3562.538240984835,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 3562.538240984835,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3562.538240984835,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "plum",
+      "num_vertices": 42,
+      "surface_to_volume": {
+        "surface_area": 537.2992496937693,
+        "volume": 596.9542356879996,
+        "ratio": 7.578598078013757,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.5671292093965897
+      },
+      "fractal_dimension": {
+        "dimension": 0.31170748746977445,
+        "r_squared": 0.8854720509429546
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 596.9542356879996,
+          "alpha_volume": 0.4544587324999999,
+          "ratio": 0.0007612957666281214,
+          "volume_lost": 596.4997769554996,
+          "percent_lost": 99.92387042333719
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 596.9542356879996,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 596.9542356879996,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 596.9542356879996,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 596.9542356879996,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 596.9542356879996,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 596.9542356879996,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "purple",
+      "num_vertices": 51,
+      "surface_to_volume": {
+        "surface_area": 675.8317667388504,
+        "volume": 858.854202235167,
+        "ratio": 7.47983994485358,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.5467076547043329
+      },
+      "fractal_dimension": {
+        "dimension": 0.45523558842248363,
+        "r_squared": 0.8795146670328354
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 858.854202235167,
+          "alpha_volume": 3.861135620500002,
+          "ratio": 0.004495682282803532,
+          "volume_lost": 854.993066614667,
+          "percent_lost": 99.55043177171964
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 858.854202235167,
+          "alpha_volume": 0.009794876333333336,
+          "ratio": 1.1404585676872957e-05,
+          "volume_lost": 858.8444073588337,
+          "percent_lost": 99.99885954143231
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 858.854202235167,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 858.854202235167,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 858.854202235167,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 858.854202235167,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "red",
+      "num_vertices": 48,
+      "surface_to_volume": {
+        "surface_area": 2122.3953469298413,
+        "volume": 4009.300466383832,
+        "ratio": 8.409700872348596,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.738987573121112
+      },
+      "fractal_dimension": {
+        "dimension": 0.38407267744905016,
+        "r_squared": 0.9063395044444396
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 4009.300466383832,
+          "alpha_volume": 0.31621019333333295,
+          "ratio": 7.886916832116031e-05,
+          "volume_lost": 4008.9842561904984,
+          "percent_lost": 99.9921130831679
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 4009.300466383832,
+          "alpha_volume": 0.07210347850000001,
+          "ratio": 1.7984054601184176e-05,
+          "volume_lost": 4009.228362905332,
+          "percent_lost": 99.99820159453988
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 4009.300466383832,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4009.300466383832,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 4009.300466383832,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4009.300466383832,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "rose",
+      "num_vertices": 56,
+      "surface_to_volume": {
+        "surface_area": 2227.940760656232,
+        "volume": 4224.526158334502,
+        "ratio": 8.52546946646829,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.7629266108571388
+      },
+      "fractal_dimension": {
+        "dimension": 0.39987643368973164,
+        "r_squared": 0.8916119466700605
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 4224.526158334502,
+          "alpha_volume": 0.14101098000000087,
+          "ratio": 3.3379123412883245e-05,
+          "volume_lost": 4224.385147354502,
+          "percent_lost": 99.99666208765872
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 4224.526158334502,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4224.526158334502,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 4224.526158334502,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4224.526158334502,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 4224.526158334502,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4224.526158334502,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "rust",
+      "num_vertices": 43,
+      "surface_to_volume": {
+        "surface_area": 2116.232593841558,
+        "volume": 4043.305682102333,
+        "ratio": 8.338200775375046,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.7242025311795152
+      },
+      "fractal_dimension": {
+        "dimension": 0.2777502032772769,
+        "r_squared": 0.7755466247784327
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 4043.305682102333,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4043.305682102333,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 4043.305682102333,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4043.305682102333,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 4043.305682102333,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4043.305682102333,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 4043.305682102333,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4043.305682102333,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "sand",
+      "num_vertices": 37,
+      "surface_to_volume": {
+        "surface_area": 650.7012208556447,
+        "volume": 985.9865997515008,
+        "ratio": 6.568521309086837,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.3582619766942101
+      },
+      "fractal_dimension": {
+        "dimension": 0.27404387456613954,
+        "r_squared": 0.8441615600342258
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 7,
+          "percentage": 18.91891891891892
+        },
+        "iqr": {
+          "num_outliers": 4,
+          "percentage": 10.81081081081081
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 985.9865997515008,
+          "alpha_volume": 0.37626568250000114,
+          "ratio": 0.00038161338358435275,
+          "volume_lost": 985.6103340690007,
+          "percent_lost": 99.96183866164156
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 985.9865997515008,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 985.9865997515008,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 985.9865997515008,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 985.9865997515008,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 985.9865997515008,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 985.9865997515008,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "poor",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": true
+        }
+      }
+    },
+    {
+      "family": "tan",
+      "num_vertices": 31,
+      "surface_to_volume": {
+        "surface_area": 545.124465331902,
+        "volume": 760.4531125236668,
+        "ratio": 6.543057133174721,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.3529964046907469
+      },
+      "fractal_dimension": {
+        "dimension": 0.22450560444940648,
+        "r_squared": 0.8029418094781636
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 760.4531125236668,
+          "alpha_volume": 0.3914520546666669,
+          "ratio": 0.0005147615917667561,
+          "volume_lost": 760.0616604690002,
+          "percent_lost": 99.94852384082333
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 760.4531125236668,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 760.4531125236668,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 760.4531125236668,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 760.4531125236668,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 760.4531125236668,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 760.4531125236668,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "acceptable",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "taupe",
+      "num_vertices": 54,
+      "surface_to_volume": {
+        "surface_area": 2118.2052111067874,
+        "volume": 4029.8673060860006,
+        "ratio": 8.364516998320635,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.7296442924702569
+      },
+      "fractal_dimension": {
+        "dimension": 0.30887881743866347,
+        "r_squared": 0.9106749449282855
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 4029.8673060860006,
+          "alpha_volume": 0.031172189999999877,
+          "ratio": 7.735289435690079e-06,
+          "volume_lost": 4029.836133896001,
+          "percent_lost": 99.99922647105643
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 4029.8673060860006,
+          "alpha_volume": 0.023679418333333337,
+          "ratio": 5.8759796625492164e-06,
+          "volume_lost": 4029.843626667667,
+          "percent_lost": 99.99941240203376
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 4029.8673060860006,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4029.8673060860006,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 4029.8673060860006,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4029.8673060860006,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "teal",
+      "num_vertices": 33,
+      "surface_to_volume": {
+        "surface_area": 306.7384781983995,
+        "volume": 367.7403811715,
+        "ratio": 5.975955809654872,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.23572919515846066
+      },
+      "fractal_dimension": {
+        "dimension": 0.21514376146227693,
+        "r_squared": 0.8666275584958544
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 3,
+          "percentage": 9.090909090909092
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 367.7403811715,
+          "alpha_volume": 0.7452354005,
+          "ratio": 0.002026525882542257,
+          "volume_lost": 366.995145771,
+          "percent_lost": 99.79734741174578
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 367.7403811715,
+          "alpha_volume": 0.0069004800000000074,
+          "ratio": 1.876454246883996e-05,
+          "volume_lost": 367.7334806915,
+          "percent_lost": 99.99812354575312
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 367.7403811715,
+          "alpha_volume": 0.0069004800000000074,
+          "ratio": 1.876454246883996e-05,
+          "volume_lost": 367.7334806915,
+          "percent_lost": 99.99812354575312
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 367.7403811715,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 367.7403811715,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "good",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "good",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "turquoise",
+      "num_vertices": 33,
+      "surface_to_volume": {
+        "surface_area": 311.6072441670265,
+        "volume": 370.5785139224999,
+        "ratio": 6.039774468182954,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.24892584219718003
+      },
+      "fractal_dimension": {
+        "dimension": 0.31027649280747965,
+        "r_squared": 0.9808347451011404
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 370.5785139224999,
+          "alpha_volume": 0.07506742449999998,
+          "ratio": 0.00020256820533232273,
+          "volume_lost": 370.5034464979999,
+          "percent_lost": 99.97974317946677
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 370.5785139224999,
+          "alpha_volume": 0.07506742449999998,
+          "ratio": 0.00020256820533232273,
+          "volume_lost": 370.5034464979999,
+          "percent_lost": 99.97974317946677
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 370.5785139224999,
+          "alpha_volume": 0.017903402833333387,
+          "ratio": 4.8312036884787055e-05,
+          "volume_lost": 370.56061051966657,
+          "percent_lost": 99.99516879631152
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 370.5785139224999,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 370.5785139224999,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "acceptable",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "violet",
+      "num_vertices": 42,
+      "surface_to_volume": {
+        "surface_area": 641.4789879294551,
+        "volume": 785.8953215368335,
+        "ratio": 7.532502764448587,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.5575974580672984
+      },
+      "fractal_dimension": {
+        "dimension": 0.5645099307959279,
+        "r_squared": 0.9127261955795051
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 4,
+          "percentage": 9.523809523809524
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 785.8953215368335,
+          "alpha_volume": 2.065275928333334,
+          "ratio": 0.0026279275009484047,
+          "volume_lost": 783.8300456085002,
+          "percent_lost": 99.73720724990515
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 785.8953215368335,
+          "alpha_volume": 0.07841773666666667,
+          "ratio": 9.97814015654391e-05,
+          "volume_lost": 785.8169038001669,
+          "percent_lost": 99.99002185984345
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 785.8953215368335,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 785.8953215368335,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 785.8953215368335,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 785.8953215368335,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "acceptable",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "white",
+      "num_vertices": 66,
+      "surface_to_volume": {
+        "surface_area": 2186.6805476895165,
+        "volume": 4527.941710724997,
+        "ratio": 7.989472813348546,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.6520913346495754
+      },
+      "fractal_dimension": {
+        "dimension": 0.4136345344530331,
+        "r_squared": 0.909769637920635
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 4527.941710724997,
+          "alpha_volume": 0.060254275833333266,
+          "ratio": 1.3307211020542394e-05,
+          "volume_lost": 4527.881456449164,
+          "percent_lost": 99.99866927889795
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 4527.941710724997,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4527.941710724997,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 4527.941710724997,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4527.941710724997,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 4527.941710724997,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 4527.941710724997,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "wine",
+      "num_vertices": 51,
+      "surface_to_volume": {
+        "surface_area": 2083.066636078743,
+        "volume": 3949.0746822226656,
+        "ratio": 8.337572020349269,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.7240725150002286
+      },
+      "fractal_dimension": {
+        "dimension": 0.36932250938252376,
+        "r_squared": 0.8431457642206845
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 3949.0746822226656,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3949.0746822226656,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 3949.0746822226656,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3949.0746822226656,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 3949.0746822226656,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3949.0746822226656,
+          "percent_lost": 100.0
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 3949.0746822226656,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 3949.0746822226656,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "poor",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "poor",
+        "flags": {
+          "high_roughness": true,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    },
+    {
+      "family": "yellow",
+      "num_vertices": 29,
+      "surface_to_volume": {
+        "surface_area": 371.14260576019217,
+        "volume": 388.92169557633315,
+        "ratio": 6.965720305526715,
+        "sphere_ratio": 4.835975254989877,
+        "excess_roughness": 0.44039618447991763
+      },
+      "fractal_dimension": {
+        "dimension": 0.3936101452479655,
+        "r_squared": 0.9362270255813163
+      },
+      "outliers": {
+        "mad": {
+          "num_outliers": 0,
+          "percentage": 0.0
+        },
+        "iqr": {
+          "num_outliers": 4,
+          "percentage": 13.793103448275861
+        }
+      },
+      "alpha_shapes": [
+        {
+          "alpha": 0.5,
+          "hull_volume": 388.92169557633315,
+          "alpha_volume": 0.39294907,
+          "ratio": 0.001010355232092925,
+          "volume_lost": 388.52874650633316,
+          "percent_lost": 99.89896447679071
+        },
+        {
+          "alpha": 1.0,
+          "hull_volume": 388.92169557633315,
+          "alpha_volume": 0.026139515999999904,
+          "ratio": 6.7210228427253e-05,
+          "volume_lost": 388.89555606033315,
+          "percent_lost": 99.99327897715727
+        },
+        {
+          "alpha": 2.0,
+          "hull_volume": 388.92169557633315,
+          "alpha_volume": 0.005233740999999958,
+          "ratio": 1.3457055904901912e-05,
+          "volume_lost": 388.91646183533317,
+          "percent_lost": 99.9986542944095
+        },
+        {
+          "alpha": 5.0,
+          "hull_volume": 388.92169557633315,
+          "alpha_volume": 0.0,
+          "ratio": 0.0,
+          "volume_lost": 388.92169557633315,
+          "percent_lost": 100.0
+        }
+      ],
+      "quality_assessment": {
+        "sv_ratio": "acceptable",
+        "fractal_dimension": "good",
+        "outliers": "good",
+        "overall": "acceptable",
+        "flags": {
+          "high_roughness": false,
+          "high_fractal_dimension": false,
+          "high_outlier_rate": false
+        }
+      }
+    }
+  ]
+}
