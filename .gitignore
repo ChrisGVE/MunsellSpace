@@ -171,13 +171,52 @@ more_non-basic_surface_colour_names/literature/*.pdf
 # Scratchpad folder
 tmp/
 
-# Research data files (local only, download from sources documented in SOURCES.md)
-more_non-basic_surface_colour_names/datasets/centore/
-more_non-basic_surface_colour_names/datasets/collected/
-more_non-basic_surface_colour_names/datasets/xkcd/
-# Generated/processed data (can be regenerated from scripts)
-more_non-basic_surface_colour_names/datasets/normalized/
-more_non-basic_surface_colour_names/datasets/aggregated/
-more_non-basic_surface_colour_names/datasets/consolidated/
-more_non-basic_surface_colour_names/datasets/screen_polyhedra/
-more_non-basic_surface_colour_names/datasets/transformation_analysis/figures/
+# =============================================================================
+# RESEARCH DATA - NEVER TRACK IN GIT
+# =============================================================================
+# All research datasets are excluded to:
+# 1. Protect potentially proprietary/licensed data (CAUS, inkswatches, colornaming.net)
+# 2. Keep repository size manageable
+# 3. Ensure proper data governance
+#
+# Data sources are documented in:
+#   more_non-basic_surface_colour_names/datasets/SOURCES.md
+#   more_non-basic_surface_colour_names/datasets/surface_colors/SOURCES.md
+#
+# To regenerate processed data, run scripts documented in:
+#   more_non-basic_surface_colour_names/scripts/README.md
+# =============================================================================
+
+# Exclude ALL datasets - single authoritative location for research data
+more_non-basic_surface_colour_names/datasets/
+
+# Also exclude any data that might be copied elsewhere
+*.csv
+*.json
+!Cargo.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!.claude/**/*.json
+!.taskmaster/**/*.json
+!.specstory/**/*.json
+
+# Exclude large binary data
+*.pkl
+*.pickle
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.parquet
+
+# Research literature (PDFs)
+more_non-basic_surface_colour_names/literature/*.pdf
+
+# Generated figures and visualizations
+more_non-basic_surface_colour_names/**/*.png
+more_non-basic_surface_colour_names/**/*.svg
+more_non-basic_surface_colour_names/**/*.pdf
+
+# Model files
+more_non-basic_surface_colour_names/models/
