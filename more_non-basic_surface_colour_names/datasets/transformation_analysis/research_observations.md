@@ -267,3 +267,42 @@ Trimmed mean and median optimizations produce transformations that catastrophica
 - Sum is mathematically equivalent for optimization
 - Minimax trades too much overall performance for modest worst-case improvement
 - Trimmed/median methods are unstable and produce extreme outlier losses
+
+---
+
+## 2026-01-03: Phase 5.2 Jacobian Analysis (Task 98)
+
+### RGB↔Munsell Volume Distortion
+
+Computed Jacobian determinant |det(J)| across 15³ = 3375 sample points in RGB space.
+
+### Key Findings
+
+| Statistic | Value |
+|-----------|-------|
+| Mean |det(J)| | 2054.70 |
+| Std Dev | 32.83 |
+| CV (std/mean) | 0.02 |
+| Range | [2052.5, 2546.1] |
+
+**Critical insight**: CV = 0.02 indicates highly uniform volume mapping across color space.
+
+### Volume Expansion by Region
+
+| Property | Mean |det(J)| | Std Dev |
+|----------|----------------|---------|
+| Low Value (0-3) | 2083.36 | 119.48 |
+| Mid Value (3-5) | 2056.91 | 46.43 |
+| High Value (7-10) | 2053.47 | 21.81 |
+| Low Chroma (0-4) | 2062.58 | 69.79 |
+| High Chroma (4+) | 2052.51 | 0.00 |
+
+### Implications
+
+1. **No position-dependent correction needed**: The transformation is uniformly expansive (~2000x)
+2. **Dark colors more variable**: Low-value colors show slightly higher distortion variance
+3. **High chroma is stable**: Colors with chroma > 4 have essentially zero variance
+4. **Volume matching simplified**: A single global scaling factor may suffice
+
+This addresses Open Question #1 from Phase 4: "Does dV in RGB map to same perceptual volume everywhere in Munsell?"
+Answer: **Yes**, with CV = 0.02, volume mapping is essentially uniform.
