@@ -187,7 +187,7 @@ impl ColorClassifier {
     /// println!("ISCC-NBS: {} ({})", char.iscc_base_color, char.iscc_nbs_number);
     ///
     /// // Format with options
-    /// let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::WhenMatching);
+    /// let opts = FormatOptions::new(BaseColorSet::Extended, OverlayMode::Include);
     /// println!("{}", char.describe(&opts));
     /// # Ok(())
     /// # }
