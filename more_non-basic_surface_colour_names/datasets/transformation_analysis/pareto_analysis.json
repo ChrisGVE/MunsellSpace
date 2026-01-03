@@ -1,0 +1,211 @@
+{
+  "all_points": [
+    {
+      "name": "centroid_only",
+      "weights": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "centroid": 2.9293626495272605e-16,
+      "volume": 0.3566401254593527,
+      "shape": 0.1698845047361021,
+      "combined": 0.15795738905863654,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "volume_only",
+      "weights": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "centroid": 4.132699800151969e-10,
+      "volume": 8.029439150606757e-09,
+      "shape": 0.17997691201496707,
+      "combined": 0.05399307617862985,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "shape_only",
+      "weights": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "centroid": 0.25569466972633537,
+      "volume": 0.5540072087897133,
+      "shape": 0.13043859296040275,
+      "combined": 0.307611608415569,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "centroid_volume",
+      "weights": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "centroid": 0.005434197178166889,
+      "volume": 6.171109544008045e-09,
+      "shape": 0.17987080710646505,
+      "combined": 0.05613492285453912,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "centroid_shape",
+      "weights": [
+        0.5,
+        0.0,
+        0.5
+      ],
+      "centroid": 2.9293626495272605e-16,
+      "volume": 0.3566401254593527,
+      "shape": 0.1698845047361021,
+      "combined": 0.15795738905863654,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "volume_shape",
+      "weights": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "centroid": 0.06923675880412011,
+      "volume": 7.270894272902781e-09,
+      "shape": 0.17071627049587765,
+      "combined": 0.07890958685167962,
+      "is_pareto_optimal": true
+    }
+  ],
+  "pareto_optimal": [
+    {
+      "name": "centroid_only",
+      "weights": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "centroid": 2.9293626495272605e-16,
+      "volume": 0.3566401254593527,
+      "shape": 0.1698845047361021,
+      "combined": 0.15795738905863654,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "volume_only",
+      "weights": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "centroid": 4.132699800151969e-10,
+      "volume": 8.029439150606757e-09,
+      "shape": 0.17997691201496707,
+      "combined": 0.05399307617862985,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "shape_only",
+      "weights": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "centroid": 0.25569466972633537,
+      "volume": 0.5540072087897133,
+      "shape": 0.13043859296040275,
+      "combined": 0.307611608415569,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "centroid_volume",
+      "weights": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "centroid": 0.005434197178166889,
+      "volume": 6.171109544008045e-09,
+      "shape": 0.17987080710646505,
+      "combined": 0.05613492285453912,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "centroid_shape",
+      "weights": [
+        0.5,
+        0.0,
+        0.5
+      ],
+      "centroid": 2.9293626495272605e-16,
+      "volume": 0.3566401254593527,
+      "shape": 0.1698845047361021,
+      "combined": 0.15795738905863654,
+      "is_pareto_optimal": true
+    },
+    {
+      "name": "volume_shape",
+      "weights": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "centroid": 0.06923675880412011,
+      "volume": 7.270894272902781e-09,
+      "shape": 0.17071627049587765,
+      "combined": 0.07890958685167962,
+      "is_pareto_optimal": true
+    }
+  ],
+  "analysis": {
+    "n_total_points": 6,
+    "n_pareto_optimal": 6,
+    "pareto_fraction": 1.0,
+    "extreme_points": {
+      "best_centroid": {
+        "name": "centroid_only",
+        "centroid": 2.9293626495272605e-16,
+        "volume": 0.3566401254593527,
+        "shape": 0.1698845047361021,
+        "combined": 0.15795738905863654
+      },
+      "best_volume": {
+        "name": "centroid_volume",
+        "centroid": 0.005434197178166889,
+        "volume": 6.171109544008045e-09,
+        "shape": 0.17987080710646505,
+        "combined": 0.05613492285453912
+      },
+      "best_shape": {
+        "name": "shape_only",
+        "centroid": 0.25569466972633537,
+        "volume": 0.5540072087897133,
+        "shape": 0.13043859296040275,
+        "combined": 0.307611608415569
+      },
+      "best_combined": {
+        "name": "volume_only",
+        "centroid": 4.132699800151969e-10,
+        "volume": 8.029439150606757e-09,
+        "shape": 0.17997691201496707,
+        "combined": 0.05399307617862985
+      }
+    },
+    "trade_off_ranges": {
+      "centroid": [
+        2.9293626495272605e-16,
+        0.25569466972633537
+      ],
+      "volume": [
+        6.171109544008045e-09,
+        0.5540072087897133
+      ],
+      "shape": [
+        0.13043859296040275,
+        0.17997691201496707
+      ]
+    }
+  }
+}

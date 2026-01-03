@@ -138,3 +138,41 @@ When optimizing volume+shape, centroid degrades to 0.0692
 | Shape-only | 0.308 | 7 |
 
 **Conclusion**: Volume matching alone achieves near-optimal results. The current weighted combination (0.4/0.3/0.3) appears to work primarily because it includes volume.
+
+### [EXP-019] 2026-01-03 16:33
+Best combined strategy: volume_only with loss 0.0540
+
+---
+
+## 2026-01-03: Pareto Frontier Analysis
+
+### Key Insight: All 6 Strategies are Pareto-Optimal
+
+None of the tested strategies dominates another in all three objectives:
+- Each makes a unique trade-off in the objective space
+- This reflects genuine multi-objective tension
+
+### Critical Observation: Shape is Fundamentally Limited
+
+| Objective | Min Achievable | Max Achievable | Range |
+|-----------|----------------|----------------|-------|
+| Centroid | 0.000 | 0.256 | 0.256 |
+| Volume | 0.000 | 0.554 | 0.554 |
+| **Shape** | **0.130** | **0.180** | **0.050** |
+
+**Shape varies only 0.05 across ALL strategies** (from 0.13 to 0.18).
+
+This means:
+- Shape preservation is inherently limited by the transformation approach
+- No weight combination can significantly improve shape below ~0.13
+- Shape is NOT the bottleneck to optimization
+
+### Recommended Strategy
+
+**Volume-only optimization** achieves:
+- Centroid: 0.000 (perfect)
+- Volume: 0.000 (perfect)
+- Shape: 0.180 (near the achievable minimum of 0.130)
+- Combined: 0.054 (best overall)
+
+This is only 38% worse on shape than the absolute best (0.180 vs 0.130) but achieves perfect centroid and volume alignment.
