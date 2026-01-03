@@ -306,3 +306,38 @@ Computed Jacobian determinant |det(J)| across 15³ = 3375 sample points in RGB s
 
 This addresses Open Question #1 from Phase 4: "Does dV in RGB map to same perceptual volume everywhere in Munsell?"
 Answer: **Yes**, with CV = 0.02, volume mapping is essentially uniform.
+
+---
+
+## 2026-01-03: Per-Family Volume Ratios (Task 99)
+
+### Monte Carlo Analysis Within Each Polyhedron
+
+Sampled 500 points within each of 35 color family polyhedra to verify uniform Jacobian.
+
+### Key Results
+
+| Metric | Value |
+|--------|-------|
+| Families analyzed | 35 |
+| Correction factor (all families) | 0.9989 |
+| Correction factor std | 0.0000 |
+| Per-family CV | 0.0000 |
+| Max deviation from global | 0.11% |
+
+### Critical Finding
+
+**All 35 families have identical Jacobian behavior.**
+
+- Every family shows correction factor = 0.9989 (± 0.0000)
+- Per-family CV = 0.0000 (perfect uniformity within hulls)
+- Maximum deviation from global mean: only 0.11%
+
+### Recommendation
+
+**No per-family volume correction needed.**
+
+The RGB→Munsell volume transformation is remarkably uniform:
+- Use global scaling factor (≈2052.5)
+- No position-dependent corrections required
+- Volume matching in loss function needs no family-specific adjustments
