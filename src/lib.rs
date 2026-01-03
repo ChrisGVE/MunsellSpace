@@ -192,8 +192,8 @@
 //! ```
 //!
 //! **`BaseColorSet`**: Controls which ISCC-NBS names to use
-//! - `Standard`: 13 basic colors with modifiers ("dark blue", "vivid red")
-//! - `Extended`: Alternate names with modifiers ("dark navy", "vivid coral")
+//! - `Standard`: 29 official ISCC-NBS base names ("vivid yellow green", "dark greenish blue")
+//! - `Extended`: Uses lime/teal/turquoise for compound names ("vivid lime", "dark teal")
 //!
 //! **`OverlayMode`**: Controls semantic overlay behavior
 //! - `Ignore`: Always use ISCC-NBS base colors

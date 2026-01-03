@@ -77,6 +77,62 @@ The Inter-Society Color Council - National Bureau of Standards (ISCC-NBS) system
 - Descriptive name (e.g., "vivid red", "light grayish blue")
 - Polygonal region in Munsell color space
 
+### Color Vocabulary Reference
+
+The library supports three color naming systems, each with increasing specificity:
+
+#### Standard ISCC-NBS Base Colors (29 names)
+
+These are the official ISCC-NBS color name components, organized by hue progression:
+
+| Hue Region | Base Colors |
+|------------|-------------|
+| R (Red) | pink, red, yellowish pink, purplish pink, purplish red |
+| YR (Yellow-Red) | reddish orange, reddish brown, orange, brown, orange yellow, yellowish brown |
+| Y (Yellow) | yellow, greenish yellow, olive brown |
+| GY (Green-Yellow) | olive, yellow green, olive green |
+| G (Green) | yellowish green, green |
+| BG (Blue-Green) | bluish green |
+| B (Blue) | greenish blue, blue |
+| PB (Purple-Blue) | purplish blue, violet |
+| P (Purple) | purple, reddish purple |
+| Neutral | white, gray, black |
+
+#### Extended Color Names (MunsellSpace additions)
+
+These provide more recognizable alternatives for compound ISCC-NBS names:
+
+| Extended Name | Replaces | Hue Family |
+|---------------|----------|------------|
+| **lime** | yellow green | GY |
+| **teal** | greenish blue | BG-B |
+| **turquoise** | bluish green | BG |
+
+Use `BaseColorSet::Extended` to get these names instead of the compound forms.
+
+#### Semantic Overlays (Centore 2020)
+
+30 color names derived from fabric samples, providing natural language color terms.
+Sorted by hue progression:
+
+| Category | Colors (by hue) |
+|----------|-----------------|
+| **Basic (10)** | red, orange, yellow, green, blue, purple, pink, brown, gray, white |
+| **Non-basic (20)** | wine, rust, coral, peach, tan, beige, gold, sand, taupe, teal, aqua, turquoise, navy, lavender, violet, magenta, fuchsia, mauve, lilac, rose |
+
+#### Color Modifiers
+
+Modifiers combine with base colors to form the 267 ISCC-NBS categories:
+
+| Type | Modifiers |
+|------|-----------|
+| **Saturation** | vivid, brilliant, strong, deep, very deep |
+| **Lightness** | light, very light, moderate, dark, very dark |
+| **Desaturation** | pale, very pale, grayish, dark grayish, blackish, brownish |
+| **Compound** | {color}ish white, {color}ish gray, {color}ish black, light {color}ish gray, dark {color}ish gray |
+
+Example outputs: "vivid red", "pale yellow", "dark grayish blue", "pinkish white"
+
 ## 🔬 Technical Details
 
 ### Mathematical Conversion Pipeline
