@@ -87,3 +87,54 @@ Munsell Cartesian domain test. Establishes baseline for domain comparison.
 
 ### [EXP-010] 2026-01-03 14:36
 Translation+Scaling in Munsell domain. Confirms best performance at 0.0535 mean loss.
+
+### [EXP-013] 2026-01-03 14:42
+When optimizing centroid only, combined loss is 0.1580
+
+### [EXP-014] 2026-01-03 14:42
+When optimizing volume only, combined loss is 0.0540
+
+### [EXP-015] 2026-01-03 14:42
+When optimizing shape only, combined loss is 0.3076
+
+### [EXP-016] 2026-01-03 14:51
+When optimizing centroid+volume, shape degrades to 0.1799
+
+### [EXP-017] 2026-01-03 14:51
+When optimizing centroid+shape, volume degrades to 0.3566
+
+### [EXP-018] 2026-01-03 14:51
+When optimizing volume+shape, centroid degrades to 0.0692
+
+---
+
+## 2026-01-03: Phase 5.1 Loss Function Analysis
+
+### Single-Component Optimization (EXP-013 to EXP-015)
+
+- **Volume-only achieves 0.054 combined loss** - nearly identical to full combined (0.0535)!
+- Centroid-only: combined = 0.158 (poor)
+- Shape-only: combined = 0.308 (worst)
+- **Key insight**: Volume matching is the dominant objective
+
+### Pairwise Component Analysis (EXP-016 to EXP-018)
+
+- Centroid+Volume: combined = 0.056, shape = 0.180 (acceptable)
+- Centroid+Shape: combined = 0.158, volume = 0.357 (degraded)
+- Volume+Shape: combined = 0.079, centroid = 0.069 (acceptable)
+
+**Critical finding**: Volume-only (0.054) still outperforms best pairwise (0.056)
+
+### Trade-off Summary
+
+| Strategy | Combined Loss | Rank |
+|----------|--------------|------|
+| Volume-only | 0.054 | 1 |
+| Combined (full) | 0.054 | 2 |
+| Centroid+Volume | 0.056 | 3 |
+| Volume+Shape | 0.079 | 4 |
+| Centroid-only | 0.158 | 5 |
+| Centroid+Shape | 0.158 | 6 |
+| Shape-only | 0.308 | 7 |
+
+**Conclusion**: Volume matching alone achieves near-optimal results. The current weighted combination (0.4/0.3/0.3) appears to work primarily because it includes volume.
