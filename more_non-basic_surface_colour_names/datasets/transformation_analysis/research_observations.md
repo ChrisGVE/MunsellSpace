@@ -176,3 +176,46 @@ This means:
 - Combined: 0.054 (best overall)
 
 This is only 38% worse on shape than the absolute best (0.180 vs 0.130) but achieves perfect centroid and volume alignment.
+
+---
+
+## 2026-01-03: Alternative Loss Metrics Comparison (EXP-020)
+
+### Metrics Evaluated
+
+| Metric | Mean | Description |
+|--------|------|-------------|
+| Chamfer | 0.282 | Symmetric nearest-neighbor (KDTree) |
+| EMD | 0.389 | Earth Mover's Distance (1D Wasserstein) |
+| Spectral | 0.207 | Eigenvalue spectrum L2 distance |
+| IoU | 0.913 | 1 - Jaccard index (Monte Carlo) |
+
+### Critical Finding: Hausdorff ≈ Chamfer (r = 0.99)
+
+The correlation between Hausdorff distance and Chamfer distance is 0.99, making them essentially interchangeable. Chamfer is computationally more efficient (O(n log n) vs O(n²)).
+
+### Metric Correlation Structure
+
+**Shape metrics cluster together:**
+- Hausdorff ↔ Chamfer: r = 0.99
+- Hausdorff ↔ EMD: r = 0.91
+- Chamfer ↔ EMD: r = 0.91
+
+**Spectral captures different information:**
+- Spectral ↔ Hausdorff: r = -0.31
+- Spectral ↔ Chamfer: r = -0.33
+- Spectral ↔ EMD: r = -0.32
+
+The negative correlations suggest spectral loss captures covariance structure (orientation, spread) that is independent of surface-to-surface distance.
+
+### IoU Analysis
+
+Mean IoU loss = 0.913 (meaning average Jaccard overlap is only 8.7%).
+
+This confirms that screen and surface polyhedra have very little spatial overlap without transformation - they are in different regions of color space.
+
+### Recommendations
+
+1. **Replace Hausdorff with Chamfer** for efficiency (same information, faster computation)
+2. **Add spectral loss** to capture orientation/spread differences not in shape metrics
+3. **IoU is useful** for validating transformation success (should approach 0 after alignment)
