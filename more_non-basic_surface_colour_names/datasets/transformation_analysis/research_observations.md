@@ -219,3 +219,51 @@ This confirms that screen and surface polyhedra have very little spatial overlap
 1. **Replace Hausdorff with Chamfer** for efficiency (same information, faster computation)
 2. **Add spectral loss** to capture orientation/spread differences not in shape metrics
 3. **IoU is useful** for validating transformation success (should approach 0 after alignment)
+
+---
+
+## 2026-01-03: Aggregation Method Comparison (EXP-021)
+
+### Methods Tested
+
+| Method | Description |
+|--------|-------------|
+| Mean | Arithmetic mean (baseline) |
+| Sum | Total loss (equivalent optimization to mean) |
+| Weighted mean | Weighted by sample count |
+| Minimax | Minimize worst-case loss |
+| Trimmed mean | Exclude 10%/20% extremes |
+| Median | Robust to outliers |
+
+### Key Finding: Minimax Trade-off
+
+| Method | Mean Loss | Worst Loss | Worst Family |
+|--------|-----------|------------|--------------|
+| Mean | 0.423 | 0.571 | lime |
+| Minimax | 0.463 | 0.542 | gray |
+
+Minimax reduces worst-case by 5% (0.571 → 0.542) at cost of 10% higher mean (0.423 → 0.463).
+
+### Critical Warning: Trimmed Methods Fail Catastrophically
+
+Trimmed mean and median optimizations produce transformations that catastrophically fail on outlier families:
+- Trimmed 20%: peach loss = 14.75 (vs 0.10 for mean)
+- Median: peach loss = 20.71
+
+**Conclusion**: These methods find local optima that benefit "middle" families but completely sacrifice outliers.
+
+### Problematic Families
+
+| Family | Appears as Worst in N Methods |
+|--------|------------------------------|
+| peach | 3/7 (trimmed/median methods) |
+| lime | 2/7 (mean/sum) |
+| coral | 1/7 (weighted_mean) |
+| gray | 1/7 (minimax) |
+
+### Recommendation
+
+**Use mean aggregation** for general purposes:
+- Sum is mathematically equivalent for optimization
+- Minimax trades too much overall performance for modest worst-case improvement
+- Trimmed/median methods are unstable and produce extreme outlier losses
