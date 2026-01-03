@@ -1,0 +1,850 @@
+{
+  "family": "brown",
+  "original_samples": 536,
+  "surface_samples_added": 75,
+  "total_points": 108,
+  "original_centroid": [
+    2.56,
+    2.67,
+    3.95
+  ],
+  "augmented_centroid": [
+    0.504429997513537,
+    2.558465903307896,
+    3.6874074074074077
+  ],
+  "centroid_shift": 2.0752741408140802,
+  "vertices": [
+    [
+      3.81,
+      0.4,
+      2.24
+    ],
+    [
+      3.97,
+      0.5,
+      2.09
+    ],
+    [
+      4.63,
+      0.87,
+      3.15
+    ],
+    [
+      5.58,
+      1.57,
+      3.79
+    ],
+    [
+      3.99,
+      1.55,
+      1.95
+    ],
+    [
+      1.78,
+      1.19,
+      5.4
+    ],
+    [
+      4.88,
+      3.66,
+      4.95
+    ],
+    [
+      4.72,
+      3.56,
+      2.92
+    ],
+    [
+      4.55,
+      3.47,
+      2.67
+    ],
+    [
+      3.03,
+      2.92,
+      2.02
+    ],
+    [
+      4.03,
+      3.94,
+      2.85
+    ],
+    [
+      4.89,
+      5.5,
+      4.53
+    ],
+    [
+      4.81,
+      6.09,
+      4.36
+    ],
+    [
+      4.62,
+      5.89,
+      5.59
+    ],
+    [
+      2.48,
+      4.78,
+      6.29
+    ],
+    [
+      0.59,
+      2.06,
+      6.5
+    ],
+    [
+      0.43,
+      1.65,
+      6.49
+    ],
+    [
+      1.0,
+      4.2,
+      6.14
+    ],
+    [
+      1.67,
+      -0.17,
+      2.0
+    ],
+    [
+      0.015333078373696067,
+      0.09881749191102807,
+      4.7
+    ],
+    [
+      0.10774239159772214,
+      0.792711534577871,
+      0.9
+    ],
+    [
+      0.00545242554736426,
+      0.13989378490715895,
+      1.84
+    ],
+    [
+      0.47075457436707,
+      5.981504002398768,
+      4.3
+    ],
+    [
+      -2.1912105713495267,
+      5.585570358701615,
+      3.2
+    ],
+    [
+      -1.2696165690221868,
+      5.1456849658392745,
+      3.0
+    ],
+    [
+      -3.467932988525591,
+      4.77320026681219,
+      3.8
+    ],
+    [
+      -0.7441617632729683,
+      1.065937742123088,
+      1.9
+    ],
+    [
+      0.9758229911693022,
+      5.9201156652472084,
+      3.9
+    ],
+    [
+      -0.6465637775217203,
+      0.8899186938124423,
+      2.1
+    ],
+    [
+      -0.44550049319055013,
+      0.6644767193566503,
+      4.9
+    ],
+    [
+      -1.8471903232095754,
+      5.286576199189878,
+      4.1
+    ]
+  ],
+  "faces": [
+    [
+      27,
+      23,
+      26
+    ],
+    [
+      27,
+      86,
+      33
+    ],
+    [
+      27,
+      26,
+      52
+    ],
+    [
+      27,
+      86,
+      52
+    ],
+    [
+      47,
+      35,
+      52
+    ],
+    [
+      78,
+      86,
+      52
+    ],
+    [
+      78,
+      86,
+      33
+    ],
+    [
+      28,
+      26,
+      52
+    ],
+    [
+      28,
+      23,
+      26
+    ],
+    [
+      16,
+      18,
+      3
+    ],
+    [
+      8,
+      33,
+      3
+    ],
+    [
+      8,
+      27,
+      3
+    ],
+    [
+      8,
+      27,
+      33
+    ],
+    [
+      9,
+      27,
+      3
+    ],
+    [
+      53,
+      35,
+      52
+    ],
+    [
+      53,
+      78,
+      52
+    ],
+    [
+      2,
+      33,
+      3
+    ],
+    [
+      1,
+      4,
+      35
+    ],
+    [
+      1,
+      32,
+      35
+    ],
+    [
+      1,
+      4,
+      3
+    ],
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      41,
+      32,
+      35
+    ],
+    [
+      41,
+      53,
+      35
+    ],
+    [
+      41,
+      53,
+      78
+    ],
+    [
+      41,
+      78,
+      33
+    ],
+    [
+      41,
+      32,
+      33
+    ],
+    [
+      48,
+      47,
+      35
+    ],
+    [
+      48,
+      47,
+      18
+    ],
+    [
+      12,
+      4,
+      35
+    ],
+    [
+      12,
+      48,
+      35
+    ],
+    [
+      12,
+      48,
+      18
+    ],
+    [
+      19,
+      46,
+      18
+    ],
+    [
+      19,
+      46,
+      23
+    ],
+    [
+      19,
+      16,
+      18
+    ],
+    [
+      19,
+      27,
+      23
+    ],
+    [
+      19,
+      9,
+      27
+    ],
+    [
+      19,
+      16,
+      3
+    ],
+    [
+      19,
+      9,
+      3
+    ],
+    [
+      69,
+      47,
+      18
+    ],
+    [
+      69,
+      46,
+      18
+    ],
+    [
+      69,
+      46,
+      47
+    ],
+    [
+      90,
+      47,
+      52
+    ],
+    [
+      90,
+      46,
+      47
+    ],
+    [
+      90,
+      46,
+      23
+    ],
+    [
+      90,
+      28,
+      52
+    ],
+    [
+      90,
+      28,
+      23
+    ],
+    [
+      0,
+      1,
+      32
+    ],
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      0,
+      32,
+      33
+    ],
+    [
+      0,
+      2,
+      33
+    ],
+    [
+      11,
+      12,
+      4
+    ],
+    [
+      11,
+      4,
+      3
+    ],
+    [
+      13,
+      12,
+      18
+    ],
+    [
+      13,
+      11,
+      18
+    ],
+    [
+      13,
+      11,
+      12
+    ],
+    [
+      10,
+      18,
+      3
+    ],
+    [
+      10,
+      11,
+      3
+    ],
+    [
+      10,
+      11,
+      18
+    ]
+  ],
+  "volume": 109.47479095472143,
+  "surface_sources": [
+    "ral_classic",
+    "ncs_colors",
+    "golden_acrylics",
+    "williamsburg_oils"
+  ],
+  "surface_colors": [
+    {
+      "name": "Neutral Gray 5",
+      "munsell": "1.7Y 4.7/0.1",
+      "source": "golden_acrylics"
+    },
+    {
+      "name": "Raw Umber",
+      "munsell": "1.0Y 2.3/0.7",
+      "source": "golden_acrylics"
+    },
+    {
+      "name": "Van Dyke Brown Hue",
+      "munsell": "1.9Y 0.9/0.8",
+      "source": "golden_acrylics"
+    },
+    {
+      "name": "Bohemian Green Earth",
+      "munsell": "6.48Y 2.95/2.62",
+      "source": "williamsburg_oils"
+    },
+    {
+      "name": "Davy's Grey Deep",
+      "munsell": "3.76Y 2.38/0.23",
+      "source": "williamsburg_oils"
+    },
+    {
+      "name": "French Ardoise Grey",
+      "munsell": "8.37Y 4.64/0.99",
+      "source": "williamsburg_oils"
+    },
+    {
+      "name": "French Light Sienna",
+      "munsell": "2.54Y 3.21/3.36",
+      "source": "williamsburg_oils"
+    },
+    {
+      "name": "French Raw Umber",
+      "munsell": "0.98Y 2.95/1.91",
+      "source": "williamsburg_oils"
+    },
+    {
+      "name": "Italian Black Roman Earth",
+      "munsell": "2.92Y 1.84/0.14",
+      "source": "williamsburg_oils"
+    },
+    {
+      "name": "Italian Raw Umber",
+      "munsell": "3.96Y 2.24/0.73",
+      "source": "williamsburg_oils"
+    },
+    {
+      "name": "Raw Umber",
+      "munsell": "6.41Y 1.83/1.18",
+      "source": "williamsburg_oils"
+    },
+    {
+      "name": "SF French Ardoise Grey",
+      "munsell": "8.05Y 4.63/1.08",
+      "source": "williamsburg_oils"
+    },
+    {
+      "name": "",
+      "munsell": "3.7Y 4.9/3.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.5Y 4.3/6.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.3Y 3.2/6.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.9Y 3.0/5.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.2Y 4.9/3.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.5Y 4.5/2.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.4Y 4.9/1.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10Y 3.8/5.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.8Y 1.9/1.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.8Y 4.2/5.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.2Y 4.4/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.9Y 3.8/5.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.1Y 4.7/2.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.4Y 2.4/2.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.4Y 4.9/4.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.8Y 3.2/3.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.5Y 3.9/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.7Y 5.0/3.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.2Y 3.9/2.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2Y 3.3/2.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.5Y 4.5/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.2Y 4.0/0.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.1Y 3.3/2.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6Y 3.8/4.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.6Y 3.9/6.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.4Y 4.7/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.8Y 3.8/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.2Y 3.9/4.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.4Y 4.2/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2Y 4.9/5.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.4Y 4.3/0.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.8Y 2.8/3.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.4Y 2.6/3.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10Y 2.1/1.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.1Y 3.8/1.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.1Y 2.7/1.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5Y 4.4/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.2Y 3.8/1.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.8Y 4.2/2.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.1Y 4.9/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.1Y 4.4/3.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6Y 4.9/0.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.7Y 4.4/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.8Y 3.8/3.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.2Y 4.7/4.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.9Y 4.1/5.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.5Y 4.0/3.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.1Y 4.6/1.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3Y 4.9/4.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.7Y 2.7/1.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.6Y 4.4/5.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2Y 4.1/0.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.1Y 4.1/0.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.8Y 4.5/4.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.1Y 4.6/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.2Y 4.0/2.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6Y 2.7/2.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.9Y 4.4/0.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "Pearl gold",
+      "munsell": "1.2Y 4.4/3.9",
+      "source": "ral_classic"
+    },
+    {
+      "name": "Fir green",
+      "munsell": "9Y 1.8/1.3",
+      "source": "ral_classic"
+    },
+    {
+      "name": "Olive grey",
+      "munsell": "7Y 5.0/2.0",
+      "source": "ral_classic"
+    },
+    {
+      "name": "Khaki grey",
+      "munsell": "4.5Y 4.1/3.5",
+      "source": "ral_classic"
+    },
+    {
+      "name": "Terra brown",
+      "munsell": "1.5Y 2.6/2.5",
+      "source": "ral_classic"
+    }
+  ]
+}

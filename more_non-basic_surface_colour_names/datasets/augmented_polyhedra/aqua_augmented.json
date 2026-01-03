@@ -1,0 +1,1710 @@
+{
+  "family": "aqua",
+  "original_samples": 119,
+  "surface_samples_added": 205,
+  "total_points": 233,
+  "original_centroid": [
+    -3.01,
+    -1.52,
+    6.18
+  ],
+  "augmented_centroid": [
+    -0.5060085690327164,
+    -3.9539595774864944,
+    7.268969957081546
+  ],
+  "centroid_shift": 3.657866574742988,
+  "vertices": [
+    [
+      -1.52,
+      1.06,
+      7.06
+    ],
+    [
+      -1.4,
+      0.8,
+      5.96
+    ],
+    [
+      -1.1,
+      0.61,
+      7.27
+    ],
+    [
+      -0.86,
+      0.32,
+      6.5
+    ],
+    [
+      -1.61,
+      0.24,
+      8.27
+    ],
+    [
+      -1.48,
+      0.2,
+      4.97
+    ],
+    [
+      -5.16,
+      -0.38,
+      7.85
+    ],
+    [
+      -6.41,
+      -0.65,
+      6.64
+    ],
+    [
+      -2.53,
+      -0.73,
+      4.41
+    ],
+    [
+      -3.66,
+      -1.07,
+      4.87
+    ],
+    [
+      -5.52,
+      -2.22,
+      7.4
+    ],
+    [
+      -2.97,
+      -1.44,
+      4.35
+    ],
+    [
+      -4.83,
+      -3.04,
+      4.83
+    ],
+    [
+      -3.32,
+      -4.28,
+      4.01
+    ],
+    [
+      -0.74,
+      -1.1,
+      5.0
+    ],
+    [
+      -1.65,
+      -2.52,
+      4.4
+    ],
+    [
+      -1.6605392371037815,
+      -3.528825504617477,
+      8.7
+    ],
+    [
+      2.183615484138605,
+      -7.696221372688687,
+      6.9
+    ],
+    [
+      -0.8430384047501989,
+      -8.357588542642922,
+      7.0
+    ],
+    [
+      -3.6369767651535114,
+      -8.122955127891172,
+      7.2
+    ],
+    [
+      2.2502992968095685,
+      -7.154449879255453,
+      7.0
+    ],
+    [
+      -3.5972242642318495,
+      -8.684467605606093,
+      7.1
+    ],
+    [
+      2.1631189606246304,
+      -6.6573956140660755,
+      7.1
+    ],
+    [
+      -0.5822733049828521,
+      -6.3734572877131885,
+      8.0
+    ],
+    [
+      0.77765822578216,
+      -5.343711040454316,
+      8.1
+    ],
+    [
+      0.4326237921249261,
+      -1.331479122813215,
+      6.6
+    ],
+    [
+      0.4944271909999156,
+      -1.521690426072246,
+      6.5
+    ],
+    [
+      1.8232002668121887,
+      -5.611233446141407,
+      6.2
+    ],
+    [
+      -4.0213856140085085,
+      -7.260747739967655,
+      6.1
+    ],
+    [
+      2.12902509703514,
+      -7.5038158383714695,
+      6.2
+    ],
+    [
+      2.0022466888909176,
+      -6.811828550163704,
+      6.1
+    ],
+    [
+      1.328773075812273,
+      -4.0895430200691605,
+      8.2
+    ],
+    [
+      -1.1343525081418668,
+      -4.251263857639544,
+      8.6
+    ],
+    [
+      0.8034441853748628,
+      -2.4727469423673996,
+      8.6
+    ],
+    [
+      -1.8785936008185755,
+      -4.417112867356176,
+      8.5
+    ],
+    [
+      0.19933001885804882,
+      -1.2846273948433649,
+      8.5
+    ],
+    [
+      -0.42151920237509943,
+      -4.178794271321461,
+      8.6
+    ],
+    [
+      0.46352549156242084,
+      -1.4265847744427305,
+      8.2
+    ],
+    [
+      -1.05190391325749,
+      -1.8175527935313405,
+      9.1
+    ],
+    [
+      -0.6951806739420763,
+      -1.8752929985944704,
+      9.1
+    ],
+    [
+      0.07755126780722263,
+      -1.2976847848616755,
+      8.8
+    ],
+    [
+      -1.0147504985823939,
+      -7.834556874873447,
+      6.1
+    ],
+    [
+      2.0395121628746518,
+      -6.276973007548014,
+      7.3
+    ],
+    [
+      2.441234255562083,
+      -7.513346478731714,
+      6.5
+    ],
+    [
+      2.0744347099316744,
+      -7.3114103040542515,
+      6.1
+    ]
+  ],
+  "faces": [
+    [
+      145,
+      56,
+      7
+    ],
+    [
+      188,
+      145,
+      56
+    ],
+    [
+      188,
+      145,
+      22
+    ],
+    [
+      13,
+      56,
+      7
+    ],
+    [
+      13,
+      6,
+      7
+    ],
+    [
+      162,
+      89,
+      56
+    ],
+    [
+      4,
+      6,
+      183
+    ],
+    [
+      92,
+      34,
+      89
+    ],
+    [
+      146,
+      188,
+      22
+    ],
+    [
+      146,
+      34,
+      207
+    ],
+    [
+      19,
+      11,
+      7
+    ],
+    [
+      19,
+      145,
+      7
+    ],
+    [
+      19,
+      145,
+      22
+    ],
+    [
+      5,
+      119,
+      23
+    ],
+    [
+      28,
+      6,
+      183
+    ],
+    [
+      28,
+      162,
+      6
+    ],
+    [
+      174,
+      92,
+      89
+    ],
+    [
+      39,
+      13,
+      6
+    ],
+    [
+      39,
+      162,
+      6
+    ],
+    [
+      39,
+      13,
+      56
+    ],
+    [
+      39,
+      162,
+      56
+    ],
+    [
+      184,
+      4,
+      183
+    ],
+    [
+      184,
+      174,
+      92
+    ],
+    [
+      185,
+      184,
+      156
+    ],
+    [
+      185,
+      184,
+      4
+    ],
+    [
+      37,
+      89,
+      56
+    ],
+    [
+      37,
+      34,
+      89
+    ],
+    [
+      37,
+      146,
+      34
+    ],
+    [
+      37,
+      188,
+      56
+    ],
+    [
+      37,
+      146,
+      188
+    ],
+    [
+      126,
+      119,
+      23
+    ],
+    [
+      24,
+      5,
+      23
+    ],
+    [
+      16,
+      19,
+      22
+    ],
+    [
+      16,
+      19,
+      11
+    ],
+    [
+      1,
+      5,
+      7
+    ],
+    [
+      153,
+      162,
+      89
+    ],
+    [
+      153,
+      174,
+      89
+    ],
+    [
+      153,
+      184,
+      174
+    ],
+    [
+      153,
+      184,
+      183
+    ],
+    [
+      153,
+      28,
+      183
+    ],
+    [
+      153,
+      28,
+      162
+    ],
+    [
+      118,
+      2,
+      3
+    ],
+    [
+      118,
+      1,
+      3
+    ],
+    [
+      118,
+      5,
+      119
+    ],
+    [
+      118,
+      1,
+      5
+    ],
+    [
+      48,
+      34,
+      207
+    ],
+    [
+      220,
+      146,
+      207
+    ],
+    [
+      220,
+      24,
+      23
+    ],
+    [
+      220,
+      146,
+      22
+    ],
+    [
+      220,
+      24,
+      22
+    ],
+    [
+      10,
+      24,
+      5
+    ],
+    [
+      10,
+      16,
+      11
+    ],
+    [
+      10,
+      24,
+      22
+    ],
+    [
+      10,
+      16,
+      22
+    ],
+    [
+      10,
+      11,
+      7
+    ],
+    [
+      10,
+      5,
+      7
+    ],
+    [
+      0,
+      6,
+      7
+    ],
+    [
+      0,
+      1,
+      7
+    ],
+    [
+      0,
+      4,
+      6
+    ],
+    [
+      0,
+      1,
+      3
+    ],
+    [
+      0,
+      2,
+      3
+    ],
+    [
+      0,
+      185,
+      4
+    ],
+    [
+      0,
+      2,
+      185
+    ],
+    [
+      182,
+      185,
+      156
+    ],
+    [
+      182,
+      118,
+      2
+    ],
+    [
+      66,
+      48,
+      207
+    ],
+    [
+      151,
+      184,
+      156
+    ],
+    [
+      151,
+      184,
+      92
+    ],
+    [
+      151,
+      92,
+      34
+    ],
+    [
+      151,
+      48,
+      34
+    ],
+    [
+      147,
+      126,
+      207
+    ],
+    [
+      147,
+      220,
+      207
+    ],
+    [
+      147,
+      126,
+      23
+    ],
+    [
+      147,
+      220,
+      23
+    ],
+    [
+      172,
+      2,
+      185
+    ],
+    [
+      172,
+      182,
+      185
+    ],
+    [
+      172,
+      182,
+      2
+    ],
+    [
+      205,
+      66,
+      48
+    ],
+    [
+      205,
+      151,
+      48
+    ],
+    [
+      205,
+      126,
+      207
+    ],
+    [
+      205,
+      182,
+      156
+    ],
+    [
+      205,
+      66,
+      207
+    ],
+    [
+      205,
+      126,
+      119
+    ],
+    [
+      205,
+      118,
+      119
+    ],
+    [
+      205,
+      182,
+      118
+    ],
+    [
+      205,
+      151,
+      156
+    ]
+  ],
+  "volume": 145.76854052974303,
+  "surface_sources": [
+    "ral_classic",
+    "ncs_colors",
+    "golden_acrylics",
+    "rhs_colors"
+  ],
+  "surface_colors": [
+    {
+      "name": "Light Phthalo Green",
+      "munsell": "2.0BG 8.7/3.9",
+      "source": "golden_acrylics"
+    },
+    {
+      "name": "",
+      "munsell": "4.4BG 7.0/4.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.8BG 6.9/7.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.6BG 6.9/7.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.2/6.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.3/6.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.9/8.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.7BG 6.9/7.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.4BG 6.9/8.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.6BG 7.0/8.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.5BG 6.9/4.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.2BG 7.2/8.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.1BG 7.3/1.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.9BG 7.2/2.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.3/6.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.7BG 7.3/4.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.9BG 6.9/5.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.4BG 7.0/4.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.6BG 7.0/7.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.7BG 7.0/4.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.9BG 7.0/7.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.6BG 7.0/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.9/6.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.6BG 7.1/2.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.4BG 7.3/2.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 7.0/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.4BG 7.0/8.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.2BG 7.3/3.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.5BG 7.1/9.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.8BG 7.0/2.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.6BG 7.2/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.7BG 7.0/8.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.1BG 6.9/2.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.8BG 6.9/3.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.1/7.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.3BG 7.0/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.1BG 6.9/2.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.7BG 7.1/8.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.1/7.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.1BG 7.4/3.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.4BG 8.1/3.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.3BG 7.7/5.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.6BG 7.5/1.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.5BG 7.4/6.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.4BG 7.4/6.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.5BG 7.4/6.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.9BG 7.8/4.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.3BG 7.5/1.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.2BG 7.8/3.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.6BG 8.1/3.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.2BG 7.4/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.2BG 7.9/3.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.3BG 7.9/2.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.5BG 8.0/5.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6BG 7.4/3.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.6BG 8.0/1.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.1BG 7.4/5.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.4BG 7.7/6.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.8BG 7.8/6.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.1BG 7.9/2.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5BG 7.8/4.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.7BG 8.0/6.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.5BG 8.1/5.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.7BG 7.7/2.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.2BG 8.1/5.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.2BG 7.5/5.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.4BG 8.1/2.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.7/5.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.9BG 7.4/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.6/5.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 8.0/2.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.4/5.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.8BG 8.0/1.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.5BG 7.6/1.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1BG 8.0/1.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.5BG 7.8/2.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.8BG 7.5/1.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.6BG 7.4/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.1BG 7.6/1.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.9BG 6.4/2.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.3BG 6.6/4.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.4/7.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.5BG 6.2/7.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.4BG 6.6/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.2/5.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.9BG 6.7/8.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.8BG 6.7/5.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.2BG 6.5/6.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3BG 6.3/2.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.2BG 6.7/6.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.6/1.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.5/1.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.5BG 6.5/3.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.3BG 6.6/2.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.3BG 6.6/8.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.6BG 6.3/3.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.5BG 6.3/3.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.8BG 6.6/5.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.2/5.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.2BG 6.5/6.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.2BG 6.3/6.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.8BG 6.7/5.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.6BG 6.4/3.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.3BG 6.4/6.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.5BG 6.7/2.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.4/7.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.5/6.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.6/5.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.2BG 6.6/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.9BG 6.3/2.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.1BG 6.6/3.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.5/7.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.2/5.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.2BG 6.4/6.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.1BG 6.5/5.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.4BG 6.1/4.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.2/7.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.3BG 6.1/8.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.2/7.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.7BG 6.1/7.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.1BG 8.5/2.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.7BG 8.6/2.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.8BG 8.2/4.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 8.2/4.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.6BG 8.2/3.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.9BG 8.6/4.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.9BG 8.5/1.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.7BG 8.6/2.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 8.6/2.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.6BG 8.7/2.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8BG 8.7/1.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.3BG 8.6/2.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.9BG 8.6/1.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.6BG 8.8/1.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.4BG 8.5/4.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.6BG 8.6/1.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.8BG 8.6/1.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.5BG 8.5/1.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.3BG 8.6/2.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.4BG 8.5/4.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.4BG 8.3/3.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.1BG 8.4/4.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.4BG 8.7/3.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.6BG 8.5/4.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.3BG 8.5/1.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.2BG 8.8/2.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.6BG 8.6/4.2",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.4BG 8.7/3.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.7BG 8.7/2.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.2BG 8.6/3.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.6BG 8.4/2.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.4BG 8.6/1.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.7BG 8.6/1.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.7BG 8.6/1.6",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 8.2/1.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.1BG 9.1/2.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.9BG 9.1/2.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "7.3BG 8.8/1.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2BG 8.8/2.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2BG 8.8/2.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.3BG 6.1/7.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.3BG 8.7/2.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.2BG 8.6/2.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 8.0/2.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.8BG 6.6/2.4",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.7BG 6.1/7.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "2.7BG 8.7/2.8",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.7BG 8.0/2.3",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5BG 7.6/4.9",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6BG 8.7/1.7",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.4BG 8.2/3.0",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.6BG 7.1/8.1",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.7BG 7.1/2.5",
+      "source": "ncs_colors"
+    },
+    {
+      "name": "Light green",
+      "munsell": "4.6BG 7.1/4.3",
+      "source": "ral_classic"
+    },
+    {
+      "name": "Pastel turquoise",
+      "munsell": "4.2BG 6.7/3.9",
+      "source": "ral_classic"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.2/6.7",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.8BG 8.1/4.2",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.3/6.6",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.9/4.3",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.5/7.9",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.2/6.1",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "8.4BG 7.8/4.1",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.2/7.5",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.5/7.8",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.2/6.7",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5BG 8.0/4.8",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.4/7.6",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 7.0/6.5",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.9BG 7.7/4.8",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.3/7.5",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.4BG 7.0/6.7",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.7BG 7.6/4.4",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.1/7.6",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "6.4BG 6.8/6.7",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.8BG 7.5/4.6",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "10BG 6.5/5.9",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.3BG 7.4/3.9",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.2BG 6.5/6.8",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.6BG 7.4/4.3",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "5.1BG 6.6/6.0",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.3BG 7.4/3.9",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "1.9BG 7.1/3.5",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "4.9BG 6.2/5.5",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "3.3BG 7.1/4.1",
+      "source": "rhs_colors"
+    },
+    {
+      "name": "",
+      "munsell": "9.6BG 6.2/7.5",
+      "source": "rhs_colors"
+    }
+  ]
+}
