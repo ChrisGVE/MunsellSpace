@@ -139,7 +139,7 @@ mod tests {
     fn test_unknown_color() {
         // Unknown colors return themselves
         assert_eq!(get_color_ish("unknown"), "unknown");
-        assert_eq!(get_color_ish("chartreuse"), "chartreuse");
+        assert_eq!(get_color_ish("lime"), "lime");
     }
 
     #[test]

@@ -63,9 +63,13 @@ pub(crate) const COLOR_NAMES: &[ColorNameEntry] = &[
     ColorNameEntry::new("purplish red", "purplish reddish"),
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // Extended/Alt Color Names (ISCC-NBS alternates)
+    // Extended Color Names (MunsellSpace alternates for compound ISCC-NBS names)
+    // These provide more recognizable names for certain compound color categories:
+    //   - lime: replaces "yellow green" (GY hue family)
+    //   - teal: replaces "greenish blue" (BG-B transition)
+    //   - turquoise: replaces "bluish green" (BG hue family)
     // ═══════════════════════════════════════════════════════════════════════════
-    ColorNameEntry::new("chartreuse", "chartreusish"),
+    ColorNameEntry::new("lime", "limish"),
     ColorNameEntry::new("teal", "tealish"),
     ColorNameEntry::new("turquoise", "turquoisish"),
 
@@ -216,7 +220,7 @@ mod tests {
         let names: Vec<_> = known_color_names().collect();
         assert!(names.contains(&"red"));
         assert!(names.contains(&"coral"));
-        assert!(names.contains(&"chartreuse"));
+        assert!(names.contains(&"lime"));
         assert!(names.contains(&"yellowish pink"));
     }
 

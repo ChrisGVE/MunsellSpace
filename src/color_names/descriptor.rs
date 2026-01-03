@@ -48,7 +48,7 @@ pub struct ColorDescriptor {
     pub standard_name: String,
 
     // ─── Extended/Alt Name ───
-    /// Extended/alternate color name (e.g., "chartreuse" for "yellow green")
+    /// Extended/alternate color name (e.g., "lime" for "yellow green")
     pub extended_name: String,
 
     // ─── Semantic (Centore 2020) ───
@@ -108,15 +108,15 @@ impl ColorDescriptor {
     ///     iscc_nbs_number: 115,
     ///     modifier: ColorModifier::Vivid,
     ///     standard_name: "yellow green".to_string(),
-    ///     extended_name: "chartreuse".to_string(),
+    ///     extended_name: "lime".to_string(),
     ///     semantic_name: None,
     ///     semantic_alternates: vec![],
     ///     nearest_semantic: None,
-    ///     shade: "chartreuse".to_string(),
+    ///     shade: "lime".to_string(),
     /// };
     ///
     /// assert_eq!(desc.standard_descriptor(), "vivid yellow green");
-    /// assert_eq!(desc.extended_descriptor(), "vivid chartreuse");
+    /// assert_eq!(desc.extended_descriptor(), "vivid lime");
     /// ```
     pub fn extended_descriptor(&self) -> String {
         self.modifier.format(&self.extended_name)
@@ -234,11 +234,11 @@ mod tests {
     fn test_extended_descriptor_different() {
         let mut desc = sample_descriptor();
         desc.standard_name = "yellow green".to_string();
-        desc.extended_name = "chartreuse".to_string();
+        desc.extended_name = "lime".to_string();
         desc.modifier = ColorModifier::Vivid;
 
         assert_eq!(desc.standard_descriptor(), "vivid yellow green");
-        assert_eq!(desc.extended_descriptor(), "vivid chartreuse");
+        assert_eq!(desc.extended_descriptor(), "vivid lime");
     }
 
     #[test]

@@ -35,18 +35,18 @@ use crate::semantic_overlay::MunsellSpec;
 
 /// Base color naming system to use.
 ///
-/// Determines whether to use the 13 basic ISCC-NBS color names or the
+/// Determines whether to use standard ISCC-NBS color names or the
 /// extended alternate names. Modifiers are always applied.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum BaseColorSet {
-    /// Use the 13 basic ISCC-NBS color names with modifiers.
+    /// Use the 29 official ISCC-NBS base color names with modifiers.
     ///
-    /// Output examples: "vivid red", "dark blue", "pale yellow", "light brown"
+    /// Output examples: "vivid red", "dark greenish blue", "pale yellow green"
     Standard,
 
-    /// Use extended/alternate ISCC-NBS names with modifiers.
+    /// Use extended names: lime, teal, turquoise instead of compound forms.
     ///
-    /// Output examples: "vivid red", "dark navy", "pale lime", "light tan"
+    /// Output examples: "vivid red", "dark teal", "pale lime"
     #[default]
     Extended,
 }
@@ -232,21 +232,21 @@ impl ColorCharacterization {
     /// Generate a color description based on format options.
     ///
     /// The output string depends on:
-    /// - `base_colors`: Whether to use Standard (13 basic colors) or Extended (alternate names)
+    /// - `base_colors`: Whether to use Standard (29 ISCC-NBS names) or Extended (lime/teal/turquoise)
     /// - `overlay_mode`: Whether to include semantic overlay names
     ///
     /// The ISCC-NBS modifier (e.g., "dark", "vivid", "pale") is ALWAYS applied.
     ///
     /// # Examples
     ///
-    /// For a dark blue color (extended name "sapphire") with "navy" as nearest overlay:
+    /// For a dark greenish blue color with "teal" as nearest overlay:
     ///
     /// | BaseColorSet | OverlayMode | Output |
     /// |--------------|-------------|--------|
-    /// | Standard | Ignore | "dark blue" |
-    /// | Extended | Ignore | "dark sapphire" |
-    /// | Standard | Include | "dark navy" |
-    /// | Extended | Include | "dark navy" |
+    /// | Standard | Ignore | "dark greenish blue" |
+    /// | Extended | Ignore | "dark teal" |
+    /// | Standard | Include | "dark teal" |
+    /// | Extended | Include | "dark teal" |
     pub fn describe(&self, options: &FormatOptions) -> String {
         // 1. Determine the color name: overlay takes precedence when included
         let color_name = match options.overlay_mode {
@@ -426,8 +426,8 @@ mod tests {
     fn test_format_options_presets() {
         // Use different base and extended names to show the difference
         let char = make_test_characterization(
-            "blue",        // Standard: 13 basic colors
-            "sapphire",    // Extended: alternate name
+            "blue",        // Standard: official ISCC-NBS name
+            "sapphire",    // Extended: alternate name (example for test)
             ColorModifier::Dark,
             vec!["navy"],
             Some(("navy", 1.5)),
