@@ -50,15 +50,37 @@ impl Illuminant {
         }
     }
     
-    /// Get the XYZ tristimulus values for this illuminant (normalized Y=1)
+    /// Get the XYZ tristimulus values computed from chromaticity (normalized Y=1).
+    ///
+    /// For pre-computed reference values, use [`white_point()`](Self::white_point) instead.
     pub fn xyz(&self) -> [f64; 3] {
         let (x, y) = self.chromaticity();
-        // Convert xy to XYZ with Y=1
         [
-            x / y,           // X
-            1.0,             // Y (normalized)
-            (1.0 - x - y) / y  // Z
+            x / y,
+            1.0,
+            (1.0 - x - y) / y,
         ]
+    }
+
+    /// Get the CIE XYZ white point from pre-computed reference values.
+    ///
+    /// These are the canonical white point values used in color space
+    /// transformations and chromatic adaptation.
+    pub fn white_point(&self) -> [f64; 3] {
+        use crate::constants::illuminants::*;
+        match self {
+            Illuminant::A => ILLUMINANT_A_XYZ,
+            Illuminant::B => ILLUMINANT_B_XYZ,
+            Illuminant::C => ILLUMINANT_C_XYZ,
+            Illuminant::D50 => ILLUMINANT_D50_XYZ,
+            Illuminant::D55 => ILLUMINANT_D55_XYZ,
+            Illuminant::D65 => ILLUMINANT_D65_XYZ,
+            Illuminant::D75 => ILLUMINANT_D75_XYZ,
+            Illuminant::E => ILLUMINANT_E_XYZ,
+            Illuminant::F2 => ILLUMINANT_F2_XYZ,
+            Illuminant::F7 => ILLUMINANT_F7_XYZ,
+            Illuminant::F11 => ILLUMINANT_F11_XYZ,
+        }
     }
     
     /// Get the name of this illuminant as a string

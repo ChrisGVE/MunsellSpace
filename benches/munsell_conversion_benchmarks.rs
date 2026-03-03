@@ -6,10 +6,10 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion, BenchmarkId};
 use munsellspace::{
     MunsellConverter,
-    IsccNbsClassifier,
-    mathematical::MathematicalMunsellConverter,
+    mathematical::{MathematicalMunsellConverter, MunsellSpecification},
     reverse_conversion::ReverseConverter,
-    MunsellColor
+    MunsellColor,
+    ColorClassifier,
 };
 use std::sync::Arc;
 
@@ -122,12 +122,12 @@ fn bench_mathematical_converter(c: &mut Criterion) {
     group.finish();
 }
 
-/// Benchmark ISCC-NBS classification performance
+/// Benchmark color classification performance
 fn bench_iscc_nbs_classification(c: &mut Criterion) {
-    let classifier = IsccNbsClassifier::new().expect("Failed to create ISCC-NBS classifier");
-    
+    let classifier = ColorClassifier::new().expect("Failed to create color classifier");
+
     let mut group = c.benchmark_group("iscc_nbs_classification");
-    
+
     let test_colors = [
         [255, 0, 0],     // Red
         [0, 255, 0],     // Green
@@ -140,7 +140,7 @@ fn bench_iscc_nbs_classification(c: &mut Criterion) {
         [255, 192, 203], // Pink
         [128, 0, 128],   // Purple
     ];
-    
+
     for (i, &rgb) in test_colors.iter().enumerate() {
         group.bench_with_input(
             BenchmarkId::new("classify_srgb", i),
@@ -152,7 +152,7 @@ fn bench_iscc_nbs_classification(c: &mut Criterion) {
             }
         );
     }
-    
+
     group.finish();
 }
 
@@ -175,18 +175,45 @@ fn bench_reverse_conversion(c: &mut Criterion) {
         "10R 8.0/2.0",
     ];
     
-    for (i, &notation) in test_munsell_notations.iter().enumerate() {
-        if let Ok(munsell_color) = MunsellColor::from_notation(notation) {
-            group.bench_with_input(
-                BenchmarkId::new("munsell_to_srgb", i),
-                &munsell_color,
-                |b, munsell_color| {
-                    b.iter(|| {
-                        black_box(reverse_converter.munsell_to_srgb(black_box(&munsell_color)))
-                    });
-                }
-            );
-        }
+    // Pre-build MunsellSpecifications from notation strings
+    let specs: Vec<(usize, MunsellSpecification)> = test_munsell_notations.iter().enumerate()
+        .filter_map(|(i, &notation)| {
+            MunsellColor::from_notation(notation).ok().map(|mc| {
+                let spec = if mc.is_neutral() {
+                    MunsellSpecification {
+                        hue: 0.0,
+                        family: "N".to_string(),
+                        value: mc.value,
+                        chroma: 0.0,
+                    }
+                } else {
+                    // Parse hue number and family from hue string like "5R" or "2.5RP"
+                    let hue_str = mc.hue.as_deref().unwrap_or("5R");
+                    let family_start = hue_str.find(|c: char| c.is_ascii_alphabetic()).unwrap_or(0);
+                    let hue_num: f64 = hue_str[..family_start].parse().unwrap_or(5.0);
+                    let family = hue_str[family_start..].to_string();
+                    MunsellSpecification {
+                        hue: hue_num,
+                        family,
+                        value: mc.value,
+                        chroma: mc.chroma.unwrap_or(0.0),
+                    }
+                };
+                (i, spec)
+            })
+        })
+        .collect();
+
+    for (i, spec) in &specs {
+        group.bench_with_input(
+            BenchmarkId::new("munsell_to_srgb", i),
+            spec,
+            |b, spec| {
+                b.iter(|| {
+                    black_box(reverse_converter.munsell_to_srgb(black_box(spec)))
+                });
+            }
+        );
     }
     
     group.finish();

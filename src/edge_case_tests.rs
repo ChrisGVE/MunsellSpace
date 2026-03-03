@@ -209,7 +209,7 @@ mod edge_case_tests {
     #[test]
     fn test_mathematical_converter_edge_cases() {
         let converter = MathematicalMunsellConverter::new().unwrap();
-        
+
         // Test extreme RGB values instead of xyY since we don't have xyy_to_srgb
         let extreme_rgb_values = [
             [0, 0, 0],       // Complete black
@@ -220,18 +220,18 @@ mod edge_case_tests {
             [0, 255, 0],     // Pure green
             [0, 0, 255],     // Pure blue
         ];
-        
+
         for &rgb in &extreme_rgb_values {
             // Test xyY conversion
             let xyy_result = converter.srgb_to_xyy(rgb);
-            
+
             match xyy_result {
                 Ok(xyy) => {
                     // Should be valid xyY values
                     assert!(xyy.x >= 0.0 && xyy.x <= 1.0, "xyY x out of range: {}", xyy.x);
                     assert!(xyy.y >= 0.0 && xyy.y <= 1.0, "xyY y out of range: {}", xyy.y);
                     assert!(xyy.y_luminance >= 0.0, "xyY Y negative: {}", xyy.y_luminance);
-                    
+
                     // Test Munsell conversion
                     let munsell_result = converter.xyy_to_munsell_specification(xyy);
                     assert!(munsell_result.is_ok(), "Munsell conversion failed for RGB{:?}", rgb);
@@ -241,6 +241,86 @@ mod edge_case_tests {
                     println!("Note: RGB{:?} failed xyY conversion: {}", rgb, e);
                 }
             }
+        }
+    }
+
+    /// Regression test: near-black achromatic RGB values must return neutral.
+    ///
+    /// RGB [1,1,1] through [10,10,10] previously failed with
+    /// `InterpolationError("No renotation data for 5GY 0.0/2.0")` because
+    /// the Munsell Renotation Dataset has no entries below Value 0.2.
+    #[test]
+    fn test_near_black_achromatic_returns_neutral() {
+        let converter = MathematicalMunsellConverter::new().unwrap();
+
+        for v in 1u8..=10 {
+            let rgb = [v, v, v];
+            let xyy = converter.srgb_to_xyy(rgb)
+                .unwrap_or_else(|e| panic!("srgb_to_xyy failed for RGB[{v},{v},{v}]: {e}"));
+            let spec = converter.xyy_to_munsell_specification(xyy)
+                .unwrap_or_else(|e| panic!("xyy_to_munsell failed for RGB[{v},{v},{v}]: {e}"));
+
+            assert_eq!(spec.family, "N",
+                "RGB[{v},{v},{v}] should be neutral, got family '{}'", spec.family);
+            assert_eq!(spec.chroma, 0.0,
+                "RGB[{v},{v},{v}] should have chroma 0, got {}", spec.chroma);
+            // Value should be very small (near-black), but some values
+            // (e.g. RGB[8,8,8] → V ≈ 0.21) are slightly above 0.2.
+            assert!(spec.value < 0.5,
+                "RGB[{v},{v},{v}] should have very small value, got {}", spec.value);
+        }
+    }
+
+    /// Regression test: pure black still returns N 0.0 after the fix.
+    #[test]
+    fn test_pure_black_still_neutral() {
+        let converter = MathematicalMunsellConverter::new().unwrap();
+
+        let xyy = converter.srgb_to_xyy([0, 0, 0]).unwrap();
+        let spec = converter.xyy_to_munsell_specification(xyy).unwrap();
+
+        assert_eq!(spec.family, "N");
+        assert_eq!(spec.value, 0.0);
+        assert_eq!(spec.chroma, 0.0);
+    }
+
+    /// Verify that colors above the renotation minimum are unaffected.
+    #[test]
+    fn test_above_renotation_minimum_unaffected() {
+        let converter = MathematicalMunsellConverter::new().unwrap();
+
+        // RGB [20,20,20] is achromatic but above Value 0.2
+        let xyy = converter.srgb_to_xyy([20, 20, 20]).unwrap();
+        let spec = converter.xyy_to_munsell_specification(xyy).unwrap();
+        assert_eq!(spec.family, "N", "RGB[20,20,20] should still be neutral");
+        assert!(spec.value >= crate::constants::MINIMUM_RENOTATION_VALUE,
+            "RGB[20,20,20] should have value >= 0.2, got {}", spec.value);
+
+        // Chromatic colors should be completely unaffected
+        let xyy_red = converter.srgb_to_xyy([255, 0, 0]).unwrap();
+        let spec_red = converter.xyy_to_munsell_specification(xyy_red).unwrap();
+        assert_ne!(spec_red.family, "N", "Pure red should not be neutral");
+        assert!(spec_red.chroma > 0.0, "Pure red should have chroma > 0");
+    }
+
+    /// Regression test: colour-science port also handles near-black correctly.
+    #[test]
+    fn test_colour_science_port_near_black() {
+        use crate::munsell_color_science::xyy_to_munsell_specification;
+
+        let converter = MathematicalMunsellConverter::new().unwrap();
+
+        for v in 1u8..=10 {
+            let xyy = converter.srgb_to_xyy([v, v, v]).unwrap();
+            let xyy_arr = [xyy.x, xyy.y, xyy.y_luminance];
+            let spec = xyy_to_munsell_specification(xyy_arr)
+                .unwrap_or_else(|e| panic!("colour-science port failed for RGB[{v},{v},{v}]: {e}"));
+
+            // For neutrals, normalise_munsell_specification returns
+            // [NaN, value, NaN, NaN] when chroma input is 0.
+            // Check that hue (spec[0]) is NaN, indicating a neutral color.
+            assert!(spec[0].is_nan(),
+                "colour-science port: RGB[{v},{v},{v}] should be neutral (hue NaN), got hue {}", spec[0]);
         }
     }
 

@@ -30,7 +30,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-munsellspace = "1.0"
+munsellspace = "1.2"
 ```
 
 ### Basic Usage
