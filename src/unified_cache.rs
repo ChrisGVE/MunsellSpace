@@ -1,14 +1,20 @@
-/// Thread-safe unified color conversion cache with FIFO eviction
-/// 
+/// Thread-safe unified color conversion cache with LRU-like eviction
+///
 /// This module provides a centralized caching system for color conversions
 /// that normalizes all inputs to RGB [u8; 3] format to ensure cache hits
 /// regardless of input format (hex, RGB, Lab, HSL, HSV).
+///
+/// The cache uses a VecDeque of (key, value) pairs. On insert, duplicate
+/// keys are moved to the back (most-recent position), and when capacity
+/// is exceeded the front (least-recently-inserted) entry is evicted.
+/// Lookups scan from the back for recency locality but do not promote
+/// entries, so eviction is insertion-order-based rather than true LRU.
 
 use std::collections::VecDeque;
 use std::sync::{Arc, Mutex};
 use crate::{MunsellColor, ColorMetadata, MunsellError};
 
-/// Maximum number of cached entries (FIFO eviction when exceeded)
+/// Maximum number of cached entries (LRU-like eviction when exceeded)
 const CACHE_SIZE: usize = 500;
 
 /// Complete cached result for a color conversion
@@ -22,10 +28,10 @@ pub struct CachedColorResult {
     pub iscc_nbs: Option<ColorMetadata>,
 }
 
-/// Thread-safe FIFO cache for color conversions
+/// Thread-safe cache for color conversions with LRU-like eviction
 #[derive(Clone)]
 pub struct UnifiedColorCache {
-    /// Internal cache storage - Vec of (key, value) pairs maintained in FIFO order
+    /// Internal cache storage - (key, value) pairs maintained in insertion order
     cache: Arc<Mutex<VecDeque<([u8; 3], CachedColorResult)>>>,
     /// Maximum cache size
     max_size: usize,
@@ -49,8 +55,8 @@ impl UnifiedColorCache {
     pub fn get(&self, rgb: &[u8; 3]) -> Option<CachedColorResult> {
         let cache = self.cache.lock().unwrap();
         
-        // Linear search from back (most recent) to front (oldest)
-        // This gives us LRU-like behavior without the complexity
+        // Linear search from back (most recently inserted) to front (oldest).
+        // Read-only: does not promote entries on access.
         for (cached_rgb, result) in cache.iter().rev() {
             if cached_rgb == rgb {
                 return Some(result.clone());
@@ -63,8 +69,7 @@ impl UnifiedColorCache {
     pub fn insert(&self, rgb: [u8; 3], result: CachedColorResult) {
         let mut cache = self.cache.lock().unwrap();
         
-        // First check if it already exists and remove it
-        // (we'll re-add it at the back for LRU-like behavior)
+        // Remove existing entry so re-insertion moves it to the back
         cache.retain(|(cached_rgb, _)| cached_rgb != &rgb);
         
         // Add to the back (most recent)

@@ -290,17 +290,17 @@ pub struct IsccNbsClassifier {
     /// ISCC-NBS color number, avoiding duplication across wedges.
     color_metadata: HashMap<u16, ColorMetadata>,
     
-    /// Thread-safe LRU cache for performance optimization.
+    /// Thread-safe FIFO cache for performance optimization.
     ///
     /// Caches recent classification results using (hue, scaled_value, scaled_chroma)
     /// as keys, mapped to optional color numbers. Uses scaled integer values
     /// for reliable floating-point key hashing.
     cache: Arc<RwLock<HashMap<(String, i32, i32), Option<u16>>>>,
-    
+
+    /// FIFO insertion order for deterministic eviction.
+    cache_order: Arc<RwLock<std::collections::VecDeque<(String, i32, i32)>>>,
+
     /// Maximum number of entries to retain in the cache.
-    ///
-    /// When the cache exceeds this size, older entries are evicted to
-    /// maintain reasonable memory usage.
     cache_max_size: usize,
 }
 
@@ -343,6 +343,7 @@ impl IsccNbsClassifier {
             wedge_system,
             color_metadata,
             cache: Arc::new(RwLock::new(HashMap::new())),
+            cache_order: Arc::new(RwLock::new(std::collections::VecDeque::new())),
             cache_max_size: 256,
         })
     }
@@ -361,6 +362,7 @@ impl IsccNbsClassifier {
             wedge_system,
             color_metadata,
             cache: Arc::new(RwLock::new(HashMap::new())),
+            cache_order: Arc::new(RwLock::new(std::collections::VecDeque::new())),
             cache_max_size: 256,
         })
     }
@@ -499,19 +501,20 @@ impl IsccNbsClassifier {
         }
     }
 
-    /// Helper method to cache results with size management
+    /// Cache a classification result with deterministic FIFO eviction.
     fn cache_result(&self, key: (String, i32, i32), result: Option<u16>) {
         let mut cache = self.cache.write().unwrap();
+        let mut order = self.cache_order.write().unwrap();
 
-        // Simple cache size management - remove oldest entries if needed
+        // Deterministic FIFO eviction: remove the oldest inserted entry
         if cache.len() >= self.cache_max_size {
-            // Remove first entry (simple FIFO, could be upgraded to LRU)
-            if let Some(first_key) = cache.keys().next().cloned() {
-                cache.remove(&first_key);
+            if let Some(oldest_key) = order.pop_front() {
+                cache.remove(&oldest_key);
             }
         }
 
-        cache.insert(key, result);
+        cache.insert(key.clone(), result);
+        order.push_back(key);
     }
 
     /// Get a polygon by its expected descriptor and hue wedge
@@ -1170,6 +1173,46 @@ mod tests {
         }
     }
     
+    #[test]
+    fn test_cache_deterministic_fifo_eviction() {
+        // Create a classifier — the cache starts empty with capacity 256
+        let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
+
+        // Fill cache past capacity with unique keys to trigger eviction
+        for i in 0..260 {
+            let key = (format!("hue_{}", i), i, i);
+            classifier.cache_result(key, Some(i as u16));
+        }
+
+        let cache = classifier.cache.read().unwrap();
+        let order = classifier.cache_order.read().unwrap();
+
+        // Cache should have been capped at max_size
+        assert_eq!(cache.len(), classifier.cache_max_size);
+        assert_eq!(order.len(), classifier.cache_max_size);
+
+        // The first 4 entries (0..4) should have been evicted
+        for i in 0..4 {
+            let key = (format!("hue_{}", i), i, i);
+            assert!(!cache.contains_key(&key),
+                    "Entry {} should have been evicted", i);
+        }
+
+        // The latest entries should still be present
+        for i in 4..260 {
+            let key = (format!("hue_{}", i), i, i);
+            assert!(cache.contains_key(&key),
+                    "Entry {} should still be in cache", i);
+        }
+
+        // The order deque should have the oldest surviving entry at front
+        let front = order.front().expect("Order should not be empty");
+        assert_eq!(front.0, "hue_4", "Front of order should be hue_4");
+
+        let back = order.back().expect("Order should not be empty");
+        assert_eq!(back.0, "hue_259", "Back of order should be hue_259");
+    }
+
     #[test]
     fn test_send_sync_traits() {
         // Verify that IsccNbsClassifier implements Send + Sync
