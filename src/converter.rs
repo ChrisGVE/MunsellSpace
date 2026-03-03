@@ -242,30 +242,18 @@ impl MunsellConverter {
         self.reference_data.len()
     }
     
-    /// Validate converter accuracy against the reference dataset.
+    /// Regression test: verify the full conversion pipeline reproduces reference data.
     ///
-    /// This method tests the converter against all reference colors and returns
-    /// accuracy statistics.
+    /// Because reference colors are cached in a HashMap, this method will always
+    /// return 100% exact matches for the lookup path. Its value is as a regression
+    /// guard: if someone breaks the reference dataset or the HashMap, this fails.
     ///
-    /// # Returns
-    /// Result containing accuracy statistics
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::MunsellConverter;
-    ///
-    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /// let converter = MunsellConverter::new()?;
-    /// let stats = converter.validate_accuracy()?;
-    /// println!("Accuracy: {:.2}%", stats.accuracy_percentage);
-    /// # Ok(())
-    /// # }
-    /// ```
-    pub fn validate_accuracy(&self) -> Result<AccuracyStats> {
+    /// For algorithmic accuracy measurement, use [`validate_algorithmic_accuracy`].
+    pub fn validate_regression(&self) -> Result<AccuracyStats> {
         let mut exact_matches = 0;
         let mut close_matches = 0;
         let total = self.reference_data.len();
-        
+
         for entry in self.reference_data.iter() {
             match self.srgb_to_munsell(entry.rgb) {
                 Ok(converted) => {
@@ -275,12 +263,10 @@ impl MunsellConverter {
                         close_matches += 1;
                     }
                 }
-                Err(_) => {
-                    // Conversion failed - neither exact nor close match
-                }
+                Err(_) => {}
             }
         }
-        
+
         Ok(AccuracyStats {
             total_colors: total,
             exact_matches,
@@ -288,6 +274,50 @@ impl MunsellConverter {
             accuracy_percentage: (exact_matches as f64 / total as f64) * 100.0,
             close_match_percentage: ((exact_matches + close_matches) as f64 / total as f64) * 100.0,
         })
+    }
+
+    /// Measure algorithmic conversion accuracy against the reference dataset.
+    ///
+    /// Bypasses the HashMap lookup and tests only the mathematical conversion
+    /// pipeline, giving a true measurement of algorithmic accuracy.
+    pub fn validate_algorithmic_accuracy(&self) -> Result<AccuracyStats> {
+        let mut exact_matches = 0;
+        let mut close_matches = 0;
+        let total = self.reference_data.len();
+
+        for entry in self.reference_data.iter() {
+            match self.algorithmic_srgb_to_munsell(entry.rgb) {
+                Ok(converted) => {
+                    if converted.notation == entry.munsell {
+                        exact_matches += 1;
+                    } else if self.is_close_match(&converted.notation, &entry.munsell) {
+                        close_matches += 1;
+                    }
+                }
+                Err(_) => {}
+            }
+        }
+
+        Ok(AccuracyStats {
+            total_colors: total,
+            exact_matches,
+            close_matches,
+            accuracy_percentage: (exact_matches as f64 / total as f64) * 100.0,
+            close_match_percentage: ((exact_matches + close_matches) as f64 / total as f64) * 100.0,
+        })
+    }
+
+    /// Validate converter accuracy against the reference dataset.
+    ///
+    /// # Deprecated
+    /// Use [`validate_regression`] for regression testing or
+    /// [`validate_algorithmic_accuracy`] for true accuracy measurement.
+    #[deprecated(
+        since = "1.2.3",
+        note = "Use validate_regression() or validate_algorithmic_accuracy() instead."
+    )]
+    pub fn validate_accuracy(&self) -> Result<AccuracyStats> {
+        self.validate_regression()
     }
     
     /// Load reference data from embedded CSV dataset.
@@ -1341,7 +1371,7 @@ mod tests {
     #[test]
     fn test_accuracy_validation() {
         let converter = MunsellConverter::new().unwrap();
-        let stats = converter.validate_accuracy().unwrap();
+        let stats = converter.validate_regression().unwrap();
         
         println!("Accuracy Stats:");
         println!("  Total colors: {}", stats.total_colors);
@@ -1419,6 +1449,36 @@ mod tests {
         
         // For now, let's just check that we have some results
         assert!(stats.total_colors > 0);
+    }
+
+    #[test]
+    fn test_algorithmic_accuracy() {
+        let converter = MunsellConverter::new().unwrap();
+        let stats = converter.validate_algorithmic_accuracy().unwrap();
+
+        println!("Algorithmic accuracy (bypassing HashMap lookup):");
+        println!("  Total: {}", stats.total_colors);
+        println!("  Exact: {} ({:.1}%)", stats.exact_matches, stats.accuracy_percentage);
+        println!("  Close: {} ({:.1}%)", stats.close_matches, stats.close_match_percentage);
+
+        // The algorithmic path should still have reasonable accuracy
+        // (exact + close) should cover most of the reference dataset
+        assert!(
+            stats.close_match_percentage > 50.0,
+            "Algorithmic path should be at least 50% close-match accurate"
+        );
+    }
+
+    #[test]
+    fn test_regression_is_100_percent() {
+        let converter = MunsellConverter::new().unwrap();
+        let stats = converter.validate_regression().unwrap();
+
+        // With HashMap lookup, all reference points should be exact matches
+        assert_eq!(
+            stats.exact_matches, stats.total_colors,
+            "Regression test should be 100% exact with HashMap lookup"
+        );
     }
 
     #[test]
