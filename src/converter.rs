@@ -1112,135 +1112,93 @@ pub struct AccuracyStats {
 impl MunsellConverter {
     // === PHASE 3: ISCC-NBS COLOR NAMING METHODS ===
     
-    /// Load ISCC-NBS polygon data from embedded CSV.
+    /// Load ISCC-NBS polygon data.
     fn load_iscc_nbs_data() -> Result<Vec<IsccNbsPolygon>> {
-        // ISCC-NBS data is now embedded in the iscc module constants
-        // This old implementation returns empty data - use IsccNbsClassifier instead
-        // Return empty data since this functionality moved to iscc module
+        // ISCC-NBS classification has moved to IsccNbsClassifier/ColorClassifier.
+        // This field is kept for backward compatibility but is no longer populated.
         Ok(Vec::new())
     }
-    
+
     /// Convert sRGB color directly to ISCC-NBS color name.
     ///
-    /// This is a convenience method that combines Munsell conversion with color naming.
-    ///
-    /// # Arguments
-    /// * `rgb` - RGB color as [R, G, B] array with components in range 0-255
-    ///
-    /// # Returns
-    /// Result containing the ISCC-NBS color name or an error
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::MunsellConverter;
-    ///
-    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /// let converter = MunsellConverter::new()?;
-    /// // Use a color that is likely to be found in ISCC-NBS database
-    /// match converter.srgb_to_color_name([128, 64, 64]) {
-    ///     Ok(color_name) => println!("Color name: {}", color_name.descriptor),
-    ///     Err(_) => println!("Color not found in ISCC-NBS database"),
-    /// }
-    /// # Ok(())
-    /// # }
-    /// ```
+    /// # Deprecated
+    /// Use [`ColorClassifier::classify_srgb()`](crate::ColorClassifier::classify_srgb)
+    /// for unified color naming including semantic overlays.
+    #[deprecated(
+        since = "1.2.3",
+        note = "Use ColorClassifier::classify_srgb() for unified color naming. This method will be removed in v2.0.0."
+    )]
     pub fn srgb_to_color_name(&self, rgb: [u8; 3]) -> Result<IsccNbsName> {
         let munsell = self.srgb_to_munsell(rgb)?;
+        #[allow(deprecated)]
         self.munsell_to_iscc_nbs_name(&munsell)
     }
-    
+
     /// Convert Munsell color to ISCC-NBS color name.
     ///
-    /// Uses point-in-polygon algorithms to determine which ISCC-NBS color category
-    /// the given Munsell color falls into.
-    ///
-    /// # Arguments
-    /// * `munsell` - The Munsell color to classify
-    ///
-    /// # Returns
-    /// Result containing the ISCC-NBS color name or an error if no match found
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::{MunsellConverter, MunsellColor};
-    ///
-    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /// let converter = MunsellConverter::new()?;
-    /// let munsell = MunsellColor::from_notation("N 5/")?;
-    /// match converter.munsell_to_iscc_nbs_name(&munsell) {
-    ///     Ok(color_name) => println!("Color name: {}", color_name.descriptor),
-    ///     Err(_) => println!("Color not found in ISCC-NBS database"),
-    /// }
-    /// # Ok(())
-    /// # }
-    /// ```
+    /// # Deprecated
+    /// Use [`ColorClassifier::classify_srgb()`](crate::ColorClassifier::classify_srgb)
+    /// for unified color naming including semantic overlays.
+    #[deprecated(
+        since = "1.2.3",
+        note = "Use ColorClassifier::classify_srgb() for unified color naming. This method will be removed in v2.0.0."
+    )]
     pub fn munsell_to_iscc_nbs_name(&self, munsell: &MunsellColor) -> Result<IsccNbsName> {
-        // Search through all polygons to find which one contains this color
-        for polygon in self.iscc_nbs_polygons.iter() {
-            if polygon.contains_point(munsell) {
-                return Ok(IsccNbsName::new(
-                    polygon.color_number,
-                    polygon.descriptor.clone(),
-                    polygon.color_name.clone(),
-                    polygon.modifier.clone(),
-                    polygon.revised_color.clone(),
-                ));
+        use crate::IsccNbsClassifier;
+
+        let classifier = IsccNbsClassifier::new()?;
+        let result = classifier.classify_munsell_color(munsell)?;
+
+        match result {
+            Some(metadata) => {
+                let descriptor = metadata.iscc_nbs_descriptor();
+                Ok(IsccNbsName::new(
+                    0, // color_number not exposed by ColorMetadata directly
+                    descriptor,
+                    metadata.iscc_nbs_color_name.clone(),
+                    None,
+                    metadata.alt_color_name.clone(),
+                ))
             }
+            None => Err(MunsellError::ConversionError {
+                message: format!(
+                    "No ISCC-NBS color name found for Munsell color: {}",
+                    munsell.notation
+                ),
+            }),
         }
-        
-        // If no polygon contains the point, return a reasonable default or error
-        Err(MunsellError::ConversionError {
-            message: format!("No ISCC-NBS color name found for Munsell color: {}", munsell.notation),
-        })
     }
-    
+
     /// Get all ISCC-NBS color categories.
     ///
-    /// Returns a reference to all loaded ISCC-NBS color polygons for advanced usage.
-    ///
-    /// # Returns
-    /// Slice of all ISCC-NBS color polygons
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::MunsellConverter;
-    ///
-    /// let converter = MunsellConverter::new().expect("Failed to create converter");
-    /// let polygons = converter.get_iscc_nbs_polygons();
-    /// println!("Loaded {} ISCC-NBS color categories", polygons.len());
-    /// ```
+    /// # Deprecated
+    /// This method always returns an empty slice. Use [`ColorClassifier`](crate::ColorClassifier)
+    /// for ISCC-NBS classification.
+    #[deprecated(
+        since = "1.2.3",
+        note = "Always returns empty. Use ColorClassifier for ISCC-NBS classification. Will be removed in v2.0.0."
+    )]
     pub fn get_iscc_nbs_polygons(&self) -> &[IsccNbsPolygon] {
         &self.iscc_nbs_polygons
     }
-    
+
     /// Find ISCC-NBS color by name or partial match.
     ///
-    /// Searches through color descriptors and names to find matching colors.
-    ///
-    /// # Arguments
-    /// * `query` - Search query (case-insensitive partial match)
-    ///
-    /// # Returns
-    /// Vector of matching ISCC-NBS color polygons
-    ///
-    /// # Examples
-    /// ```rust
-    /// use munsellspace::MunsellConverter;
-    ///
-    /// let converter = MunsellConverter::new().expect("Failed to create converter");
-    /// let reds = converter.find_colors_by_name("red");
-    /// for polygon in reds {
-    ///     println!("Found: {}", polygon.descriptor);
-    /// }
-    /// ```
+    /// # Deprecated
+    /// This method always returns empty results. Use [`ColorClassifier`](crate::ColorClassifier)
+    /// for ISCC-NBS classification.
+    #[deprecated(
+        since = "1.2.3",
+        note = "Always returns empty. Use ColorClassifier for ISCC-NBS classification. Will be removed in v2.0.0."
+    )]
     pub fn find_colors_by_name(&self, query: &str) -> Vec<&IsccNbsPolygon> {
         let query_lower = query.to_lowercase();
         self.iscc_nbs_polygons
             .iter()
             .filter(|polygon| {
-                polygon.descriptor.to_lowercase().contains(&query_lower) ||
-                polygon.color_name.to_lowercase().contains(&query_lower) ||
-                polygon.revised_color.to_lowercase().contains(&query_lower)
+                polygon.descriptor.to_lowercase().contains(&query_lower)
+                    || polygon.color_name.to_lowercase().contains(&query_lower)
+                    || polygon.revised_color.to_lowercase().contains(&query_lower)
             })
             .collect()
     }
@@ -1723,5 +1681,57 @@ mod tests {
         
         println!("sRGB->Munsell: {}", srgb_result.notation);
         println!("Lab->Munsell:  {}", lab_result.notation);
+    }
+
+    #[test]
+    #[allow(deprecated)]
+    fn test_srgb_to_color_name_delegates_to_iscc_classifier() {
+        let converter = MunsellConverter::new().unwrap();
+
+        // Pure red should classify as some kind of red
+        let result = converter.srgb_to_color_name([255, 0, 0]);
+        assert!(result.is_ok(), "srgb_to_color_name should succeed for pure red");
+        let name = result.unwrap();
+        assert!(
+            name.color_name.to_lowercase().contains("red"),
+            "Expected red, got: {}",
+            name.color_name
+        );
+        assert!(
+            !name.descriptor.is_empty(),
+            "Descriptor should not be empty"
+        );
+
+        // Mid gray should classify as gray
+        let gray_result = converter.srgb_to_color_name([128, 128, 128]);
+        // Neutral colors may not be classified by IsccNbsClassifier, so accept either outcome
+        if let Ok(gray_name) = gray_result {
+            assert!(
+                gray_name.color_name.to_lowercase().contains("gray")
+                    || gray_name.color_name.to_lowercase().contains("grey"),
+                "Expected gray, got: {}",
+                gray_name.color_name
+            );
+        }
+    }
+
+    #[test]
+    #[allow(deprecated)]
+    fn test_munsell_to_iscc_nbs_name_delegates_to_iscc_classifier() {
+        let converter = MunsellConverter::new().unwrap();
+
+        // Create a known chromatic Munsell color
+        let munsell = MunsellColor::from_notation("5R 4.0/14.0").unwrap();
+        let result = converter.munsell_to_iscc_nbs_name(&munsell);
+        assert!(
+            result.is_ok(),
+            "munsell_to_iscc_nbs_name should succeed for 5R 4/14"
+        );
+        let name = result.unwrap();
+        assert!(
+            name.color_name.to_lowercase().contains("red"),
+            "Expected red, got: {}",
+            name.color_name
+        );
     }
 }
