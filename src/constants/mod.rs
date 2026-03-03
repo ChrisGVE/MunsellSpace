@@ -227,7 +227,7 @@ mod tests {
     #[test]
     fn test_renotation_data_value_ranges() {
         // Test that values are in reasonable ranges
-        let mut invalid_y_count = 0;
+        let mut _invalid_y_count = 0;
         let mut max_y = 0.0f64;
         
         for &((hue, value, chroma), (x, y, y_scaled)) in MUNSELL_RENOTATION_DATA.iter() {
@@ -243,7 +243,7 @@ mod tests {
             
             // Some real Munsell data may have y > 1.0, so we'll be more lenient
             if y > 1.0 {
-                invalid_y_count += 1;
+                _invalid_y_count += 1;
                 if y > max_y {
                     max_y = y;
                 }

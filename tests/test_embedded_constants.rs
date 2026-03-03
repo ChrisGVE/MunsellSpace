@@ -3,6 +3,7 @@
 use munsellspace::IsccNbsClassifier;
 
 #[test]
+#[allow(deprecated)] // Tests IsccNbsClassifier directly; prefer ColorClassifier for new code
 fn test_embedded_iscc_constants_integration() {
     // Create classifier using embedded data (no file I/O)
     let classifier = IsccNbsClassifier::new()
@@ -34,7 +35,8 @@ fn test_embedded_iscc_constants_integration() {
     }
 }
 
-#[test] 
+#[test]
+#[allow(deprecated)] // Tests IsccNbsClassifier directly; prefer ColorClassifier for new code
 fn test_embedded_rgb_classification() {
     let classifier = IsccNbsClassifier::new()
         .expect("Should be able to create ISCC-NBS classifier with embedded data");
@@ -52,6 +54,7 @@ fn test_embedded_rgb_classification() {
 }
 
 #[test]
+#[allow(deprecated)] // Tests IsccNbsClassifier directly; prefer ColorClassifier for new code
 fn test_embedded_hex_classification() {
     let classifier = IsccNbsClassifier::new()
         .expect("Should be able to create ISCC-NBS classifier with embedded data");

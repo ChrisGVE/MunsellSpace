@@ -393,6 +393,7 @@ impl MunsellColor {
     ///     println!("This color is: {}", name);
     /// }
     /// ```
+    #[allow(deprecated)] // Internal call; full migration in separate task
     pub fn semantic_overlay(&self) -> Option<&'static str> {
         let spec = self.to_munsell_spec()?;
         semantic_overlay::semantic_overlay(&spec)
@@ -417,6 +418,7 @@ impl MunsellColor {
     ///     println!("Matches: {}", name);
     /// }
     /// ```
+    #[allow(deprecated)] // Internal call; full migration in separate task
     pub fn matching_overlays(&self) -> Vec<&'static str> {
         match self.to_munsell_spec() {
             Some(spec) => semantic_overlay::matching_overlays(&spec),
@@ -441,6 +443,7 @@ impl MunsellColor {
     ///     println!("This is a teal color!");
     /// }
     /// ```
+    #[allow(deprecated)] // Internal call; full migration in separate task
     pub fn matches_overlay(&self, overlay_name: &str) -> bool {
         match self.to_munsell_spec() {
             Some(spec) => semantic_overlay::matches_overlay(&spec, overlay_name),
@@ -467,6 +470,7 @@ impl MunsellColor {
     ///     println!("Closest overlay: {} (distance: {:.2})", name, distance);
     /// }
     /// ```
+    #[allow(deprecated)] // Internal call; full migration in separate task
     pub fn closest_overlay(&self) -> Option<(&'static str, f64)> {
         let spec = self.to_munsell_spec()?;
         semantic_overlay::closest_overlay(&spec)
@@ -1240,7 +1244,8 @@ mod tests {
         let color = MunsellColor::new_chromatic("5R".to_string(), 5.0, 10.0);
         let matches = color.matching_overlays();
         // May or may not have matches, but should not panic
-        assert!(matches.len() >= 0);
+        // Should return a valid vector (may or may not have matches)
+        let _ = matches.len();
 
         // Neutral should have no matches (neutral is at chroma 0)
         let neutral = MunsellColor::new_neutral(5.0);

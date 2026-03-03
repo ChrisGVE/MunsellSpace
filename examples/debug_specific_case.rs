@@ -1,5 +1,6 @@
 use munsellspace::{IsccNbsClassifier, MunsellConverter};
 
+#[allow(deprecated)] // Uses IsccNbsClassifier directly for debugging; prefer ColorClassifier
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🐛 Debugging specific case: #886648 -> 9.5R 4.5/6.0");
     

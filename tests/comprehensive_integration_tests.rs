@@ -6,8 +6,9 @@
 use munsellspace::*;
 use std::collections::HashMap;
 
-/// Test the complete conversion pipeline from RGB to Munsell to ISCC-NBS classification
+// Test the complete conversion pipeline from RGB to Munsell to ISCC-NBS classification
 #[test]
+#[allow(deprecated)] // Tests IsccNbsClassifier directly; prefer ColorClassifier for new code
 fn test_complete_conversion_pipeline() {
     let converter = MunsellConverter::new().expect("Failed to create converter");
     let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
@@ -73,8 +74,9 @@ fn test_complete_conversion_pipeline() {
     }
 }
 
-/// Test batch processing consistency across different modules
+// Test batch processing consistency across different modules
 #[test]
+#[allow(deprecated)] // Tests IsccNbsClassifier directly; prefer ColorClassifier for new code
 fn test_batch_processing_integration() {
     let converter = MunsellConverter::new().expect("Failed to create converter");
     let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
@@ -111,8 +113,9 @@ fn test_batch_processing_integration() {
     }
 }
 
-/// Test thread safety across all major components
+// Test thread safety across all major components
 #[test]
+#[allow(deprecated)] // Tests IsccNbsClassifier directly; prefer ColorClassifier for new code
 fn test_comprehensive_thread_safety() {
     use std::sync::Arc;
     use std::thread;
@@ -186,8 +189,9 @@ fn test_comprehensive_thread_safety() {
     }
 }
 
-/// Test error handling propagation across the system
-#[test] 
+// Test error handling propagation across the system
+#[test]
+#[allow(deprecated)] // Tests IsccNbsClassifier directly; prefer ColorClassifier for new code
 fn test_error_handling_integration() {
     let converter = MunsellConverter::new().expect("Failed to create converter");
     let classifier = IsccNbsClassifier::new().expect("Failed to create classifier");
@@ -252,13 +256,14 @@ fn test_error_handling_integration() {
     println!("  Classification errors: {} / {}", classification_errors, total_tests - conversion_errors);
 }
 
-/// Test comprehensive API surface - verify all major public APIs work together
+// Test comprehensive API surface - verify all major public APIs work together
 #[test]
+#[allow(deprecated)] // Tests IsccNbsClassifier directly; prefer ColorClassifier for new code
 fn test_comprehensive_api_surface() {
     // Test all major entry points work
     let converter = MunsellConverter::new().expect("MunsellConverter should initialize");
     let classifier = IsccNbsClassifier::new().expect("IsccNbsClassifier should initialize");
-    let reverse_converter = ReverseConverter::new().expect("ReverseConverter should initialize");
+    let _reverse_converter = ReverseConverter::new().expect("ReverseConverter should initialize");
     let cache = UnifiedColorCache::new();
     
     // Test RGB color creation and operations

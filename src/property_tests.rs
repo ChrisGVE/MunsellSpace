@@ -9,7 +9,7 @@ mod property_tests {
     use proptest::prelude::*;
     use std::sync::Arc;
 
-    /// Property: All valid RGB values should convert without error
+    // Property: All valid RGB values should convert without error
     proptest! {
         #[test]
         fn prop_all_rgb_values_convert_successfully(
@@ -36,7 +36,7 @@ mod property_tests {
         }
     }
 
-    /// Property: Converting the same RGB value multiple times should always give the same result
+    // Property: Converting the same RGB value multiple times should always give the same result
     proptest! {
         #[test]
         fn prop_rgb_conversion_deterministic(
@@ -58,7 +58,7 @@ mod property_tests {
         }
     }
 
-    /// Property: Batch conversion should give same results as individual conversions
+    // Property: Batch conversion should give same results as individual conversions
     proptest! {
         #[test]
         fn prop_batch_conversion_equals_individual(
@@ -90,7 +90,7 @@ mod property_tests {
         }
     }
 
-    /// Property: Neutral colors (grayscale) should have no hue information
+    // Property: Neutral colors (grayscale) should have no hue information
     proptest! {
         #[test]
         fn prop_grayscale_colors_neutral(
@@ -128,7 +128,7 @@ mod property_tests {
         assert!(black.chroma.is_none());
     }
 
-    /// Property: Colors with higher luminance should have higher Munsell value
+    // Property: Colors with higher luminance should have higher Munsell value
     proptest! {
         #[test]
         fn prop_luminance_correlates_with_value(
@@ -153,7 +153,7 @@ mod property_tests {
         }
     }
 
-    /// Property: Thread safety - multiple threads should produce consistent results
+    // Property: Thread safety - multiple threads should produce consistent results
     proptest! {
         #[test]
         fn prop_thread_safety(
@@ -187,7 +187,7 @@ mod property_tests {
         }
     }
 
-    /// Property: Valid Munsell notation parsing should be invertible
+    // Property: Valid Munsell notation parsing should be invertible
     proptest! {
         #[test]
         fn prop_munsell_notation_parsing_roundtrip(
@@ -218,7 +218,7 @@ mod property_tests {
         }
     }
 
-    /// Property: Extreme RGB values should convert without overflow/underflow
+    // Property: Extreme RGB values should convert without overflow/underflow
     proptest! {
         #[test]
         fn prop_extreme_rgb_values_safe(
