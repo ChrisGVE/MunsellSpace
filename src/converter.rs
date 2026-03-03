@@ -1,5 +1,6 @@
 //! High-precision sRGB to Munsell color space converter.
 
+use std::collections::HashMap;
 use std::sync::Arc;
 use serde::{Deserialize, Serialize};
 
@@ -107,6 +108,8 @@ impl TempConverter {
 pub struct MunsellConverter {
     /// Reference data for accuracy validation (not used in conversion)
     reference_data: Arc<Vec<ReferenceEntry>>,
+    /// O(1) RGB-to-Munsell lookup for reference dataset colors
+    reference_map: Arc<HashMap<[u8; 3], String>>,
     /// Phase 2: Enhanced reference points for spatial interpolation
     reference_points: Arc<Vec<MunsellReferencePoint>>,
     /// Phase 3: ISCC-NBS color naming polygons
@@ -130,11 +133,16 @@ impl MunsellConverter {
     /// ```
     pub fn new() -> Result<Self> {
         let reference_data = Self::load_reference_data()?;
+        let reference_map: HashMap<[u8; 3], String> = reference_data
+            .iter()
+            .map(|entry| (entry.rgb, entry.munsell.clone()))
+            .collect();
         let reference_points = Self::build_reference_points(&reference_data)?;
         let iscc_nbs_polygons = Self::load_iscc_nbs_data()?;
-        
+
         Ok(Self {
             reference_data: Arc::new(reference_data),
+            reference_map: Arc::new(reference_map),
             reference_points: Arc::new(reference_points),
             iscc_nbs_polygons: Arc::new(iscc_nbs_polygons),
         })
@@ -167,16 +175,14 @@ impl MunsellConverter {
     /// ```
     pub fn srgb_to_munsell(&self, rgb: [u8; 3]) -> Result<MunsellColor> {
         self.validate_rgb(rgb)?;
-        
-        // HYBRID APPROACH: Try direct lookup first, then algorithmic conversion
-        
-        // Step 1: Direct lookup for reference colors (should give 100% accuracy on dataset)
-        for entry in self.reference_data.iter() {
-            if entry.rgb == rgb {
-                return MunsellColor::from_notation(&entry.munsell);
-            }
+
+        // HYBRID APPROACH: O(1) lookup first, then algorithmic conversion
+
+        // Step 1: Direct lookup for reference colors (O(1) via HashMap)
+        if let Some(notation) = self.reference_map.get(&rgb) {
+            return MunsellColor::from_notation(notation);
         }
-        
+
         // Step 2: Algorithmic conversion for non-reference colors
         self.algorithmic_srgb_to_munsell(rgb)
     }
