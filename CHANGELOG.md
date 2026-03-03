@@ -11,6 +11,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ready for production publication to crates.io
 - Merged feature/true-mathematical-conversion branch to main
 
+## [1.2.4] - 2026-03-03
+
+### Fixed
+- **Near-black achromatic colors no longer error**: RGB [1,1,1] through [10,10,10] previously
+  failed with `InterpolationError` because the Munsell Renotation Dataset has no entries below
+  Value 0.2. These colors are now correctly returned as neutral (N) with chroma 0.
+- Added D65-proximity achromatic detection in `MathematicalMunsellConverter` to catch achromatic
+  sRGB colors that the Illuminant C threshold missed (D65-to-C offset ~0.013 exceeded the 1e-3
+  threshold).
+- Value interpolation now clamps floor to 0.2 instead of 0.0 for values in (0.2, 1.0), preventing
+  lookups against non-existent renotation data.
+
+### Added
+- `MINIMUM_RENOTATION_VALUE` constant (0.2) documenting the dataset lower bound
+- "Edge Cases and Limitations" section in crate-level documentation
+- Regression tests for near-black achromatic color conversion
+
+### Changed
+- Refactored large monolithic source files into focused submodules for improved maintainability:
+  `mathematical`, `munsell_color_science`, `converter`, `iscc`, `semantic_overlay`,
+  `mechanical_wedges`, `reverse_conversion`, `types`
+
 ## [1.2.2] - 2025-12-28
 
 ### Fixed
