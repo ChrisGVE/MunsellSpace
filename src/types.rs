@@ -201,42 +201,82 @@ impl MunsellColor {
     /// ```
     pub fn from_notation(notation: &str) -> Result<Self> {
         let notation = notation.trim();
-        
-        // Handle neutral colors (e.g., "N 5.6/", "N 5.6", or "N 0.0")
-        if notation.starts_with("N ") {
-            let value_part = notation.strip_prefix("N ").unwrap().trim_end_matches('/');
-            let value = value_part.parse::<f64>().map_err(|_| MunsellError::InvalidNotation {
-                notation: notation.to_string(),
-                reason: "Invalid value component in neutral color".to_string(),
+
+        // Handle neutral colors: accept "N 5.6", "N5.6", "n 5.6", "N 5.6/", "N 5.6/0"
+        let upper = notation.to_uppercase();
+        if upper.starts_with('N') {
+            // Strip leading N (with or without space)
+            let after_n = upper.strip_prefix('N').unwrap();
+            let value_part = after_n.trim().trim_end_matches('/');
+            // Also strip trailing /0 or /0.0 patterns
+            let value_part = if let Some(idx) = value_part.find('/') {
+                let after_slash = &value_part[idx + 1..];
+                let trailing_zero = after_slash.trim().parse::<f64>().unwrap_or(1.0) == 0.0;
+                if trailing_zero {
+                    &value_part[..idx]
+                } else {
+                    return Err(MunsellError::InvalidNotation {
+                        notation: notation.to_string(),
+                        reason: "Neutral colors must have zero chroma".to_string(),
+                    });
+                }
+            } else {
+                value_part
+            };
+
+            let value = value_part.trim().parse::<f64>().map_err(|_| {
+                MunsellError::InvalidNotation {
+                    notation: notation.to_string(),
+                    reason: "Invalid value component in neutral color".to_string(),
+                }
             })?;
-            
+
             if !(0.0..=10.0).contains(&value) {
                 return Err(MunsellError::InvalidNotation {
                     notation: notation.to_string(),
                     reason: "Value must be between 0.0 and 10.0".to_string(),
                 });
             }
-            
-            // Preserve original notation format
+
+            // Always produce canonical form: "N {value}"
+            let canonical = format!("N {}", format_value(value));
             return Ok(Self {
-                notation: notation.to_string(),
+                notation: canonical,
                 hue: None,
                 value,
                 chroma: None,
             });
         }
-        
-        // Handle chromatic colors (e.g., "5R 4.0/14.0")
+
+        // Handle chromatic colors (e.g., "5R 4.0/14.0", "5r 4/14", "5R4/14")
         let parts: Vec<&str> = notation.split_whitespace().collect();
-        if parts.len() != 2 {
-            return Err(MunsellError::InvalidNotation {
-                notation: notation.to_string(),
-                reason: "Expected format: 'HUE VALUE/CHROMA' or 'N VALUE/'".to_string(),
-            });
-        }
-        
-        let hue = parts[0].to_string();
-        
+
+        let (hue_str, value_chroma) = match parts.len() {
+            2 => (parts[0].to_string(), parts[1].to_string()),
+            1 => {
+                // No space — split at the boundary between hue family letters and value digits
+                // e.g. "5R4.0/14.0" → hue="5R", value_chroma="4.0/14.0"
+                match split_hue_from_value(parts[0]) {
+                    Some((h, vc)) => (h, vc),
+                    None => {
+                        return Err(MunsellError::InvalidNotation {
+                            notation: notation.to_string(),
+                            reason: "Expected format: 'HUE VALUE/CHROMA' or 'N VALUE/'".to_string(),
+                        })
+                    }
+                }
+            }
+            _ => {
+                return Err(MunsellError::InvalidNotation {
+                    notation: notation.to_string(),
+                    reason: "Expected format: 'HUE VALUE/CHROMA' or 'N VALUE/'".to_string(),
+                })
+            }
+        };
+
+        // Normalize hue to uppercase for case-insensitive matching
+        let hue = hue_str.to_uppercase();
+
         // Validate hue format (should be number + valid hue family)
         if !is_valid_hue_format(&hue) {
             return Err(MunsellError::InvalidNotation {
@@ -244,16 +284,14 @@ impl MunsellColor {
                 reason: "Invalid hue format. Expected format like '5R', '2.5YR', etc.".to_string(),
             });
         }
-        
-        let value_chroma = parts[1];
-        
+
         if !value_chroma.contains('/') {
             return Err(MunsellError::InvalidNotation {
                 notation: notation.to_string(),
                 reason: "Missing '/' separator between value and chroma".to_string(),
             });
         }
-        
+
         let value_chroma_parts: Vec<&str> = value_chroma.split('/').collect();
         if value_chroma_parts.len() != 2 {
             return Err(MunsellError::InvalidNotation {
@@ -261,31 +299,35 @@ impl MunsellColor {
                 reason: "Invalid value/chroma format".to_string(),
             });
         }
-        
-        let value = value_chroma_parts[0].parse::<f64>().map_err(|_| MunsellError::InvalidNotation {
-            notation: notation.to_string(),
-            reason: "Invalid value component".to_string(),
+
+        let value = value_chroma_parts[0].parse::<f64>().map_err(|_| {
+            MunsellError::InvalidNotation {
+                notation: notation.to_string(),
+                reason: "Invalid value component".to_string(),
+            }
         })?;
-        
-        let chroma = value_chroma_parts[1].parse::<f64>().map_err(|_| MunsellError::InvalidNotation {
-            notation: notation.to_string(),
-            reason: "Invalid chroma component".to_string(),
+
+        let chroma = value_chroma_parts[1].parse::<f64>().map_err(|_| {
+            MunsellError::InvalidNotation {
+                notation: notation.to_string(),
+                reason: "Invalid chroma component".to_string(),
+            }
         })?;
-        
+
         if !(0.0..=10.0).contains(&value) {
             return Err(MunsellError::InvalidNotation {
                 notation: notation.to_string(),
                 reason: "Value must be between 0.0 and 10.0".to_string(),
             });
         }
-        
+
         if chroma < 0.0 {
             return Err(MunsellError::InvalidNotation {
                 notation: notation.to_string(),
                 reason: "Chroma must be non-negative".to_string(),
             });
         }
-        
+
         Ok(Self::new_chromatic(hue, value, chroma))
     }
     
@@ -868,6 +910,47 @@ fn ray_casting_point_in_polygon(test_x: f64, test_y: f64, vertices: &[(f64, f64)
     inside
 }
 
+/// Format a Munsell value, dropping the trailing `.0` when the value is an integer.
+fn format_value(v: f64) -> String {
+    if v.fract() == 0.0 {
+        format!("{:.1}", v)
+    } else {
+        format!("{}", v)
+    }
+}
+
+/// Split a compact notation like "5R4.0/14.0" into ("5R", "4.0/14.0").
+///
+/// Finds the boundary where hue-family letters end and the value digits begin.
+fn split_hue_from_value(s: &str) -> Option<(String, String)> {
+    let upper = s.to_uppercase();
+    // Try matching each family (longest first) after a numeric prefix
+    let mut families = ["BG", "GY", "YR", "RP", "PB", "B", "G", "Y", "R", "P"];
+    families.sort_by_key(|f| std::cmp::Reverse(f.len()));
+
+    for family in &families {
+        // Find all occurrences of the family in the string
+        if let Some(pos) = upper.find(family) {
+            let after_family = pos + family.len();
+            // The part before family+letters must be a number (the hue number)
+            let numeric_part = &upper[..pos];
+            if numeric_part.is_empty() {
+                continue;
+            }
+            if numeric_part.parse::<f64>().is_err() {
+                continue;
+            }
+            // The part after the family must start a value/chroma like "4.0/14.0"
+            if after_family < upper.len() {
+                let hue = s[..after_family].to_string();
+                let rest = s[after_family..].to_string();
+                return Some((hue, rest));
+            }
+        }
+    }
+    None
+}
+
 /// Validates that a hue string has the correct format (number + valid hue family).
 fn is_valid_hue_format(hue: &str) -> bool {
     // Valid hue families - order by length (longest first) to avoid matching "B" when we want "PB"
@@ -1291,5 +1374,84 @@ mod tests {
         let neutral = MunsellColor::new_neutral(5.0);
         let result = neutral.closest_overlay();
         assert!(result.is_some());
+    }
+
+    // === Notation parsing unification tests ===
+
+    #[test]
+    fn test_from_notation_neutral_no_space() {
+        // "N5.5" (no space) should be accepted and canonicalized
+        let c = MunsellColor::from_notation("N5.5").unwrap();
+        assert!(c.is_neutral());
+        assert_eq!(c.value, 5.5);
+        assert_eq!(c.notation, "N 5.5");
+    }
+
+    #[test]
+    fn test_from_notation_neutral_with_space() {
+        let c = MunsellColor::from_notation("N 5.5").unwrap();
+        assert!(c.is_neutral());
+        assert_eq!(c.value, 5.5);
+        assert_eq!(c.notation, "N 5.5");
+    }
+
+    #[test]
+    fn test_from_notation_neutral_trailing_slash() {
+        let c = MunsellColor::from_notation("N 5.6/").unwrap();
+        assert!(c.is_neutral());
+        assert_eq!(c.value, 5.6);
+    }
+
+    #[test]
+    fn test_from_notation_neutral_trailing_slash_zero() {
+        let c = MunsellColor::from_notation("N 5.0/0").unwrap();
+        assert!(c.is_neutral());
+        assert_eq!(c.value, 5.0);
+    }
+
+    #[test]
+    fn test_from_notation_neutral_case_insensitive() {
+        let c = MunsellColor::from_notation("n 5.0").unwrap();
+        assert!(c.is_neutral());
+        assert_eq!(c.notation, "N 5.0");
+    }
+
+    #[test]
+    fn test_from_notation_chromatic_case_insensitive() {
+        let c = MunsellColor::from_notation("5r 4.0/14.0").unwrap();
+        assert!(c.is_chromatic());
+        assert_eq!(c.hue, Some("5R".to_string()));
+        assert_eq!(c.value, 4.0);
+        assert_eq!(c.chroma, Some(14.0));
+    }
+
+    #[test]
+    fn test_from_notation_chromatic_lowercase_compound_hue() {
+        let c = MunsellColor::from_notation("2.5yr 6.5/8.0").unwrap();
+        assert_eq!(c.hue, Some("2.5YR".to_string()));
+    }
+
+    #[test]
+    fn test_from_notation_negative_chroma_rejected() {
+        let result = MunsellColor::from_notation("5R 4.0/-2.0");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_from_notation_compact_chromatic() {
+        // "5R4.0/14.0" (no space between hue and value)
+        let c = MunsellColor::from_notation("5R4.0/14.0").unwrap();
+        assert!(c.is_chromatic());
+        assert_eq!(c.hue, Some("5R".to_string()));
+        assert_eq!(c.value, 4.0);
+        assert_eq!(c.chroma, Some(14.0));
+    }
+
+    #[test]
+    fn test_from_notation_canonical_output_always_uppercase() {
+        let c = MunsellColor::from_notation("5pb 3.0/8.0").unwrap();
+        assert_eq!(c.hue, Some("5PB".to_string()));
+        // Notation should contain uppercase hue
+        assert!(c.notation.contains("PB"));
     }
 }

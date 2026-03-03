@@ -103,7 +103,14 @@ pub fn parse_munsell_colour(munsell_colour: &str) -> Result<[f64; 4]> {
             .as_str()
             .parse::<f64>()
             .map_err(|_| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?;
-            
+
+        if chroma < 0.0 {
+            return Err(MunsellError::InvalidNotation {
+                notation: munsell_colour.to_string(),
+                reason: "Chroma must be non-negative".to_string(),
+            });
+        }
+
         let letter = captures.name("letter")
             .ok_or_else(|| MunsellError::InvalidNotation { notation: munsell_colour.to_string(), reason: "Invalid format".to_string() })?
             .as_str()
@@ -280,5 +287,23 @@ mod tests {
         let red_spec = [10.0, 2.0, 4.0, 7.0];
         let red_str = munsell_specification_to_munsell_colour(&red_spec, 1, 1, 1).unwrap();
         assert_eq!(red_str, "10.0R 2.0/4.0");
+    }
+
+    #[test]
+    fn test_negative_chroma_rejected() {
+        let result = parse_munsell_colour("5R 4/-2");
+        assert!(result.is_err(), "Negative chroma should be rejected");
+    }
+
+    #[test]
+    fn test_case_insensitive_parsing() {
+        // Parser already handles case via (?i) flag
+        let lower = parse_munsell_colour("5r 4/10").unwrap();
+        assert_eq!(lower[0], 5.0);
+        assert_eq!(lower[3], 7.0); // R = code 7
+
+        let neutral = parse_munsell_colour("n5.5").unwrap();
+        assert!(neutral[0].is_nan());
+        assert_eq!(neutral[1], 5.5);
     }
 }
