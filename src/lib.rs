@@ -237,10 +237,9 @@ pub use illuminants::{Illuminant, ChromaticAdaptation, ChromaticAdaptationMethod
 pub use iscc::{IsccNbsClassifier, ColorMetadata};
 pub use mechanical_wedges::MechanicalWedgeSystem;
 pub use mathematical::{
-    MathematicalMunsellConverter, 
-    MunsellSpecification, 
+    MathematicalMunsellConverter,
+    MunsellSpecification,
     CieXyY,
-    Illuminant as MathematicalIlluminant,
     ChromaticAdaptation as MathematicalChromaticAdaptation
 };
 pub use reverse_conversion::{ReverseConverter, ColorFormats, CieLab, HslColor, HsvColor, munsell_to_hex_string};
