@@ -208,7 +208,6 @@ pub mod constants;
 pub mod mathematical;
 pub mod reverse_conversion;
 pub mod munsell_color_science;
-pub mod conversion_helpers;
 pub mod munsell_converter_core;
 pub mod color_notation_parser;
 pub mod lab_color_space;
