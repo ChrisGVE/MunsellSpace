@@ -117,8 +117,11 @@ impl MathematicalMunsellConverter {
         if is_integer {
             self.xy_from_renotation_ovoid(hue, value.round(), chroma, code)
         } else {
-            let value_minus = value.floor();
-            let value_plus = value_minus + 1.0;
+            // Clamp floor to MINIMUM_RENOTATION_VALUE: the dataset has no
+            // entries at Value 0.0, so floor(V) for V in (0.2, 1.0) must
+            // use 0.2 as the lower bound for interpolation.
+            let value_minus = value.floor().max(MINIMUM_RENOTATION_VALUE);
+            let value_plus = value.ceil();
 
             let (x_minus, y_minus) = self.xy_from_renotation_ovoid(hue, value_minus, chroma, code)?;
 

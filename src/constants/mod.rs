@@ -50,6 +50,12 @@ pub const ASTM_D1535_COEFFICIENTS: [f64; 5] = [
 /// REVERTED: Using 1e-6 for now as 1e-3 caused accuracy regression
 pub const ACHROMATIC_THRESHOLD: f64 = 1e-6;
 
+/// Minimum Munsell Value in the Munsell Renotation Dataset.
+/// No entries exist below Value 0.2. Colors below this are returned as
+/// neutral since the data cannot support chroma computation, and human
+/// color discrimination is negligible at such low luminance.
+pub const MINIMUM_RENOTATION_VALUE: f64 = 0.2;
+
 /// Newton-Raphson iteration tolerance for Value calculation
 /// Convergence criterion for iterative polynomial solving
 pub const NEWTON_RAPHSON_TOLERANCE: f64 = 1e-10;

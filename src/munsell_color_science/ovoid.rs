@@ -119,7 +119,9 @@ fn interpolate_fractional_value_at_chroma2(spec: &[f64; 4], value: f64) -> Resul
 
 /// Interpolate between floor and ceil integer values.
 fn interpolate_fractional_value(spec: &[f64; 4], value: f64) -> Result<[f64; 2]> {
-    let value_floor = value.floor();
+    // Clamp floor to MINIMUM_RENOTATION_VALUE: the dataset has no entries at
+    // Value 0.0, so floor(V) for V in (0.2, 1.0) must use 0.2 as lower bound.
+    let value_floor = value.floor().max(crate::constants::MINIMUM_RENOTATION_VALUE);
     let value_ceil = value.ceil();
 
     if value_ceil > 9.0 {

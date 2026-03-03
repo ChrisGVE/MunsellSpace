@@ -13,9 +13,22 @@ use super::specification::{
 };
 
 /// Convert CIE xyY to Munsell specification via iterative convergence.
+///
+/// Colors below the Munsell Renotation Dataset minimum Value (0.2) are
+/// returned as neutral (N) since no renotation data exists to resolve
+/// chroma, and human color discrimination is negligible at such low
+/// luminance.
 pub fn xyy_to_munsell_specification(xyy: [f64; 3]) -> Result<[f64; 4]> {
     let (x, y, big_y) = (xyy[0], xyy[1], xyy[2]);
     let value = round_if_close(munsell_value_astmd1535(big_y * 100.0));
+
+    // Colors below the renotation dataset's minimum Value (0.2) cannot
+    // have their chroma resolved. Return neutral — at such low luminance,
+    // human color discrimination is effectively zero.
+    if value < crate::constants::MINIMUM_RENOTATION_VALUE {
+        return Ok(normalise_munsell_specification(&[f64::NAN, value, 0.0, f64::NAN]));
+    }
+
     let (x_center, y_center) = (crate::constants::ILLUMINANT_C[0], crate::constants::ILLUMINANT_C[1]);
 
     let (rho_input, phi_input, _) =

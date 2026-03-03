@@ -198,6 +198,31 @@
 //! **`OverlayMode`**: Controls semantic overlay behavior
 //! - `Ignore`: Always use ISCC-NBS base colors
 //! - `Include`: Use nearest semantic overlay when available
+//!
+//! ## Edge Cases and Limitations
+//!
+//! ### Near-black colors (Value < 0.2)
+//!
+//! The Munsell Renotation Dataset contains no entries below Value 0.2.
+//! Colors that compute to a Munsell Value below this threshold (roughly
+//! sRGB [0,0,0] through [12,12,12]) are returned as neutral (N) with
+//! chroma 0, because there is no renotation data to resolve their hue
+//! or chroma, and human color discrimination is negligible at such low
+//! luminance levels.
+//!
+//! ```rust
+//! # use munsellspace::MunsellConverter;
+//! # fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! let converter = MunsellConverter::new()?;
+//! let near_black = converter.srgb_to_munsell([1, 1, 1])?;
+//! assert_eq!(near_black.notation, "N 0.0"); // Treated as neutral black
+//! # Ok(())
+//! # }
+//! ```
+//!
+//! ### Pure black
+//!
+//! RGB [0,0,0] returns `N 0.0` (neutral black with Value 0 and chroma 0).
 
 pub mod converter;
 pub mod types;

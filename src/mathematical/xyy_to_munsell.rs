@@ -21,6 +21,11 @@ impl MathematicalMunsellConverter {
     ///
     /// EXACT IMPLEMENTATION of Python colour-science _xyY_to_munsell_specification.
     /// Uses a dual-loop iterative algorithm for mathematical accuracy.
+    ///
+    /// Colors below the Munsell Renotation Dataset minimum Value (0.2) are
+    /// returned as neutral (N) since no renotation data exists to resolve
+    /// chroma, and human color discrimination is negligible at such low
+    /// luminance.
     pub fn xyy_to_munsell_specification(&self, xyy: CieXyY) -> Result<MunsellSpecification> {
         let convergence_threshold = THRESHOLD_INTEGER / 1e4; // 1e-7
 
@@ -30,7 +35,30 @@ impl MathematicalMunsellConverter {
             value = value.round();
         }
 
-        // Step 2: Get achromatic center for this value
+        // Colors below the renotation dataset's minimum Value (0.2) cannot
+        // have their chroma resolved. Return neutral — at such low luminance,
+        // human color discrimination is effectively zero.
+        if value < MINIMUM_RENOTATION_VALUE {
+            return Ok(MunsellSpecification {
+                hue: 0.0, family: "N".to_string(), value, chroma: 0.0,
+            });
+        }
+
+        // Step 2: Check for achromatic sRGB colors via D65 proximity.
+        // sRGB achromatic colors (R=G=B) have chromaticity at the D65
+        // white point, which is offset ~0.013 from Illuminant C. The
+        // existing rho < 1e-3 check misses these, so we explicitly test
+        // distance from D65 before entering the iterative algorithm.
+        let dx_d65 = xyy.x - ILLUMINANT_D65_CHROMATICITY[0];
+        let dy_d65 = xyy.y - ILLUMINANT_D65_CHROMATICITY[1];
+        let rho_d65 = (dx_d65 * dx_d65 + dy_d65 * dy_d65).sqrt();
+        if rho_d65 < THRESHOLD_INTEGER {
+            return Ok(MunsellSpecification {
+                hue: 0.0, family: "N".to_string(), value, chroma: 0.0,
+            });
+        }
+
+        // Step 3: Get achromatic center for this value
         let (x_center, y_center) = self.achromatic_center(value)?;
 
         // Calculate rho/phi relative to achromatic center
@@ -39,7 +67,7 @@ impl MathematicalMunsellConverter {
         );
         let phi_input = phi_input_rad.to_degrees();
 
-        // Step 3: Check for achromatic / pure black
+        // Step 4: Check for achromatic / pure black (Illuminant C proximity)
         if rho_input < THRESHOLD_INTEGER || xyy.y_luminance < 1e-6 {
             return Ok(MunsellSpecification {
                 hue: 0.0, family: "N".to_string(), value, chroma: 0.0,
