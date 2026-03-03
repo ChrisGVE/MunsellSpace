@@ -49,27 +49,11 @@ criterion = { version = "0.5", features = ["html_reports"] }
 
 [features]
 default = []
-cli = ["clap"]
-
-[dependencies.clap]
-version = "4.0"
-features = ["derive"]
-optional = true
-
-# Note: Binary, examples, and benchmarks will be added in future versions
 
 [lib]
 name = "munsellspace"
 path = "src/lib.rs"
 
-
-[[bin]]
-name = "comprehensive_dataset_misses"
-path = "investigation/src/comprehensive_dataset_misses.rs"
-
-[[bin]]
-name = "wedge_coverage_test"
-path = "investigation/src/wedge_coverage_test.rs"
 
 [[bench]]
 name = "munsell_conversion_benchmarks"
