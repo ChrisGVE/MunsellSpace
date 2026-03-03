@@ -10,10 +10,7 @@ use crate::types::MunsellColor;
 use crate::unified_cache::hex_to_rgb;
 use crate::MunsellConverter;
 
-// Internal use of deprecated functions - these are the backing implementations
-// We use them internally while providing the unified API externally
-#[allow(deprecated)]
-use crate::semantic_overlay::{closest_overlay, matching_overlays, semantic_overlay};
+use crate::semantic_overlay_data::get_registry;
 
 use super::characterization::ColorCharacterization;
 use super::descriptor::ColorDescriptor;
@@ -266,9 +263,10 @@ impl ColorClassifier {
 
         // Get semantic overlay matches
         let (semantic_matches, nearest) = if let Some(ref spec) = munsell_spec {
+            let registry = get_registry();
             let all_matches: Vec<String> =
-                matching_overlays(spec).iter().map(|s| s.to_string()).collect();
-            let nearest = closest_overlay(spec).map(|(name, dist)| (name.to_string(), dist));
+                registry.matching_overlays(spec).iter().map(|o| o.name.to_string()).collect();
+            let nearest = registry.closest_overlay(spec).map(|(o, dist)| (o.name.to_string(), dist));
             (all_matches, nearest)
         } else {
             (vec![], None)
@@ -338,11 +336,11 @@ impl ColorClassifier {
     /// # Ok(())
     /// # }
     /// ```
-    #[allow(deprecated)] // Uses deprecated semantic_overlay function internally
     pub fn semantic_name(&self, rgb: [u8; 3]) -> Result<Option<String>> {
         let munsell = self.converter.srgb_to_munsell(rgb)?;
         if let Some(spec) = self.munsell_color_to_spec(&munsell) {
-            Ok(semantic_overlay(&spec).map(|s| s.to_string()))
+            let registry = get_registry();
+            Ok(registry.best_match(&spec).map(|o| o.name.to_string()))
         } else {
             Ok(None)
         }
@@ -366,13 +364,13 @@ impl ColorClassifier {
     /// # Ok(())
     /// # }
     /// ```
-    #[allow(deprecated)] // Uses deprecated matching_overlays function internally
     pub fn semantic_matches(&self, rgb: [u8; 3]) -> Result<Vec<String>> {
         let munsell = self.converter.srgb_to_munsell(rgb)?;
         if let Some(spec) = self.munsell_color_to_spec(&munsell) {
-            Ok(matching_overlays(&spec)
+            let registry = get_registry();
+            Ok(registry.matching_overlays(&spec)
                 .iter()
-                .map(|s| s.to_string())
+                .map(|o| o.name.to_string())
                 .collect())
         } else {
             Ok(vec![])

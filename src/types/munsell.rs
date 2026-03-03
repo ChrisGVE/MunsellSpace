@@ -339,10 +339,10 @@ impl MunsellColor {
     ///     println!("This color is: {}", name);
     /// }
     /// ```
-    #[allow(deprecated)] // Internal call; full migration in separate task
     pub fn semantic_overlay(&self) -> Option<&'static str> {
         let spec = self.to_munsell_spec()?;
-        semantic_overlay::semantic_overlay(&spec)
+        let registry = crate::semantic_overlay_data::get_registry();
+        registry.best_match(&spec).map(|o| o.name)
     }
 
     /// Get all matching semantic overlay names for this color.
@@ -364,10 +364,15 @@ impl MunsellColor {
     ///     println!("Matches: {}", name);
     /// }
     /// ```
-    #[allow(deprecated)] // Internal call; full migration in separate task
     pub fn matching_overlays(&self) -> Vec<&'static str> {
         match self.to_munsell_spec() {
-            Some(spec) => semantic_overlay::matching_overlays(&spec),
+            Some(spec) => {
+                let registry = crate::semantic_overlay_data::get_registry();
+                registry.matching_overlays(&spec)
+                    .into_iter()
+                    .map(|o| o.name)
+                    .collect()
+            }
             None => Vec::new(),
         }
     }
@@ -389,10 +394,12 @@ impl MunsellColor {
     ///     println!("This is a teal color!");
     /// }
     /// ```
-    #[allow(deprecated)] // Internal call; full migration in separate task
     pub fn matches_overlay(&self, overlay_name: &str) -> bool {
         match self.to_munsell_spec() {
-            Some(spec) => semantic_overlay::matches_overlay(&spec, overlay_name),
+            Some(spec) => {
+                let registry = crate::semantic_overlay_data::get_registry();
+                registry.matches(&spec, overlay_name)
+            }
             None => false,
         }
     }
@@ -416,10 +423,10 @@ impl MunsellColor {
     ///     println!("Closest overlay: {} (distance: {:.2})", name, distance);
     /// }
     /// ```
-    #[allow(deprecated)] // Internal call; full migration in separate task
     pub fn closest_overlay(&self) -> Option<(&'static str, f64)> {
         let spec = self.to_munsell_spec()?;
-        semantic_overlay::closest_overlay(&spec)
+        let registry = crate::semantic_overlay_data::get_registry();
+        registry.closest_overlay(&spec).map(|(o, d)| (o.name, d))
     }
 }
 
