@@ -1,0 +1,6 @@
+# wqm-specific exclusions — uses gitignore syntax.
+# These paths are excluded from workspace-qdrant-mcp indexing
+# without affecting git tracking.
+
+# Wikipedia dataset (large, auto-downloaded — not for indexing)
+datasets/

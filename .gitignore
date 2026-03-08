@@ -1,6 +1,3 @@
-# Datasets (large data files, not tracked)
-datasets/
-
 # Rust
 /target/
 **/*.rs.bk
