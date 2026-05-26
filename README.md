@@ -5,7 +5,7 @@ High-precision **sRGB to Munsell color space conversion** library with **ISCC-NB
 [![Crates.io](https://img.shields.io/crates/v/munsellspace.svg)](https://crates.io/crates/munsellspace)
 [![Downloads](https://img.shields.io/crates/d/munsellspace.svg)](https://crates.io/crates/munsellspace)
 [![Documentation](https://docs.rs/munsellspace/badge.svg)](https://docs.rs/munsellspace)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/chrisgve/MunsellSpace/ci.yml?branch=main)](https://github.com/chrisgve/MunsellSpace/actions)
 
 ## Overview
@@ -116,7 +116,7 @@ Use `BaseColorSet::Extended` to get these names instead of the compound forms.
 Sorted by hue progression:
 
 | Category | Colors (by hue) |
-|----------|-----------------|
+|----------|----------------|
 | **Basic (10)** | red, orange, yellow, green, blue, purple, pink, brown, gray, white |
 | **Non-basic (20)** | wine, rust, coral, peach, tan, beige, gold, sand, taupe, teal, aqua, turquoise, navy, lavender, violet, magenta, fuchsia, mauve, lilac, rose |
 
@@ -125,7 +125,7 @@ Sorted by hue progression:
 Modifiers combine with base colors to form the 267 ISCC-NBS categories:
 
 | Type | Modifiers |
-|------|-----------|
+|------|----------|
 | **Saturation** | vivid, brilliant, strong, deep, very deep |
 | **Lightness** | light, very light, moderate, dark, very dark |
 | **Desaturation** | pale, very pale, grayish, dark grayish, blackish, brownish |
@@ -278,7 +278,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
 ## 🔗 Links
 
