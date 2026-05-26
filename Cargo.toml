@@ -4,7 +4,7 @@ version = "1.2.4"
 edition = "2021"
 authors = ["MunsellSpace Contributors"]
 description = "High-precision sRGB to Munsell color space conversion with 100% reference accuracy"
-license = "MIT"
+license = "Apache-2.0"
 repository = "https://github.com/chrisgve/MunsellSpace"
 documentation = "https://docs.rs/munsellspace"
 homepage = "https://github.com/chrisgve/MunsellSpace"
@@ -67,4 +67,3 @@ opt-level = 3
 overflow-checks = false
 debug = false
 rpath = false
-
